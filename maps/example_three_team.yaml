@@ -1,0 +1,54 @@
+name: three_team
+brief: |
+  Three teams in a triangle around a central lake split into three lobes by three land bridges. Each
+  road runs from a base along a land bridge to the island keep in the middle. Hills with ruins flank
+  the outer ring, forests give cover between the roads, and outer trails let teams flank each other.
+  The layout has three-fold rotational symmetry, so every team should reach the neutral objectives
+  in about the same time. Test: the island keep and relic are contested three ways; the bridges are
+  the chokepoints.
+size: [3000, 3000]
+seed: 7
+
+terrain:
+  base_height: 40
+  relief: 20
+
+teams:
+  A: { base: [1500, 2650], color: "#2f6fdf", name: North }
+  B: { base: [504, 925],   color: "#f2a81d", name: Southwest }
+  C: { base: [2496, 925],  color: "#6a2cc0", name: Southeast }
+
+regions:
+  - { type: hills,  shape: blob, at: [2409, 2025], r: 320, rough: 0.2, height: 55 }
+  - { type: hills,  shape: blob, at: [591, 2025],  r: 320, rough: 0.2, height: 55 }
+  - { type: hills,  shape: blob, at: [1500, 450],  r: 320, rough: 0.2, height: 55 }
+  - { type: forest, shape: blob, at: [1975, 2323], r: 220, rough: 0.2 }
+  - { type: forest, shape: blob, at: [550, 1500],  r: 220, rough: 0.2 }
+  - { type: forest, shape: blob, at: [1975, 677],  r: 220, rough: 0.2 }
+  - { type: ruins,  shape: blob, at: [2279, 1950], r: 130, rough: 0.2, label: Old Watch }
+  - { type: ruins,  shape: blob, at: [721, 1950],  r: 130, rough: 0.2, label: Fallen Keep }
+  - { type: ruins,  shape: blob, at: [1500, 600],  r: 130, rough: 0.2, label: Broken Gate }
+  - { type: lake,   shape: blob, at: [1864, 1710], r: 280, rough: 0.15, label: Mirror Lake }
+  - { type: lake,   shape: blob, at: [1136, 1710], r: 280, rough: 0.15 }
+  - { type: lake,   shape: blob, at: [1500, 1080], r: 280, rough: 0.15 }
+  - { type: town,   shape: poly, points: [[1400, 2470], [1600, 2470], [1600, 2620], [1400, 2620]], label: Northgate }
+  - { type: town,   shape: poly, points: [[523, 915], [713, 915], [713, 1065], [523, 1065]], label: Southwatch }
+  - { type: town,   shape: poly, points: [[2287, 915], [2477, 915], [2477, 1065], [2287, 1065]], label: Eastwatch }
+
+lines:
+  - { type: road,  path: [[1500, 2650], [1500, 2120], [1500, 1500]], width: 10 }
+  - { type: road,  path: [[504, 925], [963, 1190], [1500, 1500]],    width: 10 }
+  - { type: road,  path: [[2496, 925], [2037, 1190], [1500, 1500]],  width: 10 }
+  - { type: trail, path: [[1500, 2650], [2300, 2450], [2650, 1750], [2496, 925]], width: 5 }
+  - { type: trail, path: [[504, 925], [277, 1718], [708, 2371], [1500, 2650]],    width: 5 }
+  - { type: trail, path: [[2496, 925], [1923, 332], [1142, 379], [504, 925]],     width: 5 }
+
+pois:
+  - { id: island_keep, type: keep_site, at: [1500, 1500], label: Island Keep }
+  - { id: relic,       type: treasure,  at: [1500, 1440] }
+  - { id: fwd_north,   type: capture,   at: [1500, 2120], team: A }
+  - { id: fwd_sw,      type: capture,   at: [963, 1190],  team: B }
+  - { id: fwd_se,      type: capture,   at: [2037, 1190], team: C }
+  - { id: supply_north, type: supply,   at: [1361, 2490], team: A }
+  - { id: supply_sw,    type: supply,   at: [712, 884],   team: B }
+  - { id: supply_se,    type: supply,   at: [2427, 1125], team: C }

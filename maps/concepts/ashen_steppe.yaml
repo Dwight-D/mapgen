@@ -1,0 +1,76 @@
+name: ashen_steppe
+brief: |
+  PITCH: A burnt-over grass sea where the Ashwater river swings in a great bend around Cinder Hill and
+  its ring-fort. Sightlines run for kilometres; this is cavalry country, and the only cover is copses,
+  kurgan mounds, the ruined town of Old Ashford and the hill itself.
+  FLOW: The Horse-clans (A) ride in from the open south-west with a web of tracks and two fords over the
+  river's southern leg. The Ashen Legion (B) hold Ferrybridge, a river town on the north-east bank, with
+  the imperial road, a stone bridge and the escarpment behind them - fewer routes, but paved and fast.
+  Inside the bend lie the hill-fort keep site and the burnt town; outside it, kurgans, a horse fair and
+  bandit camps on the steppe.
+  TEST: does the hill-fort dominate (long sightlines from the crest) or is it a trap that cavalry
+  bypasses? Do A's many tracks beat B's one fast road? Are the copses and kurgans enough cover for
+  infantry to cross open ground at all, or does infantry need the ruined town to matter?
+size: [3800, 3000]
+seed: 2177
+
+terrain:
+  base_height: 70
+  relief: 22
+  relief_scale: 1600
+  detail: 9
+  detail_scale: 260
+
+teams:
+  A: { base: [760, 640], name: Horse-clans }
+  B: { base: [3480, 1900], name: Ashen Legion }
+
+scatter:
+  - { type: field,  coverage: 0.30, scale: 320, clump: 0.5, avoid: 10 }
+  - { type: forest, coverage: 0.05, scale: 110, clump: 0.0, avoid: 12 }
+  - { type: forest, coverage: 0.04, scale: 260, clump: 0.6, avoid: 12 }
+
+regions:
+  # Cinder Hill and its ring-fort crest
+  - { type: hills,   shape: blob, at: [1900, 1650], r: 430, rough: 0.6, squash: 0.65, angle: 35, warp: 190, warp_scale: 220, height: 65, label: Cinder Hill }
+  - { type: hills,   shape: blob, at: [1580, 1900], r: 160, rough: 0.6, squash: 0.6, angle: -20, warp: 70, warp_scale: 120, height: 35 }
+  - { type: plateau, shape: blob, at: [1880, 1660], r: 110, rough: 0.5, squash: 0.8, warp: 40, warp_scale: 80, height: 12 }
+  # B's escarpment behind Ferrybridge
+  - { type: hills,   shape: band, path: [[2950, 3000], [3300, 2800], [3700, 2600], [3800, 2300]], width: 420, warp: 150, height: 70, fragment: 0.25, fragment_scale: 160 }
+  # kurgans dotting the steppe
+  - { type: hills,   shape: blob, at: [1350, 1900], r: 90, rough: 0.5, squash: 0.7, warp: 30, height: 15 }
+  - { type: hills,   shape: blob, at: [1350, 350], r: 80, rough: 0.5, squash: 0.7, warp: 30, height: 14 }
+  - { type: hills,   shape: blob, at: [3200, 1100], r: 100, rough: 0.5, squash: 0.7, warp: 30, height: 16 }
+  - { type: hills,   shape: blob, at: [2700, 280], r: 90, rough: 0.5, squash: 0.7, warp: 30, height: 14 }
+  - { type: hills,   shape: blob, at: [800, 2500], r: 100, rough: 0.5, squash: 0.7, warp: 30, height: 15 }
+  # Old Ashford, burnt town inside the bend; Ferrybridge
+  - { type: ruins,   shape: poly, points: [[1050, 2150], [1300, 2100], [1420, 2250], [1350, 2420], [1120, 2450], [1000, 2300]], rough: 0.35, warp: 50, warp_scale: 120 }
+  - { type: town,    shape: poly, points: [[2880, 2020], [3060, 1980], [3170, 2100], [3120, 2240], [2950, 2270], [2860, 2150]], rough: 0.3, warp: 35, warp_scale: 100, label: Ferrybridge }
+  - { type: lake,    shape: blob, at: [330, 1750], r: 110, rough: 0.6, squash: 0.6, angle: 20, warp: 50, warp_scale: 70 }
+
+lines:
+  - { id: ashwater, type: river, path: [[2450, 3000], [2511, 2855], [2538, 2580], [2698, 2248], [2725, 2092], [2525, 1636], [2459, 1202], [2358, 1049], [2063, 948], [1858, 812], [1600, 846], [1336, 813], [1149, 850], [841, 1010], [446, 965], [170, 1096], [0, 1100]], width: 40, meander: 70, meander_scale: 220, width_var: 0.55, label: Ashwater }
+  - { id: imperial_road, type: road, path: [[3480, 1900], [3200, 2050], [3000, 2000], [2828, 1969], [2650, 1900], [2416, 1816], [2200, 1800], [1880, 1660]], width: 11, label: Imperial Road }
+  - { id: old_road, type: road, path: [[1880, 1660], [1735, 1393], [1700, 1200], [1500, 850], [1100, 750], [910, 659], [760, 640]], width: 9, label: Old Road }
+  - { id: north_road, type: road, path: [[3000, 2000], [2850, 2250], [2700, 2450], [2300, 2600], [1800, 2500], [1400, 2280], [1000, 2100], [700, 1800]], width: 9 }
+  - { id: steppe_track_w, type: trail, path: [[760, 640], [450, 1000], [500, 1400], [700, 1800], [1000, 2100]], width: 5 }
+  - { id: steppe_track_e, type: trail, path: [[760, 640], [1300, 500], [2000, 450], [2600, 650], [3000, 1100], [3200, 1600], [3480, 1900]], width: 5 }
+  - { id: bend_track, type: trail, path: [[2000, 450], [2150, 800], [2100, 1200], [1880, 1660]], width: 4 }
+
+crossings:   # every other road and trail crossing of the Ashwater is an automatic bridge or ford
+  - { id: old_ford, type: ford, at: [1395, 833], r: 40 }   # the Old Road fords the river
+
+pois:
+  - { id: hillfort,   type: keep_site,    at: [1880, 1660], label: Cinder Hill Fort }
+  - { id: ashford,    type: capture,      at: [1220, 2280], label: Old Ashford }
+  - { id: horse_fair, type: capture,      at: [2400, 700],  label: Horse Fair }
+  - { id: kurgan,     type: treasure,     at: [1350, 1900], label: Kurgan Hoard }
+  - { id: bandits,    type: neutral_camp, at: [2700, 280],  tier: 2, label: Bandit Kurgan }
+  - { id: ghouls,     type: neutral_camp, at: [1050, 2450], tier: 2, label: Ash Ghouls }
+  - { id: wolves,     type: neutral_camp, at: [800, 2500],  tier: 1, label: Steppe Wolves }
+  - { id: supply_a,   type: supply,       at: [900, 450],   team: A }
+  - { id: supply_b,   type: supply,       at: [3000, 1750], team: B }
+  - { id: stele,      type: landmark,     at: [2150, 2300], label: Ash Stele }
+
+analysis:
+  balance_tolerance: 0.2

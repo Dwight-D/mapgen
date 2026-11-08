@@ -1,0 +1,54 @@
+name: natural
+brief: |
+  Asymmetric two-team map exercising the natural-shape keys. The Valley team starts in the south-west on the
+  river's west bank with a town and a short road to the single bridge. The Highland team starts in the
+  north-east on open farmland under a hill; its road to the bridge is longer but faster (fields), and a
+  mountain band with one pass screens its north flank. Ragged forests (fragment, warp) fill the river valley,
+  noise scatter dots forests and fields across the rest of the map, and the river varies in width.
+  Test: the bridge and the pass should be the chokepoints; the ford keep controls the bridge approach.
+size: [3000, 3000]
+seed: 2026
+
+terrain:
+  base_height: 45
+  relief: 35
+  detail: 9
+  detail_scale: 220
+
+teams:
+  A: { base: [380, 1000], name: Valley }
+  B: { base: [2620, 2050], name: Highland }
+
+scatter:
+  - { type: forest, coverage: 0.16, scale: 320, clump: 0.6, avoid: 30 }
+  - { type: field,  coverage: 0.10, scale: 240, clump: 0.3, avoid: 20, within: [[0, 0], [1500, 0], [1500, 3000], [0, 3000]] }
+
+regions:
+  - { type: field,    shape: poly, points: [[2000, 2350], [2950, 2350], [2950, 1650], [2050, 1750]], rough: 0.2, warp: 110, warp_scale: 260, fragment: 0.25, fragment_scale: 200 }
+  - { type: forest,   shape: blob, at: [650, 2150], r: 400, rough: 0.4, fragment: 0.35, fragment_scale: 140 }
+  - { type: forest,   shape: band, path: [[1250, 300], [1500, 700], [1550, 1000], [1350, 1250]], width: 260, rough: 0.4, warp: 90, fragment: 0.45 }
+  - { type: forest,   shape: blob, at: [2350, 850], r: 430, rough: 0.5, fragment: 0.4, fragment_scale: 160 }
+  - { type: hills,    shape: blob, at: [2450, 1200], r: 330, rough: 0.3, warp: 120, warp_scale: 200, height: 70, label: Windcrest }
+  - { type: marsh,    shape: blob, at: [1050, 520], r: 250, rough: 0.5, warp: 120, warp_scale: 150, label: Mire }
+  - { type: lake,     shape: blob, at: [2500, 330], r: 190, rough: 0.35, warp: 90, warp_scale: 120, label: Tarn }
+  - { type: mountain, shape: band, path: [[1750, 3000], [1900, 2550], [1700, 2050], [1700, 1950]], width: 420, height: 240, label: Greyspine }
+  - { type: town,     shape: poly, points: [[560, 1130], [840, 1130], [840, 1390], [560, 1390]], rough: 0.25, warp: 30, label: Rivermouth }
+
+lines:
+  - { type: river, path: [[900, 3000], [1100, 2400], [950, 1800], [1250, 1300], [1150, 700], [1400, 0]], width: 34, meander: 70, width_var: 0.7, label: Silverrun }
+  - { type: road,  path: [[380, 1000], [800, 1100], [1250, 1300], [1700, 1450], [2150, 1800], [2620, 2050]], width: 10 }
+  - { type: trail, path: [[2620, 2050], [2300, 2500], [1700, 2350], [1100, 2100], [700, 1500], [380, 1000]], width: 5 }
+
+crossings:
+  - { type: bridge, at: [1193, 1271], r: 40 }
+  - { type: ford,   at: [998, 1930], r: 45 }
+  - { type: pass,   at: [1720, 2350], r: 150 }
+
+pois:
+  - { id: ford_keep, type: keep_site,    at: [1300, 1330], label: Ford Keep }
+  - { id: camp_n,    type: neutral_camp, at: [800, 2650],  tier: 2 }
+  - { id: camp_s,    type: neutral_camp, at: [1900, 700],  tier: 2 }
+  - { id: relic,     type: treasure,     at: [2400, 1330] }
+  - { id: cap_e,     type: capture,      at: [1700, 1450] }
+  - { id: supply_a,  type: supply,       at: [650, 800],   team: A }
+  - { id: supply_b,  type: supply,       at: [2750, 1900], team: B }

@@ -1,0 +1,37 @@
+regions:
+  #          cost (multiplier on travel time; inf = impassable), los (blocks line of sight),
+  #          splat (splat layer name), height (default metres), height_mode,
+  #          edge (blend radius in metres of raise_flat / flatten regions)
+  field:    { cost: 1.0, los: false, splat: field }
+  forest:   { cost: 1.6, los: true,  splat: forest }
+  marsh:    { cost: 2.5, los: false, splat: mud }
+  hills:    { cost: 1.3, los: false, splat: grass, height: 50,  height_mode: add_noise }
+  mountain: { cost: inf, los: true,  splat: rock, height: 200, height_mode: ridge }
+  plateau:  { cost: 1.0, los: false, splat: grass, height: 30,  height_mode: raise_flat, edge: 40 }
+  town:     { cost: 1.1, los: true,  splat: dirt, height_mode: flatten, edge: 30 }
+  ruins:    { cost: 1.3, los: true,  splat: dirt }
+  clearing: { cost: 1.0, los: false, splat: grass }
+  lake:     { cost: inf, los: false, splat: sand, height_mode: water }
+lines:
+  #          flatten (blend strength of flatten_line, default 1), crossing (type of the automatic crossing where
+  #          the line crosses water, §4.7; none = no automatic crossing)
+  river:    { cost: inf, los: false, splat: sand, width: 30, height_mode: water }
+  road:     { cost: 0.6, los: false, splat: road, width: 10, height_mode: flatten_line, crossing: bridge }
+  trail:    { cost: 0.8, los: false, splat: dirt, width: 5, height_mode: flatten_line, flatten: 0.5, crossing: ford }
+  cliff:    { cost: inf, los: true,  splat: rock, width: 8 }
+crossings:
+  bridge:   { cost: 0.6, r: 25 }
+  ford:     { cost: 2.5, r: 40 }
+  pass:     { cost: 1.5, r: 80 }
+  ramp:     { cost: 1.2, r: 40 }
+pois:
+  #         glyph: circle|square|diamond|triangle|star|cross; r: footprint metres
+  base:          { glyph: square,   r: 120, objective: false }
+  capture:       { glyph: circle,   r: 40,  objective: true }
+  keep_site:     { glyph: square,   r: 60,  objective: true }
+  neutral_camp:  { glyph: triangle, r: 50,  objective: true }
+  treasure:      { glyph: star,     r: 10,  objective: true }
+  supply:        { glyph: diamond,  r: 30,  objective: true }
+  spawn:         { glyph: circle,   r: 15,  objective: false }
+  landmark:      { glyph: cross,    r: 20,  objective: false }
+splat_layers: [grass, field, forest, mud, rock, sand, dirt, road]   # order = splat channel order; grass is the base

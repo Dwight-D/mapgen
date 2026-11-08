@@ -1,0 +1,52 @@
+name: river_crossing            # output folder name; [a-z0-9_]+
+brief: |                        # free text: concept, intended flow, what to test. Not parsed.
+  Two teams on either side of a north-south river. One bridge in the centre held by a keep site,
+  a ford in the south, a mountain pass in the north. Forests flank the bridge approaches.
+size: [3000, 3000]              # metres [x, y]
+seed: 42
+
+terrain:                        # all optional; defaults shown
+  height_max: 400               # metres represented by heightmap value 65535
+  base_height: 40               # metres, mean ground level
+  relief: 25                    # metres, amplitude of low-frequency base noise
+  relief_scale: 1200            # metres, wavelength of base noise
+  water_depth: 4                # metres rivers/lakes sit below their banks
+
+teams:                          # 2 or 3 teams; ids are short strings
+  A: { base: [300, 1500], color: "#2f6fdf", name: West }
+  B: { base: [2700, 1500], color: "#f2a81d", name: East }
+
+regions:                        # painted in list order; later entries win where they overlap
+  - { type: forest,   shape: blob, at: [1150, 1750], r: 260, rough: 0.45 }
+  - { type: forest,   shape: blob, at: [1850, 1250], r: 260, rough: 0.45 }
+  - { type: mountain, shape: band, path: [[1250, 3000], [1500, 2500], [1750, 2050]], width: 450, height: 220 }
+  - { type: town,     shape: poly, points: [[350, 1350], [600, 1350], [600, 1650], [350, 1650]], label: Westhold }
+  - { type: marsh,    shape: blob, at: [1500, 650], r: 300, rough: 0.6 }
+
+lines:
+  - { type: river, path: [[1500, 0], [1480, 700], [1530, 1500], [1500, 2200], [1500, 3000]], width: 35, meander: 40 }
+  - { type: road,  path: [[300, 1500], [900, 1500], [1500, 1500], [2100, 1500], [2700, 1500]], width: 10 }
+  - { type: trail, path: [[300, 1500], [900, 2300], [1500, 2350], [2100, 2300], [2700, 1500]], width: 5 }
+
+crossings:
+  - { type: bridge, at: [1530, 1500] }
+  - { type: ford,   at: [1480, 700], r: 45 }
+  - { type: pass,   at: [1500, 2350], r: 330 }
+
+pois:
+  - { id: bridge_keep, type: keep_site,    at: [1600, 1550], label: Bridge Keep }
+  - { id: camp_ne,     type: neutral_camp, at: [2200, 2600], tier: 2 }
+  - { id: camp_sw,     type: neutral_camp, at: [800, 400],   tier: 2 }
+  - { id: relic,       type: treasure,     at: [1500, 2550] }
+  - { id: cap_s,       type: capture,      at: [1500, 900] }
+
+analysis:                       # all optional; defaults shown
+  cell: 10                      # metres per analysis cell
+  speed: 5.0                    # m/s on cost-1.0 ground (infantry run)
+  balance_tolerance: 0.15       # relative time difference that flags a neutral objective as imbalanced
+
+output:                         # all optional; defaults shown
+  render_px: 1536               # longest side of map.png and overlays
+  heightmap_res: 1025           # square, 2^n+1
+  splat_res: 1024               # square
+  grid_step: 500                # metres between labelled grid lines on the render

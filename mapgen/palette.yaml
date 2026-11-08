@@ -1,0 +1,39 @@
+# Render palette. Categories are told apart by lightness and pattern first, hue second, so the map reads for
+# red-green colourblind viewers. Region fills sit on six lightness levels (L* 92, 79, 66, 53, 40, 26); types that
+# share a level carry different patterns.
+base: "#89ac4d"                 # open ground, L* 66
+regions:
+  field:    "#fbeb62"           # bright yellow, L* 92
+  hills:    "#d2c39d"           # pale sand, L* 79 (hillshade carries the shape)
+  marsh:    "#ea8929"           # orange, L* 66, reeds
+  plateau:  "#957a4c"           # tan brown, L* 53
+  town:     "#4283c0"           # steel blue, L* 53, street grid
+  mountain: "#5c5c5c"           # mid grey, L* 39 (hillshade carries the shape)
+  ruins:    "#9a3a8d"           # magenta, L* 41, crosshatch
+  lake:     "#103a70"           # deep blue, L* 25
+  forest:   "#194624"           # very dark green, L* 26, stipple
+  clearing: "#b3cc8a"           # light tint of the ground, L* 78, dots
+lines:
+  river:    "#103a70"           # solid
+  road:     "#ffffff"           # white with dark casing
+  trail:    "#3d2a14"           # dark brown, dashed
+  cliff:    "#111111"           # hatched
+crossings:
+  bridge:   "#7a4a12"           # brown bar with white plank stripe
+  ford:     "#8fd0ff"           # dashed ring
+  pass:     "#ffffff"           # chevron
+  ramp:     "#f0d9b5"           # dashed ring with step bars
+patterns:                       # region type -> texture drawn in the region's outline colour
+  forest: stipple
+  marsh:  reeds
+  town:   grid
+  ruins:  crosshatch
+  clearing: dots
+teams: ["#2f6fdf", "#f2a81d", "#6a2cc0"]   # default team colours in team order: blue, amber, purple
+overlay:
+  contested:   "#ffffff"        # white diagonal hatch with a dark edge stripe, not a tint
+  unreachable: "#000000"        # black hatch
+  traffic:     ["#fff7bc", "#fe9929", "#662506"]   # light-to-dark ramp (lightness carries the value)
+  cover:       "#08306b"        # dark blue tint where covered
+  fair:        "#1b7f79"        # teal tint with a white hatch where the time spread between teams is within tolerance
+outline_darken: 0.45            # region outline = fill colour x (1 - this)

@@ -1,0 +1,105 @@
+name: saltreach_delta
+brief: |
+  PITCH: The Saltmere river leaves the hills, braids into four channels and bleeds into the southern sea
+  through reedbeds and tidal marsh. The Bluff (A) holds the northern escarpment with the walled town of
+  Saltreach and a stone road network; the Fenfolk (B) come out of the eastern lowlands with no bridges of
+  their own, only fords, reed causeways and many ways in.
+  FLOW: The bluff's rim is a cliff; only A's three roads (high road, causeway, coast road) and the narrow
+  Goat Stair climb it. The high road crosses the Old Bridge - the one fast, obvious route both sides
+  contest. Everything else is the delta: B fans out across seven fords onto the islands (Saltkeep, Heron
+  Mound, the drowned shrine, the reed camp), while A comes down the causeway bridge straight onto the
+  Saltkeep isle. A's hinterland (Low Granary, coast road) is only raidable through the reed-path fords;
+  B's flank option is the north ford and the Goat Stair into the back of Saltreach.
+  A has height, a cliff wall and roads; B has width and choice.
+  TEST: does A's road advantage outweigh B's many delta approaches, or do A players turtle on the bluff and
+  lose the delta? Is the marsh slow enough that supply carts stick to the fords (fords become ambush
+  points) yet fast enough that infantry still use it? Does Saltkeep become the decisive keep? Is the
+  Goat Stair a fun raid route or an unfair backdoor? The south coast (landing, shrine, ~8 min out) is
+  deliberately remote adventuring ground - check it still sees play.
+
+size: [3600, 3000]
+seed: 7311
+
+terrain:
+  base_height: 30
+  relief: 18
+  relief_scale: 1400
+  detail: 6
+  detail_scale: 200
+  water_depth: 4
+
+teams:
+  A: { base: [1000, 2680], name: Bluff }
+  B: { base: [3280, 1620], name: Fenfolk }
+
+scatter:
+  - { type: forest, coverage: 0.14, scale: 240, clump: 0.5, avoid: 25, within: [[0, 400], [1300, 400], [1650, 1900], [0, 1900]] }
+  - { type: field,  coverage: 0.20, scale: 200, clump: 0.3, avoid: 20, within: [[0, 400], [1250, 400], [1650, 1900], [0, 1900]] }
+  - { type: marsh,  coverage: 0.38, scale: 170, clump: 0.4, avoid: 25, within: [[850, 250], [3100, 250], [2650, 1500], [2150, 2050], [1400, 1600]] }
+  - { type: field,  coverage: 0.28, scale: 250, clump: 0.4, avoid: 25, within: [[2650, 1050], [3600, 1050], [3600, 3000], [2300, 3000], [2350, 2000]] }
+  - { type: forest, coverage: 0.16, scale: 300, clump: 0.6, avoid: 25, within: [[2250, 1050], [3600, 1050], [3600, 3000], [2250, 3000]] }
+  # farmland on the bluff plateau
+  - { type: field,  coverage: 0.45, scale: 220, clump: 0.4, avoid: 20, on: [plateau], within: [[50, 2000], [1600, 2100], [1650, 2950], [50, 2950]] }
+
+regions:
+  # the bluff: a raised plateau with lobed edges, a wood or two on top (farmland is scattered over it, see `scatter`)
+  - { type: plateau, shape: poly, points: [[0, 1750], [300, 1900], [550, 1820], [800, 1920], [1050, 1840], [1300, 1990], [1500, 1950], [1700, 2150], [1780, 2400], [1880, 2600], [1760, 2850], [1800, 3000], [0, 3000]], rough: 0.3, warp: 170, warp_scale: 280, height: 45 }
+  - { type: forest,  shape: blob, at: [1500, 2700], r: 250, rough: 0.5, squash: 0.6, angle: 70, warp: 90, fragment: 0.35, fragment_scale: 110 }
+  - { type: forest,  shape: blob, at: [250, 2250], r: 200, rough: 0.5, squash: 0.7, warp: 70, fragment: 0.3, fragment_scale: 100 }
+  - { type: town,    shape: poly, points: [[1050, 2300], [1180, 2240], [1330, 2230], [1400, 2330], [1430, 2440], [1330, 2500], [1250, 2570], [1130, 2540], [1040, 2470]], rough: 0.35, warp: 45, warp_scale: 120, label: Saltreach }
+  # east bank: wood screening the bridge, the Eastwold hills
+  - { type: forest,  shape: band, path: [[2450, 2850], [2550, 2450], [2450, 2150]], width: 240, warp: 80, fragment: 0.4, fragment_scale: 120 }
+  - { type: hills,   shape: blob, at: [3050, 2300], r: 360, rough: 0.4, squash: 0.7, angle: 25, warp: 130, height: 55, label: Eastwold }
+  # the delta: tidal marsh and reed islands
+  - { type: marsh,   shape: poly, points: [[1650, 300], [2250, 300], [2350, 650], [2050, 950], [1750, 800]], rough: 0.3, warp: 130, warp_scale: 230, fragment: 0.3, fragment_scale: 130, label: Reedmere }
+  - { type: marsh,   shape: blob, at: [3150, 600], r: 330, rough: 0.5, squash: 0.6, angle: -10, warp: 120, fragment: 0.25, label: Sour Fen }
+  - { type: forest,  shape: blob, at: [2230, 1780], r: 150, rough: 0.5, squash: 0.6, angle: -50, warp: 60, fragment: 0.35, fragment_scale: 80 }
+  - { type: ruins,   shape: blob, at: [2100, 1450], r: 130, rough: 0.6, squash: 0.6, angle: 30, warp: 70, warp_scale: 80 }
+  - { type: forest,  shape: blob, at: [1300, 900], r: 190, rough: 0.5, squash: 0.7, angle: 40, warp: 70, fragment: 0.4, fragment_scale: 90 }
+  - { type: lake,    shape: blob, at: [2470, 430], r: 85, rough: 0.6, squash: 0.6, angle: 60, warp: 40, warp_scale: 70 }
+  - { type: lake,    shape: blob, at: [1360, 330], r: 60, rough: 0.6, squash: 0.5, angle: 20, warp: 30, warp_scale: 60 }
+  - { type: lake,    shape: blob, at: [2230, 1100], r: 45, rough: 0.6, squash: 0.5, angle: -30, warp: 25, warp_scale: 50 }
+  # the sea along the south edge
+  - { type: lake,    shape: poly, points: [[0, 0], [3600, 0], [3600, 300], [3100, 380], [2700, 220], [2200, 280], [1700, 210], [1200, 330], [700, 200], [250, 350], [0, 240]], rough: 0.3, warp: 160, warp_scale: 300, label: Grey Sea }
+
+lines:
+  - { id: trunk, type: river, path: [[2230, 3000], [2280, 2776], [2148, 2458], [2208, 2176], [2100, 2050]], width: 52, meander: 80, meander_scale: 220, width_var: 0.45, label: Saltmere }
+  - { id: arm_w, type: river, path: [[2100, 2050], [1743, 1692], [1525, 1565], [1400, 1431], [1363, 1164], [1229, 926], [1216, 590], [1155, 445], [989, 267], [1000, 100]], width: 34, meander: 85, meander_scale: 200, width_var: 0.65, join: trunk, join_end: start }
+  - { id: arm_mid, type: river, path: [[1427, 1492], [1533, 1182], [1670, 946], [1728, 428], [1620, 100]], width: 24, meander: 80, meander_scale: 200, width_var: 0.65, join: arm_w, join_end: start }
+  - { id: arm_e, type: river, path: [[2100, 2050], [2126, 1932], [2298, 1758], [2492, 1358], [2526, 1083], [2688, 889], [2698, 411], [2773, 238], [2900, 100]], width: 36, meander: 85, meander_scale: 220, width_var: 0.65, join: trunk, join_end: start }
+  - { id: arm_sub, type: river, path: [[2516, 1206], [2226, 567], [2150, 100]], width: 22, meander: 70, meander_scale: 200, width_var: 0.6, join: arm_e, join_end: start }
+  # A: the high road along the bluff to the Old Bridge and on east
+  - { id: high_road, type: road, path: [[1000, 2680], [1150, 2500], [1250, 2400], [1650, 2380], [1950, 2380], [2200, 2350], [2550, 2050], [2900, 1700], [3280, 1620]], width: 13 }
+  # A: causeway road down the bluff, over the west arm onto the Saltkeep isle
+  - { id: causeway, type: road, path: [[1250, 2400], [1300, 2100], [1500, 1850], [1750, 1700], [1950, 1580], [2100, 1450]], width: 11 }
+  # A: coast road down the west ramp to the landing
+  - { id: coast_road, type: road, path: [[1000, 2680], [700, 2500], [600, 2100], [750, 1700], [850, 1200], [1000, 850], [1150, 700], [1350, 520]], width: 11 }
+
+  # B: reed causeways and fords
+  - { id: fen_n, type: trail, path: [[3280, 1620], [3100, 1550], [2900, 1450], [2700, 1450], [2400, 1500], [2100, 1450]], width: 5 }
+  - { id: fen_s, type: trail, path: [[3280, 1620], [3250, 1400], [3050, 1050], [2750, 900], [2450, 750], [2200, 650], [1900, 600], [1650, 700], [1450, 620], [1350, 520]], width: 5 }
+  - { id: wold_trail, type: trail, path: [[3280, 1620], [3250, 1900], [2900, 2050], [2650, 2450], [2400, 2700], [2150, 2760], [1990, 2700]], width: 5 }
+  - { id: stair_path, type: trail, path: [[1600, 2560], [1450, 2470], [1250, 2400]], width: 5 }
+  - { id: goat_stair, type: road, path: [[1990, 2700], [1900, 2780], [1780, 2790], [1680, 2700], [1600, 2560]], width: 10, label: Goat Stair }
+
+  - { id: reed_path, type: trail, path: [[2100, 1450], [1700, 1250], [1500, 1050], [1450, 900], [1300, 1150], [1050, 1350], [800, 1450]], width: 4 }
+  - { id: isle_track, type: trail, path: [[2100, 1450], [2050, 1200], [1900, 950], [2020, 750], [2000, 560]], width: 4 }
+
+crossings:   # every bridge and ford is automatic; the Goat Stair climbs the bluff rim on a ramp
+  - { id: goat_ramp, type: ramp, path: [[1800, 2780], [1700, 2720], [1640, 2620]], width: 36 }
+
+pois:
+  - { id: old_bridge, type: keep_site,    at: [2300, 2330], label: Old Bridge }
+  - { id: saltkeep,   type: keep_site,    at: [2100, 1450], label: Saltkeep }
+  - { id: shrine,     type: treasure,     at: [2000, 560],  label: Drowned Shrine }
+  - { id: camp_reeds, type: neutral_camp, at: [1690, 1005],  tier: 2, label: Reed Lurkers }
+  - { id: camp_wold,  type: neutral_camp, at: [2450, 2800], tier: 1, label: Wold Wolves }
+  - { id: landing,    type: capture,      at: [1800, 420],  label: Fisher Landing }
+  - { id: heron_mound, type: capture,     at: [1900, 950],  label: Heron Mound }
+  - { id: supply_a, type: supply,       at: [1200, 2350], team: A }
+  - { id: granary_a,  type: supply,       at: [780, 1250],  team: A, label: Low Granary }
+  - { id: supply_b, type: supply,       at: [3100, 1250], team: B }
+  - { id: lighthouse, type: landmark,     at: [3250, 480],  label: Lighthouse }
+
+analysis:
+  balance_tolerance: 0.2
