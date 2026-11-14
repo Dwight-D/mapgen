@@ -5,7 +5,8 @@ import mapgen.__main__
 import mapgen.build
 import mapgen.schema
 
-BASE = """name: tiny
+BASE = """format_version: 1
+name: tiny
 size: [1000, 1000]
 seed: 1
 teams:
@@ -13,10 +14,16 @@ teams:
   B: {base: [900, 900]}
 """
 
-ALLOWED = ("name, brief, size, seed, terrain, teams, regions, lines, crossings, pois, scatter, "
+ALLOWED = ("format_version, name, brief, size, seed, terrain, teams, regions, lines, crossings, pois, scatter, "
            "analysis, output, auto_crossings")
 UNKNOWN_COLOUR = "colour: unknown key (allowed: %s)" % ALLOWED
+IDMSG = "%s.id: must match [a-z][a-z0-9_]* and be at most 64 characters (got %s)"
+VERMSG = "format_version: unsupported value %s (this mapgen reads format versions: 1)"
+SEEDMSG = "regions[0].seed: expected an integer in [0, 4294967295], got %s"
 SEED_ERR = "seed: expected an integer, got 'abc'"
+
+
+REGION_SEED = "regions:\n  - {id: r0, seed: %s, type: forest, shape: blob, at: [500, 500], r: 100}\n"
 
 
 class P(str):
@@ -34,10 +41,11 @@ def _lines(*ls):
 CASES = [
     _case("not_mapping", _lines("- a", "- b"), [": expected a mapping, got list"]),
     _case("empty_file", "", [": expected a mapping, got NoneType"]),
-    _case("yaml_syntax", _lines("name: tiny", "size: [1000, 1000", "teams: {}"),
+    _case("yaml_syntax", _lines("format_version: 1", "name: tiny", "size: [1000, 1000", "teams: {}"),
           [P("<yaml>: while parsing a flow sequence")]),
     _case("unknown_top_key", BASE + "colour: red\n", [UNKNOWN_COLOUR]),
-    _case("missing_teams", _lines("name: tiny", "size: [1000, 1000]"), ["teams: missing required key"]),
+    _case("missing_teams", _lines("format_version: 1", "name: tiny", "size: [1000, 1000]"),
+          ["teams: missing required key"]),
     _case("bad_name", BASE.replace("name: tiny", "name: Tiny-Map"),
           ["name: must match [a-z0-9_]+ (got 'Tiny-Map')"]),
     _case("size_too_small", BASE.replace("size: [1000, 1000]", "size: [100, 1000]"),
@@ -47,41 +55,102 @@ CASES = [
     _case("seed_not_int", BASE.replace("seed: 1", "seed: abc"), [SEED_ERR]),
     _case("auto_crossings_not_bool", BASE + "auto_crossings: yes\n",
           ["auto_crossings: expected true or false, got 'yes'"]),
-    _case("one_team", _lines("name: tiny", "size: [1000, 1000]", "teams:", "  A: {base: [100, 100]}"),
+    _case("one_team", _lines("format_version: 1", "name: tiny", "size: [1000, 1000]", "teams:",
+                        "  A: {base: [100, 100]}"),
           ["teams: needs 2 or 3 teams (got 1)"]),
     _case("base_outside_map", BASE.replace("[900, 900]", "[1500, 900]"),
           ["teams.B.base: point [1500, 900] is outside the map [0..1000.0, 0..1000.0]"]),
     _case("unknown_region_type",
-          BASE + _lines("regions:", "  - {type: lava, shape: blob, at: [500, 500], r: 100}"),
+          BASE + _lines("regions:", "  - {id: r0, type: lava, shape: blob, at: [500, 500], r: 100}"),
           [P("regions[0].type: unknown region type 'lava' (known: ")]),
     _case("unknown_shape",
-          BASE + _lines("regions:", "  - {type: forest, shape: circle, at: [500, 500], r: 100}"),
+          BASE + _lines("regions:", "  - {id: r0, type: forest, shape: circle, at: [500, 500], r: 100}"),
           ["regions[0].shape: unknown shape 'circle' (known: blob, poly, band)"]),
     _case("blob_missing_r",
-          BASE + _lines("regions:", "  - {type: forest, shape: blob, at: [500, 500]}"),
+          BASE + _lines("regions:", "  - {id: r0, type: forest, shape: blob, at: [500, 500]}"),
           ["regions[0].r: missing required key"]),
     _case("poly_two_points",
-          BASE + _lines("regions:", "  - {type: forest, shape: poly, points: [[100, 100], [200, 200]]}"),
+          BASE + _lines("regions:", "  - {id: r0, type: forest, shape: poly, points: [[100, 100], [200, 200]]}"),
           ["regions[0].points: polygon needs at least 3 points (got 2)"]),
     _case("fragment_out_of_range",
-          BASE + _lines("regions:", "  - {type: forest, shape: blob, at: [500, 500], r: 100, fragment: 1.5}"),
+          BASE + _lines("regions:", "  - {id: r0, type: forest, shape: blob, at: [500, 500], r: 100, fragment: 1.5}"),
           ["regions[0].fragment: must be in [0.0, 1.0] (got 1.5)"]),
     _case("join_unknown_line",
-          BASE + _lines("lines:", "  - {type: river, path: [[0, 500], [1000, 500]], join: nowhere}"),
+          BASE + _lines("lines:", "  - {id: l0, type: river, path: [[0, 500], [1000, 500]], join: nowhere}"),
           ["lines[0].join: no line with id 'nowhere'"]),
     _case("disc_crossing_with_width",
-          BASE + _lines("crossings:", "  - {type: bridge, at: [500, 500], width: 20}"),
+          BASE + _lines("crossings:", "  - {id: c0, type: bridge, at: [500, 500], width: 20}"),
           ["crossings[0].width: `width` needs `path` (a disc crossing takes `at` and `r`)"]),
     _case("duplicate_poi_id",
           BASE + _lines("pois:", "  - {id: a, type: capture, at: [500, 500]}",
                         "  - {id: a, type: capture, at: [600, 500]}"),
-          ["pois[1].id: duplicate POI id 'a' (first used at pois[0])"]),
+          ["pois[1].id: duplicate id 'a' (first used at pois[0].id)"]),
     _case("poi_unknown_team",
           BASE + _lines("pois:", "  - {id: a, type: capture, at: [500, 500], team: C}"),
           ["pois[0].team: unknown team 'C' (teams: A, B)"]),
     _case("poi_reserved_base_id",
+          BASE.replace("A:", "a:").replace("B:", "b:")
+          + _lines("pois:", "  - {id: base_a, type: capture, at: [500, 500]}"),
+          ["pois[0].id: 'base_a' is reserved for the implicit base of team a"]),
+    _case("poi_id_charset",
           BASE + _lines("pois:", "  - {id: base_A, type: capture, at: [500, 500]}"),
-          ["pois[0].id: 'base_A' is reserved for the implicit base of team A"]),
+          [IDMSG % ("pois[0]", "'base_A'")]),
+    _case("missing_format_version", BASE.split("\n", 1)[1],
+          ["format_version: missing required key (this mapgen reads format versions: 1)"]),
+    _case("unversioned_without_ids",
+          BASE.split("\n", 1)[1] + _lines("regions:", "  - {type: forest, shape: blob, at: [500, 500], r: 100}"),
+          ["format_version: missing required key (this mapgen reads format versions: 1)",
+           "regions[0].id: missing required key"]),
+    _case("unsupported_format_version", BASE.replace("format_version: 1", "format_version: 2") + "colour: red\n",
+          [VERMSG % "2"]),
+    _case("format_version_string", BASE.replace("format_version: 1", "format_version: '1'"),
+          [VERMSG % "'1'"]),
+    _case("format_version_float", BASE.replace("format_version: 1", "format_version: 1.0"),
+          [VERMSG % "1.0"]),
+    _case("format_version_bool", BASE.replace("format_version: 1", "format_version: true"),
+          [VERMSG % "True"]),
+    _case("id_trailing_newline",
+          BASE + _lines("regions:", '  - {id: "wood\\n", type: forest, shape: blob, at: [500, 500], r: 100}'),
+          [IDMSG % ("regions[0]", repr("wood\n"))]),
+    _case("name_trailing_newline", BASE.replace("name: tiny", 'name: "tiny\\n"'),
+          ["name: must match [a-z0-9_]+ (got 'tiny\\n')"]),
+    _case("region_without_id",
+          BASE + _lines("regions:", "  - {type: forest, shape: blob, at: [500, 500], r: 100}"),
+          ["regions[0].id: missing required key"]),
+    _case("line_without_id",
+          BASE + _lines("lines:", "  - {type: river, path: [[0, 500], [1000, 500]]}"),
+          ["lines[0].id: missing required key"]),
+    _case("scatter_without_id",
+          BASE + _lines("scatter:", "  - {type: forest, coverage: 0.5, scale: 200}"),
+          ["scatter[0].id: missing required key"]),
+    _case("crossing_without_id",
+          BASE + _lines("crossings:", "  - {type: bridge, at: [500, 500], r: 20}"),
+          ["crossings[0].id: missing required key"]),
+    _case("bad_id",
+          BASE + _lines("regions:", "  - {id: Big-Wood, type: forest, shape: blob, at: [500, 500], r: 100}"),
+          [IDMSG % ("regions[0]", "'Big-Wood'")]),
+    _case("id_too_long",
+          BASE + _lines("regions:", "  - {id: %s, type: forest, shape: blob, at: [500, 500], r: 100}" % ("a" * 65)),
+          [IDMSG % ("regions[0]", repr("a" * 65))]),
+    _case("duplicate_id_across_kinds",
+          BASE + _lines("regions:", "  - {id: wood, type: forest, shape: blob, at: [500, 500], r: 100}",
+                        "lines:", "  - {id: wood, type: river, path: [[0, 500], [1000, 500]]}"),
+          ["lines[0].id: duplicate id 'wood' (first used at regions[0].id)"]),
+    _case("crossing_id_equals_poi_id",
+          BASE + _lines("crossings:", "  - {id: eyrie, type: bridge, at: [500, 500], r: 20}",
+                        "pois:", "  - {id: eyrie, type: capture, at: [600, 500]}"),
+          ["pois[0].id: duplicate id 'eyrie' (first used at crossings[0].id)"]),
+    _case("region_id_reserved",
+          BASE.replace("A:", "a:").replace("B:", "b:")
+          + _lines("regions:", "  - {id: base_a, type: forest, shape: blob, at: [500, 500], r: 100}"),
+          ["regions[0].id: 'base_a' is reserved for the implicit base of team a"]),
+    _case("seed_negative", BASE + REGION_SEED % "-1", [SEEDMSG % "-1"]),
+    _case("seed_float", BASE + REGION_SEED % "1.5", [SEEDMSG % "1.5"]),
+    _case("seed_too_big", BASE + REGION_SEED % "4294967296", [SEEDMSG % "4294967296"]),
+    _case("seed_bool", BASE + REGION_SEED % "true", [SEEDMSG % "True"]),
+    _case("crossing_seed",
+          BASE + _lines("crossings:", "  - {id: c0, type: bridge, at: [500, 500], r: 20, seed: 3}"),
+          ["crossings[0].seed: unknown key (allowed: type, at, r, path, width, id)"]),
     _case("heightmap_res_not_pow2", BASE + "output: {heightmap_res: 1000}\n",
           ["output.heightmap_res: must be 2^n+1, e.g. 513, 1025, 2049 (got 1000)"]),
     _case("two_errors", BASE.replace("seed: 1", "seed: abc") + "colour: red\n",

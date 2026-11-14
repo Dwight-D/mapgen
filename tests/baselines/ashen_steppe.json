@@ -1,6 +1,6 @@
 {
  "files": {
-  "export/crossings.json": "a8ef77f8a7d240bc732fb3ecb280dbf98ecf87ad89a24105dd7347659861b5a8",
+  "export/crossings.json": "11f5ab9634cdb497ae44537547fb8b7a0a0ef5506f5638e6500cd8dcba35bc97",
   "export/heightmap.png": "0fc5b08d757bc8c31ca1755a44d13f4b03b5a9fb8bb0a357614fa70a2b5e6f2e",
   "export/heightmap.r16": "de30f4e9c0c7d7f45599ca0c2f6d61cb295862e3bd3c76a978b0d26fdc86509d",
   "export/lines.json": "b2ef4aa1812f401fbbc279edffdd1bf317ab5ddcc415d1297e9ad4960aec92a7",
@@ -18,10 +18,10 @@
   "export/masks/town.png": "2f6850002a01a82c6872623fcf0ad28a2a66185faf3d5870e22088c8a2e91f8b",
   "export/masks/trail.png": "cdd86a0110d90235a54e5953daf96394d99ca232faad2573344556ba219fbfc8",
   "export/masks/water.png": "fe57f20f5b36ea52c95e7f6dd4d96f6f06c454108384aa695ad04b97502fe88d",
-  "export/meta.json": "3a7a6a17c0547c7af276a14372a5e14e83d192b0739d9c556b62ad6d17f04448",
+  "export/meta.json": "d259e0258593ae9c780a27364b52b7ab8172fccb09877203e52597e8d96f446e",
   "export/pois.json": "1d8ddf390bd9a9c9bda2d67b9f64b4d5424b776ca46e6188573247430e351476",
   "export/regions.json": "b4f556ed8d1c560a156e455c28ec84f4ec7b7aa185db889f62c3d1e5e66222fd",
-  "export/spec.resolved.json": "5eecac1f770f4c1faf3a675c077b705fdfb09421c0df3b9909f3c081bfd5a6bd",
+  "export/spec.resolved.json": "31c7e6431e3e1f84ce3dfae4793342284a3bd56f1034153b529ed0ac400aa954",
   "export/splat_0.png": "1984208bf9bfdb9746019a5517986272d3011d2971dd65cc2a7889bd1a9170bd",
   "export/splat_1.png": "bfba13b53713bedaa6496b32c2760e0f68391ad1819e98b8a106c0bec0fa7a99",
   "map.png": "6a16411c362cc079059c6a3a84d1be4b75248867f8aec164158411da08787796",
@@ -31,8 +31,8 @@
   "overlay_territory.png": "f947afb12a2549296c760f76cc9727d48bd90dcb8379df96b6a89f96934922f8",
   "overlay_traffic.png": "6da0f2a3c2b74d55dff5045e60841de892da54565d895be4114be5b17d503c8c",
   "overlay_travel.png": "0cbb9e8d5fdaba2d386fe72dd399a50cc9630b01e2a76b8ffe0cff5f4123df12",
-  "report.json": "07015c0e2502492160ac51d49280e00d26e291f655a437a36ce56217ebb3a845",
-  "report.md": "67b01f6bd75ab914274712ad09222ed6e8b6b6ee0bf56408982e1b5979dda78c"
+  "report.json": "34bf14fbbadcf8f77848f301a1f8c86e10de06b61b68ec093795aeea32519c02",
+  "report.md": "df2726a63cf2efe43dcc592ee1565188d29ecd554d30e1c1d41cfa341bca352c"
  },
  "map": "ashen_steppe",
  "spec": "maps/concepts/ashen_steppe.yaml"

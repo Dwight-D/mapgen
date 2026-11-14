@@ -185,7 +185,7 @@ def write_json(spec: MapSpec, geoms: MapGeometry, hm: Heightmap, out: str) -> Li
     for i, ln in enumerate(spec.lines):
         pts, _ = _resample(np.asarray(geoms.lines[i].centreline.coords), 10.0)
         hy = heightmod.sample(hm, pts[:, 0], pts[:, 1])
-        entry = {"id": ln.id or "line_%d" % i, "type": ln.type, "width": _r(ln.width),
+        entry = {"id": ln.id, "type": ln.type, "width": _r(ln.width),
                  "points": [[_r(x), _r(z), _r(y)] for (x, z), y in zip(pts, hy)], "water_surface": None}
         ws = hm.river_surface.get(ln.index)
         if ws is not None and len(ws) == len(pts):
@@ -199,7 +199,7 @@ def write_json(spec: MapSpec, geoms: MapGeometry, hm: Heightmap, out: str) -> Li
                   "holes": [[[_r(x), _r(y)] for x, y in ring.coords] for ring in p.interiors]}
                  for p in _polys(geoms.regions[i])]
         ws = hm.lake_surface.get(reg.index)
-        regions.append({"id": reg.id or "region_%d" % i, "type": reg.type, "label": reg.label,
+        regions.append({"id": reg.id, "type": reg.type, "label": reg.label,
                         "height": reg.height, "scatter": reg.scatter is not None,
                         "water_surface": None if ws is None else _r(ws), "polygons": polys})
     _dump(os.path.join(out, "regions.json"), regions)
@@ -212,7 +212,7 @@ def write_json(spec: MapSpec, geoms: MapGeometry, hm: Heightmap, out: str) -> Li
             cl, _ = _resample(np.asarray(chaikin(c.path)), 10.0)
             hy = heightmod.sample(hm, cl[:, 0], cl[:, 1])
             pts = [[_r(px), _r(pz), _r(py)] for (px, pz), py in zip(cl, hy)]
-        crossings.append({"id": c.id or "crossing_%d" % i, "type": c.type, "auto": c.auto,
+        crossings.append({"id": c.id, "type": c.type, "auto": c.auto,
                           "r": None if c.path is not None else _r(c.r),
                           "width": _r(c.width) if c.path is not None else None,
                           "x": _r(c.at[0]), "z": _r(c.at[1]), "y": _r(y), "points": pts})
@@ -232,7 +232,7 @@ def write_resolved(spec: MapSpec, out: str) -> List[str]:
     t = spec.terrain
     regions = []
     for r in spec.regions:
-        e = {"id": r.id or "region_%d" % r.index, "type": r.type, "shape": r.shape, "label": r.label,
+        e = {"id": r.id, "seed": r.seed, "type": r.type, "shape": r.shape, "label": r.label,
              "label_at": pt(r.label_at), "height": r.height, "edge": r.edge, "scatter": r.scatter is not None}
         if r.scatter is not None:
             sc = r.scatter
@@ -249,17 +249,18 @@ def write_resolved(spec: MapSpec, out: str) -> List[str]:
                       "fragment_scale": r.fragment_scale})
         regions.append(e)
     data = {
+        "format_version": spec.format_version,
         "name": spec.name, "brief": spec.brief.strip(), "size": [spec.size[0], spec.size[1]], "seed": spec.seed,
         "terrain": {"height_max": t.height_max, "base_height": t.base_height, "relief": t.relief,
                     "relief_scale": t.relief_scale, "water_depth": t.water_depth, "detail": t.detail,
                     "detail_scale": t.detail_scale},
         "teams": [{"id": tm.id, "name": tm.name, "color": tm.color, "base": pt(tm.base)} for tm in spec.teams.values()],
         "regions": regions,
-        "lines": [{"id": ln.id or "line_%d" % i, "type": ln.type, "path": [pt(p) for p in ln.path], "width": ln.width,
+        "lines": [{"id": ln.id, "seed": ln.seed, "type": ln.type, "path": [pt(p) for p in ln.path], "width": ln.width,
                    "meander": ln.meander, "meander_scale": ln.meander_scale, "width_var": ln.width_var,
                    "join": ln.join, "join_end": ln.join_end if ln.join else None, "label": ln.label,
                    "label_at": pt(ln.label_at)} for i, ln in enumerate(spec.lines)],
-        "crossings": [{"id": c.id or "crossing_%d" % i, "type": c.type, "auto": c.auto,
+        "crossings": [{"id": c.id, "type": c.type, "auto": c.auto,
                        "at": pt(c.at), "r": None if c.path is not None else c.r,
                        "path": [pt(p) for p in c.path] if c.path is not None else None,
                        "width": c.width if c.path is not None else None, "crosses": c.note}

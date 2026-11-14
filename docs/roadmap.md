@@ -61,8 +61,6 @@ item title is `Mapgen: ` followed by the package title with a lower-case first l
 
 | gap | detail |
 |---|---|
-| No spec format version | A spec cannot state which generator behaviour it was authored against (package 3). The eight committed maps are guarded by the regression suite (`tests/`): per-file reference hashes and exact dependency pins. |
-| List position is feature identity | Noise seeds and default export ids of regions and lines derive from list position. Inserting one region at the front of `thornwald` changes 28 of 33 output files. |
 | Coordinates are repeated by hand | Features that meet repeat the same literal point (`thornwald` states B's base position on three lines). A missed copy leaves a valid spec with a different result. |
 | Scatter thresholds at a map-wide quantile | Any placement edit shifts forest edges across the whole map (0.04–1.1 % of forest texels). |
 
@@ -144,6 +142,8 @@ Implementation spec: `mapgen/DIFF_SPEC.md`.
 - The id of an automatically generated crossing derives from the id of the line and the id of the water
   feature that meet, plus the crossing's order along that line.
 - The spec has a top-level format version key. mapgen states which format versions it reads.
+
+Implementation spec: `mapgen/IDENTITY_SPEC.md`.
 
 **Migration.** Each of the eight existing specs receives the format version key, an `id` on every region
 and line that lacks one (the id it is exported under today), and explicit per-feature `seed` values equal

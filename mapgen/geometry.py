@@ -50,9 +50,9 @@ class MapGeometry:
 # ----------------------------------------------------------------------------- helpers
 
 
-def _key(reg: Region) -> int:
-    """Noise seed offset of a region: its index in the spec's `regions` list (scatter regions have their own)."""
-    return reg.seed_key if reg.seed_key >= 0 else reg.index
+def region_key(reg: Region) -> int:
+    """Noise seed offset of a region: its feature seed (a scatter region: 1000 + the scatter entry's)."""
+    return 1000 + reg.seed if reg.scatter is not None else reg.seed
 
 
 def _smoothstep(e0: float, e1: float, x):
@@ -191,7 +191,7 @@ def _roughen_polygon(poly: Polygon, rough: float, seed: int) -> Polygon:
 def blob_polygon(reg: Region, seed: int) -> Polygon:
     """Roughened circle: radius(theta) = r * (1 + rough * 0.5 * n(theta)), squash along local y, rotate, translate."""
     theta = np.arange(BLOB_VERTICES) * (2.0 * math.pi / BLOB_VERTICES)
-    n = noise.fbm1_periodic(theta / (2.0 * math.pi), 6, seed + _key(reg), octaves=3)
+    n = noise.fbm1_periodic(theta / (2.0 * math.pi), 6, seed + region_key(reg), octaves=3)
     rad = reg.r * (1.0 + reg.rough * 0.5 * n)
     x = rad * np.cos(theta)
     y = rad * np.sin(theta) * reg.squash
@@ -206,7 +206,7 @@ def band_polygon(reg: Region, seed: int) -> BaseGeometry:
     centre = LineString(chaikin(reg.path))
     poly = centre.buffer(reg.width / 2.0, quad_segs=16, cap_style="round", join_style="round")
     if isinstance(poly, Polygon):
-        poly = _roughen_polygon(poly, reg.rough, seed + _key(reg))
+        poly = _roughen_polygon(poly, reg.rough, seed + region_key(reg))
     return poly
 
 
@@ -299,7 +299,7 @@ def fragment_geometry(reg: Region, g: BaseGeometry, seed: int, warnings: Optiona
     y1 = y0 + rows * cs
     xs = x0 + (np.arange(cols) + 0.5) * cs
     ys = y1 - (np.arange(rows) + 0.5) * cs
-    n = noise.fbm2_grid(xs / scale, ys / scale, seed + 6000 + _key(reg), octaves=4)
+    n = noise.fbm2_grid(xs / scale, ys / scale, seed + 6000 + region_key(reg), octaves=4)
     n = n - 0.6 * (1.0 - _smoothstep(0.0, scale, d))
     q = float(np.quantile(n[m], reg.fragment))
     out = field_to_polygons(n - q, x0, y1, cs, FRAGMENT_MIN_AREA, 3.0, hole_min=0.2 * FRAGMENT_MIN_AREA)
@@ -322,12 +322,12 @@ def region_geometry(reg: Region, seed: int, bounds: BaseGeometry, warnings: Opti
     if reg.shape == "blob":
         g = blob_polygon(reg, seed)
     elif reg.shape == "poly":
-        g = _roughen_polygon(Polygon(reg.points), reg.rough, seed + _key(reg))
+        g = _roughen_polygon(Polygon(reg.points), reg.rough, seed + region_key(reg))
     else:
         g = band_polygon(reg, seed)
     warp, wscale = _warp_params(reg, g)
     if warp > 0:
-        g = warp_geometry(g, warp, wscale, seed + 3000 + 2 * _key(reg))
+        g = warp_geometry(g, warp, wscale, seed + 3000 + 2 * region_key(reg))
     g = drop_small_parts(clean_polygon(g, bounds))
     return fragment_geometry(reg, g, seed, warnings)
 
@@ -345,7 +345,7 @@ def line_centreline(ln: Line, seed: int, join_to: Optional[LineString] = None) -
         pts, s = _resample(pts, MEANDER_STEP)
         total = s[-1]
         if total > 0:
-            nz = noise.fbm1(s / ln.meander_scale, seed + ln.index, octaves=2)
+            nz = noise.fbm1(s / ln.meander_scale, seed + ln.seed, octaves=2)
             t = s / total
             edge = np.clip(np.minimum(t, 1.0 - t) / 0.05, 0.0, 1.0)
             taper = edge * edge * (3.0 - 2.0 * edge)
@@ -357,7 +357,7 @@ def variable_width_area(ln: Line, pts: np.ndarray, seed: int) -> BaseGeometry:
     """Union of buffered WIDTH_VAR_STEP segments whose half-width follows
     width * (1 + width_var * 0.6 * fbm1(s / 250)), clamped to >= 0.4 * width."""
     rp, s = _resample(pts, WIDTH_VAR_STEP)
-    nz = noise.fbm1(s / WIDTH_VAR_WAVELENGTH, seed + 5000 + ln.index, octaves=2)
+    nz = noise.fbm1(s / WIDTH_VAR_WAVELENGTH, seed + 5000 + ln.seed, octaves=2)
     w = ln.width * np.maximum(1.0 + ln.width_var * 0.6 * nz, 0.4)
     segs = shapely.linestrings(np.stack([rp[:-1], rp[1:]], axis=1))
     half = 0.25 * (w[:-1] + w[1:])
@@ -392,7 +392,7 @@ def crossing_geometry(c: Crossing, bounds: BaseGeometry) -> BaseGeometry:
 
 def line_order(lines: Sequence[Line]) -> List[int]:
     """Indices into `lines` with every parent (the line named by `join`) before its tributaries."""
-    by_id = {ln.id: k for k, ln in enumerate(lines) if ln.id is not None}
+    by_id = {ln.id: k for k, ln in enumerate(lines) if ln.id}
     order: List[int] = []
     done = set()
 
@@ -440,15 +440,17 @@ def auto_crossings(spec: MapSpec, regions: List[BaseGeometry], lines: List["Line
     cov = unary_union(cov_parts) if cov_parts else Polygon()
     rivers = [(k, ln) for k, ln in enumerate(spec.lines)
               if types.lines[ln.type].get("height_mode") == "water" and not lines[k].area.is_empty]
-    lake_geoms = [regions[i] for i, r in enumerate(spec.regions)
-                  if types.regions[r.type].get("height_mode") == "water" and not regions[i].is_empty]
+    lake_list = [(r.id, regions[i]) for i, r in enumerate(spec.regions)
+                 if types.regions[r.type].get("height_mode") == "water" and not regions[i].is_empty]
+    lake_geoms = [g for _, g in lake_list]
     lakes = unary_union(lake_geoms) if lake_geoms else Polygon()
     out: List[Tuple[Crossing, BaseGeometry]] = []
+    keys: List[Tuple[str, str, float]] = []   # per crossing: line id, water id, position along the line
 
     def add(ctype: str, at, r: float, path, width: float, note: str) -> None:
         nonlocal cov
         c = Crossing(index=len(spec.crossings) + len(out), type=ctype, at=at, r=r,
-                     id="auto_%d" % (len(out) + 1), path=path, width=width, auto=True, note=note)
+                     id="", path=path, width=width, auto=True, note=note)
         g = crossing_geometry(c, bounds)
         out.append((c, g))
         if not g.is_empty:
@@ -464,7 +466,6 @@ def auto_crossings(spec: MapSpec, regions: List[BaseGeometry], lines: List["Line
         lg = lines[k]
         if ctype is None or entry["cost"] == float("inf") or lg.area.is_empty:
             continue
-        lname = ln.id or "line_%d" % k
         for rk, rl in rivers:
             inter = lg.area.intersection(lines[rk].area)
             for comp in parts(inter):
@@ -481,7 +482,8 @@ def auto_crossings(spec: MapSpec, regions: List[BaseGeometry], lines: List["Line
                     if comp.difference(Point(at).buffer(r, quad_segs=16)).area <= 0.02 * comp.area:
                         break
                     r += 4.0
-                add(ctype, at, r, None, 0.0, "%s x %s" % (lname, rl.id or "line_%d" % rk))
+                add(ctype, at, r, None, 0.0, "%s x %s" % (ln.id, rl.id))
+                keys.append((ln.id, rl.id, lg.centreline.project(Point(at))))
         if not lakes.is_empty:
             cl = lg.centreline
             ends = (Point(cl.coords[0]), Point(cl.coords[-1]))
@@ -492,8 +494,16 @@ def auto_crossings(spec: MapSpec, regions: List[BaseGeometry], lines: List["Line
                 if rest.length <= 2.0 or rest.length <= 0.1 * piece.length:
                     continue
                 path = _extended(piece, AUTO_BAND_EXTEND)
-                add("ford", _mid(path), 0.0, path, max(30.0, ln.width + 20.0), "%s x lake" % lname)
+                add("ford", _mid(path), 0.0, path, max(30.0, ln.width + 20.0), "%s x lake" % ln.id)
                 out[-1][0].r = out[-1][0].width / 2.0
+                best = max(sorted(lake_list, key=lambda e: e[0]), key=lambda e: e[1].intersection(piece).length)
+                keys.append((ln.id, best[0], cl.project(Point(out[-1][0].at))))
+    groups: Dict[Tuple[str, str], List[Tuple[float, int]]] = {}
+    for k, (lid, wid, s) in enumerate(keys):
+        groups.setdefault((lid, wid), []).append((s, k))
+    for (lid, wid), members in groups.items():
+        for n, (_, k) in enumerate(sorted(members), 1):
+            out[k][0].id = "%s-%s-%d" % (lid, wid, n)
     return out
 
 
@@ -508,7 +518,7 @@ def scatter_geometry(sc: Scatter, spec: MapSpec, bounds: BaseGeometry, blockers:
     cols, rows = int(math.ceil(spec.size[0] / cs)), int(math.ceil(spec.size[1] / cs))
     grid = raster.Grid(spec.size[0], spec.size[1], cols, rows)
     a = sc.avoid
-    sd = spec.seed + 8000 + 97 * sc.index
+    sd = spec.seed + 8000 + 97 * sc.seed
     blocked = [blockers["excluded_on"](sc.on) if sc.on else blockers["excluded"]]
     near = []
     if not blockers["lines"].is_empty:
@@ -558,7 +568,7 @@ def build_geometries(spec: MapSpec) -> MapGeometry:
     spec.warnings = []
     regions = [region_geometry(r, spec.seed, bounds, spec.warnings) for r in spec.regions]
     lines: List[Optional[LineGeom]] = [None] * len(spec.lines)
-    by_id = {ln.id: k for k, ln in enumerate(spec.lines) if ln.id is not None}
+    by_id = {ln.id: k for k, ln in enumerate(spec.lines) if ln.id}
     for k in line_order(spec.lines):
         ln = spec.lines[k]
         parent = lines[by_id[ln.join]].centreline if ln.join is not None and ln.join in by_id else None
@@ -595,8 +605,8 @@ def build_geometries(spec: MapSpec) -> MapGeometry:
         }
         pre, post = [], []
         for sc in spec.scatter:
-            reg = Region(index=-1, type=sc.type, shape="scatter", id="scatter%d" % sc.index,
-                         height=types.regions[sc.type].get("height"), seed_key=1000 + sc.index, scatter=sc)
+            reg = Region(index=-1, type=sc.type, shape="scatter", id=sc.id,
+                         height=types.regions[sc.type].get("height"), seed=sc.seed, scatter=sc)
             (post if sc.on else pre).append((reg, scatter_geometry(sc, spec, bounds, blockers)))
         spec.regions = [r for r, _ in pre] + spec.regions + [r for r, _ in post]
         regions = [g for _, g in pre] + regions + [g for _, g in post]

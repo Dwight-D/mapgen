@@ -5,6 +5,7 @@ import sys
 
 import pytest
 
+import mapgen
 from test_validation import BASE
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -176,6 +177,12 @@ def test_palette_invalid(tmp_path):
     rc, out, _ = run("palette", "--palette", p)
     assert rc == 1
     assert out == "palette.teams: expected a list of at least 3 colours\n"
+
+
+def test_version():
+    rc, out, _ = run("--version")
+    assert rc == 0
+    assert out == "mapgen %s (spec format versions: 1)\n" % mapgen.__version__
 
 
 def test_no_command():

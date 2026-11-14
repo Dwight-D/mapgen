@@ -479,8 +479,8 @@ def rec(x, y, path, pat):
   So `1` vs `1.0` and `true` vs `1` are changes at any depth (`{"k": 1}` vs `{"k": 1.0}` differ,
   `[NaN]` vs `[NaN]` do not); this matches byte identity of the files. Value records (section 5.6)
   and the objective comparison use the same function.
-- Lists are compared by position. Position is the identity mapgen exports use (list order is paint order
-  and POI order), and an id rename then shows as a changed `id` value at the same index.
+- Lists are compared by position (list order is paint order and POI order). An inserted or removed entry
+  therefore shows as changes at every later index; a feature's identity across two builds is its `id` value.
 - `emit` appends to the full change list and increments the pattern count. `change_count` = length of
   the full list; `changes` = its first `max_changes` entries; `truncated` = `change_count > max_changes`.
 - Documents are loaded with `json.load` (UTF-8). A load error on either side yields the `error` entry.

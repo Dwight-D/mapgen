@@ -1,3 +1,4 @@
+format_version: 1
 name: thornwald
 brief: |
   PITCH: An old-growth forest swallowed a kingdom; the King's Road still winds diagonally through it past
@@ -26,37 +27,37 @@ teams:
   B: { base: [2050, 2560], name: Charcoalers }
 
 scatter:
-  - { type: forest, coverage: 0.58, scale: 420, clump: 0.6, avoid: 8 }
-  - { type: forest, coverage: 0.42, scale: 110, clump: 0.1, avoid: 8, on: [hills] }
+  - { id: scatter0, seed: 0, type: forest, coverage: 0.58, scale: 420, clump: 0.6, avoid: 8 }
+  - { id: scatter1, seed: 1, type: forest, coverage: 0.42, scale: 110, clump: 0.1, avoid: 8, on: [hills] }
 
 regions:
-  - { type: town,   shape: poly, points: [[250, 350], [520, 300], [640, 460], [560, 640], [330, 620], [220, 500]], rough: 0.3, warp: 40, warp_scale: 120, label: Southwatch }
-  - { type: hills,  shape: blob, at: [1900, 2650], r: 520, rough: 0.4, squash: 0.45, angle: 5, warp: 200, warp_scale: 260, height: 70, fragment: 0.35, fragment_scale: 130, label: Ravenscar }
+  - { id: region_1, seed: 0, type: town,   shape: poly, points: [[250, 350], [520, 300], [640, 460], [560, 640], [330, 620], [220, 500]], rough: 0.3, warp: 40, warp_scale: 120, label: Southwatch }
+  - { id: region_2, seed: 1, type: hills,  shape: blob, at: [1900, 2650], r: 520, rough: 0.4, squash: 0.45, angle: 5, warp: 200, warp_scale: 260, height: 70, fragment: 0.35, fragment_scale: 130, label: Ravenscar }
   # the two meadows that matter
-  - { type: field,  shape: blob, at: [1560, 1640], r: 300, rough: 0.6, squash: 0.7, angle: 35, warp: 170, warp_scale: 150, fragment: 0.12, fragment_scale: 70, label: Kingsmead }
-  - { type: field,  shape: blob, at: [2480, 820], r: 230, rough: 0.6, squash: 0.6, angle: -20, warp: 150, warp_scale: 130, fragment: 0.12, fragment_scale: 60 }
+  - { id: region_3, seed: 2, type: field,  shape: blob, at: [1560, 1640], r: 300, rough: 0.6, squash: 0.7, angle: 35, warp: 170, warp_scale: 150, fragment: 0.12, fragment_scale: 70, label: Kingsmead }
+  - { id: region_4, seed: 3, type: field,  shape: blob, at: [2480, 820], r: 230, rough: 0.6, squash: 0.6, angle: -20, warp: 150, warp_scale: 130, fragment: 0.12, fragment_scale: 60 }
   # small glades around lesser sites (so no POI sits in a perfect circle)
-  - { type: clearing, shape: blob, at: [2050, 1250], r: 120, rough: 0.7, squash: 0.7, angle: 60, warp: 70, warp_scale: 70 }
-  - { type: clearing, shape: blob, at: [540, 2400], r: 110, rough: 0.7, squash: 0.6, angle: -30, warp: 60, warp_scale: 60 }
-  - { type: clearing, shape: blob, at: [720, 660], r: 100, rough: 0.7, squash: 0.6, angle: 10, warp: 60, warp_scale: 60 }
-  - { type: clearing, shape: blob, at: [1290, 2560], r: 80, rough: 0.7, squash: 0.6, angle: 80, warp: 50, warp_scale: 50 }
+  - { id: region_5, seed: 4, type: clearing, shape: blob, at: [2050, 1250], r: 120, rough: 0.7, squash: 0.7, angle: 60, warp: 70, warp_scale: 70 }
+  - { id: region_6, seed: 5, type: clearing, shape: blob, at: [540, 2400], r: 110, rough: 0.7, squash: 0.6, angle: -30, warp: 60, warp_scale: 60 }
+  - { id: region_7, seed: 6, type: clearing, shape: blob, at: [720, 660], r: 100, rough: 0.7, squash: 0.6, angle: 10, warp: 60, warp_scale: 60 }
+  - { id: region_8, seed: 7, type: clearing, shape: blob, at: [1290, 2560], r: 80, rough: 0.7, squash: 0.6, angle: 80, warp: 50, warp_scale: 50 }
   # ruins in clearings
-  - { type: ruins,  shape: blob, at: [780, 2050], r: 90, rough: 0.6, squash: 0.7, warp: 40, warp_scale: 70 }
-  - { type: ruins,  shape: blob, at: [2680, 560], r: 80, rough: 0.6, squash: 0.6, angle: 40, warp: 40, warp_scale: 60 }
+  - { id: region_9, seed: 8, type: ruins,  shape: blob, at: [780, 2050], r: 90, rough: 0.6, squash: 0.7, warp: 40, warp_scale: 70 }
+  - { id: region_10, seed: 9, type: ruins,  shape: blob, at: [2680, 560], r: 80, rough: 0.6, squash: 0.6, angle: 40, warp: 40, warp_scale: 60 }
 
-  - { type: ruins,  shape: blob, at: [1520, 1560], r: 70, rough: 0.6, squash: 0.8, warp: 30, warp_scale: 60 }
-  - { type: lake,   shape: blob, at: [1150, 2350], r: 120, rough: 0.7, squash: 0.65, angle: 30, warp: 70, warp_scale: 70, label: Black Tarn }
+  - { id: region_11, seed: 10, type: ruins,  shape: blob, at: [1520, 1560], r: 70, rough: 0.6, squash: 0.8, warp: 30, warp_scale: 60 }
+  - { id: region_12, seed: 11, type: lake,   shape: blob, at: [1150, 2350], r: 120, rough: 0.7, squash: 0.65, angle: 30, warp: 70, warp_scale: 70, label: Black Tarn }
 
 
 lines:
-  - { id: mossbeck, type: river, path: [[650, 2800], [940, 2272], [1255, 1860], [1578, 1719], [2104, 1395], [2406, 1294], [2702, 1010], [3053, 897], [3200, 750]], width: 16, meander: 65, meander_scale: 200, width_var: 0.6, label: Mossbeck }
-  - { id: kings_road, type: road, path: [[0, 320], [238, 352], [450, 480], [658, 718], [900, 800], [1138, 904], [1300, 1150], [1486, 1281], [1650, 1500], [1834, 1702], [2100, 1800], [2366, 1906], [2600, 2200], [2852, 2359], [3200, 2450]], width: 9, label: King's Road }
-  - { id: b_track, type: trail, path: [[2050, 2560], [2150, 2300], [2300, 2050], [2366, 1906]], width: 5 }
-  - { id: abbey_path, type: trail, path: [[2050, 2560], [1700, 2350], [1350, 2100], [1050, 1850], [800, 1650], [650, 1250], [658, 718]], width: 4 }
-  - { id: lea_path, type: trail, path: [[2366, 1906], [2600, 1700], [2650, 1550], [2550, 1200], [2400, 900], [2680, 560], [2200, 480], [1900, 550], [1400, 650], [1138, 904]], width: 4 }
+  - { id: mossbeck, seed: 0, type: river, path: [[650, 2800], [940, 2272], [1255, 1860], [1578, 1719], [2104, 1395], [2406, 1294], [2702, 1010], [3053, 897], [3200, 750]], width: 16, meander: 65, meander_scale: 200, width_var: 0.6, label: Mossbeck }
+  - { id: kings_road, seed: 1, type: road, path: [[0, 320], [238, 352], [450, 480], [658, 718], [900, 800], [1138, 904], [1300, 1150], [1486, 1281], [1650, 1500], [1834, 1702], [2100, 1800], [2366, 1906], [2600, 2200], [2852, 2359], [3200, 2450]], width: 9, label: King's Road }
+  - { id: b_track, seed: 2, type: trail, path: [[2050, 2560], [2150, 2300], [2300, 2050], [2366, 1906]], width: 5 }
+  - { id: abbey_path, seed: 3, type: trail, path: [[2050, 2560], [1700, 2350], [1350, 2100], [1050, 1850], [800, 1650], [650, 1250], [658, 718]], width: 4 }
+  - { id: lea_path, seed: 4, type: trail, path: [[2366, 1906], [2600, 1700], [2650, 1550], [2550, 1200], [2400, 900], [2680, 560], [2200, 480], [1900, 550], [1400, 650], [1138, 904]], width: 4 }
 
-  - { id: tarn_path, type: trail, path: [[520, 2420], [760, 2380], [1000, 2130], [1300, 2150], [1550, 2300], [1800, 2450]], width: 4 }
-  - { id: lodge_path, type: trail, path: [[1138, 904], [1500, 1050], [1800, 1150], [2050, 1250], [2150, 1500], [2250, 1750], [2366, 1906]], width: 4 }
+  - { id: tarn_path, seed: 5, type: trail, path: [[520, 2420], [760, 2380], [1000, 2130], [1300, 2150], [1550, 2300], [1800, 2450]], width: 4 }
+  - { id: lodge_path, seed: 6, type: trail, path: [[1138, 904], [1500, 1050], [1800, 1150], [2050, 1250], [2150, 1500], [2250, 1750], [2366, 1906]], width: 4 }
 
 pois:
   - { id: thornhold,  type: keep_site,    at: [1520, 1560], label: Thornhold }

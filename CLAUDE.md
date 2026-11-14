@@ -31,6 +31,8 @@ The spec is the single source of truth; everything in `out/` is derived, git-ign
   requirements-dev.txt.
 - **Determinism.** The same spec and seed produce byte-identical files. Never introduce unseeded
   randomness, timestamps or unordered iteration into outputs.
+- **Feature identity.** Every region, line, scatter entry and crossing has an `id`; noise seeds and exported ids
+  derive from it (or from an explicit `seed`). Nothing keys on list position. Design: `mapgen/IDENTITY_SPEC.md`.
 - **Contract first.** A change to anything in `export/` updates `EXPORT_FORMAT.md` and `MAPGEN_SPEC.md`
   in the same commit, and is checked against the Battlehounds consumers (`docs/battlehounds-consumer.md`).
 - **Data lives in data files.** Gameplay and splat values in `mapgen/types.yaml`, render colours in

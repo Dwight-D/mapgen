@@ -89,6 +89,7 @@ tools/mapgen/
 Example (the canonical example, saved as `maps/example_river_crossing.yaml`):
 
 ```yaml
+format_version: 1                # spec format version; this mapgen reads 1
 name: river_crossing            # output folder name; [a-z0-9_]+
 brief: |                        # free text: concept, intended flow, what to test. Not parsed.
   Two teams on either side of a north-south river. One bridge in the centre held by a keep site,
@@ -110,21 +111,21 @@ teams:                          # 2 or 3 teams; ids are short strings
   B: { base: [2700, 1500], color: "#f2a81d", name: East }
 
 regions:                        # painted in list order; later entries win where they overlap
-  - { type: forest,   shape: blob, at: [1150, 1750], r: 260, rough: 0.45 }
-  - { type: forest,   shape: blob, at: [1850, 1250], r: 260, rough: 0.45 }
-  - { type: mountain, shape: band, path: [[1250, 3000], [1500, 2500], [1750, 2050]], width: 450, height: 220 }
-  - { type: town,     shape: poly, points: [[350, 1350], [600, 1350], [600, 1650], [350, 1650]], label: Westhold }
-  - { type: marsh,    shape: blob, at: [1500, 650], r: 300, rough: 0.6 }
+  - { id: region_0, seed: 0, type: forest,   shape: blob, at: [1150, 1750], r: 260, rough: 0.45 }
+  - { id: region_1, seed: 1, type: forest,   shape: blob, at: [1850, 1250], r: 260, rough: 0.45 }
+  - { id: region_2, seed: 2, type: mountain, shape: band, path: [[1250, 3000], [1500, 2500], [1750, 2050]], width: 450, height: 220 }
+  - { id: region_3, seed: 3, type: town,     shape: poly, points: [[350, 1350], [600, 1350], [600, 1650], [350, 1650]], label: Westhold }
+  - { id: region_4, seed: 4, type: marsh,    shape: blob, at: [1500, 650], r: 300, rough: 0.6 }
 
 lines:
-  - { type: river, path: [[1500, 0], [1480, 700], [1530, 1500], [1500, 2200], [1500, 3000]], width: 35, meander: 40 }
-  - { type: road,  path: [[300, 1500], [900, 1500], [1500, 1500], [2100, 1500], [2700, 1500]], width: 10 }
-  - { type: trail, path: [[300, 1500], [900, 2300], [1500, 2350], [2100, 2300], [2700, 1500]], width: 5 }
+  - { id: line_0, seed: 0, type: river, path: [[1500, 0], [1480, 700], [1530, 1500], [1500, 2200], [1500, 3000]], width: 35, meander: 40 }
+  - { id: line_1, seed: 1, type: road,  path: [[300, 1500], [900, 1500], [1500, 1500], [2100, 1500], [2700, 1500]], width: 10 }
+  - { id: line_2, seed: 2, type: trail, path: [[300, 1500], [900, 2300], [1500, 2350], [2100, 2300], [2700, 1500]], width: 5 }
 
 crossings:
-  - { type: bridge, at: [1530, 1500] }
-  - { type: ford,   at: [1480, 700], r: 45 }
-  - { type: pass,   at: [1500, 2350], r: 330 }
+  - { id: crossing_0, type: bridge, at: [1530, 1500] }
+  - { id: crossing_1, type: ford,   at: [1480, 700], r: 45 }
+  - { id: crossing_2, type: pass,   at: [1500, 2350], r: 330 }
 
 pois:
   - { id: bridge_keep, type: keep_site,    at: [1600, 1550], label: Bridge Keep }
@@ -154,6 +155,7 @@ authoring keys (`meander_scale`, `join`, band crossings, `ramp`, `edge`, `cleari
 
 | key | required | meaning |
 |---|---|---|
+| `format_version` | yes | integer; the spec format version (§4.8). This mapgen reads 1 |
 | `name` | yes | output folder name, `[a-z0-9_]+` |
 | `brief` | no | free text, copied into the report |
 | `size` | yes | `[x, y]` metres, each 200–20000 |
@@ -168,8 +170,8 @@ A point is `[x, y]` in metres. A path is a list of ≥ 2 points.
 
 ### 4.2 Regions
 
-Every region has `type` (a region type from `types.yaml`, §5) and `shape`, plus optional `label` (drawn on the map),
-`label_at: [x, y]` (pins the label there), `id`, type-specific `height` (metres; used by `mountain`, `hills`,
+Every region has `id` (§4.8), `type` (a region type from `types.yaml`, §5) and `shape`, plus optional `seed` (§4.8),
+`label` (drawn on the map), `label_at: [x, y]` (pins the label there), type-specific `height` (metres; used by `mountain`, `hills`,
 `plateau`; default from `types.yaml`), `edge` (metres; only for the flattening types `plateau` and `town`, default
 from `types.yaml`: 40 and 30) and the natural-shape keys `warp`, `warp_scale`, `fragment`, `fragment_scale` (below).
 `edge` is the blend radius of the region's flatten step (§6.2): a larger `edge` turns the region's rim into a
@@ -177,19 +179,19 @@ walkable slope instead of a cliff.
 
 | shape | keys | geometry |
 |---|---|---|
-| `blob` | `at`, `r`, `rough` (0–1, default 0.3), `squash` (default 1.0), `angle` (deg, default 0) | circle of radius `r`; boundary radius at angle θ is `r · (1 + rough · 0.5 · n(θ))` with `n` 1D periodic fbm in [-1, 1] seeded by `seed` + region index; then scaled by `squash` along local y and rotated by `angle`; 96 vertices |
+| `blob` | `at`, `r`, `rough` (0–1, default 0.3), `squash` (default 1.0), `angle` (deg, default 0) | circle of radius `r`; boundary radius at angle θ is `r · (1 + rough · 0.5 · n(θ))` with `n` 1D periodic fbm in [-1, 1] seeded by the region's feature seed (§4.8); then scaled by `squash` along local y and rotated by `angle`; 96 vertices |
 | `poly` | `points` (≥ 3), `rough` (default 0) | polygon; if `rough > 0`, edges are densified to ≤ 20 m segments and each vertex displaced along its normal by `rough · 0.15 · sqrt(area) · n` (n from 1D fbm along the perimeter) |
 | `band` | `path`, `width`, `rough` (default 0.2; 0.35 for type `mountain`) | path smoothed (Chaikin, 3 iterations), buffered by `width/2` with round caps; boundary roughened like `poly` |
 
 A region's outline is built in this order: base outline (shape table, including `rough`) → `warp` → clip to the map
 rectangle and make valid (`shapely.make_valid`, keep polygonal parts; parts smaller than 1 % of the largest are
-dropped) → `fragment`. The region index in the noise seeds is the entry's index in the spec's `regions` list.
+dropped) → `fragment`. Noise seeds come from the region's feature seed (§4.8).
 
 **Organic outlines: `warp`, `warp_scale`.** `warp` is a displacement amplitude in metres (default: blob `0.3·r`,
 poly `0`, band `0.25·width`); `warp_scale` is the noise wavelength in metres (default: blob `r`, poly
 `0.5·sqrt(area)`, band `width`). The outline is densified to ≤ 10 m segments and every vertex is moved by
 `warp · (fbm2(x/warp_scale, y/warp_scale, s1), fbm2(x/warp_scale, y/warp_scale, s2))` (3 octaves), a 2D domain warp
-with two independent seeds derived from `seed` and the region index. It bends the outline into lobes and bays.
+with two independent seeds derived from `seed` and the region's feature seed. It bends the outline into lobes and bays.
 `warp: 0` keeps the base outline.
 
 **Fragmented interiors: `fragment`, `fragment_scale`.** `fragment` (0–1, default 0) is the approximate fraction of
@@ -213,8 +215,9 @@ All geometries are clipped to the map rectangle and made valid.
 
 ### 4.3 Lines
 
-Every line has `type` (a line type), `path`, `width` (metres; default from `types.yaml`), optional `meander`
-(metres, default 0), `meander_scale` (metres, default 300), `width_var` (0–1, default 0), `id`, `label`,
+Every line has `id` (required, §4.8), `type` (a line type), `path`, `width` (metres; default from `types.yaml`),
+optional `seed` (§4.8), `meander` (metres, default 0), `meander_scale` (metres, default 300), `width_var` (0–1,
+default 0), `label`,
 `label_at: [x, y]` (pins the label), `join` and `join_end` (below).
 
 - The path is smoothed with Chaikin (3 iterations). If `meander > 0`, it is densified to 10 m steps and each point
@@ -235,7 +238,7 @@ Every line has `type` (a line type), `path`, `width` (metres; default from `type
 
 ### 4.4 Crossings
 
-`type` (a crossing type), optional `id`, and one of two geometries:
+`type` (a crossing type), `id` (required, §4.8) and one of two geometries:
 
 - a **disc**: `at` and optional `r` (radius, metres; default from `types.yaml`);
 - a **band**: `path` and `width` (metres): the Chaikin-smoothed path buffered by `width / 2` with round caps. Use it
@@ -245,11 +248,12 @@ Every line has `type` (a line type), `path`, `width` (metres; default from `type
 A crossing **overrides passability**: inside it the cost is the crossing's cost even where the region or line
 beneath is impassable, and slope never makes a crossing cell impassable (§6.3). `bridge` and `ford` make rivers
 crossable; `pass` makes a mountain crossable and lowers its height (§6.2); `ramp` relaxes the terrain so that a
-plateau edge or cliff becomes a walkable slope (§6.2). Automatic crossings (§4.7) are crossings with ids `auto_<n>`.
+plateau edge or cliff becomes a walkable slope (§6.2). Automatic crossings (§4.7)
+have ids `<line id>-<water id>-<n>` (§4.8).
 
 ### 4.5 POIs
 
-`id` (required, unique among POIs), `type` (a POI type), `at`, optional `label`, `team` (a team id; the POI belongs to
+`id` (required; §4.8), `type` (a POI type), `at`, optional `label`, `team` (a team id; the POI belongs to
 that team), `tier` (int), `r` (metres, footprint radius for downstream tools; default from `types.yaml`).
 
 Team bases are implicit POIs with id `base_<team>` and type `base`.
@@ -261,12 +265,14 @@ background is not empty plain:
 
 ```yaml
 scatter:
-  - { type: forest, coverage: 0.18, scale: 350, clump: 0.6, avoid: 30 }
-  - { type: field,  coverage: 0.10, scale: 250, clump: 0.3, avoid: 20, within: [[0,0],[1500,0],[1500,3000],[0,3000]] }
+  - { id: wild_forest, type: forest, coverage: 0.18, scale: 350, clump: 0.6, avoid: 30 }
+  - { id: wild_field,  type: field,  coverage: 0.10, scale: 250, clump: 0.3, avoid: 20, within: [[0,0],[1500,0],[1500,3000],[0,3000]] }
 ```
 
 | key | meaning |
 |---|---|
+| `id` | required; §4.8 |
+| `seed` | optional; §4.8 |
 | `type` | region type (required) |
 | `coverage` | 0–1, fraction of the eligible area covered (required) |
 | `scale` | metres, typical patch size (default 300) |
@@ -282,12 +288,13 @@ whose outline is domain-warped (amplitude `0.5 · avoid`, scale `3 · avoid`, th
 POI or road is never a circle or a parallel offset. An entry with `on` additionally excludes every explicit region
 whose type is not listed in `on`, so it covers open ground and the listed region types (e.g. woods on `hills`,
 fields on `plateau`) and keeps clear of everything else (clearings, forests, ruins...). The noise field is
-`fbm2(x/scale, y/scale, octaves=4) · (1 − 0.4·clump) + 1.2 · clump · fbm2(x/(4·scale), octaves=2)`, sampled on a 5 m
+`fbm2(x/scale, y/scale, octaves=4) · (1 − 0.4·clump) + 1.2 · clump · fbm2(x/(4·scale), octaves=2)`, seeded by the
+entry's feature seed (§4.8), sampled on a 5 m
 grid (10 m when the map is larger than 4 km) and thresholded at the `1 − coverage` quantile over eligible cells.
 Patches are vectorized as in §4.2 fragmentation (continuous-field contours, simplified 4 m), then the blocked area
 is subtracted exactly so the clearance holds; parts smaller than 1 500 m² and holes smaller than 300 m² are dropped.
 
-Each entry becomes one `Region` (shape `scatter`, `id` `scatter<i>`, multi-part geometry). Entries without `on` are
+Each entry becomes one `Region` (shape `scatter`, the entry's `id`, multi-part geometry). Entries without `on` are
 inserted **before** all explicit regions, so explicit regions paint over them; entries with `on` are inserted
 **after** all explicit regions, so they paint over the regions they are allowed on. Scatter regions appear in
 `regions.json` (flagged `"scatter": true`), masks, splat and analysis exactly like explicit regions. The render does
@@ -303,11 +310,83 @@ oblique intersections until it covers the overlap of the two line areas). A cros
 leaves at most 2 % of the overlap of the two line areas uncovered. Where such a line
 enters and leaves a lake, a `ford` band follows the line's centreline inside the lake, extended 18 m past the shore
 on each side, `width = max(30 m, line width + 20 m)`. Automatic crossings are appended after the explicit crossings
-with ids `auto_<n>` (n from 1), take part in scatter clearance, analysis, render and export exactly like explicit
+in generation order and take the ids of §4.8, take part in scatter clearance, analysis, render and export exactly like explicit
 ones (the export flags them `"auto": true`), and are listed in the report. Lines are visited in spec order and
 rivers in spec order, so the result is deterministic. A spec that wants a road to ford a river writes that `ford`
 explicitly; an explicit crossing is never replaced. With `auto_crossings: false` nothing is generated and analysis
 warns about uncovered road/trail × water intersections (§6.3).
+
+### 4.8 Feature identity
+
+**Format version.** `format_version` is a required top-level integer; this format is version `1`. mapgen reads the
+versions listed in `mapgen.schema.SPEC_FORMAT_VERSIONS` (`(1,)`); `python -m mapgen --version` prints them. A spec
+without the key is invalid and validation continues, so the output lists every other problem too. A spec whose
+`format_version` is present but not an integer this mapgen reads (another integer, a string, a float such as `1.0`, a boolean, null) is invalid and that is the
+only error reported, because a spec of another format version follows other rules. `spec.resolved.json` echoes
+`format_version` as its first key; `meta.json` does not carry it.
+
+**Ids.** The `id` is the feature's identity: its noise seeds derive from it, it is the id under which the feature is
+exported, and automatic crossing ids are built from it. List order of `regions` is paint order; it has no effect on any
+feature's shape.
+
+| section | `id` | `seed` |
+|---|---|---|
+| `regions[]` | required | optional |
+| `lines[]` | required | optional |
+| `scatter[]` | required | optional |
+| `crossings[]` | required | not allowed |
+| `pois[]` | required | not allowed |
+| team bases | implicit `base_<team id>` | — |
+
+- An id is a string matching `[a-z][a-z0-9_]*` of at most 64 characters. A YAML number is not an id.
+- **One namespace.** The ids of regions, lines, scatter entries, crossings and POIs, the implicit base ids and every
+  automatic crossing id are distinct within a spec, so a reference anywhere in a spec names exactly one thing. The id
+  `base_<team id>` is reserved for the base of that team. `join` names a line id.
+- Renaming an id changes the id-derived seed and therefore the feature's shape, unless the feature carries an explicit
+  `seed`.
+
+**Feature seed.** `seed` on a region, line or scatter entry is an integer `K` with `0 <= K <= 4294967295` (YAML
+booleans and floats are rejected) and takes precedence over the id-derived value. Without `seed`, `K` is
+`feature_seed(id)`, the first 4 bytes of the SHA-256 of the UTF-8 id read as a big-endian unsigned integer
+(`feature_seed("mossbeck") == 1892764035`). The hash is platform- and process-independent; Python's `hash()` is not
+used. `K` is the per-feature term of every noise seed of that feature:
+
+`S` = spec `seed`; `o` = fbm octave index (each octave adds `1013·o`); `key` = `K` of a region, or `1000 + K` of the
+scatter entry for a region generated from a scatter entry; `K_l` = `K` of a line; `K_s` = `K` of a scatter entry.
+
+| use | lattice seed | sampled over |
+|---|---|---|
+| base relief | `S + 1013·o` | world x, y |
+| terrain detail | `S + 500 + 1013·o` | world x, y |
+| hills height | `S + 1000 + key + 1013·o` | world x, y |
+| mountain ridges | `S + 2000 + key + 1013·o` | world x, y |
+| blob, poly and band outline roughness | `S + key + 1013·o` | angle (blob), perimeter fraction (poly, band) |
+| region warp, x / y | `S + 3000 + 2·key + 1013·o` / `... + 7919` | world x, y |
+| region fragmentation | `S + 6000 + key + 1013·o` | world x, y |
+| line meander | `S + K_l + 1013·o` | arc length |
+| line width variation | `S + 5000 + K_l + 1013·o` | arc length |
+| scatter field | `S + 8000 + 97·K_s + 1013·o` | world x, y |
+| scatter clump field | `S + 8000 + 97·K_s + 31 + 1013·o` | world x, y |
+| scatter clearance warp, x / y | `S + 8000 + 97·K_s + 53 + 1013·o` / `... + 7919` | world x, y |
+| stipple pattern (render only) | `S + 4000`, `+1`, `+2` (no octaves) | image pixels |
+
+**Automatic crossing ids.** After generation (§4.7) each automatic crossing gets the id `<line id>-<water id>-<n>`:
+the line `L` that makes the crossing, the water feature `W` it crosses, and `n` counting `L`'s automatic crossings of
+`W` in order along `L`, from 1 (ordered by the crossing's distance along the line's final centreline). `W` is the id
+of the river line for a river crossing, and the id of the lake region with the longest intersection with the ford's
+centreline piece for a lake ford (ties: the lexicographically smallest id). Examples: `kings_road-mossbeck-1`,
+`zigzag-west_lake-1`. An automatic crossing's id depends only on its line, its water feature and its order along the
+line: adding a road elsewhere, crossing another river or moving a feature in its list leaves it unchanged. Where two
+lines would generate overlapping automatic crossings at the same water feature, the line listed first gets the
+crossing and the later one is suppressed, so list order of lines decides which of the two crossings exists. The
+hyphen cannot occur in a spec id, so an automatic id never equals a spec id.
+
+**Validation messages** start with the key path: `regions[3].id: missing required key`, `regions[3].id: must match
+[a-z][a-z0-9_]* and be at most 64 characters (got 'Big-Wood')`, `lines[0].id: duplicate id 'wood' (first used at
+regions[0].id)`, `regions[0].id: 'base_a' is reserved for the implicit base of team a`, `regions[3].seed: expected an
+integer in [0, 4294967295], got -1`, `format_version: missing required key (this mapgen reads format versions: 1)`.
+The duplicate check visits bases, `regions`, `lines`, `scatter`, `crossings`, `pois` in that order, items in list
+order; the first holder of an id is the one named.
 
 ## 5. Type table — `mapgen/types.yaml`
 
@@ -613,7 +692,7 @@ Into `out/<name>/export/`:
 | `masks/<type>.png` | 8-bit grayscale coverage per region type, line type and crossing type present (automatic crossings included), plus `water.png` (rivers + lakes) and `impassable.png` (analysis grid cost = inf, upsampled to `splat_res` nearest-neighbour) |
 | `pois.json` | `[{id, type, team, tier, label, r, x, z, y}]` — `y` = terrain height in metres sampled at the point; bases included |
 | `lines.json` | `[{id, type, width, points: [[x, z, y], ...], water_surface}]` — smoothed, meandered centrelines resampled at 10 m; `y` = terrain height at the centreline; `water_surface` = for rivers, the water-plane height in metres at each point (same length as `points`, non-increasing downstream), else `null` |
-| `regions.json` | `[{id, type, label, height, scatter, water_surface, polygons: [{outer: [[x, z], ...], holes: [[[x, z], ...], ...]}, ...]}]` — final region geometry in paint order, each part an outer ring plus its holes (clearings in fragmented forests, islands in lakes); `scatter` is `true` for regions generated from a `scatter` entry, which keep their `scatter<i>` ids; `water_surface` = for lakes, the flat water-plane height in metres, else `null` |
+| `regions.json` | `[{id, type, label, height, scatter, water_surface, polygons: [{outer: [[x, z], ...], holes: [[[x, z], ...], ...]}, ...]}]` — final region geometry in paint order, each part an outer ring plus its holes (clearings in fragmented forests, islands in lakes); `scatter` is `true` for regions generated from a `scatter` entry, which carry that entry's `id`; `water_surface` = for lakes, the flat water-plane height in metres, else `null` |
 | `crossings.json` | `[{id, type, auto, r, width, x, z, y, points}]` — every crossing, explicit and automatic (`auto: true`); a disc has `r` and `width: null, points: null`; a band has `width`, `r: null` and `points` = its smoothed centreline `[[x, z, y], ...]` resampled at 10 m; `x, z` = disc centre or band middle, `y` = terrain height there |
 | `spec.resolved.json` | the fully resolved spec: every default applied, scatter regions and automatic crossings expanded (in paint order), team colours, POI footprints (bases included), analysis and output parameters, the type table in use; importers read this instead of YAML |
 | `meta.json` | `size`, `height_max`, `heightmap_res`, `splat_res`, `splat_layers` with channel assignment (`{"grass": "splat_0.r", ...}`), `terrain_layers` (`[{name, channel, image}]` per splat layer, e.g. `{"name": "grass", "channel": "r", "image": "splat_0.png"}`), `water_level` (`null`: there is no global sea level; lakes and rivers have per-feature surfaces), axis convention text, `seed`, sha256 of the spec file, mapgen version |
@@ -649,6 +728,7 @@ python -m mapgen build <spec.yaml|maps-dir> [--out out] [--only render|analyze|e
 python -m mapgen validate <spec.yaml> [--palette palette.yaml]
 python -m mapgen probe <spec.yaml> x y [x y ...]   # per point: team times, spread, cost, region/line (no files)
 python -m mapgen diff <build a> <build b> [--text] [--max-changes N]   # delta of two build folders (no files)
+python -m mapgen --version              # mapgen version and the spec format versions it reads
 python -m mapgen types                  # print the type table
 python -m mapgen palette [--palette palette.yaml]   # L* legibility matrix of the palette (§5.1)
 ```
@@ -670,7 +750,9 @@ python -m mapgen palette [--palette palette.yaml]   # L* legibility matrix of th
 
 Errors (abort): missing required keys; unknown keys (catch typos — report the key path); unknown types; wrong
 shapes (point not 2 numbers, path < 2 points, poly < 3 points); non-positive `r`/`width`; team count not 2 or 3;
-duplicate POI ids; any point outside the map rectangle by more than 1 m; `heightmap_res` not 2^n+1; `seed` not an int;
+missing or unreadable `format_version`; a region, line, scatter entry or
+crossing without `id`; an id that is not `[a-z][a-z0-9_]*` (≤ 64 characters) or used twice in the spec; `seed` not an
+integer in [0, 4294967295]; any point outside the map rectangle by more than 1 m; `heightmap_res` not 2^n+1; `seed` not an int;
 out-of-range natural-shape keys (`warp`, `warp_scale`, `fragment_scale`, `terrain.detail_scale`: ≥ 0 / > 0;
 `fragment`, `width_var`, scatter `coverage` and `clump`: 0–1; scatter `within` < 3 points; `meander_scale` and `edge`:
 > 0); `edge` on a type that is not `raise_flat`/`flatten`; `join` naming no line, a non-unique id, the line itself or
@@ -682,8 +764,7 @@ Every error message carries a path like `regions[3].r`.
 
 ## 9. Determinism
 
-No `random` or `np.random` global state. All noise is hashed from coordinates and `seed + stable per-item offset`
-(item index in its list; scatter entries use their own index). Output PNGs are written with Pillow defaults (no timestamps in metadata).
+No `random` or `np.random` global state. All noise is hashed from coordinates and `seed` + a fixed per-use offset + the feature seed (§4.8). Output PNGs are written with Pillow defaults (no timestamps in metadata).
 
 ## 10. Acceptance
 
@@ -696,7 +777,7 @@ No `random` or `np.random` global state. All noise is hashed from coordinates an
 - With `auto_crossings: false`, removing the `bridge` and `ford` crossings from a copy of the example: bases are
   still connected only through the pass, and analysis warns about the uncovered road × river intersection; removing
   the `pass` too produces the warning "base A cannot reach base B". With `auto_crossings: true` and no crossings at
-  all, the build adds an `auto_` bridge and ford and the bases are connected.
+  all, the build adds an automatic bridge and ford (ids `<line>-<river>-1`) and the bases are connected.
 - `heightmap.r16` is `heightmap_res² · 2` bytes; its first row equals the last row of `heightmap.png`.
 - Splat pixel weights sum to 255 everywhere.
 - A second example, `maps/example_three_team.yaml` (3 teams on a 3000 × 3000 map around a central lake with three

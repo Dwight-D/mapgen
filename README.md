@@ -19,6 +19,7 @@ Python 3.8 venv at `tools/mapgen/.venv` (already created; runtime dependencies p
 ## Commands
 
 ```
+python -m mapgen --version                                     # mapgen version, spec format versions it reads
 python -m mapgen validate maps/example_river_crossing.yaml     # report every spec error, write nothing
 python -m mapgen build    maps/example_river_crossing.yaml     # full build -> out/<name>/
 python -m mapgen build    maps/                                # every *.yaml in the folder
@@ -52,7 +53,8 @@ the report is printed, whether or not the builds differ (`"identical"` in the JS
 ## Edit loop
 
 1. Edit the YAML in `maps/` (see the examples; `maps/example_natural.yaml` uses every natural-shape key; `types.yaml`
-   lists the available types and costs).
+   lists the available types and costs). Every region, line, scatter entry and crossing needs an `id`; insert a feature
+   anywhere in its list, list order of `regions` is only paint order.
 2. `build`, then look at `out/<name>/map.png`, the `overlay_*.png` files and `report.md`.
 3. Edit again.
 
@@ -87,14 +89,14 @@ the differing files without writing). Details: `tests/REGRESSION_SPEC.md`.
 
 ## Natural shapes, scatter, palette
 
-New optional keys (full definitions in `MAPGEN_SPEC.md` §4.2, §4.3, §4.6, §5.1, §6.2):
+Optional keys (full definitions in `MAPGEN_SPEC.md` §4.2, §4.3, §4.6, §5.1, §6.2):
 
 | key | where | effect |
 |---|---|---|
 | `warp`, `warp_scale` | region | metres; 2D domain warp of the outline (lobes and bays). Defaults: blob `0.3*r` / `r`, band `0.25*width` / `width`, poly `0` |
 | `fragment`, `fragment_scale` | region | `fragment` 0-1 = fraction of area removed as clearings and ragged edges; `fragment_scale` = patch size in metres (150) |
 | `width_var` | line | 0-1; width varies along the line (`width * (1 + width_var * 0.6 * noise)`) |
-| `scatter` | top level | list of `{type, coverage, scale, clump, avoid, within}`: noise patches of one region type across the map, clear of lines, crossings, POIs, lakes, mountains and towns by `avoid` metres; painted under the explicit regions |
+| `scatter` | top level | list of `{id, type, coverage, scale, clump, avoid, within}`: noise patches of one region type across the map, clear of lines, crossings, POIs, lakes, mountains and towns by `avoid` metres; painted under the explicit regions |
 | `terrain.detail`, `terrain.detail_scale` | terrain | metres; mid-frequency ground undulation (6 m / 250 m) |
 
 Mountains get a foothill apron; `band` mountains default to `rough: 0.35`; overlapping mountains combine by maximum,
@@ -104,10 +106,13 @@ not sum.
 
 | key | where | effect |
 |---|---|---|
+| `format_version` | top level | required; `1`. mapgen reads the versions `--version` prints |
+| `id` | region, line, scatter, crossing, POI | required; `[a-z][a-z0-9_]*`, unique across the whole spec (bases are `base_<team>`). The feature's identity: noise seeds and exported ids come from it. Renaming an id reshapes the feature unless it has a `seed` |
+| `seed` | region, line, scatter | optional integer 0-4294967295; fixes the feature's noise independently of its id. The committed maps carry one on every feature |
 | `meander`, `meander_scale` | line | `meander` = sideways wiggle amplitude (m); `meander_scale` = wavelength (m, default 300). Use a coarse path plus these instead of hand-zigzagged control points |
 | `join: <line id>`, `join_end: start\|end` | line | tributary: that end of the line is moved onto the nearest point of the parent's centreline (parents are built first; cycles are errors) |
 | (automatic) | river x lake | rivers are clipped outside lakes, so a river ending inside a lake leaves no stub; lakes and rivers render as one water body |
-| `auto_crossings` | top level | default `true`: every road x river gets a `bridge`, every trail x river a `ford` (disc, `r` = river half-width + 15 m, id `auto_<n>`), and roads/trails that enter and leave a lake get a ford band. An explicit crossing over an intersection is kept (write one to ford a road). `false` turns it off and analysis warns about uncovered intersections |
+| `auto_crossings` | top level | default `true`: every road x river gets a `bridge`, every trail x river a `ford` (disc, `r` = river half-width + 15 m, id `<line id>-<river id>-<n>`), and roads/trails that enter and leave a lake get a ford band. An explicit crossing over an intersection is kept (write one to ford a road). `false` turns it off and analysis warns about uncovered intersections |
 | `path` + `width` | crossing | band crossing instead of `at` + `r`: the buffered path. For passes through a long mountain or long fords |
 | `ramp` | crossing type | cost 1.2; relaxes the terrain inside it (blur sigma = `r`) so a plateau edge or cliff becomes a walkable slope. Disc or band |
 | `edge` | region (`plateau`, `town`) | blend radius (m) of the flatten step, default 40 / 30; larger = gentler rim |

@@ -103,7 +103,7 @@ def _nearest_feature(spec: MapSpec, geoms: MapGeometry, x: float, y: float) -> s
     for k, c in enumerate(spec.crossings):
         d = geoms.crossings[k].distance(p) if not geoms.crossings[k].is_empty else INF
         if d <= best_d:
-            best, best_d = "%s %s" % (c.type, c.id or "(%d, %d)" % (c.at[0], c.at[1])), d
+            best, best_d = "%s %s" % (c.type, c.id), d
     for poi in spec.all_pois():
         d = max(0.0, p.distance(Point(poi.at)) - poi.r)
         if d < best_d:
@@ -126,7 +126,7 @@ def _nearest_feature(spec: MapSpec, geoms: MapGeometry, x: float, y: float) -> s
                 continue
             d = geoms.lines[i].area.distance(p)
             if d < 1.0 and (best is None or d < best_d):
-                best, best_d = "%s %s" % (ln.type, ln.label or ln.id or "#%d" % i), d
+                best, best_d = "%s %s" % (ln.type, ln.label or ln.id), d
     return best or "-"
 
 
@@ -298,10 +298,10 @@ def analyze(spec: MapSpec, geoms: MapGeometry, hm: Heightmap) -> AnalysisResult:
     water = []
     for i, ln in enumerate(spec.lines):
         if types.lines[ln.type]["cost"] == INF and types.lines[ln.type].get("height_mode") == "water":
-            water.append(("river %s" % (ln.id or "#%d" % i), geoms.lines[i].area))
+            water.append(("river %s" % ln.id, geoms.lines[i].area))
     for i, reg in enumerate(spec.regions):
         if types.regions[reg.type].get("height_mode") == "water":
-            water.append(("lake %s" % (reg.id or reg.label or "#%d" % i), geoms.regions[i]))
+            water.append(("lake %s" % reg.id, geoms.regions[i]))
     for i, ln in enumerate(spec.lines):
         if types.lines[ln.type]["cost"] == INF:
             continue
@@ -315,7 +315,7 @@ def analyze(spec: MapSpec, geoms: MapGeometry, hm: Heightmap) -> AnalysisResult:
             if rest.area > 0.1 * inter.area and rest.area > 4.0:
                 c = rest.representative_point()
                 warnings.append("%s '%s' crosses %s near (%d, %d) with no bridge or ford" % (
-                    ln.type, ln.id or "#%d" % i, wname, c.x, c.y))
+                    ln.type, ln.id, wname, c.x, c.y))
 
     return AnalysisResult(grid=grid, cost=cost, teams=team_ids, times=times, owner=owner, contested=contested,
                           traffic=traffic, chokepoints=chokes, openness=openness, paths=paths,
@@ -340,11 +340,11 @@ def probe_point(spec: MapSpec, geoms: MapGeometry, an: AnalysisResult, x: float,
         g = geoms.regions[i]
         if not g.is_empty and g.contains(p):
             reg = spec.regions[i]
-            region = "%s %s" % (reg.type, reg.label or reg.id or "#%d" % i)
+            region = "%s %s" % (reg.type, reg.label or reg.id)
             break
-    on_lines = ["%s %s" % (ln.type, ln.id or "#%d" % i) for i, ln in enumerate(spec.lines)
+    on_lines = ["%s %s" % (ln.type, ln.id) for i, ln in enumerate(spec.lines)
                 if not geoms.lines[i].area.is_empty and geoms.lines[i].area.contains(p)]
-    on_crossings = ["%s %s" % (cr.type, cr.id or "#%d" % i) for i, cr in enumerate(spec.crossings)
+    on_crossings = ["%s %s" % (cr.type, cr.id) for i, cr in enumerate(spec.crossings)
                     if not geoms.crossings[i].is_empty and geoms.crossings[i].contains(p)]
     return {"x": x, "y": y, "row": r, "col": c, "times": {t: (v if math.isfinite(v) else None) for t, v in times.items()},
             "spread": spread, "cost": float(an.cost[r, c]), "fair": bool(an.fair[r, c]), "region": region,

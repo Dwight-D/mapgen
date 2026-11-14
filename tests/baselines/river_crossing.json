@@ -1,6 +1,6 @@
 {
  "files": {
-  "export/crossings.json": "20d58a4cd3bba9d0803cb7bddf147a8f00f6dd21e552a8aefcaac55390c4ef78",
+  "export/crossings.json": "4b6fa1daf9eec1d9caf745196d3d977992b4637028f6829c465edea5e0d9fc1a",
   "export/heightmap.png": "5ab4efab53746e25c28aebcf8091171e2875395aa232c5d6f68271be14fc2d50",
   "export/heightmap.r16": "e9e55a4793c61225475934854e17d8dfb5d59b6f72ae74137fbd5a9923f50300",
   "export/lines.json": "64f45d70265b58630228a0565a3d2e072e6775e5068c98fabadb039404e5133d",
@@ -16,10 +16,10 @@
   "export/masks/town.png": "3620a73777b8efbe8d67b4744346386c3f3e7d9894fa2c0a240e59066852e911",
   "export/masks/trail.png": "881a701e83f042792b2988b9346574b6c8e41f3c19ec2b5cd904fe89360bf5f9",
   "export/masks/water.png": "b74d356929a3c2eb71040831e58510daacb52567660bbfa501f7f9e566e011c1",
-  "export/meta.json": "8ba9f37841117ce055c5b640d5a4bf6f7177de44f634281f86261075977acfd3",
+  "export/meta.json": "7cb8272444efc36f69997d59b7ed95b7df1a5b8530f051270834f7ac61d952e9",
   "export/pois.json": "797afe84f9582030adcc0e70fdf2b55c58e5e53c7cc7bb9f2b5baaca2c40c238",
   "export/regions.json": "c174cda7a8f62bd575704657fa468ecf920481236a0bd9abc5a8207141a2ae98",
-  "export/spec.resolved.json": "489097aef0a00206fc9ec078ca1da0c119bf927eb6fd21b926a5bacb28daaab3",
+  "export/spec.resolved.json": "d3d332e887a176761bee1d0e66dfe11e2da1059a1b254205ee323cfa7f727865",
   "export/splat_0.png": "64d6a8062bf2032928ddf67493c9ceff9e4045b6a6ef5cfae89975b59c3d5812",
   "export/splat_1.png": "235eff506184e977649ae067f08734b304b5e6de39ae2480020169ccdd2151a0",
   "map.png": "2bdc38b2d228086c7121b5271bfb77a2b5745d2b2e4415188fb15fb97feb665e",
@@ -29,8 +29,8 @@
   "overlay_territory.png": "1112aec4ffe64bcd370846020619cc28a0b2ca8e6c3b3cf0b0518bc1e4153a8e",
   "overlay_traffic.png": "108aa36b6f7ac153d75fc8ca4f09955299142df4dd811e2c0662037a0126dbc9",
   "overlay_travel.png": "101d651be3424ff4e9bf5d7522a0a47a5b4dcf2a17fe1448a0c7ea43ae94ff42",
-  "report.json": "1b58d67dd42135828856fd0b2d035d64f1f3019eb17a48eb483f2b08d39790de",
-  "report.md": "5899d43d87e5abbc24db9ba31fd1b2c2c583d9073c2dbf1d26536c95b135e96b"
+  "report.json": "b73da64575fa795072b3ef46f2b2d8f0a2175c916f159a2a0b903ee5d4d6c603",
+  "report.md": "b95a55c9d5bd98118765f5948604c609c3385b0175459ce71daf7d88c75905e4"
  },
  "map": "river_crossing",
  "spec": "maps/example_river_crossing.yaml"

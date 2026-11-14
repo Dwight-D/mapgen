@@ -9,7 +9,7 @@ from scipy import ndimage
 from scipy.spatial import cKDTree
 
 from . import noise, raster
-from .geometry import MapGeometry, _resample
+from .geometry import MapGeometry, _resample, region_key
 from .raster import Grid
 from .schema import MapSpec
 
@@ -87,7 +87,7 @@ def synthesize(spec: MapSpec, geoms: MapGeometry) -> Heightmap:
     # 2. hills
     for r in modes("add_noise"):
         sm = raster.soft(rmask(r.index), 120.0, grid)
-        n = noise.fbm2_grid(xs / 300.0, ys / 300.0, spec.seed + 1000 + r.seed_key, octaves=4)
+        n = noise.fbm2_grid(xs / 300.0, ys / 300.0, spec.seed + 1000 + region_key(r), octaves=4)
         h = h + (r.height or 0.0) * sm * (0.5 + 0.5 * n)
 
     # 3. mountains (ridge) combine by per-cell maximum, kept separate from the ground so passes can carve saddles
@@ -102,7 +102,7 @@ def synthesize(spec: MapSpec, geoms: MapGeometry) -> Heightmap:
             continue
         falloff = 0.6 * dmax
         tt = smoothstep(0.0, falloff, d) ** 0.8
-        rg = noise.ridged_fbm2_grid(xs / 250.0, ys / 250.0, spec.seed + 2000 + r.seed_key, octaves=5)
+        rg = noise.ridged_fbm2_grid(xs / 250.0, ys / 250.0, spec.seed + 2000 + region_key(r), octaves=5)
         hgt = r.height or 0.0
         # foothill apron: a soft skirt around the mask that fades out toward the summit so the profile is continuous
         apron = 0.15 * hgt * raster.soft(rmask(r.index), 180.0, grid) * (1.0 - tt)

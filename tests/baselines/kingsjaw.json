@@ -1,6 +1,6 @@
 {
  "files": {
-  "export/crossings.json": "ee614f91e6bf3ae1ee829b3de78ed17a3205df1e0a37d6ade294c87d1ef154e8",
+  "export/crossings.json": "fc0408ac224497c90972471657d9aab8dd1f6c87dccd8a6c70b044b85dffe47d",
   "export/heightmap.png": "0c450e9a116314c6b1e1ee644a87b9147115845f190c06b7411a6562d65c1878",
   "export/heightmap.r16": "b73884303d798ecca19bc4d467e98dec5b85266f77069b85b7e0cecc1315b148",
   "export/lines.json": "fea30f781dada0d4f1519978ed462144586d5026fddc603caf9d4df7e440c01b",
@@ -18,10 +18,10 @@
   "export/masks/town.png": "9b20e1145137a3962856702a6e726f5ee7d6492ff3527cfb027d3e63da466cd0",
   "export/masks/trail.png": "f2dde9ab7007f4fca9e5ec0e42a0363a70086275cab83d79127564da854c2bb0",
   "export/masks/water.png": "e0f377c66a72fff6b586cb553970c976abd59707f8586bf37386c1434df3259b",
-  "export/meta.json": "c89f63e9360d12ceb6f668c27ab279ef10e8f65acb54d6990497aba1515696e6",
+  "export/meta.json": "07d65ac16c9dce5ad74435c8ab43f5ed3199d071765863c6029e5d166acdd308",
   "export/pois.json": "46a3ddd1f9a218933534431a591641d10838963b4ad19119f7fb276f7e8f0d0e",
   "export/regions.json": "e034e5127480edfc039f8a9c5f1a23be07e0c945c20e3f0d482b9834dc7497ea",
-  "export/spec.resolved.json": "9be85728c5efd4bd8fcc861bef26e316f010ed4af76fbcf7f7561e1bf05afe78",
+  "export/spec.resolved.json": "ba335f4fd0391eccdd267fc2adc3695aaf0c423b47a7ec16a9b9046eeb116ab7",
   "export/splat_0.png": "54f3ea1e0adf797fb9a021b07651fe0185bf5b243b36a3b915b384a3b927b92b",
   "export/splat_1.png": "a1deea354644a3939834f8efedd8268ab9548ca2e1c5e70cb818c211bc682437",
   "map.png": "5e458ae0da146f2ba37ff855339535d25b3feff77741a8660bac4b0afb7dca70",
@@ -31,8 +31,8 @@
   "overlay_territory.png": "f45b9260877f4c641f0bc36e03bba82a7f47d111ab82f6c797fbaa9dd84a62f3",
   "overlay_traffic.png": "ab395ec9994f3ac68a690affb71fc33396b95fbff0f8ed4716f8805b1e1caa43",
   "overlay_travel.png": "79a946bcb95fb1191f1d8193ac91229daf34f310de5e60d0cf25a1fa1eddbad4",
-  "report.json": "2dfa8588ad7e79e033934d4a6f702b7b808ae07bd4f2b9edd2ca029a2e71e49c",
-  "report.md": "ade75a8d5af56e99cbd23d82812b227ec0aeea79a162eabdad9f91a5aa884a2d"
+  "report.json": "2c8226ae5313938adc6eea3a8ab4d6c1d02e3704f21360f8f0f79afcb0662e06",
+  "report.md": "bc5721526a669977fc545839925304fc4669fe4e57f062cf75419b66d0f97235"
  },
  "map": "kingsjaw",
  "spec": "maps/concepts/kingsjaw.yaml"

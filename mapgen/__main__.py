@@ -179,6 +179,9 @@ def cmd_build(args) -> int:
 
 def main(argv: Optional[List[str]] = None) -> int:
     p = argparse.ArgumentParser(prog="mapgen", description="Map spec -> 2D map, analysis and terrain primitives.")
+    from . import __version__
+    p.add_argument("--version", action="version", version="mapgen %s (spec format versions: %s)" % (
+        __version__, ", ".join(str(v) for v in schema.SPEC_FORMAT_VERSIONS)))
     sub = p.add_subparsers(dest="command")
     sub.required = True
 
