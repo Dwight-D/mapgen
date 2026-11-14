@@ -17,6 +17,11 @@ teams:                          # 2 or 3 teams; ids are short strings
   A: { base: [300, 1500], color: "#2f6fdf", name: West }
   B: { base: [2700, 1500], color: "#f2a81d", name: East }
 
+points:
+  ford_site: [1480, 700]     # line_0, crossing_1
+  bridge_site: [1530, 1500]  # line_0, crossing_0
+  pass_site: [1500, 2350]    # line_2, crossing_2
+
 regions:                        # painted in list order; later entries win where they overlap
   - { id: region_0, seed: 0, type: forest,   shape: blob, at: [1150, 1750], r: 260, rough: 0.45 }
   - { id: region_1, seed: 1, type: forest,   shape: blob, at: [1850, 1250], r: 260, rough: 0.45 }
@@ -25,14 +30,14 @@ regions:                        # painted in list order; later entries win where
   - { id: region_4, seed: 4, type: marsh,    shape: blob, at: [1500, 650], r: 300, rough: 0.6 }
 
 lines:
-  - { id: line_0, seed: 0, type: river, path: [[1500, 0], [1480, 700], [1530, 1500], [1500, 2200], [1500, 3000]], width: 35, meander: 40 }
-  - { id: line_1, seed: 1, type: road,  path: [[300, 1500], [900, 1500], [1500, 1500], [2100, 1500], [2700, 1500]], width: 10 }
-  - { id: line_2, seed: 2, type: trail, path: [[300, 1500], [900, 2300], [1500, 2350], [2100, 2300], [2700, 1500]], width: 5 }
+  - { id: line_0, seed: 0, type: river, path: [[1500, 0], ford_site, bridge_site, [1500, 2200], [1500, 3000]], width: 35, meander: 40 }
+  - { id: line_1, seed: 1, type: road,  path: [base_A, [900, 1500], [1500, 1500], [2100, 1500], base_B], width: 10 }
+  - { id: line_2, seed: 2, type: trail, path: [base_A, [900, 2300], pass_site, [2100, 2300], base_B], width: 5 }
 
 crossings:
-  - { id: crossing_0, type: bridge, at: [1530, 1500] }
-  - { id: crossing_1, type: ford,   at: [1480, 700], r: 45 }
-  - { id: crossing_2, type: pass,   at: [1500, 2350], r: 330 }
+  - { id: crossing_0, type: bridge, at: bridge_site }
+  - { id: crossing_1, type: ford,   at: ford_site, r: 45 }
+  - { id: crossing_2, type: pass,   at: pass_site, r: 330 }
 
 pois:
   - { id: bridge_keep, type: keep_site,    at: [1600, 1550], label: Bridge Keep }

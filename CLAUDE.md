@@ -73,6 +73,7 @@ Exported JSON uses `x` (east), `z` (north), `y` (height).
 | `docs/battlehounds-consumer.md` | what Battlehounds reads from the bundle and where that code and its specs live |
 | `docs/backlog.md` | where work items for this repo are tracked and how to file one |
 | `tests/REGRESSION_SPEC.md` | the regression suite: baselines, helper API, test cases, re-baselining |
+| `mapgen/REFERENCES_SPEC.md` | point references and the `points` section: format rules, resolution, migration of the committed maps, tests, docs |
 | `mapgen/DIFF_SPEC.md` | the diff command: report format, algorithms, tests |
 | `HANDOVER_UNITY_IMPORTER.md` | the prompt that started the Battlehounds importer session |
 

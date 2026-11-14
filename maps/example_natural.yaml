@@ -20,6 +20,9 @@ teams:
   A: { base: [380, 1000], name: Valley }
   B: { base: [2620, 2050], name: Highland }
 
+points:
+  river_road_meet: [1250, 1300]  # line_0, line_1
+
 scatter:
   - { id: scatter0, seed: 0, type: forest, coverage: 0.16, scale: 320, clump: 0.6, avoid: 30 }
   - { id: scatter1, seed: 1, type: field,  coverage: 0.10, scale: 240, clump: 0.3, avoid: 20, within: [[0, 0], [1500, 0], [1500, 3000], [0, 3000]] }
@@ -36,9 +39,9 @@ regions:
   - { id: region_10, seed: 8, type: town,     shape: poly, points: [[560, 1130], [840, 1130], [840, 1390], [560, 1390]], rough: 0.25, warp: 30, label: Rivermouth }
 
 lines:
-  - { id: line_0, seed: 0, type: river, path: [[900, 3000], [1100, 2400], [950, 1800], [1250, 1300], [1150, 700], [1400, 0]], width: 34, meander: 70, width_var: 0.7, label: Silverrun }
-  - { id: line_1, seed: 1, type: road,  path: [[380, 1000], [800, 1100], [1250, 1300], [1700, 1450], [2150, 1800], [2620, 2050]], width: 10 }
-  - { id: line_2, seed: 2, type: trail, path: [[2620, 2050], [2300, 2500], [1700, 2350], [1100, 2100], [700, 1500], [380, 1000]], width: 5 }
+  - { id: line_0, seed: 0, type: river, path: [[900, 3000], [1100, 2400], [950, 1800], river_road_meet, [1150, 700], [1400, 0]], width: 34, meander: 70, width_var: 0.7, label: Silverrun }
+  - { id: line_1, seed: 1, type: road,  path: [base_A, [800, 1100], river_road_meet, cap_e, [2150, 1800], base_B], width: 10 }
+  - { id: line_2, seed: 2, type: trail, path: [base_B, [2300, 2500], [1700, 2350], [1100, 2100], [700, 1500], base_A], width: 5 }
 
 crossings:
   - { id: crossing_0, type: bridge, at: [1193, 1271], r: 40 }

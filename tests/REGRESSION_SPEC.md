@@ -147,6 +147,8 @@ An invalid spec makes `build` write nothing: the output root is not created.
 | `tests/test_regress_helpers.py` | fast unit tests of `regress.py` (no map builds) |
 | `tests/test_stability.py` | the stability test, one case per map, plus the baseline/map correspondence check |
 | `tests/test_validation.py` | invalid-spec cases, in-process |
+| `tests/test_identity.py` | feature identity: id rules, id-derived seeds, format version |
+| `tests/test_references.py` | feature references: resolution, equivalence of references and literals |
 | `tests/test_cli_exit_codes.py` | command exit codes, through real subprocesses |
 | `tests/test_diff.py` | diff report logic on synthetic builds; river_crossing integration build |
 | `tests/test_diff_cli.py` | diff command exit codes, through real subprocesses |
@@ -486,7 +488,7 @@ teams:
 | `not_mapping` | `- a`, `- b` (two lines) | 1 | `: expected a mapping, got list` |
 | `empty_file` | empty file | 1 | `: expected a mapping, got NoneType` |
 | `yaml_syntax` | `name: tiny` / `size: [1000, 1000` / `teams: {}` | 1 | *prefix* `<yaml>: while parsing a flow sequence`; the error is a single line labelled with the literal `<yaml>:` (not the spec path), matched by prefix |
-| `unknown_top_key` | BASE + `colour: red` | 1 | `colour: unknown key (allowed: name, brief, size, seed, terrain, teams, regions, lines, crossings, pois, scatter, analysis, output, auto_crossings)` |
+| `unknown_top_key` | BASE + `colour: red` | 1 | `colour: unknown key (allowed: format_version, name, brief, size, seed, terrain, teams, points, regions, lines, crossings, pois, scatter, analysis, output, auto_crossings)` |
 | `missing_teams` | `name: tiny` / `size: [1000, 1000]` | 1 | `teams: missing required key` |
 | `bad_name` | BASE with `name: tiny` → `name: Tiny-Map` | 1 | `name: must match [a-z0-9_]+ (got 'Tiny-Map')` |
 | `size_too_small` | BASE with `size: [1000, 1000]` → `size: [100, 1000]` | 1 | `size: each dimension must be 200..20000 metres (got [100, 1000])` |
@@ -506,7 +508,11 @@ teams:
 | `poi_unknown_team` | BASE + `pois:` / `  - {id: a, type: capture, at: [500, 500], team: C}` | 1 | `pois[0].team: unknown team 'C' (teams: A, B)` |
 | `poi_reserved_base_id` | BASE + `pois:` / `  - {id: base_A, type: capture, at: [500, 500]}` | 1 | `pois[0].id: 'base_A' is reserved for the implicit base of team A` |
 | `heightmap_res_not_pow2` | BASE + `output: {heightmap_res: 1000}` | 1 | `output.heightmap_res: must be 2^n+1, e.g. 513, 1025, 2049 (got 1000)` |
-| `two_errors` | BASE with `seed: 1` → `seed: abc`, + `colour: red` | 2 | `colour: unknown key (allowed: name, brief, size, seed, terrain, teams, regions, lines, crossings, pois, scatter, analysis, output, auto_crossings)` then `seed: expected an integer, got 'abc'` |
+| `ref_in_region_label_at` | BASE + `points:` / `  j: [500, 500]` / `regions:` / `  - {id: r0, type: forest, shape: blob, at: [500, 500], r: 100, label_at: j}` | 1 | `regions[0].label_at: expected a point [x, y] of two numbers, got 'j' (point references are accepted only in region at/points/path, line path and crossing at/path)` |
+| `duplicate_key_points` | BASE + `points:` / `  j: [5, 5]` / `  j: [6, 6]` | 1 | `<yaml>: line 10: duplicate key 'j'` |
+| `duplicate_key_teams` | BASE + `  A: {base: [200, 200]}` | 1 | `<yaml>: line 8: duplicate key 'A'` |
+| `duplicate_key_region` | BASE + a block-style region whose `r` key appears twice | 1 | `<yaml>: line 14: duplicate key 'r'` |
+| `two_errors` | BASE with `seed: 1` → `seed: abc`, + `colour: red` | 2 | `colour: unknown key (allowed: format_version, name, brief, size, seed, terrain, teams, points, regions, lines, crossings, pois, scatter, analysis, output, auto_crossings)` then `seed: expected an integer, got 'abc'` |
 
 Additional tests in the same file:
 

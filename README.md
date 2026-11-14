@@ -84,7 +84,7 @@ the differing files without writing). Details: `tests/REGRESSION_SPEC.md`.
 | `export/splat_0.png`, `splat_1.png` | RGBA weights for the 8 `splat_layers` (channel map in `meta.json`); sum to 255 |
 | `export/masks/*.png` | 8-bit coverage per region/line/crossing type, plus `water.png`, `impassable.png` |
 | `export/pois.json`, `lines.json`, `regions.json`, `crossings.json` | placement data with heights; region polygons carry their holes, lakes and rivers carry `water_surface` heights; `crossings.json` lists every crossing (explicit and automatic, `auto: true`; discs have `r`, bands have `width` and `points`); scatter regions are flagged `"scatter": true` in `regions.json` |
-| `export/spec.resolved.json` | the spec with every default applied, scatter regions and automatic crossings expanded; engine importers read this instead of the YAML |
+| `export/spec.resolved.json` | the spec with every default applied, scatter regions and automatic crossings expanded; engine importers read this instead of the YAML; point references appear as coordinates |
 | `export/meta.json` | sizes, seed, spec hash, mapgen version, `terrain_layers` (`{name, channel, image}` per splat layer), `water_level` (`null`: lakes and rivers have per-feature surfaces) |
 
 ## Natural shapes, scatter, palette
@@ -108,6 +108,8 @@ not sum.
 |---|---|---|
 | `format_version` | top level | required; `1`. mapgen reads the versions `--version` prints |
 | `id` | region, line, scatter, crossing, POI | required; `[a-z][a-z0-9_]*`, unique across the whole spec (bases are `base_<team>`). The feature's identity: noise seeds and exported ids come from it. Renaming an id reshapes the feature unless it has a `seed` |
+| `points: {name: [x, y]}` | top level | named positions shared by several features that are neither POIs nor bases (road junctions, a crossing on a river point). A name is an id: `[a-z][a-z0-9_]*`, unique across the spec |
+| point reference | region `at`/`points`/`path`, line `path`, crossing `at`/`path` | a name in place of `[x, y]`: a POI id, `base_<team>` or a `points` name, e.g. `path: [base_B, [2150, 2300], lea_crossroads]`. It resolves to that position when the spec loads, so moving the POI, base or named point moves every feature that refers to it. An unknown name is a validation error |
 | `seed` | region, line, scatter | optional integer 0-4294967295; fixes the feature's noise independently of its id. The committed maps carry one on every feature |
 | `meander`, `meander_scale` | line | `meander` = sideways wiggle amplitude (m); `meander_scale` = wavelength (m, default 300). Use a coarse path plus these instead of hand-zigzagged control points |
 | `join: <line id>`, `join_end: start\|end` | line | tributary: that end of the line is moved onto the nearest point of the parent's centreline (parents are built first; cycles are errors) |

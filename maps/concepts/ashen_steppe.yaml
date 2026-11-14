@@ -26,6 +26,12 @@ teams:
   A: { base: [760, 640], name: Horse-clans }
   B: { base: [3480, 1900], name: Ashen Legion }
 
+points:
+  north_fork: [3000, 2000]        # imperial_road, north_road
+  west_merge_north: [1000, 2100]  # north_road, steppe_track_w
+  west_merge_south: [700, 1800]   # north_road, steppe_track_w
+  bend_fork: [2000, 450]          # steppe_track_e, bend_track
+
 scatter:
   - { id: scatter0, seed: 0, type: field,  coverage: 0.30, scale: 320, clump: 0.5, avoid: 10 }
   - { id: scatter1, seed: 1, type: forest, coverage: 0.05, scale: 110, clump: 0.0, avoid: 12 }
@@ -35,15 +41,15 @@ regions:
   # Cinder Hill and its ring-fort crest
   - { id: region_3, seed: 0, type: hills,   shape: blob, at: [1900, 1650], r: 430, rough: 0.6, squash: 0.65, angle: 35, warp: 190, warp_scale: 220, height: 65, label: Cinder Hill }
   - { id: region_4, seed: 1, type: hills,   shape: blob, at: [1580, 1900], r: 160, rough: 0.6, squash: 0.6, angle: -20, warp: 70, warp_scale: 120, height: 35 }
-  - { id: region_5, seed: 2, type: plateau, shape: blob, at: [1880, 1660], r: 110, rough: 0.5, squash: 0.8, warp: 40, warp_scale: 80, height: 12 }
+  - { id: region_5, seed: 2, type: plateau, shape: blob, at: hillfort, r: 110, rough: 0.5, squash: 0.8, warp: 40, warp_scale: 80, height: 12 }
   # B's escarpment behind Ferrybridge
   - { id: region_6, seed: 3, type: hills,   shape: band, path: [[2950, 3000], [3300, 2800], [3700, 2600], [3800, 2300]], width: 420, warp: 150, height: 70, fragment: 0.25, fragment_scale: 160 }
   # kurgans dotting the steppe
-  - { id: region_7, seed: 4, type: hills,   shape: blob, at: [1350, 1900], r: 90, rough: 0.5, squash: 0.7, warp: 30, height: 15 }
+  - { id: region_7, seed: 4, type: hills,   shape: blob, at: kurgan, r: 90, rough: 0.5, squash: 0.7, warp: 30, height: 15 }
   - { id: region_8, seed: 5, type: hills,   shape: blob, at: [1350, 350], r: 80, rough: 0.5, squash: 0.7, warp: 30, height: 14 }
   - { id: region_9, seed: 6, type: hills,   shape: blob, at: [3200, 1100], r: 100, rough: 0.5, squash: 0.7, warp: 30, height: 16 }
-  - { id: region_10, seed: 7, type: hills,   shape: blob, at: [2700, 280], r: 90, rough: 0.5, squash: 0.7, warp: 30, height: 14 }
-  - { id: region_11, seed: 8, type: hills,   shape: blob, at: [800, 2500], r: 100, rough: 0.5, squash: 0.7, warp: 30, height: 15 }
+  - { id: region_10, seed: 7, type: hills,   shape: blob, at: bandits, r: 90, rough: 0.5, squash: 0.7, warp: 30, height: 14 }
+  - { id: region_11, seed: 8, type: hills,   shape: blob, at: wolves, r: 100, rough: 0.5, squash: 0.7, warp: 30, height: 15 }
   # Old Ashford, burnt town inside the bend; Ferrybridge
   - { id: region_12, seed: 9, type: ruins,   shape: poly, points: [[1050, 2150], [1300, 2100], [1420, 2250], [1350, 2420], [1120, 2450], [1000, 2300]], rough: 0.35, warp: 50, warp_scale: 120 }
   - { id: region_13, seed: 10, type: town,    shape: poly, points: [[2880, 2020], [3060, 1980], [3170, 2100], [3120, 2240], [2950, 2270], [2860, 2150]], rough: 0.3, warp: 35, warp_scale: 100, label: Ferrybridge }
@@ -51,12 +57,12 @@ regions:
 
 lines:
   - { id: ashwater, seed: 0, type: river, path: [[2450, 3000], [2511, 2855], [2538, 2580], [2698, 2248], [2725, 2092], [2525, 1636], [2459, 1202], [2358, 1049], [2063, 948], [1858, 812], [1600, 846], [1336, 813], [1149, 850], [841, 1010], [446, 965], [170, 1096], [0, 1100]], width: 40, meander: 70, meander_scale: 220, width_var: 0.55, label: Ashwater }
-  - { id: imperial_road, seed: 1, type: road, path: [[3480, 1900], [3200, 2050], [3000, 2000], [2828, 1969], [2650, 1900], [2416, 1816], [2200, 1800], [1880, 1660]], width: 11, label: Imperial Road }
-  - { id: old_road, seed: 2, type: road, path: [[1880, 1660], [1735, 1393], [1700, 1200], [1500, 850], [1100, 750], [910, 659], [760, 640]], width: 9, label: Old Road }
-  - { id: north_road, seed: 3, type: road, path: [[3000, 2000], [2850, 2250], [2700, 2450], [2300, 2600], [1800, 2500], [1400, 2280], [1000, 2100], [700, 1800]], width: 9 }
-  - { id: steppe_track_w, seed: 4, type: trail, path: [[760, 640], [450, 1000], [500, 1400], [700, 1800], [1000, 2100]], width: 5 }
-  - { id: steppe_track_e, seed: 5, type: trail, path: [[760, 640], [1300, 500], [2000, 450], [2600, 650], [3000, 1100], [3200, 1600], [3480, 1900]], width: 5 }
-  - { id: bend_track, seed: 6, type: trail, path: [[2000, 450], [2150, 800], [2100, 1200], [1880, 1660]], width: 4 }
+  - { id: imperial_road, seed: 1, type: road, path: [base_B, [3200, 2050], north_fork, [2828, 1969], [2650, 1900], [2416, 1816], [2200, 1800], hillfort], width: 11, label: Imperial Road }
+  - { id: old_road, seed: 2, type: road, path: [hillfort, [1735, 1393], [1700, 1200], [1500, 850], [1100, 750], [910, 659], base_A], width: 9, label: Old Road }
+  - { id: north_road, seed: 3, type: road, path: [north_fork, [2850, 2250], [2700, 2450], [2300, 2600], [1800, 2500], [1400, 2280], west_merge_north, west_merge_south], width: 9 }
+  - { id: steppe_track_w, seed: 4, type: trail, path: [base_A, [450, 1000], [500, 1400], west_merge_south, west_merge_north], width: 5 }
+  - { id: steppe_track_e, seed: 5, type: trail, path: [base_A, [1300, 500], bend_fork, [2600, 650], [3000, 1100], [3200, 1600], base_B], width: 5 }
+  - { id: bend_track, seed: 6, type: trail, path: [bend_fork, [2150, 800], [2100, 1200], hillfort], width: 4 }
 
 crossings:   # every other road and trail crossing of the Ashwater is an automatic bridge or ford
   - { id: old_ford, type: ford, at: [1395, 833], r: 40 }   # the Old Road fords the river

@@ -162,11 +162,13 @@ authoring keys (`meander_scale`, `join`, band crossings, `ramp`, `edge`, `cleari
 | `seed` | no (0) | integer; drives all noise |
 | `terrain` | no | height synthesis parameters (§4 example shows all keys and defaults; `detail` and `detail_scale` shape §6.2 step 1) |
 | `teams` | yes | 2 or 3 entries: `base` (point, required), `color` (hex, default: the palette `teams` entry at the team's position, §5.1), `name` (default the id) |
+| `points` | no | mapping of name to point: named positions shared by several features (§4.9) |
 | `regions`, `lines`, `crossings`, `pois`, `scatter` | no | lists, defined below |
 | `auto_crossings` | no (`true`) | `true`/`false`: generate bridges and fords where roads and trails cross water (§4.7) |
 | `analysis`, `output` | no | parameters (§4 example shows all keys and defaults) |
 
-A point is `[x, y]` in metres. A path is a list of ≥ 2 points.
+A point is `[x, y]` in metres; in the places listed in §4.9 it may also be a point reference. A path is a list of ≥ 2
+points.
 
 ### 4.2 Regions
 
@@ -323,7 +325,9 @@ versions listed in `mapgen.schema.SPEC_FORMAT_VERSIONS` (`(1,)`); `python -m map
 without the key is invalid and validation continues, so the output lists every other problem too. A spec whose
 `format_version` is present but not an integer this mapgen reads (another integer, a string, a float such as `1.0`, a boolean, null) is invalid and that is the
 only error reported, because a spec of another format version follows other rules. `spec.resolved.json` echoes
-`format_version` as its first key; `meta.json` does not carry it.
+`format_version` as its first key; `meta.json` does not carry it. The format version changes when a spec that is valid
+under the current version would become invalid or build differently; an addition after which every valid spec stays
+valid and builds identically keeps the version.
 
 **Ids.** The `id` is the feature's identity: its noise seeds derive from it, it is the id under which the feature is
 exported, and automatic crossing ids are built from it. List order of `regions` is paint order; it has no effect on any
@@ -339,8 +343,9 @@ feature's shape.
 | team bases | implicit `base_<team id>` | — |
 
 - An id is a string matching `[a-z][a-z0-9_]*` of at most 64 characters. A YAML number is not an id.
-- **One namespace.** The ids of regions, lines, scatter entries, crossings and POIs, the implicit base ids and every
-  automatic crossing id are distinct within a spec, so a reference anywhere in a spec names exactly one thing. The id
+- **One namespace.** The ids of regions, lines, scatter entries, crossings and POIs, the names of `points`
+  entries, the implicit base ids and every automatic crossing id are distinct within a spec, so a reference
+  anywhere in a spec names exactly one thing. The id
   `base_<team id>` is reserved for the base of that team. `join` names a line id.
 - Renaming an id changes the id-derived seed and therefore the feature's shape, unless the feature carries an explicit
   `seed`.
@@ -385,8 +390,41 @@ hyphen cannot occur in a spec id, so an automatic id never equals a spec id.
 [a-z][a-z0-9_]* and be at most 64 characters (got 'Big-Wood')`, `lines[0].id: duplicate id 'wood' (first used at
 regions[0].id)`, `regions[0].id: 'base_a' is reserved for the implicit base of team a`, `regions[3].seed: expected an
 integer in [0, 4294967295], got -1`, `format_version: missing required key (this mapgen reads format versions: 1)`.
-The duplicate check visits bases, `regions`, `lines`, `scatter`, `crossings`, `pois` in that order, items in list
-order; the first holder of an id is the one named.
+The duplicate check visits bases, `points`, `regions`, `lines`, `scatter`, `crossings`, `pois` in that order, items in
+list order; the first holder of an id is the one named.
+
+### 4.9 Point references
+
+A point reference is a name written where a point is expected. It names a POI (`id`), a spawn base
+(`base_<team>`) or an entry of the top-level `points` mapping, and resolves to that position when the spec loads, to
+exactly the coordinates of the target's literal. Moving a POI, a base or a `points` entry moves every feature that
+refers to it.
+
+Accepted in: region `at` (blob), `points` (poly) and `path` (band); line `path`; crossing `at` and `path`. A path may
+mix references and literals. Not accepted in: team `base`, POI `at`, `points` values (the targets are literal; there
+are no chains), `label_at`, scatter `within`.
+
+`points` maps names to literal points, written after `teams`:
+
+```yaml
+points:
+  lea_crossroads: [2366, 1906]
+lines:
+  - {id: b_track, type: road, path: [base_B, [2150, 2300], lea_crossroads]}
+```
+
+A name is an id (§4.8) and shares the one namespace. Use `points` for a position shared by several features that is
+neither a POI nor a base, such as a road junction. An entry nobody references is valid.
+
+A reference is a YAML string; quote it only when YAML would read it as another type (`null`, `true`, `false`).
+`spec.resolved.json` contains the resolved coordinates; `points` is not exported.
+
+Messages: `lines[0].path[1]: unknown reference 'base_c' (a point reference names a POI, a spawn base or a `points`
+entry)`; `lines[0].path[1]: 'wood' is a region id; a point reference names a POI, a spawn base or a `points` entry`
+(also `line`, `scatter entry`, `crossing`); a string in a place without references: `pois[0].at: expected a point
+[x, y] of two numbers, got 'j' (point references are accepted only in region at/points/path, line path and crossing
+at/path)`; `points: expected a mapping of name -> [x, y], got list`; `points.Junction: name must match
+[a-z][a-z0-9_]* and be at most 64 characters (got 'Junction')`.
 
 ## 5. Type table — `mapgen/types.yaml`
 
@@ -694,7 +732,7 @@ Into `out/<name>/export/`:
 | `lines.json` | `[{id, type, width, points: [[x, z, y], ...], water_surface}]` — smoothed, meandered centrelines resampled at 10 m; `y` = terrain height at the centreline; `water_surface` = for rivers, the water-plane height in metres at each point (same length as `points`, non-increasing downstream), else `null` |
 | `regions.json` | `[{id, type, label, height, scatter, water_surface, polygons: [{outer: [[x, z], ...], holes: [[[x, z], ...], ...]}, ...]}]` — final region geometry in paint order, each part an outer ring plus its holes (clearings in fragmented forests, islands in lakes); `scatter` is `true` for regions generated from a `scatter` entry, which carry that entry's `id`; `water_surface` = for lakes, the flat water-plane height in metres, else `null` |
 | `crossings.json` | `[{id, type, auto, r, width, x, z, y, points}]` — every crossing, explicit and automatic (`auto: true`); a disc has `r` and `width: null, points: null`; a band has `width`, `r: null` and `points` = its smoothed centreline `[[x, z, y], ...]` resampled at 10 m; `x, z` = disc centre or band middle, `y` = terrain height there |
-| `spec.resolved.json` | the fully resolved spec: every default applied, scatter regions and automatic crossings expanded (in paint order), team colours, POI footprints (bases included), analysis and output parameters, the type table in use; importers read this instead of YAML |
+| `spec.resolved.json` | the fully resolved spec: every default applied, scatter regions and automatic crossings expanded (in paint order), team colours, POI footprints (bases included), analysis and output parameters, the type table in use; point references appear as their resolved coordinates; importers read this instead of YAML |
 | `meta.json` | `size`, `height_max`, `heightmap_res`, `splat_res`, `splat_layers` with channel assignment (`{"grass": "splat_0.r", ...}`), `terrain_layers` (`[{name, channel, image}]` per splat layer, e.g. `{"name": "grass", "channel": "r", "image": "splat_0.png"}`), `water_level` (`null`: there is no global sea level; lakes and rivers have per-feature surfaces), axis convention text, `seed`, sha256 of the spec file, mapgen version |
 
 **Water surfaces:** the heightmap carves water beds to `bank − water_depth` (§6.2 step 8). The exported water plane
@@ -751,7 +789,11 @@ python -m mapgen palette [--palette palette.yaml]   # L* legibility matrix of th
 Errors (abort): missing required keys; unknown keys (catch typos — report the key path); unknown types; wrong
 shapes (point not 2 numbers, path < 2 points, poly < 3 points); non-positive `r`/`width`; team count not 2 or 3;
 missing or unreadable `format_version`; a region, line, scatter entry or
-crossing without `id`; an id that is not `[a-z][a-z0-9_]*` (≤ 64 characters) or used twice in the spec; `seed` not an
+crossing without `id`; an id that is not `[a-z][a-z0-9_]*` (≤ 64 characters) or used twice in the spec; a point
+reference naming no POI, base or `points` entry, or naming a region, line, scatter entry or crossing; a string in a
+point place that takes no reference; `points` not a mapping, a `points` name that is not an id, a `points` value that
+is not a literal point inside the map; a key repeated within one mapping (reported as
+`<yaml>: line N: duplicate key 'k'`); `seed` not an
 integer in [0, 4294967295]; any point outside the map rectangle by more than 1 m; `heightmap_res` not 2^n+1; `seed` not an int;
 out-of-range natural-shape keys (`warp`, `warp_scale`, `fragment_scale`, `terrain.detail_scale`: ≥ 0 / > 0;
 `fragment`, `width_var`, scatter `coverage` and `clump`: 0–1; scatter `within` < 3 points; `meander_scale` and `edge`:

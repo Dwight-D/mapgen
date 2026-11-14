@@ -33,6 +33,13 @@ teams:
   A: { base: [1000, 2680], name: Bluff }
   B: { base: [3280, 1620], name: Fenfolk }
 
+points:
+  delta_fork: [2100, 2050]           # trunk, arm_w, arm_e
+  bluff_crossroads: [1250, 2400]     # high_road, causeway, stair_path
+  coast_fen_junction: [1350, 520]    # coast_road, fen_s
+  wold_goat_junction: [1990, 2700]   # wold_trail, goat_stair
+  stair_goat_junction: [1600, 2560]  # stair_path, goat_stair
+
 scatter:
   - { id: scatter0, seed: 0, type: forest, coverage: 0.14, scale: 240, clump: 0.5, avoid: 25, within: [[0, 400], [1300, 400], [1650, 1900], [0, 1900]] }
   - { id: scatter1, seed: 1, type: field,  coverage: 0.20, scale: 200, clump: 0.3, avoid: 20, within: [[0, 400], [1250, 400], [1650, 1900], [0, 1900]] }
@@ -55,7 +62,7 @@ regions:
   - { id: region_11, seed: 6, type: marsh,   shape: poly, points: [[1650, 300], [2250, 300], [2350, 650], [2050, 950], [1750, 800]], rough: 0.3, warp: 130, warp_scale: 230, fragment: 0.3, fragment_scale: 130, label: Reedmere }
   - { id: region_12, seed: 7, type: marsh,   shape: blob, at: [3150, 600], r: 330, rough: 0.5, squash: 0.6, angle: -10, warp: 120, fragment: 0.25, label: Sour Fen }
   - { id: region_13, seed: 8, type: forest,  shape: blob, at: [2230, 1780], r: 150, rough: 0.5, squash: 0.6, angle: -50, warp: 60, fragment: 0.35, fragment_scale: 80 }
-  - { id: region_14, seed: 9, type: ruins,   shape: blob, at: [2100, 1450], r: 130, rough: 0.6, squash: 0.6, angle: 30, warp: 70, warp_scale: 80 }
+  - { id: region_14, seed: 9, type: ruins,   shape: blob, at: saltkeep, r: 130, rough: 0.6, squash: 0.6, angle: 30, warp: 70, warp_scale: 80 }
   - { id: region_15, seed: 10, type: forest,  shape: blob, at: [1300, 900], r: 190, rough: 0.5, squash: 0.7, angle: 40, warp: 70, fragment: 0.4, fragment_scale: 90 }
   - { id: region_16, seed: 11, type: lake,    shape: blob, at: [2470, 430], r: 85, rough: 0.6, squash: 0.6, angle: 60, warp: 40, warp_scale: 70 }
   - { id: region_17, seed: 12, type: lake,    shape: blob, at: [1360, 330], r: 60, rough: 0.6, squash: 0.5, angle: 20, warp: 30, warp_scale: 60 }
@@ -64,27 +71,27 @@ regions:
   - { id: region_19, seed: 14, type: lake,    shape: poly, points: [[0, 0], [3600, 0], [3600, 300], [3100, 380], [2700, 220], [2200, 280], [1700, 210], [1200, 330], [700, 200], [250, 350], [0, 240]], rough: 0.3, warp: 160, warp_scale: 300, label: Grey Sea }
 
 lines:
-  - { id: trunk, seed: 0, type: river, path: [[2230, 3000], [2280, 2776], [2148, 2458], [2208, 2176], [2100, 2050]], width: 52, meander: 80, meander_scale: 220, width_var: 0.45, label: Saltmere }
-  - { id: arm_w, seed: 1, type: river, path: [[2100, 2050], [1743, 1692], [1525, 1565], [1400, 1431], [1363, 1164], [1229, 926], [1216, 590], [1155, 445], [989, 267], [1000, 100]], width: 34, meander: 85, meander_scale: 200, width_var: 0.65, join: trunk, join_end: start }
+  - { id: trunk, seed: 0, type: river, path: [[2230, 3000], [2280, 2776], [2148, 2458], [2208, 2176], delta_fork], width: 52, meander: 80, meander_scale: 220, width_var: 0.45, label: Saltmere }
+  - { id: arm_w, seed: 1, type: river, path: [delta_fork, [1743, 1692], [1525, 1565], [1400, 1431], [1363, 1164], [1229, 926], [1216, 590], [1155, 445], [989, 267], [1000, 100]], width: 34, meander: 85, meander_scale: 200, width_var: 0.65, join: trunk, join_end: start }
   - { id: arm_mid, seed: 2, type: river, path: [[1427, 1492], [1533, 1182], [1670, 946], [1728, 428], [1620, 100]], width: 24, meander: 80, meander_scale: 200, width_var: 0.65, join: arm_w, join_end: start }
-  - { id: arm_e, seed: 3, type: river, path: [[2100, 2050], [2126, 1932], [2298, 1758], [2492, 1358], [2526, 1083], [2688, 889], [2698, 411], [2773, 238], [2900, 100]], width: 36, meander: 85, meander_scale: 220, width_var: 0.65, join: trunk, join_end: start }
+  - { id: arm_e, seed: 3, type: river, path: [delta_fork, [2126, 1932], [2298, 1758], [2492, 1358], [2526, 1083], [2688, 889], [2698, 411], [2773, 238], [2900, 100]], width: 36, meander: 85, meander_scale: 220, width_var: 0.65, join: trunk, join_end: start }
   - { id: arm_sub, seed: 4, type: river, path: [[2516, 1206], [2226, 567], [2150, 100]], width: 22, meander: 70, meander_scale: 200, width_var: 0.6, join: arm_e, join_end: start }
   # A: the high road along the bluff to the Old Bridge and on east
-  - { id: high_road, seed: 5, type: road, path: [[1000, 2680], [1150, 2500], [1250, 2400], [1650, 2380], [1950, 2380], [2200, 2350], [2550, 2050], [2900, 1700], [3280, 1620]], width: 13 }
+  - { id: high_road, seed: 5, type: road, path: [base_A, [1150, 2500], bluff_crossroads, [1650, 2380], [1950, 2380], [2200, 2350], [2550, 2050], [2900, 1700], base_B], width: 13 }
   # A: causeway road down the bluff, over the west arm onto the Saltkeep isle
-  - { id: causeway, seed: 6, type: road, path: [[1250, 2400], [1300, 2100], [1500, 1850], [1750, 1700], [1950, 1580], [2100, 1450]], width: 11 }
+  - { id: causeway, seed: 6, type: road, path: [bluff_crossroads, [1300, 2100], [1500, 1850], [1750, 1700], [1950, 1580], saltkeep], width: 11 }
   # A: coast road down the west ramp to the landing
-  - { id: coast_road, seed: 7, type: road, path: [[1000, 2680], [700, 2500], [600, 2100], [750, 1700], [850, 1200], [1000, 850], [1150, 700], [1350, 520]], width: 11 }
+  - { id: coast_road, seed: 7, type: road, path: [base_A, [700, 2500], [600, 2100], [750, 1700], [850, 1200], [1000, 850], [1150, 700], coast_fen_junction], width: 11 }
 
   # B: reed causeways and fords
-  - { id: fen_n, seed: 8, type: trail, path: [[3280, 1620], [3100, 1550], [2900, 1450], [2700, 1450], [2400, 1500], [2100, 1450]], width: 5 }
-  - { id: fen_s, seed: 9, type: trail, path: [[3280, 1620], [3250, 1400], [3050, 1050], [2750, 900], [2450, 750], [2200, 650], [1900, 600], [1650, 700], [1450, 620], [1350, 520]], width: 5 }
-  - { id: wold_trail, seed: 10, type: trail, path: [[3280, 1620], [3250, 1900], [2900, 2050], [2650, 2450], [2400, 2700], [2150, 2760], [1990, 2700]], width: 5 }
-  - { id: stair_path, seed: 11, type: trail, path: [[1600, 2560], [1450, 2470], [1250, 2400]], width: 5 }
-  - { id: goat_stair, seed: 12, type: road, path: [[1990, 2700], [1900, 2780], [1780, 2790], [1680, 2700], [1600, 2560]], width: 10, label: Goat Stair }
+  - { id: fen_n, seed: 8, type: trail, path: [base_B, [3100, 1550], [2900, 1450], [2700, 1450], [2400, 1500], saltkeep], width: 5 }
+  - { id: fen_s, seed: 9, type: trail, path: [base_B, [3250, 1400], [3050, 1050], [2750, 900], [2450, 750], [2200, 650], [1900, 600], [1650, 700], [1450, 620], coast_fen_junction], width: 5 }
+  - { id: wold_trail, seed: 10, type: trail, path: [base_B, [3250, 1900], [2900, 2050], [2650, 2450], [2400, 2700], [2150, 2760], wold_goat_junction], width: 5 }
+  - { id: stair_path, seed: 11, type: trail, path: [stair_goat_junction, [1450, 2470], bluff_crossroads], width: 5 }
+  - { id: goat_stair, seed: 12, type: road, path: [wold_goat_junction, [1900, 2780], [1780, 2790], [1680, 2700], stair_goat_junction], width: 10, label: Goat Stair }
 
-  - { id: reed_path, seed: 13, type: trail, path: [[2100, 1450], [1700, 1250], [1500, 1050], [1450, 900], [1300, 1150], [1050, 1350], [800, 1450]], width: 4 }
-  - { id: isle_track, seed: 14, type: trail, path: [[2100, 1450], [2050, 1200], [1900, 950], [2020, 750], [2000, 560]], width: 4 }
+  - { id: reed_path, seed: 13, type: trail, path: [saltkeep, [1700, 1250], [1500, 1050], [1450, 900], [1300, 1150], [1050, 1350], [800, 1450]], width: 4 }
+  - { id: isle_track, seed: 14, type: trail, path: [saltkeep, [2050, 1200], heron_mound, [2020, 750], shrine], width: 4 }
 
 crossings:   # every bridge and ford is automatic; the Goat Stair climbs the bluff rim on a ramp
   - { id: goat_ramp, type: ramp, path: [[1800, 2780], [1700, 2720], [1640, 2620]], width: 36 }

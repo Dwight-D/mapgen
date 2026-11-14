@@ -201,7 +201,9 @@ version), `name`, `brief`, `size`,
 costs, line-of-sight, splat layer, default widths/footprints per type). Coordinates here use spec
 naming (`[x, y]` ground plane = export `[x, z]`). Geometry in this file is the authored input
 (control points, radii), not the final shapes — use `regions.json` / `lines.json` /
-`crossings.json` for final geometry. Every `regions` and `lines` entry carries its feature `seed`.
+`crossings.json` for final geometry. Point references in the spec (MAPGEN_SPEC.md §4.9) appear here as their
+resolved [x, y] coordinates; the spec's `points` section is not part of this file. Every `regions` and
+`lines` entry carries its feature `seed`.
 
 ## 4. What the bundle does not contain
 

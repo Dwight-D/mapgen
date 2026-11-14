@@ -37,12 +37,12 @@ regions:
   - { id: region_14, seed: 14, type: town,   shape: poly, points: [[2287, 915], [2477, 915], [2477, 1065], [2287, 1065]], label: Eastwatch }
 
 lines:
-  - { id: line_0, seed: 0, type: road,  path: [[1500, 2650], [1500, 2120], [1500, 1500]], width: 10 }
-  - { id: line_1, seed: 1, type: road,  path: [[504, 925], [963, 1190], [1500, 1500]],    width: 10 }
-  - { id: line_2, seed: 2, type: road,  path: [[2496, 925], [2037, 1190], [1500, 1500]],  width: 10 }
-  - { id: line_3, seed: 3, type: trail, path: [[1500, 2650], [2300, 2450], [2650, 1750], [2496, 925]], width: 5 }
-  - { id: line_4, seed: 4, type: trail, path: [[504, 925], [277, 1718], [708, 2371], [1500, 2650]],    width: 5 }
-  - { id: line_5, seed: 5, type: trail, path: [[2496, 925], [1923, 332], [1142, 379], [504, 925]],     width: 5 }
+  - { id: line_0, seed: 0, type: road,  path: [base_A, fwd_north, island_keep], width: 10 }
+  - { id: line_1, seed: 1, type: road,  path: [base_B, fwd_sw, island_keep],    width: 10 }
+  - { id: line_2, seed: 2, type: road,  path: [base_C, fwd_se, island_keep],  width: 10 }
+  - { id: line_3, seed: 3, type: trail, path: [base_A, [2300, 2450], [2650, 1750], base_C], width: 5 }
+  - { id: line_4, seed: 4, type: trail, path: [base_B, [277, 1718], [708, 2371], base_A],    width: 5 }
+  - { id: line_5, seed: 5, type: trail, path: [base_C, [1923, 332], [1142, 379], base_B],     width: 5 }
 
 pois:
   - { id: island_keep, type: keep_site, at: [1500, 1500], label: Island Keep }

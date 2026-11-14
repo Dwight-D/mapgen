@@ -30,6 +30,11 @@ teams:
   A: { base: [600, 1920], name: Crown }
   B: { base: [2800, 1080], name: Hollowmark }
 
+points:
+  gate_site: [1450, 680]       # region_11, kings_road, gate
+  farm_lane_west: [740, 1431]  # kings_road, farm_lane
+  farm_lane_east: [1200, 900]  # kings_road, farm_lane
+
 scatter:
   # west: open farmland with a few copses
   - { id: scatter0, seed: 0, type: field,  coverage: 0.45, scale: 230, clump: 0.25, avoid: 12, within: [[0, 0], [1150, 0], [1550, 900], [1800, 1500], [2050, 2400], [2200, 3000], [0, 3000]] }
@@ -50,25 +55,25 @@ regions:
   - { id: region_9, seed: 6, type: clearing, shape: blob, at: [790, 1900], r: 100, rough: 0.7, squash: 0.6, angle: -20, warp: 50, warp_scale: 60 }
   - { id: region_10, seed: 7, type: forest,   shape: blob, at: [2300, 1700], r: 150, rough: 0.6, squash: 0.6, angle: 30, warp: 70, fragment: 0.4, fragment_scale: 60 }
   # the Kingsjaw: a southern spur, the Gate gap, then one long ridge that the Needle and Eyrie passes cut through
-  - { id: region_11, seed: 8, type: hills,    shape: blob, at: [1450, 680], r: 260, rough: 0.5, squash: 0.7, angle: 60, warp: 90, height: 30 }
-  - { id: region_12, seed: 9, type: hills,    shape: blob, at: [2050, 2450], r: 220, rough: 0.5, squash: 0.6, angle: 70, warp: 70, height: 80 }
+  - { id: region_11, seed: 8, type: hills,    shape: blob, at: gate_site, r: 260, rough: 0.5, squash: 0.7, angle: 60, warp: 90, height: 30 }
+  - { id: region_12, seed: 9, type: hills,    shape: blob, at: eyrie, r: 220, rough: 0.5, squash: 0.6, angle: 70, warp: 70, height: 80 }
   - { id: region_13, seed: 10, type: mountain, shape: band, path: [[1000, 0], [1170, 170], [1220, 300], [1300, 420]], width: 360, height: 230, warp: 90, warp_scale: 300 }
-  - { id: region_14, seed: 11, type: mountain, shape: band, path: [[1570, 920], [1700, 1100], [1690, 1250], [1730, 1380], [1800, 1550], [1880, 1790], [1990, 1930], [1950, 2100], [1990, 2240], [2050, 2450], [2110, 2660], [2270, 2800], [2280, 3000]], width: 380, height: 270, warp: 100, warp_scale: 320, label: Kingsjaw }
+  - { id: region_14, seed: 11, type: mountain, shape: band, path: [[1570, 920], [1700, 1100], [1690, 1250], [1730, 1380], needle_cap, [1880, 1790], [1990, 1930], [1950, 2100], [1990, 2240], eyrie, [2110, 2660], [2270, 2800], [2280, 3000]], width: 380, height: 270, warp: 100, warp_scale: 320, label: Kingsjaw }
   # the Crown's market town
   - { id: region_15, seed: 12, type: town,     shape: poly, points: [[620, 1520], [780, 1470], [900, 1550], [880, 1690], [760, 1730], [640, 1650]], rough: 0.3, warp: 35, warp_scale: 110, label: Kingsford }
-  - { id: region_16, seed: 13, type: ruins,    shape: blob, at: [3150, 2600], r: 90, rough: 0.6, squash: 0.7, warp: 40, warp_scale: 70 }
+  - { id: region_16, seed: 13, type: ruins,    shape: blob, at: hermit, r: 90, rough: 0.6, squash: 0.7, warp: 40, warp_scale: 70 }
 
 lines:
   - { id: kingsbrook, seed: 0, type: river, path: [[1800, 2650], [1628, 2506], [1255, 2465], [903, 2312], [672, 2300], [350, 2375], [0, 2250]], width: 22, meander: 70, meander_scale: 220, width_var: 0.6, label: Kingsbrook }
-  - { id: kings_road, seed: 1, type: road, path: [[600, 1920], [601, 1816], [650, 1600], [740, 1431], [900, 1250], [1106, 1091], [1200, 900], [1450, 680], [1750, 720], [2100, 800], [2283, 788], [2500, 880], [2673, 975], [2800, 1080]], width: 11, label: King's Road }
-  - { id: needle_trail, seed: 2, type: trail, path: [[600, 1920], [704, 1851], [900, 1800], [1114, 1748], [1300, 1650], [1508, 1559], [1800, 1550], [2010, 1440], [2200, 1400], [2412, 1321], [2600, 1200], [2800, 1080]], width: 4 }
-  - { id: eyrie_trail, seed: 3, type: trail, path: [[600, 1920], [691, 2087], [900, 2150], [1200, 2350], [1412, 2364], [1600, 2430], [1854, 2485], [2050, 2450], [2350, 2250], [2500, 1950], [2535, 1728], [2600, 1550], [2806, 1281], [2800, 1080]], width: 4 }
-  - { id: farm_lane, seed: 4, type: trail, path: [[740, 1431], [450, 1100], [600, 600], [1000, 550], [1200, 900]], width: 5 }
+  - { id: kings_road, seed: 1, type: road, path: [base_A, [601, 1816], [650, 1600], farm_lane_west, [900, 1250], [1106, 1091], farm_lane_east, gate_site, [1750, 720], [2100, 800], [2283, 788], [2500, 880], [2673, 975], base_B], width: 11, label: King's Road }
+  - { id: needle_trail, seed: 2, type: trail, path: [base_A, [704, 1851], [900, 1800], [1114, 1748], [1300, 1650], [1508, 1559], needle_cap, [2010, 1440], [2200, 1400], [2412, 1321], [2600, 1200], base_B], width: 4 }
+  - { id: eyrie_trail, seed: 3, type: trail, path: [base_A, [691, 2087], [900, 2150], [1200, 2350], [1412, 2364], [1600, 2430], [1854, 2485], eyrie, [2350, 2250], [2500, 1950], [2535, 1728], [2600, 1550], [2806, 1281], base_B], width: 4 }
+  - { id: farm_lane, seed: 4, type: trail, path: [farm_lane_west, [450, 1100], [600, 600], [1000, 550], farm_lane_east], width: 5 }
 
 crossings:   # the Gate is a disc over the gap in the ridge; band passes cut the Needle and the Eyrie through it
-  - { id: gate,   type: pass, at: [1450, 680], r: 240 }
-  - { id: needle, type: pass, path: [[1580, 1555], [1800, 1550], [2020, 1435]], width: 100 }
-  - { id: eyrie_pass, type: pass, path: [[1830, 2485], [2050, 2450], [2290, 2300]], width: 160 }
+  - { id: gate,   type: pass, at: gate_site, r: 240 }
+  - { id: needle, type: pass, path: [[1580, 1555], needle_cap, [2020, 1435]], width: 100 }
+  - { id: eyrie_pass, type: pass, path: [[1830, 2485], eyrie, [2290, 2300]], width: 160 }
 
 pois:
   - { id: gate_keep,  type: keep_site,    at: [1430, 670],  label: Gate Keep }

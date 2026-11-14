@@ -61,7 +61,6 @@ item title is `Mapgen: ` followed by the package title with a lower-case first l
 
 | gap | detail |
 |---|---|
-| Coordinates are repeated by hand | Features that meet repeat the same literal point (`thornwald` states B's base position on three lines). A missed copy leaves a valid spec with a different result. |
 | Scatter thresholds at a map-wide quantile | Any placement edit shifts forest edges across the whole map (0.04–1.1 % of forest texels). |
 
 ### Balance tooling
@@ -154,19 +153,23 @@ these files are shown with `mapgen diff`, approved by the owner and re-baselined
 
 ### 4. Feature references in the spec
 
-- A point in a line `path`, a region `at` or a region outline may be the id of a POI or of a spawn base,
-  or the name of an entry in `points`. It resolves to that position at load time.
+- A point in a line `path`, a band or region `path`, a region `at`, a region `points` outline or an explicit
+  crossing `at` or `path` may be the id of a POI or of a spawn base, or the name of an entry in `points`. It
+  resolves to that position at load time.
 - `points` is a spec section of named coordinates for shared points that are neither POIs nor spawn
   bases, such as road junctions. Features reference a point by its name.
 - A reference to an unknown id or name is a validation error.
 - Moving a POI, a spawn base or a named point moves everything that refers to it.
 
+Implementation spec: `mapgen/REFERENCES_SPEC.md`.
+
 **Migration.** In the existing specs, literal points that coincide with a POI or spawn base position
 become references to it (`thornwald`: B's base position on `teams.B.base`, `b_track` and `abbey_path`).
 A literal point shared by several features becomes a `points` entry referenced by each of them
 (`thornwald`: the junction `[2366, 1906]` on four lines). Acceptance: the heightmap, every raster and
-the analysis outputs are byte-identical to their baselines; `meta.json` and `spec.resolved.json` echo
-the spec and are re-baselined via an owner-approved diff.
+the analysis outputs are byte-identical to their baselines, and so is `spec.resolved.json`, which holds
+resolved coordinates only. The only changed value per map is `/spec_sha256` in `export/meta.json`; it is
+shown with `mapgen diff`, approved by the owner and re-baselined.
 
 ### 5. Local forest scatter
 

@@ -334,6 +334,7 @@ class MapSpec:
     auto_crossings: bool = True
     auto_applied: bool = False     # set by geometry.build_geometries once auto crossings are in `crossings`
     warnings: List[str] = field(default_factory=list)   # spec/geometry warnings, merged into the report
+    points: Dict[str, Point] = field(default_factory=dict)  # named coordinates of the `points` section, spec order
 
     def all_pois(self) -> List[Poi]:
         """Team bases (id `base_<team>`, type `base`) followed by the explicit POIs."""
@@ -347,9 +348,15 @@ class MapSpec:
 # ----------------------------------------------------------------------------- validation helpers
 
 
+REF_TARGETS = "a point reference names a POI, a spawn base or a `points` entry"
+REF_PLACES = "point references are accepted only in region at/points/path, line path and crossing at/path"
+
+
 class _V:
     def __init__(self) -> None:
         self.errors: List[str] = []
+        self.refs: Dict[str, Optional[Point]] = {}  # reference name -> position (None: target's own position is invalid)
+        self.ref_kinds: Dict[str, str] = {}         # id of a feature without a position -> its kind
 
     def err(self, path: str, msg: str) -> None:
         self.errors.append("%s: %s" % (path, msg))
@@ -408,7 +415,23 @@ class _V:
             return None
         return str(v)
 
-    def point(self, v: Any, path: str, size: Tuple[float, float]) -> Optional[Point]:
+    def resolve(self, name: str, path: str) -> Optional[Point]:
+        """Position of the POI, spawn base or `points` entry `name`; None (and an error) if there is none."""
+        if name in self.refs:
+            return self.refs[name]
+        kind = self.ref_kinds.get(name)
+        if kind is not None:
+            self.err(path, "'%s' is a %s id; %s" % (name, kind, REF_TARGETS))
+        else:
+            self.err(path, "unknown reference '%s' (%s)" % (name, REF_TARGETS))
+        return None
+
+    def point(self, v: Any, path: str, size: Tuple[float, float], ref: bool = False) -> Optional[Point]:
+        if ref and isinstance(v, str):
+            return self.resolve(v, path)
+        if isinstance(v, str):
+            self.err(path, "expected a point [x, y] of two numbers, got %r (%s)" % (v, REF_PLACES))
+            return None
         if not isinstance(v, (list, tuple)) or len(v) != 2 or not all(self.is_num(c) for c in v):
             self.err(path, "expected a point [x, y] of two numbers, got %r" % (v,))
             return None
@@ -418,7 +441,8 @@ class _V:
             return None
         return (x, y)
 
-    def points(self, v: Any, path: str, size: Tuple[float, float], minimum: int, what: str) -> Optional[List[Point]]:
+    def points(self, v: Any, path: str, size: Tuple[float, float], minimum: int, what: str,
+               ref: bool = False) -> Optional[List[Point]]:
         if not isinstance(v, (list, tuple)):
             self.err(path, "expected a list of points, got %r" % (v,))
             return None
@@ -427,7 +451,7 @@ class _V:
         out: List[Point] = []
         ok = True
         for i, item in enumerate(v):
-            pt = self.point(item, "%s[%d]" % (path, i), size)
+            pt = self.point(item, "%s[%d]" % (path, i), size, ref)
             if pt is None:
                 ok = False
             else:
@@ -449,12 +473,16 @@ _NAME = re.compile(r"^[a-z0-9_]+$")
 _ID = re.compile(r"^[a-z][a-z0-9_]*$")
 
 
+def _valid_id(x: Any) -> bool:
+    return isinstance(x, str) and bool(_ID.fullmatch(x)) and len(x) <= ID_MAX_LEN
+
+
 def _ident(v: "_V", d: Dict[str, Any], path: str) -> Optional[str]:
     """The item's id, or None (missing: reported by keys(); invalid: reported here)."""
     if "id" not in d:
         return None
     x = d["id"]
-    if not isinstance(x, str) or not _ID.fullmatch(x) or len(x) > ID_MAX_LEN:
+    if not _valid_id(x):
         v.err(path + ".id", "must match [a-z][a-z0-9_]* and be at most %d characters (got %r)" % (ID_MAX_LEN, x))
         return None
     return x
@@ -522,6 +550,39 @@ def _check_joins(lines: List[Line], v: "_V") -> None:
             cur = parent[cur]
 
 
+_NO_POSITION = (("regions", "region"), ("lines", "line"), ("scatter", "scatter entry"), ("crossings", "crossing"))
+
+
+def _reference_table(raw: Dict[str, Any], size: Tuple[float, float]) -> Tuple[Dict[str, Optional[Point]], Dict[str, str]]:
+    """Point-reference targets read from the raw spec: spawn bases, `points` entries and POIs, each mapped to its
+    position (None when that position is itself invalid; its own error is reported where it is parsed), plus the
+    ids of features that have no position, mapped to their kind. Targets are literal positions only: no chains."""
+    quiet = _V()
+    refs: Dict[str, Optional[Point]] = {}
+    traw = raw.get("teams")
+    if isinstance(traw, dict):
+        for tid, tv in traw.items():
+            refs.setdefault("base_" + str(tid), quiet.point(tv.get("base"), "", size) if isinstance(tv, dict) else None)
+    praw = raw.get("points")
+    if isinstance(praw, dict):
+        for name, pv in praw.items():
+            if _valid_id(name):
+                refs.setdefault(name, quiet.point(pv, "", size))
+    poraw = raw.get("pois")
+    if isinstance(poraw, list):
+        for it in poraw:
+            if isinstance(it, dict) and _valid_id(it.get("id")):
+                refs.setdefault(it["id"], quiet.point(it.get("at"), "", size))
+    kinds: Dict[str, str] = {}
+    for sect, kind in _NO_POSITION:
+        items = raw.get(sect)
+        if isinstance(items, list):
+            for it in items:
+                if isinstance(it, dict) and _valid_id(it.get("id")) and it["id"] not in refs:
+                    kinds.setdefault(it["id"], kind)
+    return refs, kinds
+
+
 def _validate(raw: Any, types: TypeTable, palette: Palette) -> Tuple[Optional[MapSpec], List[str]]:
     v = _V()
     if isinstance(raw, dict):
@@ -533,8 +594,8 @@ def _validate(raw: Any, types: TypeTable, palette: Palette) -> Tuple[Optional[Ma
             v.err("format_version", "unsupported value %r (this mapgen reads format versions: %s)"
                   % (raw["format_version"], versions))
             return None, v.errors
-    top = ["format_version", "name", "brief", "size", "seed", "terrain", "teams", "regions", "lines", "crossings", "pois",
-           "scatter", "analysis", "output", "auto_crossings"]
+    top = ["format_version", "name", "brief", "size", "seed", "terrain", "teams", "points", "regions", "lines", "crossings",
+           "pois", "scatter", "analysis", "output", "auto_crossings"]
     if not v.keys(raw, "", top, ["name", "size", "teams"]):
         return None, v.errors
 
@@ -608,6 +669,23 @@ def _validate(raw: Any, types: TypeTable, palette: Palette) -> Tuple[Optional[Ma
                 if base is not None:
                     teams[tid] = Team(id=tid, base=base, color=color, name=tname)
 
+    # points: named coordinates, the targets of point references besides POIs and spawn bases
+    named: Dict[str, Point] = {}
+    ptraw = raw.get("points")
+    if ptraw is not None:
+        if not isinstance(ptraw, dict):
+            v.err("points", "expected a mapping of name -> [x, y], got %s" % type(ptraw).__name__)
+        else:
+            for pname, pv in ptraw.items():
+                pp = "points.%s" % pname
+                if not _valid_id(pname):
+                    v.err(pp, "name must match [a-z][a-z0-9_]* and be at most %d characters (got %r)" % (ID_MAX_LEN, pname))
+                    continue
+                pt = v.point(pv, pp, size)
+                if pt is not None:
+                    named[pname] = pt
+    v.refs, v.ref_kinds = _reference_table(raw, size)
+
     # regions
     regions: List[Region] = []
     rraw = raw.get("regions")
@@ -652,16 +730,16 @@ def _validate(raw: Any, types: TypeTable, palette: Palette) -> Tuple[Optional[Ma
             elif rtype is not None:
                 reg.height = types.regions[rtype].get("height")
             if shape == "blob":
-                reg.at = v.point(r["at"], p + ".at", size) if "at" in r else None
+                reg.at = v.point(r["at"], p + ".at", size, ref=True) if "at" in r else None
                 reg.r = v.num(r, "r", p, 0.0, positive=True)
                 reg.rough = v.num(r, "rough", p, 0.3, lo=0.0, hi=1.0)
                 reg.squash = v.num(r, "squash", p, 1.0, positive=True)
                 reg.angle = v.num(r, "angle", p, 0.0)
             elif shape == "poly":
-                reg.points = v.points(r["points"], p + ".points", size, 3, "polygon") if "points" in r else None
+                reg.points = v.points(r["points"], p + ".points", size, 3, "polygon", ref=True) if "points" in r else None
                 reg.rough = v.num(r, "rough", p, 0.0, lo=0.0, hi=1.0)
             else:
-                reg.path = v.points(r["path"], p + ".path", size, 2, "path") if "path" in r else None
+                reg.path = v.points(r["path"], p + ".path", size, 2, "path", ref=True) if "path" in r else None
                 reg.width = v.num(r, "width", p, 0.0, positive=True)
                 reg.rough = v.num(r, "rough", p, 0.35 if rtype == "mountain" else 0.2, lo=0.0, hi=1.0)
             regions.append(reg)
@@ -680,7 +758,7 @@ def _validate(raw: Any, types: TypeTable, palette: Palette) -> Tuple[Optional[Ma
                 continue
             lid = _ident(v, ln, p)
             ltype = v.type_name(ln, p, types.lines, "line")
-            path = v.points(ln["path"], p + ".path", size, 2, "path") if "path" in ln else None
+            path = v.points(ln["path"], p + ".path", size, 2, "path", ref=True) if "path" in ln else None
             default_w = float(types.lines[ltype]["width"]) if ltype else 10.0
             width = v.num(ln, "width", p, default_w, positive=True)
             meander = v.num(ln, "meander", p, 0.0, nonneg=True)
@@ -721,7 +799,7 @@ def _validate(raw: Any, types: TypeTable, palette: Palette) -> Tuple[Optional[Ma
                         v.err("%s.%s" % (p, bad), "a band crossing (path + width) takes no `%s`" % bad)
                 if "width" not in c:
                     v.err(p + ".width", "missing required key (band crossing with `path`)")
-                cpath = v.points(c["path"], p + ".path", size, 2, "path")
+                cpath = v.points(c["path"], p + ".path", size, 2, "path", ref=True)
                 cwidth = v.num(c, "width", p, 2.0 * default_r, positive=True)
                 if ctype is not None and cpath is not None:
                     crossings.append(Crossing(index=i, type=ctype, at=_path_middle(cpath), r=cwidth / 2.0,
@@ -731,7 +809,7 @@ def _validate(raw: Any, types: TypeTable, palette: Palette) -> Tuple[Optional[Ma
                 v.err(p + ".width", "`width` needs `path` (a disc crossing takes `at` and `r`)")
             if "at" not in c:
                 v.err(p + ".at", "missing required key (give `at` for a disc or `path` + `width` for a band)")
-            at = v.point(c["at"], p + ".at", size) if "at" in c else None
+            at = v.point(c["at"], p + ".at", size, ref=True) if "at" in c else None
             r = v.num(c, "r", p, default_r, positive=True)
             if ctype is not None and at is not None:
                 crossings.append(Crossing(index=i, type=ctype, at=at, r=r, id=cid))
@@ -797,25 +875,25 @@ def _validate(raw: Any, types: TypeTable, palette: Palette) -> Tuple[Optional[Ma
                                        avoid=v.num(sc, "avoid", p, 25.0, nonneg=True), within=within, on=on,
                                        id=sid or "", seed=_feature_seed_of(v, sc, p, sid)))
 
-    # one id namespace over bases, regions, lines, scatter entries, crossings and POIs
+    # one id namespace over bases, points, regions, lines, scatter entries, crossings and POIs
     first: Dict[str, str] = {}
     for tid in teams:
         first["base_" + tid] = "teams.%s" % tid
+    holders: List[Tuple[str, Any]] = [("points.%s" % k, k) for k in (ptraw if isinstance(ptraw, dict) else {})]
     for sect in ("regions", "lines", "scatter", "crossings", "pois"):
         items = raw.get(sect)
-        if not isinstance(items, list):
+        if isinstance(items, list):
+            holders += [("%s[%d].id" % (sect, i), it.get("id") if isinstance(it, dict) else None)
+                        for i, it in enumerate(items)]
+    for p, fid in holders:
+        if not _valid_id(fid):
             continue
-        for i, it in enumerate(items):
-            fid = it.get("id") if isinstance(it, dict) else None
-            if not isinstance(fid, str) or not _ID.fullmatch(fid) or len(fid) > ID_MAX_LEN:
-                continue
-            p = "%s[%d].id" % (sect, i)
-            if fid not in first:
-                first[fid] = p
-            elif first[fid].startswith("teams."):
-                v.err(p, "'%s' is reserved for the implicit base of team %s" % (fid, fid[5:]))
-            else:
-                v.err(p, "duplicate id '%s' (first used at %s)" % (fid, first[fid]))
+        if fid not in first:
+            first[fid] = p
+        elif first[fid].startswith("teams."):
+            v.err(p, "'%s' is reserved for the implicit base of team %s" % (fid, fid[5:]))
+        else:
+            v.err(p, "duplicate id '%s' (first used at %s)" % (fid, first[fid]))
 
     # analysis / output
     analysis = Analysis()
@@ -846,12 +924,33 @@ def _validate(raw: Any, types: TypeTable, palette: Palette) -> Tuple[Optional[Ma
     spec = MapSpec(name=name, brief=brief, size=size, seed=seed, terrain=terrain, teams=teams, regions=regions,
                    lines=lines, crossings=crossings, pois=pois, analysis=analysis, output=output, types=types,
                    palette=palette, scatter=scatter, auto_crossings=auto_crossings,
-                   format_version=raw["format_version"])
+                   format_version=raw["format_version"], points=named)
     return spec, []
 
 
 class _SpecLoader(yaml.SafeLoader):
-    """YAML where only true/false are booleans, so a key named `on` (scatter) stays the string "on"."""
+    """YAML where only true/false are booleans, so a key named `on` (scatter) stays the string "on",
+    and a key repeated within one mapping is an error."""
+
+    def construct_mapping(self, node, deep=False):
+        if isinstance(node, yaml.MappingNode):
+            seen = set()
+            for key_node, _ in node.value:
+                if key_node.tag == "tag:yaml.org,2002:merge":
+                    continue
+                try:
+                    key = self.construct_object(key_node, deep=True)
+                    hash(key)
+                except Exception:
+                    continue
+                if key in seen:
+                    raise _DuplicateKey("line %d: duplicate key %r" % (key_node.start_mark.line + 1, key))
+                seen.add(key)
+        return super().construct_mapping(node, deep=deep)
+
+
+class _DuplicateKey(yaml.YAMLError):
+    """A mapping key repeated within one mapping of the spec."""
 
 
 _SpecLoader.yaml_implicit_resolvers = {

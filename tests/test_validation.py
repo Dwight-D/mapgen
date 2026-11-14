@@ -14,13 +14,16 @@ teams:
   B: {base: [900, 900]}
 """
 
-ALLOWED = ("format_version, name, brief, size, seed, terrain, teams, regions, lines, crossings, pois, scatter, "
-           "analysis, output, auto_crossings")
+ALLOWED = ("format_version, name, brief, size, seed, terrain, teams, points, regions, lines, crossings, pois, "
+           "scatter, analysis, output, auto_crossings")
 UNKNOWN_COLOUR = "colour: unknown key (allowed: %s)" % ALLOWED
 IDMSG = "%s.id: must match [a-z][a-z0-9_]* and be at most 64 characters (got %s)"
 VERMSG = "format_version: unsupported value %s (this mapgen reads format versions: 1)"
 SEEDMSG = "regions[0].seed: expected an integer in [0, 4294967295], got %s"
 SEED_ERR = "seed: expected an integer, got 'abc'"
+T = "a point reference names a POI, a spawn base or a `points` entry"
+PL = "point references are accepted only in region at/points/path, line path and crossing at/path"
+STR_PT = "%s: expected a point [x, y] of two numbers, got %r (" + PL + ")"
 
 
 REGION_SEED = "regions:\n  - {id: r0, seed: %s, type: forest, shape: blob, at: [500, 500], r: 100}\n"
@@ -153,6 +156,70 @@ CASES = [
           ["crossings[0].seed: unknown key (allowed: type, at, r, path, width, id)"]),
     _case("heightmap_res_not_pow2", BASE + "output: {heightmap_res: 1000}\n",
           ["output.heightmap_res: must be 2^n+1, e.g. 513, 1025, 2049 (got 1000)"]),
+    _case("ref_unknown", BASE + _lines("lines:", "  - {id: road, type: road, path: [base_A, base_c]}"),
+          ["lines[0].path[1]: unknown reference 'base_c' (%s)" % T]),
+    _case("ref_region_id",
+          BASE + _lines("regions:", "  - {id: wood, type: forest, shape: blob, at: [500, 500], r: 100}",
+                        "lines:", "  - {id: road, type: road, path: [base_A, wood]}"),
+          ["lines[0].path[1]: 'wood' is a region id; %s" % T]),
+    _case("ref_line_id", BASE + _lines("lines:", "  - {id: road, type: road, path: [base_A, road]}"),
+          ["lines[0].path[1]: 'road' is a line id; %s" % T]),
+    _case("ref_scatter_id",
+          BASE + _lines("scatter:", "  - {id: s0, type: forest, coverage: 0.2}",
+                        "lines:", "  - {id: road, type: road, path: [base_A, s0]}"),
+          ["lines[0].path[1]: 's0' is a scatter entry id; %s" % T]),
+    _case("ref_crossing_id",
+          BASE + _lines("crossings:", "  - {id: ford1, type: ford, at: [500, 500]}",
+                        "lines:", "  - {id: road, type: road, path: [base_A, ford1]}"),
+          ["lines[0].path[1]: 'ford1' is a crossing id; %s" % T]),
+    _case("ref_in_poi_at",
+          BASE + _lines("points:", "  j: [500, 500]", "pois:", "  - {id: c, type: capture, at: j}"),
+          [STR_PT % ("pois[0].at", "j")]),
+    _case("ref_in_base", BASE.replace("{base: [900, 900]}", "{base: j}") + _lines("points:", "  j: [500, 500]"),
+          [STR_PT % ("teams.B.base", "j")]),
+    _case("ref_in_label_at",
+          BASE + _lines("points:", "  j: [500, 500]", "lines:",
+                        "  - {id: road, type: road, path: [base_A, j], label_at: j}"),
+          [STR_PT % ("lines[0].label_at", "j")]),
+    _case("ref_in_within",
+          BASE + _lines("points:", "  j: [500, 500]", "scatter:",
+                        "  - {id: s0, type: forest, coverage: 0.2, within: [j, [0, 0], [0, 900]]}"),
+          [STR_PT % ("scatter[0].within[0]", "j")]),
+    _case("points_chain", BASE + _lines("points:", "  j: base_A"), [STR_PT % ("points.j", "base_A")]),
+    _case("points_not_mapping", BASE + "points: [[1, 2]]\n",
+          ["points: expected a mapping of name -> [x, y], got list"]),
+    _case("points_bad_name", BASE + _lines("points:", "  Junction: [500, 500]"),
+          ["points.Junction: name must match [a-z][a-z0-9_]* and be at most 64 characters (got 'Junction')"]),
+    _case("points_outside_map", BASE + _lines("points:", "  j: [1500, 500]"),
+          ["points.j: point [1500, 500] is outside the map [0..1000.0, 0..1000.0]"]),
+    _case("points_duplicate_poi",
+          BASE + _lines("points:", "  j: [500, 500]", "pois:", "  - {id: j, type: capture, at: [400, 400]}"),
+          ["pois[0].id: duplicate id 'j' (first used at points.j)"]),
+    _case("points_duplicate_region",
+          BASE + _lines("points:", "  j: [500, 500]", "regions:",
+                        "  - {id: j, type: forest, shape: blob, at: j, r: 50}"),
+          ["regions[0].id: duplicate id 'j' (first used at points.j)"]),
+    _case("points_reserved_base",
+          BASE.replace("A:", "a:").replace("B:", "b:") + _lines("points:", "  base_a: [500, 500]"),
+          ["points.base_a: 'base_a' is reserved for the implicit base of team a"]),
+    _case("ref_to_invalid_poi",
+          BASE + _lines("pois:", "  - {id: c, type: capture, at: [1500, 400]}",
+                        "lines:", "  - {id: road, type: road, path: [base_A, c]}"),
+          ["pois[0].at: point [1500, 400] is outside the map [0..1000.0, 0..1000.0]"]),
+    _case("ref_in_region_label_at",
+          BASE + _lines("points:", "  j: [500, 500]", "regions:",
+                        "  - {id: r0, type: forest, shape: blob, at: [500, 500], r: 100, label_at: j}"),
+          [STR_PT % ("regions[0].label_at", "j")]),
+    _case("duplicate_key_points",
+          BASE + _lines("points:", "  j: [5, 5]", "  j: [6, 6]"),
+          ["<yaml>: line 10: duplicate key 'j'"]),
+    _case("duplicate_key_teams",
+          BASE + _lines("  A: {base: [200, 200]}"),
+          ["<yaml>: line 8: duplicate key 'A'"]),
+    _case("duplicate_key_region",
+          BASE + _lines("regions:", "  - id: r0", "    type: forest", "    shape: blob", "    at: [500, 500]",
+                        "    r: 100", "    r: 50"),
+          ["<yaml>: line 14: duplicate key 'r'"]),
     _case("two_errors", BASE.replace("seed: 1", "seed: abc") + "colour: red\n",
           [UNKNOWN_COLOUR, SEED_ERR]),
 ]

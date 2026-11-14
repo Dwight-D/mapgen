@@ -208,7 +208,7 @@ line. Adding a road elsewhere, a crossing of another river, or moving a feature 
 unchanged; a second crossing of the same river further along the same line gets `-2`. List order does decide
 which crossings exist where two lines would generate overlapping automatic crossings at the same water
 feature: the line listed first gets its crossing and the later line's overlapping crossing is suppressed
-(generation covers the area already taken by earlier crossings, `MAPGEN_SPEC.md` ง4.7). Spec ids cannot
+(generation covers the area already taken by earlier crossings, `MAPGEN_SPEC.md` ยง4.7). Spec ids cannot
 contain `-`, so automatic ids never collide with spec ids, and two automatic ids differ because
 `(L, W, n)` differs. The `crosses` note of an automatic crossing reads `<line> x <river>` or `<line> x lake`.
 
