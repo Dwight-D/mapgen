@@ -67,7 +67,7 @@ def test_format_failure():
     assert regress.format_failure("m", ["m: a: missing from build"]) == (
         "map 'm' differs from tests/baselines/m.json in 1 file(s):\n"
         "  m: a: missing from build\n"
-        "Re-baseline only after the owner approves a diff report: "
+        "Re-baseline only after the owner approves a mapgen diff report: "
         ".venv/Scripts/python tests/rebaseline.py m")
 
 

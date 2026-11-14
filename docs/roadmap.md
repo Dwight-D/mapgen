@@ -65,7 +65,6 @@ item title is `Mapgen: ` followed by the package title with a lower-case first l
 | List position is feature identity | Noise seeds and default export ids of regions and lines derive from list position. Inserting one region at the front of `thornwald` changes 28 of 33 output files. |
 | Coordinates are repeated by hand | Features that meet repeat the same literal point (`thornwald` states B's base position on three lines). A missed copy leaves a valid spec with a different result. |
 | Scatter thresholds at a map-wide quantile | Any placement edit shifts forest edges across the whole map (0.04–1.1 % of forest texels). |
-| No build-to-build comparison | Nothing reports what changed between two builds. |
 
 ### Balance tooling
 
@@ -133,6 +132,7 @@ The tune loop is usable once package 10 has landed.
 - the list of files that differ.
 
 It is the diff report of the stability rule and the last step of the tune loop.
+Implementation spec: `mapgen/DIFF_SPEC.md`.
 
 ### 3. Stable feature identity
 

@@ -126,6 +126,6 @@ def compare(name: str, expected: Dict[str, str], actual: Dict[str, str]) -> List
 def format_failure(name: str, problems: List[str]) -> str:
     lines = ["map '%s' differs from tests/baselines/%s.json in %d file(s):" % (name, name, len(problems))]
     lines.extend("  " + p for p in problems)
-    lines.append("Re-baseline only after the owner approves a diff report: "
+    lines.append("Re-baseline only after the owner approves a mapgen diff report: "
                  ".venv/Scripts/python tests/rebaseline.py %s" % name)
     return "\n".join(lines)

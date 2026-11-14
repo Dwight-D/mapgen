@@ -25,18 +25,29 @@ python -m mapgen build    maps/                                # every *.yaml in
 python -m mapgen build    <spec> --only render|analyze|export  # one stage (analyze also writes the report)
 python -m mapgen build    <spec> --out some/dir                # alternative output root
 python -m mapgen probe    maps/concepts/thornwald.yaml 1500 1560 lodge   # times, spread, cost, features at points (no files)
+python -m mapgen diff     out/a/thornwald out/b/thornwald      # what changed between two build folders: JSON (--text: summary)
 python -m mapgen types                                         # print the type table (types.yaml)
 python -m mapgen build    <spec> --palette my_palette.yaml     # other render colours (omitted keys use palette.yaml)
 python -m mapgen palette                                       # L* lightness matrix + greyscale legibility check
 ```
 
-Exit code 0 on success; 1 on spec errors, a missing file or invalid probe points; 2 on usage errors. Builds are deterministic: same spec + seed gives byte-identical files.
+Exit code 0 on success; 1 on spec errors, a missing file, invalid probe points
+or a path that is not a build folder; 2 on usage errors. Builds are deterministic: same spec + seed gives byte-identical files.
 A build takes roughly 10-18 s for a 3-4 km map at default settings (under 25 s with scatter).
 
 `probe` runs geometry, heightmap and analysis only. Per point it prints each team's travel time (`m:ss`), the
 spread `(max-min)/min`, the cost cell value (and `fair` inside the fair zone), the topmost region, and the lines and
 crossings there. Arguments are `x y` pairs in metres; a POI id stands for its position. It is the quick way to ask
 "how long does each team need to get here?" while moving an objective.
+
+`diff` compares two build folders (`<out root>/<name>/`, e.g. two `--out` roots of the same map) and
+prints JSON: changed, added and removed files; heightmap share of texels changed and maximum height
+delta in metres; share, count and bounding box of changed texels per mask and raster; the changed JSON
+paths of every differing JSON file (`--max-changes N` per file, default 100); per-objective travel-time
+deltas per team; per-team, per-pair and map-wide deltas of the report values. `--text` prints a summary
+for reading. It reads only the two folders and also works on `--only analyze` builds. Exit code 0 when
+the report is printed, whether or not the builds differ (`"identical"` in the JSON). Details:
+`mapgen/DIFF_SPEC.md`.
 
 ## Edit loop
 
@@ -49,7 +60,8 @@ crossings there. Arguments are `x y` pairs in metres; a POI id stands for its po
 
 `.venv/Scripts/python -m pytest` runs the regression suite (about 3 minutes): every committed map is
 built and compared file by file with its baseline in `tests/baselines/`, plus spec-validation and
-exit-code tests. `-k <map name>` runs one map. After an owner-approved output change,
+exit-code tests. `-k <map name>` runs one map. After the owner has approved the
+`mapgen diff` report of an output change,
 `.venv/Scripts/python tests/rebaseline.py <map>... | --all` rewrites the baselines (`--dry-run` lists
 the differing files without writing). Details: `tests/REGRESSION_SPEC.md`.
 

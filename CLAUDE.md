@@ -18,6 +18,7 @@ The spec is the single source of truth; everything in `out/` is derived, git-ign
 .venv/Scripts/python -m mapgen build maps/concepts/thornwald.yaml    # -> out/thornwald/
 .venv/Scripts/python -m mapgen validate <spec>
 .venv/Scripts/python -m mapgen probe <spec> <x> <y> | <poi id>
+.venv/Scripts/python -m mapgen diff <build a> <build b> [--text]   # delta of two build folders
 ```
 
 `mapgen.ps1` / `mapgen.sh` forward to the same command from any directory. Other commands: `types`,
@@ -46,9 +47,12 @@ compares the SHA-256 of every output file with the committed baseline in `tests/
 It also covers spec validation errors and command exit codes. Run one map with `-k <map name>`.
 
 A change that must not alter output passes the suite unchanged. A change that alters output fails it,
-naming each map and file. Show the owner a diff report for the change; once the owner approves it,
-re-baseline with `.venv/Scripts/python tests/rebaseline.py <map>... | --all` and commit the new
-baselines with the change. Never re-baseline without that approval. Design: `tests/REGRESSION_SPEC.md`.
+naming each map and file. Show the owner the diff report for the change: build each affected map before
+and after the change (e.g. the previous commit from a `git worktree`), each into its own empty `--out`
+root, and run `.venv/Scripts/python -m mapgen diff <before>/<map> <after>/<map> --text` (agents read the
+JSON form, without `--text`); once the owner approves it, re-baseline with
+`.venv/Scripts/python tests/rebaseline.py <map>... | --all` and commit the new baselines with the change.
+Never re-baseline without that approval. Design: `tests/REGRESSION_SPEC.md`.
 
 ## Conventions
 
@@ -67,6 +71,7 @@ Exported JSON uses `x` (east), `z` (north), `y` (height).
 | `docs/battlehounds-consumer.md` | what Battlehounds reads from the bundle and where that code and its specs live |
 | `docs/backlog.md` | where work items for this repo are tracked and how to file one |
 | `tests/REGRESSION_SPEC.md` | the regression suite: baselines, helper API, test cases, re-baselining |
+| `mapgen/DIFF_SPEC.md` | the diff command: report format, algorithms, tests |
 | `HANDOVER_UNITY_IMPORTER.md` | the prompt that started the Battlehounds importer session |
 
 Map concepts in `maps/concepts/` are authored with the `map-concept` skill

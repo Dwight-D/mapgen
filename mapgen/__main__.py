@@ -1,4 +1,4 @@
-"""mapgen command line: build | validate | probe | types | palette."""
+"""mapgen command line: build | validate | probe | diff | types | palette."""
 from __future__ import annotations
 
 import argparse
@@ -114,6 +114,41 @@ def cmd_probe(args) -> int:
     return 0
 
 
+def _non_negative_int(s: str) -> int:
+    try:
+        n = int(s)
+    except ValueError:
+        n = -1
+    if n < 0:
+        raise argparse.ArgumentTypeError("expected an integer >= 0, got %r" % s)
+    return n
+
+
+def cmd_diff(args) -> int:
+    """Compare two build directories; JSON (or --text) on stdout. Writes no files."""
+    from . import diff as diffmod
+
+    try:
+        r = diffmod.diff_builds(args.build_a, args.build_b, args.max_changes)
+    except diffmod.DiffError as e:
+        print(str(e))
+        return 1
+    _write_bytes(diffmod.format_text(r) if args.text else diffmod.format_json(r))
+    return 0
+
+
+def _write_bytes(text: str) -> None:
+    """Write text to stdout as UTF-8 with LF line endings on every platform."""
+    data = text.encode("utf-8")
+    sys.stdout.flush()
+    buf = getattr(sys.stdout, "buffer", None)
+    if buf is None:
+        sys.stdout.write(text)
+        return
+    buf.write(data)
+    buf.flush()
+
+
 def cmd_build(args) -> int:
     import glob
     import os
@@ -163,6 +198,14 @@ def main(argv: Optional[List[str]] = None) -> int:
     pr.add_argument("spec")
     pr.add_argument("points", nargs="+", help="x y pairs in metres; a POI id may stand for its position")
     pr.set_defaults(func=cmd_probe)
+
+    df = sub.add_parser("diff", help="compare two build directories (JSON on stdout; --text for a summary)")
+    df.add_argument("build_a")
+    df.add_argument("build_b")
+    df.add_argument("--text", action="store_true", help="print a human-readable summary instead of JSON")
+    df.add_argument("--max-changes", type=_non_negative_int, default=100,
+                    help="change entries listed per JSON file (default 100)")
+    df.set_defaults(func=cmd_diff)
 
     t = sub.add_parser("types", help="print the type table")
     t.set_defaults(func=cmd_types)

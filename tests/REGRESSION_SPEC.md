@@ -24,8 +24,7 @@ The regression suite guards three things:
 
 **Re-baselining** is a deliberate, explicit step: `tests/rebaseline.py`. The suite never runs it and never
 writes a baseline. It is run only after the owner has approved a diff report for the change. The diff
-report is the output of `mapgen diff` (roadmap package 2) once that command exists; until then it is the
-suite's failure listing plus `tests/rebaseline.py --dry-run` output plus the changed files themselves.
+report is the output of `mapgen diff <before build> <after build>` for each affected map (`mapgen/DIFF_SPEC.md`).
 
 There is one suite. It always builds all eight maps in full. A single map can be run alone with pytest's
 `-k <map name>`.
@@ -149,6 +148,8 @@ An invalid spec makes `build` write nothing: the output root is not created.
 | `tests/test_stability.py` | the stability test, one case per map, plus the baseline/map correspondence check |
 | `tests/test_validation.py` | invalid-spec cases, in-process |
 | `tests/test_cli_exit_codes.py` | command exit codes, through real subprocesses |
+| `tests/test_diff.py` | diff report logic on synthetic builds; river_crossing integration build |
+| `tests/test_diff_cli.py` | diff command exit codes, through real subprocesses |
 
 `tests/` has no `__init__.py`. pytest's default `prepend` import mode puts `tests/` on `sys.path`, so test
 modules `import regress`; `conftest.py` also inserts it explicitly so `tests/rebaseline.py` and pytest
@@ -245,7 +246,7 @@ Functions (all type hints via `typing`, Python 3.8):
   map '<name>' differs from tests/baselines/<name>.json in <N> file(s):
     <problem line 1>
     <problem line 2>
-  Re-baseline only after the owner approves a diff report: .venv/Scripts/python tests/rebaseline.py <name>
+  Re-baseline only after the owner approves a mapgen diff report: .venv/Scripts/python tests/rebaseline.py <name>
   ```
   (lines joined with `\n`; problem lines indented by two spaces; no trailing newline).
 
@@ -446,7 +447,7 @@ Running one map alone: `.venv/Scripts/python -m pytest -k thornwald`.
 | `test_compare_changed_missing_extra` | expected `{"a": "0"*64, "b": "1"*64}`, actual `{"a": "f"*64, "c": "2"*64}` → exactly `["m: a: changed (baseline 000000000000, build ffffffffffff)", "m: b: missing from build", "m: c: not in baseline"]` |
 | `test_compare_equal_prefix_shows_full_hashes` | hashes `"abcdef012345" + "0"*52` and `"abcdef012345" + "1"*52` → `["m: a: changed (baseline <full hash 1>, build <full hash 2>)"]` |
 | `test_write_baseline_replaces_file_without_leftovers` | with `BASELINE_DIR` pointed at `tmp_path`, `write_baseline` writes exactly `format_baseline(...)` bytes; a second write replaces it; the directory then holds only `m.json` |
-| `test_format_failure` | `format_failure("m", ["m: a: missing from build"])` equals `"map 'm' differs from tests/baselines/m.json in 1 file(s):\n  m: a: missing from build\nRe-baseline only after the owner approves a diff report: .venv/Scripts/python tests/rebaseline.py m"` |
+| `test_format_failure` | `format_failure("m", ["m: a: missing from build"])` equals `"map 'm' differs from tests/baselines/m.json in 1 file(s):\n  m: a: missing from build\nRe-baseline only after the owner approves a mapgen diff report: .venv/Scripts/python tests/rebaseline.py m"` |
 | `test_format_baseline_deterministic` | two calls with dicts of the same content but different insertion order give the same string; it ends with `"}\n"`, contains no `\r`, and `json.loads` of it round-trips |
 | `test_committed_baselines_well_formed` | for every discovered map: `load_baseline(name)` succeeds, and the file bytes equal `format_baseline(name, spec, files)` encoded as ASCII (no `\r`, canonical formatting) |
 | `test_build_and_hash_rejects_nonempty_dir` | a `tmp_path` containing one file → `ValueError` |
@@ -582,7 +583,10 @@ compares the SHA-256 of every output file with the committed baseline in `tests/
 It also covers spec validation errors and command exit codes. Run one map with `-k <map name>`.
 
 A change that must not alter output passes the suite unchanged. A change that alters output fails it,
-naming each map and file. Show the owner a diff report for the change; once the owner approves it,
+naming each map and file. Show the owner the diff report for the change: build each affected map before and after the change
+(e.g. the previous commit from a `git worktree`), each into its own empty `--out` root, and run
+`.venv/Scripts/python -m mapgen diff <before>/<map> <after>/<map> --text` (agents read the JSON form,
+without `--text`); once the owner approves it,
 re-baseline with `.venv/Scripts/python tests/rebaseline.py <map>... | --all` and commit the new
 baselines with the change. Never re-baseline without that approval. Design: `tests/REGRESSION_SPEC.md`.
 ```
@@ -606,7 +610,8 @@ requirements-dev.txt.`; the "Where knowledge lives" table gains the row
 
   `.venv/Scripts/python -m pytest` runs the regression suite (about 3 minutes): every committed map is
   built and compared file by file with its baseline in `tests/baselines/`, plus spec-validation and
-  exit-code tests. `-k <map name>` runs one map. After an owner-approved output change,
+  exit-code tests. `-k <map name>` runs one map. After the owner has approved the
+  `mapgen diff` report of an output change,
   `.venv/Scripts/python tests/rebaseline.py <map>... | --all` rewrites the baselines (`--dry-run` lists
   the differing files without writing). Details: `tests/REGRESSION_SPEC.md`.
   ```

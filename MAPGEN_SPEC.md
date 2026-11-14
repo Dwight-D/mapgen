@@ -23,7 +23,8 @@ It serves every game project under `E:\GameDev\Unity\` and has no Unity dependen
 - Location: `E:\GameDev\Unity\tools\mapgen\`.
 - Interpreter: the venv at `tools/mapgen/.venv` (Python 3.8). Installed and verified:
   `numpy 1.24.4`, `scipy 1.10.1`, `shapely 2.0.7`, `Pillow 10.4.0`, `scikit-image 0.21.0`, `pyyaml`.
-- `requirements.txt` pins: `numpy<1.25`, `scipy<1.11`, `shapely<2.1`, `Pillow<11`, `scikit-image<0.22`, `pyyaml`.
+- `requirements.txt` pins every runtime package, transitive ones included, to an exact `==` version;
+  `requirements-dev.txt` adds exact pins of pytest and its dependencies.
 - Code must run on Python 3.8: no `match`, no `X | Y` type unions, no `list[int]` at runtime (use
   `from __future__ import annotations` or `typing.List`), no `str.removeprefix`.
 - Invocation (from `tools/mapgen/`): `.venv/Scripts/python -m mapgen <command> ...`.
@@ -50,7 +51,7 @@ tools/mapgen/
   .venv/                  local interpreter (not hand-edited)
   mapgen/
     __init__.py
-    __main__.py           CLI (argparse): build, validate, probe, types, palette
+    __main__.py           CLI (argparse): build, validate, probe, diff, types, palette
     types.yaml            terrain/line/crossing/POI type table (data, editable; gameplay and splat data, no colours)
     palette.yaml          render colours, region patterns, default team colours (data, editable)
     palette_check.py      CIE L* legibility check of a palette (`palette` command)
@@ -647,6 +648,7 @@ so channels sum to 1 and quantize so they sum to exactly 255 (put the rounding r
 python -m mapgen build <spec.yaml|maps-dir> [--out out] [--only render|analyze|export] [--palette palette.yaml]
 python -m mapgen validate <spec.yaml> [--palette palette.yaml]
 python -m mapgen probe <spec.yaml> x y [x y ...]   # per point: team times, spread, cost, region/line (no files)
+python -m mapgen diff <build a> <build b> [--text] [--max-changes N]   # delta of two build folders (no files)
 python -m mapgen types                  # print the type table
 python -m mapgen palette [--palette palette.yaml]   # L* legibility matrix of the palette (§5.1)
 ```
@@ -656,8 +658,12 @@ python -m mapgen palette [--palette palette.yaml]   # L* legibility matrix of th
   prints each team's travel time (`m:ss`), the spread `(max − min) / min`, the cost-grid value of the cell (and `fair`
   when the cell is in the fair zone), and the topmost region, the lines and the crossings at the point. A POI id may
   stand in for an `x y` pair.
-- Prints one line per stage with elapsed time and the output folder at the end. Exit code 0 on success, 1 on
-  validation errors.
+- `diff` reads two build directories, never the spec, and prints a JSON report (default) or a text summary
+  (`--text`): changed/added/removed files, heightmap and raster texel changes, JSON path changes, objective time
+  deltas and report-value deltas. Exit code 0 when the report is printed; 1 when a path is missing or not a build
+  directory. Full design: `mapgen/DIFF_SPEC.md`.
+- Prints one line per stage with elapsed time and the output folder at the end. Exit codes: 0 on success; 1 on spec
+  errors, a missing file, invalid probe points or a path that is not a build directory; 2 on usage errors.
 - Target runtime for a 3 km map: under 20 s for the examples, under 25 s with scatter.
 
 ## 8. Validation (`schema.py`)
