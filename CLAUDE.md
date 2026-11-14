@@ -56,6 +56,7 @@ Exported JSON uses `x` (east), `z` (north), `y` (height).
 | `MAPGEN_SPEC.md` | full design: spec schema, type table, pipeline stages, validation, acceptance |
 | `EXPORT_FORMAT.md` | the export bundle contract for engine importers |
 | `docs/roadmap.md` | direction: machine-parsable export, known gaps, planned additions |
+| `docs/investigations/` | dated read-only investigation reports with the evidence behind the roadmap: map editability, concept-map balance, export questions |
 | `docs/battlehounds-consumer.md` | what Battlehounds reads from the bundle and where that code and its specs live |
 | `docs/backlog.md` | where work items for this repo are tracked and how to file one |
 | `HANDOVER_UNITY_IMPORTER.md` | the prompt that started the Battlehounds importer session |

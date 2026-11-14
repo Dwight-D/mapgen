@@ -2,135 +2,333 @@
 
 ## Direction
 
-The export bundle is a machine-readable description of a map for game-side consumers. Every piece of
-information a consumer needs is available as structured data (JSON or raster data with a documented
-encoding), carries a version, and is listed in an index. Rendered images exist for human map authors
-only.
+**AI-first map workflow.** The owner gives creative direction. Agents edit the map spec and re-run
+deterministic tools until declared targets are met. mapgen gains features while existing maps regenerate
+identically from their specs.
 
-Work is driven by what the Battlehounds consumers need (`battlehounds-consumer.md`). The detailed source
-for everything below is section A of `E:\GameDev\Unity\battlehounds\docs\ai\MACRO_SIM_ASSESSMENT.md`
-(what the consumer reads per file, its workarounds, and its recommendations in A.5). Read it before
-designing any work package.
+**The export bundle is the product.** It is a machine-readable description of a map for game-side
+consumers. Every piece of information a consumer needs is available as structured data (JSON or raster
+data with a documented encoding), carries a version, and is listed in an index. Rendered images exist for
+human map authors only.
 
-Work items are tracked in the parent-tier backlog (`backlog.md`); the package names below match the
-item titles.
+**Balance work is a process.** mapgen provides the measurements, targets, gate and diff that let an agent
+tune a map. Tuning any particular map is map-authoring work, done with those tools.
+
+Export work is driven by what the Battlehounds consumers need (`battlehounds-consumer.md`). The detailed
+consumer-side source is section A of `E:\GameDev\Unity\battlehounds\docs\ai\MACRO_SIM_ASSESSMENT.md`.
+
+The evidence behind the packages below is in `docs/investigations/`:
+
+| report | content |
+|---|---|
+| `investigations/map-editability.md` | spec inputs, where noise enters, measured edit locality, regeneration stability |
+| `investigations/concept-map-balance.md` | per-team balance of the five concept maps, cost-table sensitivity, the tuning loop tested on thornwald |
+| `investigations/export-open-questions.md` | what Battlehounds reads from each bundle file, options and recommendations per export question |
+
+Work items are tracked in the parent-tier backlog (`backlog.md`). Each package below is one item; the
+item title is `Mapgen: ` followed by the package title with a lower-case first letter.
+
+## Terminology
+
+| term | meaning |
+|---|---|
+| spawn base | A `teams.<team>.base` entry in a spec. It is the origin for travel-time measurement. Spawn bases sit outside the area of operations, so no metric is measured at a spawn base. |
+| buildable site | A place where a base footprint fits: flat enough ground that is neither water nor impassable. It says nothing about whether the game wants a base there. |
+| objective | A POI whose type has `objective: true` in `types.yaml`. |
+| location trait | A measured property of any map location (sightline share, relative elevation, approach count, ...), independent of what stands there. |
+| baseline | The committed per-file reference hashes of one map's build output. |
+| stability rule | A build of an unchanged spec is byte-identical to its baseline. Any difference fails the regression suite. An intended change is re-baselined only after the owner approves a diff report. |
+| tune loop | Edit spec → `mapgen build --only analyze` → `mapgen check` → `mapgen diff`, repeated until `check` passes. |
 
 ## Known gaps
+
+### Export
 
 | gap | detail |
 |---|---|
 | Analysis results exist only as rendered images | Traffic, territory, openness, travel time and fair zone are computed on a 10 m grid in `analysis.py` and written only as `overlay_*.png`. |
-| Movement costs are not consumed | The cost table is in `mapgen/types.yaml` and in `spec.resolved.json.types`. The consumer hand-copied its own values and they differ (road 0.8 vs mapgen 0.6, trail 0.9 vs 0.8, ford 1.0 vs 2.5). |
-| Thin linear features vanish at coarse resolution | The consumer re-rasterises masks into 16 m cells; a 10 m road averages away. Baked base-to-base travel on `thornwald` is 571 s against mapgen's 435 s, and every travel-based score inherits the error. |
-| Cover is binary | `los` in `types.yaml` is yes/no per type. The consumer invents cover weights. |
+| Movement costs are not consumed | The cost table is in `mapgen/types.yaml` and in `spec.resolved.json.types`. Battlehounds keeps a hand-copied table that differs (road 0.8 vs mapgen 0.6, trail 0.9 vs 0.8, bridge 1.0 vs 0.6, ford 1.0 vs 2.5) and has no slope cost. |
+| Balance numbers disagree with the game | `thornwald` is balanced under mapgen's cost table (A first to 3 neutral objectives, B to 4; no flag) and B-favoured under the Battlehounds copy (B first to all 7, two objectives over tolerance). `saltreach_delta` shows the same pattern, `ashen_steppe` the reverse. |
+| Thin linear features vanish at coarse resolution | The consumer re-rasterises masks into 16 m cells; a 10 m road averages away. Baked base-to-base travel on `thornwald` is 571 s against mapgen's 435 s. |
+| Cover is binary | `los` in `types.yaml` is yes/no per type. The consumer keeps its own cover weights. |
 | No route graph | Routes exist only implicitly in the travel-time fields; `lines.json` holds centrelines only. |
-| Chokepoints are a top-5 list | Points in `report.json` with no extent, orientation or link to the routes that pass through; scores are comparable only within one map. |
-| Masks overlap and lose paint order | A texel can be set in several type masks (forest under a later-painted field or clearing). Nothing states which type is on top. Edge texels take 5 levels (0, 64, 128, 191, 255) from 2×2 supersampling; this encoding is undocumented. |
+| Chokepoints are a top-5 list | Points in `report.json` with no extent or link to crossings and routes; scores are comparable only within one map; ids are rank-based. |
+| Masks overlap and lose paint order | A texel can be set in several type masks (forest under a later-painted field or clearing). Nothing states which type is on top. Edge texels take 5 levels (0, 64, 128, 191, 255) from 2×2 supersampling; this encoding is undocumented. `impassable.png` is the 10 m cost grid upsampled. |
 | Locations are duplicated across files | The same place appears as a POI, a region around it, a crossing and a chokepoint, with nothing linking them. |
-| Band crossings lose their shape downstream | `crossings.json` has the band path, but nothing strategic refers to it; the consumer collapses bands to a 30 m disc. |
-| No schema, version or file index | Nothing states the export format version, the schema of each file, or which files are data and which are human renders. `report.json` sits outside `export/` and names the north axis `y` where the bundle uses `z`. |
+| No schema, version, file index or content identity | Nothing states the export format version, the schema of each file, or which files are data and which are human renders. `spec_sha256` covers the spec only, so a change in `types.yaml` or code changes a bundle without changing its identity. `report.json` sits outside `export/` and names the north axis `y` where the bundle uses `z`. The type table encodes impassable cost as the string `"inf"`. |
+
+### Editability and regeneration stability
+
+| gap | detail |
+|---|---|
+| Nothing guards regeneration | No test suite, no committed reference output, no spec format version. `requirements.txt` holds upper bounds, not exact versions. |
+| List position is feature identity | Noise seeds and default export ids of regions and lines derive from list position. Inserting one region at the front of `thornwald` changes 28 of 33 output files. |
+| Coordinates are repeated by hand | Features that meet repeat the same literal point (`thornwald` states B's base position on three lines). A missed copy leaves a valid spec with a different result. |
+| Scatter thresholds at a map-wide quantile | Any placement edit shifts forest edges across the whole map (0.04–1.1 % of forest texels). |
+| No build-to-build comparison | Nothing reports what changed between two builds. |
+
+### Balance tooling
+
+| gap | detail |
+|---|---|
+| No per-team summary | Objectives reached first, summed or weighted lead and raid times are derived by hand from the objective table. Objective `tier` is unused. |
+| No gate and no declared targets | `build` exits 0 with `IMBALANCED` flags present. Only the per-objective spread has a tolerance. Intended asymmetry (kingsjaw's paired home objectives) is indistinguishable from a defect. |
+| `probe` prints text only | No machine-readable probe output. |
+| Location strength is unmeasured | No number for high ground, sightlines or the count of approaches. On `thornwald`, B's base stands 24 m above A's with openness 0.79 against 0.03; neither is scored. |
 
 ## Work packages
 
-Ordered so that each builds on the previous one. Package 1 is the foundation: every later package adds
-files that are listed in the manifest and covered by a schema from the start.
+Listed in implementation order. Every package after package 1 changes build output; it lands by passing
+the stability rule: the change is shown with `mapgen diff`, approved by the owner, then re-baselined.
+Every package that touches `export/` updates `EXPORT_FORMAT.md` and `MAPGEN_SPEC.md` in the same commit.
 
-### 1. Manifest, schema and export version
+| # | package | backlog item | needs |
+|---|---|---|---|
+| 1 | Regression suite and reference baselines | `mapgen-small-regression-suite-validation-exit` | — |
+| 2 | Build diff command | `mapgen-build-diff-command` | 1 |
+| 3 | Stable feature identity | `mapgen-stable-feature-identity` | 1, 2 |
+| 4 | Feature references in the spec | `mapgen-feature-references-in-the-spec` | 3 |
+| 5 | Local forest scatter | `mapgen-local-forest-scatter` | 3 |
+| 6 | Manifest, JSON schemas and export_version | `mapgen-export-1-manifest-json-schemas-and-export` | 1, 2 |
+| 7 | Type table file types.json | `mapgen-export-2-type-table-as-a-documented-part` | 6 |
+| 8 | Analysis grids | `mapgen-export-3-analysis-grids-as-data-export` | 6 |
+| 9 | Per-team balance summary | `mapgen-per-team-balance-summary` | 6 |
+| 10 | Balance targets and check command | `mapgen-balance-targets-and-check-command` | 2, 9 |
+| 11 | Surface layers | `mapgen-export-4-mask-semantics-and-surface-type` | 6, 7 |
+| 12 | Cover grid | `mapgen-export-7-graded-cover-line-of-sight-raster` | 7, 8 |
+| 13 | Routes and strategic.json | `mapgen-export-5-strategic-json-chokepoint-extents` | 8 |
+| 14 | Location trait grids | `mapgen-location-trait-grids` | 8, 13 |
+| 15 | Zones file zones.json | `mapgen-export-8-zones-json-one-deduplicated-named` | 11, 12, 13, 14 |
+| 16 | map-concept skill tune loop | `mapgen-map-concept-skill-tune-loop` | 2, 10 |
 
-- `export_version` in `meta.json`, independent of `mapgen_version`.
-- A file list in `meta.json` (or a manifest file): path, kind, schema reference, and a flag marking
-  human renders.
-- A JSON Schema for each JSON file in the bundle.
-- All machine-readable analysis output lives inside `export/`, using the bundle's axis names
-  (`x` east, `z` north, `y` height).
+The tune loop is usable once package 10 has landed.
 
-Open questions: one schema file or one per JSON file; whether `report.json` moves into `export/` or
-stays as a human-facing file whose data is fully covered by the new export files.
+### 1. Regression suite and reference baselines
 
-### 2. Type table as data
+- A test suite covering spec validation errors, command exit codes and the stability rule.
+- Baselines: committed reference hashes, one per output file, for the three `maps/example_*.yaml` maps
+  and all five `maps/concepts/*.yaml` maps. The concept maps are the bundles Battlehounds bakes and
+  commits.
+- Any output difference fails the suite and names the map and file.
+- Re-baselining is a deliberate step, run only after the owner has approved a diff report (package 2)
+  for the change.
+- `requirements.txt` pins every dependency to an exact version.
 
-The resolved type table (cost, `los`, splat layer, widths, crossing radii per region, line and crossing
-type) is a documented, schema-covered part of the bundle, so a consumer never copies values by hand.
-It is already present under `spec.resolved.json.types`; the package is to make it an explicit contract
-(document it in `EXPORT_FORMAT.md`, or export a standalone `types.json`).
+### 2. Build diff command
 
-### 3. Analysis grids as data
+`mapgen diff <build a> <build b>` emits a machine-readable delta between two build output directories:
 
-`export/analysis/` holds one raw raster per analysis field on the analysis grid, plus `index.json`
-describing each: cell size, width, height, origin, row order, dtype, endianness, units, nodata value.
+- heightmap: share of texels changed, maximum height delta in metres;
+- every mask and raster: share of texels changed;
+- per objective: travel-time delta per team;
+- per team: delta of each balance-summary value (package 9);
+- the list of files that differ.
 
-Candidate fields: final travel cost (roads and crossings included), travel time per team in seconds,
-territory (owning team index, with contested and unreachable values), traffic (path count),
-constriction, openness, fair zone.
+It is the diff report of the stability rule and the last step of the tune loop.
 
-Open questions: raw binary (`.f32`, `.u8`, `.u16`) versus 16-bit PNG; row 0 = south like
-`heightmap.r16`, or north like the images; whether to export at the analysis resolution only.
+### 3. Stable feature identity
 
-### 4. Masks and surface types (design session first)
+- Every region and line in a spec has an `id`. A spec with a region or line without one is invalid.
+- A feature's noise seeds derive from its `id`. List position has no effect on a feature's shape; list
+  order of regions is paint order only.
+- A feature may carry an explicit `seed` value, which takes precedence over the id-derived seed.
+- Exported ids are the spec ids.
+- The spec has a top-level format version key. mapgen states which format versions it reads.
 
-Decide what masks exist, what each one means, and how overlaps resolve. This package starts with a
-design discussion with the user before any implementation.
+**Migration.** Each of the eight existing specs receives the format version key, an `id` on every region
+and line that lacks one (the id it is exported under today), and explicit per-feature `seed` values equal
+to the seeds its list position gives today. Acceptance: every output file is byte-identical to its
+baseline except the two files that echo the spec (`spec.resolved.json`, and `meta.json` through
+`spec_sha256`); those are shown with `mapgen diff`, approved and re-baselined.
 
-Current state:
-- `export/masks/<type>.png`: 8-bit coverage, `splat_res²` (1024² default), row 0 = north. One file per
-  region type, line type and crossing type present in the map. On `thornwald`: `bridge`, `clearing`,
-  `field`, `ford`, `forest`, `hills`, `lake`, `river`, `road`, `ruins`, `town`, `trail`.
-- Two derived masks: `water` (lakes and rivers together) and `impassable` (cells the analysis treats as
-  impassable: mountains, water without crossings, cliffs, too-steep slopes; strictly binary).
-- Type definitions with cost, `los` and splat layer: `mapgen/types.yaml`.
-- The consumer thresholds masks at 128 and uses them for movement cost, cover and blocking.
+Open: stable ids for automatic crossings (`auto_<n>` is numbered in generation order).
 
-Questions for the design session:
-- Which masks are semantic categories a consumer reasons about (surface, cover, passability, water) and
-  which are merely per-type coverage? Should the export offer derived semantic layers instead of, or in
-  addition to, one file per type?
-- A single `surface_type` index raster (top-most type per texel, paint order applied) so overlaps resolve
-  without guesswork.
-- Whether lines and crossings belong in the same layer as regions or in their own.
-- How coverage at edges is encoded and documented.
-- Whether mask resolution stays tied to `splat_res`.
+### 4. Feature references in the spec
 
-### 5. `strategic.json`
+A point in a line `path`, a region `at` or a region outline may be the id of a POI or of a spawn base. It
+resolves to that feature's position at load time. A reference to an unknown id is a validation error.
+Moving a POI or spawn base moves everything that refers to it.
 
-- Chokepoints: id, extent (polygon, or centre and radius), orientation, width, the routes that pass
-  through, raw score, and a score on a map-independent scale. More than the top five.
-- Crossings with their band polyline.
+**Migration.** In the existing specs, literal points that coincide with a POI or spawn base position
+become references to it (`thornwald`: B's base position on `teams.B.base`, `b_track` and `abbey_path`).
+Acceptance as in package 3: byte-identical output except the spec-echo files.
+
+Open: named anchors for shared points that are not POIs or spawn bases (road junctions; `thornwald`
+repeats `[2366, 1906]` on four lines).
+
+### 5. Local forest scatter
+
+The scatter threshold at a location is computed from that location's surroundings, so an edit to a
+feature changes scatter patches only near that feature. `coverage` is the target share of eligible area.
+
+**Migration.** The local threshold moves forest edges once on every map that uses `scatter` (about 1 % of
+forest texels). Each map's shift is shown with `mapgen diff`, approved by the owner per map, then
+re-baselined.
+
+### 6. Manifest, JSON schemas and export_version
+
+- `export_version` in `meta.json`, independent of `mapgen_version`. `EXPORT_FORMAT.md` states the bump
+  policy: major for a removed or re-encoded file, minor for an added file or key.
+- `meta.json.files[]` lists every file of the bundle: `path`, `kind`, `schema` (for JSON files),
+  `human` (true for renders) and `sha256`. Raster entries also carry `width`, `height`, `dtype` and
+  `row0`.
+- One JSON Schema per JSON file, kept in the repo and copied into `export/schema/`.
+- Bundle files use the axis names `x` (east), `z` (north), `y` (height).
+- `report.json` is a human-facing file outside the contract. All of its data is available in bundle
+  files (packages 8, 9 and 13).
+
+### 7. Type table file types.json
+
+- `export/types.json`: the resolved type table (cost, `los`, splat layer, widths, crossing radii per
+  region, line and crossing type), covered by its own schema.
+- `mapgen/types.yaml` is the single authority for movement costs, for mapgen's analysis and for the
+  game.
+- Impassable is encoded explicitly: `"cost": null, "passable": false`. Every `cost` is a number or null.
+
+Battlehounds follow-up (exists in its intake): `macro-map-bake-use-mapgen-s-own-cost-table-and` — read
+the exported table and grids, and remove the consumer's own cost table.
+
+### 8. Analysis grids
+
+`export/analysis/` holds one raw little-endian raster per field on the analysis grid (10 m,
+`analysis.cell`), row 0 = south, plus `index.json` describing each: `cell_x`, `cell_z`, `width`,
+`height`, origin, `row0`, `dtype`, units, `nodata`. The analysis resolution is the only resolution
+exported.
+
+| field | encoding |
+|---|---|
+| `cost` | final travel cost including lines, crossings and slope; 0 = impassable |
+| `travel_<team>` | seconds from that team's spawn base; `+inf` = unreachable |
+| `territory` | team index in `teams` order; 254 = contested, 255 = unreachable |
+| `traffic` | path count, after the 3×3 dilation the analysis applies |
+| `constriction` | 0–1 |
+| `openness` | 0–1 |
+| `fair` | fair-zone membership |
+| `height` | metres |
+| `slope` | rise over run |
+
+Rule for the whole bundle: raw files are south-first, image files are north-first.
+
+### 9. Per-team balance summary
+
+A machine-readable block per team, in a bundle file and repeated in the report:
+
+- area share (cells reached first);
+- neutral objectives reached first: count and ids;
+- summed lead in seconds over those objectives;
+- tier-weighted lead: each objective's lead multiplied by its `tier`;
+- raid times: this team's time to each enemy-owned objective, and the enemy's time to each of its own.
+
+Nothing in the summary is measured at a spawn base.
+
+Open: the weight of an objective that has no `tier`.
+
+### 10. Balance targets and check command
+
+- A `balance` block in the spec declares targets (ranges for summary values and objective times) and
+  intended asymmetries (objectives or values exempt from a target, with a stated reason).
+- `mapgen build` always succeeds on a valid spec and reports every target with its measured value.
+- `mapgen check <spec>` exits non-zero when a target is missed and names each missed target, as text
+  and as JSON.
+- `mapgen probe --json` prints probe results as JSON.
+- Default: a spec without a `balance` block is checked against the 20 % per-objective tolerance only.
+  Every other target is opt-in per map.
+- Threshold values are gameplay values set by the owner.
+
+### 11. Surface layers
+
+- `surface_type`: index raster, one top-most region type per texel, paint order applied.
+- `feature_type`: index raster for lines and crossings (0 = none).
+- Derived layers `water`, `impassable` and `forest`. `impassable` is generated at mask resolution.
+- The index → type-name table is in `types.json`.
+- Edge coverage encoding of coverage layers: value = round(coverage · 255) from 2×2 supersampling
+  (0, 64, 128, 191, 255); ≥ 128 is mapgen's own inside test.
+- Every raster declares its dimensions in the manifest.
+- Per-type coverage images are outside the data contract.
+
+### 12. Cover grid
+
+- A `cover` weight per type in `types.yaml`, exported in `types.json`. Owner-approved starting values:
+  forest 1.0, town 0.8, ruins 0.6, hills 0.2, every other type 0.
+- `export/analysis/cover`: the weight of the top-most type per cell, on the analysis grid, listed in
+  `index.json`.
+- Cover weights are gameplay values; the owner decides any change.
+
+### 13. Routes and strategic.json
+
+`routes.json` — the route graph:
+
+- Edges come from the shortest-path tracebacks of the analysis (base to base, base to objective). Each
+  edge has a polyline, length, travel seconds per team and `via`: what it runs on (line id and type,
+  crossing id, or off-road).
+- Nodes: spawn bases, objective POIs, traversed crossings, chokepoints, merge and split points.
+- Alternative (non-fastest) routes are included and marked as such.
+
+`strategic.json`:
+
+- Chokepoints: stable `id`, centre, `radius` (half-width of the passable gap), `width`, `crossing` (id
+  or null), `bypass` (whether a route around it exists, and its extra cost in seconds), raw `count`,
+  `constriction`, and `score_norm` = (paths through the cell / total traced paths) × constriction, a
+  0–1 scale comparable across maps.
+- Every local maximum with `score_norm` above the score floor is a chokepoint, at most 12 per map,
+  at least 150 m apart.
 - Objective balance: travel time per team, spread, flag (`IMBALANCED`, `UNREACHABLE`, `EXPOSED`).
+- Band crossings are referred to by crossing id; their shape is in `crossings.json`.
 
-Depends on package 6 for the route references; the two are designed together.
+Open: the score floor value (the owner sets it from the resulting lists on the five concept maps); the
+method that produces alternative routes.
 
-### 6. Route graph — `routes.json`
+### 14. Location trait grids
 
-Nodes: bases, POIs, crossings, chokepoints, junctions. Edges: polyline, length, travel seconds per team,
-and what the edge runs on (road, trail, off-road).
+Traits of any location, exported as analysis grids and sampled per zone and objective. Nothing is
+measured at spawn bases.
 
-Open question: derive the graph from the line network (roads and trails with crossings as nodes), from
-the shortest-path tracebacks the analysis already computes, or both.
+- **Sightline share**: the share of surrounding ground visible from a location. Observers stand on a
+  coarse grid (40 m). Each casts a fixed fan of rays (32–64) over the 10 m heightmap, with
+  sight-blocking types added as height, out to the sight radius. Sight radius: 300 m by default
+  (approximate maximum siege engagement range; infantry effective range is about 100 m, vision 500 m
+  and more), a tunable parameter.
+- **Relative elevation**: height above the mean height of the surrounding ground, in metres.
+- **Approach count**: the number of distinct approaches that reach a location, from the route graph
+  (package 13).
 
-### 7. Cover raster
+First step of the package: measure the sightline computation cost on `thornwald`. Fallback when it is
+too slow for the tune loop: compute sightlines only from buildable zones and objectives.
 
-A graded cover or line-of-sight layer as data, replacing the per-type boolean as the only source.
-Candidates: export the openness field (covered by package 3), a per-type cover weight in `types.yaml`
-rasterised to a `cover` grid, or a line-of-sight height layer. Cover weights are gameplay values; the
-user decides them.
+Open: the height added per sight-blocking type; the neighbourhood radius of relative elevation (the
+balance investigation used 150 m).
 
-### 8. Zones — `zones.json`
+### 15. Zones file zones.json
 
-One named zone per location: polygon, kind, parent POI, and strategic attributes, with POIs, regions,
-crossings and chokepoints referring to their zone. Removes the duplication in the gap list.
+- One zone per location, generated from geometry: a POI, the region painted around it, and the
+  crossings and chokepoints inside its footprint form one zone. Each zone has an id, polygon, centre,
+  radius, kind and the ids of its members.
+- Optional per-zone overrides in the spec correct grouping and names.
+- Each zone carries independent trait signals, each interpretable on its own: nearby road traffic,
+  relative elevation, sightline share and openness, distance to objectives, distance to chokepoints and
+  crossings, approach count, travel time per team.
+- `buildable` means only that a base footprint physically fits: a 20 × 20 m footprint by default
+  (tunable; expected tuning range about 10 × 10 to 100 × 100 m) on ground that is below the maximum
+  slope and neither water nor impassable. Slope is mapgen's analysis slope: rise over run of the
+  heightmap sampled on the analysis grid, the quantity that raises travel cost above 0.15 and makes
+  ground impassable above 0.7. Maximum slope is a tunable parameter.
+- The file holds no judgement values. The game decides which locations it wants.
+- One aggregate score per zone exists purely as a reading aid for humans and visual inspection. It is
+  documented as a heuristic.
 
-Open question: authored in the map spec, generated from geometry, or generated with authored overrides.
-Strategic attributes (value, base suitability) are gameplay values; the user decides them.
+Open: the default maximum slope for `buildable`.
 
-### 9. Regression suite
+### 16. map-concept skill tune loop
 
-A small test suite covering spec validation, build exit codes and output determinism (file hashes) on
-the example maps. Visual inspection covers the rest; new maps are generated rarely. Most useful when
-landed before packages 3–8, which all touch the export stage.
+The `map-concept` skill (`E:\GameDev\Unity\.claude\skills\map-concept\SKILL.md`) documents the tune
+loop with exact commands: edit the spec → `mapgen build <spec> --only analyze` → `mapgen check <spec>`
+→ `mapgen diff <previous build> <new build>`, repeated until `check` passes, followed by a full build
+and the owner's review of the diff.
 
 ## Consumer follow-up
 
-Each package changes the contract Battlehounds reads. After a package lands, the Battlehounds side
-switches from its workaround to the exported data (for example: read the cost and travel grids instead
-of re-rasterising masks; read the type table instead of its copied costs). Those changes are Battlehounds
-work items, filed in its backlog.
+Each export package changes the contract Battlehounds reads. When a package lands, the matching
+Battlehounds work item is filed in the Battlehounds backlog
+(`E:\GameDev\Unity\battlehounds\.anthill\backlog\`): read the exported data and remove the consumer's
+own derivation. Known consumer-side decisions that belong there: adopting the 10 m analysis grid as the
+macro grid, gating on `export_version`, reading band-crossing shapes from `crossings.json`.
