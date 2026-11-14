@@ -147,9 +147,10 @@ It is the diff report of the stability rule and the last step of the tune loop.
 
 **Migration.** Each of the eight existing specs receives the format version key, an `id` on every region
 and line that lacks one (the id it is exported under today), and explicit per-feature `seed` values equal
-to the seeds its list position gives today. Acceptance: terrain and analysis outputs are byte-identical
-to their baselines. `meta.json` and `spec.resolved.json` echo the spec; they are shown with
-`mapgen diff`, approved by the owner and re-baselined.
+to the seeds its list position gives today. Acceptance: the heightmap, every raster and the analysis
+outputs are byte-identical to their baselines. `meta.json` and `spec.resolved.json` echo the spec, and
+any JSON file carrying feature or crossing ids (e.g. `crossings.json`) differs only in its id values;
+these files are shown with `mapgen diff`, approved by the owner and re-baselined.
 
 ### 4. Feature references in the spec
 
@@ -163,8 +164,9 @@ to their baselines. `meta.json` and `spec.resolved.json` echo the spec; they are
 **Migration.** In the existing specs, literal points that coincide with a POI or spawn base position
 become references to it (`thornwald`: B's base position on `teams.B.base`, `b_track` and `abbey_path`).
 A literal point shared by several features becomes a `points` entry referenced by each of them
-(`thornwald`: the junction `[2366, 1906]` on four lines). Acceptance as in package 3: terrain and
-analysis outputs byte-identical, the spec-echo files re-baselined via an approved diff.
+(`thornwald`: the junction `[2366, 1906]` on four lines). Acceptance: the heightmap, every raster and
+the analysis outputs are byte-identical to their baselines; `meta.json` and `spec.resolved.json` echo
+the spec and are re-baselined via an owner-approved diff.
 
 ### 5. Local forest scatter
 
