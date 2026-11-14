@@ -1,0 +1,2 @@
+maps/**/*.yaml text eol=lf
+tests/baselines/*.json text eol=lf

@@ -7,7 +7,8 @@ New map concepts are authored with the `map-concept` skill (`E:/GameDev/Unity/.c
 
 ## Setup
 
-Python 3.8 venv at `tools/mapgen/.venv` (already created; deps in `requirements.txt`). Run from `tools/mapgen/`:
+Python 3.8 venv at `tools/mapgen/.venv` (already created; runtime dependencies pinned in `requirements.txt`, development dependencies in
+`requirements-dev.txt`: `.venv/Scripts/python -m pip install -r requirements-dev.txt`). Run from `tools/mapgen/`:
 
 ```
 .venv/Scripts/python -m mapgen <command> ...
@@ -29,7 +30,7 @@ python -m mapgen build    <spec> --palette my_palette.yaml     # other render co
 python -m mapgen palette                                       # L* lightness matrix + greyscale legibility check
 ```
 
-Exit code 0 on success, 1 on spec errors. Builds are deterministic: same spec + seed gives byte-identical files.
+Exit code 0 on success; 1 on spec errors, a missing file or invalid probe points; 2 on usage errors. Builds are deterministic: same spec + seed gives byte-identical files.
 A build takes roughly 10-18 s for a 3-4 km map at default settings (under 25 s with scatter).
 
 `probe` runs geometry, heightmap and analysis only. Per point it prints each team's travel time (`m:ss`), the
@@ -43,6 +44,14 @@ crossings there. Arguments are `x y` pairs in metres; a POI id stands for its po
    lists the available types and costs).
 2. `build`, then look at `out/<name>/map.png`, the `overlay_*.png` files and `report.md`.
 3. Edit again.
+
+## Tests
+
+`.venv/Scripts/python -m pytest` runs the regression suite (about 3 minutes): every committed map is
+built and compared file by file with its baseline in `tests/baselines/`, plus spec-validation and
+exit-code tests. `-k <map name>` runs one map. After an owner-approved output change,
+`.venv/Scripts/python tests/rebaseline.py <map>... | --all` rewrites the baselines (`--dry-run` lists
+the differing files without writing). Details: `tests/REGRESSION_SPEC.md`.
 
 ## Outputs (`out/<name>/`)
 

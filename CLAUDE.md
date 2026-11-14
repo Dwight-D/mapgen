@@ -26,7 +26,8 @@ The spec is the single source of truth; everything in `out/` is derived, git-ign
 ## Rules
 
 - **Python 3.8.** No `match`, no `X | Y` unions, no builtin generics at runtime, no `str.removeprefix`.
-  Dependencies are pinned in `requirements.txt`.
+  Dependencies are pinned exactly: runtime in requirements.txt, development (pytest) in
+  requirements-dev.txt.
 - **Determinism.** The same spec and seed produce byte-identical files. Never introduce unseeded
   randomness, timestamps or unordered iteration into outputs.
 - **Contract first.** A change to anything in `export/` updates `EXPORT_FORMAT.md` and `MAPGEN_SPEC.md`
@@ -39,9 +40,15 @@ The spec is the single source of truth; everything in `out/` is derived, git-ign
 
 ## Verification
 
-There is no test suite. Verify a change by building the three `maps/example_*.yaml` specs and one concept
-map, confirming exit code 0 and no new report warnings, and inspecting the affected outputs. For changes
-that must not alter output, compare file hashes of `out/<name>/` before and after.
+Run the regression suite: `.venv/Scripts/python -m pytest` (about 3 minutes). It builds the three
+`maps/example_*.yaml` maps and the five `maps/concepts/*.yaml` maps into temporary directories and
+compares the SHA-256 of every output file with the committed baseline in `tests/baselines/<map>.json`.
+It also covers spec validation errors and command exit codes. Run one map with `-k <map name>`.
+
+A change that must not alter output passes the suite unchanged. A change that alters output fails it,
+naming each map and file. Show the owner a diff report for the change; once the owner approves it,
+re-baseline with `.venv/Scripts/python tests/rebaseline.py <map>... | --all` and commit the new
+baselines with the change. Never re-baseline without that approval. Design: `tests/REGRESSION_SPEC.md`.
 
 ## Conventions
 
@@ -59,6 +66,7 @@ Exported JSON uses `x` (east), `z` (north), `y` (height).
 | `docs/investigations/` | dated read-only investigation reports with the evidence behind the roadmap: map editability, concept-map balance, export questions |
 | `docs/battlehounds-consumer.md` | what Battlehounds reads from the bundle and where that code and its specs live |
 | `docs/backlog.md` | where work items for this repo are tracked and how to file one |
+| `tests/REGRESSION_SPEC.md` | the regression suite: baselines, helper API, test cases, re-baselining |
 | `HANDOVER_UNITY_IMPORTER.md` | the prompt that started the Battlehounds importer session |
 
 Map concepts in `maps/concepts/` are authored with the `map-concept` skill
