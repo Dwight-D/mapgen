@@ -1,7 +1,7 @@
 # Backlog
 
 This repo has no work tracker of its own. Its work items live in the cross-project Anthill installation
-one tier up, at `E:\GameDev\Unity\.anthill\backlog\`, in the `dev` workstream.
+one tier up, at `E:\GameDev\Unity\.anthill\backlog\`, in the `mapgen` workstream.
 
 ## What is available in a session started here
 
@@ -14,8 +14,14 @@ one tier up, at `E:\GameDev\Unity\.anthill\backlog\`, in the `dev` workstream.
 
 ## Working with items
 
-- Read: browse `E:\GameDev\Unity\.anthill\backlog\dev\` and `intake\`.
-- File: run `anthill backlog new --title "…" --value "…"` from `E:\GameDev\Unity\`.
+- List: `anthill backlog list --workstream mapgen --root E:\GameDev\Unity`
+- Show: `anthill backlog show <id> --root E:\GameDev\Unity`
+- File: `anthill backlog new --title "…" --value "…" --hint mapgen --root E:\GameDev\Unity`
+  (lands in `intake\`; triage moves it into `mapgen\`).
+- Claim and close: `anthill backlog claim <id>`, then `anthill backlog close <id> --done`, both with
+  the same `--root`.
+- Item frontmatter is written only through the CLI. Schema and commands:
+  `E:\GameDev\Unity\.anthill\backlog\bindings.md`.
 - Routing rules: `E:\GameDev\Unity\.anthill\backlog\workstreams.md`.
 
 Requests for mapgen changes that originate in Battlehounds may also sit in
