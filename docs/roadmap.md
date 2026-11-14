@@ -103,6 +103,14 @@ Every package that touches `export/` updates `EXPORT_FORMAT.md` and `MAPGEN_SPEC
 
 The tune loop is usable once package 10 has landed.
 
+### Implementation waves
+
+| wave | packages | approval |
+|---|---|---|
+| 1 | 1–5 | approved by the owner 2026-11-14 |
+| 2 | 6–10 | approved after wave 1 has landed; the tune loop is usable after package 10 |
+| 3 | 11–16 | — |
+
 ### 1. Regression suite and reference baselines
 
 - A test suite covering spec validation errors, command exit codes and the stability rule.
@@ -133,28 +141,30 @@ It is the diff report of the stability rule and the last step of the tune loop.
   order of regions is paint order only.
 - A feature may carry an explicit `seed` value, which takes precedence over the id-derived seed.
 - Exported ids are the spec ids.
+- The id of an automatically generated crossing derives from the id of the line and the id of the water
+  feature that meet, plus the crossing's order along that line.
 - The spec has a top-level format version key. mapgen states which format versions it reads.
 
 **Migration.** Each of the eight existing specs receives the format version key, an `id` on every region
 and line that lacks one (the id it is exported under today), and explicit per-feature `seed` values equal
-to the seeds its list position gives today. Acceptance: every output file is byte-identical to its
-baseline except the two files that echo the spec (`spec.resolved.json`, and `meta.json` through
-`spec_sha256`); those are shown with `mapgen diff`, approved and re-baselined.
-
-Open: stable ids for automatic crossings (`auto_<n>` is numbered in generation order).
+to the seeds its list position gives today. Acceptance: terrain and analysis outputs are byte-identical
+to their baselines. `meta.json` and `spec.resolved.json` echo the spec; they are shown with
+`mapgen diff`, approved by the owner and re-baselined.
 
 ### 4. Feature references in the spec
 
-A point in a line `path`, a region `at` or a region outline may be the id of a POI or of a spawn base. It
-resolves to that feature's position at load time. A reference to an unknown id is a validation error.
-Moving a POI or spawn base moves everything that refers to it.
+- A point in a line `path`, a region `at` or a region outline may be the id of a POI or of a spawn base,
+  or the name of an entry in `points`. It resolves to that position at load time.
+- `points` is a spec section of named coordinates for shared points that are neither POIs nor spawn
+  bases, such as road junctions. Features reference a point by its name.
+- A reference to an unknown id or name is a validation error.
+- Moving a POI, a spawn base or a named point moves everything that refers to it.
 
 **Migration.** In the existing specs, literal points that coincide with a POI or spawn base position
 become references to it (`thornwald`: B's base position on `teams.B.base`, `b_track` and `abbey_path`).
-Acceptance as in package 3: byte-identical output except the spec-echo files.
-
-Open: named anchors for shared points that are not POIs or spawn bases (road junctions; `thornwald`
-repeats `[2366, 1906]` on four lines).
+A literal point shared by several features becomes a `points` entry referenced by each of them
+(`thornwald`: the junction `[2366, 1906]` on four lines). Acceptance as in package 3: terrain and
+analysis outputs byte-identical, the spec-echo files re-baselined via an approved diff.
 
 ### 5. Local forest scatter
 
@@ -216,12 +226,11 @@ A machine-readable block per team, in a bundle file and repeated in the report:
 - area share (cells reached first);
 - neutral objectives reached first: count and ids;
 - summed lead in seconds over those objectives;
-- tier-weighted lead: each objective's lead multiplied by its `tier`;
+- tier-weighted lead: each objective's lead multiplied by its `tier`; an objective without a `tier` is
+  weighted as the lowest tier;
 - raid times: this team's time to each enemy-owned objective, and the enemy's time to each of its own.
 
 Nothing in the summary is measured at a spawn base.
-
-Open: the weight of an objective that has no `tier`.
 
 ### 10. Balance targets and check command
 
@@ -262,7 +271,8 @@ Open: the weight of an objective that has no `tier`.
   edge has a polyline, length, travel seconds per team and `via`: what it runs on (line id and type,
   crossing id, or off-road).
 - Nodes: spawn bases, objective POIs, traversed crossings, chokepoints, merge and split points.
-- Alternative (non-fastest) routes are included and marked as such.
+- Alternative (non-fastest) routes are included and marked as such. The method that produces them is an
+  implementation choice, validated in the first step of the package.
 
 `strategic.json`:
 
@@ -272,11 +282,10 @@ Open: the weight of an objective that has no `tier`.
   0–1 scale comparable across maps.
 - Every local maximum with `score_norm` above the score floor is a chokepoint, at most 12 per map,
   at least 150 m apart.
+- The score floor is a gameplay value (never-auto). It is measured on the five concept maps during
+  implementation, and the owner approves the value before it is committed.
 - Objective balance: travel time per team, spread, flag (`IMBALANCED`, `UNREACHABLE`, `EXPOSED`).
 - Band crossings are referred to by crossing id; their shape is in `crossings.json`.
-
-Open: the score floor value (the owner sets it from the resulting lists on the five concept maps); the
-method that produces alternative routes.
 
 ### 14. Location trait grids
 
@@ -287,16 +296,15 @@ measured at spawn bases.
   coarse grid (40 m). Each casts a fixed fan of rays (32–64) over the 10 m heightmap, with
   sight-blocking types added as height, out to the sight radius. Sight radius: 300 m by default
   (approximate maximum siege engagement range; infantry effective range is about 100 m, vision 500 m
-  and more), a tunable parameter.
-- **Relative elevation**: height above the mean height of the surrounding ground, in metres.
+  and more), a tunable parameter. Height added per sight-blocking type: forest 15 m, town 8 m, ruins
+  4 m. These are owner-approved gameplay values stored in `types.yaml`.
+- **Relative elevation**: height above the mean height of the ground within 300 m, in metres. The
+  neighbourhood radius equals the sight radius default.
 - **Approach count**: the number of distinct approaches that reach a location, from the route graph
   (package 13).
 
 First step of the package: measure the sightline computation cost on `thornwald`. Fallback when it is
 too slow for the tune loop: compute sightlines only from buildable zones and objectives.
-
-Open: the height added per sight-blocking type; the neighbourhood radius of relative elevation (the
-balance investigation used 150 m).
 
 ### 15. Zones file zones.json
 
@@ -311,12 +319,11 @@ balance investigation used 150 m).
   (tunable; expected tuning range about 10 × 10 to 100 × 100 m) on ground that is below the maximum
   slope and neither water nor impassable. Slope is mapgen's analysis slope: rise over run of the
   heightmap sampled on the analysis grid, the quantity that raises travel cost above 0.15 and makes
-  ground impassable above 0.7. Maximum slope is a tunable parameter.
+  ground impassable above 0.7. Maximum slope is 10 degrees by default (rise over run 0.176), a tunable
+  parameter.
 - The file holds no judgement values. The game decides which locations it wants.
 - One aggregate score per zone exists purely as a reading aid for humans and visual inspection. It is
   documented as a heuristic.
-
-Open: the default maximum slope for `buildable`.
 
 ### 16. map-concept skill tune loop
 
