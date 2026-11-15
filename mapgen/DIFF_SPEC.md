@@ -133,8 +133,8 @@ Findings:
 - Moving one POI leaves the heightmap untouched (0 texels changed) but changes the forest scatter over
   the whole map: the forest mask changes in 1766 texels with a bounding box spanning 325–3091 m east and
   271–2737 m north, and `regions.json` differs in 5056 JSON leaves (coordinates shifted by 0.01 m in both
-  scatter regions). Scatter avoids POI footprints and thresholds at a map-wide quantile (roadmap gap
-  "Scatter thresholds at a map-wide quantile", package 5).
+  scatter regions). The measured build thresholded scatter at a quantile over the eligible cells of the whole map, so one
+  POI move re-rolled every patch (locality design: `mapgen/SCATTER_SPEC.md`).
 - The river_crossing edit changes the heightmap in 17.2 % of texels, maximum delta 19.46 m.
 - **Runtime**: the whole diff computation on the thornwald pair (hashing 33 + 33 files, decoding the 2
   changed rasters and the heightmap, JSON diffs, analysis) takes 0.22 s with warm file cache; the full

@@ -57,12 +57,6 @@ item title is `Mapgen: ` followed by the package title with a lower-case first l
 | Locations are duplicated across files | The same place appears as a POI, a region around it, a crossing and a chokepoint, with nothing linking them. |
 | No schema, version, file index or content identity | Nothing states the export format version, the schema of each file, or which files are data and which are human renders. `spec_sha256` covers the spec only, so a change in `types.yaml` or code changes a bundle without changing its identity. `report.json` sits outside `export/` and names the north axis `y` where the bundle uses `z`. The type table encodes impassable cost as the string `"inf"`. |
 
-### Editability and regeneration stability
-
-| gap | detail |
-|---|---|
-| Scatter thresholds at a map-wide quantile | Any placement edit shifts forest edges across the whole map (0.04–1.1 % of forest texels). |
-
 ### Balance tooling
 
 | gap | detail |
@@ -173,12 +167,17 @@ shown with `mapgen diff`, approved by the owner and re-baselined.
 
 ### 5. Local forest scatter
 
-The scatter threshold at a location is computed from that location's surroundings, so an edit to a
-feature changes scatter patches only near that feature. `coverage` is the target share of eligible area.
+The scatter threshold of an entry is the `1 − coverage` quantile of its noise field over the entry's own area
+(the map, cut to `within`), independent of every other feature. An edit to a feature changes scatter patches only
+where that feature's blocked footprint and clearance change, and in the patches touching that area. `coverage` is
+the share of the entry's area above the threshold; eligible ground is covered at about that share.
 
-**Migration.** The local threshold moves forest edges once on every map that uses `scatter` (about 1 % of
-forest texels). Each map's shift is shown with `mapgen diff`, approved by the owner per map, then
-re-baselined.
+Implementation spec: `mapgen/SCATTER_SPEC.md`.
+
+**Migration.** The threshold moves patch edges once on every map that uses `scatter`: 1.5–10 % of the occupied
+texels of each scatter-type mask (0.1–2.2 % of the map). thornwald objective `charcoal` flips to IMBALANCED, filed as
+a separate balance item. Each map's shift is shown with `mapgen diff`, approved by the owner per map, then
+re-baselined; the two maps without scatter stay byte-identical.
 
 ### 6. Manifest, JSON schemas and export_version
 

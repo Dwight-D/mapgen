@@ -276,7 +276,7 @@ scatter:
 | `id` | required; §4.8 |
 | `seed` | optional; §4.8 |
 | `type` | region type (required) |
-| `coverage` | 0–1, fraction of the eligible area covered (required) |
+| `coverage` | 0–1 (required): share of the entry's area (the map, cut to `within`) where the noise field lies above the threshold; eligible ground is covered at about this share where it spans many patch widths (`scale`); an entry whose eligible ground is a sliver can yield no patches |
 | `scale` | metres, typical patch size (default 300) |
 | `clump` | 0–1 (default 0.3): 0 = many small patches, 1 = few large merged ones |
 | `avoid` | metres of clearance from every line, crossing, base and POI footprint (default 25) |
@@ -292,9 +292,19 @@ whose type is not listed in `on`, so it covers open ground and the listed region
 fields on `plateau`) and keeps clear of everything else (clearings, forests, ruins...). The noise field is
 `fbm2(x/scale, y/scale, octaves=4) · (1 − 0.4·clump) + 1.2 · clump · fbm2(x/(4·scale), octaves=2)`, seeded by the
 entry's feature seed (§4.8), sampled on a 5 m
-grid (10 m when the map is larger than 4 km) and thresholded at the `1 − coverage` quantile over eligible cells.
+grid (10 m when the map is larger than 4 km) and thresholded at the `1 − coverage` quantile of its values over the
+entry's area: every grid cell inside the map and inside `within` (a cell is inside when at least half of it is
+covered). The threshold depends on the field and that area only, never on what other features block; patches are the
+eligible cells above it.
 Patches are vectorized as in §4.2 fragmentation (continuous-field contours, simplified 4 m), then the blocked area
 is subtracted exactly so the clearance holds; parts smaller than 1 500 m² and holes smaller than 300 m² are dropped.
+
+**Locality.** An edit to another feature changes an entry's patches only where the edit changes the entry's blocked
+area (for a line, crossing, POI or base: its footprint before and after the edit, widened by `2.25 · avoid`; for a
+blocking region: its outline before and after the edit, plus the line areas and automatic crossings the edit changes, e.g. a
+lake clipping a river; for an entry with `on`, every region type not listed in `on` blocks) and in the patches that come within 20 m of that area, which
+may change along their whole outline or vanish below 1 500 m². Every other patch keeps its exact coordinates. Scatter
+entries never affect each other.
 
 Each entry becomes one `Region` (shape `scatter`, the entry's `id`, multi-part geometry). Entries without `on` are
 inserted **before** all explicit regions, so explicit regions paint over them; entries with `on` are inserted

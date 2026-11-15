@@ -149,6 +149,7 @@ An invalid spec makes `build` write nothing: the output root is not created.
 | `tests/test_validation.py` | invalid-spec cases, in-process |
 | `tests/test_identity.py` | feature identity: id rules, id-derived seeds, format version |
 | `tests/test_references.py` | feature references: resolution, equivalence of references and literals |
+| `tests/test_scatter.py` | scatter: locality of edits (entries with and without `within`/`on`), coverage of eligible ground, determinism (small in-process specs) |
 | `tests/test_cli_exit_codes.py` | command exit codes, through real subprocesses |
 | `tests/test_diff.py` | diff report logic on synthetic builds; river_crossing integration build |
 | `tests/test_diff_cli.py` | diff command exit codes, through real subprocesses |

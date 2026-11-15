@@ -74,6 +74,7 @@ Exported JSON uses `x` (east), `z` (north), `y` (height).
 | `docs/backlog.md` | where work items for this repo are tracked and how to file one |
 | `tests/REGRESSION_SPEC.md` | the regression suite: baselines, helper API, test cases, re-baselining |
 | `mapgen/REFERENCES_SPEC.md` | point references and the `points` section: format rules, resolution, migration of the committed maps, tests, docs |
+| `mapgen/SCATTER_SPEC.md` | the scatter threshold over the entry's own area: locality property, `coverage` meaning, migration of the scatter maps, tests |
 | `mapgen/DIFF_SPEC.md` | the diff command: report format, algorithms, tests |
 | `HANDOVER_UNITY_IMPORTER.md` | the prompt that started the Battlehounds importer session |
 

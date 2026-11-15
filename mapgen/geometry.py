@@ -513,7 +513,8 @@ def _mid(path: List[Tuple[float, float]]) -> Tuple[float, float]:
 
 
 def scatter_geometry(sc: Scatter, spec: MapSpec, bounds: BaseGeometry, blockers: dict) -> BaseGeometry:
-    """Irregular patches of one region type from thresholded noise over the eligible area (spec 4.6)."""
+    """Irregular patches of one region type: noise thresholded over the entry's own area (map ∩ within),
+    kept on eligible cells (spec 4.6)."""
     cs = 5.0 if max(spec.size) <= 4000.0 else 10.0
     cols, rows = int(math.ceil(spec.size[0] / cs)), int(math.ceil(spec.size[1] / cs))
     grid = raster.Grid(spec.size[0], spec.size[1], cols, rows)
@@ -537,9 +538,10 @@ def scatter_geometry(sc: Scatter, spec: MapSpec, bounds: BaseGeometry, blockers:
             blocked.append(nu)
     bl = [b for b in blocked if not b.is_empty]
     bm = raster.mask(unary_union(bl), grid) > 0.02 if bl else np.zeros(grid.shape, bool)
-    ok = ~bm
+    area = np.ones(grid.shape, bool)   # the entry's own area: the map, cut to `within`
     if sc.within is not None:
-        ok &= raster.mask(Polygon(sc.within), grid) >= 0.5
+        area = raster.mask(Polygon(sc.within), grid) >= 0.5
+    ok = area & ~bm
     if sc.coverage <= 0 or not ok.any():
         return Polygon()
     xs = (np.arange(cols) + 0.5) * grid.cell_size_x
@@ -547,7 +549,9 @@ def scatter_geometry(sc: Scatter, spec: MapSpec, bounds: BaseGeometry, blockers:
     n = noise.fbm2_grid(xs / sc.scale, ys / sc.scale, sd, octaves=4) * (1.0 - 0.4 * sc.clump)
     if sc.clump > 0:
         n = n + 1.2 * sc.clump * noise.fbm2_grid(xs / (4.0 * sc.scale), ys / (4.0 * sc.scale), sd + 31, octaves=2)
-    q = float(np.quantile(n[ok], 1.0 - sc.coverage))
+    # the threshold depends on the noise and the entry's own area only, never on what other features block,
+    # so an edit to a feature changes patches only where that feature's clearance changes
+    q = float(np.quantile(n[area], 1.0 - sc.coverage))
     f = np.where(ok, n - q, -2.0)
     g = field_to_polygons(f, 0.0, spec.size[1], grid.cell_size_x, SCATTER_MIN_AREA, 4.0,
                           hole_min=0.2 * SCATTER_MIN_AREA)

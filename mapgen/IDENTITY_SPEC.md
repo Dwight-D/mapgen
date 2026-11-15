@@ -476,7 +476,10 @@ saltreach_delta: `high_road-trunk-1`, `causeway-arm_w-1`, `coast_road-arm_w-1`, 
 `reed_path-arm_mid-1`. Migrated example maps have positional-looking ids (`line_2-line_0-1`) because their
 lines take the ids they are exported under today. None of the eight maps has a lake ford.
 
-### 9.3 Locality (measured on migrated thornwald)
+### 9.3 Locality (measured on migrated thornwald at commit `d348b5c`)
+
+Measured at `d348b5c`, where scatter thresholded at a quantile over the eligible cells of the whole map; "scatter drift" below
+is the effect of that threshold.
 
 | edit | heightmap | rasters changed | features changed (id-keyed, `regions.json` / `lines.json` / `crossings.json` / `pois.json`) |
 |---|---|---|---|
@@ -486,8 +489,8 @@ lines take the ids they are exported under today. None of the eight maps has a l
 | delete `seed: 5, ` from `region_6` (id-derived seed takes effect) | identical | `clearing.png` 0.18 % inside x 403–650, z 2294–2496; `forest.png` 0.045 %; `splat_0.png` | `region_6` reshaped, `scatter1` drift; resolved `seed` = 2640903791 = `feature_seed("region_6")`; nothing else |
 | delete `seed: 0, ` from `mossbeck` | 3.9 % along the river | river, crossing, water masks, forest | `mossbeck` reshaped; its 5 automatic crossings move with it; other lines keep their x/z points (heights sampled on them change); scatter drift |
 
-The forest mask drifts map-wide on every placement edit (roadmap package 5). `impassable.png` changes where
-drifted `on` scatter (painted after explicit regions) covers analysis cells at a lake shore. `mapgen diff`
+At `d348b5c` the forest mask drifted map-wide on every placement edit; the threshold design that confines scatter changes to the
+edited area is in `mapgen/SCATTER_SPEC.md`. `impassable.png` changed where drifted `on` scatter (painted after explicit regions) covers analysis cells at a lake shore. `mapgen diff`
 compares JSON lists by position, so an inserted region shows as changes at every later index of
 `regions.json`; feature identity across two builds is read by matching entries on `id` (the tests in
 section 10.2 do this).

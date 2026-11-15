@@ -96,7 +96,7 @@ Optional keys (full definitions in `MAPGEN_SPEC.md` §4.2, §4.3, §4.6, §5.1, 
 | `warp`, `warp_scale` | region | metres; 2D domain warp of the outline (lobes and bays). Defaults: blob `0.3*r` / `r`, band `0.25*width` / `width`, poly `0` |
 | `fragment`, `fragment_scale` | region | `fragment` 0-1 = fraction of area removed as clearings and ragged edges; `fragment_scale` = patch size in metres (150) |
 | `width_var` | line | 0-1; width varies along the line (`width * (1 + width_var * 0.6 * noise)`) |
-| `scatter` | top level | list of `{id, type, coverage, scale, clump, avoid, within}`: noise patches of one region type across the map, clear of lines, crossings, POIs, lakes, mountains and towns by `avoid` metres; painted under the explicit regions |
+| `scatter` | top level | list of `{id, type, coverage, scale, clump, avoid, within}`: noise patches of one region type across the map, clear of lines, crossings, POIs, lakes, mountains and towns by `avoid` metres; painted under the explicit regions; `coverage` is the share of the entry's area (map cut to `within`) above its noise threshold, so eligible ground is covered at about that share where it spans many patch widths (`scale`) and an entry whose eligible ground is a sliver can yield no patches, and an edit to another feature changes only the patches near that feature |
 | `terrain.detail`, `terrain.detail_scale` | terrain | metres; mid-frequency ground undulation (6 m / 250 m) |
 
 Mountains get a foothill apron; `band` mountains default to `rough: 0.35`; overlapping mountains combine by maximum,
