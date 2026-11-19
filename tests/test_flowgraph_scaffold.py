@@ -163,17 +163,47 @@ def _edge_lengths(g, pos):
     return [math.hypot(pos[e.a][0] - pos[e.b][0], pos[e.a][1] - pos[e.b][1]) for e in g.edges]
 
 
-def test_town_square_balanced():
+def test_town_square_diamond():
+    """Symmetric diamond: A, AO, O, BO on one horizontal line; G, Fa, O, Fb, F on one vertical line; both mirror-symmetric."""
     g = load_flowgraph(TOWN_SQUARE)
     p = layout(g, 800, 800)
-    span = max(x for x, _ in p.values()) - min(x for x, _ in p.values())
-    for n in ("Fa", "Fb"):  # flank nodes sit on the objective's vertical axis, not beside one spawn
-        assert abs(p[n][0] - p["O"][0]) <= 0.15 * span, (n, p)
-    assert p["A"][0] < p["O"][0] < p["B"][0]
-    new, old = _edge_lengths(g, p), _edge_lengths(g, _layered_layout(g, 800, 800))
-    assert statistics.pstdev(new) < statistics.pstdev(old)
-    assert statistics.pstdev(new) / statistics.mean(new) < 0.7 * statistics.pstdev(old) / statistics.mean(old)
+    cx, cy = p["O"]
+    for n in ("A", "AO", "BO", "B"):  # the horizontal axis
+        assert p[n][1] == cy, (n, p)
+    for n in ("G", "Fa", "Fb", "F"):  # the vertical column
+        assert p[n][0] == cx, (n, p)
+    assert p["A"][0] < p["AO"][0] < cx < p["BO"][0] < p["B"][0]
+    assert p["G"][1] > p["Fa"][1] > cy > p["Fb"][1] > p["F"][1]
+    for u, v in (("A", "B"), ("AO", "BO")):  # left-right mirror
+        assert p[u][0] + p[v][0] == 2 * cx and p[u][1] == p[v][1]
+    for u, v in (("G", "F"), ("Fa", "Fb")):  # top-bottom mirror
+        assert p[u][1] + p[v][1] == 2 * cy and p[u][0] == p[v][0]
     assert len(set(p.values())) == len(p)
+
+
+DIAMOND = """format_version: 1
+name: d
+nodes:
+  A: {kind: spawn, team: A}
+  B: {kind: spawn, team: B}
+  X: {}
+  Y: {}
+  M: {}
+edges:
+  - A - X
+  - X - B
+  - A - Y
+  - Y - B
+  - X - M
+  - Y - M
+"""
+
+
+def test_symmetric_graph_without_hints_is_mirrored(tmp_path):
+    g = load_flowgraph(_w(tmp_path / "d.flow.yaml", DIAMOND))
+    p = layout(g, 3000, 3000)
+    assert p["A"][0] + p["B"][0] == p["X"][0] + p["X"][0] == p["Y"][0] + p["Y"][0] == 3000
+    assert p["X"][1] != p["Y"][1] and len(set(p.values())) == len(p)
 
 
 def test_spawns_default_west_east():
@@ -214,15 +244,15 @@ def _in_zone(place, pt, w, h):
     x, y = pt
     ok = True
     if "west" in place:
-        ok = ok and x <= 0.2 * w
+        ok = ok and x <= 0.35 * w
     if "east" in place:
-        ok = ok and x >= 0.8 * w
+        ok = ok and x >= 0.65 * w
     if "north" in place:
-        ok = ok and y >= 0.8 * h
+        ok = ok and y >= 0.65 * h
     if "south" in place:
-        ok = ok and y <= 0.2 * h
+        ok = ok and y <= 0.35 * h
     if place == "center":
-        ok = ok and 0.35 * w <= x <= 0.65 * w and 0.35 * h <= y <= 0.65 * h
+        ok = ok and 0.4 * w <= x <= 0.6 * w and 0.4 * h <= y <= 0.6 * h
     return ok
 
 

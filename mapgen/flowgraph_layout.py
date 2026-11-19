@@ -1,7 +1,7 @@
 """Deterministic flowgraph layout: node id -> (x, y) metres in the map rectangle (design: mapgen/FLOWGRAPH_SPEC.md sections 10-11)."""
 from __future__ import annotations
 
-from typing import Dict, List, Tuple
+from typing import Dict, List, Optional, Tuple
 
 from .flowgraph import Flowgraph
 
@@ -177,13 +177,16 @@ def _layered_layout(g: Flowgraph, width: float, height: float) -> Dict[str, Tupl
 # ---- stress layout (spec section 11) ---------------------------------------------------------------------------
 
 ITERATIONS = 400        # fixed Gauss-Seidel sweeps: no convergence test, so the result never depends on a tolerance
-ANCHOR_WEIGHT = 3.0     # spring weight toward a `place` anchor, against pairwise stress weights of 1/d^2
+ANCHOR_WEIGHT = 12.0    # spring weight toward a `place` anchor, against pairwise stress weights of 1/d^2
 SPAWN_REACH = 1.0       # a spawn anchor aims at this fraction of the frame half-width
 SPAWN_BOOST = 20.0      # spawn anchors are this many times stiffer than other anchors
 NODE_REACH = 0.5        # a non-spawn anchor aims at this fraction of the frame half-width (spawns aim at the frame edge)
 EDGE_WEIGHT = 16.0      # extra weight on pairs joined by an edge (d = 1): edge lengths matter more than far pairs
-ZONE_EDGE = 0.2         # an edge zone (west/east/north/south) is the outer 20 % of the map rectangle
-ZONE_CENTER = (0.35, 0.65)   # `center` is the middle 30 % of each axis
+MIN_SEP = 0.7           # nodes closer than this many edge lengths push each other apart
+SEED_BLEND = 0.1        # share of the layered layout mixed into the relaxed start to break ties between parallel branches
+ZONE_EDGE = 0.35        # an edge zone (west/east/north/south) is the outer 35 % of the map rectangle
+ZONE_CENTER = (0.4, 0.6)     # `center` is the middle 20 % of each axis
+AUTOMORPHISM_BUDGET = 20000  # search steps for graph symmetries; large asymmetric graphs simply get none
 _DIRS = {"west": (-1, 0), "east": (1, 0), "north": (0, 1), "south": (0, -1), "center": (0, 0),
          "north-west": (-1, 1), "north-east": (1, 1), "south-west": (-1, -1), "south-east": (1, -1)}
 
@@ -197,7 +200,7 @@ def _distances(g: Flowgraph) -> Dict[str, Dict[str, int]]:
 
 
 def _anchors(g: Flowgraph) -> Dict[str, Tuple[int, int]]:
-    """node id -> compass direction (dx, dy), y north. Spawns without `place` default to west (first team) / east (second)."""
+    """node id -> compass direction (dx, dy), y north. Spawns without `place` default to west (first team) / east (second team)."""
     teams = team_order(g)
     out: Dict[str, Tuple[int, int]] = {}
     for n in g.nodes:
@@ -209,26 +212,114 @@ def _anchors(g: Flowgraph) -> Dict[str, Tuple[int, int]]:
     return out
 
 
+def _involutions(g: Flowgraph) -> List[Dict[str, str]]:
+    """Non-trivial graph automorphisms of order 2 (kind-preserving), found by backtracking in declaration order, so the list
+    is deterministic. Bounded by AUTOMORPHISM_BUDGET steps."""
+    ids = [n.id for n in g.nodes]
+    kind = {n.id: n.kind for n in g.nodes}
+    adj = {i: set() for i in ids}
+    for e in g.edges:
+        adj[e.a].add(e.b)
+        adj[e.b].add(e.a)
+    out: List[Dict[str, str]] = []
+    steps = [0]
+    m: Dict[str, str] = {}
+
+    def rec(k: int) -> None:
+        if steps[0] > AUTOMORPHISM_BUDGET:
+            return
+        while k < len(ids) and ids[k] in m:
+            k += 1
+        if k == len(ids):
+            if any(a != b for a, b in m.items()):
+                out.append(dict(m))
+            return
+        u = ids[k]
+        for v in ids[k:]:  # an involution maps u to itself or to a later, still unmapped node
+            steps[0] += 1
+            if v in m or kind[v] != kind[u] or len(adj[v]) != len(adj[u]):
+                continue
+            m[u] = v
+            m[v] = u
+            ok = all(m[w] in adj[v] for w in adj[u] if w in m) and all(m[w] in adj[u] for w in adj[v] if w in m)
+            if ok:
+                rec(k + 1)
+            del m[u]
+            m.pop(v, None)
+    rec(0)
+    return out
+
+
+def _mirrors(g: Flowgraph, anchors: Dict[str, Tuple[int, int]]) -> Tuple[Optional[Dict[str, str]], Optional[Dict[str, str]]]:
+    """(left-right mirror, top-bottom mirror) as node permutations, or None. The left-right mirror swaps the two teams' spawns;
+    the top-bottom mirror fixes every spawn. Both must agree with the `place` hints (an anchored node maps to a node whose
+    anchor is the reflected one, or to an unanchored node); among the candidates the one moving the most nodes wins."""
+    spawns = [n.id for n in g.nodes if n.kind == "spawn"]
+    teams = team_order(g)
+    team = {n.id: n.team for n in g.nodes}
+    best: List[Optional[Dict[str, str]]] = [None, None]
+    for m in _involutions(g):
+        if all(m[s] == s for s in spawns):
+            axis = 1
+        elif len(teams) == 2 and all(team[m[s]] != team[s] for s in spawns):
+            axis = 0
+        else:
+            continue
+        ok = True
+        for u, v in m.items():
+            if u in anchors and v in anchors:
+                dx, dy = anchors[u]
+                ok = ok and anchors[v] == ((-dx, dy) if axis == 0 else (dx, -dy))
+            elif u in anchors or v in anchors:
+                ok = False
+        if ok and (best[axis] is None or sum(a != b for a, b in m.items()) > sum(a != b for a, b in best[axis].items())):
+            best[axis] = m
+    return best[0], best[1]
+
+
+def _symmetrise(pos: Dict[str, List[float]], mx: Optional[Dict[str, str]], my: Optional[Dict[str, str]]) -> None:
+    """Project positions onto the mirror-symmetric set (axes through the origin)."""
+    if mx:
+        old = {k: list(v) for k, v in pos.items()}
+        for u, v in mx.items():
+            pos[u] = [(old[u][0] - old[v][0]) / 2.0, (old[u][1] + old[v][1]) / 2.0]
+    if my:
+        old = {k: list(v) for k, v in pos.items()}
+        for u, v in my.items():
+            pos[u] = [(old[u][0] + old[v][0]) / 2.0, (old[u][1] - old[v][1]) / 2.0]
+
+
 def _solve(g: Flowgraph) -> Dict[str, List[float]]:
     """Stress-minimising positions in abstract units (one edge = 1.0), y north, centred on the origin. Target distance
-    = graph distance; weight 1/d^2; anchors are weak springs toward the compass points of a frame of half-width
-    diameter/2 around the centroid. Initialised from the layered layout; fixed sweep count; no randomness."""
+    = graph distance; weight 1/d^2. An anchor is a stiff spring toward its compass point on both axes (a one-axis anchor
+    such as `west` aims at the middle of the other axis), and the layout is mirror-symmetric when the graph has the
+    symmetry (see _mirrors). Starts from a relaxation that puts anchored nodes at their targets and every other node at
+    the mean of its neighbours, plus a small share of the layered layout; overlapping nodes repel; fixed sweep count;
+    no randomness."""
     dist = _distances(g)
     ids = [n.id for n in g.nodes]
     diam = max(max(d.values()) for d in dist.values())
-    init = _layered_layout(g, 1000.0, 1000.0)
-    lens = [((init[e.a][0] - init[e.b][0]) ** 2 + (init[e.a][1] - init[e.b][1]) ** 2) ** 0.5 for e in g.edges]
-    unit = (sum(lens) / len(lens)) if lens and sum(lens) > 0 else 1.0
-    pos = {i: [init[i][0] / unit, init[i][1] / unit] for i in ids}
-    cx = sum(p[0] for p in pos.values()) / len(ids)
-    cy = sum(p[1] for p in pos.values()) / len(ids)
-    for p in pos.values():
-        p[0] -= cx
-        p[1] -= cy
     half = max(diam / 2.0, 1.0)
     spawn = {n.id for n in g.nodes if n.kind == "spawn"}
+    anchors = _anchors(g)
     target = {nid: (dx * half * (SPAWN_REACH if nid in spawn else NODE_REACH), dy * half * (SPAWN_REACH if nid in spawn else NODE_REACH))
-              for nid, (dx, dy) in _anchors(g).items()}
+              for nid, (dx, dy) in anchors.items()}
+    mx, my = _mirrors(g, anchors)
+    adj: Dict[str, List[str]] = {i: [] for i in ids}
+    for e in g.edges:
+        adj[e.a].append(e.b)
+        adj[e.b].append(e.a)
+    lay = _layered_layout(g, 1000.0, 1000.0)
+    scale = max(max(abs(lay[i][0] - 500.0), abs(lay[i][1] - 500.0)) for i in ids) or 1.0
+    pos = {i: list(target[i]) if i in target else [0.0, 0.0] for i in ids}
+    for _ in range(200):  # relax the free nodes onto the mean of their neighbours
+        for i in ids:
+            if i not in target and adj[i]:
+                pos[i] = [sum(pos[j][0] for j in adj[i]) / len(adj[i]), sum(pos[j][1] for j in adj[i]) / len(adj[i])]
+    for i in ids:
+        pos[i][0] += SEED_BLEND * half * (lay[i][0] - 500.0) / scale
+        pos[i][1] += SEED_BLEND * half * (500.0 - lay[i][1]) / scale
+    _symmetrise(pos, mx, my)
     for _ in range(ITERATIONS):
         for i in ids:
             xi, yi = pos[i]
@@ -240,7 +331,9 @@ def _solve(g: Flowgraph) -> Dict[str, List[float]]:
                 w = (EDGE_WEIGHT if d == 1.0 else 1.0) / (d * d)
                 xj, yj = pos[j]
                 r = ((xi - xj) ** 2 + (yi - yj) ** 2) ** 0.5
-                ux, uy = ((xi - xj) / r, (yi - yj) / r) if r > 1e-9 else (0.0, 0.0)
+                ux, uy = ((xi - xj) / r, (yi - yj) / r) if r > 1e-9 else (1.0, 0.0)
+                if r < MIN_SEP and d > 1.0:  # overlap repulsion: never pull a close pair toward a short target
+                    d, w = MIN_SEP, 1.0
                 sx += w * (xj + d * ux)
                 sy += w * (yj + d * uy)
                 sw += w
@@ -250,6 +343,7 @@ def _solve(g: Flowgraph) -> Dict[str, List[float]]:
                 sy += a * target[i][1]
                 sw += a
             pos[i] = [sx / sw, sy / sw]
+        _symmetrise(pos, mx, my)
     return pos
 
 

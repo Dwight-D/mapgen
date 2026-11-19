@@ -224,19 +224,38 @@ Each slice: add docs (README commands, CLAUDE.md table row), run the full pytest
 A node may carry `place`, a soft anchor for layout and scaffold coordinates. Values: `west`, `east`, `north`,
 `south`, `center`, and the four diagonals (`north-west`, `north-east`, `south-west`, `south-east`). It is a hint
 only: `check` ignores it. Spawns without `place` default to `west` (first team) and `east` (second team).
-The layout (hence scaffold and preview) places an anchored node in its zone of the map rectangle (edge zones within the outer 20 % band,
-`center` within the middle 30 %); layout (§11) uses the anchor as a spring toward that point. Unknown values are
-format errors (`nodes.X.place: ...`).
+An anchor names a compass point and acts on both axes: `west` means the west zone on x and the middle of the map on y,
+`north` the north zone on y and the middle on x; only a diagonal leaves the middle. The layout (hence scaffold and
+preview) places an anchored node in its zone of the map rectangle (edge zones within the outer 35 % band, `center`
+within the middle 20 % of each axis); §11 uses the anchor as a stiff spring toward the compass point. Unknown values are
+format errors (`nodes.X.place: ...`). Nodes between two anchored nodes (flank areas between a north and a south zone)
+need no hint: they settle on the line between their neighbours.
 
-## 11. Layout — balanced edge lengths
+## 11. Layout — symmetric, balanced edge lengths
 
 `layout(graph, width, height)` minimises stress: the squared difference between each drawn node distance and the
 graph-theoretic distance times one uniform edge length, so as many edges as possible come out the same length and
-nodes that connect to both sides sit between them (flank nodes between the two spawns, not beside one). Anchors
-from `place` add a weak spring toward the anchor point. Deterministic: initialised from the layered layout,
-fixed iteration count, no randomness, coordinates rounded to 10 m. Consumed by `scaffold` and `preview`/editor.
-Quality bar (tested): on town_square both flank nodes sit within 15 % of the layout width of the objective's x, and the
-standard deviation of edge lengths (absolute and relative to the mean) is lower than the layered layout's.
+nodes that connect to both sides sit between them. Deterministic: fixed iteration count, no randomness, coordinates
+rounded to 10 m. Consumed by `scaffold` and `preview`/editor. Steps:
+
+1. **Symmetry detection.** Graph automorphisms of order 2 (kind-preserving, found by bounded backtracking in
+   declaration order) are classified: a *left-right mirror* swaps the two teams' spawns; a *top-bottom mirror* fixes
+   every spawn. A mirror is used only when it agrees with the `place` hints (anchored nodes map to the reflected
+   anchor); the candidate moving the most nodes wins. No symmetry, or a graph too large for the search budget, means
+   no mirror and the remaining steps still apply.
+2. **Initialisation.** Anchored nodes start at their compass points (non-spawn anchors at half the spawn distance
+   from the centre), every other node at the mean of its neighbours (relaxation), plus a small share of the layered
+   layout to separate parallel branches; then the mirrors are applied.
+3. **Stress sweeps.** Fixed Gauss-Seidel sweeps with pair weight 1/d^2 (edges weighted up), anchors as stiff springs
+   (spawns stiffer), an overlap-repulsion term (nodes closer than 0.7 edge lengths are pushed apart instead of
+   pulled toward a short target), and the mirror projection after every sweep, so symmetry is exact throughout.
+4. **Fit.** The solution is stretched to the rectangle inside a 10 % margin, anchored nodes are clamped into their
+   zone, coordinates rounded, coincident nodes nudged apart.
+
+On town_square (G north, F south, AO west, BO east, O center; Fa, Fb unhinted) the result is a diamond: A, AO, O,
+BO, B on the horizontal axis; G, Fa, O, Fb, F on the vertical axis; both left-right and top-bottom mirror-symmetric.
+Quality bar (tested): that straight-axis symmetry on town_square, mirror symmetry of an unhinted symmetric graph, and
+anchored nodes inside their zones.
 
 ## 12. Terrain-aware check — `flowgraph check --terrain`
 
