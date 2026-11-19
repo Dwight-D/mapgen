@@ -46,6 +46,29 @@ def cmd_flowgraph_validate(args) -> int:
     return 0
 
 
+def cmd_flowgraph_check(args) -> int:
+    from . import flowgraph, flowgraph_check
+
+    g = None
+    for path, loader in ((args.graph, flowgraph.load_flowgraph), (args.spec, schema.load_spec)):
+        try:
+            obj = loader(path)
+        except FileNotFoundError:
+            print("error: file not found: %s" % path)
+            return 1
+        except schema.SpecError as e:
+            print("%d error(s) in %s:" % (len(e.errors), path))
+            for line in e.errors:
+                print("  " + line)
+            return 1
+        if g is None:
+            g = obj
+    res = flowgraph_check.check(g, obj)
+    for line in res.lines(args.strict):
+        print(line)
+    return 1 if res.failed(args.strict) else 0
+
+
 def cmd_types(args) -> int:
     t = schema.load_types()
     print("regions:")
@@ -233,6 +256,11 @@ def main(argv: Optional[List[str]] = None) -> int:
     fgv = fgs.add_parser("validate", help="validate a *.flow.yaml graph and report every error")
     fgv.add_argument("graph")
     fgv.set_defaults(func=cmd_flowgraph_validate)
+    fgc = fgs.add_parser("check", help="check a spec against a graph: missing nodes/edges (--strict: extras too)")
+    fgc.add_argument("graph")
+    fgc.add_argument("spec")
+    fgc.add_argument("--strict", action="store_true", help="also fail on extra edges and extra nodes")
+    fgc.set_defaults(func=cmd_flowgraph_check)
 
     t = sub.add_parser("types", help="print the type table")
     t.set_defaults(func=cmd_types)

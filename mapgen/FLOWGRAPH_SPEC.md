@@ -4,7 +4,7 @@ A **flowgraph** is a small hand-written YAML file describing a map's *topology*:
 which of them are directly traversable from which. It carries no geometry. A mapgen spec (the
 topography: regions, lines, positions) is drafted from it and later checked against it.
 
-Status: slice 1 (loader, validation, `flowgraph validate`) implemented; slices 2-6 are design. Implementation slices are backlog items in the `mapgen` workstream
+Status: slices 1 (loader, validation, `flowgraph validate`) and 2 (edge derivation, `flowgraph check`) implemented; slices 3-6 are design. Implementation slices are backlog items in the `mapgen` workstream
 (GDU-31 … GDU-36 = slices 1–6, §9). Everything below is the contract those items implement.
 
 ## 1. Concepts
@@ -96,8 +96,11 @@ An edge X–Y is **present** when a traversable line connects X and Y directly.
      (30 m for `points` waypoints), else to nothing.
 3. Drop unresolved vertices, collapse consecutive repeats. Each consecutive pair (P, Q) of distinct nodes is
    a present edge P–Q. A line through A, C, B yields A–C and C–B, **not** A–B.
-4. Implementation reads the raw YAML for reference tokens (`load_spec` resolves them to coordinates and drops
-   the names) and `load_spec` for coordinates.
+4. Implementation (`mapgen/flowgraph_check.py`) reads the raw YAML for reference tokens (`load_spec` resolves them
+   to coordinates and drops the names) and `load_spec` for coordinates and line types, aligning raw and loaded path
+   vertices by index. Only nodes whose bound feature exists in the spec take part; a reference token naming a
+   feature no node binds resolves to nothing. A literal coordinate within reach of several bound nodes resolves to
+   the nearest. Base POIs have r 120 m, so a coordinate within 120 m of a base resolves to the spawn node.
 
 ## 5. Commands — `python -m mapgen flowgraph <sub>`
 
@@ -128,7 +131,10 @@ Loads graph and spec (errors → exit 1, same format). Reports:
 - with `--strict`: **extra edges** (derived edge between two bound nodes, not in graph) and
   **extra nodes** (POIs of any type except `landmark` that are not bound by any graph node; `base_*` of teams
   with no spawn node). `points` entries never count as extra.
-Output: one line per finding, `missing node ao (AO: Team A gate)`, then a summary. Exit 0 = pass, 1 = any
+Output: one line per finding (`missing node ao (AO: Team A gate)`, `missing edge A - AO (name)`, `extra edge X - Y`,
+`extra node id (poi type)`), then a summary line `OK|FAIL: N missing node(s), N missing edge(s)[, N extra edge(s), N extra node(s)]`.
+Missing edges are reported for every graph edge not derived, including those of missing nodes. Load errors print
+`N error(s) in <file>:` plus indented `path: message` lines, or `error: file not found: <file>`. Exit 0 = pass, 1 = any
 missing (or extra under `--strict`) or load error. Default mode ignores extras. Nothing is written.
 Derived edges touching an unbound node are ignored (not a graph concern).
 

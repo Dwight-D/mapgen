@@ -28,6 +28,7 @@ python -m mapgen build    <spec> --out some/dir                # alternative out
 python -m mapgen probe    maps/concepts/thornwald.yaml 1500 1560 lodge   # times, spread, cost, features at points (no files)
 python -m mapgen diff     out/a/thornwald out/b/thornwald      # what changed between two build folders: JSON (--text: summary)
 python -m mapgen flowgraph validate flowgraphs/town_square.flow.yaml   # validate a topology graph (see mapgen/FLOWGRAPH_SPEC.md)
+python -m mapgen flowgraph check <graph> <spec> [--strict]       # spec vs graph: missing nodes/edges; --strict adds extras (no files)
 python -m mapgen types                                         # print the type table (types.yaml)
 python -m mapgen build    <spec> --palette my_palette.yaml     # other render colours (omitted keys use palette.yaml)
 python -m mapgen palette                                       # L* lightness matrix + greyscale legibility check
