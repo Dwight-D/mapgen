@@ -253,7 +253,7 @@ rounded to 10 m. Consumed by `scaffold` and `preview`/editor. Steps:
 4. **Fit.** The solution is stretched to the rectangle inside a 10 % margin, anchored nodes are clamped into their
    zone, coordinates rounded, coincident nodes nudged apart.
 
-On town_square (G north, F south, AO west, BO east, O center; Fa, Fb unhinted) the result is a diamond: A, AO, O,
+On town_square (G south, F north, AO west, BO east, O center; Fa, Fb unhinted) the result is a diamond: A, AO, O,
 BO, B on the horizontal axis; G, Fa, O, Fb, F on the vertical axis; both left-right and top-bottom mirror-symmetric.
 Quality bar (tested): that straight-axis symmetry on town_square, mirror symmetry of an unhinted symmetric graph, and
 anchored nodes inside their zones.

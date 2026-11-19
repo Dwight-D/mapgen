@@ -173,7 +173,7 @@ def test_town_square_diamond():
     for n in ("G", "Fa", "Fb", "F"):  # the vertical column
         assert p[n][0] == cx, (n, p)
     assert p["A"][0] < p["AO"][0] < cx < p["BO"][0] < p["B"][0]
-    assert p["G"][1] > p["Fa"][1] > cy > p["Fb"][1] > p["F"][1]
+    assert p["F"][1] > p["Fb"][1] > cy > p["Fa"][1] > p["G"][1]  # F/Fb north, G/Fa south (y up)
     for u, v in (("A", "B"), ("AO", "BO")):  # left-right mirror
         assert p[u][0] + p[v][0] == 2 * cx and p[u][1] == p[v][1]
     for u, v in (("G", "F"), ("Fa", "Fb")):  # top-bottom mirror
