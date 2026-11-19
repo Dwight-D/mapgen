@@ -99,7 +99,7 @@ def load_types(path: Optional[str] = None) -> TypeTable:
 
 # ----------------------------------------------------------------------------- palette
 
-PATTERN_NAMES = ("none", "stipple", "hatch", "crosshatch", "reeds", "dots", "grid", "hlines")
+PATTERN_NAMES = ("none", "stipple", "hatch", "crosshatch", "reeds", "dots", "grid", "hlines", "strike")
 
 
 @dataclass
@@ -112,6 +112,7 @@ class Palette:
     teams: List[str]
     overlay: Dict[str, Any]
     outline_darken: float
+    impassable_pattern: str = "strike"   # hatch overdrawn on regions with `impassable: true`
 
 
 _PALETTE_CACHE: Dict[str, Palette] = {}
@@ -182,10 +183,14 @@ def load_palette(path: Optional[str] = None) -> Palette:
     if not _V.is_num(od) or not 0 <= od <= 1:
         errors.append("palette.outline_darken: expected a number in [0, 1]")
         od = 0.45
+    ip = raw.get("impassable_pattern", "strike")
+    if ip not in PATTERN_NAMES or ip == "none":
+        errors.append("palette.impassable_pattern: unknown pattern %r (known: %s)" % (ip, ", ".join(PATTERN_NAMES[1:])))
+        ip = "strike"
     pal = Palette(base=hexc(raw.get("base"), "base"), regions=cols["regions"], lines=cols["lines"],
                   crossings=cols["crossings"], patterns=pats,
                   teams=[hexc(c, "teams[%d]" % i) for i, c in enumerate(teams)], overlay=overlay,
-                  outline_darken=float(od))
+                  outline_darken=float(od), impassable_pattern=ip)
     if errors:
         raise SpecError(errors)
     _PALETTE_CACHE[path] = pal
@@ -238,6 +243,7 @@ class Region:
     scatter: Optional["Scatter"] = None  # set on regions generated from a `scatter` entry
     label_at: Optional[Point] = None     # pinned label position
     edge: Optional[float] = None         # flatten/raise_flat blend radius, metres (None for other types)
+    impassable: bool = False             # cells get cost infinity whatever the type (FLOWGRAPH_SPEC 13)
 
 
 @dataclass
@@ -498,7 +504,7 @@ def _feature_seed_of(v: "_V", d: Dict[str, Any], path: str, fid: Optional[str]) 
     return feature_seed(fid) if fid is not None else 0
 
 _REGION_COMMON = ["type", "shape", "label", "label_at", "id", "seed", "height", "edge", "warp", "warp_scale", "fragment",
-                  "fragment_scale"]
+                  "fragment_scale", "impassable"]
 _REGION_SHAPE_KEYS = {
     "blob": (["at", "r", "rough", "squash", "angle"], ["at", "r"]),
     "poly": (["points", "rough"], ["points"]),
@@ -716,6 +722,11 @@ def _validate(raw: Any, types: TypeTable, palette: Palette) -> Tuple[Optional[Ma
             reg.fragment_scale = v.num(r, "fragment_scale", p, 150.0, positive=True)
             reg.id = rid or ""
             reg.label = v.text(r, "label", p)
+            if "impassable" in r:
+                if not isinstance(r["impassable"], bool):
+                    v.err(p + ".impassable", "expected true or false, got %r" % (r["impassable"],))
+                else:
+                    reg.impassable = r["impassable"]
             if "label_at" in r:
                 reg.label_at = v.point(r["label_at"], p + ".label_at", size)
             if rtype is not None and types.regions[rtype].get("height_mode") in ("raise_flat", "flatten"):

@@ -1,0 +1,14 @@
+format_version: 1
+name: impassable_demo
+size: [800, 600]
+seed: 5
+teams:
+  A: {base: [80, 300]}
+  B: {base: [720, 300]}
+output: {heightmap_res: 129, splat_res: 128, render_px: 800}
+regions:
+  - {id: wall_wood, type: forest, shape: blob, at: [400, 300], r: 150, seed: 1, impassable: true, label: Black Wood}
+  - {id: open_wood, type: forest, shape: blob, at: [250, 130], r: 70, seed: 2}
+  - {id: hills_a, type: hills, shape: blob, at: [600, 480], r: 90, seed: 3, impassable: true}
+lines:
+  - {id: road, type: road, path: [base_A, [300, 520], base_B], width: 8}

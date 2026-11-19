@@ -179,6 +179,14 @@ from `types.yaml`: 40 and 30) and the natural-shape keys `warp`, `warp_scale`, `
 `edge` is the blend radius of the region's flatten step (§6.2): a larger `edge` turns the region's rim into a
 walkable slope instead of a cliff.
 
+`impassable` (optional boolean, default `false`; any other value is a validation error; only regions take it) makes
+the region a wall: its cells get cost infinity in the movement cost grid (§6.3) whatever the region type, while line
+of sight and heights follow the type (`los` and `height_mode` of `types.yaml`). Dense forest, rubble, hills or town
+blocks can serve as walls this way. Render: the region keeps its type colour and outline and is overdrawn with the
+strike-through hatch (§6.4, palette `impassable_pattern`); the legend lists "impassable". Export: `regions.json` and
+`spec.resolved.json` carry `"impassable": true` on flagged regions only (the key is absent otherwise), and
+`masks/impassable.png` includes the region's cells. A crossing still overrides passability (§6.3).
+
 | shape | keys | geometry |
 |---|---|---|
 | `blob` | `at`, `r`, `rough` (0–1, default 0.3), `squash` (default 1.0), `angle` (deg, default 0) | circle of radius `r`; boundary radius at angle θ is `r · (1 + rough · 0.5 · n(θ))` with `n` 1D periodic fbm in [-1, 1] seeded by the region's feature seed (§4.8); then scaled by `squash` along local y and rotated by `angle`; 96 vertices |
@@ -527,6 +535,7 @@ patterns:                       # region type -> texture drawn in the region's d
   town:   grid
   ruins:  crosshatch
   clearing: dots
+impassable_pattern: strike      # strike-through hatch (white stripe, dark casing) overdrawn on `impassable: true` regions
 teams: ["#2f6fdf", "#f2a81d", "#6a2cc0"]   # default team colours in team order: blue, amber, purple
 overlay:
   contested:   "#ffffff"        # white diagonal hatch with a dark edge stripe, not a tint
@@ -684,6 +693,10 @@ over the map area. Panel rows shrink to fit the image height.
 3. Region **patterns** (palette `patterns`): each pattern is drawn in the region's fill colour darkened by 60 %, only
    where that region is the topmost one — stipple for forests, reeds for marsh, grid for towns, crosshatch for ruins,
    dots for clearings.
+   **Impassable strike-through** (palette `impassable_pattern`, pattern `strike`): a region with `impassable: true` is
+   additionally overdrawn, where it is the topmost region, with a diagonal (`\`) hatch of 14 px period: a 2.4 px white
+   core stripe between 1.3 px dark casings, so it separates by pattern and lightness on every fill and differs from every
+   type pattern. Type colour and outline stay.
 4. **Outlines** are drawn where the painted **type** changes, found by edge detection on the 2×-resolution type grid
    (topmost region per pixel; lakes and rivers form one `water` type), 1.5 px wide in the darkened fill colour of the
    topmost side. Overlapping or touching regions of one type read as one area, lake and river water reads as one
@@ -707,7 +720,7 @@ over the map area. Panel rows shrink to fit the image height.
 10. The panel legend lists only the types present in this map (regions including scatter types, lines, crossings,
     POI types). Every swatch is drawn in the same style as on the map: region fill with its outline and pattern, line
     style (casing, dash, hatch), crossing symbol, POI glyph; the team list shows each team's glyph with letter, name
-    and base.
+    and base. When any region is impassable, the legend adds an "impassable" row showing the strike-through hatch.
 
 Overlays (same layout; the map area is a desaturated 50 %-faded copy of the map without panel, and the panel shows
 that overlay's legend, the marker legend and the team list):

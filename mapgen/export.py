@@ -202,6 +202,8 @@ def write_json(spec: MapSpec, geoms: MapGeometry, hm: Heightmap, out: str) -> Li
         regions.append({"id": reg.id, "type": reg.type, "label": reg.label,
                         "height": reg.height, "scatter": reg.scatter is not None,
                         "water_surface": None if ws is None else _r(ws), "polygons": polys})
+        if reg.impassable:
+            regions[-1]["impassable"] = True
     _dump(os.path.join(out, "regions.json"), regions)
 
     crossings = []
@@ -234,6 +236,8 @@ def write_resolved(spec: MapSpec, out: str) -> List[str]:
     for r in spec.regions:
         e = {"id": r.id, "seed": r.seed, "type": r.type, "shape": r.shape, "label": r.label,
              "label_at": pt(r.label_at), "height": r.height, "edge": r.edge, "scatter": r.scatter is not None}
+        if r.impassable:
+            e["impassable"] = True
         if r.scatter is not None:
             sc = r.scatter
             e["scatter_params"] = {"coverage": sc.coverage, "scale": sc.scale, "clump": sc.clump, "avoid": sc.avoid,

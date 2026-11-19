@@ -62,7 +62,7 @@ def build_cost(spec: MapSpec, geoms: MapGeometry, hm: Heightmap, grid: Grid) -> 
     for i, reg in enumerate(spec.regions):
         if geoms.regions[i].is_empty:
             continue
-        cost[raster.hard(raster.mask(geoms.regions[i], grid))] = types.regions[reg.type]["cost"]
+        cost[raster.hard(raster.mask(geoms.regions[i], grid))] = INF if reg.impassable else types.regions[reg.type]["cost"]
     line_masks = []
     for i, ln in enumerate(spec.lines):
         if geoms.lines[i].area.is_empty:

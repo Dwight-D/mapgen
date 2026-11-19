@@ -334,6 +334,7 @@ def ink_for(col) -> Tuple[int, int, int, int]:
 CASING = (35, 30, 26)
 LINE_STYLE = {"trail": "dashed", "cliff": "hatched"}   # every other non-water line is drawn cased (fill + dark casing)
 PATTERN_SS = 2
+STRIKE_PERIOD, STRIKE_CORE, STRIKE_CASE = 14.0, 2.4, 1.3   # impassable strike-through: white core stripe, dark casing each side
 STIPPLE_SPACING = 6.5
 
 
@@ -381,6 +382,10 @@ def pattern_alpha(name: str, w: int, h: int, ox: float = 0.0, oy: float = 0.0, s
         m = ((x % 9.0) < 0.9) | ((y % 9.0) < 0.9)
     elif name == "hlines":
         m = (y % 6.0) < 1.0
+    elif name == "strike":
+        m = ((x - y) % STRIKE_PERIOD) < STRIKE_CORE
+    elif name == "strike_case":
+        m = ((x - y + STRIKE_CASE) % STRIKE_PERIOD) < STRIKE_CORE + 2.0 * STRIKE_CASE
     else:
         raise ValueError("unknown pattern %r" % name)
     return _down(np.broadcast_to(m, (h * PATTERN_SS, w * PATTERN_SS)))
@@ -509,6 +514,11 @@ def render_core(spec: MapSpec, geoms: MapGeometry, hm: Heightmap, view: View) ->
             cache[pat] = pattern_alpha(pat, W, H, seed=spec.seed + 4000)
         _blend(img, darken(rgb(pal.regions[typ]), 0.6), cache[pat] * sel * 0.9)
     cache.clear()
+    imp_idx = [i for i, r in enumerate(spec.regions) if r.impassable]
+    if imp_idx:
+        sel = _down2(np.isin(top2, imp_idx).astype(np.float32), H, W)
+        if sel.any():
+            _strike(img, pal.impassable_pattern, pattern_alpha, W, H, sel)
 
     # outlines where the region type (water: lakes and rivers together) changes
     alpha, pm = _type_outlines(top2, entries, len(spec.regions) + len(spec.lines), spec, H, W)
@@ -753,6 +763,12 @@ def compose(core: Image.Image, panel: Image.Image) -> Image.Image:
     return out
 
 
+def _strike(img: np.ndarray, name: str, alpha_fn, w: int, h: int, sel: np.ndarray) -> None:
+    """Overdraw the impassable strike-through hatch (dark casing, white core) where `sel` is set."""
+    _blend(img, (15, 15, 15), alpha_fn(name + "_case", w, h) * sel * 0.9)
+    _blend(img, (255, 255, 255), alpha_fn(name, w, h) * sel)
+
+
 def _legend_region(layer: Layer, spec: MapSpec, typ: str, x: float, cy: float, w: float, h: float) -> None:
     pal = spec.palette
     fill = rgb(pal.regions[typ])
@@ -840,6 +856,16 @@ def map_legend(panel: Panel) -> None:
             seen.add(poi.type)
             g = types.pois[poi.type]["glyph"]
             panel.row(lambda L, x, cy, sw, g=g: draw_glyph(L, g, x + sw * 0.8, cy, sw * 0.5, (255, 255, 255, 255)), poi.type)
+    if any(r.impassable for r in spec.regions):
+        def _imp(L, x, cy, sw):
+            wi, hi = int(round(sw * 1.6)), int(round(sw))
+            tile = np.full((hi, wi, 3), 120.0, np.float32)
+            _strike(tile, pal.impassable_pattern, pattern_alpha, wi, hi, np.ones((hi, wi), np.float32))
+            im = Image.fromarray(np.clip(tile, 0, 255).astype(np.uint8), "RGB").convert("RGBA").resize((wi * SS, hi * SS), Image.NEAREST)
+            y0 = int((cy - hi / 2.0) * SS)
+            L.img.paste(im, (int(x * SS), y0))
+            L.d.rectangle([int(x * SS), y0, int(x * SS) + wi * SS, y0 + hi * SS], outline=(40, 40, 40, 255), width=SS)
+        panel.row(_imp, "impassable")
     team_rows(panel)
 
 
