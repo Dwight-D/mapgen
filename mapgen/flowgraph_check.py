@@ -33,9 +33,13 @@ def spec_features(spec: MapSpec) -> Dict[str, Feature]:
     return feats
 
 
-def _raw_line_paths(spec_path: str) -> Dict[int, list]:
-    with open(spec_path, "rb") as f:
-        raw = yaml.load(f.read().decode("utf-8"), Loader=_SpecLoader)
+def raw_line_paths_text(text: str) -> Dict[int, list]:
+    """Line list position -> the line's `path` exactly as written (strings are point references), from spec text."""
+    return raw_line_paths_doc(yaml.load(text, Loader=_SpecLoader))
+
+
+def raw_line_paths_doc(raw) -> Dict[int, list]:
+    """As `raw_line_paths_text`, from the already parsed document."""
     out: Dict[int, list] = {}
     lines = raw.get("lines") if isinstance(raw, dict) else None
     if isinstance(lines, list):
@@ -43,6 +47,11 @@ def _raw_line_paths(spec_path: str) -> Dict[int, list]:
             if isinstance(ln, dict) and isinstance(ln.get("path"), list):
                 out[i] = ln["path"]
     return out
+
+
+def _raw_line_paths(spec_path: str) -> Dict[int, list]:
+    with open(spec_path, "rb") as f:
+        return raw_line_paths_text(f.read().decode("utf-8"))
 
 
 def derive_edges(g: Flowgraph, spec: MapSpec) -> Set[frozenset]:

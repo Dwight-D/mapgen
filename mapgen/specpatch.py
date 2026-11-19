@@ -17,6 +17,8 @@ import math
 import os
 import re
 import tempfile
+import threading
+from collections import OrderedDict
 from typing import Any, List, Optional, Tuple
 
 import yaml
@@ -126,6 +128,37 @@ def parse_op(arg: str, detach: bool = False):
     return Set(path, value, detach)
 
 
+def op_from_json(d: Any):
+    """Wire form of an op -> Set / Insert / Delete (the editors' API). Shapes:
+    {"op": "set", "path": "pois.fa.at", "value": [x, y], "detach": false}
+    {"op": "insert", "path": "lines.river.path", "index": 2, "value": [x, y]}   (index null: append)
+    {"op": "delete", "path": "lines.river.path[2]"}"""
+    if not isinstance(d, dict) or not isinstance(d.get("path"), str):
+        raise PatchError("an op is an object with a string path")
+    kind, path = d.get("op"), d["path"]
+    if kind == "set":
+        _tokens(path)
+        if "value" not in d:
+            raise PatchError("set needs a value")
+        _check_value(d["value"])
+        return Set(path, d["value"], bool(d.get("detach", False)))
+    if kind == "insert":
+        index = d.get("index")
+        if index is not None and (isinstance(index, bool) or not isinstance(index, int) or index < 0):
+            raise PatchError("insert index must be an integer >= 0 or null")
+        if "value" not in d:
+            raise PatchError("insert needs a value")
+        _check_value(d["value"])
+        full = "%s[+%s]" % (path, "" if index is None else index)
+        _tokens(full)
+        return Insert(full, index, d["value"])
+    if kind == "delete":
+        if _tokens(path)[-1][0] != "idx":
+            raise PathError("delete needs a sequence position as the last token ([n]): %r" % path)
+        return Delete(path)
+    raise PatchError("unknown op %r (set | insert | delete)" % (kind,))
+
+
 def _check_value(v: Any) -> None:
     if v is None or isinstance(v, (bool, str)):
         return
@@ -166,23 +199,77 @@ class _MarkLoader(schema._SpecLoader):
         return node
 
 
+def _scan_hazards(root) -> dict:
+    """id(mapping node) -> ("merge",) | ("dup", key) for mappings with a merge key or a repeated key."""
+    out = {}
+    seen = set()
+    stack = [root]
+    while stack:
+        n = stack.pop()
+        if id(n) in seen:
+            continue
+        seen.add(id(n))
+        if isinstance(n, yaml.MappingNode):
+            keys = set()
+            for kn, vn in n.value:
+                if kn.tag == "tag:yaml.org,2002:merge":
+                    out[id(n)] = ("merge",)
+                elif isinstance(kn, yaml.ScalarNode):
+                    if kn.value in keys and id(n) not in out:
+                        out[id(n)] = ("dup", kn.value)
+                    keys.add(kn.value)
+                stack.append(kn)
+                stack.append(vn)
+        elif isinstance(n, yaml.SequenceNode):
+            stack.extend(n.value)
+    return out
+
+
 class _Doc:
+    """The composed node graph of a spec text (marks, anchor flags) and its constructed Python value, from one parse."""
+
     def __init__(self, text: str):
         self.text = text
         loader = _MarkLoader(text)
         try:
             self.root = loader.get_single_node()
+            if self.root is None:
+                raise PatchError("empty document")
+            self.hazards = _scan_hazards(self.root)   # before construction: it flattens merge keys out of the nodes
+            try:
+                self.py = loader.construct_document(self.root)
+            except yaml.YAMLError as e:
+                raise UnsafePatch("the spec does not parse (%s)" % str(e).replace("\n", " "))
         except yaml.YAMLError as e:
             raise PatchError("cannot parse the spec: %s" % str(e).replace("\n", " "))
         finally:
             self.flagged = loader.flagged
             loader.dispose()
-        if self.root is None:
-            raise PatchError("empty document")
-        try:
-            self.py = yaml.load(text, Loader=schema._SpecLoader)
-        except yaml.YAMLError as e:
-            raise UnsafePatch("the spec does not parse (%s)" % str(e).replace("\n", " "))
+
+
+_DOC_CACHE = OrderedDict()  # text -> _Doc; the result of one op is the input of the next (a drag, a nudge series)
+_DOC_LOCK = threading.Lock()
+_DOC_CACHE_SIZE = 4
+
+
+def _doc(text: str) -> "_Doc":
+    """The parsed `_Doc` of `text`, from a small cache keyed by the text. Callers never mutate `.py`."""
+    with _DOC_LOCK:
+        hit = _DOC_CACHE.get(text)
+        if hit is not None:
+            _DOC_CACHE.move_to_end(text)
+            return hit
+    doc = _Doc(text)
+    with _DOC_LOCK:
+        _DOC_CACHE[text] = doc
+        while len(_DOC_CACHE) > _DOC_CACHE_SIZE:
+            _DOC_CACHE.popitem(last=False)
+    return doc
+
+
+def parsed_document(text: str) -> Any:
+    """The spec text parsed with the loader's YAML semantics (shared, read-only; cached)."""
+    return _doc(text).py
 
 
 def _same(a: Any, b: Any) -> bool:
@@ -213,15 +300,11 @@ def _diff_path(a: Any, b: Any, path: str = "") -> str:
 def _guard(doc: _Doc, node, what: str) -> None:
     if id(node) in doc.flagged:
         raise UnsafePatch("%s carries a YAML anchor or alias; edit it by hand" % what)
-    if isinstance(node, yaml.MappingNode):
-        seen = set()
-        for kn, _ in node.value:
-            if kn.tag == "tag:yaml.org,2002:merge":
-                raise UnsafePatch("%s is in a mapping with a merge key (<<); edit it by hand" % what)
-            if isinstance(kn, yaml.ScalarNode):
-                if kn.value in seen:
-                    raise UnsafePatch("%s is in a mapping with the duplicate key %r" % (what, kn.value))
-                seen.add(kn.value)
+    hz = doc.hazards.get(id(node))
+    if hz is not None:
+        if hz[0] == "merge":
+            raise UnsafePatch("%s is in a mapping with a merge key (<<); edit it by hand" % what)
+        raise UnsafePatch("%s is in a mapping with the duplicate key %r" % (what, hz[1]))
 
 
 def _guard_subtree(doc: _Doc, node, what: str) -> None:
@@ -542,7 +625,7 @@ def _expected(py, op_kind: str, loc, value=None, index=None):
 
 
 def _apply_op(text: str, op) -> str:
-    doc = _Doc(text)
+    doc = _doc(text)
     what = op.path
     tokens = _tokens(op.path)
     node, loc, parent = _resolve(doc, tokens, what)
@@ -577,8 +660,8 @@ def _apply_op(text: str, op) -> str:
     new = _apply_spans(text, spans) if spans else text
     if spans:
         try:
-            got = yaml.load(new, Loader=schema._SpecLoader)
-        except yaml.YAMLError as e:
+            got = _doc(new).py   # also primes the cache for the next op on the result
+        except PatchError as e:
             raise VerifyError("%s: patched text does not parse: %s" % (what, str(e).replace("\n", " ")))
         if not _same(got, expected):
             raise VerifyError("%s: patched text differs from the requested change at %s" % (

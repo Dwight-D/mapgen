@@ -1,4 +1,4 @@
-"""mapgen command line: build | validate | probe | diff | spec | flowgraph | types | palette."""
+"""mapgen command line: build | validate | probe | diff | spec | spec-edit | flowgraph | types | palette."""
 from __future__ import annotations
 
 import argparse
@@ -67,6 +67,25 @@ def cmd_spec_set(args) -> int:
     specpatch.write_atomic(args.spec, new)
     print("OK: %d edit(s) applied to %s (%d line(s) changed)" % (len(ops), args.spec, changed))
     return 0
+
+
+def cmd_spec_edit(args) -> int:
+    from . import spec_editor
+
+    try:
+        spec_editor.SpecEditor(args.spec)
+    except FileNotFoundError:
+        print("error: file not found: %s" % args.spec)
+        return 1
+    except UnicodeDecodeError as e:
+        print("error: %s is not UTF-8: %s" % (args.spec, e))
+        return 1
+    except schema.SpecError as e:
+        print("%d error(s) in %s (fix the file first; the editor opens valid specs only):" % (len(e.errors), args.spec))
+        for line in e.errors:
+            print("  " + line)
+        return 1
+    return spec_editor.serve(args.spec, args.port, not args.no_open, args.preview_px)
 
 
 def cmd_flowgraph_validate(args) -> int:
@@ -404,6 +423,13 @@ def main(argv: Optional[List[str]] = None) -> int:
                          help="a point reference replaced by [x, y] becomes that literal instead of moving its target")
     sps_set.add_argument("--palette", help="palette file to validate against")
     sps_set.set_defaults(func=cmd_spec_set)
+
+    se = sub.add_parser("spec-edit", help="edit a spec in the browser: drag POIs, bases, points and waypoints (local server on 127.0.0.1)")
+    se.add_argument("spec")
+    se.add_argument("--port", type=int, default=0, help="port on 127.0.0.1 (default: any free port)")
+    se.add_argument("--no-open", action="store_true", help="do not open a browser")
+    se.add_argument("--preview-px", type=int, default=768, help="longest side of the preview image in pixels (default 768)")
+    se.set_defaults(func=cmd_spec_edit)
 
     fg = sub.add_parser("flowgraph", help="flowgraph (topology precursor) commands")
     fgs = fg.add_subparsers(dest="flowgraph_command")

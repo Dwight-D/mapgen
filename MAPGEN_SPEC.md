@@ -56,7 +56,11 @@ tools/mapgen/
     palette.yaml          render colours, region patterns, default team colours (data, editable)
     palette_check.py      CIE L* legibility check of a palette (`palette` command)
     schema.py             load YAML, apply defaults, validate, return a MapSpec dataclass tree; load the palette
-    specpatch.py          span-patch engine behind `spec set`: comment-preserving, verified text edits of a spec (§7)
+    specpatch.py          span-patch engine behind `spec set` and `spec-edit`: comment-preserving, verified text edits of a spec (§7)
+    spec_model.py         editor view of a spec text: handles (id-addressed paths), referrers, resolved geometry JSON
+    spec_editor.py        `spec-edit` server: text buffer, undo/redo, validation, atomic save, preview image (§7)
+    spec_editor_page.py   the `spec-edit` page (vanilla JS, inline SVG over the preview image)
+    editor_http.py        loopback server guards shared by the flowgraph and spec editors (token, Host/Origin, CSP, body cap)
     noise.py              deterministic value-noise fbm (2D, 2D on grid axes, 1D, periodic 1D)
     geometry.py           spec shapes -> shapely geometries (blob, poly, band, path smoothing, roughness, meander,
                           domain warp, fragmentation, variable-width lines, tributary joins, water union,
@@ -805,6 +809,7 @@ python -m mapgen validate <spec.yaml> [--palette palette.yaml]
 python -m mapgen probe <spec.yaml> x y [x y ...]   # per point: team times, spread, cost, region/line (no files)
 python -m mapgen diff <build a> <build b> [--text] [--max-changes N]   # delta of two build folders (no files)
 python -m mapgen spec set <spec.yaml> <path>=<value> [...] [--dry-run] [--diff] [--detach] [--palette palette.yaml]
+python -m mapgen spec-edit <spec.yaml> [--port N] [--no-open] [--preview-px N]   # browser editor (127.0.0.1 only)
 python -m mapgen --version              # mapgen version and the spec format versions it reads
 python -m mapgen types                  # print the type table
 python -m mapgen palette [--palette palette.yaml]   # L* legibility matrix of the palette (§5.1)
@@ -834,6 +839,21 @@ python -m mapgen palette [--palette palette.yaml]   # L* legibility matrix of th
   comment in the way of a flow-sequence deletion. `--diff` prints a unified diff; `--dry-run` also writes nothing. The
   file is replaced atomically (temp file in the same folder, `os.replace`). Exit 0 ok (also "no change"), 1 errors.
   `schema.load_spec_text(data, path_hint, palette_path)` is the byte-neutral text form of `load_spec`.
+- `spec-edit` serves a browser editor for one spec on 127.0.0.1 (`mapgen/spec_editor.py`; guards in `editor_http.py`: loopback
+  bind, per-run token header on every POST, Host and Origin checks, CSP, 1 MiB body cap). It exits 1 (printing the loader's
+  errors) when the spec does not load. The server owns the YAML text buffer and a whole-text undo/redo stack. API, all POST
+  JSON: `/api/state`; `/api/apply {version, ops}` (ops are `specpatch.op_from_json` objects: `set` with `path`, `value`,
+  optional `detach`; `insert` with `path`, `index`, `value`; `delete` with `path`; addressed by feature id; one call is
+  one undo step; every op is verified by the patch engine and the buffer is loaded with `schema.load_spec_text`; a refusal
+  is HTTP 422 with the error list and leaves the buffer unchanged, a stale `version` is 409); `/api/undo`, `/api/redo`;
+  `/api/save` (atomic in-place write of the buffer, only when it is valid and the file's hash still equals the one read;
+  409 otherwise; a clean buffer writes nothing); `/api/geometry` (resolved centrelines and region outlines from
+  `geometry.build_geometries`) and `/api/image` (PNG at preview settings: `heightmap_res` 257, `render_px` 768 or
+  `--preview-px`, `render_core` only) both keyed by buffer version, cached per buffer text, answering `stale` for an
+  outdated version. The state lists handles (kind base/poi/point/waypoint/center/vertex, id-addressed `path`, resolved
+  `at`, `ref` when the written value is a point reference) and the referrers of every named point. The editor never
+  writes `out/`, never autosaves and never touches the spec except through Save. Design:
+  `docs/investigations/2026-11-19-map-editor-design.md` (slice 2).
 - Prints one line per stage with elapsed time and the output folder at the end. Exit codes: 0 on success; 1 on spec
   errors, a missing file, invalid probe points or a path that is not a build directory; 2 on usage errors.
 - Target runtime for a 3 km map: under 20 s for the examples, under 25 s with scatter.

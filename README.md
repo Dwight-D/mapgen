@@ -31,6 +31,7 @@ python -m mapgen spec set <spec> pois.fa.at=[400,120] [<path>=<value> ...] [--dr
 python -m mapgen flowgraph validate flowgraphs/town_square.flow.yaml   # validate a topology graph (see mapgen/FLOWGRAPH_SPEC.md)
 python -m mapgen flowgraph scaffold <graph> [--out <file> [--force]] [--size X Y]   # draft spec text from a graph (stdout by default; deterministic; node positions from a stress layout that balances edge lengths and honours the optional node key `place`: west/east/north/south/center/north-west/...)
 python -m mapgen flowgraph preview <graph> [--out <html>] [--force]   # self-contained HTML/SVG graph view (default out/flowgraph_<name>.html, overwritten freely; --out refuses an existing file without --force)
+python -m mapgen spec-edit <spec> [--port N] [--no-open] [--preview-px N]   # browser map editor on a local 127.0.0.1-only server: drag POIs, bases, `points` and line waypoints (reference-aware), add/delete waypoints, undo/redo, explicit atomic Save (see "Editing a spec in the browser")
 python -m mapgen flowgraph edit <graph> [--new] [--port N] [--no-open]   # browser editor on a local 127.0.0.1-only server: add/edit/delete nodes and edges, drag, undo/redo, Re-layout (Python layout incl. place hints), live validation; Save writes the canonical .flow.yaml (comments not preserved; refused while invalid); --new starts a two-spawn template written on first Save
 python -m mapgen flowgraph check <graph> <spec> [--strict]       # spec vs graph: missing nodes/edges; --strict adds extras (no files)
 python -m mapgen flowgraph check <graph> <spec> --terrain [--strict]   # also: walkable terrain must connect exactly the graph's nodes (terrain-missing / terrain-extra edges; ~7 s on town_square)
@@ -56,6 +57,27 @@ deltas per team; per-team, per-pair and map-wide deltas of the report values. `-
 for reading. It reads only the two folders and also works on `--only analyze` builds. Exit code 0 when
 the report is printed, whether or not the builds differ (`"identical"` in the JSON). Details:
 `mapgen/DIFF_SPEC.md`.
+
+## Editing a spec in the browser (`spec-edit`)
+
+`mapgen spec-edit <spec> [--port N] [--no-open] [--preview-px N]` starts a local editor (stdlib server on 127.0.0.1 only,
+per-run token, Host/Origin checks) and opens it in the browser. The page shows a reduced-resolution preview image of the map
+(default 768 px, 257 heightmap; labelled "not a build", refreshed about 300 ms after each edit, never blocking the UI) with the
+resolved region outlines and line centrelines and the spec's own values as handles: team bases (square), POIs (circle),
+`points` entries (diamond), line waypoints (dot; a waypoint that is a point reference is a triangle), blob centres and
+poly/band vertices. Shape and lightness carry the meaning, never hue.
+
+- Drag a handle: it snaps to whole metres. Dragging a POI, base or `points` entry, or a reference triangle, moves the
+  definition, so every referrer follows. Alt-drag a triangle detaches it to a literal `[x, y]` and leaves the definition.
+  Double-click a waypoint line to insert a waypoint, Delete removes the selected waypoint. The side panel shows the
+  selection, editable x/y, referrers, the loader's error list, a feature list, undo/redo, Save and the dirty marker.
+  Keyboard: Tab through handles, arrows nudge 1 m (Shift 10 m), Ctrl+Z / Ctrl+Y, Ctrl+S, `+` `-` `0` zoom and fit, wheel and
+  background drag zoom and pan.
+- Every edit goes through the span-patch engine and the real loader (like `spec set`). An invalid result is refused with the
+  loader's errors and the buffer is unchanged. The server keeps the text buffer and a whole-text undo stack; the file is
+  written only by Save (no autosave), atomically and in place, only while the buffer is valid and the file on disk is the one
+  that was read. A saved drag is a one-line diff; line endings are preserved.
+- The spec must load when the editor starts (otherwise it prints the errors and exits 1).
 
 ## Editing a spec as text (`spec set`)
 

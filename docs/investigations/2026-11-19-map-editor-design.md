@@ -2,7 +2,7 @@
 
 - Date: 2026-11-19
 - Backlog item: GDU-49 (mapgen workstream). Design only; no code, spec or map was changed.
-- Slice status: slice 1 (GDU-50) implemented: `mapgen/specpatch.py`, `schema.load_spec_text`, `mapgen spec set` (grammar in `MAPGEN_SPEC.md` section 7), `tests/test_specpatch.py`. `spec_model.py` is not part of the slice (the id and reference lookups live in `specpatch.py`). Slices 2-7 open.
+- Slice status: slice 1 (GDU-50) implemented: `mapgen/specpatch.py`, `schema.load_spec_text`, `mapgen spec set` (grammar in `MAPGEN_SPEC.md` section 7), `tests/test_specpatch.py`. `spec_model.py` is not part of the slice (the id and reference lookups live in `specpatch.py`). Slice 2 (GDU-51) implemented: `mapgen spec-edit` with `editor_http.py` (guards shared with the flowgraph editor), `spec_model.py`, `spec_editor.py`, `spec_editor_page.py`, `tests/test_spec_editor.py`, `tests/browser/spec_editor_drive.mjs`; handles for POIs, bases, `points`, line waypoints, blob centres and poly/band vertices, reference-aware drag and Alt-detach, waypoint insert/delete, undo/redo, atomic Save; preview image tier T2 (geometry JSON and image fetched separately, latest wins); T1 `/api/preview` during drags is client-side only. Slices 3-7 open.
 - Checked against: commit `aeb0b56`, `maps/iterations/town_square/v3_natural/town_square_v3.yaml`
 - Statements marked **[measured]** come from running the tool on this machine; **[verified]** from reading the code.
 
