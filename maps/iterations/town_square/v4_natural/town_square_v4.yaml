@@ -1,0 +1,150 @@
+# town_square v4: natural-layout iteration of v3, 800x800. Changes vs v3: (1) spawn-to-zone links follow terrain and
+# differ in character: the A links are winding lanes (narrow roads) through woods and under the western hills, the B links are
+# wide roads along the river (north road round the spring, south link a trail with a ford over a side stream);
+# wobble 30-45 and 4-6 waypoints each, ring asymmetric in length. (2) Dense interlocking town/ruins blocks around
+# the square, Attic and Alleys with narrow streets between, some blocks impassable walls, ringed by gardens/fields.
+# (3) NW, N-interior and Alleys-to-river shortcuts closed with impassable woods stands bounded by `within`, open
+# ground kept elsewhere. (4) The river springs at the glen forest edge, meanders south and leaves at the south
+# edge; a side stream from the NE hills joins it. (5) Rough blob shapes with strong warp for forests and fields.
+# Checked with `flowgraph check --strict` (road-path level only). Prior generations: v1_first, v2_walled, v3_natural.
+format_version: 1
+name: town_square_v4
+brief: |
+  PITCH: A small river town, 800 x 800 m. Two teams fight over the market square in the middle of the town.
+  A dense street fabric of houses surrounds the square; woods, hills and the river shape the approaches.
+  FLOW (flowgraphs/town_square.flow.yaml): A (west) reaches the square O through the west gate (AO), B (east)
+  through the east gate (BO) after bridging the river. South of the square the Alleys (Fa) are the entrance
+  from the south; north of it the Attic (Fb) is a block of multi-storey buildings overlooking the square.
+  Great Oak Hill (G, south) is a wooded hill just outside town overlooking the south entrance; Forest Glen
+  (F, north) is a glade in the northern woods. Both zones have a link from each spawn.
+  CHARACTER: A is a hamlet on dry ground under the western hills; its links are winding lanes through woods.
+  B holds the pasture east of the river; its gate road crosses on a bridge, its north road is wide and fast,
+  its link to the Great Oak Hill is a riverside road with a bridge and a ford.
+  TEST: do the bridges give B a bottleneck or an edge? Is the Attic worth fighting for? Does G or F decide it?
+size: [800, 800]
+seed: 7741
+
+terrain:
+  height_max: 300
+  base_height: 40
+  relief: 14
+  relief_scale: 400
+  detail: 3
+  detail_scale: 90
+
+teams:
+  A: { base: [110, 420], color: "#2f6fdf", name: "Team A spawn" }
+  B: { base: [705, 370], color: "#f2a81d", name: "Team B spawn" }
+
+points:
+  ao: [255, 410]
+  bo: [520, 385]
+
+pois:
+  - { id: o,  type: capture,  at: [400, 400], label: "Town square" }
+  - { id: fa, type: landmark, at: [395, 265], label: Alleys }
+  - { id: fb, type: landmark, at: [405, 545], label: Attic }
+  - { id: g,  type: capture,  at: [380, 100], label: "Great Oak Hill" }
+  - { id: f,  type: capture,  at: [455, 715], label: "Forest Glen" }
+
+scatter:
+  - { id: wild_wood, seed: 1, type: forest, coverage: 0.4, scale: 75, clump: 0.55, avoid: 22, impassable: true }
+  # closing the NW, the N interior and the Alleys-to-river gap
+  - { id: nw_wood, seed: 5, type: forest, coverage: 0.5, scale: 65, clump: 0.5, avoid: 22, impassable: true, within: [[0, 500], [150, 480], [270, 520], [330, 640], [300, 800], [0, 800]] }
+  - { id: n_wood, seed: 7, type: forest, coverage: 0.5, scale: 60, clump: 0.5, avoid: 22, impassable: true, within: [[270, 560], [330, 650], [380, 650], [540, 640], [540, 560], [480, 620], [350, 600]] }
+  - { id: sw_wood, seed: 6, type: forest, coverage: 0.4, scale: 65, clump: 0.5, avoid: 22, impassable: true, within: [[0, 120], [230, 120], [240, 330], [0, 340]] }
+  - { id: alley_river_wood, seed: 8, type: forest, coverage: 0.55, scale: 55, clump: 0.5, avoid: 20, impassable: true, within: [[500, 160], [570, 160], [575, 330], [500, 320]] }
+  - { id: oak_wood, seed: 2, type: forest, coverage: 0.6, scale: 60, clump: 0.4, avoid: 22, impassable: true, on: [hills], within: [[200, 0], [520, 0], [520, 230], [200, 230]] }
+  - { id: glen_wood, seed: 3, type: forest, coverage: 0.5, scale: 60, clump: 0.4, avoid: 22, impassable: true, on: [forest], within: [[300, 590], [620, 590], [620, 800], [300, 800]] }
+  - { id: meadow, seed: 4, type: field, coverage: 0.1, scale: 140, clump: 0.3, avoid: 15 }
+
+regions:
+  # outer rock
+  - { id: rock_ne, seed: 1, type: mountain, shape: blob, at: [760, 745], r: 110, rough: 0.6, squash: 0.7, angle: -35, warp: 45, warp_scale: 120, height: 110 }
+  - { id: rock_sw, seed: 2, type: mountain, shape: blob, at: [45, 65], r: 105, rough: 0.6, squash: 0.8, angle: -20, warp: 45, warp_scale: 120, height: 110 }
+  - { id: rock_nw, seed: 3, type: mountain, shape: blob, at: [95, 700], r: 70, rough: 0.6, squash: 0.6, angle: 40, warp: 30, warp_scale: 80, height: 70 }
+  - { id: rock_se, seed: 4, type: mountain, shape: blob, at: [700, 60], r: 70, rough: 0.6, squash: 0.6, angle: -30, warp: 30, warp_scale: 80, height: 70 }
+  - { id: rock_mid, seed: 5, type: mountain, shape: blob, at: [480, 255], r: 26, rough: 0.6, squash: 0.7, angle: 20, warp: 20, warp_scale: 70, height: 50 }
+  - { id: rock_n, seed: 6, type: mountain, shape: blob, at: [330, 575], r: 28, rough: 0.6, squash: 0.7, angle: -20, warp: 20, warp_scale: 70, height: 50 }
+  # town centre: the square
+  - { id: square, seed: 10, type: town, shape: blob, at: o, r: 48, rough: 0.3, warp: 15, warp_scale: 70, label: "Town square" }
+  # blocks around the square (ring 1)
+  - { id: blk_1, seed: 31, type: town, shape: blob, at: [330, 465], r: 30, rough: 0.45, squash: 0.7, angle: 20, warp: 10, warp_scale: 45 }
+  - { id: blk_2, seed: 32, type: ruins, shape: blob, at: [470, 468], r: 28, rough: 0.45, squash: 0.7, angle: -25, warp: 10, warp_scale: 45 }
+  - { id: blk_3, seed: 33, type: town, shape: blob, at: [325, 335], r: 30, rough: 0.45, squash: 0.7, angle: -20, warp: 10, warp_scale: 45 }
+  - { id: blk_4, seed: 34, type: ruins, shape: blob, at: [475, 335], r: 28, rough: 0.45, squash: 0.7, angle: 20, warp: 10, warp_scale: 45 }
+  - { id: blk_5, seed: 35, type: town, shape: blob, at: [335, 400], r: 22, rough: 0.45, squash: 0.9, angle: 85, warp: 8, warp_scale: 40, impassable: true }
+  - { id: blk_6, seed: 36, type: town, shape: blob, at: [468, 410], r: 22, rough: 0.45, squash: 0.9, angle: 95, warp: 8, warp_scale: 40, impassable: true }
+  # Attic: overlapping multi-storey blocks north
+  - { id: attic_w, seed: 11, type: town, shape: blob, at: [350, 520], r: 38, rough: 0.5, squash: 0.75, angle: 15, warp: 12, warp_scale: 50, impassable: true }
+  - { id: attic_e, seed: 12, type: ruins, shape: blob, at: [458, 525], r: 38, rough: 0.5, squash: 0.7, angle: -20, warp: 12, warp_scale: 50, label: Attic, impassable: true }
+  - { id: attic_n, seed: 13, type: town, shape: blob, at: [405, 585], r: 34, rough: 0.5, squash: 0.8, warp: 10, warp_scale: 40 }
+  - { id: attic_nw, seed: 37, type: ruins, shape: blob, at: [325, 580], r: 24, rough: 0.5, squash: 0.8, angle: 30, warp: 10, warp_scale: 40 }
+  - { id: attic_ne, seed: 38, type: town, shape: blob, at: [490, 580], r: 24, rough: 0.5, squash: 0.8, angle: -30, warp: 10, warp_scale: 40 }
+  - { id: attic_mid, seed: 39, type: town, shape: blob, at: [405, 505], r: 18, rough: 0.5, warp: 8, warp_scale: 40 }
+  # Alleys: overlapping blocks south
+  - { id: alley_w, seed: 14, type: town, shape: blob, at: [345, 285], r: 36, rough: 0.5, squash: 0.75, angle: -15, warp: 12, warp_scale: 50, impassable: true }
+  - { id: alley_e, seed: 15, type: ruins, shape: blob, at: [450, 290], r: 34, rough: 0.5, squash: 0.7, angle: 25, warp: 10, warp_scale: 50, label: Alleys, impassable: true }
+  - { id: alley_s, seed: 16, type: town, shape: blob, at: [385, 215], r: 32, rough: 0.5, squash: 0.8, warp: 10, warp_scale: 40 }
+  - { id: alley_sw, seed: 40, type: ruins, shape: blob, at: [315, 225], r: 24, rough: 0.5, squash: 0.8, angle: -30, warp: 10, warp_scale: 40 }
+  - { id: alley_se, seed: 41, type: town, shape: blob, at: [455, 218], r: 24, rough: 0.5, squash: 0.8, angle: 30, warp: 10, warp_scale: 40 }
+  - { id: alley_mid, seed: 42, type: town, shape: blob, at: [395, 318], r: 18, rough: 0.5, warp: 8, warp_scale: 40 }
+  # blocks along the gate streets and fringe houses
+  - { id: gate_a_n, seed: 17, type: town, shape: blob, at: [265, 452], r: 30, rough: 0.45, squash: 0.7, angle: 10, warp: 10, warp_scale: 40, impassable: true }
+  - { id: gate_a_s, seed: 18, type: ruins, shape: blob, at: [262, 366], r: 30, rough: 0.5, squash: 0.7, angle: -10, warp: 10, warp_scale: 40, impassable: true }
+  - { id: gate_b_n, seed: 19, type: town, shape: blob, at: [520, 432], r: 28, rough: 0.45, squash: 0.7, angle: -10, warp: 10, warp_scale: 40, impassable: true }
+  - { id: gate_b_s, seed: 20, type: ruins, shape: blob, at: [522, 340], r: 28, rough: 0.5, squash: 0.7, angle: 15, warp: 10, warp_scale: 40, impassable: true }
+  - { id: fringe_1, seed: 43, type: town, shape: blob, at: [290, 495], r: 20, rough: 0.5, warp: 8, warp_scale: 40 }
+  - { id: fringe_2, seed: 44, type: ruins, shape: blob, at: [295, 305], r: 20, rough: 0.5, warp: 8, warp_scale: 40 }
+  - { id: fringe_3, seed: 45, type: town, shape: blob, at: [515, 492], r: 20, rough: 0.5, warp: 8, warp_scale: 40 }
+  - { id: fringe_4, seed: 46, type: town, shape: blob, at: [425, 160], r: 18, rough: 0.5, warp: 8, warp_scale: 40 }
+  - { id: fringe_5, seed: 47, type: ruins, shape: blob, at: [270, 270], r: 16, rough: 0.5, warp: 8, warp_scale: 40 }
+  # gardens and fields at the edge of the built-up area
+  - { id: garden_w, seed: 50, type: field, shape: blob, at: [215, 480], r: 40, rough: 0.5, squash: 0.7, angle: 25, warp: 25, warp_scale: 70 }
+  - { id: garden_n, seed: 51, type: field, shape: blob, at: [300, 640], r: 38, rough: 0.55, squash: 0.7, angle: -15, warp: 25, warp_scale: 70 }
+  - { id: garden_s, seed: 52, type: field, shape: blob, at: [255, 195], r: 36, rough: 0.55, squash: 0.7, angle: 30, warp: 25, warp_scale: 70 }
+  - { id: garden_e, seed: 53, type: field, shape: blob, at: [545, 480], r: 32, rough: 0.55, squash: 0.7, angle: 10, warp: 20, warp_scale: 70 }
+  - { id: garden_se, seed: 54, type: field, shape: blob, at: [510, 215], r: 28, rough: 0.55, squash: 0.7, angle: -20, warp: 20, warp_scale: 70 }
+  # Great Oak Hill
+  - { id: oak_hill, seed: 21, type: hills, shape: blob, at: g, r: 125, rough: 0.5, squash: 0.7, angle: 12, warp: 45, warp_scale: 110, height: 55, label: "Great Oak Hill" }
+  - { id: oak_top, seed: 22, type: clearing, shape: blob, at: g, r: 34, rough: 0.4, warp: 12, warp_scale: 40 }
+  # Forest Glen and the woods
+  - { id: glen_forest, seed: 23, type: forest, shape: blob, at: [450, 710], r: 140, rough: 0.55, squash: 0.65, angle: -8, warp: 50, warp_scale: 110, fragment: 0.15, fragment_scale: 90 }
+  - { id: glen_clearing, seed: 24, type: clearing, shape: blob, at: f, r: 36, rough: 0.4, warp: 12, warp_scale: 40, label: "Forest Glen" }
+  - { id: west_forest, seed: 55, type: forest, shape: blob, at: [215, 600], r: 95, rough: 0.55, squash: 0.7, angle: 50, warp: 45, warp_scale: 100, fragment: 0.1, fragment_scale: 80 }
+  - { id: south_forest, seed: 56, type: forest, shape: blob, at: [240, 140], r: 75, rough: 0.55, squash: 0.7, angle: -20, warp: 40, warp_scale: 100, fragment: 0.1, fragment_scale: 80 }
+  # bases
+  - { id: hamlet_a, seed: 25, type: town, shape: blob, at: base_A, r: 55, rough: 0.5, squash: 0.8, angle: 20, warp: 16, warp_scale: 60, label: "Team A hamlet" }
+  - { id: ruins_a, seed: 26, type: ruins, shape: blob, at: [70, 485], r: 26, rough: 0.5, squash: 0.7, warp: 8, warp_scale: 40 }
+  - { id: pasture_b, seed: 27, type: field, shape: blob, at: base_B, r: 85, rough: 0.55, squash: 0.8, angle: 30, warp: 30, warp_scale: 90, label: "Team B pasture" }
+  - { id: hills_b, seed: 28, type: hills, shape: blob, at: [735, 215], r: 75, rough: 0.55, squash: 0.7, angle: -20, warp: 30, warp_scale: 80, height: 35 }
+  - { id: hills_a, seed: 29, type: hills, shape: blob, at: [135, 245], r: 70, rough: 0.55, squash: 0.7, angle: 30, warp: 30, warp_scale: 80, height: 32 }
+  - { id: hills_w, seed: 57, type: hills, shape: blob, at: [190, 345], r: 38, rough: 0.55, squash: 0.7, angle: 10, warp: 20, warp_scale: 70, height: 25 }
+
+lines:
+  # the river: springs at the edge of the glen forest, meanders south, leaves at the south edge
+  - { id: river_main, seed: 50, type: river, path: [[515, 676], [575, 625], [612, 540], [578, 460], [604, 380], [566, 300], [600, 205], [572, 100], [592, 0]], width: 20, meander: 38, meander_scale: 150, width_var: 0.35 }
+  # side stream from the B-side hills joining the river (trails ford it)
+  - { id: stream_b, seed: 51, type: river, path: [[745, 245], [690, 215], [640, 235], [596, 215]], width: 9, meander: 12, meander_scale: 90, width_var: 0.3 }
+  # cliffs closing gaps
+  - { id: cliff_nw, seed: 61, type: cliff, path: [[190, 530], [235, 520], [262, 490]], width: 8, wobble: 10, wobble_scale: 60 }
+  # gate streets
+  - { id: road_a_ao, seed: 0, type: road, path: [base_A, [185, 432], ao], width: 8, wobble: 18, wobble_scale: 130 }
+  - { id: road_ao_o, seed: 1, type: road, path: [ao, [330, 398], o], width: 8, wobble: 14, wobble_scale: 150 }
+  - { id: road_b_bo, seed: 2, type: road, path: [base_B, [650, 392], bo], width: 8, wobble: 18, wobble_scale: 150 }
+  - { id: road_bo_o, seed: 3, type: road, path: [bo, [460, 402], o], width: 8, wobble: 14, wobble_scale: 150 }
+  # alley and attic streets
+  - { id: road_fa_o, seed: 4, type: trail, path: [fa, [415, 335], o], width: 5, wobble: 22, wobble_scale: 100 }
+  - { id: road_fb_o, seed: 5, type: trail, path: [fb, [388, 478], o], width: 5, wobble: 22, wobble_scale: 100 }
+  - { id: road_g_fa, seed: 6, type: trail, path: [g, [372, 190], fa], width: 5, wobble: 26, wobble_scale: 110 }
+  - { id: road_f_fb, seed: 7, type: trail, path: [f, [430, 630], fb], width: 5, wobble: 26, wobble_scale: 110 }
+  # A: winding lanes under the hills and through the woods
+  - { id: road_a_g, seed: 8, type: road, path: [base_A, [138, 345], [225, 290], [250, 190], [330, 140], g], width: 7, wobble: 40, wobble_scale: 130 }
+  - { id: road_a_f, seed: 9, type: road, path: [base_A, [135, 515], [225, 595], [315, 700], [385, 690], f], width: 6, wobble: 45, wobble_scale: 120 }
+  # B: wide north road round the spring, riverside road south with a bridge and a ford
+  - { id: road_b_g, seed: 10, type: road, path: [base_B, [675, 290], [640, 195], [545, 135], [455, 100], g], width: 8, wobble: 38, wobble_scale: 140 }
+  - { id: road_b_f, seed: 11, type: road, path: [base_B, [700, 510], [668, 625], [585, 712], f], width: 9, wobble: 30, wobble_scale: 160 }
+
+analysis:
+  cell: 5
+  balance_tolerance: 0.2
