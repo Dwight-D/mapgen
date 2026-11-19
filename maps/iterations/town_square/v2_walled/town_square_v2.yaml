@@ -1,5 +1,7 @@
+# town_square v2: 800x800 river town with impassable forest walls; passes 'flowgraph check --strict --terrain'.
+# Source: commit d48064b (maps/concepts/town_square.yaml).
 format_version: 1
-name: town_square
+name: town_square_v2
 brief: |
   PITCH: A small river town, 800 x 800 m. Two teams fight over the market square in the middle of the
   town. Everything that is not a street, a gate or a bridge is a wall: dense impassable forest, rock,

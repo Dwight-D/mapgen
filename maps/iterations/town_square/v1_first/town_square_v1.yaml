@@ -1,0 +1,107 @@
+# town_square v1: first scaffold-based PoC, 3000x2400.
+# Source: commit 5e5d24c (maps/concepts/town_square.yaml).
+format_version: 1
+name: town_square_v1
+brief: |
+  PITCH: Two teams fight over a market town's open square. Each side's basin is closed off by a ridge with
+  exactly three exits: a narrow gate straight into the square (Team A gate / Team B gate), and two road
+  gaps leading to the flank country. The flanks run south through Great Oak Hill and the alley quarter,
+  or north through Forest Glen and the attic, and enter the square from the side.
+  FLOW (flowgraph topology, see flowgraphs/town_square.flow.yaml): A-AO-O and B-BO-O are the gate routes
+  (short, exposed, narrow gaps in the ridge); A/B -> G -> Fa -> O is the south flank; A/B -> F -> Fb -> O
+  the north flank. G and F are strategic control zones reachable from both teams, so the flanks are
+  contested rather than owned.
+  CHARACTER: O is open town ground with long sightlines. Fa is a dense alley quarter (town plus ruins,
+  short winding trails) - close quarters. Fb is the attic: a hilltop of ruins above the square,
+  elevated, enclosed, reached by one trail. G is a wooded hill, F a deep forest with a glade at the zone.
+  The bases are not mirrored: A sits in a walled town, B in an open clearing.
+  TEST: do the gates become a meat grinder or get bypassed by the flanks? Does G or F decide the match?
+  Is the attic worth the climb, or just a sniper nest over the square?
+  NOTE: every road is a single road/trail between the intended node pair; ridges close the basins so the
+  gates and flank gaps are the only ways through and the derived topology matches the flowgraph.
+size: [3000, 2400]
+seed: 4417
+
+terrain:
+  height_max: 600
+  base_height: 50
+  relief: 20
+  relief_scale: 1100
+  detail: 6
+  detail_scale: 200
+
+teams:
+  A: { base: [330, 1230], color: "#2f6fdf", name: "Team A spawn" }
+  B: { base: [2690, 1150], color: "#f2a81d", name: "Team B spawn" }
+
+points:
+  ao: [900, 1200]
+  bo: [2120, 1170]
+  gap_a_south: [840, 470]
+  gap_a_north: [830, 1960]
+  gap_b_south: [2150, 560]
+  gap_b_north: [2170, 1880]
+
+pois:
+  - { id: o,  type: capture,  at: [1510, 1190], label: "Town square" }
+  - { id: fa, type: landmark, at: [1700, 790],  label: "Flank A" }
+  - { id: fb, type: landmark, at: [1290, 1660], label: "Flank B" }
+  - { id: g,  type: capture,  at: [1400, 360],  label: "Great Oak Hill" }
+  - { id: f,  type: capture,  at: [1560, 2060], label: "Forest Glen" }
+
+scatter:
+  - { id: s_field, seed: 1, type: field,  coverage: 0.25, scale: 220, clump: 0.3, avoid: 20, within: [[0, 0], [820, 0], [800, 2400], [0, 2400]] }
+  - { id: s_field_b, seed: 2, type: field, coverage: 0.2, scale: 220, clump: 0.3, avoid: 20, within: [[2200, 0], [3000, 0], [3000, 2400], [2230, 2400]] }
+  - { id: s_wood, seed: 3, type: forest, coverage: 0.12, scale: 180, clump: 0.4, avoid: 14, within: [[0, 0], [820, 0], [800, 2400], [0, 2400]] }
+  - { id: s_wood_b, seed: 4, type: forest, coverage: 0.3, scale: 200, clump: 0.4, avoid: 14, within: [[2200, 0], [3000, 0], [3000, 2400], [2230, 2400]] }
+
+regions:
+  # Team A ridge: four segments, gaps at the south road, the gate and the north road
+  - { id: ridge_a1, seed: 1, type: mountain, shape: band, path: [[880, 0], [830, 180], [850, 330]], width: 150, height: 200, warp: 40, warp_scale: 200 }
+  - { id: ridge_a2, seed: 2, type: mountain, shape: band, path: [[820, 620], [860, 880], [905, 1100]], width: 150, height: 200, warp: 40, warp_scale: 200 }
+  - { id: ridge_a3, seed: 3, type: mountain, shape: band, path: [[910, 1300], [850, 1560], [800, 1780]], width: 150, height: 200, warp: 40, warp_scale: 200 }
+  - { id: ridge_a4, seed: 4, type: mountain, shape: band, path: [[820, 2130], [870, 2300], [850, 2400]], width: 150, height: 200, warp: 40, warp_scale: 200 }
+  # Team B ridge, further east and with different gap heights
+  - { id: ridge_b1, seed: 5, type: mountain, shape: band, path: [[2120, 0], [2160, 220], [2190, 400]], width: 150, height: 200, warp: 40, warp_scale: 200 }
+  - { id: ridge_b2, seed: 6, type: mountain, shape: band, path: [[2170, 720], [2130, 960], [2110, 1070]], width: 150, height: 200, warp: 40, warp_scale: 200 }
+  - { id: ridge_b3, seed: 7, type: mountain, shape: band, path: [[2130, 1280], [2160, 1500], [2190, 1730]], width: 150, height: 200, warp: 40, warp_scale: 200 }
+  - { id: ridge_b4, seed: 8, type: mountain, shape: band, path: [[2200, 2040], [2150, 2250], [2190, 2400]], width: 150, height: 200, warp: 40, warp_scale: 200 }
+  # Great Oak Hill: wooded hill with a clearing at the zone
+  - { id: oak_hill, seed: 9, type: hills, shape: blob, at: g, r: 330, rough: 0.4, squash: 0.7, angle: 15, warp: 90, warp_scale: 200, height: 70, fragment: 0.25, fragment_scale: 140 }
+  - { id: oak_top, seed: 10, type: clearing, shape: blob, at: g, r: 90, rough: 0.5, squash: 0.8, warp: 30, warp_scale: 80 }
+  # Fa: alley quarter, dense town and ruins
+  - { id: alleys, seed: 11, type: town, shape: blob, at: fa, r: 230, rough: 0.5, squash: 0.7, angle: 40, warp: 70, warp_scale: 90, label: Alleys }
+  - { id: alley_ruins, seed: 12, type: ruins, shape: blob, at: [1590, 890], r: 130, rough: 0.6, squash: 0.6, angle: -30, warp: 50, warp_scale: 70 }
+  # the open town square
+  - { id: square, seed: 13, type: town, shape: blob, at: o, r: 300, rough: 0.35, squash: 0.85, angle: 10, warp: 80, warp_scale: 160, label: Town Square }
+  # the attic: a hill of ruins above the square
+  - { id: attic_hill, seed: 14, type: hills, shape: blob, at: fb, r: 290, rough: 0.4, squash: 0.65, angle: -20, warp: 70, warp_scale: 160, height: 80 }
+  - { id: attic_ruins, seed: 15, type: ruins, shape: blob, at: fb, r: 150, rough: 0.55, squash: 0.7, angle: 10, warp: 50, warp_scale: 80, label: Attic }
+  - { id: oak_wood1, seed: 20, type: forest, shape: blob, at: [1240, 520], r: 150, rough: 0.6, squash: 0.7, angle: 30, warp: 60, warp_scale: 100, fragment: 0.3, fragment_scale: 80 }
+  - { id: oak_wood2, seed: 21, type: forest, shape: blob, at: [1580, 330], r: 130, rough: 0.6, squash: 0.7, angle: -20, warp: 60, warp_scale: 100, fragment: 0.3, fragment_scale: 80 }
+  # Forest Glen
+  - { id: glen_wood, seed: 16, type: forest, shape: blob, at: [1540, 2140], r: 360, rough: 0.5, squash: 0.65, angle: -10, warp: 100, warp_scale: 200, fragment: 0.2, fragment_scale: 120, label: Forest Glen }
+  - { id: glen_clearing, seed: 17, type: clearing, shape: blob, at: f, r: 100, rough: 0.5, squash: 0.8, warp: 30, warp_scale: 80 }
+  # bases
+  - { id: town_a, seed: 18, type: town, shape: blob, at: [470, 1210], r: 140, rough: 0.5, squash: 0.7, warp: 40, warp_scale: 80 }
+  - { id: clear_b, seed: 19, type: clearing, shape: blob, at: [2640, 1160], r: 220, rough: 0.6, squash: 0.7, warp: 60, warp_scale: 100 }
+
+lines:
+  # gate routes
+  - { id: road_a_ao, seed: 0, type: road, path: [base_A, [600, 1260], [760, 1215], ao], width: 9 }
+  - { id: road_ao_o, seed: 1, type: road, path: [ao, [1090, 1160], [1280, 1215], o], width: 9 }
+  - { id: road_b_bo, seed: 2, type: road, path: [base_B, [2500, 1120], [2300, 1190], bo], width: 9 }
+  - { id: road_bo_o, seed: 3, type: road, path: [bo, [1960, 1150], [1740, 1215], o], width: 9 }
+  # alley and attic approaches
+  - { id: road_fa_o, seed: 4, type: trail, path: [fa, [1690, 960], [1640, 1070], [1560, 1130], o], width: 5 }
+  - { id: road_fb_o, seed: 5, type: trail, path: [fb, [1330, 1500], [1420, 1380], [1450, 1260], o], width: 4 }
+  - { id: road_g_fa, seed: 6, type: trail, path: [g, [1450, 520], [1540, 620], [1620, 720], fa], width: 5 }
+  - { id: road_f_fb, seed: 7, type: trail, path: [f, [1520, 1950], [1450, 1850], [1370, 1750], fb], width: 4 }
+  # spawn to control zones
+  - { id: road_a_g, seed: 8, type: road, path: [base_A, [450, 950], [560, 650], gap_a_south, [1000, 400], [1200, 330], g], width: 9 }
+  - { id: road_b_g, seed: 9, type: road, path: [base_B, [2540, 880], [2400, 680], gap_b_south, [1900, 480], [1700, 300], g], width: 9 }
+  - { id: road_a_f, seed: 10, type: road, path: [base_A, [420, 1520], [590, 1800], gap_a_north, [1130, 2090], [1330, 2110], f], width: 9 }
+  - { id: road_b_f, seed: 11, type: road, path: [base_B, [2560, 1450], [2430, 1700], gap_b_north, [2000, 2000], [1800, 2120], f], width: 9 }
+
+analysis:
+  balance_tolerance: 0.2

@@ -116,6 +116,6 @@ def test_overlapping_discs_do_not_crash(tmp_path):
 
 def test_town_square_poc_reports_terrain_extra():
     code, out, _ = run("flowgraph", "check", os.path.join(REPO_ROOT, "flowgraphs", "town_square.flow.yaml"),
-                       os.path.join(REPO_ROOT, "maps", "concepts", "town_square.yaml"), "--terrain")
+                       os.path.join(REPO_ROOT, "maps", "iterations", "town_square", "v2_walled", "town_square_v2.yaml"), "--terrain")
     assert code in (0, 1) and "Traceback" not in out
     assert "terrain-extra edge" in out or code == 0
