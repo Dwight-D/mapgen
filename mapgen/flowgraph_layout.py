@@ -1,4 +1,4 @@
-"""Deterministic flowgraph layout: node id -> (x, y) metres in the map rectangle (design: mapgen/FLOWGRAPH_SPEC.md section 5)."""
+"""Deterministic flowgraph layout: node id -> (x, y) metres in the map rectangle (design: mapgen/FLOWGRAPH_SPEC.md sections 10-11)."""
 from __future__ import annotations
 
 from typing import Dict, List, Tuple
@@ -41,8 +41,8 @@ def _bfs(adj: Dict[str, List[str]], sources: List[str]) -> Dict[str, int]:
     return dist
 
 
-def layout(g: Flowgraph, width: float, height: float) -> Dict[str, Tuple[float, float]]:
-    """Positions for every node, layered left to right. A node's layer is its graph distance from the first team's
+def _layered_layout(g: Flowgraph, width: float, height: float) -> Dict[str, Tuple[float, float]]:
+    """Layered initial layout of the stress layout. Positions for every node, layered left to right. A node's layer is its graph distance from the first team's
     spawns; the second team's spawns are pinned to the last layer, the first team's to layer 0 (both on the margins).
     Within a layer nodes are ordered by barycentre sweeps (ties by declaration order), then spread evenly around
     mid height on a shared row pitch. Same graph => same output."""
@@ -171,4 +171,139 @@ def layout(g: Flowgraph, width: float, height: float) -> Dict[str, Tuple[float, 
                 p = (p[0], min(p[1] + GRID, y1) if p[1] + GRID <= y1 else max(p[1] - GRID * k, y0))
             used.add(p)
             out[nid] = p
+    return out
+
+
+# ---- stress layout (spec section 11) ---------------------------------------------------------------------------
+
+ITERATIONS = 400        # fixed Gauss-Seidel sweeps: no convergence test, so the result never depends on a tolerance
+ANCHOR_WEIGHT = 3.0     # spring weight toward a `place` anchor, against pairwise stress weights of 1/d^2
+SPAWN_REACH = 1.0       # a spawn anchor aims at this fraction of the frame half-width
+SPAWN_BOOST = 20.0      # spawn anchors are this many times stiffer than other anchors
+NODE_REACH = 0.5        # a non-spawn anchor aims at this fraction of the frame half-width (spawns aim at the frame edge)
+EDGE_WEIGHT = 16.0      # extra weight on pairs joined by an edge (d = 1): edge lengths matter more than far pairs
+ZONE_EDGE = 0.2         # an edge zone (west/east/north/south) is the outer 20 % of the map rectangle
+ZONE_CENTER = (0.35, 0.65)   # `center` is the middle 30 % of each axis
+_DIRS = {"west": (-1, 0), "east": (1, 0), "north": (0, 1), "south": (0, -1), "center": (0, 0),
+         "north-west": (-1, 1), "north-east": (1, 1), "south-west": (-1, -1), "south-east": (1, -1)}
+
+
+def _distances(g: Flowgraph) -> Dict[str, Dict[str, int]]:
+    adj: Dict[str, List[str]] = {n.id: [] for n in g.nodes}
+    for e in g.edges:
+        adj[e.a].append(e.b)
+        adj[e.b].append(e.a)
+    return {n.id: _bfs(adj, [n.id]) for n in g.nodes}
+
+
+def _anchors(g: Flowgraph) -> Dict[str, Tuple[int, int]]:
+    """node id -> compass direction (dx, dy), y north. Spawns without `place` default to west (first team) / east (second)."""
+    teams = team_order(g)
+    out: Dict[str, Tuple[int, int]] = {}
+    for n in g.nodes:
+        place = n.place
+        if not place and n.kind == "spawn" and n.team in teams[:2]:
+            place = "west" if n.team == teams[0] else "east"
+        if place:
+            out[n.id] = _DIRS[place]
+    return out
+
+
+def _solve(g: Flowgraph) -> Dict[str, List[float]]:
+    """Stress-minimising positions in abstract units (one edge = 1.0), y north, centred on the origin. Target distance
+    = graph distance; weight 1/d^2; anchors are weak springs toward the compass points of a frame of half-width
+    diameter/2 around the centroid. Initialised from the layered layout; fixed sweep count; no randomness."""
+    dist = _distances(g)
+    ids = [n.id for n in g.nodes]
+    diam = max(max(d.values()) for d in dist.values())
+    init = _layered_layout(g, 1000.0, 1000.0)
+    lens = [((init[e.a][0] - init[e.b][0]) ** 2 + (init[e.a][1] - init[e.b][1]) ** 2) ** 0.5 for e in g.edges]
+    unit = (sum(lens) / len(lens)) if lens and sum(lens) > 0 else 1.0
+    pos = {i: [init[i][0] / unit, init[i][1] / unit] for i in ids}
+    cx = sum(p[0] for p in pos.values()) / len(ids)
+    cy = sum(p[1] for p in pos.values()) / len(ids)
+    for p in pos.values():
+        p[0] -= cx
+        p[1] -= cy
+    half = max(diam / 2.0, 1.0)
+    spawn = {n.id for n in g.nodes if n.kind == "spawn"}
+    target = {nid: (dx * half * (SPAWN_REACH if nid in spawn else NODE_REACH), dy * half * (SPAWN_REACH if nid in spawn else NODE_REACH))
+              for nid, (dx, dy) in _anchors(g).items()}
+    for _ in range(ITERATIONS):
+        for i in ids:
+            xi, yi = pos[i]
+            sx = sy = sw = 0.0
+            for j in ids:
+                if j == i:
+                    continue
+                d = float(dist[i][j])
+                w = (EDGE_WEIGHT if d == 1.0 else 1.0) / (d * d)
+                xj, yj = pos[j]
+                r = ((xi - xj) ** 2 + (yi - yj) ** 2) ** 0.5
+                ux, uy = ((xi - xj) / r, (yi - yj) / r) if r > 1e-9 else (0.0, 0.0)
+                sx += w * (xj + d * ux)
+                sy += w * (yj + d * uy)
+                sw += w
+            if i in target:
+                a = ANCHOR_WEIGHT * (SPAWN_BOOST if i in spawn else 1.0)
+                sx += a * target[i][0]
+                sy += a * target[i][1]
+                sw += a
+            pos[i] = [sx / sw, sy / sw]
+    return pos
+
+
+def solved_extent(g: Flowgraph) -> Tuple[float, float]:
+    """Width and height of the stress solution in edge lengths (the preview sizes its canvas from it)."""
+    pos = _solve(g)
+    xs = [p[0] for p in pos.values()]
+    ys = [p[1] for p in pos.values()]
+    return max(xs) - min(xs), max(ys) - min(ys)
+
+
+def _fit(lo: float, hi: float, a0: float, a1: float, v: float) -> float:
+    return (a0 + a1) / 2.0 if hi - lo < 1e-9 else a0 + (v - lo) / (hi - lo) * (a1 - a0)
+
+
+def layout(g: Flowgraph, width: float, height: float) -> Dict[str, Tuple[float, float]]:
+    """Positions for every node in the width x height rectangle (spec sections 10-11): the stress solution stretched to
+    fill the rectangle inside a margin of 10 % of the shorter side, anchored nodes clamped into their zone, rounded to
+    10 m, coincident nodes nudged apart. Same graph and size => same output."""
+    margin = _round(MARGIN_FRAC * min(width, height))
+    x0, x1, y0, y1 = margin, _round(width - margin), margin, _round(height - margin)
+    sol = _solve(g)
+    xs = [p[0] for p in sol.values()]
+    ys = [p[1] for p in sol.values()]
+    lo_x, hi_x, lo_y, hi_y = min(xs), max(xs), min(ys), max(ys)
+    anchors = _anchors(g)
+    raw: Dict[str, Tuple[float, float]] = {}
+    for n in g.nodes:
+        x = _fit(lo_x, hi_x, x0, x1, sol[n.id][0])
+        y = _fit(lo_y, hi_y, y0, y1, sol[n.id][1])  # y north: larger y is further north
+        if n.id in anchors:
+            dx, dy = anchors[n.id]
+            if dx < 0:
+                x = min(x, ZONE_EDGE * width)
+            elif dx > 0:
+                x = max(x, (1 - ZONE_EDGE) * width)
+            elif dy == 0:
+                x = min(max(x, ZONE_CENTER[0] * width), ZONE_CENTER[1] * width)
+            if dy < 0:
+                y = min(y, ZONE_EDGE * height)
+            elif dy > 0:
+                y = max(y, (1 - ZONE_EDGE) * height)
+            elif dx == 0:
+                y = min(max(y, ZONE_CENTER[0] * height), ZONE_CENTER[1] * height)
+        raw[n.id] = (x, y)
+    out: Dict[str, Tuple[float, float]] = {}
+    used = set()
+    for n in g.nodes:
+        x, y = raw[n.id]
+        p = (min(max(_round(x), x0), x1), min(max(_round(y), y0), y1))
+        k = 0
+        while p in used and k < 1000:  # nudge coincident nodes apart so POIs never share a position
+            k += 1
+            p = (p[0], min(p[1] + GRID, y1) if p[1] + GRID <= y1 else max(p[1] - GRID * k, y0))
+        used.add(p)
+        out[n.id] = p
     return out

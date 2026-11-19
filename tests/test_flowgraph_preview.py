@@ -89,8 +89,8 @@ def test_layout_clearance(tmp_path, text):
                 assert _seg_dist(pos[n.id], pos[e.a], pos[e.b]) > flowgraph_preview.R * 1.3, (e.a, e.b, n.id)
 
 
-def test_town_square_layered():
+def test_town_square_spawns_on_opposite_sides():
     g = load_flowgraph(TOWN_SQUARE)
     p = layout(g, 3000, 3000)
-    assert p["A"][0] < p["AO"][0] < p["O"][0] < p["BO"][0] < p["B"][0]
-    assert p["A"][1] == p["AO"][1] == p["O"][1] == p["BO"][1] == p["B"][1]
+    assert p["A"][0] < p["AO"][0] < p["BO"][0] < p["B"][0]
+    assert p["A"][0] < p["O"][0] < p["B"][0]

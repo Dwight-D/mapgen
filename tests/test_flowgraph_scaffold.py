@@ -1,11 +1,13 @@
 """Flowgraph scaffold and layout: determinism, self-pass (validate + check --strict), --out/--force, exit codes."""
+import math
 import os
+import statistics
 
 import pytest
 
 from mapgen import flowgraph_scaffold
 from mapgen.flowgraph import load_flowgraph
-from mapgen.flowgraph_layout import layout
+from mapgen.flowgraph_layout import _layered_layout, layout
 from mapgen.schema import load_spec
 from test_cli_exit_codes import REPO_ROOT, run
 from test_flowgraph import TOWN_SQUARE
@@ -88,6 +90,7 @@ def test_layout_deterministic_and_in_bounds():
     a, b = layout(g, 3000, 3000), layout(load_flowgraph(TOWN_SQUARE), 3000, 3000)
     assert a == b and set(a) == {n.id for n in g.nodes}
     assert a["A"][0] < a["B"][0] and a["A"][0] == 300 and a["B"][0] == 2700
+    assert layout(g, 3000, 3000) == a  # repeated calls in one process
     assert len(set(a.values())) == len(a)
     for x, y in a.values():
         assert 300 <= x <= 2700 and 300 <= y <= 2700 and x % 10 == 0 and y % 10 == 0
@@ -154,3 +157,95 @@ def test_scaffold_errors(tmp_path):
     g = _w(tmp_path / "t.flow.yaml", THREE.replace("  M:", "  D: {kind: spawn, team: D}\n  M:").replace("  - C - M", "  - C - M\n  - D - M"))
     code, out, _ = run("flowgraph", "scaffold", g)
     assert code == 1 and "at most 3 teams" in out
+
+
+def _edge_lengths(g, pos):
+    return [math.hypot(pos[e.a][0] - pos[e.b][0], pos[e.a][1] - pos[e.b][1]) for e in g.edges]
+
+
+def test_town_square_balanced():
+    g = load_flowgraph(TOWN_SQUARE)
+    p = layout(g, 800, 800)
+    span = max(x for x, _ in p.values()) - min(x for x, _ in p.values())
+    for n in ("Fa", "Fb"):  # flank nodes sit on the objective's vertical axis, not beside one spawn
+        assert abs(p[n][0] - p["O"][0]) <= 0.15 * span, (n, p)
+    assert p["A"][0] < p["O"][0] < p["B"][0]
+    new, old = _edge_lengths(g, p), _edge_lengths(g, _layered_layout(g, 800, 800))
+    assert statistics.pstdev(new) < statistics.pstdev(old)
+    assert statistics.pstdev(new) / statistics.mean(new) < 0.7 * statistics.pstdev(old) / statistics.mean(old)
+    assert len(set(p.values())) == len(p)
+
+
+def test_spawns_default_west_east():
+    g = load_flowgraph(TOWN_SQUARE)
+    p = layout(g, 3000, 3000)
+    assert p["A"][0] <= 0.2 * 3000 and p["B"][0] >= 0.8 * 3000
+
+
+ZONES = """format_version: 1
+name: zones
+nodes:
+  A: {kind: spawn, team: A}
+  B: {kind: spawn, team: B}
+  N: {place: north}
+  S: {place: south}
+  W: {place: west}
+  E: {place: east}
+  C: {place: center}
+  NE: {place: north-east}
+  SW: {place: south-west}
+edges:
+  - A - N
+  - A - S
+  - N - C
+  - S - C
+  - C - W
+  - C - E
+  - E - B
+  - W - A
+  - NE - B
+  - SW - A
+  - NE - N
+  - SW - S
+"""
+
+
+def _in_zone(place, pt, w, h):
+    x, y = pt
+    ok = True
+    if "west" in place:
+        ok = ok and x <= 0.2 * w
+    if "east" in place:
+        ok = ok and x >= 0.8 * w
+    if "north" in place:
+        ok = ok and y >= 0.8 * h
+    if "south" in place:
+        ok = ok and y <= 0.2 * h
+    if place == "center":
+        ok = ok and 0.35 * w <= x <= 0.65 * w and 0.35 * h <= y <= 0.65 * h
+    return ok
+
+
+@pytest.mark.parametrize("size", [(3000, 3000), (800, 800), (2000, 1000)])
+def test_anchored_nodes_land_in_zone(tmp_path, size):
+    path = _w(tmp_path / "g.flow.yaml", ZONES)
+    g = load_flowgraph(path)
+    p = layout(g, size[0], size[1])
+    for n in g.nodes:
+        if n.place:
+            assert _in_zone(n.place, p[n.id], size[0], size[1]), (n.id, p[n.id])
+    assert len(set(p.values())) == len(p)
+    spec = load_spec(_selfpass_size(tmp_path, path, size))
+    pts = {poi.id: poi.at for poi in spec.pois}
+    assert _in_zone("north", pts["n"], size[0], size[1])
+
+
+def _selfpass_size(tmp_path, graph_path, size):
+    spec = str(tmp_path / "s.yaml")
+    code, out, err = run("flowgraph", "scaffold", graph_path, "--out", spec, "--force", "--size", str(size[0]), str(size[1]))
+    assert code == 0, out + err
+    code, out, err = run("validate", spec)
+    assert code == 0, out + err
+    code, out, err = run("flowgraph", "check", graph_path, spec, "--strict")
+    assert code == 0, out + err
+    return spec

@@ -20,7 +20,7 @@ edges:
   - M - B
 """
 
-ALLOWED_NODE = "kind, team, name, desc, bind"
+ALLOWED_NODE = "kind, team, name, desc, bind, place"
 
 
 class P(str):
@@ -359,3 +359,26 @@ def test_cli_check_load_errors(tmp_path):
     rc, out, _ = run("flowgraph", "check", TOWN_SQUARE, tmp_path / "nope.yaml")
     assert rc == 1 and out.startswith("error: file not found:")
     assert run("flowgraph", "check", TOWN_SQUARE)[0] == 2
+
+
+PLACES = ["west", "east", "north", "south", "center", "north-west", "north-east", "south-west", "south-east"]
+
+
+def test_place_values_load():
+    for v in PLACES:
+        g = load_flowgraph(_w_tmp(BASE.replace("  M: {}", "  M: {place: %s}" % v)))
+        assert next(n for n in g.nodes if n.id == "M").place == v
+    assert next(n for n in load_flowgraph(TOWN_SQUARE).nodes if n.id == "O").place == "center"
+    assert next(n for n in load_flowgraph(TOWN_SQUARE).nodes if n.id == "A").place is None
+
+
+def _w_tmp(text, _d=[]):
+    import tempfile
+    d = tempfile.mkdtemp()
+    return _w(os.path.join(d, "g.flow.yaml"), text)
+
+
+@pytest.mark.parametrize("bad", ["up", "NORTH", "north west", "3", "''"])
+def test_place_errors(tmp_path, bad):
+    errs = _errors(tmp_path, BASE.replace("  M: {}", "  M: {place: %s}" % bad))
+    assert len(errs) == 1 and errs[0].startswith("nodes.M.place: expected one of %s, got " % ", ".join(PLACES)), errs

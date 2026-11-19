@@ -6,7 +6,7 @@ from html import escape
 from typing import Dict, List, Tuple
 
 from .flowgraph import KINDS, Flowgraph
-from .flowgraph_layout import layout
+from .flowgraph_layout import layout, solved_extent
 
 R = 28  # node radius in px
 # kind -> (shape, fill, stroke dash). Fills differ in lightness (dark -> light), shapes differ; hue is never the cue.
@@ -45,13 +45,14 @@ def shape_svg(kind: str, cx: float, cy: float, r: float = R) -> str:
 
 
 def _canvas(g: Flowgraph) -> Tuple[int, int, Dict[str, Tuple[float, float]]]:
-    """Canvas size grown to the graph's column and row counts, and the layout on it."""
-    probe = layout(g, 1800, 1000)
-    xs = {p[0] for p in probe.values()}
-    rows = max(sum(1 for q in probe.values() if q[0] == x) for x in xs)
-    w = int(max(1000, 330 * max(len(xs) - 1, 1) / 0.8))
-    h = int(max(600, 170 * max(rows - 1, 1) / 0.8))
-    return w, h, layout(g, w, h)
+    """Canvas size from the stress solution's extent (EDGE_PX per edge length, 10 % margins), and the layout on it."""
+    ex, ey = solved_extent(g)
+    w = int(max(900, EDGE_PX * ex / 0.8))
+    h = int(max(560, EDGE_PX * ey / 0.8))
+    return w, h, {k: (x, h - y) for k, (x, y) in layout(g, w, h).items()}  # layout y points north; the screen's y points down
+
+
+EDGE_PX = 300  # drawn length of one graph edge, pixels
 
 
 PAD = 70

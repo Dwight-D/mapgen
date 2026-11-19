@@ -4,7 +4,7 @@ A **flowgraph** is a small hand-written YAML file describing a map's *topology*:
 which of them are directly traversable from which. It carries no geometry. A mapgen spec (the
 topography: regions, lines, positions) is drafted from it and later checked against it.
 
-Status: slices 1 (loader, validation, `flowgraph validate`), 2 (edge derivation, `flowgraph check`), 3 (`flowgraph scaffold`, layout) and 4 (`flowgraph preview`) implemented; slices 5-6 are design. Implementation slices are backlog items in the `mapgen` workstream
+Status: slices 1 (loader, validation, `flowgraph validate`), 2 (edge derivation, `flowgraph check`), 3 (`flowgraph scaffold`, layout), 4 (`flowgraph preview`) and the spatial hints + balanced layout of §10-11 (GDU-38) implemented; slices 5-6 and §12-14 are design. Implementation slices are backlog items in the `mapgen` workstream
 (GDU-31 â€¦ GDU-36 = slices 1â€“6, Â§9). Everything below is the contract those items implement.
 
 ## 1. Concepts
@@ -106,7 +106,7 @@ An edge Xâ€“Y is **present** when a traversable line connects X and Y directly.
 
 ```
 flowgraph scaffold <graph> [--out <path> [--force]] [--size X Y]   # draft spec text -> stdout or file
-flowgraph check    <graph> <spec> [--strict]             # validate a spec against the graph
+flowgraph check    <graph> <spec> [--strict] [--terrain]  # validate a spec against the graph (§12 for --terrain)
 flowgraph preview  <graph> [--out <html>] [--force]      # static HTML/SVG preview
 ```
 
@@ -119,7 +119,7 @@ never round-trips YAML). Contents:
   (`{ id: <a>_<b>, seed: n, type: road, path: [<ref_a>, <ref_b>], width: 8 }`), with the edge name/desc as a
   comment above; per-node comments carry name/desc. A `# TODO(agent):` banner states what is left: shape
   terrain with regions, route lines, tune positions/types, keep `flowgraph check --strict` passing.
-- Placeholder coordinates: the deterministic layered layout of the graph in the map rectangle (see Layout below).
+- Placeholder coordinates: the deterministic stress layout of the graph in the map rectangle (see Layout below).
 - The scaffold **must pass** `mapgen validate` and `flowgraph check --strict` against its own graph
   (tested).
 - Details: the spawn of the first team sits on the left margin and of the second team on the right, at mid height; margin is 10% of the shorter side; coincident nodes are nudged 10 m steps apart. Team colours are
@@ -145,16 +145,19 @@ missing (or extra under `--strict`) or load error. Default mode ignores extras. 
 Derived edges touching an unbound node are ignored (not a graph concern).
 
 ### Layout (`mapgen/flowgraph_layout.py`, `layout(g, width, height)`)
-Layered left to right, fully deterministic (no randomness, no networkx):
-- A node's layer is its graph distance from the first team's spawns; the first team's spawns are layer 0 and the
-  second team's spawns the last layer (an extra layer after the farthest node), so both teams sit on opposite margins at
-  mid height. Further teams' spawns are laid out like ordinary nodes. Empty layers are removed; layers are spread evenly
-  between the left and right margins (margin = 10% of the shorter side).
-- Within a layer, nodes start in a barycentre order (ties by declaration order; 8 sweeps), on a shared row grid with at
-  least 3 rows, centred on mid height. A fixed-order hill climb then swaps row-neighbours and shifts unpinned nodes to a
-  free adjacent row while the cost drops. Cost = 1e6 per edge passing through another node + 1e4 per edge crossing +
-  total vertical edge slope. Coordinates are rounded to 10 m; coincident nodes are nudged apart.
-- Chokepoints end up next to their spawns, because layers follow distance from the spawns.
+Stress minimisation, fully deterministic (no randomness, pure Python); see §10 for the `place` hints and §11 for the
+goal. Details:
+- Target distance between two nodes = graph distance x one uniform edge length; pair weight 1/d^2, pairs joined by an
+  edge weigh `EDGE_WEIGHT` (16) times more. Each node with a `place` (spawns default to west/east) is pulled by a spring
+  toward its compass point in a frame of half-width diameter/2 around the centroid: spawns aim at the frame edge with
+  spring weight `ANCHOR_WEIGHT` x `SPAWN_BOOST` (3 x 20), other nodes at half that distance with weight `ANCHOR_WEIGHT` (3).
+- Start: the layered layout (kept as the private `_layered_layout`: layers by graph distance from the first team's spawns,
+  barycentre ordering, hill-climbed rows). Then `ITERATIONS` (400) Gauss-Seidel stress-majorisation sweeps in declaration
+  order; no convergence test.
+- Output: the solution is stretched to fill the map rectangle inside a margin of 10 % of the shorter side (y points
+  north), each anchored node is clamped into its zone (§10), coordinates are rounded to 10 m, coincident nodes are
+  nudged apart.
+- `solved_extent(g)` gives the solution's width and height in edge lengths (the preview sizes its canvas from it).
 
 ### `preview`
 Writes one self-contained HTML file (`mapgen/flowgraph_preview.py`; inline SVG + vanilla JS, no external URLs, no
@@ -166,7 +169,8 @@ fonts fetched) drawing the graph, read-only:
   preference) with the fewest collisions with edges, other labels and markers.
 - Edge labels from the edge `name`. Hover (SVG `<title>` tooltip plus a detail line under the drawing) shows node and
   edge `desc`; hovering a node highlights its edges.
-- Layout from `layout()` on a canvas grown to the graph's layer and row counts (minimum 1000x600 px).
+- Layout from `layout()` on a canvas sized to the solution's extent (300 px per edge length, minimum 900x560 px), north
+  up.
 - Output is deterministic (LF endings). Default `--out` is `out/flowgraph_<name>.html` (git-ignored), overwritten
   without `--force`; an explicit `--out` that exists is refused without `--force`. Exit 1 on a load error or a refused
   overwrite.
@@ -214,3 +218,79 @@ imbalance warnings. Adding the map adds a regression baseline (owner-approved re
 
 Slices 1â†’2â†’3 are sequential (one module); 4 can start once 1 and the layout function exist.
 Each slice: add docs (README commands, CLAUDE.md table row), run the full pytest suite, commit in the mapgen repo.
+
+## 10. Spatial hints â€” `place`
+
+A node may carry `place`, a soft anchor for layout and scaffold coordinates. Values: `west`, `east`, `north`,
+`south`, `center`, and the four diagonals (`north-west`, `north-east`, `south-west`, `south-east`). It is a hint
+only: `check` ignores it. Spawns without `place` default to `west` (first team) and `east` (second team).
+The layout (hence scaffold and preview) places an anchored node in its zone of the map rectangle (edge zones within the outer 20 % band,
+`center` within the middle 30 %); layout (Â§11) uses the anchor as a spring toward that point. Unknown values are
+format errors (`nodes.X.place: ...`).
+
+## 11. Layout â€” balanced edge lengths
+
+`layout(graph, width, height)` minimises stress: the squared difference between each drawn node distance and the
+graph-theoretic distance times one uniform edge length, so as many edges as possible come out the same length and
+nodes that connect to both sides sit between them (flank nodes between the two spawns, not beside one). Anchors
+from `place` add a weak spring toward the anchor point. Deterministic: initialised from the layered layout,
+fixed iteration count, no randomness, coordinates rounded to 10 m. Consumed by `scaffold` and `preview`/editor.
+Quality bar (tested): on town_square both flank nodes sit within 15 % of the layout width of the objective's x, and the
+standard deviation of edge lengths (absolute and relative to the mean) is lower than the layered layout's.
+
+## 12. Terrain-aware check â€” `flowgraph check --terrain`
+
+`--terrain` adds a check against the terrain, not just the roads: the map's walkable cells must connect exactly
+the graph's nodes. The road-path findings (§5 `check`) are still reported.
+
+Procedure (`mapgen/flowgraph_terrain.py`): compute the movement-cost grid as the analysis stage does (geometry,
+heightmap, `analysis.build_cost` on the analysis grid, `analysis.cell` metres per cell; the analysis passes and all
+file output are skipped); a cell is walkable when its cost is finite (so `impassable: true` regions, rivers, cliffs,
+mountains and steep slopes are walls; crossings open them). Each bound node present in the spec owns a disc: POI `r`
+(minimum 30 m), spawn bases 120 m, `points` chokepoints 25 m. For every node X, label the 8-connected walkable cells
+with all *other* nodes' discs treated as walls; the region containing X's disc (the disc cells themselves are always
+passable for X) is X's flood. The other discs whose walkable cells touch the flood (8-neighbourhood) are X's **terrain
+neighbours**. An edge X-Y is terrain-present when Y is a terrain neighbour of X or X of Y.
+
+Findings:
+- `terrain-missing edge X - Y` — graph edge with no walkable way that avoids the other nodes;
+- `terrain-extra edge X - Y` — walkable bypass between nodes the graph does not connect (leaky wall, open ground
+  around a chokepoint);
+- `note: discs of X and Y overlap (treated as adjacent)` — overlapping discs count as adjacent (never an error by
+  itself; the pair is a terrain neighbour pair, so it is terrain-extra when the graph has no such edge).
+
+Both terrain findings fail the check whether or not `--strict` is given (`--strict` adds the road-path extras of §5).
+Output lines come after the road-path lines and before the summary, which gains `, N terrain-missing edge(s), N
+terrain-extra edge(s)`. Exit codes as `check`. Nodes missing from the spec are skipped (already reported as missing
+nodes).
+
+Cost: no flooding on a coarser grid is needed. On town_square (analysis grid 240 x 300 cells) the command takes ~7 s,
+of which the flood is ~0.03 s; the rest is geometry and heightmap synthesis. Tests: `tests/test_flowgraph_terrain.py`.
+
+## 13. Impassable regions
+
+Any region may carry `impassable: true`. Its cells get cost infinity (like mountain) whatever the region type, line
+of sight and height behave as for the type. This lets dense forest, rubble, hills or town blocks serve as walls.
+Render: the region keeps its type colour and outline and is overdrawn with a diagonal strike-through hatch (a
+fixed pattern independent of the type's own pattern, separable by pattern and lightness, colour-blind safe), and
+the legend shows "impassable" with the hatch. The export region records carry `impassable` only for regions that set
+it. Specs without the key produce byte-identical output (baselines unchanged). Documented in `MAPGEN_SPEC.md` Â§4.2,
+`README.md` and `EXPORT_FORMAT.md` if the export gains the field.
+
+## 14. Editor â€” `flowgraph edit`
+
+`python -m mapgen flowgraph edit <graph> [--port N]` serves the preview page from a local stdlib HTTP server
+(127.0.0.1 only) and lets the author edit the graph in the browser: drag nodes (positions are layout state only,
+not saved), add a node (click empty space, choose kind, id, name, desc, place, team), add an edge (select two
+nodes), delete, edit name/desc/kind/place, undo/redo. Every change is validated by the same loader (Â§2); an invalid
+edit is refused with the error shown and never written. Save writes the `.flow.yaml` in canonical form (fixed key
+order, comments not preserved; the format is small) and is the only write. Without the server, `preview` stays the
+read-only static page.
+
+## 15. Next slices (2026-11-19)
+
+Impassable regions (Â§13), spatial hints + balanced layout (Â§10, Â§11), terrain check (Â§12), editor (Â§14), and the
+reworked town_square map (800 Ã— 800 m: river with bridges funnelling traffic through the graph's edges, dense/impassable
+forest, cliffs and mountains blocking the rest; Attic = multi-storey north side of the square, Alleys = the
+south entrance to the square, both inside the city centre; the two control zones on the town outskirts at either
+side). Tracked as backlog items; PoC baseline stays pending until the map rework passes `check --strict --terrain`.

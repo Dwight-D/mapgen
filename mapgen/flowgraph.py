@@ -12,7 +12,8 @@ from .schema import SpecError, _SpecLoader
 FORMAT_VERSIONS = (1,)
 KINDS = ("spawn", "objective", "zone", "choke", "area")
 TOP_KEYS = ("format_version", "name", "brief", "nodes", "edges")
-NODE_KEYS = ("kind", "team", "name", "desc", "bind")
+NODE_KEYS = ("kind", "team", "name", "desc", "bind", "place")
+PLACES = ("west", "east", "north", "south", "center", "north-west", "north-east", "south-west", "south-east")
 EDGE_KEYS = ("link", "name", "desc")
 _NODE_ID = re.compile(r"^[A-Za-z][A-Za-z0-9_]*$")
 _NAME = re.compile(r"^[a-z0-9_]+$")
@@ -26,6 +27,7 @@ class Node:
     name: str = ""
     desc: str = ""
     bind: str = ""
+    place: Optional[str] = None
 
 
 @dataclass
@@ -95,10 +97,14 @@ def _parse_nodes(raw: Any, errors: List[str]) -> List[Node]:
         if bind is not None and (not isinstance(bind, str) or not bind.strip()):
             errors.append("%s.bind: expected a non-empty string, got %r" % (p, bind))
             bind = None
+        place = props.get("place")
+        if place is not None and place not in PLACES:
+            errors.append("%s.place: expected one of %s, got %r" % (p, ", ".join(PLACES), place))
+            place = None
         if not bind:
             bind = "base_%s" % team if kind == "spawn" and team else nid.lower()
         nodes.append(Node(nid, kind, team if kind == "spawn" else None, _text(p + ".name", props.get("name"), errors),
-                          _text(p + ".desc", props.get("desc"), errors), bind.strip()))
+                          _text(p + ".desc", props.get("desc"), errors), bind.strip(), place))
     return nodes
 
 
