@@ -76,6 +76,7 @@ Exported JSON uses `x` (east), `z` (north), `y` (height).
 | `mapgen/REFERENCES_SPEC.md` | point references and the `points` section: format rules, resolution, migration of the committed maps, tests, docs |
 | `mapgen/SCATTER_SPEC.md` | the scatter threshold over the entry's own area: locality property, `coverage` meaning, migration of the scatter maps, tests |
 | `mapgen/DIFF_SPEC.md` | the diff command: report format, algorithms, tests |
+| `mapgen/FLOWGRAPH_SPEC.md` | the flowgraph feature: topology graph format and rules, spec binding, edge derivation, `flowgraph` commands, slices |
 | `HANDOVER_UNITY_IMPORTER.md` | the prompt that started the Battlehounds importer session |
 
 Map concepts in `maps/concepts/` are authored with the `map-concept` skill

@@ -1,4 +1,4 @@
-"""mapgen command line: build | validate | probe | diff | types | palette."""
+"""mapgen command line: build | validate | probe | diff | flowgraph | types | palette."""
 from __future__ import annotations
 
 import argparse
@@ -26,6 +26,23 @@ def cmd_validate(args) -> int:
     print("OK: %s (%gx%g m, %d teams, %d regions, %d lines, %d crossings, %d pois)" % (
         spec.name, spec.size[0], spec.size[1], len(spec.teams), len(spec.regions), len(spec.lines),
         len(spec.crossings), len(spec.pois)))
+    return 0
+
+
+def cmd_flowgraph_validate(args) -> int:
+    from . import flowgraph
+
+    try:
+        g = flowgraph.load_flowgraph(args.graph)
+    except FileNotFoundError:
+        print("error: file not found: %s" % args.graph)
+        return 1
+    except schema.SpecError as e:
+        print("%d error(s) in %s:" % (len(e.errors), args.graph))
+        for line in e.errors:
+            print("  " + line)
+        return 1
+    print("OK: %s (%d nodes, %d edges)" % (g.name, len(g.nodes), len(g.edges)))
     return 0
 
 
@@ -209,6 +226,13 @@ def main(argv: Optional[List[str]] = None) -> int:
     df.add_argument("--max-changes", type=_non_negative_int, default=100,
                     help="change entries listed per JSON file (default 100)")
     df.set_defaults(func=cmd_diff)
+
+    fg = sub.add_parser("flowgraph", help="flowgraph (topology precursor) commands")
+    fgs = fg.add_subparsers(dest="flowgraph_command")
+    fgs.required = True
+    fgv = fgs.add_parser("validate", help="validate a *.flow.yaml graph and report every error")
+    fgv.add_argument("graph")
+    fgv.set_defaults(func=cmd_flowgraph_validate)
 
     t = sub.add_parser("types", help="print the type table")
     t.set_defaults(func=cmd_types)
