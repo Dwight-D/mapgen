@@ -18,6 +18,7 @@ def test_discover_maps():
         ("kingsjaw", "maps/concepts/kingsjaw.yaml"),
         ("saltreach_delta", "maps/concepts/saltreach_delta.yaml"),
         ("thornwald", "maps/concepts/thornwald.yaml"),
+        ("town_square", "maps/concepts/town_square.yaml"),
     ]
 
 

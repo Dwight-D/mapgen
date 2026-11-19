@@ -77,6 +77,7 @@ the file name (`mapgen/build.py:173`). Baselines are keyed by spec `name`.
 | `maps/concepts/kingsjaw.yaml` | `kingsjaw` | 33 | 16.4 s |
 | `maps/concepts/saltreach_delta.yaml` | `saltreach_delta` | 35 | 19.3 s |
 | `maps/concepts/thornwald.yaml` | `thornwald` | 33 | 15.1 s |
+| `maps/concepts/town_square.yaml` | `town_square` | 33 | 19.6 s (baseline pending owner approval) |
 
 All eight in one process: 123.4 s including 1.3 s of imports. A CLI build adds about 2 s of interpreter
 start and imports. No map produces a report warning. Estimated full suite runtime: about 2.5–3 minutes
@@ -444,7 +445,7 @@ Running one map alone: `.venv/Scripts/python -m pytest -k thornwald`.
 
 | test | checks |
 |---|---|
-| `test_discover_maps` | returns exactly these pairs in this order: `("natural", "maps/example_natural.yaml")`, `("river_crossing", "maps/example_river_crossing.yaml")`, `("three_team", "maps/example_three_team.yaml")`, `("ashen_steppe", "maps/concepts/ashen_steppe.yaml")`, `("gloamfen", "maps/concepts/gloamfen.yaml")`, `("kingsjaw", "maps/concepts/kingsjaw.yaml")`, `("saltreach_delta", "maps/concepts/saltreach_delta.yaml")`, `("thornwald", "maps/concepts/thornwald.yaml")` |
+| `test_discover_maps` | returns exactly these pairs in this order: `("natural", "maps/example_natural.yaml")`, `("river_crossing", "maps/example_river_crossing.yaml")`, `("three_team", "maps/example_three_team.yaml")`, `("ashen_steppe", "maps/concepts/ashen_steppe.yaml")`, `("gloamfen", "maps/concepts/gloamfen.yaml")`, `("kingsjaw", "maps/concepts/kingsjaw.yaml")`, `("saltreach_delta", "maps/concepts/saltreach_delta.yaml")`, `("thornwald", "maps/concepts/thornwald.yaml")`, `("town_square", "maps/concepts/town_square.yaml")` |
 | `test_hash_tree` | a tree `a.txt` (`b"x"`) and `sub/b.bin` (`b"\x00\x01"`) gives keys `["a.txt", "sub/b.bin"]` and `hashlib.sha256(b"x").hexdigest()` for `a.txt` |
 | `test_compare_identical` | equal dicts → `[]` |
 | `test_compare_changed_missing_extra` | expected `{"a": "0"*64, "b": "1"*64}`, actual `{"a": "f"*64, "c": "2"*64}` → exactly `["m: a: changed (baseline 000000000000, build ffffffffffff)", "m: b: missing from build", "m: c: not in baseline"]` |
