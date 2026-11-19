@@ -4,7 +4,7 @@ A **flowgraph** is a small hand-written YAML file describing a map's *topology*:
 which of them are directly traversable from which. It carries no geometry. A mapgen spec (the
 topography: regions, lines, positions) is drafted from it and later checked against it.
 
-Status: slices 1 (loader, validation, `flowgraph validate`), 2 (edge derivation, `flowgraph check`) and 3 (`flowgraph scaffold`, layout) implemented; slices 4-6 are design. Implementation slices are backlog items in the `mapgen` workstream
+Status: slices 1 (loader, validation, `flowgraph validate`), 2 (edge derivation, `flowgraph check`), 3 (`flowgraph scaffold`, layout) and 4 (`flowgraph preview`) implemented; slices 5-6 are design. Implementation slices are backlog items in the `mapgen` workstream
 (GDU-31 … GDU-36 = slices 1–6, §9). Everything below is the contract those items implement.
 
 ## 1. Concepts
@@ -107,7 +107,7 @@ An edge X–Y is **present** when a traversable line connects X and Y directly.
 ```
 flowgraph scaffold <graph> [--out <path> [--force]] [--size X Y]   # draft spec text -> stdout or file
 flowgraph check    <graph> <spec> [--strict]             # validate a spec against the graph
-flowgraph preview  <graph> [--out <html>]                # wave 2: static HTML/SVG preview
+flowgraph preview  <graph> [--out <html>] [--force]      # static HTML/SVG preview
 ```
 
 ### `scaffold`
@@ -119,12 +119,10 @@ never round-trips YAML). Contents:
   (`{ id: <a>_<b>, seed: n, type: road, path: [<ref_a>, <ref_b>], width: 8 }`), with the edge name/desc as a
   comment above; per-node comments carry name/desc. A `# TODO(agent):` banner states what is left: shape
   terrain with regions, route lines, tune positions/types, keep `flowgraph check --strict` passing.
-- Placeholder coordinates: deterministic layout of the graph in the map rectangle (spawns on opposite sides,
-  remainder by a seeded `networkx` spring layout, seed fixed, rounded to 10 m).
+- Placeholder coordinates: the deterministic layered layout of the graph in the map rectangle (see Layout below).
 - The scaffold **must pass** `mapgen validate` and `flowgraph check --strict` against its own graph
   (tested).
-- Details: the spawn of the first team sits on the left margin and of the second team on the right, at the layout's
-  mid height; margin is 10% of the shorter side; coincident nodes are nudged 10 m steps apart. Team colours are
+- Details: the spawn of the first team sits on the left margin and of the second team on the right, at mid height; margin is 10% of the shorter side; coincident nodes are nudged 10 m steps apart. Team colours are
   the palette defaults (blue `#2f6fdf`, amber `#f2a81d`, purple `#6a2cc0`) in team order. Line ids are
   `road_<a>_<b>` (node ids lowercased; `road_<n>` if that is invalid or taken), seeds are edge indices.
   Name and desc become `label`/`name` values (JSON-quoted) and comments. `--out` refuses an existing file unless
@@ -146,16 +144,40 @@ Missing edges are reported for every graph edge not derived, including those of 
 missing (or extra under `--strict`) or load error. Default mode ignores extras. Nothing is written.
 Derived edges touching an unbound node are ignored (not a graph concern).
 
-### `preview` (wave 2)
-Writes one self-contained HTML file (inline SVG + vanilla JS, no CDN) drawing the graph: node shapes/colours by
-kind (lightness + shape, colour-blind safe per mapgen rule), labels (id + name), hover shows `desc`, edge labels
-from `name`. Layout from the same deterministic layout as the scaffold; spawns pinned left/right. Read-only.
+### Layout (`mapgen/flowgraph_layout.py`, `layout(g, width, height)`)
+Layered left to right, fully deterministic (no randomness, no networkx):
+- A node's layer is its graph distance from the first team's spawns; the first team's spawns are layer 0 and the
+  second team's spawns the last layer (an extra layer after the farthest node), so both teams sit on opposite margins at
+  mid height. Further teams' spawns are laid out like ordinary nodes. Empty layers are removed; layers are spread evenly
+  between the left and right margins (margin = 10% of the shorter side).
+- Within a layer, nodes start in a barycentre order (ties by declaration order; 8 sweeps), on a shared row grid with at
+  least 3 rows, centred on mid height. A fixed-order hill climb then swaps row-neighbours and shifts unpinned nodes to a
+  free adjacent row while the cost drops. Cost = 1e6 per edge passing through another node + 1e4 per edge crossing +
+  total vertical edge slope. Coordinates are rounded to 10 m; coincident nodes are nudged apart.
+- Chokepoints end up next to their spawns, because layers follow distance from the spawns.
+
+### `preview`
+Writes one self-contained HTML file (`mapgen/flowgraph_preview.py`; inline SVG + vanilla JS, no external URLs, no
+fonts fetched) drawing the graph, read-only:
+- Page title `<name> - flowgraph preview`, the graph name as heading and the `brief` above the drawing, a legend.
+- Node markers separate kinds by shape and fill lightness (hue is never the cue): spawn dark square, objective
+  star, zone hexagon, choke diamond, area light dashed circle. Spawns show their team letter inside the marker and
+  `team <t>` in the label. Label = id, then name, on the side of the marker (below, above, right, left, in that
+  preference) with the fewest collisions with edges, other labels and markers.
+- Edge labels from the edge `name`. Hover (SVG `<title>` tooltip plus a detail line under the drawing) shows node and
+  edge `desc`; hovering a node highlights its edges.
+- Layout from `layout()` on a canvas grown to the graph's layer and row counts (minimum 1000x600 px).
+- Output is deterministic (LF endings). Default `--out` is `out/flowgraph_<name>.html` (git-ignored), overwritten
+  without `--force`; an explicit `--out` that exists is refused without `--force`. Exit 1 on a load error or a refused
+  overwrite.
+Chosen as HTML so the later editing wave (click to add nodes/edges, write back the `.flow.yaml`) can extend it
+without a separate GUI stack.
 Chosen as HTML so the later editing wave (click to add nodes/edges, write back the `.flow.yaml`) can extend it
 without a separate GUI stack.
 
 ## 6. Module layout & tests
 
-- `mapgen/flowgraph.py` — load/validate graph, layout, scaffold text, edge derivation, check; `mapgen/flowgraph_preview.py` (wave 2).
+- `mapgen/flowgraph.py` — load/validate graph, layout, scaffold text, edge derivation, check; `mapgen/flowgraph_layout.py` (layout); `mapgen/flowgraph_preview.py` (preview HTML).
 - `__main__.py` — nested `add_subparsers`; reuse the error-print helper.
 - Python 3.8, pinned deps only (`networkx` already pinned), deterministic output.
 - No schema/export/`maps/` change, so regression baselines stay untouched. Fixtures under `tests/` use `tmp_path`.
@@ -186,7 +208,7 @@ imbalance warnings. Adding the map adds a regression baseline (owner-approved re
 | 1 | graph loader + validation (`flowgraph.py`, §2) | — | tests/test_flowgraph.py graph cases pass; `flowgraphs/town_square.flow.yaml` loads |
 | 2 | edge derivation + `flowgraph check [--strict]` (§3–§5) | 1 | derivation and check/strict tests pass; exit codes |
 | 3 | `flowgraph scaffold` + layout (§5) | 1 (2 for self-pass test) | determinism test; scaffold of town_square passes `validate` and `check --strict` |
-| 4 | `flowgraph preview` HTML (§5) | 1, 3 layout | file written, opens; labels/desc present; no CDN |
+| 4 | `flowgraph preview` HTML (§5) | 1, 3 layout | file written, opens; labels/desc present; no CDN; tests/test_flowgraph_preview.py. DONE |
 | 5 | PoC map `town_square` (§7) | 1–4 | build exit 0, check --strict pass, report clean, rebaseline approved |
 | 6 | GUI editing — DEFERRED until 5 proves the workflow | 4, 5 | — |
 

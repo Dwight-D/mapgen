@@ -104,6 +104,35 @@ def cmd_flowgraph_scaffold(args) -> int:
     return 0
 
 
+def cmd_flowgraph_preview(args) -> int:
+    import os
+
+    from . import flowgraph, flowgraph_preview
+
+    try:
+        g = flowgraph.load_flowgraph(args.graph)
+    except FileNotFoundError:
+        print("error: file not found: %s" % args.graph)
+        return 1
+    except schema.SpecError as e:
+        print("%d error(s) in %s:" % (len(e.errors), args.graph))
+        for line in e.errors:
+            print("  " + line)
+        return 1
+    default = not args.out
+    out = args.out or os.path.join("out", "flowgraph_%s.html" % g.name)
+    if os.path.exists(out) and not args.force and not default:
+        print("error: %s exists (use --force to overwrite)" % out)
+        return 1
+    d = os.path.dirname(out)
+    if d:
+        os.makedirs(d, exist_ok=True)
+    with open(out, "w", encoding="utf-8", newline="\n") as f:
+        f.write(flowgraph_preview.render(g))
+    print("wrote %s" % out)
+    return 0
+
+
 def cmd_types(args) -> int:
     t = schema.load_types()
     print("regions:")
@@ -307,6 +336,11 @@ def main(argv: Optional[List[str]] = None) -> int:
     fgsc.add_argument("--size", nargs=2, type=_positive_float, metavar=("X", "Y"), help="map size in metres (default 3000 3000)")
     fgsc.add_argument("--force", action="store_true", help="overwrite an existing --out file")
     fgsc.set_defaults(func=cmd_flowgraph_scaffold)
+    fgp = fgs.add_parser("preview", help="write a self-contained HTML/SVG preview of a graph (default out/flowgraph_<name>.html)")
+    fgp.add_argument("graph")
+    fgp.add_argument("--out", help="HTML file to write (default out/flowgraph_<name>.html, overwritten freely)")
+    fgp.add_argument("--force", action="store_true", help="overwrite an existing --out file")
+    fgp.set_defaults(func=cmd_flowgraph_preview)
     fgc = fgs.add_parser("check", help="check a spec against a graph: missing nodes/edges (--strict: extras too)")
     fgc.add_argument("graph")
     fgc.add_argument("spec")
