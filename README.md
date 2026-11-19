@@ -27,6 +27,7 @@ python -m mapgen build    <spec> --only render|analyze|export  # one stage (anal
 python -m mapgen build    <spec> --out some/dir                # alternative output root
 python -m mapgen probe    maps/concepts/thornwald.yaml 1500 1560 lodge   # times, spread, cost, features at points (no files)
 python -m mapgen diff     out/a/thornwald out/b/thornwald      # what changed between two build folders: JSON (--text: summary)
+python -m mapgen spec set <spec> pois.fa.at=[400,120] [<path>=<value> ...] [--dry-run] [--diff] [--detach]   # comment-preserving text edits of a spec, verified and atomic (see "Editing a spec as text")
 python -m mapgen flowgraph validate flowgraphs/town_square.flow.yaml   # validate a topology graph (see mapgen/FLOWGRAPH_SPEC.md)
 python -m mapgen flowgraph scaffold <graph> [--out <file> [--force]] [--size X Y]   # draft spec text from a graph (stdout by default; deterministic; node positions from a stress layout that balances edge lengths and honours the optional node key `place`: west/east/north/south/center/north-west/...)
 python -m mapgen flowgraph preview <graph> [--out <html>] [--force]   # self-contained HTML/SVG graph view (default out/flowgraph_<name>.html, overwritten freely; --out refuses an existing file without --force)
@@ -55,6 +56,37 @@ deltas per team; per-team, per-pair and map-wide deltas of the report values. `-
 for reading. It reads only the two folders and also works on `--only analyze` builds. Exit code 0 when
 the report is printed, whether or not the builds differ (`"identical"` in the JSON). Details:
 `mapgen/DIFF_SPEC.md`.
+
+## Editing a spec as text (`spec set`)
+
+`mapgen spec set <spec> <path>=<value> [...]` changes values in the spec file as exact text patches: comments, quoting,
+flow/block style, indentation, key order and line endings (LF or CRLF) outside the edited values stay byte-identical, so a
+moved POI is a one-line git diff. All edits apply in order and atomically: the patched text is re-parsed and must equal the
+old document plus exactly the requested change, then the real loader (`validate`) must accept it; otherwise nothing is
+written (exit 1, same error format as `validate`). The file is replaced through a temp file and rename. `--diff` prints a
+unified diff, `--dry-run` prints it and writes nothing. Exit codes: 0 ok, 1 errors, 2 usage.
+
+```
+python -m mapgen spec set town.yaml pois.fa.at=[400,120]                  # POI position
+python -m mapgen spec set town.yaml points.ao=[260.5,412] teams.A.base=[110,420]
+python -m mapgen spec set town.yaml 'lines.river_main.path[2]=[300,500]'   # waypoint 2 (zero-based) of a line
+python -m mapgen spec set town.yaml 'lines.river_main.path[+2]=[320,480]'  # insert before position 2 ([+] appends)
+python -m mapgen spec set town.yaml 'lines.river_main.path[2]=@delete'     # delete a waypoint / vertex
+python -m mapgen spec set town.yaml lines.river_main.width=22 pois.fa.label="Alley"
+```
+
+Path grammar: keys joined by `.`; a feature list (`pois`, `regions`, `lines`, `scatter`, `crossings`) is addressed by the
+feature's `id` (`pois.fa.at`), never by position; `[n]` is a zero-based position inside a sequence without ids (waypoints,
+vertices); `[+n]` / `[+]` as the last token inserts. Values are JSON, or YAML flow syntax (`[base_A, [1,2]]`, bare words).
+Numbers are written as integers when whole, otherwise as the shortest decimal. Quote the argument in a shell when it
+contains `[` or spaces.
+
+A point reference (a name where a point is expected, e.g. `path[3]` holding `j`) set to `[x, y]` moves the referenced
+definition (`points.<name>`, a POI `at`, a team `base`), so every referrer follows; `--detach` writes the literal at the
+vertex instead. Setting a literal pair to a name attaches it. Only existing keys can be set (adding keys or features is
+not supported). Refused with a typed error: anchors, aliases, merge keys, duplicate keys, block or multi-line scalars,
+several YAML documents, and comments in the way of a deletion. Engine: `mapgen/specpatch.py`; design:
+`docs/investigations/2026-11-19-map-editor-design.md` section 4.
 
 ## Edit loop
 

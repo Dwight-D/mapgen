@@ -1,4 +1,4 @@
-"""mapgen command line: build | validate | probe | diff | flowgraph | types | palette."""
+"""mapgen command line: build | validate | probe | diff | spec | flowgraph | types | palette."""
 from __future__ import annotations
 
 import argparse
@@ -26,6 +26,46 @@ def cmd_validate(args) -> int:
     print("OK: %s (%gx%g m, %d teams, %d regions, %d lines, %d crossings, %d pois)" % (
         spec.name, spec.size[0], spec.size[1], len(spec.teams), len(spec.regions), len(spec.lines),
         len(spec.crossings), len(spec.pois)))
+    return 0
+
+
+def cmd_spec_set(args) -> int:
+    import difflib
+    from . import specpatch
+
+    try:
+        with open(args.spec, "rb") as f:
+            data = f.read()
+    except FileNotFoundError:
+        print("error: file not found: %s" % args.spec)
+        return 1
+    try:
+        text = data.decode("utf-8")
+        ops = [specpatch.parse_op(a, args.detach) for a in args.edits]
+        new = specpatch.patch_text(text, ops, args.spec, getattr(args, "palette", None))
+    except UnicodeDecodeError as e:
+        print("error: %s is not UTF-8: %s" % (args.spec, e))
+        return 1
+    except specpatch.PatchError as e:
+        print("error: %s: %s" % (type(e).__name__, e))
+        return 1
+    except schema.SpecError as e:
+        print("%d error(s) in the patched %s (file unchanged):" % (len(e.errors), args.spec))
+        for line in e.errors:
+            print("  " + line)
+        return 1
+    if args.diff or args.dry_run:
+        for line in difflib.unified_diff(text.splitlines(), new.splitlines(), "a/" + args.spec, "b/" + args.spec, lineterm=""):
+            print(line)
+    if new == text:
+        print("no change: %s" % args.spec)
+        return 0
+    changed = sum(1 for l in difflib.ndiff(text.splitlines(), new.splitlines()) if l[:2] == "+ ")
+    if args.dry_run:
+        print("dry run: %d line(s) would change in %s" % (changed, args.spec))
+        return 0
+    specpatch.write_atomic(args.spec, new)
+    print("OK: %d edit(s) applied to %s (%d line(s) changed)" % (len(ops), args.spec, changed))
     return 0
 
 
@@ -349,6 +389,21 @@ def main(argv: Optional[List[str]] = None) -> int:
     df.add_argument("--max-changes", type=_non_negative_int, default=100,
                     help="change entries listed per JSON file (default 100)")
     df.set_defaults(func=cmd_diff)
+
+    sp = sub.add_parser("spec", help="edit a spec as exact text patches (comments and layout preserved)")
+    sps = sp.add_subparsers(dest="spec_command")
+    sps.required = True
+    sps_set = sps.add_parser("set", help="apply <path>=<value> edits atomically; every edit is verified and loaded")
+    sps_set.add_argument("spec")
+    sps_set.add_argument("edits", nargs="+", metavar="path=value",
+                         help="pois.fa.at=[400,120] | lines.river.path[2]=[300,500] | lines.river.path[+2]=[1,2] "
+                              "(insert) | lines.river.path[2]=@delete | points.ao=[1,2] | teams.A.base=[1,2]")
+    sps_set.add_argument("--dry-run", action="store_true", help="print the diff and write nothing")
+    sps_set.add_argument("--diff", action="store_true", help="print a unified diff of the change")
+    sps_set.add_argument("--detach", action="store_true",
+                         help="a point reference replaced by [x, y] becomes that literal instead of moving its target")
+    sps_set.add_argument("--palette", help="palette file to validate against")
+    sps_set.set_defaults(func=cmd_spec_set)
 
     fg = sub.add_parser("flowgraph", help="flowgraph (topology precursor) commands")
     fgs = fg.add_subparsers(dest="flowgraph_command")

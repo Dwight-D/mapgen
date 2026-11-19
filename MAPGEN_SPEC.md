@@ -56,6 +56,7 @@ tools/mapgen/
     palette.yaml          render colours, region patterns, default team colours (data, editable)
     palette_check.py      CIE L* legibility check of a palette (`palette` command)
     schema.py             load YAML, apply defaults, validate, return a MapSpec dataclass tree; load the palette
+    specpatch.py          span-patch engine behind `spec set`: comment-preserving, verified text edits of a spec (§7)
     noise.py              deterministic value-noise fbm (2D, 2D on grid axes, 1D, periodic 1D)
     geometry.py           spec shapes -> shapely geometries (blob, poly, band, path smoothing, roughness, meander,
                           domain warp, fragmentation, variable-width lines, tributary joins, water union,
@@ -803,6 +804,7 @@ python -m mapgen build <spec.yaml|maps-dir> [--out out] [--only render|analyze|e
 python -m mapgen validate <spec.yaml> [--palette palette.yaml]
 python -m mapgen probe <spec.yaml> x y [x y ...]   # per point: team times, spread, cost, region/line (no files)
 python -m mapgen diff <build a> <build b> [--text] [--max-changes N]   # delta of two build folders (no files)
+python -m mapgen spec set <spec.yaml> <path>=<value> [...] [--dry-run] [--diff] [--detach] [--palette palette.yaml]
 python -m mapgen --version              # mapgen version and the spec format versions it reads
 python -m mapgen types                  # print the type table
 python -m mapgen palette [--palette palette.yaml]   # L* legibility matrix of the palette (§5.1)
@@ -817,6 +819,21 @@ python -m mapgen palette [--palette palette.yaml]   # L* legibility matrix of th
   (`--text`): changed/added/removed files, heightmap and raster texel changes, JSON path changes, objective time
   deltas and report-value deltas. Exit code 0 when the report is printed; 1 when a path is missing or not a build
   directory. Full design: `mapgen/DIFF_SPEC.md`.
+- `spec set` edits the spec text in place (`mapgen/specpatch.py`). Each argument is `<path>=<value>`; the edits apply in
+  order, all or nothing. Path grammar: keys joined by `.`; the items of a feature list (`pois`, `regions`, `lines`,
+  `scatter`, `crossings`) are addressed by `id` (`pois.fa.at`, `lines.river_main.path[2]`); `[n]` is a zero-based
+  position in a sequence without ids (waypoints, vertices); a trailing `[+n]` / `[+]` inserts before position `n` / appends;
+  the value `@delete` with a trailing `[n]` deletes the item. A value is JSON or YAML flow syntax. Whole numbers are
+  written as integers, others as the shortest decimal. Only the value spans change: comments, quoting, flow/block style,
+  key order and line endings stay byte-identical. A point reference set to `[x, y]` moves the referenced `points` entry,
+  POI `at` or team `base` (`--detach`: writes the literal at the vertex). Safety net per patch: the patched text is
+  re-parsed and compared with the old document plus exactly the requested change (a mismatch is a `VerifyError`), then
+  `schema.load_spec_text` validates it; a loader failure prints the loader's error list and writes nothing. Refused
+  (`PatchError` subclasses, `error: <Type>: message`, exit 1): anchors, aliases, merge keys, duplicate keys, block or
+  multi-line scalars, several documents, a path that addresses nothing, positional addressing of id-keyed lists, a
+  comment in the way of a flow-sequence deletion. `--diff` prints a unified diff; `--dry-run` also writes nothing. The
+  file is replaced atomically (temp file in the same folder, `os.replace`). Exit 0 ok (also "no change"), 1 errors.
+  `schema.load_spec_text(data, path_hint, palette_path)` is the byte-neutral text form of `load_spec`.
 - Prints one line per stage with elapsed time and the output folder at the end. Exit codes: 0 on success; 1 on spec
   errors, a missing file, invalid probe points or a path that is not a build directory; 2 on usage errors.
 - Target runtime for a 3 km map: under 20 s for the examples, under 25 s with scatter.

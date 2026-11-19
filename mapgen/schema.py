@@ -991,11 +991,11 @@ _SpecLoader.add_implicit_resolver("tag:yaml.org,2002:bool", re.compile(r"^(?:tru
                                   list("tTfF"))
 
 
-def load_spec(path: str, palette_path: Optional[str] = None) -> MapSpec:
-    """Load and validate a map spec file. Raises SpecError listing every problem found.
-    `palette_path` selects a palette file (omitted keys fall back to the default palette)."""
-    with open(path, "rb") as f:
-        data = f.read()
+def load_spec_text(data, path_hint: Optional[str] = None, palette_path: Optional[str] = None) -> MapSpec:
+    """Parse and validate spec text (UTF-8 bytes, or a str that is encoded as UTF-8). Raises SpecError listing every
+    problem found. `path_hint` becomes `spec_path` (made absolute); `spec_sha256` hashes the bytes."""
+    if isinstance(data, str):
+        data = data.encode("utf-8")
     try:
         raw = yaml.load(data.decode("utf-8"), Loader=_SpecLoader)
     except yaml.YAMLError as e:
@@ -1003,6 +1003,15 @@ def load_spec(path: str, palette_path: Optional[str] = None) -> MapSpec:
     spec, errors = _validate(raw, load_types(), load_palette(palette_path))
     if errors:
         raise SpecError(errors)
-    spec.spec_path = os.path.abspath(path)
+    if path_hint is not None:
+        spec.spec_path = os.path.abspath(path_hint)
     spec.spec_sha256 = hashlib.sha256(data).hexdigest()
     return spec
+
+
+def load_spec(path: str, palette_path: Optional[str] = None) -> MapSpec:
+    """Load and validate a map spec file. Raises SpecError listing every problem found.
+    `palette_path` selects a palette file (omitted keys fall back to the default palette)."""
+    with open(path, "rb") as f:
+        data = f.read()
+    return load_spec_text(data, path, palette_path)

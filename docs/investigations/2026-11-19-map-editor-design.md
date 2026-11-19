@@ -2,6 +2,7 @@
 
 - Date: 2026-11-19
 - Backlog item: GDU-49 (mapgen workstream). Design only; no code, spec or map was changed.
+- Slice status: slice 1 (GDU-50) implemented: `mapgen/specpatch.py`, `schema.load_spec_text`, `mapgen spec set` (grammar in `MAPGEN_SPEC.md` section 7), `tests/test_specpatch.py`. `spec_model.py` is not part of the slice (the id and reference lookups live in `specpatch.py`). Slices 2-7 open.
 - Checked against: commit `aeb0b56`, `maps/iterations/town_square/v3_natural/town_square_v3.yaml`
 - Statements marked **[measured]** come from running the tool on this machine; **[verified]** from reading the code.
 
