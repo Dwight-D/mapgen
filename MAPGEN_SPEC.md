@@ -56,7 +56,7 @@ tools/mapgen/
     palette.yaml          render colours, region patterns, default team colours (data, editable)
     palette_check.py      CIE L* legibility check of a palette (`palette` command)
     schema.py             load YAML, apply defaults, validate, return a MapSpec dataclass tree; load the palette
-    specpatch.py          span-patch engine behind `spec set` and `spec-edit`: comment-preserving, verified text edits of a spec (§7)
+    specpatch.py          span-patch engine behind `spec set | add | delete | rename` and `spec-edit`: comment-preserving, verified text edits of a spec (§7)
     spec_model.py         editor view of a spec text: handles (id-addressed paths), referrers, resolved geometry JSON
     spec_editor.py        `spec-edit` server: text buffer, undo/redo, validation, atomic save, preview image (§7)
     spec_editor_page.py   the `spec-edit` page (vanilla JS, inline SVG over the preview image)
@@ -808,7 +808,10 @@ python -m mapgen build <spec.yaml|maps-dir> [--out out] [--only render|analyze|e
 python -m mapgen validate <spec.yaml> [--palette palette.yaml]
 python -m mapgen probe <spec.yaml> x y [x y ...]   # per point: team times, spread, cost, region/line (no files)
 python -m mapgen diff <build a> <build b> [--text] [--max-changes N]   # delta of two build folders (no files)
-python -m mapgen spec set <spec.yaml> <path>=<value> [...] [--dry-run] [--diff] [--detach] [--palette palette.yaml]
+python -m mapgen spec set <spec.yaml> <path>=<value> [...] [--create] [--dry-run] [--diff] [--detach] [--detach-refs] [--palette palette.yaml]
+python -m mapgen spec add <spec.yaml> <section> <value> [--id ID] [--dry-run] [--diff]   # append a feature, generated unique id
+python -m mapgen spec delete <spec.yaml> <path> [...] [--detach-refs] [--dry-run] [--diff]   # delete a feature or a key
+python -m mapgen spec rename <spec.yaml> <old> <new> [--dry-run] [--diff]   # an id and every reference to it
 python -m mapgen spec-edit <spec.yaml> [--port N] [--no-open] [--preview-px N]   # browser editor (127.0.0.1 only)
 python -m mapgen --version              # mapgen version and the spec format versions it reads
 python -m mapgen types                  # print the type table
@@ -838,6 +841,19 @@ python -m mapgen palette [--palette palette.yaml]   # L* legibility matrix of th
   multi-line scalars, several documents, a path that addresses nothing, positional addressing of id-keyed lists, a
   comment in the way of a flow-sequence deletion. `--diff` prints a unified diff; `--dry-run` also writes nothing. The
   file is replaced atomically (temp file in the same folder, `os.replace`). Exit 0 ok (also "no change"), 1 errors.
+  Structure edits (`mapgen/specpatch.py`, same safety net): `--create` adds a key the mapping lacks (`Put`: appended to a
+  flow mapping as `, key: value`, a new line at the mapping's indent in a block mapping); `path=@delete` with a key or a
+  feature id as the last token deletes the key or the feature. `spec add` (`Add`) appends a feature to `regions`, `lines`,
+  `crossings`, `pois`, `scatter` or `points` in the section's style, creating the section when absent (before the first of
+  `analysis`, `output`, `auto_crossings`, else at the end of the file); the id is `--id`, the value's `id`, or `<type>_<n>` /
+  `poi_<n>` / `p<n>` with `n` one above the largest in use for the base, never an id in the single id namespace (§4.8) and
+  never an id the caller names as retired; no `seed` is written (the id derives it). `spec delete` (`Delete`) removes the
+  feature's lines or the key; a feature referenced by others (`regions.at`, region/line/crossing `path`/`points` items, a
+  line `join`) raises `ReferencedError` listing the referrers unless `--detach-refs`, which writes the literal coordinates in
+  place of each reference and removes a `join` and its `join_end`; a section left without items is removed with its key; team
+  bases are not deletable. `spec rename` (`Rename`) rewrites the definition and every reference, and pins
+  `seed: <feature_seed(old)>` on a region, line or scatter entry that has none; refused when the new id is invalid or in use,
+  the old id is defined twice or is a team base. Exit codes as for `spec set`.
   `schema.load_spec_text(data, path_hint, palette_path)` is the byte-neutral text form of `load_spec`.
 - `spec-edit` serves a browser editor for one spec on 127.0.0.1 (`mapgen/spec_editor.py`; guards in `editor_http.py`: loopback
   bind, per-run token header on every POST, Host and Origin checks, CSP, 1 MiB body cap). It exits 1 (printing the loader's
@@ -850,8 +866,14 @@ python -m mapgen palette [--palette palette.yaml]   # L* legibility matrix of th
   409 otherwise; a clean buffer writes nothing); `/api/geometry` (resolved centrelines and region outlines from
   `geometry.build_geometries`) and `/api/image` (PNG at preview settings: `heightmap_res` 257, `render_px` 768 or
   `--preview-px`, `render_core` only) both keyed by buffer version, cached per buffer text, answering `stale` for an
-  outdated version. The state lists handles (kind base/poi/point/waypoint/center/vertex, id-addressed `path`, resolved
-  `at`, `ref` when the written value is a point reference) and the referrers of every named point. The editor never
+  outdated version. The state lists handles (kind base/poi/point/waypoint/center/vertex/crossing/radius/width, id-addressed `path`,
+  resolved `at`, `ref` when the written value is a point reference; vertex handles carry `chain`, `count`, `minimum`,
+  `closed`; radius handles the `center`, width handles the `anchor` and `value`), the features (id, kind, section, type,
+  shape, raw keys, first handle) and the referrers of every named point, joins included. Ops also include `put`, `add`,
+  `rename` and `delete` of a key or feature (`detach_refs`); an apply returns `state.results` (the generated id of an add,
+  `{deleted, detached}`, `{renamed, references, seed_pinned}`); a refusal carries `error_refs` (the feature, handle path and
+  property each loader error is about) and, for a referenced feature, `referenced` and `referrers` (HTTP 422). The page gets the
+  allowed and required keys per feature kind from `schema.allowed_keys` and the type tables from `types.yaml`. The editor never
   writes `out/`, never autosaves and never touches the spec except through Save. Design:
   `docs/investigations/2026-11-19-map-editor-design.md` (slice 2).
 - Prints one line per stage with elapsed time and the output folder at the end. Exit codes: 0 on success; 1 on spec

@@ -515,6 +515,27 @@ _REGION_SHAPE_KEYS = {
     "poly": (["points", "rough"], ["points"]),
     "band": (["path", "width", "rough"], ["path", "width"]),
 }
+LINE_KEYS = ["type", "path", "width", "meander", "meander_scale", "width_var", "id", "seed", "label", "label_at", "join",
+             "join_end", "wobble", "wobble_scale", "smooth"]
+LINE_REQUIRED = ["id", "type", "path"]
+CROSSING_KEYS = ["type", "at", "r", "path", "width", "id"]
+CROSSING_REQUIRED = ["id", "type"]
+POI_KEYS = ["id", "type", "at", "label", "team", "tier", "r"]
+POI_REQUIRED = ["id", "type", "at"]
+SCATTER_KEYS = ["id", "seed", "type", "coverage", "scale", "clump", "avoid", "within", "on", "impassable"]
+SCATTER_REQUIRED = ["id", "type", "coverage"]
+
+
+def allowed_keys(kind: str, shape: Optional[str] = None) -> Tuple[List[str], List[str]]:
+    """(allowed keys, required keys) of a feature kind: region (with `shape`: blob | poly | band), line, crossing, poi, scatter.
+    The editors derive their property tables from this, so the schema is the only place the key sets are written."""
+    if kind == "region":
+        extra, req = _REGION_SHAPE_KEYS[shape] if shape in _REGION_SHAPE_KEYS else ([], [])
+        return _REGION_COMMON + extra, ["id", "type", "shape"] + req
+    table = {"line": (LINE_KEYS, LINE_REQUIRED), "crossing": (CROSSING_KEYS, CROSSING_REQUIRED),
+             "poi": (POI_KEYS, POI_REQUIRED), "scatter": (SCATTER_KEYS, SCATTER_REQUIRED)}
+    allowed, req = table[kind]
+    return list(allowed), list(req)
 
 
 def _path_middle(path: List[Point]) -> Point:
@@ -769,9 +790,7 @@ def _validate(raw: Any, types: TypeTable, palette: Palette) -> Tuple[Optional[Ma
             lraw = []
         for i, ln in enumerate(lraw):
             p = "lines[%d]" % i
-            if not v.keys(ln, p, ["type", "path", "width", "meander", "meander_scale", "width_var", "id", "seed",
-                                  "label", "label_at", "join", "join_end", "wobble", "wobble_scale", "smooth"],
-                         ["id", "type", "path"]):
+            if not v.keys(ln, p, LINE_KEYS, LINE_REQUIRED):
                 continue
             lid = _ident(v, ln, p)
             ltype = v.type_name(ln, p, types.lines, "line")
@@ -813,7 +832,7 @@ def _validate(raw: Any, types: TypeTable, palette: Palette) -> Tuple[Optional[Ma
             craw = []
         for i, c in enumerate(craw):
             p = "crossings[%d]" % i
-            if not v.keys(c, p, ["type", "at", "r", "path", "width", "id"], ["id", "type"]):
+            if not v.keys(c, p, CROSSING_KEYS, CROSSING_REQUIRED):
                 continue
             cid = _ident(v, c, p) or ""
             ctype = v.type_name(c, p, types.crossings, "crossing")
@@ -848,7 +867,7 @@ def _validate(raw: Any, types: TypeTable, palette: Palette) -> Tuple[Optional[Ma
             praw = []
         for i, pv in enumerate(praw):
             p = "pois[%d]" % i
-            if not v.keys(pv, p, ["id", "type", "at", "label", "team", "tier", "r"], ["id", "type", "at"]):
+            if not v.keys(pv, p, POI_KEYS, POI_REQUIRED):
                 continue
             pid = _ident(v, pv, p)
             ptype = v.type_name(pv, p, types.pois, "POI")
@@ -876,8 +895,7 @@ def _validate(raw: Any, types: TypeTable, palette: Palette) -> Tuple[Optional[Ma
             sraw = []
         for i, sc in enumerate(sraw):
             p = "scatter[%d]" % i
-            if not v.keys(sc, p, ["id", "seed", "type", "coverage", "scale", "clump", "avoid", "within", "on", "impassable"],
-                          ["id", "type", "coverage"]):
+            if not v.keys(sc, p, SCATTER_KEYS, SCATTER_REQUIRED):
                 continue
             sid = _ident(v, sc, p)
             stype = v.type_name(sc, p, types.regions, "region")

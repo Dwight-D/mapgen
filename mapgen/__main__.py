@@ -29,7 +29,8 @@ def cmd_validate(args) -> int:
     return 0
 
 
-def cmd_spec_set(args) -> int:
+def _spec_run(args, make_ops) -> int:
+    """Shared driver of the `spec` subcommands: read the file, build the ops, patch (verified, loaded), print, write atomically."""
     import difflib
     from . import specpatch
 
@@ -41,10 +42,14 @@ def cmd_spec_set(args) -> int:
         return 1
     try:
         text = data.decode("utf-8")
-        ops = [specpatch.parse_op(a, args.detach) for a in args.edits]
+        ops = make_ops(args)
         new = specpatch.patch_text(text, ops, args.spec, getattr(args, "palette", None))
     except UnicodeDecodeError as e:
         print("error: %s is not UTF-8: %s" % (args.spec, e))
+        return 1
+    except specpatch.ReferencedError as e:
+        print("error: ReferencedError: %s" % e)
+        print("  rerun with --detach-refs to replace the references by literal coordinates (a `join` is removed)")
         return 1
     except specpatch.PatchError as e:
         print("error: %s: %s" % (type(e).__name__, e))
@@ -57,6 +62,16 @@ def cmd_spec_set(args) -> int:
     if args.diff or args.dry_run:
         for line in difflib.unified_diff(text.splitlines(), new.splitlines(), "a/" + args.spec, "b/" + args.spec, lineterm=""):
             print(line)
+    for op in ops:
+        r = getattr(op, "result", None) or {}
+        if "id" in r:
+            print("added: %s" % r["id"])
+        if r.get("detached"):
+            print("detached: %s" % ", ".join(r["detached"]))
+        if r.get("seed_pinned") is not None:
+            print("seed pinned: %s (keeps the shape of the renamed feature)" % r["seed_pinned"])
+        if r.get("references"):
+            print("references rewritten: %s" % ", ".join(r["references"]))
     if new == text:
         print("no change: %s" % args.spec)
         return 0
@@ -67,6 +82,26 @@ def cmd_spec_set(args) -> int:
     specpatch.write_atomic(args.spec, new)
     print("OK: %d edit(s) applied to %s (%d line(s) changed)" % (len(ops), args.spec, changed))
     return 0
+
+
+def cmd_spec_set(args) -> int:
+    from . import specpatch
+    return _spec_run(args, lambda a: [specpatch.parse_op(e, a.detach, a.create, a.detach_refs) for e in a.edits])
+
+
+def cmd_spec_add(args) -> int:
+    from . import specpatch
+    return _spec_run(args, lambda a: [specpatch.Add(a.section, specpatch.parse_value(a.value), a.id)])
+
+
+def cmd_spec_delete(args) -> int:
+    from . import specpatch
+    return _spec_run(args, lambda a: [specpatch.Delete(p, a.detach_refs) for p in a.paths])
+
+
+def cmd_spec_rename(args) -> int:
+    from . import specpatch
+    return _spec_run(args, lambda a: [specpatch.Rename(a.old, a.new)])
 
 
 def cmd_spec_edit(args) -> int:
@@ -412,19 +447,53 @@ def main(argv: Optional[List[str]] = None) -> int:
     sp = sub.add_parser("spec", help="edit a spec as exact text patches (comments and layout preserved)")
     sps = sp.add_subparsers(dest="spec_command")
     sps.required = True
+    def _spec_common(sp_, palette=True):
+        sp_.add_argument("--dry-run", action="store_true", help="print the diff and write nothing")
+        sp_.add_argument("--diff", action="store_true", help="print a unified diff of the change")
+        if palette:
+            sp_.add_argument("--palette", help="palette file to validate against")
+
     sps_set = sps.add_parser("set", help="apply <path>=<value> edits atomically; every edit is verified and loaded")
     sps_set.add_argument("spec")
     sps_set.add_argument("edits", nargs="+", metavar="path=value",
                          help="pois.fa.at=[400,120] | lines.river.path[2]=[300,500] | lines.river.path[+2]=[1,2] "
-                              "(insert) | lines.river.path[2]=@delete | points.ao=[1,2] | teams.A.base=[1,2]")
-    sps_set.add_argument("--dry-run", action="store_true", help="print the diff and write nothing")
-    sps_set.add_argument("--diff", action="store_true", help="print a unified diff of the change")
+                              "(insert) | lines.river.path[2]=@delete | lines.river.meander=@delete (a key) | "
+                              "regions.wood_1=@delete (a feature) | points.ao=[1,2] | teams.A.base=[1,2]")
+    _spec_common(sps_set)
+    sps_set.add_argument("--create", action="store_true",
+                         help="an assignment to a key the mapping lacks adds the key (e.g. regions.wood_1.rough=0.4)")
     sps_set.add_argument("--detach", action="store_true",
                          help="a point reference replaced by [x, y] becomes that literal instead of moving its target")
-    sps_set.add_argument("--palette", help="palette file to validate against")
+    sps_set.add_argument("--detach-refs", action="store_true",
+                         help="@delete of a referenced feature: references become literal coordinates (a `join` is removed)")
     sps_set.set_defaults(func=cmd_spec_set)
 
-    se = sub.add_parser("spec-edit", help="edit a spec in the browser: drag POIs, bases, points and waypoints (local server on 127.0.0.1)")
+    sps_add = sps.add_parser("add", help="append a feature with a generated unique id (creates a missing section)")
+    sps_add.add_argument("spec")
+    sps_add.add_argument("section", choices=["regions", "lines", "crossings", "pois", "scatter", "points"])
+    sps_add.add_argument("value", help="a flow mapping, e.g. '{type: forest, shape: blob, at: [300, 400], r: 80}'; "
+                                       "for `points` a pair '[x, y]'")
+    sps_add.add_argument("--id", help="the id (default: <type>_<n>, poi_<n>, p<n>)")
+    _spec_common(sps_add)
+    sps_add.set_defaults(func=cmd_spec_add)
+
+    sps_del = sps.add_parser("delete", help="delete a feature (pois.fa, lines.river_2, points.ao) or a key (regions.wood_1.rough)")
+    sps_del.add_argument("spec")
+    sps_del.add_argument("paths", nargs="+", metavar="path")
+    sps_del.add_argument("--detach-refs", action="store_true",
+                         help="when other features reference it: replace the references by literal coordinates "
+                              "(a `join` is removed) instead of refusing")
+    _spec_common(sps_del)
+    sps_del.set_defaults(func=cmd_spec_delete)
+
+    sps_ren = sps.add_parser("rename", help="rename a feature id or point name and every reference to it")
+    sps_ren.add_argument("spec")
+    sps_ren.add_argument("old")
+    sps_ren.add_argument("new")
+    _spec_common(sps_ren)
+    sps_ren.set_defaults(func=cmd_spec_rename)
+
+    se = sub.add_parser("spec-edit", help="edit a spec in the browser: drag, add, delete and rename shapes (local server on 127.0.0.1)")
     se.add_argument("spec")
     se.add_argument("--port", type=int, default=0, help="port on 127.0.0.1 (default: any free port)")
     se.add_argument("--no-open", action="store_true", help="do not open a browser")

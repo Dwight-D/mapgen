@@ -9,6 +9,10 @@ real loader (`schema.load_spec_text`) on the result. Contract: MAPGEN_SPEC.md "s
 Path grammar: `seg(.seg | [n])*`. `seg` is `[A-Za-z_][A-Za-z0-9_-]*`: a mapping key, or, when the current node is a
 sequence of mappings, the `id` of one item (`pois.fa.at`, `lines.river_main.path[2]`). `[n]` is a zero-based position
 in a sequence that has no ids (a waypoint, a vertex). `[+n]` / `[+]` (last token only) is an insertion point.
+
+Structure ops (slice 3): `Put` creates a missing key (or sets an existing one), `Delete` also removes a key or a whole
+feature (refused while other features reference it, unless `detach_refs`), `Add` appends a feature with a generated unique
+id (creating a missing top-level section), `Rename` rewrites an id and every reference to it.
 """
 from __future__ import annotations
 
@@ -61,13 +65,51 @@ class Insert:
 
 
 class Delete:
-    """Delete the sequence item at `path` (the last token is `[n]`)."""
+    """Delete the sequence item at `path` (last token `[n]`), the mapping key at `path` (last token a key that is not a
+    feature), or the feature at `path` (`pois.fa`, `lines.river_2`, `points.ao`). A feature that other features reference
+    is refused (`ReferencedError`) unless `detach_refs`: point references become the literal coordinates, a `join` is removed."""
 
-    def __init__(self, path: str):
-        self.path = path
+    def __init__(self, path: str, detach_refs: bool = False):
+        self.path, self.detach_refs = path, detach_refs
+        self.result = {}  # type: dict
+
+
+class Put:
+    """Set the key at `path` to `value`, creating the key when the mapping lacks it (appended, or placed after `after`)."""
+
+    def __init__(self, path: str, value: Any, after: Optional[str] = None):
+        self.path, self.value, self.after = path, value, after
+
+
+class Add:
+    """Append a feature to `section` (regions | lines | crossings | pois | scatter | points). The id is `id`, else the value's
+    own `id`, else generated (`<type>_<n>`, `poi_<n>`, points `p<n>`) and never one of `avoid`. `result["id"]` is set on apply."""
+
+    def __init__(self, section: str, value: Any, id: Optional[str] = None, avoid=()):
+        self.section, self.value, self.id, self.avoid = section, value, id, set(avoid)
+        self.result = {}  # type: dict
+
+
+class Rename:
+    """Rename a feature id (or `points` name) and every reference to it. A region, line or scatter entry without an explicit
+    `seed` gets `seed: <old id-derived seed>` so its shape does not change."""
+
+    def __init__(self, old: str, new: str, avoid=()):
+        self.old, self.new, self.avoid = old, new, set(avoid)
+        self.result = {}  # type: dict
+
+
+class ReferencedError(PatchError):
+    """A feature that other features reference cannot be deleted; `referrers` lists them."""
+
+    def __init__(self, name: str, referrers: List[dict]):
+        super().__init__("%s is referenced by %s" % (name, ", ".join(r["path"] for r in referrers)))
+        self.name, self.referrers = name, referrers
 
 
 DELETE_TOKEN = "@delete"
+SEQ_SECTIONS = ("regions", "lines", "crossings", "pois", "scatter")   # sequences of mappings addressed by `id`
+ADD_SECTIONS = SEQ_SECTIONS + ("points",)
 _TOKEN = re.compile(r"(?:\.?([A-Za-z_][A-Za-z0-9_-]*))|(?:\[(\+?)(\d*)\])")
 
 
@@ -112,19 +154,22 @@ def parse_value(raw: str) -> Any:
     return v
 
 
-def parse_op(arg: str, detach: bool = False):
-    """`path=value` -> Set; `path[+n]=value` -> Insert; `path[n]=@delete` -> Delete."""
+def parse_op(arg: str, detach: bool = False, create: bool = False, detach_refs: bool = False):
+    """`path=value` -> Set (Put with `create`: a missing key is added); `path[+n]=value` -> Insert;
+    `path[n]=@delete`, `path.key=@delete` (a key or a whole feature) -> Delete."""
     if "=" not in arg:
         raise PatchError("expected <path>=<value>, got %r" % arg)
     path, raw = arg.split("=", 1)
     toks = _tokens(path)
     if raw.strip() == DELETE_TOKEN:
-        if toks[-1][0] != "idx":
-            raise PathError("%s needs a sequence position as the last token ([n]): %r" % (DELETE_TOKEN, path))
-        return Delete(path)
+        if toks[-1][0] not in ("idx", "key"):
+            raise PathError("%s needs a key or a sequence position as the last token: %r" % (DELETE_TOKEN, path))
+        return Delete(path, detach_refs)
     value = parse_value(raw)
     if toks[-1][0] == "ins":
         return Insert(path, toks[-1][1], value)
+    if create:
+        return Put(path, value)
     return Set(path, value, detach)
 
 
@@ -132,7 +177,24 @@ def op_from_json(d: Any):
     """Wire form of an op -> Set / Insert / Delete (the editors' API). Shapes:
     {"op": "set", "path": "pois.fa.at", "value": [x, y], "detach": false}
     {"op": "insert", "path": "lines.river.path", "index": 2, "value": [x, y]}   (index null: append)
-    {"op": "delete", "path": "lines.river.path[2]"}"""
+    {"op": "delete", "path": "lines.river.path[2]"}          (also a key, or a feature: "lines.river_2", "detach_refs": true)
+    {"op": "put", "path": "regions.forest_3.rough", "value": 0.4, "after": null}   (creates the key when missing)
+    {"op": "add", "section": "regions", "value": {...}, "id": null}                 (id generated when absent)
+    {"op": "rename", "from": "forest_3", "to": "north_wood"}"""
+    if isinstance(d, dict) and d.get("op") == "add":
+        sec = d.get("section")
+        if sec not in ADD_SECTIONS:
+            raise PatchError("add needs a section (%s)" % ", ".join(ADD_SECTIONS))
+        if "value" not in d:
+            raise PatchError("add needs a value")
+        _check_value(d["value"])
+        if d.get("id") is not None and not isinstance(d["id"], str):
+            raise PatchError("add id must be a string")
+        return Add(sec, d["value"], d.get("id"))
+    if isinstance(d, dict) and d.get("op") == "rename":
+        if not isinstance(d.get("from"), str) or not isinstance(d.get("to"), str):
+            raise PatchError("rename needs string from and to")
+        return Rename(d["from"], d["to"])
     if not isinstance(d, dict) or not isinstance(d.get("path"), str):
         raise PatchError("an op is an object with a string path")
     kind, path = d.get("op"), d["path"]
@@ -153,10 +215,20 @@ def op_from_json(d: Any):
         _tokens(full)
         return Insert(full, index, d["value"])
     if kind == "delete":
-        if _tokens(path)[-1][0] != "idx":
-            raise PathError("delete needs a sequence position as the last token ([n]): %r" % path)
-        return Delete(path)
-    raise PatchError("unknown op %r (set | insert | delete)" % (kind,))
+        if _tokens(path)[-1][0] not in ("idx", "key"):
+            raise PathError("delete needs a key, feature id or sequence position as the last token: %r" % path)
+        return Delete(path, bool(d.get("detach_refs", False)))
+    if kind == "put":
+        if _tokens(path)[-1][0] != "key":
+            raise PathError("put needs a key as the last token: %r" % path)
+        if "value" not in d:
+            raise PatchError("put needs a value")
+        _check_value(d["value"])
+        after = d.get("after")
+        if after is not None and not isinstance(after, str):
+            raise PatchError("put after must be a key name")
+        return Put(path, d["value"], after)
+    raise PatchError("unknown op %r (set | put | insert | delete | add | rename)" % (kind,))
 
 
 def _check_value(v: Any) -> None:
@@ -499,7 +571,8 @@ def _guard_items(doc: _Doc, seq, what: str) -> None:
             raise UnsafePatch("%s: the sequence holds an anchored or aliased item; edit it by hand" % what)
 
 
-def _insert_span(doc: _Doc, seq, index: Optional[int], value: Any, spans: list, what: str) -> None:
+def _insert_span(doc: _Doc, seq, index: Optional[int], value: Any, spans: list, what: str, block_fmt=None) -> None:
+    """`block_fmt(indent, eol)` renders the item's lines (no final newline) of a block sequence; default one `- <flow>` line."""
     text = doc.text
     _guard_items(doc, seq, what)
     items = seq.value
@@ -525,12 +598,13 @@ def _insert_span(doc: _Doc, seq, index: Optional[int], value: Any, spans: list, 
         if n == 0:
             raise UnsafePatch("%s is an empty block sequence" % what)
         eol = _eol(text)
+        fmt = block_fmt or (lambda ind, eo: "%s- %s" % (ind, render(value)))
         if idx == 0:
             ls, _, indent = _block_item_lines(doc, items[0])
-            spans.append((ls, ls, "%s- %s%s" % (indent, render(value), eol)))
+            spans.append((ls, ls, fmt(indent, eol) + eol))
         else:
             _, stop, indent = _block_item_lines(doc, items[idx - 1])
-            line = "%s- %s" % (indent, render(value))
+            line = fmt(indent, eol)
             if stop == len(text) and not text.endswith("\n"):
                 spans.append((stop, stop, eol + line))
             else:
@@ -576,6 +650,444 @@ def _apply_spans(text: str, spans: list) -> str:
     for s, e, r in reversed(spans):
         text = text[:s] + r + text[e:]
     return text
+
+
+# ----------------------------------------------------------------------------- structure: keys, features, ids
+
+def _find_pair(mp, key: str):
+    for i, (kn, vn) in enumerate(mp.value):
+        if isinstance(kn, yaml.ScalarNode) and kn.value == key:
+            return i, kn, vn
+    return None
+
+
+def _line_rest_ok(text: str, end: int, what: str) -> int:
+    """Index just after the line that holds `end`; only whitespace or a comment may follow `end` on it."""
+    nl = text.find("\n", end)
+    stop = len(text) if nl < 0 else nl + 1
+    rest = text[end:stop].strip()
+    if rest and not rest.startswith("#"):
+        raise UnsafePatch("%s: unexpected text after the value on its line; edit it by hand" % what)
+    return stop
+
+
+def _insert_key_span(doc: _Doc, mp, key: str, value: Any, spans: list, what: str, after: Optional[str] = None) -> None:
+    """Add `key: value` to the mapping node `mp` as its last pair (or right after the pair `after`)."""
+    text = doc.text
+    _guard(doc, mp, what)
+    pairs = mp.value
+    if _find_pair(mp, key) is not None:
+        raise PatchError("%s: the mapping already has the key %r" % (what, key))
+    r = render(value)
+    if mp.flow_style:
+        if not pairs:
+            spans.append((mp.start_mark.index, mp.end_mark.index, "{ %s: %s }" % (key, r)))
+            return
+        hit = _find_pair(mp, after) if after else None
+        vn = (hit[2] if hit else pairs[-1][1])
+        spans.append((vn.end_mark.index, vn.end_mark.index, ", %s: %s" % (key, r)))
+        return
+    if not pairs:
+        raise UnsafePatch("%s is an empty block mapping; edit it by hand" % what)
+    hit = _find_pair(mp, after) if after else None
+    kn, vn = (hit[1], hit[2]) if hit else pairs[-1]
+    stop = _line_rest_ok(text, _last_end(vn), what)
+    eol = _eol(text)
+    line = "%s%s: %s" % (" " * kn.start_mark.column, key, r)
+    if stop == len(text) and not text.endswith("\n"):
+        spans.append((stop, stop, eol + line))
+    else:
+        spans.append((stop, stop, line + eol))
+
+
+def _delete_key_span(doc: _Doc, mp, key: str, spans: list, what: str) -> None:
+    text = doc.text
+    _guard(doc, mp, what)
+    hit = _find_pair(mp, key)
+    if hit is None:
+        raise PathError("%s: no key %r" % (what, key))
+    i, kn, vn = hit
+    _guard_subtree(doc, vn, what)
+    pairs = mp.value
+    n = len(pairs)
+    if mp.flow_style:
+        s, e = kn.start_mark.index, vn.end_mark.index
+        if n == 1:
+            j = e
+            while j < len(text) and text[j] in " \t":
+                j += 1
+            if j < len(text) and text[j] == ",":
+                e = j + 1
+            spans.append((s, e, ""))
+        elif i < n - 1:
+            if not re.fullmatch(r"[ \t]*,[ \t\r\n]*", text[e:pairs[i + 1][0].start_mark.index]):
+                raise UnsafePatch("%s: comment or odd separator next to the key; edit it by hand" % what)
+            spans.append((s, pairs[i + 1][0].start_mark.index, ""))
+        else:
+            pe = pairs[i - 1][1].end_mark.index
+            if not re.fullmatch(r"[ \t]*,[ \t\r\n]*", text[pe:s]):
+                raise UnsafePatch("%s: comment or odd separator next to the key; edit it by hand" % what)
+            spans.append((pe, e, ""))
+        return
+    ls = text.rfind("\n", 0, kn.start_mark.index) + 1
+    if text[ls:kn.start_mark.index].strip():
+        raise UnsafePatch("%s: the key shares its line with other text (first key of a list item); edit it by hand" % what)
+    stop = _line_rest_ok(text, _last_end(vn), what)
+    spans.append((ls, stop, ""))
+
+
+def _expect(py, loc, mutate):
+    import copy
+    new = copy.deepcopy(py)
+    mutate(_py_get(new, loc))
+    return new
+
+
+def _ins_key(d: dict, key: str, value: Any, after: Optional[str]) -> None:
+    import copy
+    items = list(d.items())
+    d.clear()
+    placed = False
+    for k, v in items:
+        d[k] = v
+        if after is not None and k == after:
+            d[key] = copy.deepcopy(value)
+            placed = True
+    if not placed:
+        d[key] = copy.deepcopy(value)
+
+
+def _commit_spans(text: str, spans: list, expected: Any, what: str) -> str:
+    new = _apply_spans(text, spans) if spans else text
+    if spans:
+        try:
+            got = _doc(new).py
+        except PatchError as e:
+            raise VerifyError("%s: patched text does not parse: %s" % (what, str(e).replace("\n", " ")))
+        if not _same(got, expected):
+            raise VerifyError("%s: patched text differs from the requested change at %s" % (what, _diff_path(expected, got)))
+    return new
+
+
+def namespace(py: Any) -> set:
+    """Every id in use: team bases (`base_<team>`), feature ids of the sequence sections, `points` names."""
+    out = set()
+    if not isinstance(py, dict):
+        return out
+    teams = py.get("teams")
+    if isinstance(teams, dict):
+        out.update("base_%s" % t for t in teams)
+    for sect in SEQ_SECTIONS:
+        for it in py.get(sect) or []:
+            if isinstance(it, dict) and isinstance(it.get("id"), str):
+                out.add(it["id"])
+    if isinstance(py.get("points"), dict):
+        out.update(k for k in py["points"] if isinstance(k, str))
+    return out
+
+
+def new_id(py: Any, base: str, avoid=(), sep: str = "_") -> str:
+    """`<base>_<n>` (points: `p<n>`) with n one above the largest n in use for that base; never an id in use or in `avoid`."""
+    base = re.sub(r"[^a-z0-9_]", "_", base.lower()).strip("_") or "f"
+    if not base[0].isalpha():
+        base = "f" + base
+    base = base[:40]
+    used = namespace(py) | set(avoid)
+    pat = re.compile(r"^%s%s(\d+)$" % (re.escape(base), re.escape(sep)))
+    n = 1 + max([int(m.group(1)) for m in (pat.match(u) for u in used) if m] + [0])
+    while "%s%s%d" % (base, sep, n) in used:
+        n += 1
+    return "%s%s%d" % (base, sep, n)
+
+
+def reference_sites(py: Any, name: str) -> List[dict]:
+    """Every place that references `name`: [{"path", "feature", "kind"}] with `kind` "point" (a region/crossing `at`, a
+    `points`/`path` item) or "join" (a line's `join`). `path` is a specpatch path."""
+    out = []  # type: List[dict]
+    if not isinstance(py, dict):
+        return out
+    for sect in ("regions", "lines", "crossings"):
+        for f in py.get(sect) or []:
+            if not isinstance(f, dict) or not isinstance(f.get("id"), str):
+                continue
+            fid = f["id"]
+            if isinstance(f.get("at"), str) and f["at"] == name:
+                out.append({"path": "%s.%s.at" % (sect, fid), "feature": fid, "kind": "point"})
+            for key in ("points", "path"):
+                v = f.get(key)
+                if isinstance(v, list):
+                    for j, x in enumerate(v):
+                        if isinstance(x, str) and x == name:
+                            out.append({"path": "%s.%s.%s[%d]" % (sect, fid, key, j), "feature": fid, "kind": "point"})
+            if sect == "lines" and isinstance(f.get("join"), str) and f["join"] == name:
+                out.append({"path": "lines.%s.join" % fid, "feature": fid, "kind": "join"})
+    return out
+
+
+def referrers(text: str, name: str) -> List[dict]:
+    return reference_sites(parsed_document(text), name)
+
+
+def _target_xy(py: Any, name: str) -> Optional[list]:
+    for t, tv in (py.get("teams") or {}).items():
+        if "base_%s" % t == name and isinstance(tv, dict):
+            return tv.get("base")
+    if isinstance(py.get("points"), dict) and name in py["points"]:
+        return py["points"][name]
+    for p in py.get("pois") or []:
+        if isinstance(p, dict) and p.get("id") == name:
+            return p.get("at")
+    return None
+
+
+def _order_item(value: dict, fid: str) -> dict:
+    out = {"id": fid}
+    for k in ("type", "shape"):
+        if k in value and k != "id":
+            out[k] = value[k]
+    for k, v in value.items():
+        if k not in out and k != "id":
+            out[k] = v
+    return out
+
+
+def _render_map(value: dict, spaced: bool) -> str:
+    if spaced:
+        return render(value)
+    return "{" + ", ".join("%s: %s" % (k, render(x)) for k, x in value.items()) + "}"
+
+
+def _seq_indent(doc: _Doc) -> str:
+    if isinstance(doc.root, yaml.MappingNode):
+        for _, vn in doc.root.value:
+            if isinstance(vn, yaml.SequenceNode) and not vn.flow_style and vn.value:
+                try:
+                    return _block_item_lines(doc, vn.value[0])[2]
+                except UnsafePatch:
+                    pass
+    return "  "
+
+
+def _create_section(doc: _Doc, key: str, body_line: str, spans: list) -> Optional[str]:
+    """Add the top-level `key` with one body line. Returns the key it was placed after (None: last). The section goes
+    before the first of analysis / output / auto_crossings when present, else at the end of the file."""
+    text = doc.text
+    root = doc.root
+    if not isinstance(root, yaml.MappingNode) or root.flow_style:
+        raise UnsafePatch("the document root is not a block mapping; edit it by hand")
+    _guard(doc, root, "the document root")
+    eol = _eol(text)
+    block = "%s:%s%s" % (key, eol, body_line)
+    late = ("analysis", "output", "auto_crossings")
+    for i, (kn, vn) in enumerate(root.value):
+        if kn.value in late and i > 0:
+            pk, pv = root.value[i - 1]
+            stop = _line_rest_ok(text, _last_end(pv), "the section before %s" % kn.value)
+            spans.append((stop, stop, eol + block + eol))
+            return pk.value
+    if text.endswith("\n"):
+        spans.append((len(text), len(text), eol + block + eol))
+    else:
+        spans.append((len(text), len(text), eol + eol + block + eol))
+    return None
+
+
+def _apply_put(text: str, op: Put) -> str:
+    doc = _doc(text)
+    tokens = _tokens(op.path)
+    if tokens[-1][0] != "key":
+        raise PathError("%s: a put path ends with a key" % op.path)
+    node, loc, _ = _resolve(doc, tokens[:-1], op.path)
+    if not isinstance(node, yaml.MappingNode):
+        raise PathError("%s: the parent is not a mapping" % op.path)
+    key = tokens[-1][1]
+    if _find_pair(node, key) is not None:
+        return _apply_op(text, Set(op.path, op.value))
+    spans = []  # type: list
+    _insert_key_span(doc, node, key, op.value, spans, op.path, op.after)
+    expected = _expect(doc.py, loc, lambda d: _ins_key(d, key, op.value, op.after))
+    return _commit_spans(text, spans, expected, op.path)
+
+
+def _apply_add(text: str, op: Add) -> str:
+    import copy
+    doc = _doc(text)
+    py = doc.py
+    if not isinstance(py, dict) or not isinstance(doc.root, yaml.MappingNode):
+        raise PatchError("the document is not a mapping")
+    sect = op.section
+    if sect not in ADD_SECTIONS:
+        raise PatchError("unknown section %r (%s)" % (sect, ", ".join(ADD_SECTIONS)))
+    used = namespace(py) | op.avoid
+    what = "add %s" % sect
+    hit = _find_pair(doc.root, sect)
+    if sect == "points":
+        if not (isinstance(op.value, list) and len(op.value) == 2):
+            raise PatchError("a points entry is a coordinate pair [x, y]")
+        fid = op.id or new_id(py, "p", op.avoid, sep="")
+    else:
+        if not isinstance(op.value, dict):
+            raise PatchError("a %s entry is a mapping" % sect)
+        fid = op.id or op.value.get("id")
+        if fid is None:
+            base = "poi" if sect == "pois" else op.value.get("type")
+            if not isinstance(base, str):
+                raise PatchError("%s: give an id or a type to derive it from" % what)
+            fid = new_id(py, base, op.avoid)
+    if not schema._valid_id(fid):
+        raise PatchError("%s: invalid id %r (must match [a-z][a-z0-9_]*, at most %d characters)" % (what, fid, schema.ID_MAX_LEN))
+    if fid in used:
+        raise PatchError("%s: the id %r is already in use" % (what, fid))
+    if isinstance(op.value, dict) and op.value.get("id") not in (None, fid):
+        raise PatchError("%s: the value's id differs from the requested id" % what)
+    op.result = {"id": fid}
+    spans = []  # type: list
+    if sect == "points":
+        item = op.value
+        if hit is not None and isinstance(py.get("points"), dict):
+            return _apply_op(text, Put("points.%s" % fid, item))
+        after = _create_section(doc, "points", "%s%s: %s" % (_seq_indent(doc), fid, render(item)), spans)
+        expected = _expect(py, [], lambda d: _ins_key(d, "points", {fid: item}, after))
+        return _commit_spans(text, spans, expected, what)
+    item = _order_item(op.value, fid)
+    if hit is None:
+        after = _create_section(doc, sect, "%s- %s" % (_seq_indent(doc), render(item)), spans)
+        expected = _expect(py, [], lambda d: _ins_key(d, sect, [item], after))
+        return _commit_spans(text, spans, expected, what)
+    seq = hit[2]
+    if not isinstance(seq, yaml.SequenceNode):
+        raise UnsafePatch("%s is not a list; edit it by hand" % sect)
+    _guard(doc, seq, what)
+    fmt = None
+    if not seq.flow_style and seq.value:
+        last = seq.value[-1]
+        if isinstance(last, yaml.MappingNode) and last.flow_style:
+            spaced = text[last.start_mark.index:last.start_mark.index + 2] == "{ "
+            fmt = lambda ind, eo: "%s- %s" % (ind, _render_map(item, spaced))
+        elif isinstance(last, yaml.MappingNode):
+            col = last.start_mark.column
+
+            def fmt(ind, eo, _item=item, _col=col):
+                rows = ["%s: %s" % (k, render(v)) for k, v in _item.items()]
+                return (ind + "- " + rows[0]) + "".join(eo + " " * _col + r for r in rows[1:])
+    _insert_span(doc, seq, None, item, spans, what, fmt)
+    expected = _expect(py, [sect], lambda lst: lst.append(copy.deepcopy(item)))
+    return _commit_spans(text, spans, expected, what)
+
+
+def _apply_delete_named(text: str, op: Delete) -> str:
+    doc = _doc(text)
+    tokens = _tokens(op.path)
+    what = op.path
+    if len(tokens) == 2 and tokens[0] == ("key", "teams"):
+        raise PatchError("%s: a team and its base cannot be deleted" % what)
+    feature = (len(tokens) == 2 and tokens[0][0] == "key" and tokens[0][1] in ADD_SECTIONS and tokens[1][0] == "key")
+    if not feature:
+        node, loc, _ = _resolve(doc, tokens[:-1], what)
+        if not isinstance(node, yaml.MappingNode):
+            raise PathError("%s: the parent is not a mapping" % what)
+        spans = []  # type: list
+        _delete_key_span(doc, node, tokens[-1][1], spans, what)
+        expected = _expect(doc.py, loc, lambda d: d.pop(tokens[-1][1]))
+        return _commit_spans(text, spans, expected, what)
+    sect, name = tokens[0][1], tokens[1][1]
+    _resolve(doc, tokens, what)   # existence and id uniqueness
+    py = doc.py
+    sites = [s for s in reference_sites(py, name) if s["feature"] != name]
+    op.result = {"deleted": name, "detached": []}
+    if sites:
+        if not op.detach_refs:
+            raise ReferencedError(name, sites)
+        xy = _target_xy(py, name)
+        sub = []  # type: list
+        for st in sites:
+            if st["kind"] == "join":
+                sub.append(Delete(st["path"]))
+                line = next(l for l in py["lines"] if l.get("id") == st["feature"])
+                if "join_end" in line:
+                    sub.append(Delete("lines.%s.join_end" % st["feature"]))
+            else:
+                sub.append(Set(st["path"], list(xy), detach=True))
+        text = apply_ops(text, sub)
+        doc = _doc(text)
+        op.result["detached"] = [s["path"] for s in sites]
+        py = doc.py
+    spans = []  # type: list
+    root = doc.root
+    if sect == "points":
+        pnode = _find_pair(root, "points")[2]
+        if len(pnode.value) == 1 and not pnode.flow_style:
+            _delete_key_span(doc, root, "points", spans, what)
+            expected = _expect(py, [], lambda d: d.pop("points"))
+        else:
+            _delete_key_span(doc, pnode, name, spans, what)
+            expected = _expect(py, ["points"], lambda d: d.pop(name))
+    else:
+        seq = _find_pair(root, sect)[2]
+        idx = [i for i, it in enumerate(seq.value) if _item_id(it) == name][0]
+        if len(seq.value) == 1 and not seq.flow_style:
+            _delete_key_span(doc, root, sect, spans, what)   # the only entry: the section goes with it
+            expected = _expect(py, [], lambda d: d.pop(sect))
+        else:
+            _delete_span(doc, seq, idx, spans, what)
+            expected = _expect(py, [sect], lambda lst: lst.pop(idx))
+    return _commit_spans(text, spans, expected, what)
+
+
+def _apply_rename(text: str, op: Rename) -> str:
+    doc = _doc(text)
+    py = doc.py
+    old, new = op.old, op.new
+    what = "rename %s" % old
+    if not schema._valid_id(new):
+        raise PatchError("%s: invalid id %r (must match [a-z][a-z0-9_]*, at most %d characters)" % (what, new, schema.ID_MAX_LEN))
+    if old == new:
+        return text
+    if new in namespace(py) or new in op.avoid:
+        raise PatchError("%s: the id %r is already in use" % (what, new))
+    teams = py.get("teams") if isinstance(py, dict) else None
+    if isinstance(teams, dict) and any(old == "base_%s" % t for t in teams):
+        raise PatchError("%s: a team base id is derived from the team id" % what)
+    defs = []  # type: List[str]
+    for sect in SEQ_SECTIONS:
+        defs.extend(sect for it in py.get(sect) or [] if isinstance(it, dict) and it.get("id") == old)
+    if isinstance(py.get("points"), dict) and old in py["points"]:
+        defs.append("points")
+    if not defs:
+        raise PathError("%s: no feature with that id" % what)
+    if len(defs) > 1:
+        raise UnsafePatch("%s: the id is defined %d times (ambiguous); fix the duplicates by hand" % (what, len(defs)))
+    sect = defs[0]
+    sub = []  # type: list
+    sites = reference_sites(py, old)
+    for st in sites:
+        sub.append(Set(st["path"], new))
+    pinned = None
+    if sect in ("regions", "lines", "scatter"):
+        item = next(it for it in py[sect] if it.get("id") == old)
+        if "seed" not in item:
+            pinned = schema.feature_seed(old)
+            sub.append(Put("%s.%s.seed" % (sect, old), pinned, after="id"))
+    if sect != "points":
+        sub.append(Set("%s.%s.id" % (sect, old), new))
+    text2 = apply_ops(text, sub) if sub else text
+    if sect == "points":
+        doc2 = _doc(text2)
+        pnode = _find_pair(doc2.root, "points")[2]
+        _, kn, _ = _find_pair(pnode, old)
+        _guard(doc2, pnode, what)
+        if id(kn) in doc2.flagged:
+            raise UnsafePatch("%s: the key carries an anchor" % what)
+        spans = [(kn.start_mark.index, kn.end_mark.index, _fmt_str(new))]
+
+        def mut(d):
+            items = list(d.items())
+            d.clear()
+            for k, v in items:
+                d[new if k == old else k] = v
+        text2 = _commit_spans(text2, spans, _expect(doc2.py, ["points"], mut), what)
+    op.result = {"renamed": [old, new], "references": [s["path"] for s in sites], "seed_pinned": pinned}
+    return text2
 
 
 # ----------------------------------------------------------------------------- reference awareness
@@ -625,6 +1137,14 @@ def _expected(py, op_kind: str, loc, value=None, index=None):
 
 
 def _apply_op(text: str, op) -> str:
+    if isinstance(op, Add):
+        return _apply_add(text, op)
+    if isinstance(op, Rename):
+        return _apply_rename(text, op)
+    if isinstance(op, Put):
+        return _apply_put(text, op)
+    if isinstance(op, Delete) and _tokens(op.path)[-1][0] == "key":
+        return _apply_delete_named(text, op)
     doc = _doc(text)
     what = op.path
     tokens = _tokens(op.path)

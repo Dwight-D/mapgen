@@ -8,13 +8,17 @@ place and atomically, and only while the buffer is valid and the file on disk is
 
 API (all POST, JSON in and out, header X-Token; see editor_http for the guards):
   /api/state                  -> {ok, state}
-  /api/apply  {version, ops}  -> {ok, state} | 422 {ok: false, errors, state} (refused, buffer unchanged) | 409 (stale version)
+  /api/apply  {version, ops}  -> {ok, state} (state.results: per op `{id}` of an add, `{deleted, detached}`, `{renamed, references, seed_pinned}`)
+                                 | 422 {ok: false, errors, error_refs, state} (refused, buffer unchanged; `error_refs[i]` is
+                                   {feature, path, key} of errors[i]; a delete of a referenced feature adds `referenced` and
+                                   `referrers`) | 409 (stale version)
+                                 ops: set | put | insert | delete | add | rename (specpatch.op_from_json)
   /api/undo, /api/redo        -> {ok, state}
   /api/save                   -> {ok, path, bytes, state} | 409 (file changed on disk) | 422 (invalid)
   /api/geometry {version}     -> {ok, version, geometry, ms} | {ok: false, stale: true}: resolved centrelines and outlines
   /api/image {version}        -> image/png (reduced-resolution preview) with headers X-Version, X-Render-Ms
                                  | JSON {ok: false, stale: true} when the buffer moved on before rendering started
-`state` = {version, dirty, can_undo, can_redo, path, size, handles, referrers}.
+`state` = {version, dirty, can_undo, can_redo, path, size, handles, referrers, features}.
 """
 from __future__ import annotations
 
@@ -30,7 +34,7 @@ from typing import Any, Dict, List, Optional, Tuple
 from . import geometry, height, schema, specpatch
 from .editor_http import HOST, GuardedHandler, LoopbackServer
 from .spec_editor_page import render_page
-from .spec_model import Model, geometry_json
+from .spec_model import Model, geometry_json, map_error, schema_json
 
 HISTORY_LIMIT = 200
 PREVIEW_PX = 768
@@ -40,9 +44,9 @@ PREVIEW_HEIGHTMAP_RES = 257
 class Refused(Exception):
     """An edit or save that was refused; `errors` is the message list, `code` the HTTP status."""
 
-    def __init__(self, errors: List[str], code: int = 422):
+    def __init__(self, errors: List[str], code: int = 422, **extra: Any):
         super().__init__("; ".join(errors))
-        self.errors, self.code = errors, code
+        self.errors, self.code, self.extra = errors, code, extra
 
 
 def _sha(b: bytes) -> str:
@@ -65,6 +69,7 @@ class SpecEditor:
         self.version = 1
         self.undo_stack = []  # type: List[str]
         self.redo_stack = []  # type: List[str]
+        self.retired = set()  # type: set  # ids deleted during this session: a generated id never reuses one
         self.model = self._load(self.text)  # raises schema.SpecError when the file is invalid
         self._geom_lock = threading.Lock()
         self._img_lock = threading.Lock()
@@ -89,20 +94,40 @@ class SpecEditor:
                 raise Refused(["the buffer changed (version %s, yours %s); state refreshed" % (self.version, version)], 409)
             if not isinstance(ops_json, list) or not ops_json:
                 raise Refused(["ops must be a non-empty list"], 400)
+            new = None
             try:
                 ops = [specpatch.op_from_json(o) for o in ops_json]
+                for op in ops:
+                    if isinstance(op, (specpatch.Add, specpatch.Rename)):
+                        op.avoid = set(self.retired)
                 new = specpatch.apply_ops(self.text, ops)
                 model = self._load(new)
+            except specpatch.ReferencedError as e:
+                raise Refused(["%s: %s" % (type(e).__name__, e)], referenced=e.name, referrers=e.referrers)
             except specpatch.PatchError as e:
                 raise Refused(["%s: %s" % (type(e).__name__, e)])
             except schema.SpecError as e:
-                raise Refused(list(e.errors))
+                refs = []
+                try:
+                    raw = specpatch.parsed_document(new) if new is not None else {}
+                    refs = [map_error(raw, m) for m in e.errors]
+                except specpatch.PatchError:
+                    pass
+                raise Refused(list(e.errors), error_refs=refs)
+            results = [dict(op.result) for op in ops if getattr(op, "result", None)]
+            for r in results:
+                if "deleted" in r:
+                    self.retired.add(r["deleted"])
+                if "renamed" in r:
+                    self.retired.add(r["renamed"][0])
             if new != self.text:
                 self._push(self.undo_stack, self.text)
                 self.redo_stack = []
                 self.text, self.model = new, model
                 self.version += 1
-            return self.state()
+            st = self.state()
+            st["results"] = results
+            return st
 
     @staticmethod
     def _push(stack: List[str], text: str) -> None:
@@ -216,7 +241,8 @@ class SpecEditorServer(LoopbackServer):
         super().__init__(_Handler, port, token)
 
     def page(self) -> str:
-        boot = {"token": self.token, "state": self.ed.state(), "preview_px": self.ed.preview_px}
+        boot = {"token": self.token, "state": self.ed.state(), "preview_px": self.ed.preview_px,
+                "schema": schema_json(schema.load_types())}
         return render_page(boot, os.path.basename(self.ed.path))
 
 
@@ -247,7 +273,9 @@ class _Handler(GuardedHandler):
         try:
             route(body)
         except Refused as e:
-            self._json(e.code, {"ok": False, "errors": e.errors, "state": self.server.ed.state()})
+            body = {"ok": False, "errors": e.errors, "state": self.server.ed.state()}
+            body.update(e.extra)
+            self._json(e.code, body)
 
     def _state(self, body):
         self._json(200, {"ok": True, "state": self.server.ed.state()})

@@ -157,6 +157,7 @@ async function main() {
 
   // ---- Alt-drag detaches the waypoint to a literal; the definition stays
   const ao0 = await handle('points.ao');
+  await ev(`select('lines.road_ao_o.path[0]')`);   // a selected handle in a stack is the one that moves
   c = await hc('lines.road_ao_o.path[0]');
   v = await version();
   await drag(c, 30, 26, { modifiers: 1 });
@@ -191,7 +192,7 @@ async function main() {
   // ---- keyboard: select a POI, nudge with arrow keys
   c = await edge('pois.g.at');
   await click(c[0], c[1]);
-  check('click selects and fills the panel', (await ev(`S.sel`)) === 'pois.g.at' && /POI g/.test(await ev(`document.querySelector('#panel h2').textContent`)));
+  check('click selects and fills the panel', (await ev(`S.sel`)) === 'pois.g.at' && /poi g/.test(await ev(`document.querySelector('#panel h2').textContent`)));
   const g0 = await handle('pois.g.at');
   v = await version();
   await key('ArrowRight', 'ArrowRight', 39);
@@ -204,6 +205,176 @@ async function main() {
   const eh = await ev(`document.getElementById('errhead').textContent`);
   check('out-of-bounds edit refused, error listed, buffer version unchanged', /refused/.test(eh) && (await ev(`document.querySelectorAll('#errors li').length`)) >= 1 && (await version()) === v, { eh, v });
   check('the handle did not move', (await handle('pois.g.at')).at[0] === g0.at[0] + 1);
+
+  // ---- slice 3: stacked handles, shape tools, delete with referrers, type change, rename, layers, error highlight, undo to the original
+  const m2c = (x, y) => ev(`(function(){var r=document.getElementById('map').getBoundingClientRect(),v=S.view,sz=S.st.size;return [r.left+r.width/2+(${x}-v.cx)/v.mpp, r.top+r.height/2+(sz[1]-${y}-v.cy)/v.mpp];})()`);
+  const features = () => ev(`JSON.stringify(S.st.features.map(function(f){return [f.id,f.kind,f.type,f.shape];}))`).then((s) => JSON.parse(s));
+  const featureIds = async (kind) => (await features()).filter((f) => f[1] === kind).map((f) => f[0]);
+  const props = (id) => ev(`JSON.stringify(S.st.features.filter(function(f){return f.id===${JSON.stringify(id)};})[0].props)`).then((s) => JSON.parse(s));
+  const nHandles = (kind, feat) => ev(`S.st.handles.filter(function(h){return h.kind===${JSON.stringify(kind)}&&h.feature===${JSON.stringify(feat)};}).length`);
+  const setValue = (sel, val) => ev(`(function(){var e=document.querySelector(${JSON.stringify(sel)});e.value=${JSON.stringify(val)};e.dispatchEvent(new Event('change',{bubbles:true}));})()`);
+  const pickTool = async (tool, type) => { await clickSel('#t-' + tool); if (type) await setValue('#tool-type', type); };
+  const placed = async (v0) => { const ok = await waitVersion(v0); await sleep(150); return ok; };
+  const saveAndWait = async () => { await clickSel('#b-save'); await waitFor(`/saved/.test(document.getElementById('dirty').textContent)`, 5000); await sleep(200); };
+  await clickSel('#b-fit');
+  await key('Escape', 'Escape', 27);
+  // click cycling: POI o has the link triangles of four roads and the town square centre under it
+  c = await hc('pois.o.at');
+  await click(c[0], c[1]);
+  const first = await ev(`S.sel`);
+  await click(c[0], c[1]);
+  const second = await ev(`S.sel`);
+  check('first click on a stack selects the topmost handle (the POI)', first === 'pois.o.at', first);
+  check('clicking the selected handle again cycles to the next one underneath', second !== first && !!(await handle(second)), second);
+  await key('Escape', 'Escape', 27);
+
+  // add a blob region by click
+  const before = await featureIds('region');
+  v = await version();
+  await pickTool('blob', 'forest');
+  let p = await m2c(640, 640);
+  await click(p[0], p[1]);
+  check('blob tool: a click adds a forest region', await placed(v));
+  const blobId = await ev(`S.feat`);
+  check('the new region has a generated id forest_<n> and is selected', /^forest_\d+$/.test(blobId) && !before.includes(blobId), blobId);
+  check('tool returns to Select after placing', (await ev(`S.tool`)) === 'select');
+  const rh0 = await handle('regions.' + blobId + '.r');
+  check('the blob has a radius grip', !!rh0 && rh0.kind === 'radius');
+  // drag the radius grip outwards
+  c = await hc('regions.' + blobId + '.r');
+  v = await version();
+  await drag(c, 30, 0);
+  check('dragging the radius grip commits a new r', await waitVersion(v));
+  const rh1 = await handle('regions.' + blobId + '.r');
+  const bp = await props(blobId);
+  check('r grew by the drag distance in metres (integer)', rh1.at[0] - rh1.center[0] > rh0.at[0] - rh0.center[0] + 5 && Number.isInteger(bp.r), bp);
+  // rough via the slider/number
+  await setValue('#p-rough', '0.6');
+  await sleep(500);
+  check('rough edited in the panel', (await props(blobId)).rough === 0.6);
+  // change the region type
+  await setValue('#in-type', 'marsh');
+  await sleep(500);
+  check('type change through the panel (type table names listed)', (await features()).some((f) => f[0] === blobId && f[2] === 'marsh') &&
+    (await ev(`Array.prototype.map.call(document.querySelectorAll('#in-type option'),function(o){return o.value;}).join(',')`)).includes('forest,marsh'));
+  // add a river with four clicks, finished with Enter
+  const lines0 = await featureIds('line');
+  v = await version();
+  await pickTool('line', 'river');
+  for (const [x, y] of [[560, 560], [600, 500], [660, 450], [700, 380]]) { const q = await m2c(x, y); await click(q[0], q[1]); }
+  check('line tool: four clicks draw a draft with four vertices', (await ev(`S.draft ? S.draft.pts.length : -1`)) === 4);
+  await shot('spec_editor_drafting.png');
+  await key('Enter', 'Enter', 13);
+  check('Enter adds the river', await placed(v));
+  const riverId = await ev(`S.feat`);
+  check('river id is river_<n>, not a reuse', /^river_\d+$/.test(riverId) && !lines0.includes(riverId), riverId);
+  check('river has 4 vertices', (await nHandles('waypoint', riverId)) === 4);
+  // insert a vertex with the + handle and delete it again
+  check('midpoint + handles are drawn for the selected line', (await ev(`document.querySelectorAll('.mid').length`)) === 3);
+  v = await version();
+  await clickSel('.mid');
+  check('clicking + inserts a vertex', await waitVersion(v) && (await nHandles('waypoint', riverId)) === 5);
+  v = await version();
+  await key('Delete', 'Delete', 46);
+  check('Delete removes that vertex again', await waitVersion(v) && (await nHandles('waypoint', riverId)) === 4);
+  // line width through its grip
+  const wg = await handle('lines.' + riverId + '.width');
+  check('the river has a width grip', !!wg && wg.kind === 'width');
+  c = await hc('lines.' + riverId + '.width');
+  v = await version();
+  await drag(c, 18, 0);
+  check('width grip drag writes width', await waitVersion(v) && (await props(riverId)).width > 0);
+  await shot('spec_editor_shapes.png');
+  // delete the river (no referrers)
+  v = await version();
+  await clickSel('#b-del-feature');
+  check('Delete feature removes the river', await waitVersion(v) && !(await featureIds('line')).includes(riverId));
+  // poly: two clicks and a double-click finish; + inserts a vertex; the panel deletes it
+  v = await version();
+  await pickTool('poly', 'hills');
+  for (const [x, y] of [[90, 600], [190, 640]]) { const q = await m2c(x, y); await click(q[0], q[1]); }
+  p = await m2c(150, 540);
+  await mouse('mouseMoved', p[0], p[1], { buttons: 0 });
+  await mouse('mousePressed', p[0], p[1]); await mouse('mouseReleased', p[0], p[1]);
+  await mouse('mousePressed', p[0], p[1], { clickCount: 2 }); await mouse('mouseReleased', p[0], p[1], { clickCount: 2 });
+  check('poly tool: double-click finishes a 3-vertex polygon', await placed(v));
+  const polyId = await ev(`S.feat`);
+  check('poly id hills_<n> with 3 vertices', /^hills_\d+$/.test(polyId) && (await nHandles('vertex', polyId)) === 3, polyId);
+  check('the delete-vertex button is disabled at the minimum of 3', await ev(`document.getElementById('b-del') ? document.getElementById('b-del').disabled : true`));
+  v = await version();
+  await clickSel('.mid');
+  check('a + handle also sits on the closing edge: polygon grows to 4 vertices', await waitVersion(v) && (await nHandles('vertex', polyId)) === 4);
+  v = await version();
+  await clickSel('#b-del');
+  check('panel deletes the vertex again', await waitVersion(v) && (await nHandles('vertex', polyId)) === 3);
+  // band: two clicks and Enter
+  v = await version();
+  await pickTool('band', 'field');
+  for (const [x, y] of [[300, 700], [420, 740]]) { const q = await m2c(x, y); await click(q[0], q[1]); }
+  await key('Enter', 'Enter', 13);
+  check('band tool adds a band with a width', await placed(v) && /^field_\d+$/.test(await ev(`S.feat`)) && (await props(await ev(`S.feat`))).width === 30);
+  // POI and crossing tools
+  v = await version();
+  await pickTool('poi', 'supply');
+  p = await m2c(700, 700); await click(p[0], p[1]);
+  check('POI tool adds poi_<n>', await placed(v) && /^poi_\d+$/.test(await ev(`S.feat`)));
+  v = await version();
+  await pickTool('crossing', 'ford');
+  p = await m2c(100, 100); await click(p[0], p[1]);
+  check('crossing tool adds ford_<n>', await placed(v) && /^ford_\d+$/.test(await ev(`S.feat`)));
+  // rename a referenced POI: every reference follows
+  await ev(`selectFeature('g')`);
+  const gRefs = await ev(`(S.st.referrers.g||[]).length`);
+  v = await version();
+  await typeInto('#in-id', 'oak');
+  await clickSel('#b-rename');
+  check('rename commits', await waitVersion(v));
+  check('the id changed and all ' + gRefs + ' references followed', gRefs > 0 && (await featureIds('poi')).includes('oak') && !(await featureIds('poi')).includes('g') &&
+    (await ev(`(S.st.referrers.oak||[]).length`)) === gRefs && !(await ev(`S.st.referrers.g`)), gRefs);
+  // delete a referenced POI: the prompt lists the referrers; cancel keeps it
+  await ev(`selectFeature('o')`);
+  v = await version();
+  await clickSel('#b-del-feature');
+  await sleep(500);
+  check('deleting a referenced POI asks first and lists the referrers', await ev(`!!document.getElementById('prompt') && document.querySelectorAll('#prompt li').length>=5`) && (await version()) === v);
+  await shot('spec_editor_delete_prompt.png');
+  await clickSel('#b-cancel-delete');
+  check('Cancel keeps the POI', (await featureIds('poi')).includes('o') && (await version()) === v);
+  await clickSel('#b-del-feature');
+  await sleep(500);
+  await clickSel('#b-detach-delete');
+  check('Detach and delete removes it and writes literal coordinates', await waitVersion(v) && !(await featureIds('poi')).includes('o') && (await ev(`S.st.handles.filter(function(h){return h.ref==='o';}).length`)) === 0);
+  // layers: hide regions, lock POIs
+  await clickSel('#l-vis-regions');
+  check('hiding the regions layer hides its handles', (await ev(`document.querySelectorAll('.handle.k-center').length`)) === 0);
+  await clickSel('#l-vis-regions');
+  await clickSel('#l-lock-pois');
+  check('locking the POI layer makes its handles non-interactive', await ev(`document.querySelectorAll('.handle.k-poi.locked').length>0 && getComputedStyle(document.querySelector('.handle.k-poi.locked')).pointerEvents==='none'`));
+  await clickSel('#l-lock-pois');
+  // an invalid property edit is refused and the error highlights the selected feature
+  await ev(`selectFeature(${JSON.stringify(blobId)})`);
+  v = await version();
+  await typeInto('#p-r', '-5');
+  await sleep(500);
+  check('refused edit keeps the buffer and maps the error to the selected feature', (await version()) === v && (await ev(`S.errRefs.length>0 && S.errRefs[0].feature===${JSON.stringify(blobId)} && S.errRefs[0].key==='r'`)));
+  check('the error row is marked for the selected feature and the field is flagged invalid', await ev(`!!document.querySelector('#errors li.forsel') && document.getElementById('p-r').getAttribute('aria-invalid')==='true'`));
+  await shot('spec_editor_error_highlight.png');
+  await ev(`selectFeature(${JSON.stringify(blobId)})`);
+  await waitFor(`S.imgVersion===S.st.version && S.geoVersion===S.st.version`);
+  await shot('spec_editor_session.png');
+  // save a valid spec the runner validates with `mapgen validate`
+  await saveAndWait();
+  fs.copyFileSync(specFile, path.join(shotDir, 'session_saved.yaml'));
+  const savedText = fs.readFileSync(specFile, 'utf8');
+  check('the saved session file contains the new features', ['id: ' + blobId, 'id: oak', 'id: ' + polyId].every((t) => savedText.includes(t)));
+  // undo all the way back: the original bytes
+  let nUndo = 0;
+  while (await ev(`!document.getElementById('b-undo').disabled`) && nUndo++ < 200) { await clickSel('#b-undo'); await sleep(60); }
+  await sleep(300);
+  check('undo reaches the start of the session (' + nUndo + ' steps)', nUndo > 20 && (await ev(`S.st.can_undo`)) === false, nUndo);
+  await clickSel('#b-save');
+  await waitFor(`/saved/.test(document.getElementById('dirty').textContent)`, 5000);
+  check('after undoing everything, Save writes the original bytes back', fs.readFileSync(specFile, 'utf8') === original);
 
   // ---- wheel zoom and pan
   const w0 = await ev(`S.view.mpp`);

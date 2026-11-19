@@ -27,11 +27,14 @@ python -m mapgen build    <spec> --only render|analyze|export  # one stage (anal
 python -m mapgen build    <spec> --out some/dir                # alternative output root
 python -m mapgen probe    maps/concepts/thornwald.yaml 1500 1560 lodge   # times, spread, cost, features at points (no files)
 python -m mapgen diff     out/a/thornwald out/b/thornwald      # what changed between two build folders: JSON (--text: summary)
-python -m mapgen spec set <spec> pois.fa.at=[400,120] [<path>=<value> ...] [--dry-run] [--diff] [--detach]   # comment-preserving text edits of a spec, verified and atomic (see "Editing a spec as text")
+python -m mapgen spec set <spec> pois.fa.at=[400,120] [<path>=<value> ...] [--create] [--dry-run] [--diff] [--detach] [--detach-refs]   # comment-preserving text edits of a spec, verified and atomic (see "Editing a spec as text")
+python -m mapgen spec add <spec> regions '{type: forest, shape: blob, at: [300, 400], r: 80}' [--id forest_x]   # append a feature with a generated unique id (forest_1, river_2, poi_3, p4); creates a missing section
+python -m mapgen spec delete <spec> lines.river_2 [regions.wood_1.rough ...] [--detach-refs]   # delete a feature (refused while referenced) or a key
+python -m mapgen spec rename <spec> forest_1 north_wood        # rename an id and every reference to it
 python -m mapgen flowgraph validate flowgraphs/town_square.flow.yaml   # validate a topology graph (see mapgen/FLOWGRAPH_SPEC.md)
 python -m mapgen flowgraph scaffold <graph> [--out <file> [--force]] [--size X Y]   # draft spec text from a graph (stdout by default; deterministic; node positions from a stress layout that balances edge lengths and honours the optional node key `place`: west/east/north/south/center/north-west/...)
 python -m mapgen flowgraph preview <graph> [--out <html>] [--force]   # self-contained HTML/SVG graph view (default out/flowgraph_<name>.html, overwritten freely; --out refuses an existing file without --force)
-python -m mapgen spec-edit <spec> [--port N] [--no-open] [--preview-px N]   # browser map editor on a local 127.0.0.1-only server: drag POIs, bases, `points` and line waypoints (reference-aware), add/delete waypoints, undo/redo, explicit atomic Save (see "Editing a spec in the browser")
+python -m mapgen spec-edit <spec> [--port N] [--no-open] [--preview-px N]   # browser map editor on a local 127.0.0.1-only server: full shape editing: drag/resize/add/delete regions (blob, band, poly), lines, crossings, POIs, `points`; property panel, rename, layers, undo/redo, explicit atomic Save (see "Editing a spec in the browser")
 python -m mapgen flowgraph edit <graph> [--new] [--port N] [--no-open]   # browser editor on a local 127.0.0.1-only server: add/edit/delete nodes and edges, drag, undo/redo, Re-layout (Python layout incl. place hints), live validation; Save writes the canonical .flow.yaml (comments not preserved; refused while invalid); --new starts a two-spawn template written on first Save
 python -m mapgen flowgraph check <graph> <spec> [--strict]       # spec vs graph: missing nodes/edges; --strict adds extras (no files)
 python -m mapgen flowgraph check <graph> <spec> --terrain [--strict]   # also: walkable terrain must connect exactly the graph's nodes (terrain-missing / terrain-extra edges; ~7 s on town_square)
@@ -65,19 +68,44 @@ per-run token, Host/Origin checks) and opens it in the browser. The page shows a
 (default 768 px, 257 heightmap; labelled "not a build", refreshed about 300 ms after each edit, never blocking the UI) with the
 resolved region outlines and line centrelines and the spec's own values as handles: team bases (square), POIs (circle),
 `points` entries (diamond), line waypoints (dot; a waypoint that is a point reference is a triangle), blob centres and
-poly/band vertices. Shape and lightness carry the meaning, never hue.
+poly/band vertices, crossings (hexagon), radius grips (wide bar) and width grips (tall bar). Shape and lightness carry the
+meaning, never hue.
 
 - Drag a handle: it snaps to whole metres. Dragging a POI, base or `points` entry, or a reference triangle, moves the
   definition, so every referrer follows. Alt-drag a triangle detaches it to a literal `[x, y]` and leaves the definition.
-  Double-click a waypoint line to insert a waypoint, Delete removes the selected waypoint. The side panel shows the
-  selection, editable x/y, referrers, the loader's error list, a feature list, undo/redo, Save and the dirty marker.
-  Keyboard: Tab through handles, arrows nudge 1 m (Shift 10 m), Ctrl+Z / Ctrl+Y, Ctrl+S, `+` `-` `0` zoom and fit, wheel and
+  Several handles stacked at one point (a POI under four road-link triangles): the selected handle is the one that moves;
+  clicking an already selected handle again cycles to the next one underneath.
+- Shape editing. Blob: drag the centre, drag the radius grip (`r`), `rough`, `squash`, `angle`, `warp`... in the property
+  panel (`rough` as slider and number). Band and line: drag vertices, a "+" at the middle of each segment of the selected shape
+  (or a double-click on a segment) inserts a vertex, Delete (or the panel button) removes the selected vertex, the width grip
+  sets `width`. Poly: the same, closed (the edge from the last to the first vertex has its "+" too); a poly keeps at least 3
+  vertices, a band or line 2. Crossings: a disc (centre and radius grip) or a band (vertices and width grip).
+- Tools (toolbar or key): Select (V), POI (P), Blob (B), Band (D), Poly (G), Line (L), Crossing (X), each with a type picker
+  listing the names of `types.yaml` with their cost/width/radius. POI, blob and crossing: one click places it. Band, poly and
+  line: click the vertices, Enter or a double-click finishes, Backspace drops the last vertex, Esc cancels. The new feature
+  gets a generated id (`forest_3`, `river_2`, `poi_4`, `ford_1`; the number is one above the largest in use and an id deleted
+  during the session is not issued again), is appended to its list (paint order: last paints on top) and is selected. A
+  region or line gets no `seed`: its noise derives from its id.
+- Panel for the selected feature: `id` with Rename (rewrites every reference: point references, `join`; a region, line or
+  scatter entry without a `seed` gets `seed: <old id-derived seed>` so its shape does not change; refused when the new id is
+  used, invalid, a team base, or the old id is ambiguous), `type` (the type table), every other key the schema allows for that
+  kind of feature (read from `schema.py`, so it cannot drift: numbers with ranges, `impassable`/`smooth` checkboxes, `label`,
+  `join`, `join_end`, `team`...), an x button that removes an optional key and an "Add property" menu for the absent ones,
+  and Delete. Deleting a feature that others reference (a POI used as a waypoint or a region `at`, a `points` entry, a line
+  that another `join`s) lists the referrers and offers "Detach references and delete" (point references become literal
+  coordinates, a `join` is removed) or Cancel.
+- Loader errors of a refused edit are mapped to the feature they name (`pois[3].at` is POI `g`): the first such feature is
+  selected, its handles carry a dashed ring and a "!", its error rows and the invalid property field are marked.
+- Layers (regions, lines, crossings, POIs and bases, named points): show and lock toggles, kept in the browser's local
+  storage per spec path; a locked layer is drawn but cannot be hit.
+- Keyboard: Tab through handles, arrows nudge 1 m (Shift 10 m), Ctrl+Z / Ctrl+Y, Ctrl+S, `+` `-` `0` zoom and fit, wheel and
   background drag zoom and pan.
 - Every edit goes through the span-patch engine and the real loader (like `spec set`). An invalid result is refused with the
   loader's errors and the buffer is unchanged. The server keeps the text buffer and a whole-text undo stack; the file is
   written only by Save (no autosave), atomically and in place, only while the buffer is valid and the file on disk is the one
   that was read. A saved drag is a one-line diff; line endings are preserved.
 - The spec must load when the editor starts (otherwise it prints the errors and exits 1).
+- Not in the editor: scatter `within` polygons and `label_at` (edit in the file), the flowgraph layer, painting.
 
 ## Editing a spec as text (`spec set`)
 
@@ -97,6 +125,36 @@ python -m mapgen spec set town.yaml 'lines.river_main.path[2]=@delete'     # del
 python -m mapgen spec set town.yaml lines.river_main.width=22 pois.fa.label="Alley"
 ```
 
+Structure edits (same safety net, same style rules):
+
+```
+python -m mapgen spec add    town.yaml regions '{type: forest, shape: blob, at: [300, 400], r: 80, rough: 0.4}'
+python -m mapgen spec add    town.yaml lines '{type: river, path: [[10, 10], [200, 300], [400, 350]]}'    # prints "added: river_1"
+python -m mapgen spec add    town.yaml points '[260, 410]' --id ao2                                       # a named point
+python -m mapgen spec set    town.yaml regions.forest_1.warp=30 regions.forest_1.label="North wood" --create   # new keys
+python -m mapgen spec set    town.yaml regions.forest_1.warp=@delete                                       # delete a key
+python -m mapgen spec delete town.yaml lines.river_1                      # delete a feature (the whole item)
+python -m mapgen spec delete town.yaml pois.o --detach-refs               # referenced: references become literal [x, y]
+python -m mapgen spec rename town.yaml forest_1 north_wood                # id and every reference
+```
+
+- `spec add <spec> <section> <value> [--id ID]`: sections `regions`, `lines`, `crossings`, `pois`, `scatter`, `points`. The
+  value is a YAML flow mapping (for `points`: a pair). The id is `--id`, else the value's own `id`, else generated:
+  `<type>_<n>` (`poi_<n>` for POIs, `p<n>` for points), `n` one above the largest in use for that base, never an id in use.
+  The entry is appended after the last item of its section in that section's style (a flow mapping line like its neighbours;
+  block lines when the section is written as block mappings) with the keys ordered `id`, `type`, `shape`, then as given. A
+  missing section is created before `analysis`/`output` (or at the end of the file) after a blank line. No `seed` is written:
+  the feature's noise derives from its id (`mapgen/IDENTITY_SPEC.md`).
+- `spec delete <spec> <path>...` removes a feature (`pois.fa`, `lines.river_2`, `points.ao`) with its whole line(s) and
+  trailing comment, or a key (`regions.wood_1.rough`). A feature that others reference is refused and the referrers are
+  listed; `--detach-refs` replaces each point reference by the literal coordinates and removes a `join` (and `join_end`).
+  Deleting the only item of a section removes the section key as well. Team bases cannot be deleted.
+- `spec rename <spec> <old> <new>` rewrites the definition (a feature `id` or a `points` key) and every reference (region
+  `at`/`points`/`path`, line `path`/`join`, crossing `at`/`path`). A region, line or scatter entry without `seed` gets
+  `seed: <feature_seed(old)>` so its shape is unchanged; refused when `<new>` is in use or invalid, the old id is defined twice,
+  or it is a team base. Flowgraph `bind` values live in `.flow.yaml` files and are not rewritten.
+- All four print `added:`, `detached:`, `references rewritten:`, `seed pinned:` lines; `--diff` and `--dry-run` as for `spec set`.
+
 Path grammar: keys joined by `.`; a feature list (`pois`, `regions`, `lines`, `scatter`, `crossings`) is addressed by the
 feature's `id` (`pois.fa.at`), never by position; `[n]` is a zero-based position inside a sequence without ids (waypoints,
 vertices); `[+n]` / `[+]` as the last token inserts. Values are JSON, or YAML flow syntax (`[base_A, [1,2]]`, bare words).
@@ -105,8 +163,8 @@ contains `[` or spaces.
 
 A point reference (a name where a point is expected, e.g. `path[3]` holding `j`) set to `[x, y]` moves the referenced
 definition (`points.<name>`, a POI `at`, a team `base`), so every referrer follows; `--detach` writes the literal at the
-vertex instead. Setting a literal pair to a name attaches it. Only existing keys can be set (adding keys or features is
-not supported). Refused with a typed error: anchors, aliases, merge keys, duplicate keys, block or multi-line scalars,
+vertex instead. Setting a literal pair to a name attaches it. A key the mapping lacks is added with `--create` (appended to a flow mapping, a new line in a block mapping), removed with
+`path=@delete`. Refused with a typed error: anchors, aliases, merge keys, duplicate keys, block or multi-line scalars,
 several YAML documents, and comments in the way of a deletion. Engine: `mapgen/specpatch.py`; design:
 `docs/investigations/2026-11-19-map-editor-design.md` section 4.
 

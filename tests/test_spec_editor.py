@@ -375,7 +375,7 @@ def test_op_from_json_validation():
     assert isinstance(ins, specpatch.Insert) and ins.path == "lines.l.path[+2]" and ins.index == 2
     assert specpatch.op_from_json({"op": "insert", "path": "lines.l.path", "index": None, "value": [1, 2]}).path == "lines.l.path[+]"
     assert isinstance(specpatch.op_from_json({"op": "delete", "path": "lines.l.path[1]"}), specpatch.Delete)
-    for bad in ({}, {"op": "set", "path": "pois.a.at"}, {"op": "delete", "path": "pois.a.at"}, {"op": "x", "path": "a"},
+    for bad in ({}, {"op": "set", "path": "pois.a.at"}, {"op": "delete", "path": "a[+]"}, {"op": "put", "path": "a[1]", "value": 1}, {"op": "add", "section": "x", "value": {}}, {"op": "rename", "from": "a"}, {"op": "x", "path": "a"},
                 {"op": "insert", "path": "a.b", "index": -1, "value": 1}, {"op": "set", "path": "a..b", "value": 1},
                 {"op": "set", "path": "a", "value": float("inf")}):
         with pytest.raises(specpatch.PatchError):
@@ -430,3 +430,205 @@ def test_browser_drive_if_available(tmp_path):
         pytest.skip("node >= 22 needed")
     code, out = run_spec_drive.run(str(tmp_path / "shots"))
     assert code == 0, out
+    saved = str(tmp_path / "shots" / "session_saved.yaml")   # written by the drive after its add/delete/rename session
+    spec = schema.load_spec(saved)
+    assert any(r.id.startswith("forest_") for r in spec.regions) and any(p.id == "oak" for p in spec.pois)
+    assert run("validate", saved)[0] == 0
+
+
+# ---- slice 3 (GDU-52): shape tools, structure ops, schema-driven properties ---------------------------------------------
+
+BLOB = {"type": "forest", "shape": "blob", "at": [650, 650], "r": 40, "rough": 0.3}
+RIVER = {"type": "river", "path": [[560, 560], [600, 500], [660, 450], [700, 380]]}
+O_REFERRERS = {"regions.square.at", "lines.road_ao_o.path[2]", "lines.road_bo_o.path[2]", "lines.road_fa_o.path[2]",
+               "lines.road_fb_o.path[2]"}
+
+
+def _add(server, section, value):
+    code, j = server.apply([{"op": "add", "section": section, "value": value}])
+    assert code == 200 and j["ok"], j
+    return j["state"]["results"][0]["id"], j["state"]
+
+
+def test_add_returns_the_generated_id_and_new_handles(server, spec_path):
+    before = _read(spec_path)
+    fid, st = _add(server, "regions", BLOB)
+    assert re.fullmatch(r"forest_\d+", fid)
+    assert {h["kind"] for h in st["handles"] if h["feature"] == fid} == {"center", "radius"}
+    r = _handle(st, "regions.%s.r" % fid)
+    assert r["center"] == [650.0, 650.0] and r["at"] == [690.0, 650.0]
+    rid, st = _add(server, "lines", RIVER)
+    assert re.fullmatch(r"river_\d+", rid)
+    assert [h["index"] for h in st["handles"] if h["feature"] == rid and h["kind"] == "waypoint"] == [0, 1, 2, 3]
+    w = _handle(st, "lines.%s.width" % rid)
+    assert w["kind"] == "width" and w["chain"] == "lines.%s.path" % rid and w["value"] == 30
+    assert {f["id"] for f in st["features"]} >= {fid, rid, "o", "base_A", "ao"}
+    assert _read(spec_path) == before   # nothing is written without Save
+
+
+def test_add_poly_band_crossing_poi_scatter_and_point(server):
+    pid, st = _add(server, "regions", {"type": "hills", "shape": "poly", "points": [[100, 600], [200, 640], [150, 540]]})
+    assert [h["kind"] for h in st["handles"] if h["feature"] == pid] == ["vertex"] * 3
+    assert all(h["closed"] and h["minimum"] == 3 and h["chain"] == "regions.%s.points" % pid for h in st["handles"] if h["feature"] == pid)
+    bid, st = _add(server, "regions", {"type": "field", "shape": "band", "path": [[300, 700], [420, 740]], "width": 30})
+    assert {h["kind"] for h in st["handles"] if h["feature"] == bid} == {"vertex", "width"}
+    cid, st = _add(server, "crossings", {"type": "ford", "at": [100, 100]})
+    assert {h["kind"] for h in st["handles"] if h["feature"] == cid} == {"crossing", "radius"}
+    cb, st = _add(server, "crossings", {"type": "bridge", "path": [[100, 200], [140, 200]], "width": 12})
+    assert {h["kind"] for h in st["handles"] if h["feature"] == cb} == {"vertex", "width"}
+    iid, st = _add(server, "pois", {"type": "supply", "at": [700, 700]})
+    assert iid == "poi_1" and _handle(st, "pois.poi_1.at")["kind"] == "poi"
+    sid, st = _add(server, "scatter", {"type": "forest", "coverage": 0.2})
+    assert next(f for f in st["features"] if f["id"] == sid)["kind"] == "scatter"
+    ptid, st = _add(server, "points", [333, 222])
+    assert ptid == "p1" and _handle(st, "points.p1")["at"] == [333.0, 222.0]
+
+
+def test_deleted_ids_are_not_reissued_in_the_session(server):
+    a, _ = _add(server, "regions", BLOB)
+    code, j = server.apply([{"op": "delete", "path": "regions.%s" % a}])
+    assert code == 200 and j["state"]["results"][0]["deleted"] == a
+    b, _ = _add(server, "regions", BLOB)
+    assert b != a
+
+
+def test_delete_referenced_feature_is_refused_with_referrers_then_detached(server, spec_path):
+    before = _read(spec_path)
+    v = server.state()["version"]
+    code, j = server.apply([{"op": "delete", "path": "pois.o"}])
+    assert code == 422 and not j["ok"] and j["referenced"] == "o"
+    assert {r["path"] for r in j["referrers"]} == O_REFERRERS
+    assert j["state"]["version"] == v and not j["state"]["dirty"]
+    code, j = server.apply([{"op": "delete", "path": "pois.o", "detach_refs": True}])
+    assert code == 200 and set(j["state"]["results"][0]["detached"]) == O_REFERRERS
+    st = j["state"]
+    assert "o" not in {f["id"] for f in st["features"]} and not any(h["ref"] == "o" for h in st["handles"])
+    assert _handle(st, "regions.square.at")["at"] == [400.0, 400.0]
+    assert server.post("/api/undo")[0] == 200
+    assert _read(spec_path) == before and not server.state()["dirty"]
+
+
+def test_delete_a_line_that_another_joins_needs_detach(server):
+    rid, _ = _add(server, "lines", {"type": "river", "path": [[300, 700], [420, 740]], "join": "river_main", "join_end": "end"})
+    code, j = server.apply([{"op": "delete", "path": "lines.river_main"}])
+    assert code == 422 and j["referenced"] == "river_main" and any(r["path"].endswith(".join") for r in j["referrers"])
+    code, j = server.apply([{"op": "delete", "path": "lines.river_main", "detach_refs": True}])
+    assert code == 200 and "river_main" not in {f["id"] for f in j["state"]["features"]}
+    assert set(j["state"]["results"][0]["detached"]) == {"lines.%s.join" % rid}
+    assert "join" not in next(f for f in j["state"]["features"] if f["id"] == rid)["props"]
+
+
+def test_rename_rewrites_references_and_keeps_the_shape(server):
+    st0 = server.state()
+    code, j = server.apply([{"op": "rename", "from": "g", "to": "oak"}])
+    assert code == 200
+    st = j["state"]
+    res = st["results"][0]
+    assert res["renamed"] == ["g", "oak"] and len(res["references"]) == len(st0["referrers"]["g"])
+    assert len(st["referrers"]["oak"]) == len(st0["referrers"]["g"]) and "g" not in st["referrers"]
+    assert "oak" in {h["ref"] for h in st["handles"] if h["kind"] == "waypoint"}
+    code, j = server.apply([{"op": "rename", "from": "rock_ne", "to": "north_rock"}])
+    assert code == 200 and j["state"]["results"][0]["seed_pinned"] is None   # the committed regions carry a seed
+    fid, _ = _add(server, "regions", BLOB)
+    code, j = server.apply([{"op": "rename", "from": fid, "to": "wood_x"}])
+    assert code == 200 and j["state"]["results"][0]["seed_pinned"] == schema.feature_seed(fid)
+    # refusals: id in use, invalid id, team base, unknown
+    for body in ({"from": "wood_x", "to": "oak"}, {"from": "wood_x", "to": "Bad Id"}, {"from": "base_A", "to": "start"}, {"from": "nope", "to": "x"}):
+        code, j = server.apply([dict(op="rename", **body)])
+        assert code == 422 and not j["ok"]
+
+
+def test_errors_map_to_features_and_refused_edits_leave_the_buffer(server):
+    v = server.state()["version"]
+    code, j = server.apply([{"op": "set", "path": "pois.g.at", "value": [-50, 100]}])
+    assert code == 422 and j["error_refs"][0] == {"feature": "g", "path": "pois.g.at", "key": "at"}
+    fid, _ = _add(server, "regions", BLOB)
+    code, j = server.apply([{"op": "put", "path": "regions.%s.r" % fid, "value": -5}])
+    assert code == 422 and j["error_refs"][0]["feature"] == fid and j["error_refs"][0]["key"] == "r"
+    code, j = server.apply([{"op": "set", "path": "lines.river_main.path[2]", "value": [9000, 9000]}])
+    assert code == 422 and j["error_refs"][0]["feature"] == "river_main" and j["error_refs"][0]["path"] == "lines.river_main.path[2]"
+    assert server.state()["version"] == v + 1   # only the add counted
+
+
+def test_map_error_cases():
+    from mapgen import spec_model
+    raw = specpatch.parsed_document(_read(V4))
+    assert spec_model.map_error(raw, "pois[3].at: point is outside the map") == {"feature": "g", "path": "pois.g.at", "key": "at"}
+    assert spec_model.map_error(raw, "regions[0].r: must be > 0")["feature"] == "rock_ne"
+    assert spec_model.map_error(raw, "points.ao: expected a point")["feature"] == "ao"
+    assert spec_model.map_error(raw, "teams.A.base: outside")["feature"] == "base_A"
+    assert spec_model.map_error(raw, "<yaml>: broken")["feature"] is None
+    assert spec_model.map_error(raw, "regions[999].r: x")["feature"] is None
+
+
+def test_schema_tables_are_read_from_schema_py_and_match_the_loader_messages():
+    from mapgen import spec_model
+    sj = spec_model.schema_json(schema.load_types())
+    for kind in ("line", "crossing", "poi", "scatter"):
+        assert sj["keys"][kind]["allowed"] == schema.allowed_keys(kind)[0]
+    for shape in ("blob", "poly", "band"):
+        assert sj["keys"]["region_" + shape]["allowed"] == schema.allowed_keys("region", shape)[0]
+    assert "rough" in sj["keys"]["region_blob"]["allowed"] and "rough" in sj["keys"]["region_poly"]["allowed"]
+    assert "width" in sj["keys"]["region_band"]["allowed"] and "width" not in sj["keys"]["region_blob"]["allowed"]
+    assert {"forest", "lake", "mountain"} <= set(sj["types"]["region"]) and set(sj["types"]["line"]) == {"river", "road", "trail", "cliff"}
+    assert sj["types"]["region"]["mountain"]["cost"] == "inf"
+    assert all(k in sj["props"] for k in ("rough", "meander", "impassable", "label", "join_end", "coverage"))
+    # the loader's own unknown-key message lists exactly the allowed keys the editor uses
+    for kind, sect, item in (("line", "lines", "{ id: l, type: road, path: [[1, 1], [2, 2]], bogus: 1 }"),
+                             ("poi", "pois", "{ id: q, type: capture, at: [5, 5], bogus: 1 }"),
+                             ("crossing", "crossings", "{ id: c, type: bridge, at: [5, 5], bogus: 1 }"),
+                             ("scatter", "scatter", "{ id: s, type: forest, coverage: 0.2, bogus: 1 }")):
+        text = "format_version: 1\nname: t\nsize: [100, 100]\nteams:\n  A: { base: [1, 1] }\n  B: { base: [9, 9] }\n%s:\n  - %s\n" % (sect, item)
+        with pytest.raises(schema.SpecError) as e:
+            schema.load_spec_text(text.encode("utf-8"))
+        assert "allowed: %s" % ", ".join(sj["keys"][kind]["allowed"]) in str(e.value)
+
+
+def test_page_carries_the_schema_and_type_names(server):
+    st, body, _ = server.req("GET", "/")
+    html = body.decode("utf-8")
+    boot = json.loads(re.search(r'<script id="boot" type="application/json">(.*?)</script>', html, re.S).group(1))
+    assert "mountain" in boot["schema"]["types"]["region"] and boot["schema"]["keys"]["line"]["required"] == ["id", "type", "path"]
+    for tool in ("poi", "blob", "band", "poly", "line", "crossing"):
+        assert "'%s'" % tool in html
+
+
+def test_mixed_session_undoes_to_the_original_bytes_and_saves_a_loadable_spec(server, spec_path):
+    original = _read(spec_path)
+    fid, _ = _add(server, "regions", BLOB)
+    rid, _ = _add(server, "lines", RIVER)
+    assert server.apply([{"op": "put", "path": "regions.%s.warp" % fid, "value": 30},
+                         {"op": "put", "path": "regions.%s.label" % fid, "value": "North wood"}])[0] == 200
+    assert server.apply([{"op": "rename", "from": "g", "to": "oak"}])[0] == 200
+    assert server.apply([{"op": "delete", "path": "lines.%s" % rid}])[0] == 200
+    assert server.apply([{"op": "delete", "path": "regions.%s.warp" % fid}])[0] == 200
+    code, j = server.post("/api/save")
+    assert code == 200
+    spec = schema.load_spec(spec_path)
+    assert any(r.id == fid for r in spec.regions) and any(p.id == "oak" for p in spec.pois) and not any(l.id == rid for l in spec.lines)
+    assert run("validate", spec_path)[0] == 0
+    n = 0
+    while server.state()["can_undo"]:
+        assert server.post("/api/undo")[0] == 200
+        n += 1
+    assert n == 6
+    code, j = server.post("/api/save")
+    assert code == 200 and _read(spec_path) == original
+
+
+def test_structure_edits_keep_crlf(tmp_path):
+    p = str(tmp_path / "crlf.yaml")
+    with open(p, "wb") as f:
+        f.write(_read(V4).replace("\n", "\r\n").encode("utf-8"))
+    srv = _start(p)
+    try:
+        c = Client(srv)
+        fid, _ = _add(c, "regions", BLOB)
+        assert c.apply([{"op": "put", "path": "regions.%s.rough" % fid, "value": 0.5}])[0] == 200
+        assert c.apply([{"op": "rename", "from": "ao", "to": "west_gate"}])[0] == 200
+        assert c.post("/api/save")[0] == 200
+        data = open(p, "rb").read().decode("utf-8")
+        assert "\n" not in data.replace("\r\n", "") and "id: %s" % fid in data
+    finally:
+        srv.shutdown()
+        srv.server_close()
