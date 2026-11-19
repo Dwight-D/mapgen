@@ -228,11 +228,24 @@ All geometries are clipped to the map rectangle and made valid.
 Every line has `id` (required, §4.8), `type` (a line type), `path`, `width` (metres; default from `types.yaml`),
 optional `seed` (§4.8), `meander` (metres, default 0), `meander_scale` (metres, default 300), `width_var` (0–1,
 default 0), `label`,
-`label_at: [x, y]` (pins the label), `join` and `join_end` (below).
+`label_at: [x, y]` (pins the label), `join` and `join_end` (below), and the road shaping keys `wobble`, `wobble_scale`
+and `smooth` (below).
 
 - The path is smoothed with Chaikin (3 iterations). If `meander > 0`, it is densified to 10 m steps and each point
   displaced along the path normal by `meander · n(s)` (1D fbm over arc length `s`, wavelength ≈ `meander_scale`),
   with displacement tapered to 0 over the first and last 5 % so endpoints stay put.
+- **Road shaping.** `wobble` (metres, default 0), `wobble_scale` (metres, default 200) and `smooth` (bool, default
+  false) are for roads and trails. With `smooth: true` or `wobble > 0` the centreline is a centripetal Catmull-Rom
+  spline through every waypoint, sampled about every 10 m (otherwise Chaikin, which cuts inside each waypoint). With
+  `wobble > 0` each sample is also displaced along the path normal by `wobble · n(s)` (1D fbm over arc length,
+  octaves 2, wavelength ≈ `wobble_scale`, seed `S + 9500 + K_l`), multiplied by a smoothstep weight that is 0 at the
+  first and last point and at every path entry written as a point reference (POI id, `base_<team>`, `points` name)
+  and reaches 1 at `wobble_scale / 2` metres from the nearest such point. Those points therefore stay exactly on the
+  centreline, so flowgraph edge derivation (which reads the waypoints, not the centreline) and node discs are
+  unaffected. `wobble` and `meander` may be combined; `meander` applies afterwards. Echoed into `spec.json` only
+  when set. Natural values: 800 m map `wobble` 15-25 / `wobble_scale` 150-200; 3000 m map `wobble` 40-70 /
+  `wobble_scale` 400-500; use 3-6 waypoints per road. `meander` displaces waypoints (references are not held) and
+  tapers the first/last 5 %, which makes visible hooks at short roads; use it for rivers.
 - **Tributaries.** `join: <line id>` makes the line flow into that line; `join_end: start|end` (default `end`) picks
   which endpoint. Lines are built parents first; the chosen endpoint is moved to the nearest point on the parent's
   final centreline before smoothing, and the meander taper keeps it fixed there. A `join` that names no line, a

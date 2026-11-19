@@ -22,6 +22,8 @@ CHAIKIN_ITERATIONS = 3
 ROUGH_SEGMENT = 20.0      # metres, edge densification for roughened polygons
 MEANDER_STEP = 10.0       # metres, centreline resampling for meander
 MEANDER_WAVELENGTH = 300.0  # metres, default `meander_scale`
+SPLINE_STEP = 10.0         # metres, sampling of the interpolating spline (`smooth`, `wobble`)
+WOBBLE_SEED = 9500         # noise-seed offset of line wobble
 WARP_SEGMENT = 10.0       # metres, outline densification before domain warp
 WIDTH_VAR_STEP = 10.0     # metres, segment length of variable-width lines
 WIDTH_VAR_WAVELENGTH = 250.0
@@ -332,15 +334,66 @@ def region_geometry(reg: Region, seed: int, bounds: BaseGeometry, warnings: Opti
     return fragment_geometry(reg, g, seed, warnings)
 
 
+def catmull_rom(points: Sequence[Tuple[float, float]], step: float = SPLINE_STEP) -> Tuple[np.ndarray, List[int]]:
+    """Centripetal Catmull-Rom spline through every point, sampled about every `step` metres. Returns the
+    (n, 2) samples and, for each input point, the index of the sample that equals it exactly."""
+    p = np.asarray(points, dtype=np.float64)
+    n = len(p)
+    if n < 3:
+        out, _ = _resample(p, step)
+        return out, [0, len(out) - 1][:n]
+    ext = np.vstack([2 * p[0] - p[1], p, 2 * p[-1] - p[-2]])
+    out = [p[:1]]
+    idx = [0]
+    count = 1
+    for i in range(n - 1):
+        p0, p1, p2, p3 = ext[i], ext[i + 1], ext[i + 2], ext[i + 3]
+        t0 = 0.0
+        t1 = t0 + max(np.hypot(*(p1 - p0)), 1e-9) ** 0.5
+        t2 = t1 + max(np.hypot(*(p2 - p1)), 1e-9) ** 0.5
+        t3 = t2 + max(np.hypot(*(p3 - p2)), 1e-9) ** 0.5
+        m = max(2, int(math.ceil(np.hypot(*(p2 - p1)) / step)))
+        t = np.linspace(t1, t2, m + 1)[1:, None]
+        a1 = (t1 - t) / (t1 - t0) * p0 + (t - t0) / (t1 - t0) * p1
+        a2 = (t2 - t) / (t2 - t1) * p1 + (t - t1) / (t2 - t1) * p2
+        a3 = (t3 - t) / (t3 - t2) * p2 + (t - t2) / (t3 - t2) * p3
+        b1 = (t2 - t) / (t2 - t0) * a1 + (t - t0) / (t2 - t0) * a2
+        b2 = (t3 - t) / (t3 - t1) * a2 + (t - t1) / (t3 - t1) * a3
+        c = (t2 - t) / (t2 - t1) * b1 + (t - t1) / (t2 - t1) * b2
+        c[-1] = p2
+        out.append(c)
+        count += m
+        idx.append(count - 1)
+    return np.vstack(out), idx
+
+
+def _wobbled(ln: Line, path: List[Tuple[float, float]], seed: int) -> np.ndarray:
+    """Interpolating spline through `path`; with `wobble > 0` also displaced along the normal by low-frequency
+    noise that is zero (smoothly) at the first/last point and at every point reference (`ln.fixed`)."""
+    pts, idx = catmull_rom(path)
+    if ln.wobble <= 0 or len(pts) < 3:
+        return pts
+    seg = np.hypot(*np.diff(pts, axis=0).T)
+    s = np.concatenate([[0.0], np.cumsum(seg)])
+    anchors = sorted(set([0, len(path) - 1] + [j for j in ln.fixed if 0 <= j < len(path)]))
+    d = np.min(np.abs(s[:, None] - s[[idx[j] for j in anchors]][None, :]), axis=1)
+    w = np.clip(d / (0.5 * ln.wobble_scale), 0.0, 1.0)
+    w = w * w * (3.0 - 2.0 * w)
+    nz = noise.fbm1(s / ln.wobble_scale, seed + WOBBLE_SEED + ln.seed, octaves=2)
+    pts = pts + _normals(pts) * (ln.wobble * nz * w)[:, None]
+    return pts
+
+
 def line_centreline(ln: Line, seed: int, join_to: Optional[LineString] = None) -> np.ndarray:
-    """Chaikin-smoothed path with optional meander (endpoints fixed). With `join_to` (the parent's final centreline)
+    """Chaikin-smoothed path (or, with `smooth`/`wobble`, a spline through the waypoints, optionally wobbled) with
+    optional meander (endpoints fixed). With `join_to` (the parent's final centreline)
     the `join_end` endpoint is first moved to the nearest point on it. Returns an (n, 2) array."""
     path = [tuple(p) for p in ln.path]
     if join_to is not None and not join_to.is_empty:
         k = 0 if ln.join_end == "start" else len(path) - 1
         q = join_to.interpolate(join_to.project(Point(path[k])))
         path[k] = (q.x, q.y)
-    pts = chaikin(path)
+    pts = _wobbled(ln, path, seed) if (ln.smooth or ln.wobble > 0) else chaikin(path)
     if ln.meander > 0:
         pts, s = _resample(pts, MEANDER_STEP)
         total = s[-1]

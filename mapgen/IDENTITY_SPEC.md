@@ -161,6 +161,7 @@ def feature_seed(feature_id: str) -> int:
 | region warp, x / y | `S + 3000 + 2·key(r) + 1013·o` / `... + 7919` | world x, y | `geometry.py:330` → `222` |
 | region fragmentation | `S + 6000 + key(r) + 1013·o` | world x, y | `geometry.py:302` |
 | line meander | `S + K_l + 1013·o` | arc length | `geometry.py:348` |
+| line wobble (`wobble`) | `S + 9500 + K_l + 1013·o` | arc length | `geometry.py` `_wobbled` |
 | line width variation | `S + 5000 + K_l + 1013·o` | arc length | `geometry.py:360` |
 | scatter field | `S + 8000 + 97·K_s + 1013·o` | world x, y | `geometry.py:511, 537` |
 | scatter clump field | `S + 8000 + 97·K_s + 31 + 1013·o` | world x, y | `geometry.py:539` |
@@ -279,7 +280,7 @@ def _feature_seed_of(v: "_V", d: Dict[str, Any], path: str, fid: Optional[str]) 
   (+ the shape's required keys). `rid = _ident(v, r, p)`; `Region(index=i, type=..., shape=shape,
   seed=_feature_seed_of(v, r, p, rid))`; `reg.id = rid or ""`.
 - Lines: allowed `["type", "path", "width", "meander", "meander_scale", "width_var", "id", "seed", "label",
-  "label_at", "join", "join_end"]`, required `["id", "type", "path"]`; `lid = _ident(...)`,
+  "label_at", "join", "join_end", "wobble", "wobble_scale", "smooth"]`, required `["id", "type", "path"]`; `lid = _ident(...)`,
   `Line(..., id=lid or "", seed=_feature_seed_of(v, ln, p, lid))`.
 - Crossings: allowed `["type", "at", "r", "path", "width", "id"]`; required
   `["id", "type"]`; `id=_ident(v, c, p) or ""` in both constructors.

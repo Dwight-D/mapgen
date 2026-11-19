@@ -36,6 +36,17 @@ def _save_u8(arr: np.ndarray, path: str, mode: str = "L") -> None:
     Image.fromarray(arr, mode).save(path)
 
 
+def _shaping(ln) -> dict:
+    """Echo of the optional road shaping keys; present only when set, so unshaped specs export unchanged."""
+    out = {}
+    if ln.wobble > 0:
+        out["wobble"] = ln.wobble
+        out["wobble_scale"] = ln.wobble_scale
+    if ln.smooth:
+        out["smooth"] = True
+    return out
+
+
 def _smoothstep(e0, e1, x):
     t = np.clip((x - e0) / (e1 - e0), 0.0, 1.0)
     return t * t * (3.0 - 2.0 * t)
@@ -262,10 +273,11 @@ def write_resolved(spec: MapSpec, out: str) -> List[str]:
                     "detail_scale": t.detail_scale},
         "teams": [{"id": tm.id, "name": tm.name, "color": tm.color, "base": pt(tm.base)} for tm in spec.teams.values()],
         "regions": regions,
-        "lines": [{"id": ln.id, "seed": ln.seed, "type": ln.type, "path": [pt(p) for p in ln.path], "width": ln.width,
-                   "meander": ln.meander, "meander_scale": ln.meander_scale, "width_var": ln.width_var,
-                   "join": ln.join, "join_end": ln.join_end if ln.join else None, "label": ln.label,
-                   "label_at": pt(ln.label_at)} for i, ln in enumerate(spec.lines)],
+        "lines": [dict({"id": ln.id, "seed": ln.seed, "type": ln.type, "path": [pt(p) for p in ln.path],
+                        "width": ln.width, "meander": ln.meander, "meander_scale": ln.meander_scale,
+                        "width_var": ln.width_var, "join": ln.join, "join_end": ln.join_end if ln.join else None,
+                        "label": ln.label, "label_at": pt(ln.label_at)},
+                       **_shaping(ln)) for i, ln in enumerate(spec.lines)],
         "crossings": [{"id": c.id, "type": c.type, "auto": c.auto,
                        "at": pt(c.at), "r": None if c.path is not None else c.r,
                        "path": [pt(p) for p in c.path] if c.path is not None else None,

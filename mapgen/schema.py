@@ -261,6 +261,10 @@ class Line:
     join_end: str = "end"                # which end of this line is moved onto the parent: start | end
     label_at: Optional[Point] = None
     seed: int = 0                        # feature seed: noise offset of this line
+    wobble: float = 0.0                  # road/trail shaping amplitude, metres (0 = off)
+    wobble_scale: float = 200.0          # wobble wavelength, metres
+    smooth: bool = False                 # interpolating spline through the waypoints instead of Chaikin
+    fixed: List[int] = field(default_factory=list)  # path indices that are point references (kept exactly under wobble)
 
 
 @dataclass
@@ -766,7 +770,8 @@ def _validate(raw: Any, types: TypeTable, palette: Palette) -> Tuple[Optional[Ma
         for i, ln in enumerate(lraw):
             p = "lines[%d]" % i
             if not v.keys(ln, p, ["type", "path", "width", "meander", "meander_scale", "width_var", "id", "seed",
-                                  "label", "label_at", "join", "join_end"], ["id", "type", "path"]):
+                                  "label", "label_at", "join", "join_end", "wobble", "wobble_scale", "smooth"],
+                         ["id", "type", "path"]):
                 continue
             lid = _ident(v, ln, p)
             ltype = v.type_name(ln, p, types.lines, "line")
@@ -776,6 +781,13 @@ def _validate(raw: Any, types: TypeTable, palette: Palette) -> Tuple[Optional[Ma
             meander = v.num(ln, "meander", p, 0.0, nonneg=True)
             width_var = v.num(ln, "width_var", p, 0.0, lo=0.0, hi=1.0)
             meander_scale = v.num(ln, "meander_scale", p, 300.0, positive=True)
+            wobble = v.num(ln, "wobble", p, 0.0, nonneg=True)
+            wobble_scale = v.num(ln, "wobble_scale", p, 200.0, positive=True)
+            smooth = ln.get("smooth", False)
+            if not isinstance(smooth, bool):
+                v.err(p + ".smooth", "expected true or false, got %r" % (smooth,))
+                smooth = False
+            fixed = [j for j, tok in enumerate(ln["path"]) if isinstance(tok, str)]                 if isinstance(ln.get("path"), list) else []
             join = v.text(ln, "join", p)
             join_end = ln.get("join_end", "end")
             if join_end not in ("start", "end"):
@@ -788,7 +800,8 @@ def _validate(raw: Any, types: TypeTable, palette: Palette) -> Tuple[Optional[Ma
                 lines.append(Line(index=i, type=ltype, path=path, width=width, meander=meander,
                                   width_var=width_var, id=lid or "", label=v.text(ln, "label", p),
                                   meander_scale=meander_scale, join=join, join_end=join_end, label_at=label_at,
-                                  seed=_feature_seed_of(v, ln, p, lid)))
+                                  seed=_feature_seed_of(v, ln, p, lid), wobble=wobble, wobble_scale=wobble_scale,
+                                  smooth=smooth, fixed=fixed))
     _check_joins(lines, v)
 
     # crossings
