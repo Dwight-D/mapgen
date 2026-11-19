@@ -63,7 +63,7 @@ def cmd_flowgraph_check(args) -> int:
             return 1
         if g is None:
             g = obj
-    res = flowgraph_check.check(g, obj)
+    res = flowgraph_check.check(g, obj, terrain=args.terrain)
     for line in res.lines(args.strict):
         print(line)
     return 1 if res.failed(args.strict) else 0
@@ -345,6 +345,8 @@ def main(argv: Optional[List[str]] = None) -> int:
     fgc.add_argument("graph")
     fgc.add_argument("spec")
     fgc.add_argument("--strict", action="store_true", help="also fail on extra edges and extra nodes")
+    fgc.add_argument("--terrain", action="store_true",
+                     help="also check the walkable terrain connects exactly the graph's nodes (terrain-missing/-extra edges)")
     fgc.set_defaults(func=cmd_flowgraph_check)
 
     t = sub.add_parser("types", help="print the type table")

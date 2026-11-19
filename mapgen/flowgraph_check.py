@@ -81,17 +81,26 @@ class CheckResult:
     missing_edges: List[str] = field(default_factory=list)
     extra_edges: List[str] = field(default_factory=list)
     extra_nodes: List[str] = field(default_factory=list)
+    terrain: bool = False                      # --terrain was requested
+    terrain_missing: List[str] = field(default_factory=list)
+    terrain_extra: List[str] = field(default_factory=list)
+    notes: List[str] = field(default_factory=list)
 
     def failed(self, strict: bool) -> bool:
-        return bool(self.missing_nodes or self.missing_edges or (strict and (self.extra_edges or self.extra_nodes)))
+        return bool(self.missing_nodes or self.missing_edges or (strict and (self.extra_edges or self.extra_nodes))
+                    or self.terrain_missing or self.terrain_extra)
 
     def lines(self, strict: bool) -> List[str]:
         out = list(self.missing_nodes) + list(self.missing_edges)
         if strict:
             out += self.extra_edges + self.extra_nodes
+        out += self.terrain_missing + self.terrain_extra + self.notes
         summary = "%d missing node(s), %d missing edge(s)" % (len(self.missing_nodes), len(self.missing_edges))
         if strict:
             summary += ", %d extra edge(s), %d extra node(s)" % (len(self.extra_edges), len(self.extra_nodes))
+        if self.terrain:
+            summary += ", %d terrain-missing edge(s), %d terrain-extra edge(s)" % (
+                len(self.terrain_missing), len(self.terrain_extra))
         out.append("%s: %s" % ("FAIL" if self.failed(strict) else "OK", summary))
         return out
 
@@ -100,7 +109,7 @@ def _label(n) -> str:
     return "%s: %s" % (n.id, n.name) if n.name else n.id
 
 
-def check(g: Flowgraph, spec: MapSpec) -> CheckResult:
+def check(g: Flowgraph, spec: MapSpec, terrain: bool = False) -> CheckResult:
     feats = spec_features(spec)
     res = CheckResult()
     for n in g.nodes:
@@ -122,6 +131,11 @@ def check(g: Flowgraph, spec: MapSpec) -> CheckResult:
         if f.poi_type is None or f.poi_type == "landmark" or fid in bound:
             continue
         res.extra_nodes.append("extra node %s (%s)" % (fid, f.poi_type))
+    if terrain:
+        from .flowgraph_terrain import terrain_findings
+
+        res.terrain = True
+        res.terrain_missing, res.terrain_extra, res.notes = terrain_findings(g, spec)
     return res
 
 
