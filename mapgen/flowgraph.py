@@ -1,7 +1,10 @@
 """Flowgraph: load and validate a `*.flow.yaml` topology file (design: mapgen/FLOWGRAPH_SPEC.md)."""
 from __future__ import annotations
 
+import json
+import os
 import re
+import tempfile
 from dataclasses import dataclass, field
 from typing import Any, Dict, List, Optional, Tuple
 
@@ -242,3 +245,146 @@ def load_flowgraph(path: str) -> Flowgraph:
     if errors:
         raise SpecError(errors)
     return g
+
+
+def load_flowgraph_dict(raw: Any) -> Flowgraph:
+    """Validate an already parsed graph document (the YAML mapping form). Raises SpecError listing every problem found."""
+    g, errors = _validate(raw)
+    if errors:
+        raise SpecError(errors)
+    return g
+
+
+# ---- canonical emitter -------------------------------------------------------------------------------------------
+# The canonical `.flow.yaml` text (what `flowgraph edit` saves; comments are not preserved):
+#   format_version, name, brief (block scalar), nodes (one flow mapping per node, keys in NODE_KEYS order, ids and
+#   kinds padded into columns), edges (`- A - B`, or `- { link: A - B, name: ..., desc: ... }` when named/described).
+# Nodes and edges keep their list order. A bind equal to its default is omitted. Output uses LF endings.
+
+_PLAIN = re.compile(r"^[A-Za-z0-9_][A-Za-z0-9_ .'/()+-]*$")
+
+
+def _scalar(s: str) -> str:
+    """A YAML flow-context scalar for a string: plain when that reads back as the same string, else double-quoted."""
+    if _PLAIN.match(s) and s == s.strip() and yaml.safe_load(s) == s and not s.endswith(":") and " - " not in s:
+        return s
+    return json.dumps(s, ensure_ascii=False)
+
+
+def _default_bind(n: Node) -> str:
+    return "base_%s" % n.team if n.kind == "spawn" and n.team else n.id.lower()
+
+
+def graph_to_dict(g: Flowgraph) -> Dict[str, Any]:
+    """JSON-friendly form of a graph (the editor's wire format): nodes and edges as ordered lists; default binds omitted."""
+    return {
+        "format_version": FORMAT_VERSIONS[-1], "name": g.name, "brief": g.brief,
+        "nodes": [{"id": n.id, "kind": n.kind, "team": n.team or "", "name": n.name, "desc": n.desc,
+                   "bind": "" if n.bind == _default_bind(n) else n.bind, "place": n.place or ""} for n in g.nodes],
+        "edges": [{"a": e.a, "b": e.b, "name": e.name, "desc": e.desc} for e in g.edges],
+    }
+
+
+def dict_to_raw(d: Any) -> Dict[str, Any]:
+    """Wire format (`graph_to_dict` shape) -> the parsed-YAML shape `load_flowgraph_dict` validates.
+    Empty optional fields are dropped. Raises SpecError for a payload that is not that shape or repeats a node id."""
+    errs: List[str] = []
+    if not isinstance(d, dict) or not isinstance(d.get("nodes"), list) or not isinstance(d.get("edges"), list):
+        raise SpecError(["graph: expected an object with node and edge lists"])
+    nodes: Dict[str, Any] = {}
+    for i, n in enumerate(d["nodes"]):
+        if not isinstance(n, dict) or not isinstance(n.get("id"), str):
+            errs.append("nodes[%d]: expected an object with a string id" % i)
+            continue
+        if n["id"] in nodes:
+            errs.append("nodes.%s: duplicate node id" % n["id"])
+            continue
+        props: Dict[str, Any] = {}
+        for k in NODE_KEYS:
+            v = n.get(k)
+            if v not in (None, ""):
+                props[k] = v
+        for k in n:
+            if k != "id" and k not in NODE_KEYS:
+                props[k] = n[k]  # surfaces as an unknown-key error
+        nodes[n["id"]] = props
+    edges: List[Any] = []
+    for i, e in enumerate(d["edges"]):
+        if not isinstance(e, dict) or not isinstance(e.get("a"), str) or not isinstance(e.get("b"), str):
+            errs.append("edges[%d]: expected an object with string ends a and b" % i)
+            continue
+        item: Dict[str, Any] = {"link": "%s - %s" % (e["a"], e["b"])}
+        for k in ("name", "desc"):
+            if e.get(k) not in (None, ""):
+                item[k] = e[k]
+        edges.append(item)
+    if errs:
+        raise SpecError(errs)
+    raw: Dict[str, Any] = {"format_version": d.get("format_version", FORMAT_VERSIONS[-1]), "nodes": nodes, "edges": edges}
+    if "name" in d:
+        raw["name"] = d["name"]
+    if d.get("brief") not in (None, ""):
+        raw["brief"] = d["brief"]
+    return raw
+
+
+def load_flowgraph_wire(d: Any) -> Flowgraph:
+    """Validate the editor's wire format with the same rules as a file. Raises SpecError listing every problem found."""
+    return load_flowgraph_dict(dict_to_raw(d))
+
+
+def canonical_text(g: Flowgraph) -> str:
+    """The canonical `.flow.yaml` text of a (valid) graph."""
+    out: List[str] = ["format_version: %d" % FORMAT_VERSIONS[-1], "name: %s" % _scalar(g.name)]
+    brief_lines = g.brief.split("\n")
+    if g.brief and all(l == l.rstrip() and not l.startswith((" ", "\t")) and "\r" not in l and "\t" not in l for l in brief_lines) \
+            and yaml.safe_load("x: |\n" + "\n".join("  " + l if l else "" for l in brief_lines) + "\n")["x"].strip() == g.brief:
+        out.append("brief: |")
+        out.extend("  " + l if l else "" for l in brief_lines)
+    elif g.brief:
+        out.append("brief: %s" % json.dumps(g.brief, ensure_ascii=False))
+    out.append("")
+    out.append("nodes:")
+    idw = max(len(n.id) for n in g.nodes) + 1  # width of "<id>:"
+    kw = len("kind: ") + max(len(n.kind) for n in g.nodes) + 1  # width of "kind: <kind>,"
+    for n in g.nodes:
+        fields = []
+        if n.team:
+            fields.append("team: %s" % _scalar(n.team))
+        if n.name:
+            fields.append("name: %s" % _scalar(n.name))
+        if n.desc:
+            fields.append("desc: %s" % _scalar(n.desc))
+        if n.bind != _default_bind(n):
+            fields.append("bind: %s" % _scalar(n.bind))
+        if n.place:
+            fields.append("place: %s" % n.place)
+        kind = "kind: %s" % n.kind
+        body = (kind + ",").ljust(kw) + " " + ", ".join(fields) if fields else kind
+        out.append("  %s { %s }" % ((n.id + ":").ljust(idw + 1), body))
+    out.append("")
+    out.append("edges:")
+    for e in g.edges:
+        link = "%s - %s" % (e.a, e.b)
+        if e.name or e.desc:
+            extra = ["link: %s" % link] + (["name: %s" % _scalar(e.name)] if e.name else []) + (["desc: %s" % _scalar(e.desc)] if e.desc else [])
+            out.append("  - { %s }" % ", ".join(extra))
+        else:
+            out.append("  - %s" % link)
+    return "\n".join(out) + "\n"
+
+
+def save_canonical(g: Flowgraph, path: str) -> int:
+    """Write `canonical_text(g)` to `path` atomically (temp file in the same folder, then rename). Returns bytes written."""
+    data = canonical_text(g).encode("utf-8")
+    d = os.path.dirname(os.path.abspath(path))
+    fd, tmp = tempfile.mkstemp(prefix=".flowgraph-", suffix=".tmp", dir=d)
+    try:
+        with os.fdopen(fd, "wb") as f:
+            f.write(data)
+        os.replace(tmp, path)
+    except BaseException:
+        if os.path.exists(tmp):
+            os.remove(tmp)
+        raise
+    return len(data)

@@ -30,6 +30,7 @@ python -m mapgen diff     out/a/thornwald out/b/thornwald      # what changed be
 python -m mapgen flowgraph validate flowgraphs/town_square.flow.yaml   # validate a topology graph (see mapgen/FLOWGRAPH_SPEC.md)
 python -m mapgen flowgraph scaffold <graph> [--out <file> [--force]] [--size X Y]   # draft spec text from a graph (stdout by default; deterministic; node positions from a stress layout that balances edge lengths and honours the optional node key `place`: west/east/north/south/center/north-west/...)
 python -m mapgen flowgraph preview <graph> [--out <html>] [--force]   # self-contained HTML/SVG graph view (default out/flowgraph_<name>.html, overwritten freely; --out refuses an existing file without --force)
+python -m mapgen flowgraph edit <graph> [--new] [--port N] [--no-open]   # browser editor on a local 127.0.0.1-only server: add/edit/delete nodes and edges, drag, undo/redo, Re-layout (Python layout incl. place hints), live validation; Save writes the canonical .flow.yaml (comments not preserved; refused while invalid); --new starts a two-spawn template written on first Save
 python -m mapgen flowgraph check <graph> <spec> [--strict]       # spec vs graph: missing nodes/edges; --strict adds extras (no files)
 python -m mapgen flowgraph check <graph> <spec> --terrain [--strict]   # also: walkable terrain must connect exactly the graph's nodes (terrain-missing / terrain-extra edges; ~7 s on town_square)
 python -m mapgen types                                         # print the type table (types.yaml)

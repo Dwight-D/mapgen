@@ -108,6 +108,7 @@ An edge Xâ€“Y is **present** when a traversable line connects X and Y directly.
 flowgraph scaffold <graph> [--out <path> [--force]] [--size X Y]   # draft spec text -> stdout or file
 flowgraph check    <graph> <spec> [--strict] [--terrain]  # validate a spec against the graph (§12 for --terrain)
 flowgraph preview  <graph> [--out <html>] [--force]      # static HTML/SVG preview
+flowgraph edit     <graph> | --new <path> [--port N] [--no-open]   # browser editor (14)
 ```
 
 ### `scaffold`
@@ -174,9 +175,9 @@ fonts fetched) drawing the graph, read-only:
 - Output is deterministic (LF endings). Default `--out` is `out/flowgraph_<name>.html` (git-ignored), overwritten
   without `--force`; an explicit `--out` that exists is refused without `--force`. Exit 1 on a load error or a refused
   overwrite.
-Chosen as HTML so the later editing wave (click to add nodes/edges, write back the `.flow.yaml`) can extend it
+Chosen as HTML so the editor (14) could extend it
 without a separate GUI stack.
-Chosen as HTML so the later editing wave (click to add nodes/edges, write back the `.flow.yaml`) can extend it
+Chosen as HTML so the editor (14) could extend it
 without a separate GUI stack.
 
 ## 6. Module layout & tests
@@ -296,15 +297,58 @@ the legend shows "impassable" with the hatch. The export region records carry `i
 it. Specs without the key produce byte-identical output (baselines unchanged). Documented in `MAPGEN_SPEC.md` Â§4.2,
 `README.md` and `EXPORT_FORMAT.md` if the export gains the field.
 
-## 14. Editor â€” `flowgraph edit`
+## 14. Editor - `flowgraph edit` (implemented, GDU-36)
 
-`python -m mapgen flowgraph edit <graph> [--port N]` serves the preview page from a local stdlib HTTP server
-(127.0.0.1 only) and lets the author edit the graph in the browser: drag nodes (positions are layout state only,
-not saved), add a node (click empty space, choose kind, id, name, desc, place, team), add an edge (select two
-nodes), delete, edit name/desc/kind/place, undo/redo. Every change is validated by the same loader (Â§2); an invalid
-edit is refused with the error shown and never written. Save writes the `.flow.yaml` in canonical form (fixed key
-order, comments not preserved; the format is small) and is the only write. Without the server, `preview` stays the
-read-only static page.
+```
+flowgraph edit <graph> [--port N] [--no-open]      # edit an existing graph
+flowgraph edit --new <path> [--port N] [--no-open] # start from the template; <path> is created on first Save
+```
+
+Modules: `mapgen/flowgraph_editor.py` (server, API), `mapgen/flowgraph_editor_page.py` (HTML + CSS + vanilla JS, inline SVG,
+no external URLs), canonical emitter and dict validation in `mapgen/flowgraph.py`.
+
+**Server.** stdlib `ThreadingHTTPServer` bound to 127.0.0.1 only (default port: any free one; printed on start). Every
+request needs a `Host` of `127.0.0.1:<port>` or `localhost:<port>`; every POST also needs the per-run random token
+(header `X-Token`, embedded in the served page) and, when an `Origin` header is present, a loopback origin. Anything else is
+403. Responses carry a CSP that only allows inline script/style and same-origin fetches.
+
+**API** (JSON; `graph` is the wire format `graph_to_dict`: ordered `nodes` list with id, kind, team, name, desc, bind, place,
+and `edges` list with a, b, name, desc; empty string = unset; a bind equal to its default is sent empty):
+
+| endpoint | result |
+|---|---|
+| `POST /api/validate {graph}` | `{ok, errors}`: the loader's rules (§2) run on the in-memory graph (`load_flowgraph_wire` -> `load_flowgraph_dict`), same messages as `flowgraph validate` |
+| `POST /api/layout {graph}` | `{ok, w, h, pos}`: the Python layout (§11, place hints included) of a valid graph; 422 + errors when invalid |
+| `POST /api/save {graph}` | revalidates, then writes the canonical file atomically (temp file in the same folder, `os.replace`); 422 + errors and no write when invalid |
+
+**UI.** Tools: Select (click a node or edge to edit its fields in the side panel: node id, kind, team (spawn only), name,
+desc, place; edge name, desc; graph name and brief when nothing is selected; drag nodes), Add node (click empty canvas, fill
+the form: id, kind, team, name, desc, place), Add edge (click node A then node B; or, in Select with one node selected,
+Shift-click a second), Delete (button or Del key; deleting a node cascades its edges), Undo/Redo (Ctrl+Z / Ctrl+Y),
+Re-layout (calls `/api/layout`), Save. Every edit is sent to `/api/validate`; the errors list is shown and Save is disabled
+while invalid. Renaming a node id rewrites its edges. Positions (drag, layout) are session state and never saved. Next to
+Save the page states that saving rewrites the file in canonical form and drops comments. Marker shapes and fills are the
+preview's (shape + lightness, never hue); a selection is shown by a thicker outline and a dotted halo.
+
+**Canonical form** (`canonical_text`; the only thing Save writes; LF endings, UTF-8): `format_version`, `name`, `brief`
+(block scalar), `nodes` in list order with one flow mapping per node (`  <id>: { kind: <k>, team:, name:, desc:, bind:,
+place: }`, keys in that order, empty ones omitted, ids and kinds padded into columns, default bind omitted), `edges` in list
+order (`- A - B`, or `- { link: A - B, name:, desc: }` when named). Strings are plain scalars when YAML reads them back
+unchanged, else double-quoted. Comments and the blank-line layout of the input are not preserved. Round trip is tested:
+load `town_square`, canonical-save to a copy, load again -> equal graphs; the canonical text is a fixed point.
+
+**`--new`.** Refused when the path exists. The start graph is `template_graph`: name from the file stem, spawns `A` and `B`
+(teams A, B) joined by one edge. Nothing is written until Save. The tests build `town_square` from this template through
+the API (all kinds, place hints and named edges are reachable).
+
+**Verification.** `tests/test_flowgraph_editor.py` drives the HTTP API; `tests/browser/editor_drive.mjs` (run by
+`tests/browser/run_drive.py` and a pytest case that skips without Node >= 22 and Edge/Chrome) drives the page in headless
+Edge over the DevTools protocol with real mouse and key events: add node via form, add edges with the edge tool and
+Shift-click, panel edits, id rename, drag, edge select + Delete, undo/redo, node delete cascade, Re-layout, Save. Select
+dropdowns are set by script (value + change event), not by mouse.
+
+Limits: no live reload when the file is edited elsewhere; `bind` has no panel field (kept as loaded, default omitted); the
+editor puts labels below markers without the preview's collision search.
 
 ## 15. Next slices (2026-11-19)
 

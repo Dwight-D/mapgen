@@ -104,6 +104,32 @@ def cmd_flowgraph_scaffold(args) -> int:
     return 0
 
 
+def cmd_flowgraph_edit(args) -> int:
+    import os
+
+    from . import flowgraph, flowgraph_editor
+
+    if args.new:
+        if os.path.exists(args.graph):
+            print("error: %s exists (--new starts a graph that does not exist yet)" % args.graph)
+            return 1
+        if not os.path.isdir(os.path.dirname(os.path.abspath(args.graph))):
+            print("error: folder does not exist: %s" % os.path.dirname(os.path.abspath(args.graph)))
+            return 1
+    else:
+        try:
+            flowgraph.load_flowgraph(args.graph)
+        except FileNotFoundError:
+            print("error: file not found: %s (use --new to start a graph)" % args.graph)
+            return 1
+        except schema.SpecError as e:
+            print("%d error(s) in %s:" % (len(e.errors), args.graph))
+            for line in e.errors:
+                print("  " + line)
+            return 1
+    return flowgraph_editor.serve(args.graph, args.port, not args.no_open)
+
+
 def cmd_flowgraph_preview(args) -> int:
     import os
 
@@ -341,6 +367,12 @@ def main(argv: Optional[List[str]] = None) -> int:
     fgp.add_argument("--out", help="HTML file to write (default out/flowgraph_<name>.html, overwritten freely)")
     fgp.add_argument("--force", action="store_true", help="overwrite an existing --out file")
     fgp.set_defaults(func=cmd_flowgraph_preview)
+    fge = fgs.add_parser("edit", help="edit a graph in the browser (local server on 127.0.0.1; Save writes canonical YAML)")
+    fge.add_argument("graph")
+    fge.add_argument("--new", action="store_true", help="start from a minimal two-spawn graph; <graph> is created on first Save")
+    fge.add_argument("--port", type=int, default=0, help="port on 127.0.0.1 (default: any free port)")
+    fge.add_argument("--no-open", action="store_true", help="do not open a browser")
+    fge.set_defaults(func=cmd_flowgraph_edit)
     fgc = fgs.add_parser("check", help="check a spec against a graph: missing nodes/edges (--strict: extras too)")
     fgc.add_argument("graph")
     fgc.add_argument("spec")
