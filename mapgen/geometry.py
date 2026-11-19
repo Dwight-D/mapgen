@@ -519,6 +519,8 @@ def scatter_geometry(sc: Scatter, spec: MapSpec, bounds: BaseGeometry, blockers:
     cols, rows = int(math.ceil(spec.size[0] / cs)), int(math.ceil(spec.size[1] / cs))
     grid = raster.Grid(spec.size[0], spec.size[1], cols, rows)
     a = sc.avoid
+    if sc.impassable:   # a wall of cells must never close a road: keep clear of lines, crossings and POIs by two analysis cells at least
+        a = max(a, 2.0 * spec.analysis.cell)
     sd = spec.seed + 8000 + 97 * sc.seed
     blocked = [blockers["excluded_on"](sc.on) if sc.on else blockers["excluded"]]
     near = []
@@ -611,6 +613,7 @@ def build_geometries(spec: MapSpec) -> MapGeometry:
         for sc in spec.scatter:
             reg = Region(index=-1, type=sc.type, shape="scatter", id=sc.id,
                          height=types.regions[sc.type].get("height"), seed=sc.seed, scatter=sc)
+            reg.impassable = sc.impassable
             (post if sc.on else pre).append((reg, scatter_geometry(sc, spec, bounds, blockers)))
         spec.regions = [r for r, _ in pre] + spec.regions + [r for r, _ in post]
         regions = [g for _, g in pre] + regions + [g for _, g in post]

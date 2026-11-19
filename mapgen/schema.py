@@ -275,6 +275,7 @@ class Scatter:
     on: List[str] = field(default_factory=list)   # explicit region types the scatter may also appear on
     id: str = ""
     seed: int = 0                        # feature seed: noise offset of this scatter entry
+    impassable: bool = False             # the generated region gets cost infinity (like a region's `impassable`)
 
 
 @dataclass
@@ -862,7 +863,7 @@ def _validate(raw: Any, types: TypeTable, palette: Palette) -> Tuple[Optional[Ma
             sraw = []
         for i, sc in enumerate(sraw):
             p = "scatter[%d]" % i
-            if not v.keys(sc, p, ["id", "seed", "type", "coverage", "scale", "clump", "avoid", "within", "on"],
+            if not v.keys(sc, p, ["id", "seed", "type", "coverage", "scale", "clump", "avoid", "within", "on", "impassable"],
                           ["id", "type", "coverage"]):
                 continue
             sid = _ident(v, sc, p)
@@ -879,12 +880,18 @@ def _validate(raw: Any, types: TypeTable, palette: Palette) -> Tuple[Optional[Ma
                             v.err("%s.on[%d]" % (p, k), "unknown region type %r (known: %s)" % (t_on, ", ".join(types.regions)))
                         else:
                             on.append(t_on)
+            imp = False
+            if "impassable" in sc:
+                if not isinstance(sc["impassable"], bool):
+                    v.err(p + ".impassable", "expected true or false, got %r" % (sc["impassable"],))
+                else:
+                    imp = sc["impassable"]
             if stype is not None and (within is not None or "within" not in sc):
                 scatter.append(Scatter(index=i, type=stype, coverage=coverage,
                                        scale=v.num(sc, "scale", p, 300.0, positive=True),
                                        clump=v.num(sc, "clump", p, 0.3, lo=0.0, hi=1.0),
                                        avoid=v.num(sc, "avoid", p, 25.0, nonneg=True), within=within, on=on,
-                                       id=sid or "", seed=_feature_seed_of(v, sc, p, sid)))
+                                       impassable=imp, id=sid or "", seed=_feature_seed_of(v, sc, p, sid)))
 
     # one id namespace over bases, points, regions, lines, scatter entries, crossings and POIs
     first: Dict[str, str] = {}

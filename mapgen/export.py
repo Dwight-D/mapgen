@@ -242,6 +242,8 @@ def write_resolved(spec: MapSpec, out: str) -> List[str]:
             sc = r.scatter
             e["scatter_params"] = {"coverage": sc.coverage, "scale": sc.scale, "clump": sc.clump, "avoid": sc.avoid,
                                    "within": [pt(p) for p in sc.within] if sc.within else None, "on": list(sc.on)}
+            if sc.impassable:
+                e["scatter_params"]["impassable"] = True
         else:
             e.update({"at": pt(r.at), "r": r.r if r.shape == "blob" else None,
                       "rough": r.rough, "squash": r.squash if r.shape == "blob" else None,

@@ -289,6 +289,7 @@ scatter:
 | `clump` | 0–1 (default 0.3): 0 = many small patches, 1 = few large merged ones |
 | `avoid` | metres of clearance from every line, crossing, base and POI footprint (default 25) |
 | `within` | optional polygon (≥ 3 points) restricting where the scatter may appear |
+| `impassable` | optional boolean, default `false` (other values are errors): the entry's patches are impassable exactly as a region with `impassable: true` (§4.1): cost infinity, strike-through hatch, `"impassable": true` on its `regions.json` record, in `spec.resolved.json` on the region and in `scatter_params` (absent otherwise), cells in `masks/impassable.png`. Because a wall of cells must never close a road, an impassable entry keeps at least `2 · analysis.cell` metres (default 20) of clearance from every line area, crossing and POI/base footprint: its effective `avoid` is `max(avoid, 2 · analysis.cell)`. Line areas already span the half-width of the road, so the clearance is measured from the road's edge |
 | `on` | optional list of region types: the scatter may also appear on explicit regions of those types (below) |
 
 Eligible area: inside the map and `within`, outside every `water`, `ridge` and `flatten` region (lakes, mountains,

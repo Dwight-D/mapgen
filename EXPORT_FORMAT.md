@@ -138,7 +138,7 @@ regions are on top of earlier ones where they overlap).
   entry ids. They are one multi-part region each and have no label.
 - A scatter patch depends on its scatter entry and on the features near it only (MAPGEN_SPEC.md §4.6): after an edit
   to a feature, patches away from it keep identical coordinates; their index in `polygons` can shift.
-- `impassable`: `true` on regions authored with `impassable: true` (cost infinity for every cell of the region,
+- `impassable`: `true` on regions authored with `impassable: true` and on the patches of scatter entries with `impassable: true` (cost infinity for every cell of the region,
   whatever the type; also set in `masks/impassable.png`). The key is **absent** on all other regions; treat a missing
   key as `false`. Added without a version bump: it is an optional key an importer may ignore.
 - `height`: metres for `hills` / `mountain` / `plateau` (the authored relief), else `null`.
