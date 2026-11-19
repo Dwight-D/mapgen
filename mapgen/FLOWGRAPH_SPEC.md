@@ -4,7 +4,7 @@ A **flowgraph** is a small hand-written YAML file describing a map's *topology*:
 which of them are directly traversable from which. It carries no geometry. A mapgen spec (the
 topography: regions, lines, positions) is drafted from it and later checked against it.
 
-Status: slices 1 (loader, validation, `flowgraph validate`) and 2 (edge derivation, `flowgraph check`) implemented; slices 3-6 are design. Implementation slices are backlog items in the `mapgen` workstream
+Status: slices 1 (loader, validation, `flowgraph validate`), 2 (edge derivation, `flowgraph check`) and 3 (`flowgraph scaffold`, layout) implemented; slices 4-6 are design. Implementation slices are backlog items in the `mapgen` workstream
 (GDU-31 … GDU-36 = slices 1–6, §9). Everything below is the contract those items implement.
 
 ## 1. Concepts
@@ -105,7 +105,7 @@ An edge X–Y is **present** when a traversable line connects X and Y directly.
 ## 5. Commands — `python -m mapgen flowgraph <sub>`
 
 ```
-flowgraph scaffold <graph> [--out <path>] [--size X Y]   # draft spec text -> stdout or file
+flowgraph scaffold <graph> [--out <path> [--force]] [--size X Y]   # draft spec text -> stdout or file
 flowgraph check    <graph> <spec> [--strict]             # validate a spec against the graph
 flowgraph preview  <graph> [--out <html>]                # wave 2: static HTML/SVG preview
 ```
@@ -123,6 +123,14 @@ never round-trips YAML). Contents:
   remainder by a seeded `networkx` spring layout, seed fixed, rounded to 10 m).
 - The scaffold **must pass** `mapgen validate` and `flowgraph check --strict` against its own graph
   (tested).
+- Details: the spawn of the first team sits on the left margin and of the second team on the right, at the layout's
+  mid height; margin is 10% of the shorter side; coincident nodes are nudged 10 m steps apart. Team colours are
+  the palette defaults (blue `#2f6fdf`, amber `#f2a81d`, purple `#6a2cc0`) in team order. Line ids are
+  `road_<a>_<b>` (node ids lowercased; `road_<n>` if that is invalid or taken), seeds are edge indices.
+  Name and desc become `label`/`name` values (JSON-quoted) and comments. `--out` refuses an existing file unless
+  `--force`; the file is written with LF endings. Exit 1 on a graph load error, a node that cannot become a valid
+  spec feature (`bind` not matching `[a-z][a-z0-9_]*`, a spawn `bind` other than `base_<team>`, a team id outside
+  `[A-Za-z0-9_]+`, more than 3 teams), or an existing `--out`.
 
 ### `check`
 Loads graph and spec (errors → exit 1, same format). Reports:

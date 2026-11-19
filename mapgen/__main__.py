@@ -69,6 +69,41 @@ def cmd_flowgraph_check(args) -> int:
     return 1 if res.failed(args.strict) else 0
 
 
+def cmd_flowgraph_scaffold(args) -> int:
+    import os
+
+    from . import flowgraph, flowgraph_scaffold
+
+    try:
+        g = flowgraph.load_flowgraph(args.graph)
+    except FileNotFoundError:
+        print("error: file not found: %s" % args.graph)
+        return 1
+    except schema.SpecError as e:
+        print("%d error(s) in %s:" % (len(e.errors), args.graph))
+        for line in e.errors:
+            print("  " + line)
+        return 1
+    size = tuple(args.size) if args.size else flowgraph_scaffold.DEFAULT_SIZE
+    try:
+        text = flowgraph_scaffold.scaffold(g, size)
+    except flowgraph_scaffold.ScaffoldError as e:
+        print("%d error(s) in %s:" % (len(e.errors), args.graph))
+        for line in e.errors:
+            print("  " + line)
+        return 1
+    if not args.out:
+        sys.stdout.buffer.write(text.encode("utf-8"))
+        return 0
+    if os.path.exists(args.out) and not args.force:
+        print("error: %s exists (use --force to overwrite)" % args.out)
+        return 1
+    with open(args.out, "w", encoding="utf-8", newline="\n") as f:
+        f.write(text)
+    print("wrote %s" % args.out)
+    return 0
+
+
 def cmd_types(args) -> int:
     t = schema.load_types()
     print("regions:")
@@ -152,6 +187,16 @@ def cmd_probe(args) -> int:
         print("    region: %s | lines: %s | crossings: %s" % (
             r["region"] or "-", ", ".join(r["lines"]) or "-", ", ".join(r["crossings"]) or "-"))
     return 0
+
+
+def _positive_float(s: str) -> float:
+    try:
+        x = float(s)
+    except ValueError:
+        x = -1.0
+    if not x > 0 or x == float("inf"):
+        raise argparse.ArgumentTypeError("expected a number > 0, got %r" % s)
+    return x
 
 
 def _non_negative_int(s: str) -> int:
@@ -256,6 +301,12 @@ def main(argv: Optional[List[str]] = None) -> int:
     fgv = fgs.add_parser("validate", help="validate a *.flow.yaml graph and report every error")
     fgv.add_argument("graph")
     fgv.set_defaults(func=cmd_flowgraph_validate)
+    fgsc = fgs.add_parser("scaffold", help="draft a mapgen spec from a graph (stdout, or --out <file>)")
+    fgsc.add_argument("graph")
+    fgsc.add_argument("--out", help="write the draft here instead of stdout")
+    fgsc.add_argument("--size", nargs=2, type=_positive_float, metavar=("X", "Y"), help="map size in metres (default 3000 3000)")
+    fgsc.add_argument("--force", action="store_true", help="overwrite an existing --out file")
+    fgsc.set_defaults(func=cmd_flowgraph_scaffold)
     fgc = fgs.add_parser("check", help="check a spec against a graph: missing nodes/edges (--strict: extras too)")
     fgc.add_argument("graph")
     fgc.add_argument("spec")
