@@ -12,8 +12,8 @@ nodes:
   BO: { kind: choke,     name: Team B gate, desc: chokepoint into the square, place: east }
   Fa: { kind: area,      name: Flank A, desc: alleyways }
   Fb: { kind: area,      name: Flank B, desc: attic }
-  G:  { kind: zone,      name: Great Oak Hill, desc: strategic control zone towards Fa, place: north }
-  F:  { kind: zone,      name: Forest Glen,    desc: strategic control zone towards Fb, place: south }
+  G:  { kind: zone,      name: Great Oak Hill, desc: strategic control zone towards Fa, place: south }
+  F:  { kind: zone,      name: Forest Glen,    desc: strategic control zone towards Fb, place: north }
 
 edges:
   - A - AO
