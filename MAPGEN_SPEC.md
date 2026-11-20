@@ -51,7 +51,7 @@ tools/mapgen/
   .venv/                  local interpreter (not hand-edited)
   mapgen/
     __init__.py
-    __main__.py           CLI (argparse): build, validate, probe, diff, types, palette
+    __main__.py           CLI (argparse): build, validate, probe, diff, spec, spec-edit, flowgraph, town, types, palette
     types.yaml            terrain/line/crossing/POI type table (data, editable; gameplay and splat data, no colours)
     palette.yaml          render colours, region patterns, default team colours (data, editable)
     palette_check.py      CIE L* legibility check of a palette (`palette` command)
@@ -72,6 +72,7 @@ tools/mapgen/
     render.py             map.png and overlay images (map area plus side panel)
     export.py             heightmap, splatmaps, masks, JSON exports, resolved spec, meta
     build.py              orchestrates the pipeline for one spec; writes the report
+    town/                 settlement layout generators (districts, roads, wall, gates) that emit spec fragments: `mapgen/TOWN_SPEC.md`
   maps/                   map specs (*.yaml); examples live here
   out/<map-name>/         generated output (safe to delete)
 ```
@@ -814,6 +815,7 @@ python -m mapgen spec delete <spec.yaml> <path> [...] [--detach-refs] [--dry-run
 python -m mapgen spec rename <spec.yaml> <old> <new> [--dry-run] [--diff]   # an id and every reference to it
 python -m mapgen spec-edit <spec.yaml> [--port N] [--no-open] [--preview-px N]   # browser editor (127.0.0.1 only)
 python -m mapgen --version              # mapgen version and the spec format versions it reads
+python -m mapgen town generate <radial> [--seed N] [--size X Y] [--id SID] [--param NAME=VALUE ...] [--out DIR]   # settlement layout -> settlement.json, preview.png, spec and flowgraph fragments (`town check | preview | list` too; `mapgen/TOWN_SPEC.md`)
 python -m mapgen types                  # print the type table
 python -m mapgen palette [--palette palette.yaml]   # L* legibility matrix of the palette (§5.1)
 ```

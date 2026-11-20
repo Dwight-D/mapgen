@@ -1,4 +1,4 @@
-"""mapgen command line: build | validate | probe | diff | spec | spec-edit | flowgraph | types | palette."""
+"""mapgen command line: build | validate | probe | diff | spec | spec-edit | flowgraph | town | types | palette."""
 from __future__ import annotations
 
 import argparse
@@ -536,6 +536,9 @@ def main(argv: Optional[List[str]] = None) -> int:
     fgc.add_argument("--terrain", action="store_true",
                      help="also check the walkable terrain connects exactly the graph's nodes (terrain-missing/-extra edges)")
     fgc.set_defaults(func=cmd_flowgraph_check)
+
+    from .town import cli as town_cli
+    town_cli.add_parser(sub, _positive_float)
 
     t = sub.add_parser("types", help="print the type table")
     t.set_defaults(func=cmd_types)

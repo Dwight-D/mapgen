@@ -1,0 +1,230 @@
+diff --git a/MAPGEN_SPEC.md b/MAPGEN_SPEC.md
+index 358b72e..037683c 100644
+--- a/MAPGEN_SPEC.md
++++ b/MAPGEN_SPEC.md
+@@ -51,7 +51,7 @@ tools/mapgen/
+   .venv/                  local interpreter (not hand-edited)
+   mapgen/
+     __init__.py
+-    __main__.py           CLI (argparse): build, validate, probe, diff, types, palette
++    __main__.py           CLI (argparse): build, validate, probe, diff, spec, spec-edit, flowgraph, town, types, palette
+     types.yaml            terrain/line/crossing/POI type table (data, editable; gameplay and splat data, no colours)
+     palette.yaml          render colours, region patterns, default team colours (data, editable)
+     palette_check.py      CIE L* legibility check of a palette (`palette` command)
+@@ -72,6 +72,7 @@ tools/mapgen/
+     render.py             map.png and overlay images (map area plus side panel)
+     export.py             heightmap, splatmaps, masks, JSON exports, resolved spec, meta
+     build.py              orchestrates the pipeline for one spec; writes the report
++    town/                 settlement layout generators (districts, roads, wall, gates) that emit spec fragments: `mapgen/TOWN_SPEC.md`
+   maps/                   map specs (*.yaml); examples live here
+   out/<map-name>/         generated output (safe to delete)
+ ```
+@@ -277,7 +278,9 @@ A crossing **overrides passability**: inside it the cost is the crossing's cost
+ beneath is impassable, and slope never makes a crossing cell impassable (§6.3). `bridge` and `ford` make rivers
+ crossable; `pass` makes a mountain crossable and lowers its height (§6.2); `ramp` relaxes the terrain so that a
+ plateau edge or cliff becomes a walkable slope (§6.2). Automatic crossings (§4.7)
+-have ids `<line id>-<water id>-<n>` (§4.8).
++have ids `<line id>-<water id>-<n>` (§4.8). `gate` is a small disc (cost 0.6, `r` 12) placed where a road passes through a `wall`
++line: the wall is impassable (cost inf, blocks line of sight) and the gate crossing overrides it. The `town` generators
++(`mapgen/TOWN_SPEC.md`) emit walls and gates.
+ 
+ ### 4.5 POIs
+ 
+@@ -491,11 +494,13 @@ lines:
+   road:     { cost: 0.6, los: false, splat: road, width: 10, height_mode: flatten_line, crossing: bridge }
+   trail:    { cost: 0.8, los: false, splat: dirt, width: 5, height_mode: flatten_line, flatten: 0.5, crossing: ford }
+   cliff:    { cost: inf, los: true,  splat: rock, width: 8 }
++  wall:     { cost: inf, los: true,  splat: rock, width: 8 }
+ crossings:
+   bridge:   { cost: 0.6, r: 25 }
+   ford:     { cost: 2.5, r: 40 }
+   pass:     { cost: 1.5, r: 80 }
+   ramp:     { cost: 1.2, r: 40 }
++  gate:     { cost: 0.6, r: 12 }
+ pois:
+   #         glyph: circle|square|diamond|triangle|star|cross; r: footprint metres
+   base:          { glyph: square,   r: 120, objective: false }
+@@ -543,11 +548,13 @@ lines:
+   road:     "#ffffff"           # white with dark casing
+   trail:    "#3d2a14"           # dark brown, dashed
+   cliff:    "#111111"           # hatched
++  wall:     "#f2e6c8"           # pale stone band on a dark casing with crenellation ticks (cliff is black)
+ crossings:
+   bridge:   "#7a4a12"           # brown bar with white plank stripe
+   ford:     "#8fd0ff"           # dashed ring
+   pass:     "#ffffff"           # chevron
+   ramp:     "#f0d9b5"           # dashed ring with step bars
++  gate:     "#ffd23f"           # dashed ring with an arch (two posts and a lintel)
+ patterns:                       # region type -> texture drawn in the region's darkened colour
+   forest: stipple
+   marsh:  reeds
+@@ -721,10 +728,10 @@ over the map area. Panel rows shrink to fit the image height.
+    topmost side. Overlapping or touching regions of one type read as one area, lake and river water reads as one
+    body, and nothing is outlined along the map edge.
+ 5. Lines: roads cased (dark 1 px casing, white fill); trails dashed dark brown on a light halo; cliffs as a dark
+-   hatched line. A line is never narrower than 2.4 px.
++   hatched line; walls a pale band on a dark casing with a crenellation tick every ~10 px on both sides. A line is never narrower than 2.4 px.
+ 6. Crossings: bridge = brown bar with dark casing and a white plank stripe across the river; ford = dashed light
+    ring with a dark casing; pass = dashed ring with a chevron drawn in white over dark; ramp = dashed ring with three
+-   step bars. A band crossing is drawn as the dashed outline of its band with its symbol at the middle.
++   step bars; gate = dashed ring with an arch (two posts and a lintel). A band crossing is drawn as the dashed outline of its band with its symbol at the middle.
+ 7. POIs: glyph (§5) in white with black outline, sized ~1.2 % of the image; team-owned POIs filled with the team
+    colour and carrying the team id letter in black or white (whichever contrasts); label (or id, with `[team]` for
+    owned POIs) next to it in black text with a white halo. Bases: a larger team-coloured square with the team letter
+@@ -814,6 +821,7 @@ python -m mapgen spec delete <spec.yaml> <path> [...] [--detach-refs] [--dry-run
+ python -m mapgen spec rename <spec.yaml> <old> <new> [--dry-run] [--diff]   # an id and every reference to it
+ python -m mapgen spec-edit <spec.yaml> [--port N] [--no-open] [--preview-px N]   # browser editor (127.0.0.1 only)
+ python -m mapgen --version              # mapgen version and the spec format versions it reads
++python -m mapgen town generate <radial> [--seed N] [--size X Y] [--id SID] [--param NAME=VALUE ...] [--out DIR]   # settlement layout -> settlement.json, preview.png, spec and flowgraph fragments (`town check | preview | list` too; `mapgen/TOWN_SPEC.md`)
+ python -m mapgen types                  # print the type table
+ python -m mapgen palette [--palette palette.yaml]   # L* legibility matrix of the palette (§5.1)
+ ```
+diff --git a/README.md b/README.md
+index 111eb9c..41f736e 100644
+--- a/README.md
++++ b/README.md
+@@ -31,6 +31,7 @@ python -m mapgen spec set <spec> pois.fa.at=[400,120] [<path>=<value> ...] [--cr
+ python -m mapgen spec add <spec> regions '{type: forest, shape: blob, at: [300, 400], r: 80}' [--id forest_x]   # append a feature with a generated unique id (forest_1, river_2, poi_3, p4); creates a missing section
+ python -m mapgen spec delete <spec> lines.river_2 [regions.wood_1.rough ...] [--detach-refs]   # delete a feature (refused while referenced) or a key
+ python -m mapgen spec rename <spec> forest_1 north_wood        # rename an id and every reference to it
++python -m mapgen town generate radial --seed 3 --size 1000 1000   # procedural settlement (districts, ring roads, wall, gates) -> out/town_town_radial_3/: settlement.json, preview.png, spec_fragment.yaml (paste into a spec), flow_fragment.yaml; also `town check <json>`, `town preview <json>... --out <png>`, `town list` (see mapgen/TOWN_SPEC.md)
+ python -m mapgen flowgraph validate flowgraphs/town_square.flow.yaml   # validate a topology graph (see mapgen/FLOWGRAPH_SPEC.md)
+ python -m mapgen flowgraph scaffold <graph> [--out <file> [--force]] [--size X Y]   # draft spec text from a graph (stdout by default; deterministic; node positions from a stress layout that balances edge lengths and honours the optional node key `place`: west/east/north/south/center/north-west/...)
+ python -m mapgen flowgraph preview <graph> [--out <html>] [--force]   # self-contained HTML/SVG graph view (default out/flowgraph_<name>.html, overwritten freely; --out refuses an existing file without --force)
+@@ -311,6 +312,8 @@ not sum.
+ | (automatic) | river x lake | rivers are clipped outside lakes, so a river ending inside a lake leaves no stub; lakes and rivers render as one water body |
+ | `auto_crossings` | top level | default `true`: every road x river gets a `bridge`, every trail x river a `ford` (disc, `r` = river half-width + 15 m, id `<line id>-<river id>-<n>`), and roads/trails that enter and leave a lake get a ford band. An explicit crossing over an intersection is kept (write one to ford a road). `false` turns it off and analysis warns about uncovered intersections |
+ | `path` + `width` | crossing | band crossing instead of `at` + `r`: the buffered path. For passes through a long mountain or long fords |
++| `wall` | line type | cost inf, blocks line of sight, width 8; drawn as a pale band on a dark casing with crenellation ticks. Emitted by `town generate` around a settlement; a `gate` crossing opens it |
++| `gate` | crossing type | cost 0.6, `r` 12; overrides the impassable `wall` under it; drawn as an arch. One per wall opening |
+ | `ramp` | crossing type | cost 1.2; relaxes the terrain inside it (blur sigma = `r`) so a plateau edge or cliff becomes a walkable slope. Disc or band |
+ | `edge` | region (`plateau`, `town`) | blend radius (m) of the flatten step, default 40 / 30; larger = gentler rim |
+ | `clearing` | region type | light-green glade (cost 1.0, dotted); paint it after forests to cut a glade. Use `field` for real farmland |
+diff --git a/mapgen/palette.yaml b/mapgen/palette.yaml
+index 8f25f8c..af77582 100644
+--- a/mapgen/palette.yaml
++++ b/mapgen/palette.yaml
+@@ -18,11 +18,13 @@ lines:
+   road:     "#ffffff"           # white with dark casing
+   trail:    "#3d2a14"           # dark brown, dashed
+   cliff:    "#111111"           # hatched
++  wall:     "#f2e6c8"           # pale stone, dark casing with crenellation ticks (cliff is black)
+ crossings:
+   bridge:   "#7a4a12"           # brown bar with white plank stripe
+   ford:     "#8fd0ff"           # dashed ring
+   pass:     "#ffffff"           # chevron
+   ramp:     "#f0d9b5"           # dashed ring with step bars
++  gate:     "#ffd23f"           # dashed ring with an arch (two posts and a lintel)
+ patterns:                       # region type -> texture drawn in the region's outline colour
+   forest: stipple
+   marsh:  reeds
+diff --git a/mapgen/render.py b/mapgen/render.py
+index 9828499..589e990 100644
+--- a/mapgen/render.py
++++ b/mapgen/render.py
+@@ -274,6 +274,15 @@ def _steps(layer: Layer, cx: float, cy: float, col, sz: float = 9.0) -> None:
+         layer.line([(cx - half, y), (cx + half, y)], col + (255,), 2.6)
+ 
+ 
++def _gate(layer: Layer, cx: float, cy: float, col, sz: float = 9.0) -> None:
++    """An arch: two posts and a lintel."""
++    for x in (cx - sz * 0.8, cx + sz * 0.8):
++        layer.line([(x, cy + sz * 0.8), (x, cy - sz * 0.5)], (20, 20, 20, 255), 6.0)
++        layer.line([(x, cy + sz * 0.8), (x, cy - sz * 0.5)], col + (255,), 3.2)
++    layer.line([(cx - sz * 0.8, cy - sz * 0.5), (cx + sz * 0.8, cy - sz * 0.5)], (20, 20, 20, 255), 6.0)
++    layer.line([(cx - sz * 0.8, cy - sz * 0.5), (cx + sz * 0.8, cy - sz * 0.5)], col + (255,), 3.2)
++
++
+ def draw_crossings(spec: MapSpec, geoms: MapGeometry, view: View, layer: Layer) -> None:
+     pal = spec.palette
+     for k, c in enumerate(spec.crossings):
+@@ -295,6 +304,8 @@ def draw_crossings(spec: MapSpec, geoms: MapGeometry, view: View, layer: Layer)
+                 _chevron(layer, cx, cy, col)
+             elif c.type == "ramp":
+                 _steps(layer, cx, cy, col)
++            elif c.type == "gate":
++                _gate(layer, cx, cy, col)
+             layer.reserve(cx, cy, 10, 10)
+             continue
+         if c.type == "bridge":
+@@ -316,6 +327,9 @@ def draw_crossings(spec: MapSpec, geoms: MapGeometry, view: View, layer: Layer)
+         elif c.type == "ramp":
+             _ring(layer, cx, cy, rpx, col, 36, (20, 20, 20, 230), 3.0, 1.6)
+             _steps(layer, cx, cy, col)
++        elif c.type == "gate":
++            _ring(layer, cx, cy, rpx, col, 36, (20, 20, 20, 230), 3.0, 1.6)
++            _gate(layer, cx, cy, col)
+         else:  # pass and any other crossing: dashed ring + chevron
+             _ring(layer, cx, cy, rpx, col, 36, (20, 20, 20, 230), 3.0, 1.6)
+             _chevron(layer, cx, cy, col)
+@@ -332,7 +346,7 @@ def ink_for(col) -> Tuple[int, int, int, int]:
+ 
+ 
+ CASING = (35, 30, 26)
+-LINE_STYLE = {"trail": "dashed", "cliff": "hatched"}   # every other non-water line is drawn cased (fill + dark casing)
++LINE_STYLE = {"trail": "dashed", "cliff": "hatched", "wall": "wall"}   # every other non-water line is drawn cased (fill + dark casing)
+ PATTERN_SS = 2
+ STRIKE_PERIOD, STRIKE_CORE, STRIKE_CASE = 14.0, 2.4, 1.3   # impassable strike-through: white core stripe, dark casing each side
+ STIPPLE_SPACING = 6.5
+@@ -549,6 +563,21 @@ def render_core(spec: MapSpec, geoms: MapGeometry, hm: Heightmap, view: View) ->
+             for run in dashed_runs(pts, 8.0, 5.0):
+                 layer.line(run.tolist(), (255, 255, 255, 190), wpx + 2.4)
+                 layer.line(run.tolist(), col, wpx)
++        elif style == "wall":    # pale stone band on a dark casing with crenellation ticks on both sides
++            wpx = max(4.0, ln.width / view.m_per_px)
++            layer.line(pts.tolist(), (25, 20, 18, 255), wpx + 4.0)
++            layer.line(pts.tolist(), col, wpx)
++            n = int(cl.length / (10.0 * view.m_per_px))
++            for k in range(n + 1):
++                sdist = cl.length * k / max(n, 1)
++                a, b = cl.interpolate(max(0, sdist - 3)), cl.interpolate(min(cl.length, sdist + 3))
++                v = np.array([b.x - a.x, b.y - a.y])
++                if np.hypot(*v) == 0:
++                    continue
++                v = v / np.hypot(*v)
++                q = cl.interpolate(sdist)
++                for sgn in (-1.0, 1.0):
++                    layer.line([view.pt(q.x, q.y), view.pt(q.x + sgn * -v[1] * 7, q.y + sgn * v[0] * 7)], (25, 20, 18, 255), 2.0)
+         else:    # hatched: dark line with ticks
+             layer.line(pts.tolist(), col, 3.0)
+             n = int(cl.length / (9.0 * view.m_per_px))
+@@ -794,6 +823,12 @@ def _legend_line(layer: Layer, spec: MapSpec, typ: str, x: float, cy: float, w:
+         for run in dashed_runs(pts, 6.0, 4.0):
+             layer.line(run.tolist(), (255, 255, 255, 190), 5.0)
+             layer.line(run.tolist(), col, 2.6)
++    elif style == "wall":
++        layer.line(pts.tolist(), (25, 20, 18, 255), 7.0)
++        layer.line(pts.tolist(), col, 3.0)
++        for k in range(4):
++            xx = x + 2 + k * w / 4.0
++            layer.line([(xx, cy - 5), (xx, cy + 5)], (25, 20, 18, 255), 2.0)
+     elif style == "hatched":
+         layer.line(pts.tolist(), col, 3.0)
+         for k in range(4):
+@@ -820,6 +855,8 @@ def _legend_cross(layer: Layer, spec: MapSpec, key: str, cx: float, cy: float, s
+             layer.line([(cx + 2 + a, cy), (cx + 8 + a, cy)], col + (255,), 2.2)
+     elif key == "ramp":
+         _steps(layer, cx + w / 2, cy, col, sz=sw * 0.45)
++    elif key == "gate":
++        _gate(layer, cx + w / 2, cy, col, sz=sw * 0.4)
+     else:
+         _chevron(layer, cx + w / 2, cy, col, sz=sw * 0.4)
+ 
+diff --git a/mapgen/types.yaml b/mapgen/types.yaml
+index af2e943..01b1ea7 100644
+--- a/mapgen/types.yaml
++++ b/mapgen/types.yaml
+@@ -19,11 +19,13 @@ lines:
+   road:     { cost: 0.6, los: false, splat: road, width: 10, height_mode: flatten_line, crossing: bridge }
+   trail:    { cost: 0.8, los: false, splat: dirt, width: 5, height_mode: flatten_line, flatten: 0.5, crossing: ford }
+   cliff:    { cost: inf, los: true,  splat: rock, width: 8 }
++  wall:     { cost: inf, los: true,  splat: rock, width: 8 }
+ crossings:
+   bridge:   { cost: 0.6, r: 25 }
+   ford:     { cost: 2.5, r: 40 }
+   pass:     { cost: 1.5, r: 80 }
+   ramp:     { cost: 1.2, r: 40 }
++  gate:     { cost: 0.6, r: 12 }
+ pois:
+   #         glyph: circle|square|diamond|triangle|star|cross; r: footprint metres
+   base:          { glyph: square,   r: 120, objective: false }

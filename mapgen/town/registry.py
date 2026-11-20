@@ -1,0 +1,52 @@
+"""Generator registry and the public `generate` entry point (design: mapgen/TOWN_SPEC.md section 6)."""
+from __future__ import annotations
+
+import re
+from dataclasses import dataclass
+from typing import Any, Callable, Dict, List, Optional, Sequence, Tuple
+
+from . import gen_radial
+from .model import Settlement
+from .params import ParamDef, ParamError, resolve
+
+DEFAULT_SIZE = (1000.0, 1000.0)
+MIN_SIZE, MAX_SIZE = 400.0, 3000.0
+_SID = re.compile(r"^[a-z][a-z0-9]*(_[a-z0-9]+)*$")
+SID_MAX_LEN = 16
+
+
+@dataclass(frozen=True)
+class Generator:
+    name: str
+    defs: List[ParamDef]
+    build: Callable[[Dict[str, Any], int, Tuple[float, float], Tuple[float, float], str], Settlement]
+    doc: str
+
+
+GENERATORS: Dict[str, Generator] = {
+    "radial": Generator("radial", gen_radial.DEFS, gen_radial.generate,
+                        "ring roads, wedge districts, central plaza, irregular wall with gates on spokes"),
+}
+
+
+def generate(generator: str, seed: int, size: Sequence[float] = DEFAULT_SIZE, params: Optional[Dict[str, Any]] = None,
+             sid: str = "town", centre: Optional[Sequence[float]] = None) -> Settlement:
+    """Deterministic: the same arguments give the same Settlement. Raises ParamError (bad arguments, `.errors` lists
+    every one) or the generator's GenerationError (no layout fits)."""
+    errors: List[str] = []
+    if generator not in GENERATORS:
+        raise ParamError(["generator: unknown %r (known: %s)" % (generator, ", ".join(sorted(GENERATORS)))])
+    if not isinstance(seed, int) or isinstance(seed, bool) or not (0 <= seed <= 4294967295):
+        errors.append("seed: expected an integer 0-4294967295, got %r" % (seed,))
+    if not _SID.match(sid or "") or len(sid) > SID_MAX_LEN:
+        errors.append("id: must match [a-z][a-z0-9_]* (no double or trailing underscore), at most %d characters (got %r)"
+                      % (SID_MAX_LEN, sid))
+    if len(size) != 2 or not all(MIN_SIZE <= float(v) <= MAX_SIZE for v in size):
+        errors.append("size: expected [x, y] metres, each %g-%g, got %r" % (MIN_SIZE, MAX_SIZE, list(size)))
+    if errors:
+        raise ParamError(errors)
+    sz = (float(size[0]), float(size[1]))
+    c = (sz[0] / 2.0, sz[1] / 2.0) if centre is None else (float(centre[0]), float(centre[1]))
+    gen = GENERATORS[generator]
+    p = resolve(gen.defs, seed, sid, generator, params)
+    return gen.build(p, seed, sz, c, sid)
