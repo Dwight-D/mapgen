@@ -1,0 +1,163 @@
+=== natural
+mapgen diff
+  a: before/natural
+  b: after/natural
+identical: no
+files: 1 changed, 0 added, 0 removed, 33 unchanged
+  changed  export/spec.resolved.json
+heightmap: 0.0000% of 1050625 texels changed, max delta 0.00 m
+rasters: 0 of 18 changed
+json: 1 file(s) changed
+  export/spec.resolved.json: 2 change(s)
+    /types/crossings/gate  x1
+    /types/lines/wall  x1
+objectives: 0 of 7 changed (time delta b - a, seconds)
+per team:
+  A  area_share 0.441289 -> 0.441289 (+0)  openness 0.668237 -> 0.668237 (+0)
+  B  area_share 0.392911 -> 0.392911 (+0)  openness 0.832114 -> 0.832114 (+0)
+per pair:
+  A-B  base_time_s 321.957 -> 321.957 (+0)  route_constriction 0.154195 -> 0.154195 (+0)  route_openness 0.937778 -> 0.937778 (+0)
+map: contested_share 0.0772556 -> 0.0772556 (+0)  fair_zone_share 0.176189 -> 0.176189 (+0)  openness_mean 0.710509 -> 0.710509 (+0)  unreachable_share 0.0885444 -> 0.0885444 (+0)  warning_count 0 -> 0 (+0)
+=== river_crossing
+mapgen diff
+  a: before/river_crossing
+  b: after/river_crossing
+identical: no
+files: 1 changed, 0 added, 0 removed, 30 unchanged
+  changed  export/spec.resolved.json
+heightmap: 0.0000% of 1050625 texels changed, max delta 0.00 m
+rasters: 0 of 15 changed
+json: 1 file(s) changed
+  export/spec.resolved.json: 2 change(s)
+    /types/crossings/gate  x1
+    /types/lines/wall  x1
+objectives: 0 of 5 changed (time delta b - a, seconds)
+per team:
+  A  area_share 0.4608 -> 0.4608 (+0)  openness 0.8959 -> 0.8959 (+0)
+  B  area_share 0.470156 -> 0.470156 (+0)  openness 0.920507 -> 0.920507 (+0)
+per pair:
+  A-B  base_time_s 288.466 -> 288.466 (+0)  route_constriction 0.172336 -> 0.172336 (+0)  route_openness 0.771369 -> 0.771369 (+0)
+map: contested_share 0.0277444 -> 0.0277444 (+0)  fair_zone_share 0.0485444 -> 0.0485444 (+0)  openness_mean 0.873899 -> 0.873899 (+0)  unreachable_share 0.0413 -> 0.0413 (+0)  warning_count 0 -> 0 (+0)
+=== three_team
+mapgen diff
+  a: before/three_team
+  b: after/three_team
+identical: no
+files: 1 changed, 0 added, 0 removed, 27 unchanged
+  changed  export/spec.resolved.json
+heightmap: 0.0000% of 1050625 texels changed, max delta 0.00 m
+rasters: 0 of 12 changed
+json: 1 file(s) changed
+  export/spec.resolved.json: 2 change(s)
+    /types/crossings/gate  x1
+    /types/lines/wall  x1
+objectives: 0 of 8 changed (time delta b - a, seconds)
+per team:
+  A  area_share 0.3104 -> 0.3104 (+0)  openness 0.920712 -> 0.920712 (+0)
+  B  area_share 0.2865 -> 0.2865 (+0)  openness 0.919602 -> 0.919602 (+0)
+  C  area_share 0.281567 -> 0.281567 (+0)  openness 0.909074 -> 0.909074 (+0)
+per pair:
+  A-B  base_time_s 285.209 -> 285.209 (+0)  route_constriction 0.14966 -> 0.14966 (+0)  route_openness 0.844299 -> 0.844299 (+0)
+  A-C  base_time_s 284.629 -> 284.629 (+0)  route_constriction 0.126984 -> 0.126984 (+0)  route_openness 0.844673 -> 0.844673 (+0)
+  B-C  base_time_s 295.947 -> 295.947 (+0)  route_constriction 0.170068 -> 0.170068 (+0)  route_openness 0.82215 -> 0.82215 (+0)
+map: contested_share 0.0393 -> 0.0393 (+0)  fair_zone_share 0.00271111 -> 0.00271111 (+0)  openness_mean 0.919544 -> 0.919544 (+0)  unreachable_share 0.0822333 -> 0.0822333 (+0)  warning_count 0 -> 0 (+0)
+=== ashen_steppe
+mapgen diff
+  a: before/ashen_steppe
+  b: after/ashen_steppe
+identical: no
+files: 1 changed, 0 added, 0 removed, 32 unchanged
+  changed  export/spec.resolved.json
+heightmap: 0.0000% of 1050625 texels changed, max delta 0.00 m
+rasters: 0 of 17 changed
+json: 1 file(s) changed
+  export/spec.resolved.json: 2 change(s)
+    /types/crossings/gate  x1
+    /types/lines/wall  x1
+objectives: 0 of 9 changed (time delta b - a, seconds)
+per team:
+  A  area_share 0.446105 -> 0.446105 (+0)  openness 0.926947 -> 0.926947 (+0)
+  B  area_share 0.490105 -> 0.490105 (+0)  openness 0.895252 -> 0.895252 (+0)
+per pair:
+  A-B  base_time_s 466.491 -> 466.491 (+0)  route_constriction 0.30839 -> 0.30839 (+0)  route_openness 0.897871 -> 0.897871 (+0)
+map: contested_share 0.0432807 -> 0.0432807 (+0)  fair_zone_share 0.140035 -> 0.140035 (+0)  openness_mean 0.908272 -> 0.908272 (+0)  unreachable_share 0.0205088 -> 0.0205088 (+0)  warning_count 0 -> 0 (+0)
+=== gloamfen
+mapgen diff
+  a: before/gloamfen
+  b: after/gloamfen
+identical: no
+files: 1 changed, 0 added, 0 removed, 32 unchanged
+  changed  export/spec.resolved.json
+heightmap: 0.0000% of 1050625 texels changed, max delta 0.00 m
+rasters: 0 of 17 changed
+json: 1 file(s) changed
+  export/spec.resolved.json: 2 change(s)
+    /types/crossings/gate  x1
+    /types/lines/wall  x1
+objectives: 0 of 8 changed (time delta b - a, seconds)
+per team:
+  A  area_share 0.42263 -> 0.42263 (+0)  openness 0.898678 -> 0.898678 (+0)
+  B  area_share 0.433963 -> 0.433963 (+0)  openness 0.903347 -> 0.903347 (+0)
+per pair:
+  A-B  base_time_s 458.223 -> 458.223 (+0)  route_constriction 0.793651 -> 0.793651 (+0)  route_openness 0.816159 -> 0.816159 (+0)
+map: contested_share 0.0423241 -> 0.0423241 (+0)  fair_zone_share 0.118944 -> 0.118944 (+0)  openness_mean 0.907904 -> 0.907904 (+0)  unreachable_share 0.101083 -> 0.101083 (+0)  warning_count 0 -> 0 (+0)
+=== kingsjaw
+mapgen diff
+  a: before/kingsjaw
+  b: after/kingsjaw
+identical: no
+files: 1 changed, 0 added, 0 removed, 32 unchanged
+  changed  export/spec.resolved.json
+heightmap: 0.0000% of 1050625 texels changed, max delta 0.00 m
+rasters: 0 of 17 changed
+json: 1 file(s) changed
+  export/spec.resolved.json: 2 change(s)
+    /types/crossings/gate  x1
+    /types/lines/wall  x1
+objectives: 0 of 7 changed (time delta b - a, seconds)
+per team:
+  A  area_share 0.454098 -> 0.454098 (+0)  openness 0.895099 -> 0.895099 (+0)
+  B  area_share 0.430304 -> 0.430304 (+0)  openness 0.365514 -> 0.365514 (+0)
+per pair:
+  A-B  base_time_s 454.556 -> 454.556 (+0)  route_constriction 0.344671 -> 0.344671 (+0)  route_openness 0.76076 -> 0.76076 (+0)
+map: contested_share 0.00458824 -> 0.00458824 (+0)  fair_zone_share 0.0111176 -> 0.0111176 (+0)  openness_mean 0.584846 -> 0.584846 (+0)  unreachable_share 0.11101 -> 0.11101 (+0)  warning_count 0 -> 0 (+0)
+=== saltreach_delta
+mapgen diff
+  a: before/saltreach_delta
+  b: after/saltreach_delta
+identical: no
+files: 1 changed, 0 added, 0 removed, 34 unchanged
+  changed  export/spec.resolved.json
+heightmap: 0.0000% of 1050625 texels changed, max delta 0.00 m
+rasters: 0 of 19 changed
+json: 1 file(s) changed
+  export/spec.resolved.json: 2 change(s)
+    /types/crossings/gate  x1
+    /types/lines/wall  x1
+objectives: 0 of 10 changed (time delta b - a, seconds)
+per team:
+  A  area_share 0.483472 -> 0.483472 (+0)  openness 0.889213 -> 0.889213 (+0)
+  B  area_share 0.337065 -> 0.337065 (+0)  openness 0.88126 -> 0.88126 (+0)
+per pair:
+  A-B  base_time_s 337.219 -> 337.219 (+0)  route_constriction 0.251701 -> 0.251701 (+0)  route_openness 0.864329 -> 0.864329 (+0)
+map: contested_share 0.0541111 -> 0.0541111 (+0)  fair_zone_share 0.112861 -> 0.112861 (+0)  openness_mean 0.895152 -> 0.895152 (+0)  unreachable_share 0.125352 -> 0.125352 (+0)  warning_count 0 -> 0 (+0)
+=== thornwald
+mapgen diff
+  a: before/thornwald
+  b: after/thornwald
+identical: no
+files: 1 changed, 0 added, 0 removed, 32 unchanged
+  changed  export/spec.resolved.json
+heightmap: 0.0000% of 1050625 texels changed, max delta 0.00 m
+rasters: 0 of 17 changed
+json: 1 file(s) changed
+  export/spec.resolved.json: 2 change(s)
+    /types/crossings/gate  x1
+    /types/lines/wall  x1
+objectives: 0 of 9 changed (time delta b - a, seconds)
+per team:
+  A  area_share 0.467645 -> 0.467645 (+0)  openness 0.195949 -> 0.195949 (+0)
+  B  area_share 0.438583 -> 0.438583 (+0)  openness 0.377141 -> 0.377141 (+0)
+per pair:
+  A-B  base_time_s 435.314 -> 435.314 (+0)  route_constriction 0.102041 -> 0.102041 (+0)  route_openness 0.685328 -> 0.685328 (+0)
+map: contested_share 0.0814397 -> 0.0814397 (+0)  fair_zone_share 0.226429 -> 0.226429 (+0)  openness_mean 0.288718 -> 0.288718 (+0)  unreachable_share 0.0123326 -> 0.0123326 (+0)  warning_count 0 -> 0 (+0)

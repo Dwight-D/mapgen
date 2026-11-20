@@ -18,11 +18,13 @@ lines:
   road:     "#ffffff"           # white with dark casing
   trail:    "#3d2a14"           # dark brown, dashed
   cliff:    "#111111"           # hatched
+  wall:     "#f2e6c8"           # pale stone, dark casing with crenellation ticks (cliff is black)
 crossings:
   bridge:   "#7a4a12"           # brown bar with white plank stripe
   ford:     "#8fd0ff"           # dashed ring
   pass:     "#ffffff"           # chevron
   ramp:     "#f0d9b5"           # dashed ring with step bars
+  gate:     "#ffd23f"           # dashed ring with an arch (two posts and a lintel)
 patterns:                       # region type -> texture drawn in the region's outline colour
   forest: stipple
   marsh:  reeds

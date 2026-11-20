@@ -1,0 +1,643 @@
+{
+ "a": "C:/Users/thewa/AppData/Local/Temp/claude/1cef33adb626f6a4/f6e682d9-a008-4dab-93f7-87ec011a45c9/scratchpad/before/river_crossing",
+ "analysis": {
+  "map": {
+   "contested_share": {
+    "a": 0.027744444444444443,
+    "b": 0.027744444444444443,
+    "changed": false,
+    "delta": 0.0
+   },
+   "fair_zone_share": {
+    "a": 0.048544444444444446,
+    "b": 0.048544444444444446,
+    "changed": false,
+    "delta": 0.0
+   },
+   "openness_mean": {
+    "a": 0.8738988637924194,
+    "b": 0.8738988637924194,
+    "changed": false,
+    "delta": 0.0
+   },
+   "unreachable_share": {
+    "a": 0.0413,
+    "b": 0.0413,
+    "changed": false,
+    "delta": 0.0
+   },
+   "warning_count": {
+    "a": 0,
+    "b": 0,
+    "changed": false,
+    "delta": 0
+   }
+  },
+  "objectives": [
+   {
+    "changed": false,
+    "delta_s": {
+     "A": 0.0,
+     "B": 0.0
+    },
+    "flag_a": "IMBALANCED",
+    "flag_b": "IMBALANCED",
+    "id": "bridge_keep",
+    "in_a": true,
+    "in_b": true,
+    "owner": null,
+    "spread": {
+     "a": 0.1704458164940518,
+     "b": 0.1704458164940518,
+     "changed": false,
+     "delta": 0.0
+    },
+    "times_a": {
+     "A": 162.51064226468526,
+     "B": 138.84507934888342
+    },
+    "times_b": {
+     "A": 162.51064226468526,
+     "B": 138.84507934888342
+    },
+    "type": "keep_site"
+   },
+   {
+    "changed": false,
+    "delta_s": {
+     "A": 0.0,
+     "B": 0.0
+    },
+    "flag_a": "IMBALANCED",
+    "flag_b": "IMBALANCED",
+    "id": "camp_ne",
+    "in_a": true,
+    "in_b": true,
+    "owner": null,
+    "spread": {
+     "a": 0.8113937865625849,
+     "b": 0.8113937865625849,
+     "changed": false,
+     "delta": 0.0
+    },
+    "times_a": {
+     "A": 416.80672860019985,
+     "B": 230.10277041479677
+    },
+    "times_b": {
+     "A": 416.80672860019985,
+     "B": 230.10277041479677
+    },
+    "type": "neutral_camp"
+   },
+   {
+    "changed": false,
+    "delta_s": {
+     "A": 0.0,
+     "B": 0.0
+    },
+    "flag_a": "IMBALANCED",
+    "flag_b": "IMBALANCED",
+    "id": "camp_sw",
+    "in_a": true,
+    "in_b": true,
+    "owner": null,
+    "spread": {
+     "a": 0.6129931316534428,
+     "b": 0.6129931316534428,
+     "changed": false,
+     "delta": 0.0
+    },
+    "times_a": {
+     "A": 260.85567081236,
+     "B": 420.75840537318817
+    },
+    "times_b": {
+     "A": 260.85567081236,
+     "B": 420.75840537318817
+    },
+    "type": "neutral_camp"
+   },
+   {
+    "changed": false,
+    "delta_s": {
+     "A": 0.0,
+     "B": 0.0
+    },
+    "flag_a": "",
+    "flag_b": "",
+    "id": "relic",
+    "in_a": true,
+    "in_b": true,
+    "owner": null,
+    "spread": {
+     "a": 0.03624130217933414,
+     "b": 0.03624130217933414,
+     "changed": false,
+     "delta": 0.0
+    },
+    "times_a": {
+     "A": 381.39774065303067,
+     "B": 368.05881009655525
+    },
+    "times_b": {
+     "A": 381.39774065303067,
+     "B": 368.05881009655525
+    },
+    "type": "treasure"
+   },
+   {
+    "changed": false,
+    "delta_s": {
+     "A": 0.0,
+     "B": 0.0
+    },
+    "flag_a": "",
+    "flag_b": "",
+    "id": "cap_s",
+    "in_a": true,
+    "in_b": true,
+    "owner": null,
+    "spread": {
+     "a": 0.04341092730350305,
+     "b": 0.04341092730350305,
+     "changed": false,
+     "delta": 0.0
+    },
+    "times_a": {
+     "A": 269.814150213155,
+     "B": 258.58858015838337
+    },
+    "times_b": {
+     "A": 269.814150213155,
+     "B": 258.58858015838337
+    },
+    "type": "capture"
+   }
+  ],
+  "per_pair": {
+   "A-B": {
+    "base_time_s": {
+     "a": 288.4655629158008,
+     "b": 288.4655629158008,
+     "changed": false,
+     "delta": 0.0
+    },
+    "route_constriction": {
+     "a": 0.17233560090702965,
+     "b": 0.17233560090702965,
+     "changed": false,
+     "delta": 0.0
+    },
+    "route_openness": {
+     "a": 0.7713692784309387,
+     "b": 0.7713692784309387,
+     "changed": false,
+     "delta": 0.0
+    }
+   }
+  },
+  "per_team": {
+   "A": {
+    "area_share": {
+     "a": 0.4608,
+     "b": 0.4608,
+     "changed": false,
+     "delta": 0.0
+    },
+    "openness": {
+     "a": 0.8958998322486877,
+     "b": 0.8958998322486877,
+     "changed": false,
+     "delta": 0.0
+    }
+   },
+   "B": {
+    "area_share": {
+     "a": 0.47015555555555555,
+     "b": 0.47015555555555555,
+     "changed": false,
+     "delta": 0.0
+    },
+    "openness": {
+     "a": 0.9205072522163391,
+     "b": 0.9205072522163391,
+     "changed": false,
+     "delta": 0.0
+    }
+   }
+  },
+  "teams": [
+   "A",
+   "B"
+  ],
+  "warnings": {
+   "added": [],
+   "removed": []
+  }
+ },
+ "b": "C:/Users/thewa/AppData/Local/Temp/claude/1cef33adb626f6a4/f6e682d9-a008-4dab-93f7-87ec011a45c9/scratchpad/after/river_crossing",
+ "diff_format": 1,
+ "files": {
+  "added": [],
+  "changed": [
+   "export/spec.resolved.json"
+  ],
+  "removed": [],
+  "unchanged_count": 30
+ },
+ "heightmap": {
+  "a": {
+   "bytes": 2101250,
+   "height_max": 400.0,
+   "res": 1025
+  },
+  "b": {
+   "bytes": 2101250,
+   "height_max": 400.0,
+   "res": 1025
+  },
+  "bbox_m": null,
+  "bbox_px": null,
+  "changed_share": 0.0,
+  "changed_texels": 0,
+  "comparable": true,
+  "max_delta_m": 0.0,
+  "path": "export/heightmap.r16",
+  "reason": null,
+  "total_texels": 1050625
+ },
+ "identical": false,
+ "json": {
+  "export/spec.resolved.json": {
+   "change_count": 2,
+   "changes": [
+    {
+     "b": {
+      "cost": 0.6,
+      "r": 12
+     },
+     "op": "added",
+     "path": "/types/crossings/gate"
+    },
+    {
+     "b": {
+      "cost": "inf",
+      "los": true,
+      "splat": "rock",
+      "width": 8
+     },
+     "op": "added",
+     "path": "/types/lines/wall"
+    }
+   ],
+   "error": null,
+   "patterns": [
+    {
+     "count": 1,
+     "pattern": "/types/crossings/gate"
+    },
+    {
+     "count": 1,
+     "pattern": "/types/lines/wall"
+    }
+   ],
+   "truncated": false
+  }
+ },
+ "name_a": "river_crossing",
+ "name_b": "river_crossing",
+ "notes": [],
+ "rasters": [
+  {
+   "a": {
+    "height": 1025,
+    "mode": "I;16",
+    "width": 1025
+   },
+   "b": {
+    "height": 1025,
+    "mode": "I;16",
+    "width": 1025
+   },
+   "bbox_m": null,
+   "bbox_px": null,
+   "changed_share": 0.0,
+   "changed_texels": 0,
+   "comparable": true,
+   "max_abs_delta": 0,
+   "path": "export/heightmap.png",
+   "pixels_identical": true,
+   "reason": null,
+   "total_texels": 1050625
+  },
+  {
+   "a": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "b": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "bbox_m": null,
+   "bbox_px": null,
+   "changed_share": 0.0,
+   "changed_texels": 0,
+   "comparable": true,
+   "max_abs_delta": 0,
+   "path": "export/masks/bridge.png",
+   "pixels_identical": true,
+   "reason": null,
+   "total_texels": 1048576
+  },
+  {
+   "a": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "b": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "bbox_m": null,
+   "bbox_px": null,
+   "changed_share": 0.0,
+   "changed_texels": 0,
+   "comparable": true,
+   "max_abs_delta": 0,
+   "path": "export/masks/ford.png",
+   "pixels_identical": true,
+   "reason": null,
+   "total_texels": 1048576
+  },
+  {
+   "a": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "b": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "bbox_m": null,
+   "bbox_px": null,
+   "changed_share": 0.0,
+   "changed_texels": 0,
+   "comparable": true,
+   "max_abs_delta": 0,
+   "path": "export/masks/forest.png",
+   "pixels_identical": true,
+   "reason": null,
+   "total_texels": 1048576
+  },
+  {
+   "a": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "b": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "bbox_m": null,
+   "bbox_px": null,
+   "changed_share": 0.0,
+   "changed_texels": 0,
+   "comparable": true,
+   "max_abs_delta": 0,
+   "path": "export/masks/impassable.png",
+   "pixels_identical": true,
+   "reason": null,
+   "total_texels": 1048576
+  },
+  {
+   "a": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "b": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "bbox_m": null,
+   "bbox_px": null,
+   "changed_share": 0.0,
+   "changed_texels": 0,
+   "comparable": true,
+   "max_abs_delta": 0,
+   "path": "export/masks/marsh.png",
+   "pixels_identical": true,
+   "reason": null,
+   "total_texels": 1048576
+  },
+  {
+   "a": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "b": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "bbox_m": null,
+   "bbox_px": null,
+   "changed_share": 0.0,
+   "changed_texels": 0,
+   "comparable": true,
+   "max_abs_delta": 0,
+   "path": "export/masks/mountain.png",
+   "pixels_identical": true,
+   "reason": null,
+   "total_texels": 1048576
+  },
+  {
+   "a": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "b": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "bbox_m": null,
+   "bbox_px": null,
+   "changed_share": 0.0,
+   "changed_texels": 0,
+   "comparable": true,
+   "max_abs_delta": 0,
+   "path": "export/masks/pass.png",
+   "pixels_identical": true,
+   "reason": null,
+   "total_texels": 1048576
+  },
+  {
+   "a": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "b": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "bbox_m": null,
+   "bbox_px": null,
+   "changed_share": 0.0,
+   "changed_texels": 0,
+   "comparable": true,
+   "max_abs_delta": 0,
+   "path": "export/masks/river.png",
+   "pixels_identical": true,
+   "reason": null,
+   "total_texels": 1048576
+  },
+  {
+   "a": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "b": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "bbox_m": null,
+   "bbox_px": null,
+   "changed_share": 0.0,
+   "changed_texels": 0,
+   "comparable": true,
+   "max_abs_delta": 0,
+   "path": "export/masks/road.png",
+   "pixels_identical": true,
+   "reason": null,
+   "total_texels": 1048576
+  },
+  {
+   "a": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "b": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "bbox_m": null,
+   "bbox_px": null,
+   "changed_share": 0.0,
+   "changed_texels": 0,
+   "comparable": true,
+   "max_abs_delta": 0,
+   "path": "export/masks/town.png",
+   "pixels_identical": true,
+   "reason": null,
+   "total_texels": 1048576
+  },
+  {
+   "a": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "b": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "bbox_m": null,
+   "bbox_px": null,
+   "changed_share": 0.0,
+   "changed_texels": 0,
+   "comparable": true,
+   "max_abs_delta": 0,
+   "path": "export/masks/trail.png",
+   "pixels_identical": true,
+   "reason": null,
+   "total_texels": 1048576
+  },
+  {
+   "a": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "b": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "bbox_m": null,
+   "bbox_px": null,
+   "changed_share": 0.0,
+   "changed_texels": 0,
+   "comparable": true,
+   "max_abs_delta": 0,
+   "path": "export/masks/water.png",
+   "pixels_identical": true,
+   "reason": null,
+   "total_texels": 1048576
+  },
+  {
+   "a": {
+    "height": 1024,
+    "mode": "RGBA",
+    "width": 1024
+   },
+   "b": {
+    "height": 1024,
+    "mode": "RGBA",
+    "width": 1024
+   },
+   "bbox_m": null,
+   "bbox_px": null,
+   "changed_share": 0.0,
+   "changed_texels": 0,
+   "comparable": true,
+   "max_abs_delta": 0,
+   "path": "export/splat_0.png",
+   "pixels_identical": true,
+   "reason": null,
+   "total_texels": 1048576
+  },
+  {
+   "a": {
+    "height": 1024,
+    "mode": "RGBA",
+    "width": 1024
+   },
+   "b": {
+    "height": 1024,
+    "mode": "RGBA",
+    "width": 1024
+   },
+   "bbox_m": null,
+   "bbox_px": null,
+   "changed_share": 0.0,
+   "changed_texels": 0,
+   "comparable": true,
+   "max_abs_delta": 0,
+   "path": "export/splat_1.png",
+   "pixels_identical": true,
+   "reason": null,
+   "total_texels": 1048576
+  }
+ ]
+}

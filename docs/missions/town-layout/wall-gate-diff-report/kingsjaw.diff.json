@@ -1,0 +1,743 @@
+{
+ "a": "C:/Users/thewa/AppData/Local/Temp/claude/1cef33adb626f6a4/f6e682d9-a008-4dab-93f7-87ec011a45c9/scratchpad/before/kingsjaw",
+ "analysis": {
+  "map": {
+   "contested_share": {
+    "a": 0.004588235294117647,
+    "b": 0.004588235294117647,
+    "changed": false,
+    "delta": 0.0
+   },
+   "fair_zone_share": {
+    "a": 0.011117647058823529,
+    "b": 0.011117647058823529,
+    "changed": false,
+    "delta": 0.0
+   },
+   "openness_mean": {
+    "a": 0.5848456025123596,
+    "b": 0.5848456025123596,
+    "changed": false,
+    "delta": 0.0
+   },
+   "unreachable_share": {
+    "a": 0.11100980392156863,
+    "b": 0.11100980392156863,
+    "changed": false,
+    "delta": 0.0
+   },
+   "warning_count": {
+    "a": 0,
+    "b": 0,
+    "changed": false,
+    "delta": 0
+   }
+  },
+  "objectives": [
+   {
+    "changed": false,
+    "delta_s": {
+     "A": 0.0,
+     "B": 0.0
+    },
+    "flag_a": "",
+    "flag_b": "",
+    "id": "gate_keep",
+    "in_a": true,
+    "in_b": true,
+    "owner": null,
+    "spread": {
+     "a": 0.0004321338922879042,
+     "b": 0.0004321338922879042,
+     "changed": false,
+     "delta": 0.0
+    },
+    "times_a": {
+     "A": 233.46370106514559,
+     "B": 233.5645886429948
+    },
+    "times_b": {
+     "A": 233.46370106514559,
+     "B": 233.5645886429948
+    },
+    "type": "keep_site"
+   },
+   {
+    "changed": false,
+    "delta_s": {
+     "A": 0.0,
+     "B": 0.0
+    },
+    "flag_a": "",
+    "flag_b": "",
+    "id": "needle_cap",
+    "in_a": true,
+    "in_b": true,
+    "owner": null,
+    "spread": {
+     "a": 0.11269834532837832,
+     "b": 0.11269834532837832,
+     "changed": false,
+     "delta": 0.0
+    },
+    "times_a": {
+     "A": 282.1265636574227,
+     "B": 253.55170594251385
+    },
+    "times_b": {
+     "A": 282.1265636574227,
+     "B": 253.55170594251385
+    },
+    "type": "capture"
+   },
+   {
+    "changed": false,
+    "delta_s": {
+     "A": 0.0,
+     "B": 0.0
+    },
+    "flag_a": "",
+    "flag_b": "",
+    "id": "eyrie",
+    "in_a": true,
+    "in_b": true,
+    "owner": null,
+    "spread": {
+     "a": 0.0020014630469231327,
+     "b": 0.0020014630469231327,
+     "changed": false,
+     "delta": 0.0
+    },
+    "times_a": {
+     "A": 370.5242660939025,
+     "B": 371.26585672047776
+    },
+    "times_b": {
+     "A": 370.5242660939025,
+     "B": 371.26585672047776
+    },
+    "type": "neutral_camp"
+   },
+   {
+    "changed": false,
+    "delta_s": {
+     "A": 0.0,
+     "B": 0.0
+    },
+    "flag_a": "IMBALANCED",
+    "flag_b": "IMBALANCED",
+    "id": "mill",
+    "in_a": true,
+    "in_b": true,
+    "owner": null,
+    "spread": {
+     "a": 1.4276247803385054,
+     "b": 1.4276247803385054,
+     "changed": false,
+     "delta": 0.0
+    },
+    "times_a": {
+     "A": 146.29402589451763,
+     "B": 355.147002477014
+    },
+    "times_b": {
+     "A": 146.29402589451763,
+     "B": 355.147002477014
+    },
+    "type": "capture"
+   },
+   {
+    "changed": false,
+    "delta_s": {
+     "A": 0.0,
+     "B": 0.0
+    },
+    "flag_a": "IMBALANCED",
+    "flag_b": "IMBALANCED",
+    "id": "wolf_den",
+    "in_a": true,
+    "in_b": true,
+    "owner": null,
+    "spread": {
+     "a": 1.4914584342710755,
+     "b": 1.4914584342710755,
+     "changed": false,
+     "delta": 0.0
+    },
+    "times_a": {
+     "A": 426.9500505010868,
+     "B": 171.36551211459377
+    },
+    "times_b": {
+     "A": 426.9500505010868,
+     "B": 171.36551211459377
+    },
+    "type": "neutral_camp"
+   },
+   {
+    "changed": false,
+    "delta_s": {
+     "A": 0.0,
+     "B": 0.0
+    },
+    "flag_a": "",
+    "flag_b": "",
+    "id": "supply_a",
+    "in_a": true,
+    "in_b": true,
+    "owner": "A",
+    "spread": {
+     "a": null,
+     "b": null,
+     "changed": false,
+     "delta": null
+    },
+    "times_a": {
+     "A": 39.46274169979695,
+     "B": 480.5135710823805
+    },
+    "times_b": {
+     "A": 39.46274169979695,
+     "B": 480.5135710823805
+    },
+    "type": "supply"
+   },
+   {
+    "changed": false,
+    "delta_s": {
+     "A": 0.0,
+     "B": 0.0
+    },
+    "flag_a": "",
+    "flag_b": "",
+    "id": "supply_b",
+    "in_a": true,
+    "in_b": true,
+    "owner": "B",
+    "spread": {
+     "a": null,
+     "b": null,
+     "changed": false,
+     "delta": null
+    },
+    "times_a": {
+     "A": 485.33914113715053,
+     "B": 38.35290039756343
+    },
+    "times_b": {
+     "A": 485.33914113715053,
+     "B": 38.35290039756343
+    },
+    "type": "supply"
+   }
+  ],
+  "per_pair": {
+   "A-B": {
+    "base_time_s": {
+     "a": 454.5557933612878,
+     "b": 454.5557933612878,
+     "changed": false,
+     "delta": 0.0
+    },
+    "route_constriction": {
+     "a": 0.34467120181405886,
+     "b": 0.34467120181405886,
+     "changed": false,
+     "delta": 0.0
+    },
+    "route_openness": {
+     "a": 0.760760486125946,
+     "b": 0.760760486125946,
+     "changed": false,
+     "delta": 0.0
+    }
+   }
+  },
+  "per_team": {
+   "A": {
+    "area_share": {
+     "a": 0.45409803921568626,
+     "b": 0.45409803921568626,
+     "changed": false,
+     "delta": 0.0
+    },
+    "openness": {
+     "a": 0.8950987458229065,
+     "b": 0.8950987458229065,
+     "changed": false,
+     "delta": 0.0
+    }
+   },
+   "B": {
+    "area_share": {
+     "a": 0.43030392156862746,
+     "b": 0.43030392156862746,
+     "changed": false,
+     "delta": 0.0
+    },
+    "openness": {
+     "a": 0.36551433801651,
+     "b": 0.36551433801651,
+     "changed": false,
+     "delta": 0.0
+    }
+   }
+  },
+  "teams": [
+   "A",
+   "B"
+  ],
+  "warnings": {
+   "added": [],
+   "removed": []
+  }
+ },
+ "b": "C:/Users/thewa/AppData/Local/Temp/claude/1cef33adb626f6a4/f6e682d9-a008-4dab-93f7-87ec011a45c9/scratchpad/after/kingsjaw",
+ "diff_format": 1,
+ "files": {
+  "added": [],
+  "changed": [
+   "export/spec.resolved.json"
+  ],
+  "removed": [],
+  "unchanged_count": 32
+ },
+ "heightmap": {
+  "a": {
+   "bytes": 2101250,
+   "height_max": 800.0,
+   "res": 1025
+  },
+  "b": {
+   "bytes": 2101250,
+   "height_max": 800.0,
+   "res": 1025
+  },
+  "bbox_m": null,
+  "bbox_px": null,
+  "changed_share": 0.0,
+  "changed_texels": 0,
+  "comparable": true,
+  "max_delta_m": 0.0,
+  "path": "export/heightmap.r16",
+  "reason": null,
+  "total_texels": 1050625
+ },
+ "identical": false,
+ "json": {
+  "export/spec.resolved.json": {
+   "change_count": 2,
+   "changes": [
+    {
+     "b": {
+      "cost": 0.6,
+      "r": 12
+     },
+     "op": "added",
+     "path": "/types/crossings/gate"
+    },
+    {
+     "b": {
+      "cost": "inf",
+      "los": true,
+      "splat": "rock",
+      "width": 8
+     },
+     "op": "added",
+     "path": "/types/lines/wall"
+    }
+   ],
+   "error": null,
+   "patterns": [
+    {
+     "count": 1,
+     "pattern": "/types/crossings/gate"
+    },
+    {
+     "count": 1,
+     "pattern": "/types/lines/wall"
+    }
+   ],
+   "truncated": false
+  }
+ },
+ "name_a": "kingsjaw",
+ "name_b": "kingsjaw",
+ "notes": [],
+ "rasters": [
+  {
+   "a": {
+    "height": 1025,
+    "mode": "I;16",
+    "width": 1025
+   },
+   "b": {
+    "height": 1025,
+    "mode": "I;16",
+    "width": 1025
+   },
+   "bbox_m": null,
+   "bbox_px": null,
+   "changed_share": 0.0,
+   "changed_texels": 0,
+   "comparable": true,
+   "max_abs_delta": 0,
+   "path": "export/heightmap.png",
+   "pixels_identical": true,
+   "reason": null,
+   "total_texels": 1050625
+  },
+  {
+   "a": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "b": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "bbox_m": null,
+   "bbox_px": null,
+   "changed_share": 0.0,
+   "changed_texels": 0,
+   "comparable": true,
+   "max_abs_delta": 0,
+   "path": "export/masks/clearing.png",
+   "pixels_identical": true,
+   "reason": null,
+   "total_texels": 1048576
+  },
+  {
+   "a": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "b": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "bbox_m": null,
+   "bbox_px": null,
+   "changed_share": 0.0,
+   "changed_texels": 0,
+   "comparable": true,
+   "max_abs_delta": 0,
+   "path": "export/masks/field.png",
+   "pixels_identical": true,
+   "reason": null,
+   "total_texels": 1048576
+  },
+  {
+   "a": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "b": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "bbox_m": null,
+   "bbox_px": null,
+   "changed_share": 0.0,
+   "changed_texels": 0,
+   "comparable": true,
+   "max_abs_delta": 0,
+   "path": "export/masks/forest.png",
+   "pixels_identical": true,
+   "reason": null,
+   "total_texels": 1048576
+  },
+  {
+   "a": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "b": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "bbox_m": null,
+   "bbox_px": null,
+   "changed_share": 0.0,
+   "changed_texels": 0,
+   "comparable": true,
+   "max_abs_delta": 0,
+   "path": "export/masks/hills.png",
+   "pixels_identical": true,
+   "reason": null,
+   "total_texels": 1048576
+  },
+  {
+   "a": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "b": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "bbox_m": null,
+   "bbox_px": null,
+   "changed_share": 0.0,
+   "changed_texels": 0,
+   "comparable": true,
+   "max_abs_delta": 0,
+   "path": "export/masks/impassable.png",
+   "pixels_identical": true,
+   "reason": null,
+   "total_texels": 1048576
+  },
+  {
+   "a": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "b": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "bbox_m": null,
+   "bbox_px": null,
+   "changed_share": 0.0,
+   "changed_texels": 0,
+   "comparable": true,
+   "max_abs_delta": 0,
+   "path": "export/masks/lake.png",
+   "pixels_identical": true,
+   "reason": null,
+   "total_texels": 1048576
+  },
+  {
+   "a": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "b": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "bbox_m": null,
+   "bbox_px": null,
+   "changed_share": 0.0,
+   "changed_texels": 0,
+   "comparable": true,
+   "max_abs_delta": 0,
+   "path": "export/masks/mountain.png",
+   "pixels_identical": true,
+   "reason": null,
+   "total_texels": 1048576
+  },
+  {
+   "a": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "b": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "bbox_m": null,
+   "bbox_px": null,
+   "changed_share": 0.0,
+   "changed_texels": 0,
+   "comparable": true,
+   "max_abs_delta": 0,
+   "path": "export/masks/pass.png",
+   "pixels_identical": true,
+   "reason": null,
+   "total_texels": 1048576
+  },
+  {
+   "a": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "b": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "bbox_m": null,
+   "bbox_px": null,
+   "changed_share": 0.0,
+   "changed_texels": 0,
+   "comparable": true,
+   "max_abs_delta": 0,
+   "path": "export/masks/river.png",
+   "pixels_identical": true,
+   "reason": null,
+   "total_texels": 1048576
+  },
+  {
+   "a": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "b": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "bbox_m": null,
+   "bbox_px": null,
+   "changed_share": 0.0,
+   "changed_texels": 0,
+   "comparable": true,
+   "max_abs_delta": 0,
+   "path": "export/masks/road.png",
+   "pixels_identical": true,
+   "reason": null,
+   "total_texels": 1048576
+  },
+  {
+   "a": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "b": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "bbox_m": null,
+   "bbox_px": null,
+   "changed_share": 0.0,
+   "changed_texels": 0,
+   "comparable": true,
+   "max_abs_delta": 0,
+   "path": "export/masks/ruins.png",
+   "pixels_identical": true,
+   "reason": null,
+   "total_texels": 1048576
+  },
+  {
+   "a": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "b": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "bbox_m": null,
+   "bbox_px": null,
+   "changed_share": 0.0,
+   "changed_texels": 0,
+   "comparable": true,
+   "max_abs_delta": 0,
+   "path": "export/masks/town.png",
+   "pixels_identical": true,
+   "reason": null,
+   "total_texels": 1048576
+  },
+  {
+   "a": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "b": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "bbox_m": null,
+   "bbox_px": null,
+   "changed_share": 0.0,
+   "changed_texels": 0,
+   "comparable": true,
+   "max_abs_delta": 0,
+   "path": "export/masks/trail.png",
+   "pixels_identical": true,
+   "reason": null,
+   "total_texels": 1048576
+  },
+  {
+   "a": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "b": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "bbox_m": null,
+   "bbox_px": null,
+   "changed_share": 0.0,
+   "changed_texels": 0,
+   "comparable": true,
+   "max_abs_delta": 0,
+   "path": "export/masks/water.png",
+   "pixels_identical": true,
+   "reason": null,
+   "total_texels": 1048576
+  },
+  {
+   "a": {
+    "height": 1024,
+    "mode": "RGBA",
+    "width": 1024
+   },
+   "b": {
+    "height": 1024,
+    "mode": "RGBA",
+    "width": 1024
+   },
+   "bbox_m": null,
+   "bbox_px": null,
+   "changed_share": 0.0,
+   "changed_texels": 0,
+   "comparable": true,
+   "max_abs_delta": 0,
+   "path": "export/splat_0.png",
+   "pixels_identical": true,
+   "reason": null,
+   "total_texels": 1048576
+  },
+  {
+   "a": {
+    "height": 1024,
+    "mode": "RGBA",
+    "width": 1024
+   },
+   "b": {
+    "height": 1024,
+    "mode": "RGBA",
+    "width": 1024
+   },
+   "bbox_m": null,
+   "bbox_px": null,
+   "changed_share": 0.0,
+   "changed_texels": 0,
+   "comparable": true,
+   "max_abs_delta": 0,
+   "path": "export/splat_1.png",
+   "pixels_identical": true,
+   "reason": null,
+   "total_texels": 1048576
+  }
+ ]
+}

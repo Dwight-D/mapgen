@@ -312,6 +312,8 @@ not sum.
 | (automatic) | river x lake | rivers are clipped outside lakes, so a river ending inside a lake leaves no stub; lakes and rivers render as one water body |
 | `auto_crossings` | top level | default `true`: every road x river gets a `bridge`, every trail x river a `ford` (disc, `r` = river half-width + 15 m, id `<line id>-<river id>-<n>`), and roads/trails that enter and leave a lake get a ford band. An explicit crossing over an intersection is kept (write one to ford a road). `false` turns it off and analysis warns about uncovered intersections |
 | `path` + `width` | crossing | band crossing instead of `at` + `r`: the buffered path. For passes through a long mountain or long fords |
+| `wall` | line type | cost inf, blocks line of sight, width 8; drawn as a pale band on a dark casing with crenellation ticks. Emitted by `town generate` around a settlement; a `gate` crossing opens it |
+| `gate` | crossing type | cost 0.6, `r` 12; overrides the impassable `wall` under it; drawn as an arch. One per wall opening |
 | `ramp` | crossing type | cost 1.2; relaxes the terrain inside it (blur sigma = `r`) so a plateau edge or cliff becomes a walkable slope. Disc or band |
 | `edge` | region (`plateau`, `town`) | blend radius (m) of the flatten step, default 40 / 30; larger = gentler rim |
 | `clearing` | region type | light-green glade (cost 1.0, dotted); paint it after forests to cut a glade. Use `field` for real farmland |

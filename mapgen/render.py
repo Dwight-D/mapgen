@@ -274,6 +274,15 @@ def _steps(layer: Layer, cx: float, cy: float, col, sz: float = 9.0) -> None:
         layer.line([(cx - half, y), (cx + half, y)], col + (255,), 2.6)
 
 
+def _gate(layer: Layer, cx: float, cy: float, col, sz: float = 9.0) -> None:
+    """An arch: two posts and a lintel."""
+    for x in (cx - sz * 0.8, cx + sz * 0.8):
+        layer.line([(x, cy + sz * 0.8), (x, cy - sz * 0.5)], (20, 20, 20, 255), 6.0)
+        layer.line([(x, cy + sz * 0.8), (x, cy - sz * 0.5)], col + (255,), 3.2)
+    layer.line([(cx - sz * 0.8, cy - sz * 0.5), (cx + sz * 0.8, cy - sz * 0.5)], (20, 20, 20, 255), 6.0)
+    layer.line([(cx - sz * 0.8, cy - sz * 0.5), (cx + sz * 0.8, cy - sz * 0.5)], col + (255,), 3.2)
+
+
 def draw_crossings(spec: MapSpec, geoms: MapGeometry, view: View, layer: Layer) -> None:
     pal = spec.palette
     for k, c in enumerate(spec.crossings):
@@ -295,6 +304,8 @@ def draw_crossings(spec: MapSpec, geoms: MapGeometry, view: View, layer: Layer) 
                 _chevron(layer, cx, cy, col)
             elif c.type == "ramp":
                 _steps(layer, cx, cy, col)
+            elif c.type == "gate":
+                _gate(layer, cx, cy, col)
             layer.reserve(cx, cy, 10, 10)
             continue
         if c.type == "bridge":
@@ -316,6 +327,9 @@ def draw_crossings(spec: MapSpec, geoms: MapGeometry, view: View, layer: Layer) 
         elif c.type == "ramp":
             _ring(layer, cx, cy, rpx, col, 36, (20, 20, 20, 230), 3.0, 1.6)
             _steps(layer, cx, cy, col)
+        elif c.type == "gate":
+            _ring(layer, cx, cy, rpx, col, 36, (20, 20, 20, 230), 3.0, 1.6)
+            _gate(layer, cx, cy, col)
         else:  # pass and any other crossing: dashed ring + chevron
             _ring(layer, cx, cy, rpx, col, 36, (20, 20, 20, 230), 3.0, 1.6)
             _chevron(layer, cx, cy, col)
@@ -332,7 +346,7 @@ def ink_for(col) -> Tuple[int, int, int, int]:
 
 
 CASING = (35, 30, 26)
-LINE_STYLE = {"trail": "dashed", "cliff": "hatched"}   # every other non-water line is drawn cased (fill + dark casing)
+LINE_STYLE = {"trail": "dashed", "cliff": "hatched", "wall": "wall"}   # every other non-water line is drawn cased (fill + dark casing)
 PATTERN_SS = 2
 STRIKE_PERIOD, STRIKE_CORE, STRIKE_CASE = 14.0, 2.4, 1.3   # impassable strike-through: white core stripe, dark casing each side
 STIPPLE_SPACING = 6.5
@@ -549,6 +563,21 @@ def render_core(spec: MapSpec, geoms: MapGeometry, hm: Heightmap, view: View) ->
             for run in dashed_runs(pts, 8.0, 5.0):
                 layer.line(run.tolist(), (255, 255, 255, 190), wpx + 2.4)
                 layer.line(run.tolist(), col, wpx)
+        elif style == "wall":    # pale stone band on a dark casing with crenellation ticks on both sides
+            wpx = max(4.0, ln.width / view.m_per_px)
+            layer.line(pts.tolist(), (25, 20, 18, 255), wpx + 4.0)
+            layer.line(pts.tolist(), col, wpx)
+            n = int(cl.length / (10.0 * view.m_per_px))
+            for k in range(n + 1):
+                sdist = cl.length * k / max(n, 1)
+                a, b = cl.interpolate(max(0, sdist - 3)), cl.interpolate(min(cl.length, sdist + 3))
+                v = np.array([b.x - a.x, b.y - a.y])
+                if np.hypot(*v) == 0:
+                    continue
+                v = v / np.hypot(*v)
+                q = cl.interpolate(sdist)
+                for sgn in (-1.0, 1.0):
+                    layer.line([view.pt(q.x, q.y), view.pt(q.x + sgn * -v[1] * 7, q.y + sgn * v[0] * 7)], (25, 20, 18, 255), 2.0)
         else:    # hatched: dark line with ticks
             layer.line(pts.tolist(), col, 3.0)
             n = int(cl.length / (9.0 * view.m_per_px))
@@ -794,6 +823,12 @@ def _legend_line(layer: Layer, spec: MapSpec, typ: str, x: float, cy: float, w: 
         for run in dashed_runs(pts, 6.0, 4.0):
             layer.line(run.tolist(), (255, 255, 255, 190), 5.0)
             layer.line(run.tolist(), col, 2.6)
+    elif style == "wall":
+        layer.line(pts.tolist(), (25, 20, 18, 255), 7.0)
+        layer.line(pts.tolist(), col, 3.0)
+        for k in range(4):
+            xx = x + 2 + k * w / 4.0
+            layer.line([(xx, cy - 5), (xx, cy + 5)], (25, 20, 18, 255), 2.0)
     elif style == "hatched":
         layer.line(pts.tolist(), col, 3.0)
         for k in range(4):
@@ -820,6 +855,8 @@ def _legend_cross(layer: Layer, spec: MapSpec, key: str, cx: float, cy: float, s
             layer.line([(cx + 2 + a, cy), (cx + 8 + a, cy)], col + (255,), 2.2)
     elif key == "ramp":
         _steps(layer, cx + w / 2, cy, col, sz=sw * 0.45)
+    elif key == "gate":
+        _gate(layer, cx + w / 2, cy, col, sz=sw * 0.4)
     else:
         _chevron(layer, cx + w / 2, cy, col, sz=sw * 0.4)
 

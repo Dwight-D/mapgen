@@ -1,0 +1,799 @@
+{
+ "a": "C:/Users/thewa/AppData/Local/Temp/claude/1cef33adb626f6a4/f6e682d9-a008-4dab-93f7-87ec011a45c9/scratchpad/before/ashen_steppe",
+ "analysis": {
+  "map": {
+   "contested_share": {
+    "a": 0.04328070175438597,
+    "b": 0.04328070175438597,
+    "changed": false,
+    "delta": 0.0
+   },
+   "fair_zone_share": {
+    "a": 0.14003508771929823,
+    "b": 0.14003508771929823,
+    "changed": false,
+    "delta": 0.0
+   },
+   "openness_mean": {
+    "a": 0.9082719087600708,
+    "b": 0.9082719087600708,
+    "changed": false,
+    "delta": 0.0
+   },
+   "unreachable_share": {
+    "a": 0.020508771929824563,
+    "b": 0.020508771929824563,
+    "changed": false,
+    "delta": 0.0
+   },
+   "warning_count": {
+    "a": 0,
+    "b": 0,
+    "changed": false,
+    "delta": 0
+   }
+  },
+  "objectives": [
+   {
+    "changed": false,
+    "delta_s": {
+     "A": 0.0,
+     "B": 0.0
+    },
+    "flag_a": "",
+    "flag_b": "",
+    "id": "hillfort",
+    "in_a": true,
+    "in_b": true,
+    "owner": null,
+    "spread": {
+     "a": 0.1184799353381459,
+     "b": 0.1184799353381459,
+     "changed": false,
+     "delta": 0.0
+    },
+    "times_a": {
+     "A": 246.5165455715286,
+     "B": 220.4031898855657
+    },
+    "times_b": {
+     "A": 246.5165455715286,
+     "B": 220.4031898855657
+    },
+    "type": "keep_site"
+   },
+   {
+    "changed": false,
+    "delta_s": {
+     "A": 0.0,
+     "B": 0.0
+    },
+    "flag_a": "",
+    "flag_b": "",
+    "id": "ashford",
+    "in_a": true,
+    "in_b": true,
+    "owner": null,
+    "spread": {
+     "a": 0.02622114757261833,
+     "b": 0.02622114757261833,
+     "changed": false,
+     "delta": 0.0
+    },
+    "times_a": {
+     "A": 352.4629928132087,
+     "B": 343.4571521420215
+    },
+    "times_b": {
+     "A": 352.4629928132087,
+     "B": 343.4571521420215
+    },
+    "type": "capture"
+   },
+   {
+    "changed": false,
+    "delta_s": {
+     "A": 0.0,
+     "B": 0.0
+    },
+    "flag_a": "",
+    "flag_b": "",
+    "id": "horse_fair",
+    "in_a": true,
+    "in_b": true,
+    "owner": null,
+    "spread": {
+     "a": 0.01823143676639388,
+     "b": 0.01823143676639388,
+     "changed": false,
+     "delta": 0.0
+    },
+    "times_a": {
+     "A": 297.3831744655073,
+     "B": 292.05852788233443
+    },
+    "times_b": {
+     "A": 297.3831744655073,
+     "B": 292.05852788233443
+    },
+    "type": "capture"
+   },
+   {
+    "changed": false,
+    "delta_s": {
+     "A": 0.0,
+     "B": 0.0
+    },
+    "flag_a": "",
+    "flag_b": "",
+    "id": "kurgan",
+    "in_a": true,
+    "in_b": true,
+    "owner": null,
+    "spread": {
+     "a": 0.14484976240007263,
+     "b": 0.14484976240007263,
+     "changed": false,
+     "delta": 0.0
+    },
+    "times_a": {
+     "A": 323.6541320445885,
+     "B": 370.5353561710489
+    },
+    "times_b": {
+     "A": 323.6541320445885,
+     "B": 370.5353561710489
+    },
+    "type": "treasure"
+   },
+   {
+    "changed": false,
+    "delta_s": {
+     "A": 0.0,
+     "B": 0.0
+    },
+    "flag_a": "",
+    "flag_b": "",
+    "id": "bandits",
+    "in_a": true,
+    "in_b": true,
+    "owner": null,
+    "spread": {
+     "a": 0.10324889501989337,
+     "b": 0.10324889501989337,
+     "changed": false,
+     "delta": 0.0
+    },
+    "times_a": {
+     "A": 371.56744571296963,
+     "B": 336.79385258416204
+    },
+    "times_b": {
+     "A": 371.56744571296963,
+     "B": 336.79385258416204
+    },
+    "type": "neutral_camp"
+   },
+   {
+    "changed": false,
+    "delta_s": {
+     "A": 0.0,
+     "B": 0.0
+    },
+    "flag_a": "",
+    "flag_b": "",
+    "id": "ghouls",
+    "in_a": true,
+    "in_b": true,
+    "owner": null,
+    "spread": {
+     "a": 0.02811633120169242,
+     "b": 0.02811633120169242,
+     "changed": false,
+     "delta": 0.0
+    },
+    "times_a": {
+     "A": 384.41618907005505,
+     "B": 395.22456196124114
+    },
+    "times_b": {
+     "A": 384.41618907005505,
+     "B": 395.22456196124114
+    },
+    "type": "neutral_camp"
+   },
+   {
+    "changed": false,
+    "delta_s": {
+     "A": 0.0,
+     "B": 0.0
+    },
+    "flag_a": "",
+    "flag_b": "",
+    "id": "wolves",
+    "in_a": true,
+    "in_b": true,
+    "owner": null,
+    "spread": {
+     "a": 0.17012284564629318,
+     "b": 0.17012284564629318,
+     "changed": false,
+     "delta": 0.0
+    },
+    "times_a": {
+     "A": 384.5358716745219,
+     "B": 449.9542084168694
+    },
+    "times_b": {
+     "A": 384.5358716745219,
+     "B": 449.9542084168694
+    },
+    "type": "neutral_camp"
+   },
+   {
+    "changed": false,
+    "delta_s": {
+     "A": 0.0,
+     "B": 0.0
+    },
+    "flag_a": "",
+    "flag_b": "",
+    "id": "supply_a",
+    "in_a": true,
+    "in_b": true,
+    "owner": "A",
+    "spread": {
+     "a": null,
+     "b": null,
+     "changed": false,
+     "delta": null
+    },
+    "times_a": {
+     "A": 49.597979746446676,
+     "B": 490.2971957826535
+    },
+    "times_b": {
+     "A": 49.597979746446676,
+     "B": 490.2971957826535
+    },
+    "type": "supply"
+   },
+   {
+    "changed": false,
+    "delta_s": {
+     "A": 0.0,
+     "B": 0.0
+    },
+    "flag_a": "",
+    "flag_b": "",
+    "id": "supply_b",
+    "in_a": true,
+    "in_b": true,
+    "owner": "B",
+    "spread": {
+     "a": null,
+     "b": null,
+     "changed": false,
+     "delta": null
+    },
+    "times_a": {
+     "A": 433.0785233049629,
+     "B": 100.76955262170046
+    },
+    "times_b": {
+     "A": 433.0785233049629,
+     "B": 100.76955262170046
+    },
+    "type": "supply"
+   }
+  ],
+  "per_pair": {
+   "A-B": {
+    "base_time_s": {
+     "a": 466.4913083323481,
+     "b": 466.4913083323481,
+     "changed": false,
+     "delta": 0.0
+    },
+    "route_constriction": {
+     "a": 0.3083900226757371,
+     "b": 0.3083900226757371,
+     "changed": false,
+     "delta": 0.0
+    },
+    "route_openness": {
+     "a": 0.8978709578514099,
+     "b": 0.8978709578514099,
+     "changed": false,
+     "delta": 0.0
+    }
+   }
+  },
+  "per_team": {
+   "A": {
+    "area_share": {
+     "a": 0.4461052631578947,
+     "b": 0.4461052631578947,
+     "changed": false,
+     "delta": 0.0
+    },
+    "openness": {
+     "a": 0.9269473552703857,
+     "b": 0.9269473552703857,
+     "changed": false,
+     "delta": 0.0
+    }
+   },
+   "B": {
+    "area_share": {
+     "a": 0.4901052631578947,
+     "b": 0.4901052631578947,
+     "changed": false,
+     "delta": 0.0
+    },
+    "openness": {
+     "a": 0.8952522277832031,
+     "b": 0.8952522277832031,
+     "changed": false,
+     "delta": 0.0
+    }
+   }
+  },
+  "teams": [
+   "A",
+   "B"
+  ],
+  "warnings": {
+   "added": [],
+   "removed": []
+  }
+ },
+ "b": "C:/Users/thewa/AppData/Local/Temp/claude/1cef33adb626f6a4/f6e682d9-a008-4dab-93f7-87ec011a45c9/scratchpad/after/ashen_steppe",
+ "diff_format": 1,
+ "files": {
+  "added": [],
+  "changed": [
+   "export/spec.resolved.json"
+  ],
+  "removed": [],
+  "unchanged_count": 32
+ },
+ "heightmap": {
+  "a": {
+   "bytes": 2101250,
+   "height_max": 400.0,
+   "res": 1025
+  },
+  "b": {
+   "bytes": 2101250,
+   "height_max": 400.0,
+   "res": 1025
+  },
+  "bbox_m": null,
+  "bbox_px": null,
+  "changed_share": 0.0,
+  "changed_texels": 0,
+  "comparable": true,
+  "max_delta_m": 0.0,
+  "path": "export/heightmap.r16",
+  "reason": null,
+  "total_texels": 1050625
+ },
+ "identical": false,
+ "json": {
+  "export/spec.resolved.json": {
+   "change_count": 2,
+   "changes": [
+    {
+     "b": {
+      "cost": 0.6,
+      "r": 12
+     },
+     "op": "added",
+     "path": "/types/crossings/gate"
+    },
+    {
+     "b": {
+      "cost": "inf",
+      "los": true,
+      "splat": "rock",
+      "width": 8
+     },
+     "op": "added",
+     "path": "/types/lines/wall"
+    }
+   ],
+   "error": null,
+   "patterns": [
+    {
+     "count": 1,
+     "pattern": "/types/crossings/gate"
+    },
+    {
+     "count": 1,
+     "pattern": "/types/lines/wall"
+    }
+   ],
+   "truncated": false
+  }
+ },
+ "name_a": "ashen_steppe",
+ "name_b": "ashen_steppe",
+ "notes": [],
+ "rasters": [
+  {
+   "a": {
+    "height": 1025,
+    "mode": "I;16",
+    "width": 1025
+   },
+   "b": {
+    "height": 1025,
+    "mode": "I;16",
+    "width": 1025
+   },
+   "bbox_m": null,
+   "bbox_px": null,
+   "changed_share": 0.0,
+   "changed_texels": 0,
+   "comparable": true,
+   "max_abs_delta": 0,
+   "path": "export/heightmap.png",
+   "pixels_identical": true,
+   "reason": null,
+   "total_texels": 1050625
+  },
+  {
+   "a": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "b": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "bbox_m": null,
+   "bbox_px": null,
+   "changed_share": 0.0,
+   "changed_texels": 0,
+   "comparable": true,
+   "max_abs_delta": 0,
+   "path": "export/masks/bridge.png",
+   "pixels_identical": true,
+   "reason": null,
+   "total_texels": 1048576
+  },
+  {
+   "a": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "b": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "bbox_m": null,
+   "bbox_px": null,
+   "changed_share": 0.0,
+   "changed_texels": 0,
+   "comparable": true,
+   "max_abs_delta": 0,
+   "path": "export/masks/field.png",
+   "pixels_identical": true,
+   "reason": null,
+   "total_texels": 1048576
+  },
+  {
+   "a": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "b": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "bbox_m": null,
+   "bbox_px": null,
+   "changed_share": 0.0,
+   "changed_texels": 0,
+   "comparable": true,
+   "max_abs_delta": 0,
+   "path": "export/masks/ford.png",
+   "pixels_identical": true,
+   "reason": null,
+   "total_texels": 1048576
+  },
+  {
+   "a": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "b": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "bbox_m": null,
+   "bbox_px": null,
+   "changed_share": 0.0,
+   "changed_texels": 0,
+   "comparable": true,
+   "max_abs_delta": 0,
+   "path": "export/masks/forest.png",
+   "pixels_identical": true,
+   "reason": null,
+   "total_texels": 1048576
+  },
+  {
+   "a": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "b": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "bbox_m": null,
+   "bbox_px": null,
+   "changed_share": 0.0,
+   "changed_texels": 0,
+   "comparable": true,
+   "max_abs_delta": 0,
+   "path": "export/masks/hills.png",
+   "pixels_identical": true,
+   "reason": null,
+   "total_texels": 1048576
+  },
+  {
+   "a": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "b": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "bbox_m": null,
+   "bbox_px": null,
+   "changed_share": 0.0,
+   "changed_texels": 0,
+   "comparable": true,
+   "max_abs_delta": 0,
+   "path": "export/masks/impassable.png",
+   "pixels_identical": true,
+   "reason": null,
+   "total_texels": 1048576
+  },
+  {
+   "a": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "b": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "bbox_m": null,
+   "bbox_px": null,
+   "changed_share": 0.0,
+   "changed_texels": 0,
+   "comparable": true,
+   "max_abs_delta": 0,
+   "path": "export/masks/lake.png",
+   "pixels_identical": true,
+   "reason": null,
+   "total_texels": 1048576
+  },
+  {
+   "a": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "b": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "bbox_m": null,
+   "bbox_px": null,
+   "changed_share": 0.0,
+   "changed_texels": 0,
+   "comparable": true,
+   "max_abs_delta": 0,
+   "path": "export/masks/plateau.png",
+   "pixels_identical": true,
+   "reason": null,
+   "total_texels": 1048576
+  },
+  {
+   "a": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "b": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "bbox_m": null,
+   "bbox_px": null,
+   "changed_share": 0.0,
+   "changed_texels": 0,
+   "comparable": true,
+   "max_abs_delta": 0,
+   "path": "export/masks/river.png",
+   "pixels_identical": true,
+   "reason": null,
+   "total_texels": 1048576
+  },
+  {
+   "a": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "b": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "bbox_m": null,
+   "bbox_px": null,
+   "changed_share": 0.0,
+   "changed_texels": 0,
+   "comparable": true,
+   "max_abs_delta": 0,
+   "path": "export/masks/road.png",
+   "pixels_identical": true,
+   "reason": null,
+   "total_texels": 1048576
+  },
+  {
+   "a": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "b": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "bbox_m": null,
+   "bbox_px": null,
+   "changed_share": 0.0,
+   "changed_texels": 0,
+   "comparable": true,
+   "max_abs_delta": 0,
+   "path": "export/masks/ruins.png",
+   "pixels_identical": true,
+   "reason": null,
+   "total_texels": 1048576
+  },
+  {
+   "a": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "b": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "bbox_m": null,
+   "bbox_px": null,
+   "changed_share": 0.0,
+   "changed_texels": 0,
+   "comparable": true,
+   "max_abs_delta": 0,
+   "path": "export/masks/town.png",
+   "pixels_identical": true,
+   "reason": null,
+   "total_texels": 1048576
+  },
+  {
+   "a": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "b": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "bbox_m": null,
+   "bbox_px": null,
+   "changed_share": 0.0,
+   "changed_texels": 0,
+   "comparable": true,
+   "max_abs_delta": 0,
+   "path": "export/masks/trail.png",
+   "pixels_identical": true,
+   "reason": null,
+   "total_texels": 1048576
+  },
+  {
+   "a": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "b": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "bbox_m": null,
+   "bbox_px": null,
+   "changed_share": 0.0,
+   "changed_texels": 0,
+   "comparable": true,
+   "max_abs_delta": 0,
+   "path": "export/masks/water.png",
+   "pixels_identical": true,
+   "reason": null,
+   "total_texels": 1048576
+  },
+  {
+   "a": {
+    "height": 1024,
+    "mode": "RGBA",
+    "width": 1024
+   },
+   "b": {
+    "height": 1024,
+    "mode": "RGBA",
+    "width": 1024
+   },
+   "bbox_m": null,
+   "bbox_px": null,
+   "changed_share": 0.0,
+   "changed_texels": 0,
+   "comparable": true,
+   "max_abs_delta": 0,
+   "path": "export/splat_0.png",
+   "pixels_identical": true,
+   "reason": null,
+   "total_texels": 1048576
+  },
+  {
+   "a": {
+    "height": 1024,
+    "mode": "RGBA",
+    "width": 1024
+   },
+   "b": {
+    "height": 1024,
+    "mode": "RGBA",
+    "width": 1024
+   },
+   "bbox_m": null,
+   "bbox_px": null,
+   "changed_share": 0.0,
+   "changed_texels": 0,
+   "comparable": true,
+   "max_abs_delta": 0,
+   "path": "export/splat_1.png",
+   "pixels_identical": true,
+   "reason": null,
+   "total_texels": 1048576
+  }
+ ]
+}

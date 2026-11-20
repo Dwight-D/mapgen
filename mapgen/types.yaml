@@ -19,11 +19,13 @@ lines:
   road:     { cost: 0.6, los: false, splat: road, width: 10, height_mode: flatten_line, crossing: bridge }
   trail:    { cost: 0.8, los: false, splat: dirt, width: 5, height_mode: flatten_line, flatten: 0.5, crossing: ford }
   cliff:    { cost: inf, los: true,  splat: rock, width: 8 }
+  wall:     { cost: inf, los: true,  splat: rock, width: 8 }
 crossings:
   bridge:   { cost: 0.6, r: 25 }
   ford:     { cost: 2.5, r: 40 }
   pass:     { cost: 1.5, r: 80 }
   ramp:     { cost: 1.2, r: 40 }
+  gate:     { cost: 0.6, r: 12 }
 pois:
   #         glyph: circle|square|diamond|triangle|star|cross; r: footprint metres
   base:          { glyph: square,   r: 120, objective: false }

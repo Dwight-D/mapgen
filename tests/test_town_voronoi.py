@@ -8,7 +8,6 @@ import yaml
 from mapgen import schema, town
 from mapgen.flowgraph import load_flowgraph_dict
 from mapgen.flowgraph_check import check as flow_check, raw_line_paths_text
-from mapgen.town.emit_spec import wall_gate_types
 from mapgen.town.params import ParamError
 from test_cli_exit_codes import run as _run
 
@@ -116,9 +115,8 @@ def test_fragment_validates_and_flowgraph_matches(seed, params):
     text, flow = _spec_and_graph(s)
     spec = schema.load_spec_text(text)
     assert len(spec.regions) == len(s.districts)
-    wall_type, gate_type = wall_gate_types()
-    assert sum(1 for l in spec.lines if l.type == wall_type) == 1
-    assert sum(1 for c in spec.crossings if c.type == gate_type) == len(s.gates)
+    assert sum(1 for l in spec.lines if l.type == "wall") == 1
+    assert sum(1 for c in spec.crossings if c.type == "gate") == len(s.gates)
     g = load_flowgraph_dict(flow)
     res = flow_check(g, spec, raw_paths=raw_line_paths_text(text))
     assert not res.failed(strict=True), res.lines(True)

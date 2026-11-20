@@ -1,0 +1,871 @@
+{
+ "a": "C:/Users/thewa/AppData/Local/Temp/claude/1cef33adb626f6a4/f6e682d9-a008-4dab-93f7-87ec011a45c9/scratchpad/before/saltreach_delta",
+ "analysis": {
+  "map": {
+   "contested_share": {
+    "a": 0.05411111111111111,
+    "b": 0.05411111111111111,
+    "changed": false,
+    "delta": 0.0
+   },
+   "fair_zone_share": {
+    "a": 0.1128611111111111,
+    "b": 0.1128611111111111,
+    "changed": false,
+    "delta": 0.0
+   },
+   "openness_mean": {
+    "a": 0.8951523303985596,
+    "b": 0.8951523303985596,
+    "changed": false,
+    "delta": 0.0
+   },
+   "unreachable_share": {
+    "a": 0.12535185185185185,
+    "b": 0.12535185185185185,
+    "changed": false,
+    "delta": 0.0
+   },
+   "warning_count": {
+    "a": 0,
+    "b": 0,
+    "changed": false,
+    "delta": 0
+   }
+  },
+  "objectives": [
+   {
+    "changed": false,
+    "delta_s": {
+     "A": 0.0,
+     "B": 0.0
+    },
+    "flag_a": "",
+    "flag_b": "",
+    "id": "old_bridge",
+    "in_a": true,
+    "in_b": true,
+    "owner": null,
+    "spread": {
+     "a": 0.1550156952397638,
+     "b": 0.1550156952397638,
+     "changed": false,
+     "delta": 0.0
+    },
+    "times_a": {
+     "A": 188.33020900579263,
+     "B": 163.0542422773728
+    },
+    "times_b": {
+     "A": 188.33020900579263,
+     "B": 163.0542422773728
+    },
+    "type": "keep_site"
+   },
+   {
+    "changed": false,
+    "delta_s": {
+     "A": 0.0,
+     "B": 0.0
+    },
+    "flag_a": "",
+    "flag_b": "",
+    "id": "saltkeep",
+    "in_a": true,
+    "in_b": true,
+    "owner": null,
+    "spread": {
+     "a": 0.07753613499935912,
+     "b": 0.07753613499935912,
+     "changed": false,
+     "delta": 0.0
+    },
+    "times_a": {
+     "A": 227.1670674675936,
+     "B": 244.78072387816945
+    },
+    "times_b": {
+     "A": 227.1670674675936,
+     "B": 244.78072387816945
+    },
+    "type": "keep_site"
+   },
+   {
+    "changed": false,
+    "delta_s": {
+     "A": 0.0,
+     "B": 0.0
+    },
+    "flag_a": "",
+    "flag_b": "",
+    "id": "shrine",
+    "in_a": true,
+    "in_b": true,
+    "owner": null,
+    "spread": {
+     "a": 0.06427489751426373,
+     "b": 0.06427489751426373,
+     "changed": false,
+     "delta": 0.0
+    },
+    "times_a": {
+     "A": 388.08119437479,
+     "B": 364.64375442961045
+    },
+    "times_b": {
+     "A": 388.08119437479,
+     "B": 364.64375442961045
+    },
+    "type": "treasure"
+   },
+   {
+    "changed": false,
+    "delta_s": {
+     "A": 0.0,
+     "B": 0.0
+    },
+    "flag_a": "",
+    "flag_b": "",
+    "id": "camp_reeds",
+    "in_a": true,
+    "in_b": true,
+    "owner": null,
+    "spread": {
+     "a": 0.12324415641554486,
+     "b": 0.12324415641554486,
+     "changed": false,
+     "delta": 0.0
+    },
+    "times_a": {
+     "A": 323.70066361353975,
+     "B": 363.5948788317425
+    },
+    "times_b": {
+     "A": 323.70066361353975,
+     "B": 363.5948788317425
+    },
+    "type": "neutral_camp"
+   },
+   {
+    "changed": false,
+    "delta_s": {
+     "A": 0.0,
+     "B": 0.0
+    },
+    "flag_a": "",
+    "flag_b": "",
+    "id": "camp_wold",
+    "in_a": true,
+    "in_b": true,
+    "owner": null,
+    "spread": {
+     "a": 0.016320329303263593,
+     "b": 0.016320329303263593,
+     "changed": false,
+     "delta": 0.0
+    },
+    "times_a": {
+     "A": 283.8958260259307,
+     "B": 279.3369549348235
+    },
+    "times_b": {
+     "A": 283.8958260259307,
+     "B": 279.3369549348235
+    },
+    "type": "neutral_camp"
+   },
+   {
+    "changed": false,
+    "delta_s": {
+     "A": 0.0,
+     "B": 0.0
+    },
+    "flag_a": "",
+    "flag_b": "",
+    "id": "landing",
+    "in_a": true,
+    "in_b": true,
+    "owner": null,
+    "spread": {
+     "a": 0.033531750512448256,
+     "b": 0.033531750512448256,
+     "changed": false,
+     "delta": 0.0
+    },
+    "times_a": {
+     "A": 499.8559561495693,
+     "B": 483.6387037957271
+    },
+    "times_b": {
+     "A": 499.8559561495693,
+     "B": 483.6387037957271
+    },
+    "type": "capture"
+   },
+   {
+    "changed": false,
+    "delta_s": {
+     "A": 0.0,
+     "B": 0.0
+    },
+    "flag_a": "",
+    "flag_b": "",
+    "id": "heron_mound",
+    "in_a": true,
+    "in_b": true,
+    "owner": null,
+    "spread": {
+     "a": 0.04008582127525602,
+     "b": 0.04008582127525602,
+     "changed": false,
+     "delta": 0.0
+    },
+    "times_a": {
+     "A": 320.71479468234645,
+     "B": 333.5709106223134
+    },
+    "times_b": {
+     "A": 320.71479468234645,
+     "B": 333.5709106223134
+    },
+    "type": "capture"
+   },
+   {
+    "changed": false,
+    "delta_s": {
+     "A": 0.0,
+     "B": 0.0
+    },
+    "flag_a": "",
+    "flag_b": "",
+    "id": "supply_a",
+    "in_a": true,
+    "in_b": true,
+    "owner": "A",
+    "spread": {
+     "a": null,
+     "b": null,
+     "changed": false,
+     "delta": null
+    },
+    "times_a": {
+     "A": 58.467323164041815,
+     "B": 307.32444410441485
+    },
+    "times_b": {
+     "A": 58.467323164041815,
+     "B": 307.32444410441485
+    },
+    "type": "supply"
+   },
+   {
+    "changed": false,
+    "delta_s": {
+     "A": 0.0,
+     "B": 0.0
+    },
+    "flag_a": "",
+    "flag_b": "",
+    "id": "granary_a",
+    "in_a": true,
+    "in_b": true,
+    "owner": "A",
+    "spread": {
+     "a": null,
+     "b": null,
+     "changed": false,
+     "delta": null
+    },
+    "times_a": {
+     "A": 219.44344569476976,
+     "B": 524.7756345680126
+    },
+    "times_b": {
+     "A": 219.44344569476976,
+     "B": 524.7756345680126
+    },
+    "type": "supply"
+   },
+   {
+    "changed": false,
+    "delta_s": {
+     "A": 0.0,
+     "B": 0.0
+    },
+    "flag_a": "",
+    "flag_b": "",
+    "id": "supply_b",
+    "in_a": true,
+    "in_b": true,
+    "owner": "B",
+    "spread": {
+     "a": null,
+     "b": null,
+     "changed": false,
+     "delta": null
+    },
+    "times_a": {
+     "A": 392.9560241584196,
+     "B": 76.78620484583753
+    },
+    "times_b": {
+     "A": 392.9560241584196,
+     "B": 76.78620484583753
+    },
+    "type": "supply"
+   }
+  ],
+  "per_pair": {
+   "A-B": {
+    "base_time_s": {
+     "a": 337.21876585821644,
+     "b": 337.21876585821644,
+     "changed": false,
+     "delta": 0.0
+    },
+    "route_constriction": {
+     "a": 0.2517006802721094,
+     "b": 0.2517006802721094,
+     "changed": false,
+     "delta": 0.0
+    },
+    "route_openness": {
+     "a": 0.8643289804458618,
+     "b": 0.8643289804458618,
+     "changed": false,
+     "delta": 0.0
+    }
+   }
+  },
+  "per_team": {
+   "A": {
+    "area_share": {
+     "a": 0.48347222222222225,
+     "b": 0.48347222222222225,
+     "changed": false,
+     "delta": 0.0
+    },
+    "openness": {
+     "a": 0.8892127871513367,
+     "b": 0.8892127871513367,
+     "changed": false,
+     "delta": 0.0
+    }
+   },
+   "B": {
+    "area_share": {
+     "a": 0.3370648148148148,
+     "b": 0.3370648148148148,
+     "changed": false,
+     "delta": 0.0
+    },
+    "openness": {
+     "a": 0.8812597990036011,
+     "b": 0.8812597990036011,
+     "changed": false,
+     "delta": 0.0
+    }
+   }
+  },
+  "teams": [
+   "A",
+   "B"
+  ],
+  "warnings": {
+   "added": [],
+   "removed": []
+  }
+ },
+ "b": "C:/Users/thewa/AppData/Local/Temp/claude/1cef33adb626f6a4/f6e682d9-a008-4dab-93f7-87ec011a45c9/scratchpad/after/saltreach_delta",
+ "diff_format": 1,
+ "files": {
+  "added": [],
+  "changed": [
+   "export/spec.resolved.json"
+  ],
+  "removed": [],
+  "unchanged_count": 34
+ },
+ "heightmap": {
+  "a": {
+   "bytes": 2101250,
+   "height_max": 400.0,
+   "res": 1025
+  },
+  "b": {
+   "bytes": 2101250,
+   "height_max": 400.0,
+   "res": 1025
+  },
+  "bbox_m": null,
+  "bbox_px": null,
+  "changed_share": 0.0,
+  "changed_texels": 0,
+  "comparable": true,
+  "max_delta_m": 0.0,
+  "path": "export/heightmap.r16",
+  "reason": null,
+  "total_texels": 1050625
+ },
+ "identical": false,
+ "json": {
+  "export/spec.resolved.json": {
+   "change_count": 2,
+   "changes": [
+    {
+     "b": {
+      "cost": 0.6,
+      "r": 12
+     },
+     "op": "added",
+     "path": "/types/crossings/gate"
+    },
+    {
+     "b": {
+      "cost": "inf",
+      "los": true,
+      "splat": "rock",
+      "width": 8
+     },
+     "op": "added",
+     "path": "/types/lines/wall"
+    }
+   ],
+   "error": null,
+   "patterns": [
+    {
+     "count": 1,
+     "pattern": "/types/crossings/gate"
+    },
+    {
+     "count": 1,
+     "pattern": "/types/lines/wall"
+    }
+   ],
+   "truncated": false
+  }
+ },
+ "name_a": "saltreach_delta",
+ "name_b": "saltreach_delta",
+ "notes": [],
+ "rasters": [
+  {
+   "a": {
+    "height": 1025,
+    "mode": "I;16",
+    "width": 1025
+   },
+   "b": {
+    "height": 1025,
+    "mode": "I;16",
+    "width": 1025
+   },
+   "bbox_m": null,
+   "bbox_px": null,
+   "changed_share": 0.0,
+   "changed_texels": 0,
+   "comparable": true,
+   "max_abs_delta": 0,
+   "path": "export/heightmap.png",
+   "pixels_identical": true,
+   "reason": null,
+   "total_texels": 1050625
+  },
+  {
+   "a": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "b": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "bbox_m": null,
+   "bbox_px": null,
+   "changed_share": 0.0,
+   "changed_texels": 0,
+   "comparable": true,
+   "max_abs_delta": 0,
+   "path": "export/masks/bridge.png",
+   "pixels_identical": true,
+   "reason": null,
+   "total_texels": 1048576
+  },
+  {
+   "a": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "b": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "bbox_m": null,
+   "bbox_px": null,
+   "changed_share": 0.0,
+   "changed_texels": 0,
+   "comparable": true,
+   "max_abs_delta": 0,
+   "path": "export/masks/field.png",
+   "pixels_identical": true,
+   "reason": null,
+   "total_texels": 1048576
+  },
+  {
+   "a": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "b": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "bbox_m": null,
+   "bbox_px": null,
+   "changed_share": 0.0,
+   "changed_texels": 0,
+   "comparable": true,
+   "max_abs_delta": 0,
+   "path": "export/masks/ford.png",
+   "pixels_identical": true,
+   "reason": null,
+   "total_texels": 1048576
+  },
+  {
+   "a": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "b": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "bbox_m": null,
+   "bbox_px": null,
+   "changed_share": 0.0,
+   "changed_texels": 0,
+   "comparable": true,
+   "max_abs_delta": 0,
+   "path": "export/masks/forest.png",
+   "pixels_identical": true,
+   "reason": null,
+   "total_texels": 1048576
+  },
+  {
+   "a": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "b": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "bbox_m": null,
+   "bbox_px": null,
+   "changed_share": 0.0,
+   "changed_texels": 0,
+   "comparable": true,
+   "max_abs_delta": 0,
+   "path": "export/masks/hills.png",
+   "pixels_identical": true,
+   "reason": null,
+   "total_texels": 1048576
+  },
+  {
+   "a": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "b": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "bbox_m": null,
+   "bbox_px": null,
+   "changed_share": 0.0,
+   "changed_texels": 0,
+   "comparable": true,
+   "max_abs_delta": 0,
+   "path": "export/masks/impassable.png",
+   "pixels_identical": true,
+   "reason": null,
+   "total_texels": 1048576
+  },
+  {
+   "a": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "b": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "bbox_m": null,
+   "bbox_px": null,
+   "changed_share": 0.0,
+   "changed_texels": 0,
+   "comparable": true,
+   "max_abs_delta": 0,
+   "path": "export/masks/lake.png",
+   "pixels_identical": true,
+   "reason": null,
+   "total_texels": 1048576
+  },
+  {
+   "a": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "b": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "bbox_m": null,
+   "bbox_px": null,
+   "changed_share": 0.0,
+   "changed_texels": 0,
+   "comparable": true,
+   "max_abs_delta": 0,
+   "path": "export/masks/marsh.png",
+   "pixels_identical": true,
+   "reason": null,
+   "total_texels": 1048576
+  },
+  {
+   "a": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "b": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "bbox_m": null,
+   "bbox_px": null,
+   "changed_share": 0.0,
+   "changed_texels": 0,
+   "comparable": true,
+   "max_abs_delta": 0,
+   "path": "export/masks/plateau.png",
+   "pixels_identical": true,
+   "reason": null,
+   "total_texels": 1048576
+  },
+  {
+   "a": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "b": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "bbox_m": null,
+   "bbox_px": null,
+   "changed_share": 0.0,
+   "changed_texels": 0,
+   "comparable": true,
+   "max_abs_delta": 0,
+   "path": "export/masks/ramp.png",
+   "pixels_identical": true,
+   "reason": null,
+   "total_texels": 1048576
+  },
+  {
+   "a": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "b": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "bbox_m": null,
+   "bbox_px": null,
+   "changed_share": 0.0,
+   "changed_texels": 0,
+   "comparable": true,
+   "max_abs_delta": 0,
+   "path": "export/masks/river.png",
+   "pixels_identical": true,
+   "reason": null,
+   "total_texels": 1048576
+  },
+  {
+   "a": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "b": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "bbox_m": null,
+   "bbox_px": null,
+   "changed_share": 0.0,
+   "changed_texels": 0,
+   "comparable": true,
+   "max_abs_delta": 0,
+   "path": "export/masks/road.png",
+   "pixels_identical": true,
+   "reason": null,
+   "total_texels": 1048576
+  },
+  {
+   "a": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "b": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "bbox_m": null,
+   "bbox_px": null,
+   "changed_share": 0.0,
+   "changed_texels": 0,
+   "comparable": true,
+   "max_abs_delta": 0,
+   "path": "export/masks/ruins.png",
+   "pixels_identical": true,
+   "reason": null,
+   "total_texels": 1048576
+  },
+  {
+   "a": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "b": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "bbox_m": null,
+   "bbox_px": null,
+   "changed_share": 0.0,
+   "changed_texels": 0,
+   "comparable": true,
+   "max_abs_delta": 0,
+   "path": "export/masks/town.png",
+   "pixels_identical": true,
+   "reason": null,
+   "total_texels": 1048576
+  },
+  {
+   "a": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "b": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "bbox_m": null,
+   "bbox_px": null,
+   "changed_share": 0.0,
+   "changed_texels": 0,
+   "comparable": true,
+   "max_abs_delta": 0,
+   "path": "export/masks/trail.png",
+   "pixels_identical": true,
+   "reason": null,
+   "total_texels": 1048576
+  },
+  {
+   "a": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "b": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "bbox_m": null,
+   "bbox_px": null,
+   "changed_share": 0.0,
+   "changed_texels": 0,
+   "comparable": true,
+   "max_abs_delta": 0,
+   "path": "export/masks/water.png",
+   "pixels_identical": true,
+   "reason": null,
+   "total_texels": 1048576
+  },
+  {
+   "a": {
+    "height": 1024,
+    "mode": "RGBA",
+    "width": 1024
+   },
+   "b": {
+    "height": 1024,
+    "mode": "RGBA",
+    "width": 1024
+   },
+   "bbox_m": null,
+   "bbox_px": null,
+   "changed_share": 0.0,
+   "changed_texels": 0,
+   "comparable": true,
+   "max_abs_delta": 0,
+   "path": "export/splat_0.png",
+   "pixels_identical": true,
+   "reason": null,
+   "total_texels": 1048576
+  },
+  {
+   "a": {
+    "height": 1024,
+    "mode": "RGBA",
+    "width": 1024
+   },
+   "b": {
+    "height": 1024,
+    "mode": "RGBA",
+    "width": 1024
+   },
+   "bbox_m": null,
+   "bbox_px": null,
+   "changed_share": 0.0,
+   "changed_texels": 0,
+   "comparable": true,
+   "max_abs_delta": 0,
+   "path": "export/splat_1.png",
+   "pixels_identical": true,
+   "reason": null,
+   "total_texels": 1048576
+  }
+ ]
+}

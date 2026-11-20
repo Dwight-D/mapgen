@@ -278,7 +278,9 @@ A crossing **overrides passability**: inside it the cost is the crossing's cost 
 beneath is impassable, and slope never makes a crossing cell impassable (§6.3). `bridge` and `ford` make rivers
 crossable; `pass` makes a mountain crossable and lowers its height (§6.2); `ramp` relaxes the terrain so that a
 plateau edge or cliff becomes a walkable slope (§6.2). Automatic crossings (§4.7)
-have ids `<line id>-<water id>-<n>` (§4.8).
+have ids `<line id>-<water id>-<n>` (§4.8). `gate` is a small disc (cost 0.6, `r` 12) placed where a road passes through a `wall`
+line: the wall is impassable (cost inf, blocks line of sight) and the gate crossing overrides it. The `town` generators
+(`mapgen/TOWN_SPEC.md`) emit walls and gates.
 
 ### 4.5 POIs
 
@@ -492,11 +494,13 @@ lines:
   road:     { cost: 0.6, los: false, splat: road, width: 10, height_mode: flatten_line, crossing: bridge }
   trail:    { cost: 0.8, los: false, splat: dirt, width: 5, height_mode: flatten_line, flatten: 0.5, crossing: ford }
   cliff:    { cost: inf, los: true,  splat: rock, width: 8 }
+  wall:     { cost: inf, los: true,  splat: rock, width: 8 }
 crossings:
   bridge:   { cost: 0.6, r: 25 }
   ford:     { cost: 2.5, r: 40 }
   pass:     { cost: 1.5, r: 80 }
   ramp:     { cost: 1.2, r: 40 }
+  gate:     { cost: 0.6, r: 12 }
 pois:
   #         glyph: circle|square|diamond|triangle|star|cross; r: footprint metres
   base:          { glyph: square,   r: 120, objective: false }
@@ -544,11 +548,13 @@ lines:
   road:     "#ffffff"           # white with dark casing
   trail:    "#3d2a14"           # dark brown, dashed
   cliff:    "#111111"           # hatched
+  wall:     "#f2e6c8"           # pale stone band on a dark casing with crenellation ticks (cliff is black)
 crossings:
   bridge:   "#7a4a12"           # brown bar with white plank stripe
   ford:     "#8fd0ff"           # dashed ring
   pass:     "#ffffff"           # chevron
   ramp:     "#f0d9b5"           # dashed ring with step bars
+  gate:     "#ffd23f"           # dashed ring with an arch (two posts and a lintel)
 patterns:                       # region type -> texture drawn in the region's darkened colour
   forest: stipple
   marsh:  reeds
@@ -722,10 +728,10 @@ over the map area. Panel rows shrink to fit the image height.
    topmost side. Overlapping or touching regions of one type read as one area, lake and river water reads as one
    body, and nothing is outlined along the map edge.
 5. Lines: roads cased (dark 1 px casing, white fill); trails dashed dark brown on a light halo; cliffs as a dark
-   hatched line. A line is never narrower than 2.4 px.
+   hatched line; walls a pale band on a dark casing with a crenellation tick every ~10 px on both sides. A line is never narrower than 2.4 px.
 6. Crossings: bridge = brown bar with dark casing and a white plank stripe across the river; ford = dashed light
    ring with a dark casing; pass = dashed ring with a chevron drawn in white over dark; ramp = dashed ring with three
-   step bars. A band crossing is drawn as the dashed outline of its band with its symbol at the middle.
+   step bars; gate = dashed ring with an arch (two posts and a lintel). A band crossing is drawn as the dashed outline of its band with its symbol at the middle.
 7. POIs: glyph (§5) in white with black outline, sized ~1.2 % of the image; team-owned POIs filled with the team
    colour and carrying the team id letter in black or white (whichever contrasts); label (or id, with `[team]` for
    owned POIs) next to it in black text with a white halo. Bases: a larger team-coloured square with the team letter

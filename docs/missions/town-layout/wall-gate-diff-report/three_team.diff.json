@@ -1,0 +1,740 @@
+{
+ "a": "C:/Users/thewa/AppData/Local/Temp/claude/1cef33adb626f6a4/f6e682d9-a008-4dab-93f7-87ec011a45c9/scratchpad/before/three_team",
+ "analysis": {
+  "map": {
+   "contested_share": {
+    "a": 0.0393,
+    "b": 0.0393,
+    "changed": false,
+    "delta": 0.0
+   },
+   "fair_zone_share": {
+    "a": 0.002711111111111111,
+    "b": 0.002711111111111111,
+    "changed": false,
+    "delta": 0.0
+   },
+   "openness_mean": {
+    "a": 0.9195444583892822,
+    "b": 0.9195444583892822,
+    "changed": false,
+    "delta": 0.0
+   },
+   "unreachable_share": {
+    "a": 0.08223333333333334,
+    "b": 0.08223333333333334,
+    "changed": false,
+    "delta": 0.0
+   },
+   "warning_count": {
+    "a": 0,
+    "b": 0,
+    "changed": false,
+    "delta": 0
+   }
+  },
+  "objectives": [
+   {
+    "changed": false,
+    "delta_s": {
+     "A": 0.0,
+     "B": 0.0,
+     "C": 0.0
+    },
+    "flag_a": "",
+    "flag_b": "",
+    "id": "island_keep",
+    "in_a": true,
+    "in_b": true,
+    "owner": null,
+    "spread": {
+     "a": 0.07692065491879742,
+     "b": 0.07692065491879742,
+     "changed": false,
+     "delta": 0.0
+    },
+    "times_a": {
+     "A": 138.0000000000001,
+     "B": 148.61505037879417,
+     "C": 147.33220766631953
+    },
+    "times_b": {
+     "A": 138.0000000000001,
+     "B": 148.61505037879417,
+     "C": 147.33220766631953
+    },
+    "type": "keep_site"
+   },
+   {
+    "changed": false,
+    "delta_s": {
+     "A": 0.0,
+     "B": 0.0,
+     "C": 0.0
+    },
+    "flag_a": "",
+    "flag_b": "",
+    "id": "relic",
+    "in_a": true,
+    "in_b": true,
+    "owner": null,
+    "spread": {
+     "a": 0.028365491333825356,
+     "b": 0.028365491333825356,
+     "changed": false,
+     "delta": 0.0
+    },
+    "times_a": {
+     "A": 149.6000000000001,
+     "B": 153.84347750354038,
+     "C": 151.50966799187796
+    },
+    "times_b": {
+     "A": 149.6000000000001,
+     "B": 153.84347750354038,
+     "C": 151.50966799187796
+    },
+    "type": "treasure"
+   },
+   {
+    "changed": false,
+    "delta_s": {
+     "A": 0.0,
+     "B": 0.0,
+     "C": 0.0
+    },
+    "flag_a": "",
+    "flag_b": "",
+    "id": "fwd_north",
+    "in_a": true,
+    "in_b": true,
+    "owner": "A",
+    "spread": {
+     "a": null,
+     "b": null,
+     "changed": false,
+     "delta": null
+    },
+    "times_a": {
+     "A": 63.600000000000065,
+     "B": 221.60916292848893,
+     "C": 221.02926394116656
+    },
+    "times_b": {
+     "A": 63.600000000000065,
+     "B": 221.60916292848893,
+     "C": 221.02926394116656
+    },
+    "type": "capture"
+   },
+   {
+    "changed": false,
+    "delta_s": {
+     "A": 0.0,
+     "B": 0.0,
+     "C": 0.0
+    },
+    "flag_a": "",
+    "flag_b": "",
+    "id": "fwd_sw",
+    "in_a": true,
+    "in_b": true,
+    "owner": "B",
+    "spread": {
+     "a": null,
+     "b": null,
+     "changed": false,
+     "delta": null
+    },
+    "times_a": {
+     "A": 217.3685424949236,
+     "B": 68.80630585851516,
+     "C": 228.10663761154757
+    },
+    "times_b": {
+     "A": 217.3685424949236,
+     "B": 68.80630585851516,
+     "C": 228.10663761154757
+    },
+    "type": "capture"
+   },
+   {
+    "changed": false,
+    "delta_s": {
+     "A": 0.0,
+     "B": 0.0,
+     "C": 0.0
+    },
+    "flag_a": "",
+    "flag_b": "",
+    "id": "fwd_se",
+    "in_a": true,
+    "in_b": true,
+    "owner": "C",
+    "spread": {
+     "a": null,
+     "b": null,
+     "changed": false,
+     "delta": null
+    },
+    "times_a": {
+     "A": 216.87148622007584,
+     "B": 228.18948032402218,
+     "C": 68.72346314604053
+    },
+    "times_b": {
+     "A": 216.87148622007584,
+     "B": 228.18948032402218,
+     "C": 68.72346314604053
+    },
+    "type": "capture"
+   },
+   {
+    "changed": false,
+    "delta_s": {
+     "A": 0.0,
+     "B": 0.0,
+     "C": 0.0
+    },
+    "flag_a": "",
+    "flag_b": "",
+    "id": "supply_north",
+    "in_a": true,
+    "in_b": true,
+    "owner": "A",
+    "spread": {
+     "a": null,
+     "b": null,
+     "changed": false,
+     "delta": null
+    },
+    "times_a": {
+     "A": 43.12935059634515,
+     "B": 286.1159738503924,
+     "C": 286.5301874127655
+    },
+    "times_b": {
+     "A": 43.12935059634515,
+     "B": 286.1159738503924,
+     "C": 286.5301874127655
+    },
+    "type": "supply"
+   },
+   {
+    "changed": false,
+    "delta_s": {
+     "A": 0.0,
+     "B": 0.0,
+     "C": 0.0
+    },
+    "flag_a": "",
+    "flag_b": "",
+    "id": "supply_sw",
+    "in_a": true,
+    "in_b": true,
+    "owner": "B",
+    "spread": {
+     "a": null,
+     "b": null,
+     "changed": false,
+     "delta": null
+    },
+    "times_a": {
+     "A": 285.95575746753764,
+     "B": 42.45096679918781,
+     "C": 296.6938525841617
+    },
+    "times_b": {
+     "A": 285.95575746753764,
+     "B": 42.45096679918781,
+     "C": 296.6938525841617
+    },
+    "type": "supply"
+   },
+   {
+    "changed": false,
+    "delta_s": {
+     "A": 0.0,
+     "B": 0.0,
+     "C": 0.0
+    },
+    "flag_a": "",
+    "flag_b": "",
+    "id": "supply_se",
+    "in_a": true,
+    "in_b": true,
+    "owner": "C",
+    "spread": {
+     "a": null,
+     "b": null,
+     "changed": false,
+     "delta": null
+    },
+    "times_a": {
+     "A": 286.02438661763915,
+     "B": 297.3423807215855,
+     "C": 42.48528137423857
+    },
+    "times_b": {
+     "A": 286.02438661763915,
+     "B": 297.3423807215855,
+     "C": 42.48528137423857
+    },
+    "type": "supply"
+   }
+  ],
+  "per_pair": {
+   "A-B": {
+    "base_time_s": {
+     "a": 285.2091629284895,
+     "b": 285.2091629284895,
+     "changed": false,
+     "delta": 0.0
+    },
+    "route_constriction": {
+     "a": 0.1496598639455783,
+     "b": 0.1496598639455783,
+     "changed": false,
+     "delta": 0.0
+    },
+    "route_openness": {
+     "a": 0.8442991971969604,
+     "b": 0.8442991971969604,
+     "changed": false,
+     "delta": 0.0
+    }
+   },
+   "A-C": {
+    "base_time_s": {
+     "a": 284.6292639411672,
+     "b": 284.6292639411672,
+     "changed": false,
+     "delta": 0.0
+    },
+    "route_constriction": {
+     "a": 0.12698412698412692,
+     "b": 0.12698412698412692,
+     "changed": false,
+     "delta": 0.0
+    },
+    "route_openness": {
+     "a": 0.8446729183197021,
+     "b": 0.8446729183197021,
+     "changed": false,
+     "delta": 0.0
+    }
+   },
+   "B-C": {
+    "base_time_s": {
+     "a": 295.94725804511364,
+     "b": 295.94725804511364,
+     "changed": false,
+     "delta": 0.0
+    },
+    "route_constriction": {
+     "a": 0.17006802721088451,
+     "b": 0.17006802721088451,
+     "changed": false,
+     "delta": 0.0
+    },
+    "route_openness": {
+     "a": 0.8221499919891357,
+     "b": 0.8221499919891357,
+     "changed": false,
+     "delta": 0.0
+    }
+   }
+  },
+  "per_team": {
+   "A": {
+    "area_share": {
+     "a": 0.3104,
+     "b": 0.3104,
+     "changed": false,
+     "delta": 0.0
+    },
+    "openness": {
+     "a": 0.9207116365432739,
+     "b": 0.9207116365432739,
+     "changed": false,
+     "delta": 0.0
+    }
+   },
+   "B": {
+    "area_share": {
+     "a": 0.2865,
+     "b": 0.2865,
+     "changed": false,
+     "delta": 0.0
+    },
+    "openness": {
+     "a": 0.9196016788482666,
+     "b": 0.9196016788482666,
+     "changed": false,
+     "delta": 0.0
+    }
+   },
+   "C": {
+    "area_share": {
+     "a": 0.2815666666666667,
+     "b": 0.2815666666666667,
+     "changed": false,
+     "delta": 0.0
+    },
+    "openness": {
+     "a": 0.9090738296508789,
+     "b": 0.9090738296508789,
+     "changed": false,
+     "delta": 0.0
+    }
+   }
+  },
+  "teams": [
+   "A",
+   "B",
+   "C"
+  ],
+  "warnings": {
+   "added": [],
+   "removed": []
+  }
+ },
+ "b": "C:/Users/thewa/AppData/Local/Temp/claude/1cef33adb626f6a4/f6e682d9-a008-4dab-93f7-87ec011a45c9/scratchpad/after/three_team",
+ "diff_format": 1,
+ "files": {
+  "added": [],
+  "changed": [
+   "export/spec.resolved.json"
+  ],
+  "removed": [],
+  "unchanged_count": 27
+ },
+ "heightmap": {
+  "a": {
+   "bytes": 2101250,
+   "height_max": 400.0,
+   "res": 1025
+  },
+  "b": {
+   "bytes": 2101250,
+   "height_max": 400.0,
+   "res": 1025
+  },
+  "bbox_m": null,
+  "bbox_px": null,
+  "changed_share": 0.0,
+  "changed_texels": 0,
+  "comparable": true,
+  "max_delta_m": 0.0,
+  "path": "export/heightmap.r16",
+  "reason": null,
+  "total_texels": 1050625
+ },
+ "identical": false,
+ "json": {
+  "export/spec.resolved.json": {
+   "change_count": 2,
+   "changes": [
+    {
+     "b": {
+      "cost": 0.6,
+      "r": 12
+     },
+     "op": "added",
+     "path": "/types/crossings/gate"
+    },
+    {
+     "b": {
+      "cost": "inf",
+      "los": true,
+      "splat": "rock",
+      "width": 8
+     },
+     "op": "added",
+     "path": "/types/lines/wall"
+    }
+   ],
+   "error": null,
+   "patterns": [
+    {
+     "count": 1,
+     "pattern": "/types/crossings/gate"
+    },
+    {
+     "count": 1,
+     "pattern": "/types/lines/wall"
+    }
+   ],
+   "truncated": false
+  }
+ },
+ "name_a": "three_team",
+ "name_b": "three_team",
+ "notes": [],
+ "rasters": [
+  {
+   "a": {
+    "height": 1025,
+    "mode": "I;16",
+    "width": 1025
+   },
+   "b": {
+    "height": 1025,
+    "mode": "I;16",
+    "width": 1025
+   },
+   "bbox_m": null,
+   "bbox_px": null,
+   "changed_share": 0.0,
+   "changed_texels": 0,
+   "comparable": true,
+   "max_abs_delta": 0,
+   "path": "export/heightmap.png",
+   "pixels_identical": true,
+   "reason": null,
+   "total_texels": 1050625
+  },
+  {
+   "a": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "b": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "bbox_m": null,
+   "bbox_px": null,
+   "changed_share": 0.0,
+   "changed_texels": 0,
+   "comparable": true,
+   "max_abs_delta": 0,
+   "path": "export/masks/forest.png",
+   "pixels_identical": true,
+   "reason": null,
+   "total_texels": 1048576
+  },
+  {
+   "a": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "b": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "bbox_m": null,
+   "bbox_px": null,
+   "changed_share": 0.0,
+   "changed_texels": 0,
+   "comparable": true,
+   "max_abs_delta": 0,
+   "path": "export/masks/hills.png",
+   "pixels_identical": true,
+   "reason": null,
+   "total_texels": 1048576
+  },
+  {
+   "a": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "b": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "bbox_m": null,
+   "bbox_px": null,
+   "changed_share": 0.0,
+   "changed_texels": 0,
+   "comparable": true,
+   "max_abs_delta": 0,
+   "path": "export/masks/impassable.png",
+   "pixels_identical": true,
+   "reason": null,
+   "total_texels": 1048576
+  },
+  {
+   "a": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "b": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "bbox_m": null,
+   "bbox_px": null,
+   "changed_share": 0.0,
+   "changed_texels": 0,
+   "comparable": true,
+   "max_abs_delta": 0,
+   "path": "export/masks/lake.png",
+   "pixels_identical": true,
+   "reason": null,
+   "total_texels": 1048576
+  },
+  {
+   "a": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "b": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "bbox_m": null,
+   "bbox_px": null,
+   "changed_share": 0.0,
+   "changed_texels": 0,
+   "comparable": true,
+   "max_abs_delta": 0,
+   "path": "export/masks/road.png",
+   "pixels_identical": true,
+   "reason": null,
+   "total_texels": 1048576
+  },
+  {
+   "a": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "b": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "bbox_m": null,
+   "bbox_px": null,
+   "changed_share": 0.0,
+   "changed_texels": 0,
+   "comparable": true,
+   "max_abs_delta": 0,
+   "path": "export/masks/ruins.png",
+   "pixels_identical": true,
+   "reason": null,
+   "total_texels": 1048576
+  },
+  {
+   "a": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "b": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "bbox_m": null,
+   "bbox_px": null,
+   "changed_share": 0.0,
+   "changed_texels": 0,
+   "comparable": true,
+   "max_abs_delta": 0,
+   "path": "export/masks/town.png",
+   "pixels_identical": true,
+   "reason": null,
+   "total_texels": 1048576
+  },
+  {
+   "a": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "b": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "bbox_m": null,
+   "bbox_px": null,
+   "changed_share": 0.0,
+   "changed_texels": 0,
+   "comparable": true,
+   "max_abs_delta": 0,
+   "path": "export/masks/trail.png",
+   "pixels_identical": true,
+   "reason": null,
+   "total_texels": 1048576
+  },
+  {
+   "a": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "b": {
+    "height": 1024,
+    "mode": "L",
+    "width": 1024
+   },
+   "bbox_m": null,
+   "bbox_px": null,
+   "changed_share": 0.0,
+   "changed_texels": 0,
+   "comparable": true,
+   "max_abs_delta": 0,
+   "path": "export/masks/water.png",
+   "pixels_identical": true,
+   "reason": null,
+   "total_texels": 1048576
+  },
+  {
+   "a": {
+    "height": 1024,
+    "mode": "RGBA",
+    "width": 1024
+   },
+   "b": {
+    "height": 1024,
+    "mode": "RGBA",
+    "width": 1024
+   },
+   "bbox_m": null,
+   "bbox_px": null,
+   "changed_share": 0.0,
+   "changed_texels": 0,
+   "comparable": true,
+   "max_abs_delta": 0,
+   "path": "export/splat_0.png",
+   "pixels_identical": true,
+   "reason": null,
+   "total_texels": 1048576
+  },
+  {
+   "a": {
+    "height": 1024,
+    "mode": "RGBA",
+    "width": 1024
+   },
+   "b": {
+    "height": 1024,
+    "mode": "RGBA",
+    "width": 1024
+   },
+   "bbox_m": null,
+   "bbox_px": null,
+   "changed_share": 0.0,
+   "changed_texels": 0,
+   "comparable": true,
+   "max_abs_delta": 0,
+   "path": "export/splat_1.png",
+   "pixels_identical": true,
+   "reason": null,
+   "total_texels": 1048576
+  }
+ ]
+}

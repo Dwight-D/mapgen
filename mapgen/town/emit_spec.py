@@ -8,7 +8,7 @@ from __future__ import annotations
 import json
 from typing import List
 
-from ..schema import feature_seed, load_types
+from ..schema import feature_seed
 from .model import Settlement
 
 ROAD_TYPE = {"artery": "road", "ring": "road", "boulevard": "road", "bridge": "road", "approach": "road"}
@@ -43,19 +43,16 @@ def road_path(s: Settlement, road) -> List[str]:
 
 
 def wall_gate_types():
-    """(line type of walls, crossing type of gates): `wall` and `gate` when the type table has them, else the types
-    that exist today, `cliff` (impassable, blocks sight) and `ramp` (walkable crossing)."""
-    t = load_types()
-    return ("wall" if "wall" in t.lines else "cliff"), ("gate" if "gate" in t.crossings else "ramp")
+    """(line type of walls, crossing type of gates): always `wall` and `gate`."""
+    return "wall", "gate"
 
 
 def emit_spec(s: Settlement) -> str:
-    wall_type, gate_type = wall_gate_types()
     out: List[str] = []
     w = out.append
     w("# Fragment of a mapgen spec generated from settlement %s (generator %s, seed %d)." % (s.id, s.generator, s.seed))
     w("# Paste each list under the same key of the spec; every id starts with `%s_`. Coordinates are map metres." % s.id)
-    w("# Districts are `town` regions, roads are `road` lines, the wall is a `%s` line, gates are `%s` crossings" % (wall_type, gate_type))
+    w("# Districts are `town` regions, roads are `road` lines, the wall is a `wall` line, gates are `gate` crossings")
     w("# on `points` entries, squares, citadels and other landmarks are `landmark` POIs (change one to `keep_site` or `capture` to make it an objective).")
     w("")
     w("points:")
@@ -73,12 +70,12 @@ def emit_spec(s: Settlement) -> str:
         w("  - { id: %s, seed: %d, type: road, path: [%s], width: %s, smooth: true }"
           % (r.id, feature_seed(r.id), ", ".join(road_path(s, r)), num(r.width)))
     for wl in s.walls:
-        w("  - { id: %s, seed: %d, type: %s, path: %s, width: %s }"
-          % (wl.id, feature_seed(wl.id), wall_type, _pts(wl.polyline), num(wl.thickness)))
+        w("  - { id: %s, seed: %d, type: wall, path: %s, width: %s }"
+          % (wl.id, feature_seed(wl.id), _pts(wl.polyline), num(wl.thickness)))
     w("")
     w("crossings:")
     for g in s.gates:
-        w("  - { id: %s_x, type: %s, at: %s }" % (g.id, gate_type, g.id))
+        w("  - { id: %s_x, type: gate, at: %s }" % (g.id, g.id))
     w("")
     w("pois:")
     for l in s.landmarks:

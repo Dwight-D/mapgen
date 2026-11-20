@@ -335,8 +335,8 @@ change. The text comes from a fixed template (numbers with at most 2 decimals), 
 |---|---|
 | district | `regions` entry `{ id: <sid>_d_<key>, seed, type: town, shape: poly, points, rough: 0, label }`; `rough: 0` and the default `warp: 0` keep the planned polygon |
 | road | `lines` entry, type `road`, `smooth: true`, `width`; `path` holds point references for nodes and `[x, y]` for other vertices (ring roads) |
-| wall | `lines` entry, type `wall` (`cliff` while `wall` is not in the type table), `width` = thickness, `path` = the closed polyline |
-| gate | a `points` entry `<sid>_gate_<s>` and a `crossings` entry `{ id: <sid>_gate_<s>_x, type: gate, at: <sid>_gate_<s> }` (type `ramp` while `gate` is not in the type table); the crossing overrides the wall's impassable cost |
+| wall | `lines` entry, type `wall`, `width` = thickness, `path` = the closed polyline |
+| gate | a `points` entry `<sid>_gate_<s>` and a `crossings` entry `{ id: <sid>_gate_<s>_x, type: gate, at: <sid>_gate_<s> }`; the crossing overrides the wall's impassable cost |
 | junction | a `points` entry `<sid>_j_r<i>s<s>` |
 | square, citadel, other landmarks | `pois` entry, type `landmark`, `r`, `label` (change to `keep_site` or `capture` to make an objective) |
 
@@ -344,16 +344,10 @@ change. The text comes from a fixed template (numbers with at most 2 decimals), 
 label appears twice on the map (district and landmark); authors drop one. District `kind` and `waterfront` travel in
 `settlement.json` only; all districts use the `town` splat.
 
-Contract additions this feature needs: line type `wall` (cost inf, `los: true`, splat `rock`, width 8; palette `#f2e6c8`, drawn as
-a pale band on a dark casing with crenellation ticks) and crossing type `gate` (cost 0.6, `r` 12; palette `#ffd23f`, drawn with
-an arch); both are separated from `cliff` and `ramp` by lightness and shape, and `python -m mapgen palette` passes with them.
-`types.yaml` is echoed into every build's `export/spec.resolved.json` (`types`), so adding the two entries changes that file of
-all eight committed maps: it is a contract change that needs an owner-approved re-baseline (`CLAUDE.md`: never re-baseline
-without approval; show the diff report first). The complete prepared change (types, palette, `render.py` drawing of `wall` and
-`gate`, doc rows) is `docs/missions/town-layout/wall-gate-types.patch`; apply it with `git apply`, update the hard-coded type
-sets in `tests/test_spec_editor.py::test_schema_tables_are_read_from_schema_py_and_match_the_loader_messages`, build the eight
-maps before and after for `mapgen diff`, and re-baseline on approval. Until then `emit_spec` falls back to `cliff` and `ramp`
-(`emit_spec.wall_gate_types()` reads the type table), so fragments validate and build either way.
+The type table has line type `wall` (cost inf, `los: true`, splat `rock`, width 8; palette `#f2e6c8`, drawn as a pale band on a
+dark casing with crenellation ticks) and crossing type `gate` (cost 0.6, `r` 12; palette `#ffd23f`, drawn with an arch); both are
+separated from `cliff` and `ramp` by lightness and shape, and `python -m mapgen palette` passes with them. The emitter always
+writes `wall` and `gate`.
 
 ### 9.2 Flowgraph fragment (`emit_flow`, `flow_fragment.yaml`)
 

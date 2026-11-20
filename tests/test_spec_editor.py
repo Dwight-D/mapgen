@@ -570,7 +570,7 @@ def test_schema_tables_are_read_from_schema_py_and_match_the_loader_messages():
         assert sj["keys"]["region_" + shape]["allowed"] == schema.allowed_keys("region", shape)[0]
     assert "rough" in sj["keys"]["region_blob"]["allowed"] and "rough" in sj["keys"]["region_poly"]["allowed"]
     assert "width" in sj["keys"]["region_band"]["allowed"] and "width" not in sj["keys"]["region_blob"]["allowed"]
-    assert {"forest", "lake", "mountain"} <= set(sj["types"]["region"]) and set(sj["types"]["line"]) == {"river", "road", "trail", "cliff"}
+    assert {"forest", "lake", "mountain"} <= set(sj["types"]["region"]) and set(sj["types"]["line"]) == {"river", "road", "trail", "cliff", "wall"}
     assert sj["types"]["region"]["mountain"]["cost"] == "inf"
     assert all(k in sj["props"] for k in ("rough", "meander", "impassable", "label", "join_end", "coverage"))
     # the loader's own unknown-key message lists exactly the allowed keys the editor uses
