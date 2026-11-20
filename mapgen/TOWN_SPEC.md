@@ -1,7 +1,7 @@
 # Town layout — procedural settlement generators
 
-Status: slices 1-2 implemented (core model, JSON, checks, preview, spec and flowgraph emitters, `town` CLI, `radial` and
-`voronoi` generators). The `wall` line type and `gate` crossing type are a prepared contract addition awaiting an approved re-baseline
+Status: slices 1-3 implemented (core model, JSON, checks, preview, spec and flowgraph emitters, `town` CLI, `radial`,
+`voronoi` and `grid` generators). The `wall` line type and `gate` crossing type are a prepared contract addition awaiting an approved re-baseline
 (§9.1). Slices 2-6 (§14) are design; each is a backlog item in the `mapgen`
 workstream (mission: `docs/missions/town-layout/MISSION.md`, evidence: `docs/investigations/2026-11-20-town-layout-*.md`).
 This file is the contract those items implement. It is self-contained: a cold implementer needs nothing else except
@@ -68,7 +68,7 @@ Ids are structural, never list positions, so a parameter change keeps the ids of
 
 | feature | id | key |
 |---|---|---|
-| district | `<sid>_d_<key>` | radial: `plaza`, `r<annulus>s<first spoke>`; later generators: voronoi `p<n>`, grid `x<i>y<j>`, bsp the split path |
+| district | `<sid>_d_<key>` | radial: `plaza`, `r<annulus>s<first spoke>`; later generators: voronoi `p<n>`, grid `x<i>y<j>` (suffix `a`, `b` for split cells), bsp the split path |
 | spoke road | `<sid>_spoke_<s>` | |
 | ring road | `<sid>_ring_<i>` (i from 1, innermost first) | |
 | wall | `<sid>_wall_outer` (later `_wall_inner`, `_wall_citadel`) | |
@@ -226,7 +226,79 @@ A layout that fails (unbounded cell, unmergeable sliver, holed or disconnected f
 stream (`seeds1`, `merge1`, ...), up to 8 attempts, then `GenerationError`. A wall-less regime is not implemented.
 Observed: the outermost cells are large and spiky at high jitter; `radial` is the tidier choice for compact walls.
 
-### 7.3 Shared helpers for later generators
+### 7.3 `grid` (implemented; `mapgen/town/gen_grid.py`)
+
+A rotated street lattice clipped by a convex superellipse outline, a market square with boulevards radiating from it, an
+optional inner circular wall. Covers walled grid towns (Hearthmoor), Manhattan-style blocks with diagonal boulevards and planned
+or imperial towns with a market hub (refs 10 and 12 of the mission).
+
+Parameters (`python -m mapgen town list` prints the live table):
+
+| name | type | valid | drawn | meaning |
+|---|---|---|---|---|
+| `extent_frac` | float | 0.3-0.95 | 0.4-0.7 | outline diameter as a fraction of the map's shorter side; scaled down to stay 10 m inside the map |
+| `aspect` | float | 1-1.8 | 1-1.4 | outline length / width |
+| `roundness` | float | 2-12 | 3-10 | superellipse exponent: 2 ellipse, above 8 nearly a rectangle |
+| `rotation` | float | 0-360 | 0-360 | rotation of the whole layout, degrees |
+| `block`, `block_ratio` | float | 40-250, 0.5-2 | 70-130, 0.7-1.4 | lattice spacing along u (m) and the v / u spacing ratio |
+| `spacing_jitter` | float | 0-0.3 | 0-0.25 | per-street offset, fraction of the spacing |
+| `lattice_phase` | float | 0-0.5 | 0-0.5 | lattice offset from the square, fraction of the spacing (0: a street through the hub) |
+| `hub_offset` | float | 0-0.4 | 0-0.2 | square distance from the outline centre, fraction of the half size, in a seeded direction |
+| `plaza_frac` | float | 0.05-0.3 | 0.08-0.14 | square radius / half width (minimum 25 m, at most 40 % of the distance to the outline) |
+| `boulevards` | int | 2-8 | 2-5 | boulevards from the hub to the outline |
+| `boulevard_twist` | float | 0-45 | 0-45 | angle of the boulevards to the lattice axes, degrees (45: diagonals, 0: axes) |
+| `boulevard_jitter` | float | 0-0.3 | 0-0.15 | angle jitter, fraction of the angular spacing |
+| `gates` | int | 2-12 | 3-6 | gates in the outer wall (at most the number of street ends on it) |
+| `inner_wall` | bool | | P(true) 0.4 | circular inner wall around the square |
+| `inner_wall_frac` | float | 0.3-0.8 | 0.4-0.65 | inner wall radius / distance from the hub to the outline (dropped when under square radius + 30 m) |
+| `citadel` | bool | | P(true) 0.4 | the district farthest from every outer gate becomes a citadel |
+| `min_district_area` | float | 100-20000 | default 1600 | m2; smaller faces merge into the neighbour with the longest shared border |
+| `snap` | float | 1-12 | default 3 | crossings within this distance (m) of an existing vertex share it |
+
+Construction:
+
+1. Outline: a superellipse `|x/a|^n + |y/b|^n = 1` (`n = roundness`, `a = R sqrt(aspect)`, `b = R / sqrt(aspect)`, `R = extent_frac *
+   min(size) / 2`) sampled at 120 angles in the layout frame, rotated by `rotation`, centred on the map centre. It is convex, is the
+   footprint and the outer wall, and is scaled down uniformly until it lies 10 m inside the map.
+2. Hub: the market square centre, at `hub_offset` along a seeded direction (stage `hub`). The square is a regular octagon of radius
+   `rm`. An optional inner wall is a 32-gon of radius `inner_wall_frac * d`, `d` the hub's distance to the outline.
+3. Lattice (stage `lattice`): u-streets are lines of constant `u = (k + lattice_phase) * block + jitter`, v-streets of constant `v`
+   with `block * block_ratio`, in the layout frame centred on the hub, `k` a signed integer. Each line is clipped to the outline,
+   then to the outside of the square; the pieces are `artery` roads of width 10. A piece shorter than 10 m, or running within 2 m
+   of a boulevard for over half its length, is dropped.
+4. Boulevards (stage `boulevards`): `boulevards` rays from the hub at `boulevard_twist + k * 360 / boulevards` degrees (plus jitter)
+   in the layout frame, each running to the outline; class `boulevard`, width 16, through the square to the hub.
+5. Vertices. Every crossing (street x street, street x boulevard, street or boulevard x square ring or inner wall, street end on the
+   outline) is one registry vertex, shared by the roads, the rings and the district polygons that pass through it; a crossing within
+   `snap` metres of an existing vertex reuses it. The outline, the square ring and the inner wall receive the crossing vertices.
+6. Districts: `shapely.polygonize` over the street segments (boulevards omitted inside the square), the outline, the square ring and
+   the inner wall. Faces below `min_district_area` merge into the neighbour with the longest border (never across the inner wall, the
+   square only when nothing else touches them). Key `plaza` for the square; every other face `x<i>y<j>` where `i`, `j` count lattice
+   lines from the cell containing the hub (negative as `n<i>`, e.g. `xn1y2`), with a letter suffix (`a`, `b`, ...) when a boulevard
+   or the square splits a cell into several faces. Kinds: `core` (square), `market` (touches the square), `craft` (touches the outer
+   wall), else `residential`; the citadel overrides.
+7. Gates. The candidates are the street and boulevard ends on the outline; the first is picked from stage `gates`, each next one
+   maximises its distance to the chosen ones (boulevard ends weighted 1.5), `gates` in all; the id is `<sid>_gate_<key>` where the
+   key is the boulevard (`b0`) or the lattice line with the side of the end (`u0p`, `vn1n`). Every road crossing the inner wall is an
+   inner gate `<sid>_igate_<road key>` (`_2` for a second crossing of the same road). Normals: the outline's outward normal; the radial
+   direction for inner gates.
+8. Roads and nodes: road ids `<sid>_av_<line key>[n|p]` (suffix when the square cuts the line into a negative and a positive part),
+   `<sid>_blvd_b<k>`, `<sid>_ring_1` (the square's ring road, class `ring`). Nodes: the hub (`<sid>_plaza`, zone), gates, the octagon
+   corners (`<sid>_rv_<k>`), street ends on the outline that are not gates (`<sid>_e_<key>`), and every crossing of two roads
+   (`<sid>_j_<key a>_<key b>`, keys sorted). Every polyline vertex of every road is a node, so the spec fragment holds no literal
+   vertices and the flowgraph derivation reproduces the movement edges exactly.
+9. Fit. A layout that fails (duplicate movement edge between two nodes, an unsnapped vertex, a hole, an isolated sliver) first drops
+   the lattice road involved when that is the cause, then retries with `block` * 1.15 and `snap` + 1.5, up to 10 times, then
+   `GenerationError`. The echoed `block` and `snap` are the ones that worked, so regenerating from them is a fixed point.
+
+Expresses: walled grid towns, Manhattan-style blocks cut by diagonal boulevards, planned towns with an inner wall. Does not express:
+the L1 nearest-centre variant (§14 slice 3, second step), outline kinds other than the superellipse (octagon, hull, hand polygon),
+water, a non-convex outline. Observed: a boulevard at a small angle to a street near the hub leaves a thin triangle of district. The
+tests sweep 20 seeds at default size plus a Hearthmoor-like preset (`extent_frac 0.5, roundness 8, rotation 0, boulevards 4,
+boulevard_twist 0, boulevard_jitter 0, gates 4, hub_offset 0, lattice_phase 0, spacing_jitter 0, inner_wall false`, 600 m map) and a
+long-block preset (`aspect 1.7, roundness 12, block 120, block_ratio 0.5, rotation 29, boulevards 2, boulevard_twist 32`).
+
+### 7.4 Shared helpers for later generators
 
 Slice 1 contains these in `radial` or `graph`; later slices move the generic parts out when a second user needs them:
 `finalize(...)` (roads sorted, `movement_edges`, `attach_districts`, `district_graph`, build the Settlement), `planar.py`
@@ -330,11 +402,12 @@ check.py        check, check_determinism
 registry.py     GENERATORS, generate
 gen_radial.py   slice 1
 gen_voronoi.py  slice 2
+gen_grid.py     slice 3
 emit_spec.py    Settlement -> spec YAML fragment
 emit_flow.py    Settlement -> flowgraph fragment
 render.py       preview PNG
 cli.py          `town` command group
-(later)         planar.py, outline.py, gates.py, landmarks.py, env.py (water, fort), gen_grid.py, gen_bsp.py, gen_hybrid.py
+(later)         planar.py, outline.py, gates.py, landmarks.py, env.py (water, fort), gen_bsp.py, gen_hybrid.py
 ```
 
 ## 13. Tests (`tests/test_town_*.py`)
@@ -359,11 +432,9 @@ Each slice is independently mergeable and adds a generator to the registry plus 
    gate count, plaza size, merge probability, landmark weights; "chaotic" = high jitter, one Lloyd pass, domain warp. Extracts
    `planar.py`, `outline.py`, `gates.py`, `landmarks.py` and `finalize` from `gen_radial`. Roads here run on district borders, so
    junction nodes sit at Voronoi vertices (ids `j_p<a>p<b>p<c>`).
-3. **`grid`** (Manhattan). Rotated lattice with avenues every n cells and spacing jitter, super-block districts `x<i>y<j>`,
-   optional diagonal boulevards from a market square, outline (superellipse, octagon, hull, polygon) clipping the lattice, an
-   optional inner circular wall; gates at avenue and boulevard crossings. The L1 variant (nearest-centre labels under the L1 metric,
-   vectorised with `skimage.measure.find_contours`) is a second step. Optional `bsp` generator (recursive splits, split depth
-   decides road versus border) shares the outline code.
+3. **`grid`** (Manhattan; implemented, §7.3). The L1 variant (nearest-centre labels under the L1 metric, vectorised with
+   `skimage.measure.find_contours`) is a second step, not implemented; so are the octagon, hull and hand-polygon outlines. Optional
+   `bsp` generator (recursive splits, split depth decides road versus border) shares the outline code.
 4. **Fort add-on** (`env.py`, acts on any generator's output): a reserved polygon (star bastion, rectangle with corner towers, wall-corner
    citadel) with placement modes `corner`, `centre`, `peninsula`, `island`; subtracted from the districts, its own `citadel` wall
    with an inward and an outward gate; kind `citadel` district and a `fortress` landmark. The `radial` citadel wedge becomes one
