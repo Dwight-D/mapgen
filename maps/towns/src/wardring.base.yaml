@@ -1,0 +1,29 @@
+format_version: 1
+name: wardring
+brief: |
+  PITCH: Wardring, a radial city whose outer wards are cut into street grids (showcase map for layered subdivision: radial wedges into grids).
+  FLOW: Five gates, one per spoke; two teams enter on opposite sides and meet at the plaza hub or work the
+  ring roads. Wooded ridges outside screen approaches between gates.
+  TEST: do the ring roads let a team swing between gates, or does everything collapse onto the plaza?
+size: [1200, 1200]
+seed: 5712
+
+terrain:
+  base_height: 50
+  relief: 14
+  relief_scale: 600
+  detail: 4
+  detail_scale: 150
+
+regions:
+  - { id: bowl_rim_n, seed: 0, type: hills, shape: blob, at: [600, 1120], r: 230, rough: 0.4, squash: 0.5, warp: 80, height: 45 }
+  - { id: bowl_rim_s, seed: 1, type: hills, shape: blob, at: [600, 90],   r: 230, rough: 0.4, squash: 0.5, warp: 80, height: 45 }
+  - { id: bowl_rim_w, seed: 2, type: hills, shape: blob, at: [70, 600],   r: 200, rough: 0.4, squash: 0.5, angle: 90, warp: 80, height: 40 }
+  - { id: bowl_rim_e, seed: 3, type: hills, shape: blob, at: [1140, 600], r: 200, rough: 0.4, squash: 0.5, angle: 90, warp: 80, height: 40 }
+  - { id: wood_ne, seed: 4, type: forest, shape: blob, at: [1000, 1000], r: 170, rough: 0.5, fragment: 0.4, fragment_scale: 70 }
+  - { id: wood_sw, seed: 5, type: forest, shape: blob, at: [200, 200],  r: 170, rough: 0.5, fragment: 0.4, fragment_scale: 70 }
+  - { id: farmland_se, seed: 6, type: field, shape: blob, at: [980, 230], r: 190, rough: 0.4, warp: 60 }
+  - { id: farmland_nw, seed: 7, type: field, shape: blob, at: [220, 980], r: 190, rough: 0.4, warp: 60 }
+
+scatter:
+  - { id: scatter_trees, seed: 0, type: forest, coverage: 0.08, scale: 160, clump: 0.5, avoid: 15 }
