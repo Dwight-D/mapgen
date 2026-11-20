@@ -162,7 +162,25 @@ meaning, never hue.
   handles (drag, insert, delete, minimum 3); scatter entries keep their procedural texture inside the polygon.
 - Select by click: with the Select tool a click inside a region (blob, band, poly or scatter patch, from the resolved
   geometry) selects it; clicking again cycles through the regions stacked there. Delete removes the selected region.
-- Not in the editor: `label_at` (edit in the file), the flowgraph layer.
+- Analyze panel (coarse preview): the Analyze button (or the Probe tool, key Q) computes, in a background thread on the buffer
+  text and without writing any file, the real `analysis.analyze` at a coarse cell (20 m, never finer than the spec's own
+  `analysis.cell`) on a 257-sample heightmap: 0.04 s on `town_square_v4`, about 0.1 s on the 3 km concept maps. Everything is
+  labelled "coarse preview"; the numbers need not equal a full build's. Results are cached per buffer text, a newer buffer
+  supersedes an older request, and the panel says `computing...` or `outdated` while the shown result is not the buffer's.
+  Layers "analysis: territory" (who arrives first: team 1 solid grey, team 2 dots, team 3 diagonal lines, team 4 vertical
+  lines, contested crosshatch, unreachable horizontal lines; the legend swatches use the same patterns) and "analysis: routes"
+  (base-to-base routes thick and solid; each team's route to each objective thin, with the team's own dash pattern). The table
+  gives each team's time to every objective, the spread, the flag and the verdict against `balance_tolerance`, the area shares
+  (first / contested / unreachable) and the base-to-base time. The Probe tool shows, for a clicked point, each team's travel
+  time, the spread, the cost, the topmost region, lines and crossings (the semantics of `mapgen probe`).
+- Build button: runs the real `mapgen build` (a subprocess of the same CLI) on a snapshot of the buffer, unsaved edits
+  included, into the scratch folder `out/spec_edit/<name>/` (git-ignored; the regular `out/<name>/` is never written). Stages
+  (geometry, heightmap, analysis, render, export, report) stream to the panel with their seconds; Cancel kills the build and
+  keeps the previous result; one build runs at a time (a second request is refused). Editing and the file watcher continue
+  during a build. On success the panel shows the exit code, the report warnings, the balance table and the area shares, and
+  buttons open `map.png` and every `overlay_*.png` in a full-page viewer (Esc closes); only these file names are served, never
+  a path. A build is byte-identical to `mapgen build` of the same text.
+- Not in the editor: `label_at` (edit in the file); the flowgraph is shown read-only (`--flowgraph`), never written.
 
 ## Editing a spec as text (`spec set`)
 

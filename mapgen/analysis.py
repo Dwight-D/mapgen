@@ -49,6 +49,7 @@ class AnalysisResult:
     openness_mean: float = 0.0               # map-wide mean openness
     team_openness: Dict[str, float] = field(default_factory=dict)   # mean openness over each team's territory
     route_constriction: Dict[str, float] = field(default_factory=dict)  # "A-B" -> max constriction along the route
+    mcps: Dict[str, "MCP_Geometric"] = field(default_factory=dict)       # team id -> cost-path tracer (route to any cell)
 
 
 def _cell(grid: Grid, x: float, y: float) -> Tuple[int, int]:
@@ -130,10 +131,12 @@ def _nearest_feature(spec: MapSpec, geoms: MapGeometry, x: float, y: float) -> s
     return best or "-"
 
 
-def analyze(spec: MapSpec, geoms: MapGeometry, hm: Heightmap) -> AnalysisResult:
+def analyze(spec: MapSpec, geoms: MapGeometry, hm: Heightmap, cell: Optional[float] = None) -> AnalysisResult:
+    """Full gameplay analysis. `cell` overrides spec.analysis.cell (the editor's coarse preview); None = the spec's."""
     a = spec.analysis
-    grid = Grid(spec.size[0], spec.size[1], int(math.ceil(spec.size[0] / a.cell)),
-                int(math.ceil(spec.size[1] / a.cell)))
+    cell = a.cell if cell is None else cell
+    grid = Grid(spec.size[0], spec.size[1], int(math.ceil(spec.size[0] / cell)),
+                int(math.ceil(spec.size[1] / cell)))
     cell_m = 0.5 * (grid.cell_size_x + grid.cell_size_y)
     types = spec.types
     warnings: List[str] = list(spec.warnings)
@@ -322,7 +325,7 @@ def analyze(spec: MapSpec, geoms: MapGeometry, hm: Heightmap) -> AnalysisResult:
                           path_openness=path_open, base_times=base_times, shares=shares, objectives=objectives,
                           warnings=warnings, fair=fair, fair_share=float(fair.sum()) / total,
                           openness_mean=float(openness.mean()), team_openness=team_open,
-                          route_constriction=route_constriction)
+                          route_constriction=route_constriction, mcps=mcps)
 
 
 def probe_point(spec: MapSpec, geoms: MapGeometry, an: AnalysisResult, x: float, y: float) -> dict:

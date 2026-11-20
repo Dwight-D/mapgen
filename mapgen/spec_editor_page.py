@@ -81,6 +81,13 @@ _HTML = """<!DOCTYPE html>
     </div>
     <div id="pickwrap"><h2><label for="pick">Features</label></h2><select id="pick" size="9"></select></div>
     <div id="layers"></div>
+    <div id="anwrap"><h2>Analyze <span class="tag">coarse preview</span></h2>
+      <div><button id="b-analyze" title="Compute travel times, territory and routes on a coarse grid (background, nothing is written)">Analyze</button></div>
+      <div id="an-state" role="status"></div><div id="an-table"></div><div id="an-probe" role="status"></div></div>
+    <div id="buildwrap"><h2>Build</h2>
+      <div class="grp"><button id="b-build" class="primary" title="Run the real mapgen build on a snapshot of the buffer into out/spec_edit/">Build</button>
+        <button id="b-bcancel" disabled>Cancel</button></div>
+      <div id="bd-state" role="status"></div></div>
     <div id="legend"></div>
     <div id="help">Drag a handle to move it (1 m steps). Alt-drag a link triangle detaches it to a literal. Click a handle
       that is already selected to cycle through the handles stacked under it. A "+" at a segment middle (selected shape)
@@ -96,6 +103,7 @@ _HTML = """<!DOCTYPE html>
       Wheel zooms, drag the background pans. Ctrl+Z / Ctrl+Y undo / redo, Ctrl+S saves.</div>
   </div>
 </div>
+<div id="viewer" style="display:none" role="dialog" aria-label="build image viewer"></div>
 <script id="boot" type="application/json">@@BOOT@@</script>
 <script>
 @@JS@@
@@ -160,6 +168,25 @@ input.bad{outline:3px double #000}
 .lbl{font-size:12px;paint-order:stroke;stroke:#fff;stroke-width:3px;fill:#000;pointer-events:none}
 .seg{stroke:transparent;stroke-width:11;fill:none;cursor:copy}
 .stale{opacity:.35}
+.tag{font-weight:400;font-size:11px;border:1px solid #0b1020;padding:0 4px;border-radius:3px}
+.hint{font-size:12px;color:#333}
+.anleg{display:flex;flex-wrap:wrap;gap:4px 10px;font-size:12px;margin:4px 0}
+.anleg span{display:inline-flex;align-items:center;gap:4px}
+#an-table,#bd-state{font-size:12px}
+#an-table table,#bd-state table{border-collapse:collapse;margin-top:4px}
+#an-table td,#an-table th,#bd-state td,#bd-state th{border:1px solid #0b1020;padding:1px 5px;text-align:left}
+td.flag{font-weight:700;text-decoration:underline}
+.verdict{font-weight:700;margin:3px 0}
+#an-status[data-state=outdated],#an-status[data-state=computing]{border:2px dashed #0b1020;padding:1px 4px}
+#bd-stages{margin:4px 0;padding-left:0;list-style:none}
+#bd-stages li[data-state=running]{font-weight:700}
+#bd-state ul{margin:2px 0;padding-left:16px}
+.files{display:flex;flex-wrap:wrap;gap:4px;margin-top:4px}
+#viewer{position:fixed;inset:0;background:#fff;z-index:50;display:flex;flex-direction:column}
+#viewer .vbar{display:flex;gap:6px;align-items:center;flex-wrap:wrap;padding:6px;border-bottom:2px solid #0b1020}
+#viewer .vimg{flex:1;overflow:auto;padding:6px}
+#viewer img{max-width:100%;height:auto;display:block}
+
 #fgwrap{border:1px solid #0b1020;padding:4px 8px;font-size:12px}
 #fgwrap h3{font-size:12px;margin:6px 0 2px}
 #fgwrap ul{margin:2px 0;padding-left:0;list-style:none;overflow-wrap:anywhere}
@@ -198,8 +225,9 @@ var DASH = ['none', '7 4', '2 4', '10 4 2 4', '5 3 1 3', '14 5'];
 var LINE_DASH = {road: 'none', trail: '8 4', river: '14 3 2 3', cliff: '2 3'};
 var LAYERS = [['regions', 'regions'], ['lines', 'lines'], ['crossings', 'crossings'], ['pois', 'POIs and bases'], ['points', 'named points'], ['scatter', 'scatter areas']];
 if (BOOT.state.flowgraph) LAYERS.push(['flowgraph', 'flowgraph overlay']);
+LAYERS.push(['an-territory', 'analysis: territory'], ['an-routes', 'analysis: routes']);
 var TOOLS = [['select', 'Select', 'v'], ['poi', 'POI', 'p'], ['blob', 'Blob', 'b'], ['band', 'Band', 'd'], ['poly', 'Poly', 'g'], ['line', 'Line', 'l'], ['crossing', 'Crossing', 'x'],
-             ['paint', 'Paint', 'f'], ['erase', 'Erase', 'e'], ['scatter', 'Scatter area', 's']];
+             ['paint', 'Paint', 'f'], ['erase', 'Erase', 'e'], ['scatter', 'Scatter area', 's'], ['probe', 'Probe', 'q']];
 var TOOL_TABLE = {poi: 'poi', blob: 'region', band: 'region', poly: 'region', line: 'line', crossing: 'crossing'};
 var TOOL_DEFAULT = {paint: 'forest', erase: 'any', poi: 'capture', blob: 'forest', band: 'field', poly: 'forest', line: 'road', crossing: 'bridge'};
 var MIN_PTS = {band: 2, poly: 3, line: 2, scatter: 3};
@@ -211,7 +239,7 @@ function loadLayers() {
 function saveLayers() {
   try { localStorage.setItem('mapgen-layers:' + BOOT.state.path, JSON.stringify(S.layers)); } catch (e) { /* storage unavailable */ }
 }
-function layer(n) { return S.layers[n] || (S.layers[n] = {vis: true, lock: false}); }
+function layer(n) { return S.layers[n] || (S.layers[n] = {vis: n.indexOf('an-') !== 0, lock: false}); }
 function layerOf(h) {
   var p = h.path;
   if (p.indexOf('regions.') === 0) return 'regions';
@@ -347,6 +375,7 @@ function render() {
       mk('path', {d: d, stroke: '#000', 'stroke-width': (on ? 3 : 2) * mpp, 'stroke-dasharray': dashArr(LINE_DASH[l.type] || '6 4', mpp)}, gl);
     });
   }
+  if (S.anOn && S.an) drawAnalysis(gw, sz, mpp);
   if (BOOT.state.flowgraph && layer('flowgraph').vis) drawFlowgraph(gw, sz, mpp, S.fg && S.fg.version !== S.st.version);
   // control polylines (the author's values): every line, and the selected region/crossing; hit segments insert a vertex on double-click
   var chains = chainsOf(), gs = mk('g', {}, ov), gm = mk('g', {}, ov);
@@ -655,7 +684,7 @@ function updateAll() {
   eh.className = S.errors.length ? 'bad' : 'ok';
   buildPanel();
   document.querySelectorAll('#tools button').forEach(function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-tool') === S.tool ? 'true' : 'false'); });
-  $('tool-type').style.display = S.tool === 'select' ? 'none' : '';
+  $('tool-type').style.display = S.tool === 'select' || S.tool === 'probe' ? 'none' : '';
   var bt = S.tool === 'paint' || S.tool === 'erase' || S.tool === 'scatter';
   $('brush').style.display = bt ? '' : 'none';
   $('l-radius').style.display = S.tool === 'scatter' ? 'none' : '';
@@ -740,6 +769,7 @@ function refresh() {
   if (S.abort) S.abort.abort();
   var ac = new AbortController(); S.abort = ac;
   fgFetch(v);
+  if (S.anOn) { S.anState = 'computing'; anUpdate(); anFetch(v); }
   api('/api/geometry', {version: v}, ac.signal).then(function (r) { return r.json(); }).then(function (j) {
     if (!j.ok || S.st.version !== v) return null;
     S.geo = j.geometry; S.geoVersion = v; render();
@@ -911,7 +941,8 @@ function clampPt(p) { var sz = size(); return [Math.min(Math.max(Math.round(p[0]
 function setTool(t) {
   S.tool = t; S.draft = null; S.cursor = null;
   S.stroke = null;
-  if (t !== 'select') {
+  if (t === 'probe') { S.sel = null; S.feat = null; setStatus('probe tool: click the map to read the travel time of each team there (coarse analysis).'); if (!S.anOn) anStart(); }
+  else if (t !== 'select') {
     var tt = $('tool-type');
     while (tt.firstChild) tt.removeChild(tt.firstChild);
     if (t === 'scatter') fillScatterTargets(tt);
@@ -1156,7 +1187,8 @@ window.addEventListener('mouseup', function (ev) {
     var moved = S.pan.moved; S.pan = null;
     $('map').classList.remove('panning');
     if (!moved) {
-      if (S.tool !== 'select') toolClick(clampPt(toMetres(ev)));
+      if (S.tool === 'probe') probeAt(toMetres(ev));
+      else if (S.tool !== 'select') toolClick(clampPt(toMetres(ev)));
       else clickSelect(toMetres(ev));
     }
   }
@@ -1372,6 +1404,210 @@ function pollDisk() {
 }
 setInterval(pollDisk, 1000);
 buildTools(); buildLayers(); legend();
+// ---- slice 7: coarse analysis preview (probe tool, territory / routes layers, table) and the build panel -----------------------
+S.an = null; S.anOn = false; S.probe = null; S.anAbort = null; S.build = null; S.buildTimer = null; S.buildImgs = {}; S.buildMsg = ''; S.anState = '';
+var TEAM_PAT = ['solid', 'dots', 'lines', 'vlines'];
+var ROUTE_DASH = ['none', '2 5', '10 4 2 4', '6 3'];
+function patTile(kind) {   // 8x8 tile, black ink on transparent; each team differs by pattern and ink density, never by hue
+  var c = document.createElement('canvas'); c.width = 8; c.height = 8;
+  var x = c.getContext('2d');
+  x.strokeStyle = 'rgba(0,0,0,0.75)'; x.lineWidth = 1.4;
+  if (kind === 'solid') { x.fillStyle = 'rgba(0,0,0,0.34)'; x.fillRect(0, 0, 8, 8); }
+  else if (kind === 'dots') { x.fillStyle = 'rgba(255,255,255,0.30)'; x.fillRect(0, 0, 8, 8); x.fillStyle = 'rgba(0,0,0,0.8)'; x.beginPath(); x.arc(4, 4, 1.7, 0, 7); x.fill(); }
+  else if (kind === 'lines') { x.fillStyle = 'rgba(255,255,255,0.30)'; x.fillRect(0, 0, 8, 8); x.beginPath(); x.moveTo(-1, 9); x.lineTo(9, -1); x.moveTo(-1, 1); x.lineTo(1, -1); x.moveTo(7, 9); x.lineTo(9, 7); x.stroke(); }
+  else if (kind === 'vlines') { x.fillStyle = 'rgba(255,255,255,0.30)'; x.fillRect(0, 0, 8, 8); x.beginPath(); x.moveTo(2, 0); x.lineTo(2, 8); x.stroke(); }
+  else if (kind === 'hatch') { x.fillStyle = 'rgba(255,255,255,0.55)'; x.fillRect(0, 0, 8, 8); x.beginPath(); x.moveTo(-1, 9); x.lineTo(9, -1); x.moveTo(-1, -1); x.lineTo(9, 9); x.stroke(); }
+  else if (kind === 'none') { x.fillStyle = 'rgba(255,255,255,0.70)'; x.fillRect(0, 0, 8, 8); x.lineWidth = 1; x.beginPath(); x.moveTo(0, 4); x.lineTo(8, 4); x.stroke(); }
+  return c;
+}
+function anImage(d, done) {   // owner grid -> data URL (canvas, 4 px per cell, patterns anchored to the canvas so they tile across cells)
+  var K = 4, cv = document.createElement('canvas'); cv.width = d.cols * K; cv.height = d.rows * K;
+  var x = cv.getContext('2d'), pats = {};
+  TEAM_PAT.forEach(function (k, i) { pats[String(i)] = x.createPattern(patTile(k), 'repeat'); });
+  pats.c = x.createPattern(patTile('hatch'), 'repeat'); pats.u = x.createPattern(patTile('none'), 'repeat');
+  d.owner.forEach(function (row, r) {
+    var c = 0;
+    while (c < row.length) {
+      var e = c; while (e < row.length && row[e] === row[c]) e++;
+      x.fillStyle = pats[row[c]] || pats['0']; x.fillRect(c * K, r * K, (e - c) * K, K); c = e;
+    }
+  });
+  cv.toBlob(function (b) { done(URL.createObjectURL(b)); }, 'image/png');   // a blob URL: the page CSP allows img-src blob: only
+}
+function anStale() { return !S.an || S.an.version !== S.st.version; }
+function anFetch(v) {
+  if (!S.anOn) return;
+  if (S.anAbort) S.anAbort.abort();
+  var ac = new AbortController(); S.anAbort = ac;
+  api('/api/analysis', {version: v}, ac.signal).then(function (r) { return r.json(); }).then(function (j) {
+    if (S.st.version !== v) return;
+    if (j.stale) return;
+    if (j.status === 'computing') { S.anState = 'computing'; anUpdate(); setTimeout(function () { if (S.st.version === v) anFetch(v); }, 250); return; }
+    if (j.status === 'error') { S.anState = 'error'; S.anErr = j.errors; anUpdate(); return; }
+    S.anState = 'ready'; var old = S.an; S.an = {version: v, data: j.result, url: null};
+    anImage(j.result, function (u) { if (S.an && S.an.data === j.result) { S.an.url = u; render(); } if (old && old.url) URL.revokeObjectURL(old.url); });
+    anUpdate(); render();
+  }).catch(function (e) { if (e.name !== 'AbortError') { S.anState = 'error'; S.anErr = [String(e)]; anUpdate(); } });
+}
+function anStart() {
+  S.anOn = true; layer('an-territory').vis = true; layer('an-routes').vis = true; saveLayers(); syncLayerBoxes();
+  S.anState = 'computing'; anUpdate(); anFetch(S.st.version); render();
+}
+function pct(v) { return v === null || v === undefined ? '-' : Math.round(100 * v) + '%'; }
+function fmtT(s) { if (s === null || s === undefined) return '-'; var m = Math.floor(s / 60), r = Math.round(s - 60 * m); if (r === 60) { m++; r = 0; } return m + ':' + (r < 10 ? '0' : '') + r; }
+function swatch(parent, kind) {
+  var c = el('canvas', {width: 18, height: 14, 'class': 'sw'}, parent), x = c.getContext('2d');
+  x.fillStyle = '#fff'; x.fillRect(0, 0, 18, 14); x.fillStyle = x.createPattern(patTile(kind), 'repeat'); x.fillRect(0, 0, 18, 14);
+  x.strokeStyle = '#000'; x.lineWidth = 1; x.strokeRect(0.5, 0.5, 17, 13);
+}
+function anUpdate() {
+  var st = $('an-state'), tb = $('an-table'), pr = $('an-probe');
+  if (!st) return;
+  clearNode(st); clearNode(tb); clearNode(pr);
+  $('b-analyze').textContent = S.anOn ? 'Re-run' : 'Analyze';
+  if (!S.anOn) { el('div', {'class': 'hint'}, st, 'Coarse preview of travel times, territory and routes on a 20 m grid, computed in the background from the buffer (nothing is written).'); return; }
+  var d = S.an && S.an.data, outdated = anStale();
+  var msg = S.anState === 'computing' ? 'computing...' : S.anState === 'error' ? 'analysis failed: ' + (S.anErr || []).join('; ') : outdated ? 'outdated (the buffer changed)' : 'up to date';
+  el('div', {id: 'an-status', 'data-state': S.anState === 'ready' && outdated ? 'outdated' : S.anState || ''}, st,
+     'COARSE PREVIEW — ' + (d ? 'cell ' + d.cell + ' m, ' + d.ms + ' ms. ' : '') + msg);
+  if (!d) return;
+  tb.className = outdated || S.anState === 'computing' ? 'stale' : '';
+  var lg = el('div', {'class': 'anleg'}, tb);
+  d.teams.forEach(function (t, i) { var s = el('span', {}, lg); swatch(s, TEAM_PAT[i % 4]); s.appendChild(document.createTextNode(' ' + t.id + ' first')); });
+  var sc = el('span', {}, lg); swatch(sc, 'hatch'); sc.appendChild(document.createTextNode(' contested'));
+  var su = el('span', {}, lg); swatch(su, 'none'); su.appendChild(document.createTextNode(' unreachable'));
+  var v = d.verdict;
+  el('div', {id: 'an-verdict', 'class': 'verdict'}, tb, (v.ok ? '✔ ' : '✖ ') + (v.neutral ? v.neutral + ' neutral objective' + (v.neutral === 1 ? '' : 's') + ', max spread ' + pct(v.max_spread) + ' vs tolerance ' +
+     pct(d.tolerance) + ': ' + (v.ok ? 'within tolerance' : v.flagged + ' IMBALANCED or unreachable') : 'no neutral objectives'));
+  el('div', {id: 'an-shares'}, tb, 'area first: ' + d.teams.map(function (t) { return t.id + ' ' + pct(d.shares[t.id]); }).join(', ') + '; contested ' + pct(d.shares.contested) +
+     '; unreachable ' + pct(d.shares.unreachable));
+  var bt = Object.keys(d.base_times).map(function (k) { return k + ' ' + fmtT(d.base_times[k]); });
+  if (bt.length) el('div', {id: 'an-base'}, tb, 'base to base: ' + bt.join(', '));
+  var tab = el('table', {id: 'an-obj'}, tb), hr = el('tr', {}, tab);
+  ['objective'].concat(d.teams.map(function (t) { return 't(' + t.id + ')'; }), ['spread', 'flag']).forEach(function (h) { el('th', {}, hr, h); });
+  d.objectives.forEach(function (o) {
+    var tr = el('tr', {'data-obj': o.id}, tab); el('td', {}, tr, o.id + (o.owner ? ' [' + o.owner + ']' : ''));
+    d.teams.forEach(function (t) { el('td', {}, tr, fmtT(o.times[t.id])); });
+    el('td', {}, tr, o.spread === null ? '-' : pct(o.spread)); el('td', {'class': o.flag === 'ok' ? '' : 'flag'}, tr, o.flag);
+  });
+  if (d.warnings.length) { var ul = el('ul', {id: 'an-warn'}, tb); d.warnings.slice(0, 6).forEach(function (w) { el('li', {}, ul, w); }); }
+  var p = S.probe;
+  if (p) {
+    el('div', {id: 'an-probe-h'}, pr, 'probe at (' + Math.round(p.x) + ', ' + Math.round(p.y) + ')' + (p.version !== S.st.version ? ' (outdated)' : '') + ' — coarse');
+    el('div', {}, pr, d.teams.map(function (t) { return t.id + ' ' + fmtT(p.times[t.id]); }).join(', ') + '; spread ' + pct(p.spread) + (p.fair ? ' (fair zone)' : '') +
+       '; cost ' + (p.cost === null ? 'impassable' : p.cost));
+    el('div', {}, pr, 'on: ' + [p.region].concat(p.lines, p.crossings).filter(Boolean).join(', '));
+  } else if (S.tool === 'probe') el('div', {'class': 'hint'}, pr, 'Click the map to read each team\'s travel time there.');
+}
+function probeAt(m) {
+  if (!S.anOn) anStart();
+  var v = S.st.version;
+  api('/api/probe', {version: v, x: m[0], y: m[1]}).then(function (r) { return r.json(); }).then(function (j) {
+    if (j.ok) { S.probe = j.probe; S.probe.version = v; anUpdate(); render(); }
+    else if (!j.stale) setStatus('probe: ' + (j.errors || ['failed'])[0] + ' (wait for the analysis, then click again)');
+  });
+}
+function drawAnalysis(parent, sz, mpp) {
+  var d = S.an && S.an.data;
+  if (!d) return;
+  var stale = anStale() || S.anState === 'computing', g = mk('g', {id: 'an-layer', 'class': stale ? 'stale' : '', 'pointer-events': 'none'}, parent);
+  if (layer('an-territory').vis && S.an.url) {
+    mk('image', {id: 'an-img', x: 0, y: 0, width: sz[0], height: sz[1], preserveAspectRatio: 'none', href: S.an.url, style: 'image-rendering:pixelated'}, g);
+  }
+  if (layer('an-routes').vis) {
+    var ti = {}; d.teams.forEach(function (t, i) { ti[t.id] = i; });
+    d.routes.forEach(function (r) {
+      var pts = 'M' + r.pts.map(function (p) { return p[0].toFixed(0) + ' ' + (sz[1] - p[1]).toFixed(0); }).join('L'), obj = r.kind === 'objective';
+      var i = obj ? ti[r.team] % 4 : 0, w = obj ? 2 : 4;
+      mk('path', {d: pts, stroke: '#fff', 'stroke-width': (w + 3) * mpp, fill: 'none', 'stroke-linejoin': 'round', 'stroke-opacity': .9}, g);
+      mk('path', {d: pts, stroke: '#000', 'stroke-width': w * mpp, fill: 'none', 'stroke-linejoin': 'round',
+                  'stroke-dasharray': obj ? dashArr(ROUTE_DASH[i], mpp * 1.3) : 'none', 'class': 'an-route', 'data-kind': r.kind, 'data-key': r.key + (r.team ? ':' + r.team : '')}, g);
+    });
+  }
+  var p = S.probe;
+  if (p) {
+    var pg = mk('g', {transform: 'translate(' + p.x + ' ' + (sz[1] - p.y) + ') scale(' + mpp + ')', id: 'an-probe-mark'}, g);
+    mk('circle', {r: 11, fill: 'none', stroke: '#fff', 'stroke-width': 6}, pg); mk('circle', {r: 11, fill: 'none', stroke: '#000', 'stroke-width': 2.4}, pg);
+    mk('path', {d: 'M-17 0H17M0 -17V17', stroke: '#fff', 'stroke-width': 5}, pg); mk('path', {d: 'M-17 0H17M0 -17V17', stroke: '#000', 'stroke-width': 2}, pg);
+    var tx = (d.teams.map(function (t) { return t.id + ' ' + fmtT(p.times[t.id]); }).join('  ')) + '  Δ ' + pct(p.spread);
+    mk('text', {'class': 'lbl', x: 16, y: -14, 'font-weight': 700}, pg, tx);
+  }
+}
+function syncLayerBoxes() { ['an-territory', 'an-routes'].forEach(function (n) { var b = $('l-vis-' + n); if (b) b.checked = layer(n).vis; }); }
+$('b-analyze').addEventListener('click', anStart);
+
+// ---- build panel ---------------------------------------------------------------------------------------------------------
+var GLYPH = {pending: '○', running: '▶', done: '✔', failed: '✖', skipped: '–'};
+function buildPoll() {
+  if (S.buildTimer) clearTimeout(S.buildTimer);
+  api('/api/build_status', {}).then(function (r) { return r.json(); }).then(function (j) {
+    if (!j.ok) return;
+    S.build = j.build; buildUpdate();
+    if (j.build.job && j.build.job.status === 'running') S.buildTimer = setTimeout(buildPoll, 400);
+  }).catch(function () { S.buildTimer = setTimeout(buildPoll, 1000); });
+}
+function buildStart() {
+  api('/api/build', {version: S.st.version}).then(function (r) { return r.json(); }).then(function (j) {
+    if (!j.ok) { S.buildMsg = (j.errors || ['refused']).join(' '); buildUpdate(); return; }
+    S.buildMsg = ''; S.buildImgs = {}; buildPoll();
+  });
+}
+function buildCancel() { api('/api/build_cancel', {}).then(function () { buildPoll(); }); }
+function buildUpdate() {
+  var w = $('bd-state');
+  if (!w) return;
+  clearNode(w);
+  var job = S.build && S.build.job, running = !!job && job.status === 'running';
+  $('b-build').disabled = running; $('b-bcancel').disabled = !running;
+  if (S.buildMsg) el('div', {id: 'bd-msg', 'class': 'rowerr'}, w, '✖ ' + S.buildMsg);
+  if (!job) { el('div', {'class': 'hint'}, w, 'Builds a snapshot of the buffer (unsaved edits included) with the real `mapgen build` into the scratch folder out/spec_edit/. Editing stays possible.'); return; }
+  el('div', {id: 'bd-head'}, w, 'job ' + job.id + ' (' + job.name + ', buffer version ' + job.version + '): ' + job.status + ' — ' + job.elapsed + ' s' +
+     (job.exit_code !== null ? ', exit code ' + job.exit_code : ''));
+  var ol = el('ol', {id: 'bd-stages'}, w);
+  job.stages.forEach(function (s) { el('li', {'data-stage': s.name, 'data-state': s.state}, ol, GLYPH[s.state] + ' ' + s.name + (s.s !== null ? ' ' + s.s + ' s' : '')); });
+  if (job.status === 'failed' || job.status === 'cancelled') {
+    el('div', {id: 'bd-fail', 'class': 'rowerr'}, w, job.status === 'cancelled' ? 'Cancelled; the previous build result is unchanged.' : '✖ Build failed:');
+    if (job.status === 'failed') { var ue = el('ul', {}, w); job.errors.forEach(function (m) { el('li', {}, ue, m); }); }
+  }
+  var last = S.build.last;
+  if (last && !running) {
+    var rep = last.report, rw = el('div', {id: 'bd-result'}, w);
+    el('div', {'class': 'verdict'}, rw, 'Result of job ' + last.job + (job.id !== last.job ? ' (an earlier build)' : '') + ' — ' + rep.warnings.length + ' warning' + (rep.warnings.length === 1 ? '' : 's'));
+    if (rep.warnings.length) { var wl = el('ul', {id: 'bd-warn'}, rw); rep.warnings.forEach(function (m) { el('li', {}, wl, m); }); }
+    var ts = rep.teams.map ? rep.teams.map(function (t) { return t.id; }) : Object.keys(rep.teams);
+    el('div', {}, rw, 'area first: ' + ts.map(function (t) { return t + ' ' + pct(rep.area_share[t]); }).join(', ') + '; contested ' + pct(rep.area_share.contested) + '; unreachable ' + pct(rep.area_share.unreachable));
+    var tab = el('table', {id: 'bd-obj'}, rw), hr = el('tr', {}, tab);
+    ['objective'].concat(ts.map(function (t) { return 't(' + t + ')'; }), ['spread', 'flag']).forEach(function (h) { el('th', {}, hr, h); });
+    rep.objectives.forEach(function (o) {
+      var tr = el('tr', {}, tab); el('td', {}, tr, o.id + (o.owner ? ' [' + o.owner + ']' : ''));
+      ts.forEach(function (t) { el('td', {}, tr, fmtT(o.times[t])); });
+      el('td', {}, tr, o.spread === null ? '-' : pct(o.spread)); el('td', {'class': o.flag ? 'flag' : ''}, tr, o.flag || 'ok');
+    });
+    var fl = el('div', {id: 'bd-files', 'class': 'files'}, rw);
+    last.files.forEach(function (f) { el('button', {'class': 'mini', 'data-file': f}, fl, f).addEventListener('click', function () { viewImage(f, last.job); }); });
+  }
+}
+function viewImage(name, job) {
+  var key = job + '/' + name, show = function (url) {
+    var v = $('viewer'); clearNode(v);
+    var bar = el('div', {'class': 'vbar'}, v);
+    el('span', {id: 'v-title'}, bar, name + ' (job ' + job + ')');
+    S.build.last.files.forEach(function (f) { var b = el('button', {'class': 'mini', 'data-vfile': f, 'aria-pressed': f === name ? 'true' : 'false'}, bar, f); b.addEventListener('click', function () { viewImage(f, job); }); });
+    el('button', {id: 'v-close'}, bar, 'Close (Esc)').addEventListener('click', closeViewer);
+    el('img', {id: 'v-img', src: url, alt: name}, el('div', {'class': 'vimg'}, v));
+    v.style.display = '';
+  };
+  if (S.buildImgs[key]) return show(S.buildImgs[key]);
+  api('/api/build_file', {name: name}).then(function (r) { return r.ok ? r.blob() : null; }).then(function (b) {
+    if (!b) { setStatus('could not load ' + name); return; }
+    S.buildImgs[key] = URL.createObjectURL(b); show(S.buildImgs[key]);
+  });
+}
+function closeViewer() { $('viewer').style.display = 'none'; }
+window.addEventListener('keydown', function (ev) { if (ev.key === 'Escape' && $('viewer').style.display !== 'none') { closeViewer(); ev.stopPropagation(); } }, true);
+$('b-build').addEventListener('click', buildStart);
+$('b-bcancel').addEventListener('click', buildCancel);
+buildPoll(); anUpdate();
 fit(); updateAll(); extUpdate(); render(); refresh();
 setStatus('Loaded ' + S.st.path);
 """

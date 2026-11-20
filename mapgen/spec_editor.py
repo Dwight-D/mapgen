@@ -33,6 +33,16 @@ API (all POST, JSON in and out, header X-Token; see editor_http for the guards):
                                  the unbound nodes, computed in-process on the buffer (spec_editor_flowgraph.overlay). `flowgraph`
                                  is {path, name, errors} only when the graph file does not load. {ok: false} without a graph.
   /api/flowgraph_terrain {version} -> {ok, version, findings, ms} | {ok: false, stale: true}: the `--terrain` findings (seconds).
+  /api/analysis {version}     -> {ok, version, status: computing | ready | error, result?, errors?} | {ok: false, stale: true}: the coarse
+                                 analysis preview (analysis cell >= 20 m, reduced heightmap, labelled "coarse preview"), in-process on the
+                                 buffer in a worker thread, cached per text, nothing written; poll while `computing`
+  /api/probe {version, x, y}  -> {ok, probe} (`mapgen probe` semantics on the coarse result) | {ok: false, errors} when not computed
+  /api/build {version}        -> {ok, build} | 409 (stale version, or a build is running): the real `mapgen build` of a snapshot of the
+                                 buffer (not the saved file) into `<scratch>/<name>/` (default out/spec_edit/), in a subprocess
+  /api/build_status           -> {ok, build: {job, last}} (job.stages in order with seconds, status running | done | failed | cancelled,
+                                 exit_code, log, report {warnings, area_share, objectives...}, files)
+  /api/build_cancel           -> {ok, build} (kills the build; the previous result stays)
+  /api/build_file {name}      -> image/png of map.png / overlay_*.png of the last successful build (name whitelist, no paths) | 404
 `state` = {version, dirty, can_undo, can_redo, path, size, handles, referrers, features, flowgraph}; `flowgraph` is null without a
 graph, else {path, name, errors}. An /api/apply that renames a feature a flowgraph node binds adds `flowgraph_warnings` (the graph is
 not rewritten; the node is unbound).
@@ -50,6 +60,7 @@ from typing import Any, Dict, List, Optional, Tuple
 
 from . import geometry, height, paint, schema, specpatch, spec_editor_flowgraph as fgmod
 from .editor_http import HOST, GuardedHandler, LoopbackServer
+from . import spec_editor_analysis as anmod
 from .spec_editor_page import render_page
 from .spec_model import Model, geometry_json, map_error, schema_json
 
@@ -86,7 +97,7 @@ class SpecEditor:
     """Buffer, history, validation and preview computation for one spec file. No HTTP."""
 
     def __init__(self, path: str, preview_px: int = PREVIEW_PX, palette_path: Optional[str] = None,
-                 flowgraph_path: Optional[str] = None):
+                 flowgraph_path: Optional[str] = None, scratch_root: Optional[str] = None):
         self.path = path
         self.fg = fgmod.FlowgraphSource(flowgraph_path) if flowgraph_path else None
         self._terrain = OrderedDict()  # text hash -> (findings, ms)
@@ -117,6 +128,8 @@ class SpecEditor:
         self._img_lock = threading.Lock()
         self._geoms = OrderedDict()  # text hash -> (spec, geoms, geometry json, ms)
         self._images = OrderedDict()  # text hash -> (png bytes, ms)
+        self.preview = anmod.AnalysisPreview(self._derived)
+        self.builds = anmod.BuildManager(scratch_root or anmod.DEFAULT_SCRATCH, os.path.basename(path), palette_path)
 
     # -- buffer -----------------------------------------------------------------------------------------------------
     def _load(self, text: str) -> Model:
@@ -468,6 +481,43 @@ class SpecEditor:
         hit = self._derived(*cur)
         return {"ok": True, "version": version, "geometry": hit[2], "ms": hit[3]}
 
+    def analysis(self, version: Any) -> Optional[Dict[str, Any]]:
+        """Coarse analysis preview of the buffer at `version` (see spec_editor_analysis); None when stale."""
+        cur = self._current(version)
+        if cur is None:
+            return None
+        r = self.preview.request(cur[0])
+        r.update(ok=True, version=version)
+        return r
+
+    def probe(self, version: Any, x: Any, y: Any) -> Optional[Dict[str, Any]]:
+        cur = self._current(version)
+        if cur is None:
+            return None
+        if not all(isinstance(v, (int, float)) and not isinstance(v, bool) for v in (x, y)):
+            raise Refused(["x and y must be numbers"], 400)
+        r = self.preview.probe(cur[0], float(x), float(y))
+        if r is None:
+            return {"ok": False, "errors": ["the analysis of this buffer is not computed yet"]}
+        return {"ok": True, "version": version, "probe": r}
+
+    def build_start(self, version: Any) -> Dict[str, Any]:
+        """Start a real build of a snapshot of the buffer (not the saved file)."""
+        with self.lock:
+            if version != self.version:
+                raise Refused(["the buffer changed (version %s, yours %s); state refreshed" % (self.version, version)], 409)
+            text = self.text
+        try:
+            return self.builds.start(text, version)
+        except anmod.BuildRefused as e:
+            raise Refused(e.errors, e.code)
+
+    def build_cancel(self) -> Dict[str, Any]:
+        try:
+            return self.builds.cancel()
+        except anmod.BuildRefused as e:
+            raise Refused(e.errors, e.code)
+
     def flowgraph(self, version: Any) -> Optional[Dict[str, Any]]:
         """Overlay + check of the buffer at `version` against the flowgraph (in-process; the graph file is only read);
         None when stale. Without a graph: {"ok": False}."""
@@ -542,8 +592,8 @@ class SpecEditor:
 
 class SpecEditorServer(LoopbackServer):
     def __init__(self, path: str, port: int = 0, token: Optional[str] = None, preview_px: int = PREVIEW_PX,
-                 flowgraph_path: Optional[str] = None, watch_interval: float = 0.5):
-        self.ed = SpecEditor(path, preview_px, flowgraph_path=flowgraph_path)
+                 flowgraph_path: Optional[str] = None, watch_interval: float = 0.5, scratch_root: Optional[str] = None):
+        self.ed = SpecEditor(path, preview_px, flowgraph_path=flowgraph_path, scratch_root=scratch_root)
         super().__init__(_Handler, port, token)
         self._stop = threading.Event()
         self._watcher = threading.Thread(target=self._watch, args=(watch_interval,), daemon=True)
@@ -558,6 +608,7 @@ class SpecEditorServer(LoopbackServer):
 
     def server_close(self) -> None:
         self._stop.set()
+        self.ed.builds.close()
         super().server_close()
 
     def page(self) -> str:
@@ -582,7 +633,9 @@ class _Handler(GuardedHandler):
             return
         routes = {"/api/state": self._state, "/api/apply": self._apply, "/api/undo": self._undo, "/api/redo": self._redo,
                   "/api/save": self._save, "/api/paint": self._paint, "/api/geometry": self._geometry, "/api/image": self._image,
-                  "/api/poll": self._poll, "/api/resolve": self._resolve, "/api/flowgraph": self._flowgraph, "/api/flowgraph_terrain": self._flowgraph_terrain}
+                  "/api/poll": self._poll, "/api/resolve": self._resolve, "/api/flowgraph": self._flowgraph, "/api/flowgraph_terrain": self._flowgraph_terrain,
+                  "/api/analysis": self._analysis, "/api/probe": self._probe, "/api/build": self._build,
+                  "/api/build_status": self._build_status, "/api/build_cancel": self._build_cancel, "/api/build_file": self._build_file}
         route = routes.get(self.path)
         if route is None:
             return self._json(404, {"ok": False, "errors": ["not found"]})
@@ -635,6 +688,38 @@ class _Handler(GuardedHandler):
     def _flowgraph_terrain(self, body):
         r = self.server.ed.flowgraph_terrain(body.get("version"))
         self._json(200, r if r is not None else {"ok": False, "stale": True, "errors": []})
+
+    def _analysis(self, body):
+        r = self.server.ed.analysis(body.get("version"))
+        self._json(200, r if r is not None else {"ok": False, "stale": True, "errors": []})
+
+    def _probe(self, body):
+        r = self.server.ed.probe(body.get("version"), body.get("x"), body.get("y"))
+        self._json(200, r if r is not None else {"ok": False, "stale": True, "errors": []})
+
+    def _build(self, body):
+        self._json(200, {"ok": True, "build": self.server.ed.build_start(body.get("version"))})
+
+    def _build_status(self, body):
+        self._json(200, {"ok": True, "build": self.server.ed.builds.status()})
+
+    def _build_cancel(self, body):
+        self._json(200, {"ok": True, "build": self.server.ed.build_cancel()})
+
+    def _build_file(self, body):
+        p = self.server.ed.builds.file_path(body.get("name"))
+        if p is None:
+            return self._json(404, {"ok": False, "errors": ["no such build file"]})
+        with open(p, "rb") as f:
+            png = f.read()
+        self.send_response(200)
+        self.send_header("Content-Type", "image/png")
+        self.send_header("Content-Length", str(len(png)))
+        self.send_header("Cache-Control", "no-store")
+        self.send_header("X-Content-Type-Options", "nosniff")
+        self.send_header("Content-Security-Policy", self.csp())
+        self.end_headers()
+        self.wfile.write(png)
 
     def _image(self, body):
         v = body.get("version")
