@@ -1,7 +1,7 @@
 # Town layout — procedural settlement generators
 
-Status: slice 1 implemented (core model, JSON, checks, preview, spec and flowgraph emitters, `town` CLI, `radial`
-generator). The `wall` line type and `gate` crossing type are a prepared contract addition awaiting an approved re-baseline
+Status: slices 1-2 implemented (core model, JSON, checks, preview, spec and flowgraph emitters, `town` CLI, `radial` and
+`voronoi` generators). The `wall` line type and `gate` crossing type are a prepared contract addition awaiting an approved re-baseline
 (§9.1). Slices 2-6 (§14) are design; each is a backlog item in the `mapgen`
 workstream (mission: `docs/missions/town-layout/MISSION.md`, evidence: `docs/investigations/2026-11-20-town-layout-*.md`).
 This file is the contract those items implement. It is self-contained: a cold implementer needs nothing else except
@@ -186,7 +186,47 @@ Construction:
 Expresses: concentric and wedge cities, walled cores with irregular walls, spoke-and-hub towns (refs 7, 9, 6 of the mission).
 Does not express: orthogonal order, outskirts outside the wall, water.
 
-### 7.2 Shared helpers for later generators
+### 7.2 `voronoi` (implemented; `mapgen/town/gen_voronoi.py`)
+
+Voronoi-cell districts with an angular wall; `organic=true` is the high-jitter regime.
+
+| name | type | valid | drawn | meaning |
+|---|---|---|---|---|
+| `patches` | int | 8-30 | 12-24 | cells of the town before merging |
+| `spiral_tightness` | float | 0.8-1.2 | 0.9-1.1 | seed angle step relative to the golden angle |
+| `jitter` | float | 0-1 | 0.1-0.5 | seed displacement, fraction of the mean spacing |
+| `lloyd` | int | 0-3 | 1-3 | Lloyd passes |
+| `centre_bias` | float | 0.7-1.6 | 0.9-1.3 | above 1 packs smaller cells toward the centre |
+| `anisotropy` | float | 1-1.6 | 1-1.3 | area-preserving stretch |
+| `radius_frac` | float | 0.3-0.95 | 0.45-0.75 | mean town radius / half the shorter side, clamped to fit 10 m inside the map |
+| `rotation` | float | 0-360 | 0-360 | degrees |
+| `warp` | float | 0-0.2 | 0-0.06 | smooth sinusoidal domain warp amplitude, fraction of the town radius |
+| `organic` | bool | | default false | effective jitter >= 0.9, lloyd <= 1, warp >= 0.12 (echoed params keep the raw values) |
+| `gates` | int | 2-8 | 3-5 | gates in the wall |
+| `plaza_frac` | float | 0.02-0.2 | 0.04-0.09 | minimum plaza area / town area |
+| `merge_prob` | float | 0-0.5 | 0-0.25 | probability that a district merges with a neighbour |
+| `citadel` | bool | | P(true) 0.5 | the wall district farthest from every gate becomes a citadel |
+| `min_district_area` | float | 100-20000 | default 1600 | m2; smaller cells merge into the neighbour with the longest shared border |
+
+Construction: seeds on a Vogel spiral (`r = ((i+0.5)/N)^(0.5*centre_bias)`, angle `i * golden * spiral_tightness`), jittered
+(stage `seeds`; seed 0 stays on the origin), continued by ghost seeds and a far ring so every town cell is bounded, relaxed
+by `lloyd` passes; the first `patches` cells are the town. Cells are normalised to unit mean radius, warped (stage `warp`),
+rotated, scaled and rounded once per vertex so neighbours share bit-identical vertices. Cells that touch the plaza cell only at
+a corner are dropped. Cell 0 absorbs neighbours until it reaches `plaza_frac`; cells under `min_district_area` merge; then each
+district merges with a random neighbour with probability `merge_prob` (stage `merge`). District key `p<lowest cell index>`;
+plaza `p0` (kind core). Kinds: nearest fifth market, wall districts of the outer quarter craft, citadel, else residential.
+The wall is the exterior ring of the union, unsmoothed (so it lies exactly on district borders), thickness 8. Gates are wall
+vertices nearest evenly spread angles (stage `gates`), at least 40 m apart, ids `<sid>_gate_<j>` by angle. Arteries are
+Dijkstra routes over the district-border graph from each gate to the nearest vertex of the road network built so far, or, for
+the first, to the plaza border followed by a straight link to the plaza centre; roads never overlap (`<sid>_artery_<j>`,
+width 14, a gate whose vertex is already on the network gets no road of its own). Every road vertex is a movement-graph node
+(`<sid>_j_p<a>p<b>p<c>` from the districts meeting there, numeric suffix on a collision), so flowgraph edges equal movement
+edges. Arteries are not Chaikin-smoothed and there are no gate-to-gate arteries or landmark weights.
+A layout that fails (unbounded cell, unmergeable sliver, holed or disconnected footprint) is redrawn from the next attempt
+stream (`seeds1`, `merge1`, ...), up to 8 attempts, then `GenerationError`. A wall-less regime is not implemented.
+Observed: the outermost cells are large and spiky at high jitter; `radial` is the tidier choice for compact walls.
+
+### 7.3 Shared helpers for later generators
 
 Slice 1 contains these in `radial` or `graph`; later slices move the generic parts out when a second user needs them:
 `finalize(...)` (roads sorted, `movement_edges`, `attach_districts`, `district_graph`, build the Settlement), `planar.py`
@@ -289,11 +329,12 @@ graph.py        movement_edges, attach_districts, district_graph
 check.py        check, check_determinism
 registry.py     GENERATORS, generate
 gen_radial.py   slice 1
+gen_voronoi.py  slice 2
 emit_spec.py    Settlement -> spec YAML fragment
 emit_flow.py    Settlement -> flowgraph fragment
 render.py       preview PNG
 cli.py          `town` command group
-(later)         planar.py, outline.py, gates.py, landmarks.py, env.py (water, fort), gen_voronoi.py, gen_grid.py, gen_bsp.py, gen_hybrid.py
+(later)         planar.py, outline.py, gates.py, landmarks.py, env.py (water, fort), gen_grid.py, gen_bsp.py, gen_hybrid.py
 ```
 
 ## 13. Tests (`tests/test_town_*.py`)
@@ -310,7 +351,7 @@ approves a baseline.
 
 Each slice is independently mergeable and adds a generator to the registry plus its tests; slices 2-4 depend only on slice 1.
 
-2. **`voronoi`** (Watabou style, also the organic regime). Seeds on an outward spiral, jittered, 1-3 Lloyd iterations
+2. **`voronoi`** (implemented, section 7.2; original design: Watabou style, also the organic regime). Seeds on an outward spiral, jittered, 1-3 Lloyd iterations
    (`scipy.spatial.Voronoi`, clipped with shapely); the N inner cells form the town, each cell (or a merge of small ones) a
    district `p<n>`; arteries are shortest paths (`networkx.astar_path`) over the Voronoi edge graph from each gate to the plaza and
    between gates, Chaikin-smoothed; the wall is the simplified, smoothed exterior ring of the union; gates are wall vertices at

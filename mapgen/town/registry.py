@@ -5,7 +5,7 @@ import re
 from dataclasses import dataclass
 from typing import Any, Callable, Dict, List, Optional, Sequence, Tuple
 
-from . import gen_radial
+from . import gen_grid, gen_radial, gen_voronoi
 from .model import Settlement
 from .params import ParamDef, ParamError, resolve
 
@@ -26,6 +26,10 @@ class Generator:
 GENERATORS: Dict[str, Generator] = {
     "radial": Generator("radial", gen_radial.DEFS, gen_radial.generate,
                         "ring roads, wedge districts, central plaza, irregular wall with gates on spokes"),
+    "voronoi": Generator("voronoi", gen_voronoi.DEFS, gen_voronoi.generate,
+                         "Voronoi-cell districts on a seed spiral, border arteries to a plaza, angular wall; organic=true for the chaotic regime"),
+    "grid": Generator("grid", gen_grid.DEFS, gen_grid.generate,
+                      "rotated street lattice in a superellipse wall, market square with radial boulevards, optional inner wall"),
 }
 
 
