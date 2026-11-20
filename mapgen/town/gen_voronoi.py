@@ -322,6 +322,21 @@ def _build(p: Dict[str, Any], seed: int, size: Tuple[float, float], centre: Tupl
         path = _route(adj, v, network | plaza_verts)
         paths.append((j, path, path[-1] not in network))
         network.update(path)
+    # every district is served: at least two of its border vertices lie on a road (arteries added from the nearest vertex)
+    extra = g
+    for k in keys:
+        if k == 0:
+            continue
+        rv = [tuple(v) for v in rings[k]]
+        for _ in range(len(rv)):
+            if sum(1 for v in rv if v in network) >= 2:
+                break
+            src = min((v for v in rv if v not in network),
+                      key=lambda v: (min(_dist(v, q) for q in network), v))
+            path = _route(adj, src, network | plaza_verts)
+            paths.append((extra, path, path[-1] not in network))
+            extra += 1
+            network.update(path)
 
     # every road vertex is a movement-graph node; junctions are named after the districts that meet there
     names: Dict[tuple, str] = {}

@@ -8,6 +8,9 @@ from __future__ import annotations
 import json
 from typing import List
 
+from shapely.geometry import Polygon
+
+from ..geometry import chaikin
 from ..schema import feature_seed
 from .model import Settlement
 from .water import wall_runs
@@ -48,6 +51,58 @@ def wall_gate_types():
     return "wall", "gate"
 
 
+def _drawn_ring(wl):
+    """The outer wall as drawn: each solid run Chaikin-smoothed, the open-shore stretches between runs left straight."""
+    runs = wall_runs(wl)
+    pts = [tuple(p) for p in wl.polyline[:-1]]
+    n = len(pts)
+    at = {p: i for i, p in enumerate(pts)}
+    out = []
+    for k, run in enumerate(runs):
+        out.extend(tuple(q) for q in chaikin([tuple(p) for p in run]))
+        if len(runs) > 1 or wl.open_shore:
+            a, b = at.get(tuple(run[-1])), at.get(tuple(runs[(k + 1) % len(runs)][0]))
+            if a is None or b is None:
+                return None
+            i = (a + 1) % n
+            while a != b and i != b:
+                out.append(pts[i])
+                i = (i + 1) % n
+    if len(out) < 3:
+        return None
+    g = Polygon(out)
+    if not g.is_valid:
+        g = g.buffer(0)
+    return g if g.geom_type == "Polygon" and not g.is_empty else None
+
+
+def region_points(s: Settlement, d) -> List[List[float]]:
+    """District outline for its `town` region. Wall lines are drawn Chaikin-smoothed, which cuts the corners of the closed outer
+    wall ring; the outline is clipped to that smoothed ring so no region pokes past the wall drawn in the map."""
+    wl = next((w for w in s.walls if w.kind == "outer" and len(w.polyline) >= 4), None)
+    if wl is None:
+        return d.polygon
+    ring = _drawn_ring(wl)
+    if ring is None:
+        return d.polygon
+    dp = Polygon(d.polygon)
+    if not ring.is_valid or not dp.is_valid or dp.difference(ring).area < 0.01:
+        return d.polygon
+    inter = dp.intersection(ring)
+    parts = [g for g in getattr(inter, "geoms", [inter]) if g.geom_type == "Polygon" and not g.is_empty]
+    if not parts:
+        return d.polygon
+    best = max(parts, key=lambda g: g.area)
+    if best.area < 0.5 * dp.area:
+        return d.polygon     # outside the wall (a detached fort): left as it is
+    out = []
+    for x, y in list(best.exterior.coords)[:-1]:
+        q = [round(x, 2), round(y, 2)]
+        if not out or out[-1] != q:
+            out.append(q)
+    return out if len(out) >= 3 else d.polygon
+
+
 def emit_spec(s: Settlement) -> str:
     out: List[str] = []
     w = out.append
@@ -72,7 +127,7 @@ def emit_spec(s: Settlement) -> str:
           % (isl["id"], feature_seed(isl["id"]), _pts(isl["polygon"])))
     for d in s.districts:
         w("  - { id: %s, seed: %d, type: town, shape: poly, points: %s, rough: 0, label: %s }"
-          % (d.id, feature_seed(d.id), _pts(d.polygon), json.dumps(d.label)))
+          % (d.id, feature_seed(d.id), _pts(region_points(s, d)), json.dumps(d.label)))
     w("")
     w("lines:")
     for r in s.roads:

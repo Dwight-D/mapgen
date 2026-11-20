@@ -141,3 +141,19 @@ def test_fragment_validates_and_flowgraph_matches(base, mode):
 def test_preview_draws_towers():
     s = _gen("radial", 3, fort="corner", fort_outposts=1)
     assert render_fort(s, px=300).size == (300, 300)
+
+
+@pytest.mark.parametrize("base", BASES)
+@pytest.mark.parametrize("mode", ["corner", "centre"])
+def test_inner_fort_with_river_never_crashes(base, mode):
+    """An inner fort on a river settlement is valid (open-shore wall ranges survive the carve) or reports GenerationError."""
+    ok = 0
+    for seed in SEEDS:
+        try:
+            s = _gen(base, seed, fort=mode, water="river")
+        except town.GenerationError:
+            continue
+        ok += 1
+        assert town.check(s) == [], (base, mode, seed)
+        assert any(d.kind == "citadel" for d in s.districts)
+    assert ok >= 18, (base, mode, ok)

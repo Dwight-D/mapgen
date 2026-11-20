@@ -16,16 +16,26 @@ nodes:
   march_gate_o1: { kind: choke, name: "Gate o1" }
   march_gate_o2: { kind: choke, name: "Gate o2" }
   march_j_p0p1p2: { kind: choke }
+  march_j_p0p1p3: { kind: choke }
   march_j_p0p2p5: { kind: choke }
   march_j_p0p3p8: { kind: choke }
   march_j_p0p5p8: { kind: choke }
+  march_j_p12: { kind: choke }
   march_j_p1p2p4: { kind: choke }
+  march_j_p1p3p6: { kind: choke }
   march_j_p1p4p9: { kind: choke }
+  march_j_p1p6: { kind: choke }
+  march_j_p1p9: { kind: choke }
   march_j_p2p10: { kind: choke }
   march_j_p2p5p10: { kind: choke }
+  march_j_p2p7: { kind: choke }
+  march_j_p3p11: { kind: choke }
+  march_j_p3p6p11: { kind: choke }
   march_j_p3p8: { kind: choke }
   march_j_p4p9: { kind: choke }
   march_j_p5p8: { kind: choke }
+  march_j_p6: { kind: choke }
+  march_j_p7: { kind: choke }
   march_o1: { kind: zone, name: "Outlying Fort 1" }
   march_o2: { kind: zone, name: "Outlying Fort 2" }
   march_plaza: { kind: zone, name: "Central Plaza" }
@@ -33,26 +43,36 @@ nodes:
 edges:
   - A - march_gate_1
   - B - march_gate_2
-  - { link: "march_gate_fort_in - march_fort", name: march_fort_road }
+  - { link: "march_fort - march_gate_fort_in", name: march_fort_road }
   - { link: "march_fort - march_gate_fort_out", name: march_fort_road }
   - { link: "march_gate_0 - march_gate_o2", name: march_apr_o2 }
   - { link: "march_gate_0 - march_j_p5p8", name: march_artery_0 }
   - { link: "march_gate_1 - march_j_p3p8", name: march_artery_1 }
+  - { link: "march_gate_2 - march_j_p12", name: march_artery_10 }
   - { link: "march_gate_2 - march_j_p4p9", name: march_artery_2 }
   - { link: "march_gate_3 - march_gate_o1", name: march_apr_o1 }
   - { link: "march_gate_3 - march_j_p2p10", name: march_artery_3 }
-  - { link: "march_gate_fort_in - march_j_p0p3p8", name: march_fort_link_in }
-  - { link: "march_gate_fort_out - march_j_p3p8", name: march_fort_link_out }
+  - { link: "march_gate_fort_in - march_j_p1p3p6", name: march_fort_link_in }
+  - { link: "march_gate_fort_out - march_j_p3p11", name: march_fort_link_out }
   - { link: "march_gate_o1 - march_o1", name: march_apr_o1 }
   - { link: "march_gate_o2 - march_o2", name: march_apr_o2 }
-  - { link: "march_j_p1p2p4 - march_j_p0p1p2", name: march_artery_2 }
+  - { link: "march_j_p0p1p2 - march_j_p1p2p4", name: march_artery_2 }
   - { link: "march_j_p0p1p2 - march_plaza", name: march_artery_2 }
-  - { link: "march_j_p2p5p10 - march_j_p0p2p5", name: march_artery_3 }
+  - { link: "march_j_p0p1p3 - march_j_p1p3p6", name: march_artery_9 }
+  - { link: "march_j_p0p1p3 - march_plaza", name: march_artery_9 }
+  - { link: "march_j_p0p2p5 - march_j_p2p5p10", name: march_artery_3 }
   - { link: "march_j_p0p2p5 - march_plaza", name: march_artery_3 }
-  - { link: "march_j_p3p8 - march_j_p0p3p8", name: march_artery_1 }
+  - { link: "march_j_p0p3p8 - march_j_p3p8", name: march_artery_1 }
   - { link: "march_j_p0p3p8 - march_plaza", name: march_artery_1 }
-  - { link: "march_j_p5p8 - march_j_p0p5p8", name: march_artery_0 }
+  - { link: "march_j_p0p5p8 - march_j_p5p8", name: march_artery_0 }
   - { link: "march_j_p0p5p8 - march_plaza", name: march_artery_0 }
-  - { link: "march_j_p1p4p9 - march_j_p1p2p4", name: march_artery_2 }
-  - { link: "march_j_p4p9 - march_j_p1p4p9", name: march_artery_2 }
+  - { link: "march_j_p1p2p4 - march_j_p1p4p9", name: march_artery_2 }
+  - { link: "march_j_p1p3p6 - march_j_p3p6p11", name: march_artery_9 }
+  - { link: "march_j_p1p4p9 - march_j_p1p9", name: march_artery_4 }
+  - { link: "march_j_p1p4p9 - march_j_p4p9", name: march_artery_2 }
+  - { link: "march_j_p1p6 - march_j_p1p9", name: march_artery_4 }
+  - { link: "march_j_p1p6 - march_j_p6", name: march_artery_5 }
   - { link: "march_j_p2p10 - march_j_p2p5p10", name: march_artery_3 }
+  - { link: "march_j_p2p10 - march_j_p2p7", name: march_artery_6 }
+  - { link: "march_j_p2p7 - march_j_p7", name: march_artery_7 }
+  - { link: "march_j_p3p11 - march_j_p3p8", name: march_artery_8 }

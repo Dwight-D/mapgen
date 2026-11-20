@@ -15,7 +15,13 @@ from mapgen import schema, specpatch
 from mapgen.specpatch import Delete, Insert, PatchError, PathError, Set, UnsafePatch, VerifyError
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SPECS = sorted(glob.glob(os.path.join(REPO_ROOT, "maps", "**", "*.yaml"), recursive=True))
+def _is_map_spec(path):
+    rel = os.path.relpath(path, os.path.join(REPO_ROOT, "maps")).replace("\\", "/")
+    # town build inputs (maps/towns/src/*.base.yaml) and flowgraph fragments (*.flow.yaml) are not map specs
+    return not rel.startswith("towns/src/") and not rel.endswith(".flow.yaml")
+
+
+SPECS = sorted(p for p in glob.glob(os.path.join(REPO_ROOT, "maps", "**", "*.yaml"), recursive=True) if _is_map_spec(p))
 SPEC_IDS = [os.path.relpath(p, os.path.join(REPO_ROOT, "maps")).replace("\\", "/") for p in SPECS]
 
 BLOCK = """format_version: 1

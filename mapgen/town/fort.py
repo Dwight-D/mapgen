@@ -12,6 +12,7 @@ import copy
 import math
 from typing import Any, Dict, List, Optional, Tuple
 
+import shapely
 from shapely.geometry import LineString, Point, Polygon
 from shapely.geometry.polygon import orient
 from shapely.ops import unary_union
@@ -316,6 +317,8 @@ def _carve_inner(s0: Settlement, F: Polygon, mode: str, base: str) -> Settlement
                 keep.append(g)
         plan.append((d, keep))
     F2 = unary_union([F] + small)
+    if F2.geom_type == "Polygon" and F2.is_valid:
+        F2 = shapely.set_precision(F2, 0.01)      # the 0.01 m grid of the emitted rings: rounding must not self-intersect the fort ring
     if F2.geom_type != "Polygon" or F2.interiors or not F2.is_valid:
         raise _Reject("fort region is not a simple polygon")
     if F2.area > 0.4 * FP.area:
@@ -457,10 +460,16 @@ def _carve_inner(s0: Settlement, F: Polygon, mode: str, base: str) -> Settlement
     walls: List[Wall] = []
     for w in s.walls:
         if w.kind == "outer":
-            pl = [tuple(p) for p in w.polyline[:-1]]
-            pl = (foot_ring if foot_ring is not None else _embed(pl, new))
+            old_pl = [tuple(p) for p in w.polyline[:-1]]
+            pl = (foot_ring if foot_ring is not None else _embed(old_pl, new))
+            if foot_ring is None and w.open_shore:
+                # embedding only inserts vertices: carry each open-shore range over to the new vertex indices
+                at_new = {p: i for i, p in enumerate(pl)}
+                n_old = len(old_pl)
+                w.open_shore = [[at_new[old_pl[a]], len(pl) if b >= n_old else at_new[old_pl[b]]] for a, b in w.open_shore]
+            else:
+                w.open_shore = []
             w.polyline = [list(p) for p in pl] + [list(pl[0])]
-            w.open_shore = []
         else:
             pl = _embed([tuple(p) for p in w.polyline[:-1]], new)
             w.polyline = [list(p) for p in pl] + [list(pl[0])]
@@ -478,6 +487,8 @@ def _carve_inner(s0: Settlement, F: Polygon, mode: str, base: str) -> Settlement
         d.polygon, d.area = [list(p) for p in rg], r2(poly.area)
         d.landmarks = []
         districts.append(d)
+    if not Polygon(fring).is_valid:
+        raise _Reject("fort polygon invalid after embedding")
     fd = District(id="%s_d_%s" % (sid, base), key=base, kind="citadel", polygon=[list(p) for p in fring], area=r2(Polygon(fring).area),
                   label="Fortress", inside_wall=True)
     districts.append(fd)

@@ -11,8 +11,16 @@ nodes:
   ash_gate_2: { kind: choke, name: "Gate 2" }
   ash_gate_3: { kind: choke, name: "Gate 3" }
   ash_j_p0p1p3: { kind: choke }
+  ash_j_p0p1p4: { kind: choke }
+  ash_j_p0p2: { kind: choke }
+  ash_j_p0p2p10: { kind: choke }
+  ash_j_p10p13: { kind: choke }
+  ash_j_p13: { kind: choke }
   ash_j_p1p3p6: { kind: choke }
+  ash_j_p1p4p9: { kind: choke }
   ash_j_p1p9: { kind: choke }
+  ash_j_p4p7p9: { kind: choke }
+  ash_j_p7p9: { kind: choke }
   ash_j_p9: { kind: choke }
   ash_plaza: { kind: zone, name: "Central Plaza" }
 
@@ -21,9 +29,17 @@ edges:
   - B - ash_gate_3
   - { link: "ash_gate_0 - ash_plaza", name: ash_artery_0 }
   - { link: "ash_gate_1 - ash_j_p1p3p6", name: ash_artery_1 }
-  - { link: "ash_j_p1p9 - ash_gate_1", name: ash_artery_2 }
+  - { link: "ash_gate_1 - ash_j_p1p9", name: ash_artery_2 }
   - { link: "ash_gate_2 - ash_j_p9", name: ash_artery_2 }
+  - { link: "ash_gate_3 - ash_j_p10p13", name: ash_artery_8 }
   - { link: "ash_gate_3 - ash_plaza", name: ash_artery_3 }
-  - { link: "ash_j_p1p3p6 - ash_j_p0p1p3", name: ash_artery_1 }
+  - { link: "ash_j_p0p1p3 - ash_j_p1p3p6", name: ash_artery_1 }
   - { link: "ash_j_p0p1p3 - ash_plaza", name: ash_artery_1 }
-  - { link: "ash_j_p9 - ash_j_p1p9", name: ash_artery_2 }
+  - { link: "ash_j_p0p1p4 - ash_j_p1p4p9", name: ash_artery_6 }
+  - { link: "ash_j_p0p1p4 - ash_plaza", name: ash_artery_6 }
+  - { link: "ash_j_p0p2 - ash_plaza", name: ash_artery_5 }
+  - { link: "ash_j_p0p2p10 - ash_plaza", name: ash_artery_4 }
+  - { link: "ash_j_p10p13 - ash_j_p13", name: ash_artery_9 }
+  - { link: "ash_j_p1p4p9 - ash_j_p4p7p9", name: ash_artery_6 }
+  - { link: "ash_j_p1p9 - ash_j_p9", name: ash_artery_2 }
+  - { link: "ash_j_p4p7p9 - ash_j_p7p9", name: ash_artery_7 }

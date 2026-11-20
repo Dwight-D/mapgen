@@ -11,12 +11,16 @@ nodes:
   salt_gate_2: { kind: choke, name: "Gate 2" }
   salt_gate_3: { kind: choke, name: "Gate 3" }
   salt_j_p0p10: { kind: choke }
+  salt_j_p0p1p4: { kind: choke }
+  salt_j_p0p1p6: { kind: choke }
   salt_j_p0p3p5: { kind: choke }
   salt_j_p0p3p6: { kind: choke }
   salt_j_p0p4p7: { kind: choke }
+  salt_j_p1p4p9: { kind: choke }
   salt_j_p3p5p8: { kind: choke }
   salt_j_p3p6p11: { kind: choke }
   salt_j_p4p7: { kind: choke }
+  salt_j_p4p9: { kind: choke }
   salt_j_p5p8p13: { kind: choke }
   salt_plaza: { kind: zone, name: "Central Plaza" }
 
@@ -26,12 +30,16 @@ edges:
   - { link: "salt_gate_0 - salt_j_p5p8p13", name: salt_artery_0 }
   - { link: "salt_gate_1 - salt_j_p3p6p11", name: salt_artery_1 }
   - { link: "salt_gate_2 - salt_j_p4p7", name: salt_artery_2 }
+  - { link: "salt_gate_2 - salt_j_p4p9", name: salt_artery_6 }
   - { link: "salt_gate_3 - salt_j_p0p10", name: salt_artery_3 }
   - { link: "salt_j_p0p10 - salt_plaza", name: salt_artery_3 }
-  - { link: "salt_j_p3p5p8 - salt_j_p0p3p5", name: salt_artery_0 }
+  - { link: "salt_j_p0p1p4 - salt_plaza", name: salt_artery_5 }
+  - { link: "salt_j_p0p1p6 - salt_plaza", name: salt_artery_4 }
+  - { link: "salt_j_p0p3p5 - salt_j_p3p5p8", name: salt_artery_0 }
   - { link: "salt_j_p0p3p5 - salt_plaza", name: salt_artery_0 }
-  - { link: "salt_j_p3p6p11 - salt_j_p0p3p6", name: salt_artery_1 }
+  - { link: "salt_j_p0p3p6 - salt_j_p3p6p11", name: salt_artery_1 }
   - { link: "salt_j_p0p3p6 - salt_plaza", name: salt_artery_1 }
-  - { link: "salt_j_p4p7 - salt_j_p0p4p7", name: salt_artery_2 }
+  - { link: "salt_j_p0p4p7 - salt_j_p4p7", name: salt_artery_2 }
   - { link: "salt_j_p0p4p7 - salt_plaza", name: salt_artery_2 }
-  - { link: "salt_j_p5p8p13 - salt_j_p3p5p8", name: salt_artery_0 }
+  - { link: "salt_j_p1p4p9 - salt_j_p4p9", name: salt_artery_7 }
+  - { link: "salt_j_p3p5p8 - salt_j_p5p8p13", name: salt_artery_0 }

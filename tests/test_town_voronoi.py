@@ -134,3 +134,33 @@ def test_cli_generate_organic(tmp_path):
     assert r.returncode == 0, r.stdout + r.stderr
     assert run("town", "check", os.path.join(out, "settlement.json")).returncode == 0
     assert run("town", "generate", "voronoi", "--param", "patches=99").returncode == 1
+
+
+@pytest.mark.parametrize("seed", SEEDS)
+@pytest.mark.parametrize("kw", REGIMES, ids=IDS)
+def test_every_district_has_a_road(seed, kw):
+    """At least two border vertices of every district lie on a road."""
+    s = _gen(seed, params=kw)
+    on_road = {tuple(p) for r in s.roads for p in r.polyline}
+    for d in s.districts:
+        if d.key == "p0":
+            continue
+        assert sum(1 for p in d.polygon if tuple(p) in on_road) >= 2, (seed, d.id)
+
+
+@pytest.mark.parametrize("seed", SEEDS)
+@pytest.mark.parametrize("kw", REGIMES, ids=IDS)
+def test_emitted_regions_stay_inside_the_drawn_wall(seed, kw):
+    """The wall line is drawn Chaikin-smoothed; no town region may extend past it."""
+    import re
+    from shapely.geometry import Polygon
+    from mapgen.geometry import chaikin
+    s = _gen(seed, params=kw)
+    wall = Polygon([tuple(p) for p in chaikin([tuple(p) for p in s.walls[0].polyline])]).buffer(0.05)
+    text = town.emit_spec(s)
+    n = 0
+    for m in re.finditer(r"id: (\w+), seed: \d+, type: town, shape: poly, points: \[(.*?)\], rough", text):
+        pts = [(float(a), float(b)) for a, b in re.findall(r"\[(-?[\d.]+), (-?[\d.]+)\]", m.group(2))]
+        assert Polygon(pts).difference(wall).area < 0.5, (seed, m.group(1))
+        n += 1
+    assert n == len(s.districts)
