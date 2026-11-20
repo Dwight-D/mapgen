@@ -1,0 +1,73 @@
+format_version: 1
+name: saltport
+brief: |
+  PITCH: Saltport, a bay harbour town with docks and an open-shore wall (showcase map for the bay overlay on a voronoi base).
+  FLOW: teams start on opposite sides of the settlement and fight through its gates and crossings.
+  TEST: do teams fight for the docks, or take the landward gates?
+size: [1000, 1000]
+seed: 5706
+
+terrain:
+  base_height: 30
+  relief: 10
+  relief_scale: 500
+  detail: 3
+  detail_scale: 120
+
+regions:
+  - { id: sp_dunes, seed: 0, type: field, shape: blob, at: [160, 160], r: 170, rough: 0.4, warp: 60 }
+  - { id: sp_fields, seed: 1, type: field, shape: blob, at: [850, 800], r: 170, rough: 0.4, warp: 60 }
+  - { id: sp_wood, seed: 2, type: forest, shape: blob, at: [150, 850], r: 100, rough: 0.5, fragment: 0.4, fragment_scale: 60 }
+  - { id: sp_saltmarsh, seed: 3, type: marsh, shape: blob, at: [880, 150], r: 90, rough: 0.5, warp: 40 }
+  - { id: sp_cliffs, seed: 4, type: hills, shape: blob, at: [500, 920], r: 100, rough: 0.4, warp: 40, height: 25 }
+  - { id: salt_bay, seed: 737436963, type: lake, shape: poly, points: [[794.18, 681.79], [789.21, 673.95], [788.59, 672.89], [786.62, 671.24], [773.12, 652.03], [769.14, 641.19], [765.98, 636.69], [760.29, 628.76], [754.34, 620.05], [748.45, 610.35], [743.09, 599.55], [738.8, 587.68], [736.1, 574.95], [735.47, 561.75], [737.27, 548.6], [741.67, 536.09], [748.63, 524.86], [757.93, 515.47], [769.12, 508.38], [781.65, 503.86], [794.88, 501.97], [808.16, 502.57], [820.94, 505.29], [832.77, 509.62], [843.42, 514.97], [852.81, 520.7], [852.98, 520.82], [856.56, 520.5], [879.69, 524.53], [1000, 562.21], [1000, 750.7], [881.55, 713.6], [873.77, 715.71], [863.34, 717.29], [852.81, 717.5], [842.38, 716.22], [832.31, 713.39], [822.86, 709.1], [814.23, 703.51], [806.56, 696.88], [799.91, 689.53]], rough: 0, label: "Bay" }
+  - { id: salt_island_1, seed: 3603160342, type: clearing, shape: poly, points: [[918.41, 634.55], [917.46, 641.79], [914.66, 648.55], [910.21, 654.34], [904.41, 658.79], [897.66, 661.59], [890.41, 662.55], [883.16, 661.59], [876.41, 658.79], [870.61, 654.34], [866.16, 648.55], [863.36, 641.79], [862.41, 634.55], [863.36, 627.3], [866.16, 620.55], [870.61, 614.75], [876.41, 610.3], [883.16, 607.5], [890.41, 606.55], [897.66, 607.5], [904.41, 610.3], [910.21, 614.75], [914.66, 620.55], [917.46, 627.3]], rough: 0, label: "Island" }
+  - { id: salt_d_p0, seed: 1170745351, type: town, shape: poly, points: [[590.89, 450.38], [589.7, 451.71], [587.92, 568.6], [458.56, 554.68], [458.36, 554.27], [476.13, 462.16], [441.53, 409.3], [442.98, 397.95], [528.13, 343.89], [576.62, 365]], rough: 0, label: "Central Plaza" }
+  - { id: salt_d_p1, seed: 4035172658, type: town, shape: poly, points: [[441.53, 409.3], [476.13, 462.16], [458.36, 554.27], [322.11, 515.25], [318.44, 504.99], [325.57, 468.45]], rough: 0, label: "Market Ward 1" }
+  - { id: salt_d_p3, seed: 1839310437, type: town, shape: poly, points: [[458.56, 554.68], [587.92, 568.6], [593.96, 575.89], [571.16, 688.21], [557.73, 696.37], [449.95, 633.44]], rough: 0, label: "Residential Ward 1" }
+  - { id: salt_d_p4, seed: 2719996151, type: town, shape: poly, points: [[390.63, 329.74], [442.98, 397.95], [441.53, 409.3], [325.57, 468.45], [288.24, 382.63], [295.25, 363.97]], rough: 0, label: "Residential Ward 2" }
+  - { id: salt_d_p5, seed: 388625044, type: town, shape: poly, points: [[589.7, 451.71], [590.89, 450.38], [669.81, 447.53], [718.27, 517.56], [678.13, 580.43], [593.96, 575.89], [587.92, 568.6]], rough: 0, label: "Market Ward 2" }
+  - { id: salt_d_p6, seed: 3224343832, type: town, shape: poly, points: [[322.11, 515.25], [458.36, 554.27], [458.56, 554.68], [449.95, 633.44], [435.72, 646.4], [289.77, 659.89], [279.35, 639.22]], rough: 0, label: "Residential Ward 3" }
+  - { id: salt_d_p7, seed: 3881404322, type: town, shape: poly, points: [[307.62, 201.17], [397.58, 305.99], [497.35, 236.63], [528.13, 343.89], [442.98, 397.95], [390.63, 329.74], [295.25, 363.97], [253.78, 289.48]], rough: 0, label: "Residential Ward 4" }
+  - { id: salt_d_p8, seed: 727811907, type: town, shape: poly, points: [[593.96, 575.89], [678.13, 580.43], [716.07, 639.96], [698.24, 730.72], [571.16, 688.21]], rough: 0, label: "Residential Ward 5" }
+  - { id: salt_d_p9, seed: 2775540415, type: town, shape: poly, points: [[288.24, 382.63], [325.57, 468.45], [318.44, 504.99], [191.76, 484.29], [141.15, 423.61]], rough: 0, label: "Craft Quarter 1" }
+  - { id: salt_d_p10, seed: 615121669, type: town, shape: poly, points: [[634.62, 316.38], [725.64, 350.01], [669.81, 447.53], [590.89, 450.38], [576.62, 365]], rough: 0, label: "Residential Ward 6" }
+  - { id: salt_d_p11, seed: 36820785, type: town, shape: poly, points: [[435.72, 646.4], [449.95, 633.44], [557.73, 696.37], [533.55, 762.73], [435.06, 766.64]], rough: 0, label: "Craft Quarter 2" }
+  - { id: salt_d_p13a, seed: 602825378, type: town, shape: poly, points: [[718.27, 517.56], [775.32, 506.14], [769.12, 508.38], [757.93, 515.47], [748.63, 524.86], [741.67, 536.09], [737.27, 548.6], [735.47, 561.75], [736.1, 574.95], [738.8, 587.68], [743.09, 599.55], [748.45, 610.35], [754.34, 620.05], [760.29, 628.76], [760.9, 629.61], [716.07, 639.96], [678.13, 580.43]], rough: 0, label: "Harbour" }
+
+teams:
+  A: { base: [844, 794], name: Landward Guard }
+  B: { base: [615, 118], name: Sea Wardens }
+
+lines:
+  - { id: approach_a, type: road, path: [base_A, [766, 728], salt_gate_0], width: 10, smooth: true }
+  - { id: approach_b, type: road, path: [base_B, [642, 216], salt_gate_3], width: 10, smooth: true }
+  - { id: salt_artery_0, seed: 1974422288, type: road, path: [salt_gate_0, salt_j_p5p8p13, salt_j_p3p5p8, salt_j_p0p3p5, salt_plaza], width: 14, smooth: true }
+  - { id: salt_artery_1, seed: 48086175, type: road, path: [salt_gate_1, salt_j_p3p6p11, salt_j_p0p3p6, salt_plaza], width: 14, smooth: true }
+  - { id: salt_artery_2, seed: 3912619510, type: road, path: [salt_gate_2, salt_j_p4p7, salt_j_p0p4p7, salt_plaza], width: 14, smooth: true }
+  - { id: salt_artery_3, seed: 2027040034, type: road, path: [salt_gate_3, salt_j_p0p10, salt_plaza], width: 14, smooth: true }
+  - { id: salt_wall_outer, seed: 2259734579, type: wall, path: [[760.9, 629.61], [716.07, 639.96], [698.24, 730.72], [571.16, 688.21], [557.73, 696.37], [533.55, 762.73], [435.06, 766.64], [435.72, 646.4], [289.77, 659.89], [279.35, 639.22], [322.11, 515.25], [318.44, 504.99], [191.76, 484.29], [141.15, 423.61], [288.24, 382.63], [295.25, 363.97], [253.78, 289.48], [307.62, 201.17], [397.58, 305.99], [497.35, 236.63], [528.13, 343.89], [576.62, 365], [634.62, 316.38], [725.64, 350.01], [669.81, 447.53], [718.27, 517.56], [775.32, 506.14]], width: 8 }
+
+points:
+  salt_gate_0: [716.07, 639.96]
+  salt_gate_1: [435.72, 646.4]
+  salt_gate_2: [295.25, 363.97]
+  salt_gate_3: [634.62, 316.38]
+  salt_j_p0p10: [576.62, 365]
+  salt_j_p0p3p5: [587.92, 568.6]
+  salt_j_p0p3p6: [458.56, 554.68]
+  salt_j_p0p4p7: [442.98, 397.95]
+  salt_j_p3p5p8: [593.96, 575.89]
+  salt_j_p3p6p11: [449.95, 633.44]
+  salt_j_p4p7: [390.63, 329.74]
+  salt_j_p5p8p13: [678.13, 580.43]
+
+crossings:
+  - { id: salt_gate_0_x, type: gate, at: salt_gate_0 }
+  - { id: salt_gate_1_x, type: gate, at: salt_gate_1 }
+  - { id: salt_gate_2_x, type: gate, at: salt_gate_2 }
+  - { id: salt_gate_3_x, type: gate, at: salt_gate_3 }
+
+pois:
+  - { id: salt_docks, type: landmark, at: [720.8, 569.06], r: 25, label: "Docks" }
+  - { id: salt_plaza, type: landmark, at: [525.71, 460.61], r: 49.14, label: "Central Plaza" }

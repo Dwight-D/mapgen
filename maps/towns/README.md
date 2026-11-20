@@ -1,6 +1,6 @@
 # Town showcase maps
 
-Four maps that embed generated settlements (`mapgen/town/`, `mapgen/TOWN_SPEC.md`) in hand-written terrain. They are
+Seven maps that embed generated settlements (`mapgen/town/`, `mapgen/TOWN_SPEC.md`) in hand-written terrain. They are
 not in the regression suite and have no baselines.
 
 | map | size | generator | seed | settlement params | settlement id |
@@ -9,8 +9,11 @@ not in the regression suite and have no baselines.
 | `pentring` | 1200 | radial | 7 | radius_frac 0.6, spokes 5, rings 2, gates 5, citadel false | `pent` |
 | `ashgrove` | 900 | voronoi | 21 | organic true, patches 16, radius_frac 0.6, gates 4, citadel false | `ash` |
 | `marchfold` | 1500 | voronoi | 33 | radius_frac 0.5, patches 14, gates 4, fort corner, fort_outposts 2, citadel false | `march` |
+| `twinbridge` | 1200 | radial | 12 | radius_frac 0.55, spokes 6, rings 2, gates 6, water river, citadel false | `twin` |
+| `saltport` | 1000 | voronoi | 7 | radius_frac 0.5, patches 14, gates 4, water bay, water_island true, citadel false | `salt` |
+| `swordmarch` | 1500 | grid | 4 | extent_frac 0.5, gates 4, inner_wall false, water river, fort island, rotation 0, citadel false | `sword` |
 
-Map seeds (terrain) are 5701-5704 in `src/<map>.base.yaml`.
+Map seeds (terrain) are 5701-5707 in `src/<map>.base.yaml`.
 
 ## Regenerate
 
@@ -28,3 +31,8 @@ From `tools/mapgen`:
 `teams` with bases 120-200 m outside the two most opposed gates plus an `approach_a`/`approach_b` road from each base ending on
 its gate point. The flowgraph is the movement-graph fragment plus spawn nodes `A`/`B` linked to those gates. Edit terrain
 in `src/*.base.yaml`; the generated `<name>.yaml` files are overwritten by `build.py`.
+
+Water maps: `twinbridge` (river, 8 bridge crossings), `saltport` (bay with harbour, docks and a reserved island site drawn as a
+`clearing`; the island carries no fort), `swordmarch` (river plus a detached `fort=island` fort). Settlement seeds were picked by
+scanning for a clean `flowgraph check --strict` (twinbridge seeds 11 fails: two bridges within 30 m; saltport seed 5 builds with
+"no bridge or ford" warnings from a smoothed road clipping the bay; swordmarch needs `fort=island`, see the findings file).

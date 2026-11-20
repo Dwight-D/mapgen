@@ -1,0 +1,362 @@
+format_version: 1
+name: swordmarch
+brief: |
+  PITCH: Swordmarch, a Manhattan-grid river town guarded by a border fort (showcase map for the river overlay and fort add-on on a grid base).
+  FLOW: teams start on opposite sides of the settlement and fight through its gates and crossings.
+  TEST: does the fort dominate the bridges, or can the river be crossed without it?
+size: [1500, 1500]
+seed: 5707
+
+terrain:
+  base_height: 30
+  relief: 10
+  relief_scale: 500
+  detail: 3
+  detail_scale: 120
+
+regions:
+  - { id: sw_hills_nw, seed: 0, type: hills, shape: blob, at: [250, 1250], r: 240, rough: 0.4, warp: 80, height: 40 }
+  - { id: sw_fields_se, seed: 1, type: field, shape: blob, at: [1250, 250], r: 260, rough: 0.4, warp: 80 }
+  - { id: sw_fields_sw, seed: 2, type: field, shape: blob, at: [280, 280], r: 240, rough: 0.4, warp: 80 }
+  - { id: sw_wood_ne, seed: 3, type: forest, shape: blob, at: [1250, 1250], r: 170, rough: 0.5, fragment: 0.4, fragment_scale: 80 }
+  - { id: sw_fen, seed: 4, type: marsh, shape: blob, at: [750, 1420], r: 90, rough: 0.5, warp: 40 }
+  - { id: sword_d_plaza, seed: 3555497771, type: town, shape: poly, points: [[744.91, 776.23], [739.86, 788.42], [726.66, 793.89], [717.56, 797.66], [708.46, 793.89], [695.26, 788.42], [686.02, 766.12], [689.38, 758], [695.26, 743.82], [717.56, 734.58], [739.86, 743.82], [749.1, 766.12]], rough: 0, label: "Market Square" }
+  - { id: sword_d_x0y2, seed: 3651237511, type: town, shape: poly, points: [[739.86, 788.42], [744.91, 776.23], [748.83, 777.68], [748.83, 793.89], [748.83, 926.73], [671.94, 926.73], [671.94, 793.89], [708.46, 793.89], [717.56, 797.66], [726.66, 793.89]], rough: 0, label: "Market Ward 1" }
+  - { id: sword_d_x0y3, seed: 1448277729, type: town, shape: poly, points: [[748.83, 994.55], [671.94, 994.55], [671.94, 926.73], [748.83, 926.73]], rough: 0, label: "Residential Ward 1" }
+  - { id: sword_d_x0y4, seed: 2596993151, type: town, shape: poly, points: [[748.83, 1059.22], [671.94, 1059.22], [671.94, 994.55], [748.83, 994.55]], rough: 0, label: "Residential Ward 2" }
+  - { id: sword_d_x0y5, seed: 1095131832, type: town, shape: poly, points: [[731.92, 1095.05], [713.74, 1094.99], [695.38, 1094.83], [676.78, 1094.49], [671.94, 1094.34], [671.94, 1059.22], [748.83, 1059.22], [750, 1095.05]], rough: 0, label: "Craft Quarter 1" }
+  - { id: sword_d_x0yn1, seed: 3771288532, type: town, shape: poly, points: [[748.83, 661.3], [748.83, 725.15], [749.1, 766.12], [739.86, 743.82], [717.56, 734.58], [695.26, 743.82], [689.38, 758], [671.94, 752.97], [671.94, 725.15], [671.94, 661.3]], rough: 0, label: "Market Ward 2" }
+  - { id: sword_d_x0yn2, seed: 3380456079, type: town, shape: poly, points: [[748.83, 661.3], [671.94, 661.3], [671.94, 592.23], [748.83, 592.23]], rough: 0, label: "Residential Ward 3" }
+  - { id: sword_d_x0yn3, seed: 3328702600, type: town, shape: poly, points: [[748.83, 592.23], [671.94, 592.23], [671.94, 522.36], [748.83, 522.36]], rough: 0, label: "Residential Ward 4" }
+  - { id: sword_d_x0yn4, seed: 1790920217, type: town, shape: poly, points: [[748.83, 522.36], [671.94, 522.36], [671.94, 459.51], [748.83, 459.51]], rough: 0, label: "Residential Ward 5" }
+  - { id: sword_d_x0yn5, seed: 4041624849, type: town, shape: poly, points: [[676.78, 405.51], [695.38, 405.17], [713.74, 405.01], [731.92, 404.95], [750, 404.95], [748.83, 459.51], [671.94, 459.51], [671.94, 405.66]], rough: 0, label: "Craft Quarter 2" }
+  - { id: sword_d_x1y0, seed: 3224036201, type: town, shape: poly, points: [[823.2, 793.89], [792.7, 793.89], [748.83, 793.89], [748.83, 777.68], [744.91, 776.23], [749.1, 766.12], [748.83, 725.15], [823.2, 725.15]], rough: 0, label: "Market Ward 3" }
+  - { id: sword_d_x1y2, seed: 1169833533, type: town, shape: poly, points: [[823.2, 793.89], [823.2, 805.17], [823.2, 926.73], [748.83, 926.73], [748.83, 793.89], [792.7, 793.89]], rough: 0, label: "Residential Ward 6" }
+  - { id: sword_d_x1y3, seed: 1735472675, type: town, shape: poly, points: [[748.83, 926.73], [823.2, 926.73], [823.2, 994.55], [748.83, 994.55]], rough: 0, label: "Residential Ward 7" }
+  - { id: sword_d_x1y4, seed: 1766894059, type: town, shape: poly, points: [[748.83, 994.55], [823.2, 994.55], [823.2, 1059.22], [748.83, 1059.22]], rough: 0, label: "Residential Ward 8" }
+  - { id: sword_d_x1y5, seed: 3965623107, type: town, shape: poly, points: [[804.62, 1094.83], [786.26, 1094.99], [768.08, 1095.05], [750, 1095.05], [748.83, 1059.22], [823.2, 1059.22], [823.22, 1094.49]], rough: 0, label: "Craft Quarter 3" }
+  - { id: sword_d_x1yn1, seed: 3515431501, type: town, shape: poly, points: [[748.83, 661.3], [823.2, 661.3], [823.2, 725.15], [748.83, 725.15]], rough: 0, label: "Residential Ward 9" }
+  - { id: sword_d_x1yn2, seed: 573670778, type: town, shape: poly, points: [[748.83, 592.23], [823.2, 592.23], [823.2, 661.3], [748.83, 661.3]], rough: 0, label: "Residential Ward 10" }
+  - { id: sword_d_x1yn3, seed: 1546816679, type: town, shape: poly, points: [[748.83, 522.36], [823.2, 522.36], [823.2, 592.23], [748.83, 592.23]], rough: 0, label: "Residential Ward 11" }
+  - { id: sword_d_x1yn4, seed: 590829868, type: town, shape: poly, points: [[748.83, 459.51], [823.2, 459.51], [823.2, 522.36], [748.83, 522.36]], rough: 0, label: "Residential Ward 12" }
+  - { id: sword_d_x1yn5, seed: 1524692584, type: town, shape: poly, points: [[768.08, 404.95], [786.26, 405.01], [804.62, 405.17], [823.22, 405.51], [823.2, 459.51], [748.83, 459.51], [750, 404.95]], rough: 0, label: "Craft Quarter 4" }
+  - { id: sword_d_x2y0, seed: 3753136803, type: town, shape: poly, points: [[823.2, 725.15], [900.87, 725.15], [900.87, 793.89], [823.2, 793.89]], rough: 0, label: "Residential Ward 13" }
+  - { id: sword_d_x2y1, seed: 695189514, type: town, shape: poly, points: [[823.2, 805.17], [823.2, 793.89], [900.87, 793.89], [900.87, 833.87]], rough: 0, label: "Residential Ward 14" }
+  - { id: sword_d_x2y2, seed: 874140110, type: town, shape: poly, points: [[900.87, 833.87], [900.87, 926.73], [823.2, 926.73], [823.2, 805.17]], rough: 0, label: "Residential Ward 15" }
+  - { id: sword_d_x2y3, seed: 3675196145, type: town, shape: poly, points: [[823.2, 926.73], [900.87, 926.73], [900.87, 994.55], [823.2, 994.55]], rough: 0, label: "Residential Ward 16" }
+  - { id: sword_d_x2y4, seed: 3353221537, type: town, shape: poly, points: [[823.2, 994.55], [900.87, 994.55], [900.87, 1059.22], [823.2, 1059.22]], rough: 0, label: "Residential Ward 17" }
+  - { id: sword_d_x2y5, seed: 3518695910, type: town, shape: poly, points: [[881.14, 1091.63], [861.44, 1092.99], [842.15, 1093.91], [823.22, 1094.49], [823.2, 1059.22], [900.87, 1059.22], [901.25, 1089.71]], rough: 0, label: "Craft Quarter 5" }
+  - { id: sword_d_x2yn1, seed: 250360379, type: town, shape: poly, points: [[823.2, 661.3], [900.87, 661.3], [900.87, 725.15], [823.2, 725.15]], rough: 0, label: "Residential Ward 18" }
+  - { id: sword_d_x2yn2, seed: 874144051, type: town, shape: poly, points: [[823.2, 592.23], [900.87, 592.23], [900.87, 661.3], [823.2, 661.3]], rough: 0, label: "Residential Ward 19" }
+  - { id: sword_d_x2yn3, seed: 1914518146, type: town, shape: poly, points: [[823.2, 522.36], [900.87, 522.36], [900.87, 592.23], [823.2, 592.23]], rough: 0, label: "Residential Ward 20" }
+  - { id: sword_d_x2yn4, seed: 625020598, type: town, shape: poly, points: [[823.2, 459.51], [900.87, 459.51], [900.87, 522.36], [823.2, 522.36]], rough: 0, label: "Residential Ward 21" }
+  - { id: sword_d_x2yn5, seed: 1332260780, type: town, shape: poly, points: [[842.15, 406.09], [861.44, 407.01], [881.14, 408.37], [901.25, 410.29], [900.87, 459.51], [823.2, 459.51], [823.22, 405.51]], rough: 0, label: "Craft Quarter 6" }
+  - { id: sword_d_x3y0, seed: 3970702252, type: town, shape: poly, points: [[900.87, 725.15], [978.99, 725.15], [978.99, 793.89], [900.87, 793.89]], rough: 0, label: "Residential Ward 22" }
+  - { id: sword_d_x3y1, seed: 4089248152, type: town, shape: poly, points: [[900.87, 833.87], [900.87, 793.89], [978.99, 793.89], [978.99, 862.75]], rough: 0, label: "Residential Ward 23" }
+  - { id: sword_d_x3y2, seed: 2083837675, type: town, shape: poly, points: [[978.99, 862.75], [978.99, 926.73], [900.87, 926.73], [900.87, 833.87]], rough: 0, label: "Residential Ward 24" }
+  - { id: sword_d_x3y3, seed: 1532249006, type: town, shape: poly, points: [[900.87, 926.73], [978.99, 926.73], [978.99, 994.55], [900.87, 994.55]], rough: 0, label: "Residential Ward 25" }
+  - { id: sword_d_x3y4, seed: 2712661448, type: town, shape: poly, points: [[900.87, 994.55], [978.99, 994.55], [978.99, 1059.22], [900.87, 1059.22]], rough: 0, label: "Residential Ward 26" }
+  - { id: sword_d_x3y5, seed: 3479541288, type: town, shape: poly, points: [[963.67, 1079.03], [942.59, 1083.58], [921.75, 1087.08], [901.25, 1089.71], [900.87, 1059.22], [978.99, 1059.22], [978.99, 1074.82]], rough: 0, label: "Craft Quarter 7" }
+  - { id: sword_d_x3yn1, seed: 3062693156, type: town, shape: poly, points: [[900.87, 661.3], [978.99, 661.3], [978.99, 725.15], [900.87, 725.15]], rough: 0, label: "Residential Ward 27" }
+  - { id: sword_d_x3yn2, seed: 1348573461, type: town, shape: poly, points: [[900.87, 592.23], [978.99, 592.23], [978.99, 661.3], [900.87, 661.3]], rough: 0, label: "Residential Ward 28" }
+  - { id: sword_d_x3yn3, seed: 2924782215, type: town, shape: poly, points: [[900.87, 522.36], [978.99, 522.36], [978.99, 592.23], [900.87, 592.23]], rough: 0, label: "Residential Ward 29" }
+  - { id: sword_d_x3yn4, seed: 355690065, type: town, shape: poly, points: [[900.87, 459.51], [978.99, 459.51], [978.99, 522.36], [900.87, 522.36]], rough: 0, label: "Residential Ward 30" }
+  - { id: sword_d_x3yn5, seed: 389861734, type: town, shape: poly, points: [[921.75, 412.92], [942.59, 416.42], [963.67, 420.97], [978.99, 425.18], [978.99, 459.51], [900.87, 459.51], [901.25, 410.29]], rough: 0, label: "Craft Quarter 8" }
+  - { id: sword_d_x4y0, seed: 3199812383, type: town, shape: poly, points: [[978.99, 725.15], [1055.31, 725.15], [1055.31, 793.89], [978.99, 793.89]], rough: 0, label: "Residential Ward 31" }
+  - { id: sword_d_x4y1, seed: 466690562, type: town, shape: poly, points: [[978.99, 862.75], [978.99, 793.89], [1055.31, 793.89], [1055.31, 890.95]], rough: 0, label: "Residential Ward 32" }
+  - { id: sword_d_x4y2, seed: 3740640963, type: town, shape: poly, points: [[1055.31, 890.95], [1055.31, 926.73], [978.99, 926.73], [978.99, 862.75]], rough: 0, label: "Residential Ward 33" }
+  - { id: sword_d_x4y3, seed: 409868984, type: town, shape: poly, points: [[978.99, 926.73], [1055.31, 926.73], [1055.31, 994.55], [978.99, 994.55]], rough: 0, label: "Residential Ward 34" }
+  - { id: sword_d_x4y4, seed: 2009306065, type: town, shape: poly, points: [[1055.31, 1040.42], [1046.38, 1046.38], [1026.49, 1057.07], [1021.49, 1059.22], [1005.86, 1065.96], [984.83, 1073.22], [978.99, 1074.82], [978.99, 1059.22], [978.99, 994.55], [1055.31, 994.55]], rough: 0, label: "Craft Quarter 9" }
+  - { id: sword_d_x4yn1, seed: 473226963, type: town, shape: poly, points: [[978.99, 661.3], [1055.31, 661.3], [1055.31, 725.15], [978.99, 725.15]], rough: 0, label: "Residential Ward 35" }
+  - { id: sword_d_x4yn2, seed: 3619855848, type: town, shape: poly, points: [[978.99, 592.23], [1055.31, 592.23], [1055.31, 661.3], [978.99, 661.3]], rough: 0, label: "Residential Ward 36" }
+  - { id: sword_d_x4yn3, seed: 2290499712, type: town, shape: poly, points: [[978.99, 522.36], [1055.31, 522.36], [1055.31, 592.23], [978.99, 592.23]], rough: 0, label: "Residential Ward 37" }
+  - { id: sword_d_x4yn4, seed: 2993777396, type: town, shape: poly, points: [[978.99, 425.18], [984.83, 426.78], [1005.86, 434.04], [1026.49, 442.93], [1046.38, 453.62], [1055.31, 459.58], [1055.31, 522.36], [978.99, 522.36], [978.99, 459.51]], rough: 0, label: "Craft Quarter 10" }
+  - { id: sword_d_x5y0, seed: 2372825250, type: town, shape: poly, points: [[1055.31, 725.15], [1128.1, 725.15], [1128.1, 793.89], [1055.31, 793.89]], rough: 0, label: "Residential Ward 38" }
+  - { id: sword_d_x5y1, seed: 3239446637, type: town, shape: poly, points: [[1055.31, 890.95], [1055.31, 793.89], [1128.1, 793.89], [1128.1, 917.86]], rough: 0, label: "Residential Ward 39" }
+  - { id: sword_d_x5y2, seed: 3498823969, type: town, shape: poly, points: [[1128.1, 917.86], [1128.1, 926.73], [1055.31, 926.73], [1055.31, 890.95]], rough: 0, label: "Residential Ward 40" }
+  - { id: sword_d_x5y3, seed: 1518345146, type: town, shape: poly, points: [[1128.1, 926.73], [1140.85, 924.02], [1133.25, 945.27], [1128.1, 956.27], [1123.66, 965.73], [1112, 985.09], [1104.77, 994.55], [1098.28, 1003.04], [1082.6, 1019.33], [1065.2, 1033.81], [1055.31, 1040.42], [1055.31, 994.55], [1055.31, 926.73]], rough: 0, label: "Craft Quarter 11" }
+  - { id: sword_d_x5yn1, seed: 2651764956, type: town, shape: poly, points: [[1055.31, 661.3], [1128.1, 661.3], [1128.1, 725.15], [1055.31, 725.15]], rough: 0, label: "Residential Ward 41" }
+  - { id: sword_d_x5yn2, seed: 255279568, type: town, shape: poly, points: [[1055.31, 592.23], [1128.1, 592.23], [1128.1, 661.3], [1055.31, 661.3]], rough: 0, label: "Residential Ward 42" }
+  - { id: sword_d_x5yn3, seed: 3690681601, type: town, shape: poly, points: [[1116.49, 522.36], [1123.66, 534.27], [1128.1, 543.73], [1133.25, 554.73], [1140.85, 575.98], [1145.18, 592.23], [1128.1, 592.23], [1055.31, 592.23], [1055.31, 522.36]], rough: 0, label: "Craft Quarter 12" }
+  - { id: sword_d_x5yn4, seed: 2367029390, type: town, shape: poly, points: [[1065.2, 466.19], [1082.6, 480.67], [1098.28, 496.96], [1112, 514.91], [1116.49, 522.36], [1055.31, 522.36], [1055.31, 459.58]], rough: 0, label: "Craft Quarter 13" }
+  - { id: sword_d_x6y0, seed: 1875383970, type: town, shape: poly, points: [[1157.52, 771.36], [1157.33, 792.81], [1128.1, 793.89], [1128.1, 725.15], [1157.49, 725.15], [1157.52, 728.64], [1157.54, 750]], rough: 0, label: "Craft Quarter 14" }
+  - { id: sword_d_x6y2, seed: 3703053830, type: town, shape: poly, points: [[1157.33, 792.81], [1156.8, 814.43], [1155.7, 836.23], [1153.82, 858.2], [1150.89, 880.26], [1146.65, 902.26], [1140.85, 924.02], [1128.1, 926.73], [1128.1, 917.86], [1128.1, 793.89]], rough: 0, label: "Craft Quarter 15" }
+  - { id: sword_d_x6yn1, seed: 1309777726, type: town, shape: poly, points: [[1156.8, 685.57], [1157.33, 707.19], [1157.49, 725.15], [1128.1, 725.15], [1128.1, 661.3], [1155.7, 663.77]], rough: 0, label: "Craft Quarter 16" }
+  - { id: sword_d_x6yn2, seed: 1227336142, type: town, shape: poly, points: [[1146.65, 597.74], [1150.89, 619.74], [1153.82, 641.8], [1155.7, 663.77], [1128.1, 661.3], [1128.1, 592.23], [1145.18, 592.23]], rough: 0, label: "Craft Quarter 17" }
+  - { id: sword_d_xn1y0, seed: 1131211000, type: town, shape: poly, points: [[671.94, 725.15], [671.94, 752.97], [689.38, 758], [686.02, 766.12], [695.26, 788.42], [708.46, 793.89], [671.94, 793.89], [595.21, 793.89], [595.21, 730.86], [595.21, 725.15]], rough: 0, label: "Market Ward 4" }
+  - { id: sword_d_xn1y1, seed: 2023198297, type: town, shape: poly, points: [[671.94, 926.73], [595.21, 926.73], [595.21, 793.89], [671.94, 793.89]], rough: 0, label: "Residential Ward 43" }
+  - { id: sword_d_xn1y3, seed: 2580063223, type: town, shape: poly, points: [[671.94, 994.55], [595.21, 994.55], [595.21, 926.73], [671.94, 926.73]], rough: 0, label: "Residential Ward 44" }
+  - { id: sword_d_xn1y4, seed: 3355529348, type: town, shape: poly, points: [[671.94, 1059.22], [595.21, 1059.22], [595.21, 994.55], [671.94, 994.55]], rough: 0, label: "Residential Ward 45" }
+  - { id: sword_d_xn1y5, seed: 1916430574, type: town, shape: poly, points: [[657.85, 1093.91], [638.56, 1092.99], [618.86, 1091.63], [598.75, 1089.71], [595.21, 1089.26], [595.21, 1059.22], [671.94, 1059.22], [671.94, 1094.34]], rough: 0, label: "Craft Quarter 18" }
+  - { id: sword_d_xn1yn1, seed: 1359859193, type: town, shape: poly, points: [[671.94, 725.15], [595.21, 725.15], [595.21, 661.3], [671.94, 661.3]], rough: 0, label: "Residential Ward 46" }
+  - { id: sword_d_xn1yn2, seed: 862827317, type: town, shape: poly, points: [[671.94, 661.3], [595.21, 661.3], [595.21, 592.23], [671.94, 592.23]], rough: 0, label: "Residential Ward 47" }
+  - { id: sword_d_xn1yn3, seed: 3104594355, type: town, shape: poly, points: [[671.94, 592.23], [595.21, 592.23], [595.21, 522.36], [671.94, 522.36]], rough: 0, label: "Residential Ward 48" }
+  - { id: sword_d_xn1yn4, seed: 2609679500, type: town, shape: poly, points: [[671.94, 522.36], [595.21, 522.36], [595.21, 459.51], [671.94, 459.51]], rough: 0, label: "Residential Ward 49" }
+  - { id: sword_d_xn1yn5, seed: 1824564359, type: town, shape: poly, points: [[598.75, 410.29], [618.86, 408.37], [638.56, 407.01], [657.85, 406.09], [671.94, 405.66], [671.94, 459.51], [595.21, 459.51], [595.21, 410.74]], rough: 0, label: "Craft Quarter 19" }
+  - { id: sword_d_xn2y0, seed: 3287992975, type: town, shape: poly, points: [[595.21, 793.89], [529.57, 793.89], [528.86, 784.6], [527.31, 762.09], [526.03, 739.55], [525.25, 725.15], [575.38, 725.15], [595.21, 725.15], [595.21, 730.86]], rough: 0, label: "Residential Ward 50" }
+  - { id: sword_d_xn2y1, seed: 4055686988, type: town, shape: poly, points: [[595.21, 926.73], [538.48, 926.73], [538.33, 921.39], [538.32, 921.07], [537.25, 898.42], [537.24, 898.17], [535.83, 875.5], [535.82, 875.33], [534.18, 852.65], [534.17, 852.56], [532.39, 829.87], [532.39, 829.85], [530.59, 807.19], [529.57, 793.89], [595.21, 793.89]], rough: 0, label: "Residential Ward 51" }
+  - { id: sword_d_xn2y3, seed: 3192528592, type: town, shape: poly, points: [[595.21, 994.55], [538.38, 994.55], [538.55, 990.38], [538.56, 990.05], [539.04, 967.45], [539.05, 967.04], [538.97, 944.43], [538.96, 944.03], [538.48, 926.73], [595.21, 926.73]], rough: 0, label: "Residential Ward 52" }
+  - { id: sword_d_xn2y4, seed: 3693080626, type: town, shape: poly, points: [[595.21, 994.55], [595.21, 1059.22], [595.21, 1089.26], [578.25, 1087.08], [557.41, 1083.58], [536.33, 1079.03], [532.93, 1078.1], [534.54, 1059.22], [534.57, 1058.78], [534.59, 1058.59], [536.25, 1036.05], [536.27, 1035.81], [537.6, 1013.25], [537.61, 1012.96], [538.38, 994.55]], rough: 0, label: "Residential Ward 53" }
+  - { id: sword_d_xn2yn1, seed: 1419827543, type: town, shape: poly, points: [[575.38, 725.15], [525.25, 725.15], [524.81, 716.92], [524.8, 716.8], [523.42, 694.13], [523.42, 694.08], [521.96, 671.41], [521.32, 661.3], [595.21, 661.3], [595.21, 725.15]], rough: 0, label: "Residential Ward 54" }
+  - { id: sword_d_xn2yn2, seed: 2232857946, type: town, shape: poly, points: [[595.21, 661.3], [521.32, 661.3], [520.52, 648.78], [519.17, 626.21], [518, 603.72], [517.54, 592.23], [595.21, 592.23]], rough: 0, label: "Residential Ward 55" }
+  - { id: sword_d_xn2yn3, seed: 4013274134, type: town, shape: poly, points: [[595.21, 592.23], [517.54, 592.23], [517.1, 581.29], [516.55, 558.95], [516.43, 536.68], [516.68, 522.36], [595.21, 522.36]], rough: 0, label: "Residential Ward 56" }
+  - { id: sword_d_xn2yn4, seed: 3876754050, type: town, shape: poly, points: [[595.21, 522.36], [516.68, 522.36], [516.82, 514.49], [517.79, 492.34], [519.3, 470.15], [520.25, 459.51], [595.21, 459.51]], rough: 0, label: "Residential Ward 57" }
+  - { id: sword_d_xn2yn5, seed: 742441894, type: town, shape: poly, points: [[595.21, 459.51], [520.25, 459.51], [521.27, 447.92], [523.59, 425.62], [523.73, 424.43], [536.33, 420.97], [557.41, 416.42], [578.25, 412.92], [595.21, 410.74]], rough: 0, label: "Craft Quarter 21" }
+  - { id: sword_d_xn3y0, seed: 1287564511, type: town, shape: poly, points: [[445.49, 725.15], [492.03, 725.15], [492.91, 741.36], [492.91, 741.41], [494.19, 764.07], [494.21, 764.27], [495.77, 786.94], [495.78, 787.07], [496.3, 793.89], [445.49, 793.89]], rough: 0, label: "Residential Ward 58" }
+  - { id: sword_d_xn3y1, seed: 1139668797, type: town, shape: poly, points: [[445.49, 793.89], [496.3, 793.89], [497.51, 809.75], [497.52, 809.8], [499.32, 832.48], [501.1, 855.1], [502.73, 877.64], [504.12, 900.1], [505.18, 922.47], [505.3, 926.73], [445.49, 926.73]], rough: 0, label: "Residential Ward 59" }
+  - { id: sword_d_xn3y3, seed: 255514761, type: town, shape: poly, points: [[445.49, 926.73], [505.3, 926.73], [505.79, 944.75], [505.87, 966.96], [505.4, 989.17], [505.18, 994.55], [445.49, 994.55]], rough: 0, label: "Residential Ward 60" }
+  - { id: sword_d_xn3y4, seed: 3794667574, type: town, shape: poly, points: [[445.49, 994.55], [505.18, 994.55], [504.48, 1011.44], [503.16, 1033.73], [501.51, 1056.06], [500.48, 1068.15], [494.14, 1065.96], [478.51, 1059.22], [473.51, 1057.07], [453.62, 1046.38], [445.49, 1040.95]], rough: 0, label: "Craft Quarter 22" }
+  - { id: sword_d_xn3yn1b, seed: 4184247338, type: town, shape: poly, points: [[490.31, 696.18], [490.59, 700.71], [491.69, 718.76], [492.03, 725.15], [445.49, 725.15], [445.49, 687.71], [445.49, 661.3], [488.08, 661.3], [488.86, 673.53]], rough: 0, label: "Residential Ward 62" }
+  - { id: sword_d_xn3yn2, seed: 277379241, type: town, shape: poly, points: [[445.49, 592.23], [484.34, 592.23], [484.86, 605.14], [484.87, 605.34], [486.04, 627.99], [486.05, 628.13], [487.4, 650.79], [487.41, 650.86], [488.08, 661.3], [445.49, 661.3]], rough: 0, label: "Residential Ward 63" }
+  - { id: sword_d_xn3yn3, seed: 2391523743, type: town, shape: poly, points: [[445.49, 522.36], [483.5, 522.36], [483.26, 536.29], [483.25, 536.67], [483.38, 559.29], [483.38, 559.61], [483.94, 582.24], [483.95, 582.5], [484.34, 592.23], [445.49, 592.23]], rough: 0, label: "Residential Ward 64" }
+  - { id: sword_d_xn3yn4, seed: 2526853436, type: town, shape: poly, points: [[473.51, 442.93], [489.14, 436.2], [488.26, 444.61], [488.24, 444.87], [486.25, 467.4], [486.22, 467.73], [484.68, 490.28], [484.66, 490.68], [483.67, 513.26], [483.65, 513.69], [483.5, 522.36], [445.49, 522.36], [445.49, 459.05], [453.62, 453.62]], rough: 0, label: "Craft Quarter 23" }
+  - { id: sword_d_xn4y0, seed: 1288796922, type: town, shape: poly, points: [[342.67, 792.81], [342.48, 771.36], [342.46, 750], [342.48, 728.64], [342.51, 725.15], [365.5, 725.15], [445.49, 725.15], [445.49, 793.89], [365.5, 793.89]], rough: 0, label: "Craft Quarter 24" }
+  - { id: sword_d_xn4y1, seed: 2549672460, type: town, shape: poly, points: [[445.49, 926.73], [365.5, 926.73], [365.5, 793.89], [445.49, 793.89]], rough: 0, label: "Residential Ward 65" }
+  - { id: sword_d_xn4y3, seed: 1497095182, type: town, shape: poly, points: [[366.75, 945.27], [365.5, 941.78], [359.15, 924.02], [365.5, 926.73], [445.49, 926.73], [445.49, 994.55], [445.49, 1040.95], [434.8, 1033.81], [417.4, 1019.33], [401.72, 1003.04], [395.23, 994.55], [388, 985.09], [376.34, 965.73]], rough: 0, label: "Craft Quarter 25" }
+  - { id: sword_d_xn4yn1, seed: 351027368, type: town, shape: poly, points: [[343.2, 685.57], [344.3, 663.77], [344.74, 658.68], [353.83, 661.3], [365.5, 661.3], [445.49, 661.3], [445.49, 687.71], [445.49, 725.15], [365.5, 725.15], [342.51, 725.15], [342.67, 707.19]], rough: 0, label: "Craft Quarter 26" }
+  - { id: sword_d_xn4yn2, seed: 1858765439, type: town, shape: poly, points: [[344.74, 658.68], [346.18, 641.8], [349.11, 619.74], [353.35, 597.74], [354.82, 592.23], [365.5, 592.23], [445.49, 592.23], [445.49, 661.3], [365.5, 661.3], [353.83, 661.3]], rough: 0, label: "Craft Quarter 27" }
+  - { id: sword_d_xn4yn3, seed: 1494817531, type: town, shape: poly, points: [[365.5, 558.22], [366.75, 554.73], [376.34, 534.27], [383.51, 522.36], [445.49, 522.36], [445.49, 592.23], [365.5, 592.23], [354.82, 592.23], [359.15, 575.98]], rough: 0, label: "Craft Quarter 28" }
+  - { id: sword_d_xn4yn4, seed: 479625744, type: town, shape: poly, points: [[388, 514.91], [401.72, 496.96], [417.4, 480.67], [434.8, 466.19], [445.49, 459.05], [445.49, 522.36], [383.51, 522.36]], rough: 0, label: "Craft Quarter 29" }
+  - { id: sword_d_xn5y2, seed: 873374292, type: town, shape: poly, points: [[353.35, 902.26], [349.11, 880.26], [346.18, 858.2], [344.3, 836.23], [343.2, 814.43], [342.67, 792.81], [365.5, 793.89], [365.5, 926.73], [359.15, 924.02]], rough: 0, label: "Craft Quarter 30" }
+  - { id: sword_d_o1, seed: 812144906, type: town, shape: poly, points: [[287.31, 890.43], [146.99, 893.23], [143.13, 700.29], [283.45, 697.49], [285.38, 793.96]], rough: 0, label: "Outlying Fort 1" }
+
+teams:
+  A: { base: [829, 106], name: Marchwardens }
+  B: { base: [663, 1394], name: Riverkin }
+
+lines:
+  - { id: approach_a, type: road, path: [base_A, [844, 256], sword_gate_u1n], width: 10, smooth: true }
+  - { id: approach_b, type: road, path: [base_B, [649, 1244], sword_gate_un1p], width: 10, smooth: true }
+  - { id: sword_apr_o1, seed: 1564099754, type: road, path: [sword_gate_v0n, sword_gate_o1, sword_o1], width: 10, smooth: true }
+  - { id: sword_av_u0n, seed: 3676373587, type: road, path: [sword_e_u0n, sword_j_u0n_vn5, sword_j_u0n_vn4, sword_j_u0n_vn3, sword_j_u0n_vn2, sword_j_u0n_vn1, sword_j_ring_u0n], width: 10, smooth: true }
+  - { id: sword_av_u0p, seed: 617412090, type: road, path: [sword_j_ring_u0n, sword_j_b0_u0p, sword_j_u0p_v0p, sword_j_u0p_v2, sword_j_u0p_v3, sword_j_u0p_v4, sword_e_u0p], width: 10, smooth: true }
+  - { id: sword_av_u1, seed: 2736433080, type: road, path: [sword_gate_u1n, sword_j_u1_vn5, sword_j_u1_vn4, sword_j_u1_vn3, sword_j_u1_vn2, sword_j_u1_vn1, sword_j_u1_v0p, sword_j_b0_u1, sword_j_u1_v2, sword_j_u1_v3, sword_j_u1_v4, sword_e_u1p], width: 10, smooth: true }
+  - { id: sword_av_u2, seed: 2681671789, type: road, path: [sword_e_u2n, sword_j_u2_vn5, sword_j_u2_vn4, sword_j_u2_vn3, sword_j_u2_vn2, sword_j_u2_vn1, sword_j_u2_v0p, sword_j_b0_u2, sword_j_u2_v2, sword_j_u2_v3, sword_j_u2_v4, sword_e_u2p], width: 10, smooth: true }
+  - { id: sword_av_u3, seed: 1550181450, type: road, path: [sword_e_u3n, sword_j_u3_vn5, sword_j_u3_vn4, sword_j_u3_vn3, sword_j_u3_vn2, sword_j_u3_vn1, sword_j_u3_v0p, sword_j_b0_u3, sword_j_u3_v2, sword_j_u3_v3, sword_j_u3_v4, sword_e_u3p], width: 10, smooth: true }
+  - { id: sword_av_u4, seed: 434743345, type: road, path: [sword_j_u4_vn5, sword_j_u4_vn4, sword_j_u4_vn3, sword_j_u4_vn2, sword_j_u4_vn1, sword_j_u4_v0p, sword_j_b0_u4, sword_j_u4_v2, sword_j_u4_v3, sword_e_u4p], width: 10, smooth: true }
+  - { id: sword_av_u5, seed: 949797647, type: road, path: [sword_e_u5n, sword_j_u5_vn3, sword_j_u5_vn2, sword_j_u5_vn1, sword_j_u5_v0p, sword_j_b0_u5, sword_j_u5_v2, sword_e_u5p], width: 10, smooth: true }
+  - { id: sword_av_un1, seed: 2539231138, type: road, path: [sword_e_un1n, sword_j_un1_vn5, sword_j_un1_vn4, sword_j_un1_vn3, sword_j_un1_vn2, sword_j_un1_vn1, sword_j_b1_un1, sword_j_un1_v0n, sword_j_un1_v2, sword_j_un1_v3, sword_j_un1_v4, sword_gate_un1p], width: 10, smooth: true }
+  - { id: sword_av_un2, seed: 1162747012, type: road, path: [sword_e_un2n, sword_j_un2_vn5, sword_j_un2_vn4, sword_j_un2_vn3, sword_j_un2_vn2, sword_j_un2_vn1, sword_j_b1_un2, sword_j_un2_v0n, sword_j_un2_v2, sword_j_un2_v3, sword_j_un2_v4, sword_e_un2p], width: 10, smooth: true }
+  - { id: sword_av_un4, seed: 1914884945, type: road, path: [sword_j_un4_vn5, sword_j_un4_vn4, sword_j_un4_vn3, sword_j_un4_vn2, sword_j_b1_un4, sword_j_un4_vn1, sword_j_un4_v0n, sword_j_un4_v2, sword_j_un4_v3, sword_e_un4p], width: 10, smooth: true }
+  - { id: sword_av_un5, seed: 3352332207, type: road, path: [sword_e_un5n, sword_j_un5_vn3, sword_j_un5_vn2, sword_j_b1_un5, sword_j_un5_vn1, sword_j_un5_v0n, sword_j_un5_v2, sword_e_un5p], width: 10, smooth: true }
+  - { id: sword_av_v0n, seed: 3953658700, type: road, path: [sword_gate_v0n, sword_j_un5_v0n, sword_j_un4_v0n, sword_bridge_1_a], width: 10, smooth: true }
+  - { id: sword_av_v0n_s2, seed: 145414692, type: road, path: [sword_bridge_1_b, sword_j_un2_v0n, sword_j_un1_v0n, sword_j_ring_v0n], width: 10, smooth: true }
+  - { id: sword_av_v0p, seed: 986438597, type: road, path: [sword_j_ring_v0p, sword_j_u0p_v0p, sword_j_b0_v0p, sword_j_u1_v0p, sword_j_u2_v0p, sword_j_u3_v0p, sword_j_u4_v0p, sword_j_u5_v0p, sword_e_v0p], width: 10, smooth: true }
+  - { id: sword_av_v2, seed: 2273713353, type: road, path: [sword_e_v2n, sword_j_un5_v2, sword_j_un4_v2, sword_bridge_2_a], width: 10, smooth: true }
+  - { id: sword_av_v2_s2, seed: 1660186545, type: road, path: [sword_bridge_2_b, sword_j_un2_v2, sword_j_un1_v2, sword_j_u0p_v2, sword_j_u1_v2, sword_j_u2_v2, sword_j_u3_v2, sword_j_u4_v2, sword_j_u5_v2, sword_gate_b0], width: 10, smooth: true }
+  - { id: sword_av_v3, seed: 924542262, type: road, path: [sword_e_v3n, sword_j_un4_v3, sword_bridge_3_a], width: 10, smooth: true }
+  - { id: sword_av_v3_s2, seed: 1484399314, type: road, path: [sword_bridge_3_b, sword_j_un2_v3, sword_j_un1_v3, sword_j_u0p_v3, sword_j_u1_v3, sword_j_u2_v3, sword_j_u3_v3, sword_j_u4_v3, sword_e_v3p], width: 10, smooth: true }
+  - { id: sword_av_v4, seed: 624310458, type: road, path: [sword_e_v4n, sword_bridge_4_a], width: 10, smooth: true }
+  - { id: sword_av_v4_s2, seed: 1127362216, type: road, path: [sword_bridge_4_b, sword_j_un2_v4, sword_j_un1_v4, sword_j_u0p_v4, sword_j_u1_v4, sword_j_u2_v4, sword_j_u3_v4, sword_e_v4p], width: 10, smooth: true }
+  - { id: sword_av_vn1, seed: 64312736, type: road, path: [sword_e_vn1n, sword_j_un5_vn1, sword_j_un4_vn1, sword_bridge_5_a], width: 10, smooth: true }
+  - { id: sword_av_vn1_s2, seed: 1213962447, type: road, path: [sword_bridge_5_b, sword_j_b1_vn1, sword_j_un2_vn1, sword_j_un1_vn1, sword_j_u0n_vn1, sword_j_u1_vn1, sword_j_u2_vn1, sword_j_u3_vn1, sword_j_u4_vn1, sword_j_u5_vn1, sword_e_vn1p], width: 10, smooth: true }
+  - { id: sword_av_vn2, seed: 3975581454, type: road, path: [sword_e_vn2n, sword_j_b1_vn2, sword_j_un5_vn2, sword_j_un4_vn2, sword_bridge_6_a], width: 10, smooth: true }
+  - { id: sword_av_vn2_s2, seed: 717612109, type: road, path: [sword_bridge_6_b, sword_j_un2_vn2, sword_j_un1_vn2, sword_j_u0n_vn2, sword_j_u1_vn2, sword_j_u2_vn2, sword_j_u3_vn2, sword_j_u4_vn2, sword_j_u5_vn2, sword_e_vn2p], width: 10, smooth: true }
+  - { id: sword_av_vn3, seed: 4102262576, type: road, path: [sword_e_vn3n, sword_j_un5_vn3, sword_j_un4_vn3, sword_bridge_7_a], width: 10, smooth: true }
+  - { id: sword_av_vn3_s2, seed: 2960783547, type: road, path: [sword_bridge_7_b, sword_j_un2_vn3, sword_j_un1_vn3, sword_j_u0n_vn3, sword_j_u1_vn3, sword_j_u2_vn3, sword_j_u3_vn3, sword_j_u4_vn3, sword_j_u5_vn3, sword_e_vn3p], width: 10, smooth: true }
+  - { id: sword_av_vn4, seed: 2972005178, type: road, path: [sword_e_vn4n, sword_j_un4_vn4, sword_bridge_8_a], width: 10, smooth: true }
+  - { id: sword_av_vn4_s2, seed: 1915708021, type: road, path: [sword_bridge_8_b, sword_j_un2_vn4, sword_j_un1_vn4, sword_j_u0n_vn4, sword_j_u1_vn4, sword_j_u2_vn4, sword_j_u3_vn4, sword_j_u4_vn4, sword_e_vn4p], width: 10, smooth: true }
+  - { id: sword_av_vn5, seed: 3927629290, type: road, path: [sword_j_un4_vn5, sword_bridge_9_a], width: 10, smooth: true }
+  - { id: sword_av_vn5_s2, seed: 2212017820, type: road, path: [sword_bridge_9_b, sword_j_un2_vn5, sword_j_un1_vn5, sword_j_u0n_vn5, sword_j_u1_vn5, sword_j_u2_vn5, sword_j_u3_vn5, sword_j_u4_vn5], width: 10, smooth: true }
+  - { id: sword_blvd_b0, seed: 3679486995, type: road, path: [sword_plaza, sword_j_b0_ring, sword_j_b0_u0p, sword_j_b0_v0p, sword_j_b0_u1, sword_j_b0_u2, sword_j_b0_u3, sword_j_b0_u4, sword_j_b0_u5, sword_gate_b0], width: 16, smooth: true }
+  - { id: sword_blvd_b1, seed: 1479731412, type: road, path: [sword_plaza, sword_j_b1_ring, sword_j_b1_un1, sword_j_b1_un2, sword_j_b1_vn1, sword_bridge_10_a], width: 16, smooth: true }
+  - { id: sword_blvd_b1_s2, seed: 2935075773, type: road, path: [sword_bridge_10_b, sword_j_b1_un4, sword_j_b1_un5, sword_j_b1_vn2, sword_e_b1], width: 16, smooth: true }
+  - { id: sword_bridge_1, seed: 1222299919, type: road, path: [sword_bridge_1_a, [515.82, 793.89], sword_bridge_1_b], width: 10, smooth: true }
+  - { id: sword_bridge_10, seed: 123179001, type: road, path: [sword_bridge_10_a, [515.82, 707.98], sword_bridge_10_b], width: 16, smooth: true }
+  - { id: sword_bridge_2, seed: 4025873004, type: road, path: [sword_bridge_2_a, [515.82, 926.73], sword_bridge_2_b], width: 10, smooth: true }
+  - { id: sword_bridge_3, seed: 1364253023, type: road, path: [sword_bridge_3_a, [515.82, 994.55], sword_bridge_3_b], width: 10, smooth: true }
+  - { id: sword_bridge_4, seed: 3541847582, type: road, path: [sword_bridge_4_a, [515.82, 1059.22], sword_bridge_4_b], width: 10, smooth: true }
+  - { id: sword_bridge_5, seed: 2730532850, type: road, path: [sword_bridge_5_a, [515.82, 725.15], sword_bridge_5_b], width: 10, smooth: true }
+  - { id: sword_bridge_6, seed: 2658639560, type: road, path: [sword_bridge_6_a, [515.82, 661.3], sword_bridge_6_b], width: 10, smooth: true }
+  - { id: sword_bridge_7, seed: 289259296, type: road, path: [sword_bridge_7_a, [515.82, 592.23], sword_bridge_7_b], width: 10, smooth: true }
+  - { id: sword_bridge_8, seed: 1825579367, type: road, path: [sword_bridge_8_a, [515.82, 522.36], sword_bridge_8_b], width: 10, smooth: true }
+  - { id: sword_bridge_9, seed: 3681136592, type: road, path: [sword_bridge_9_a, [515.82, 459.51], sword_bridge_9_b], width: 10, smooth: true }
+  - { id: sword_ring_1, seed: 1889899519, type: road, path: [sword_j_ring_u0n, sword_j_b0_ring, sword_rv_1, sword_j_ring_v0p, sword_rv_2, sword_j_ring_v0n, sword_rv_3, sword_rv_4, sword_j_b1_ring, sword_rv_5, sword_rv_6, sword_rv_7, sword_j_ring_u0n], width: 10, smooth: true }
+  - { id: sword_river, seed: 367616438, type: river, path: [[479.14, 1417.62], [480.72, 1404.23], [482.78, 1387.02], [485.25, 1366.65], [488, 1343.81], [490.95, 1319.16], [493.98, 1293.39], [497, 1267.17], [499.9, 1241.17], [502.58, 1216.06], [504.94, 1192.53], [507.17, 1170], [509.46, 1147.48], [511.77, 1124.96], [514.01, 1102.44], [516.13, 1079.91], [518.05, 1057.37], [519.71, 1034.83], [521.04, 1012.27], [521.98, 989.69], [522.46, 967.1], [522.38, 944.49], [521.75, 921.85], [520.69, 899.2], [519.28, 876.53], [517.64, 853.85], [515.86, 831.17], [514.05, 808.49], [512.31, 785.8], [510.75, 763.13], [509.47, 740.47], [508.25, 717.81], [506.87, 695.14], [505.41, 672.47], [503.96, 649.8], [502.61, 627.14], [501.43, 604.48], [500.52, 581.83], [499.96, 559.2], [499.84, 536.58], [500.24, 513.98], [501.23, 491.41], [502.77, 468.86], [504.76, 446.33], [507.1, 423.81], [509.71, 401.3], [512.47, 378.8], [515.29, 356.3], [518.08, 333.79], [520.73, 311.29], [523.16, 288.77], [525.54, 265.24], [528.07, 240.12], [530.68, 214.11], [533.32, 187.87], [535.91, 162.08], [538.38, 137.42], [540.67, 114.56], [542.72, 94.18], [544.45, 76.95], [545.79, 63.55]], width: 33.17, smooth: true }
+  - { id: sword_wall_outer, seed: 715543320, type: wall, path: [[500.48, 1068.15], [494.14, 1065.96], [478.51, 1059.22], [473.51, 1057.07], [453.62, 1046.38], [445.49, 1040.95], [434.8, 1033.81], [417.4, 1019.33], [401.72, 1003.04], [395.23, 994.55], [388, 985.09], [376.34, 965.73], [366.75, 945.27], [365.5, 941.78], [359.15, 924.02], [353.35, 902.26], [349.11, 880.26], [346.18, 858.2], [344.3, 836.23], [343.2, 814.43], [342.67, 792.81], [342.48, 771.36], [342.46, 750], [342.48, 728.64], [342.51, 725.15], [342.67, 707.19], [343.2, 685.57], [344.3, 663.77], [344.74, 658.68], [346.18, 641.8], [349.11, 619.74], [353.35, 597.74], [354.82, 592.23], [359.15, 575.98], [365.5, 558.22], [366.75, 554.73], [376.34, 534.27], [383.51, 522.36], [388, 514.91], [401.72, 496.96], [417.4, 480.67], [434.8, 466.19], [445.49, 459.05], [453.62, 453.62], [473.51, 442.93], [489.14, 436.2]], width: 8 }
+  - { id: sword_wall_outer_2, seed: 3931525677, type: wall, path: [[523.73, 424.43], [536.33, 420.97], [557.41, 416.42], [578.25, 412.92], [595.21, 410.74], [598.75, 410.29], [618.86, 408.37], [638.56, 407.01], [657.85, 406.09], [671.94, 405.66], [676.78, 405.51], [695.38, 405.17], [713.74, 405.01], [731.92, 404.95], [750, 404.95], [768.08, 404.95], [786.26, 405.01], [804.62, 405.17], [823.22, 405.51], [842.15, 406.09], [861.44, 407.01], [881.14, 408.37], [901.25, 410.29], [921.75, 412.92], [942.59, 416.42], [963.67, 420.97], [978.99, 425.18], [984.83, 426.78], [1005.86, 434.04], [1026.49, 442.93], [1046.38, 453.62], [1055.31, 459.58], [1065.2, 466.19], [1082.6, 480.67], [1098.28, 496.96], [1112, 514.91], [1116.49, 522.36], [1123.66, 534.27], [1128.1, 543.73], [1133.25, 554.73], [1140.85, 575.98], [1145.18, 592.23], [1146.65, 597.74], [1150.89, 619.74], [1153.82, 641.8], [1155.7, 663.77], [1156.8, 685.57], [1157.33, 707.19], [1157.49, 725.15], [1157.52, 728.64], [1157.54, 750], [1157.52, 771.36], [1157.33, 792.81], [1156.8, 814.43], [1155.7, 836.23], [1153.82, 858.2], [1150.89, 880.26], [1146.65, 902.26], [1140.85, 924.02], [1133.25, 945.27], [1128.1, 956.27], [1123.66, 965.73], [1112, 985.09], [1104.77, 994.55], [1098.28, 1003.04], [1082.6, 1019.33], [1065.2, 1033.81], [1055.31, 1040.42], [1046.38, 1046.38], [1026.49, 1057.07], [1021.49, 1059.22], [1005.86, 1065.96], [984.83, 1073.22], [978.99, 1074.82], [963.67, 1079.03], [942.59, 1083.58], [921.75, 1087.08], [901.25, 1089.71], [881.14, 1091.63], [861.44, 1092.99], [842.15, 1093.91], [823.22, 1094.49], [804.62, 1094.83], [786.26, 1094.99], [768.08, 1095.05], [750, 1095.05], [731.92, 1095.05], [713.74, 1094.99], [695.38, 1094.83], [676.78, 1094.49], [671.94, 1094.34], [657.85, 1093.91], [638.56, 1092.99], [618.86, 1091.63], [598.75, 1089.71], [595.21, 1089.26], [578.25, 1087.08], [557.41, 1083.58], [536.33, 1079.03], [532.93, 1078.1]], width: 8 }
+  - { id: sword_wall_o1, seed: 2276561954, type: wall, path: [[287.31, 890.43], [146.99, 893.23], [143.13, 700.29], [283.45, 697.49], [285.38, 793.96], [287.31, 890.43]], width: 7 }
+
+points:
+  sword_bridge_10_a: [524.42, 710.46]
+  sword_bridge_10_b: [490.59, 700.71]
+  sword_bridge_1_a: [496.3, 793.89]
+  sword_bridge_1_b: [529.57, 793.89]
+  sword_bridge_2_a: [505.3, 926.73]
+  sword_bridge_2_b: [538.48, 926.73]
+  sword_bridge_3_a: [505.18, 994.55]
+  sword_bridge_3_b: [538.38, 994.55]
+  sword_bridge_4_a: [501.24, 1059.22]
+  sword_bridge_4_b: [534.54, 1059.22]
+  sword_bridge_5_a: [492.03, 725.15]
+  sword_bridge_5_b: [525.25, 725.15]
+  sword_bridge_6_a: [488.08, 661.3]
+  sword_bridge_6_b: [521.32, 661.3]
+  sword_bridge_7_a: [484.34, 592.23]
+  sword_bridge_7_b: [517.54, 592.23]
+  sword_bridge_8_a: [483.5, 522.36]
+  sword_bridge_8_b: [516.68, 522.36]
+  sword_bridge_9_a: [486.96, 459.32]
+  sword_bridge_9_b: [520.25, 459.51]
+  sword_e_b1: [344.74, 658.68]
+  sword_e_u0n: [750, 404.95]
+  sword_e_u0p: [750, 1095.05]
+  sword_e_u1p: [823.22, 1094.49]
+  sword_e_u2n: [901.25, 410.29]
+  sword_e_u2p: [901.25, 1089.71]
+  sword_e_u3n: [978.99, 425.18]
+  sword_e_u3p: [978.99, 1074.82]
+  sword_e_u4p: [1055.31, 1040.42]
+  sword_e_u5n: [1128.1, 543.73]
+  sword_e_u5p: [1128.1, 956.27]
+  sword_e_un1n: [671.94, 405.66]
+  sword_e_un2n: [595.21, 410.74]
+  sword_e_un2p: [595.21, 1089.26]
+  sword_e_un4p: [445.49, 1040.95]
+  sword_e_un5n: [365.5, 558.22]
+  sword_e_un5p: [365.5, 941.78]
+  sword_e_v0p: [1157.33, 792.81]
+  sword_e_v2n: [359.15, 924.02]
+  sword_e_v3n: [395.23, 994.55]
+  sword_e_v3p: [1104.77, 994.55]
+  sword_e_v4n: [478.51, 1059.22]
+  sword_e_v4p: [1021.49, 1059.22]
+  sword_e_vn1n: [342.51, 725.15]
+  sword_e_vn1p: [1157.49, 725.15]
+  sword_e_vn2n: [344.3, 663.77]
+  sword_e_vn2p: [1155.7, 663.77]
+  sword_e_vn3n: [354.82, 592.23]
+  sword_e_vn3p: [1145.18, 592.23]
+  sword_e_vn4n: [383.51, 522.36]
+  sword_e_vn4p: [1116.49, 522.36]
+  sword_gate_b0: [1140.85, 924.02]
+  sword_gate_o1: [285.38, 793.96]
+  sword_gate_u1n: [823.22, 405.51]
+  sword_gate_un1p: [671.94, 1094.34]
+  sword_gate_v0n: [342.67, 792.81]
+  sword_j_b0_ring: [744.91, 776.23]
+  sword_j_b0_u0p: [748.83, 777.68]
+  sword_j_b0_u1: [823.2, 805.17]
+  sword_j_b0_u2: [900.87, 833.87]
+  sword_j_b0_u3: [978.99, 862.75]
+  sword_j_b0_u4: [1055.31, 890.95]
+  sword_j_b0_u5: [1128.1, 917.86]
+  sword_j_b0_v0p: [792.7, 793.89]
+  sword_j_b1_ring: [689.38, 758]
+  sword_j_b1_un1: [671.94, 752.97]
+  sword_j_b1_un2: [595.21, 730.86]
+  sword_j_b1_un4: [445.49, 687.71]
+  sword_j_b1_un5: [365.5, 664.66]
+  sword_j_b1_vn1: [575.38, 725.15]
+  sword_j_b1_vn2: [353.83, 661.3]
+  sword_j_ring_u0n: [749.1, 766.12]
+  sword_j_ring_v0n: [708.46, 793.89]
+  sword_j_ring_v0p: [726.66, 793.89]
+  sword_j_u0n_vn1: [748.83, 725.15]
+  sword_j_u0n_vn2: [748.83, 661.3]
+  sword_j_u0n_vn3: [748.83, 592.23]
+  sword_j_u0n_vn4: [748.83, 522.36]
+  sword_j_u0n_vn5: [748.83, 459.51]
+  sword_j_u0p_v0p: [748.83, 793.89]
+  sword_j_u0p_v2: [748.83, 926.73]
+  sword_j_u0p_v3: [748.83, 994.55]
+  sword_j_u0p_v4: [748.83, 1059.22]
+  sword_j_u1_v0p: [823.2, 793.89]
+  sword_j_u1_v2: [823.2, 926.73]
+  sword_j_u1_v3: [823.2, 994.55]
+  sword_j_u1_v4: [823.2, 1059.22]
+  sword_j_u1_vn1: [823.2, 725.15]
+  sword_j_u1_vn2: [823.2, 661.3]
+  sword_j_u1_vn3: [823.2, 592.23]
+  sword_j_u1_vn4: [823.2, 522.36]
+  sword_j_u1_vn5: [823.2, 459.51]
+  sword_j_u2_v0p: [900.87, 793.89]
+  sword_j_u2_v2: [900.87, 926.73]
+  sword_j_u2_v3: [900.87, 994.55]
+  sword_j_u2_v4: [900.87, 1059.22]
+  sword_j_u2_vn1: [900.87, 725.15]
+  sword_j_u2_vn2: [900.87, 661.3]
+  sword_j_u2_vn3: [900.87, 592.23]
+  sword_j_u2_vn4: [900.87, 522.36]
+  sword_j_u2_vn5: [900.87, 459.51]
+  sword_j_u3_v0p: [978.99, 793.89]
+  sword_j_u3_v2: [978.99, 926.73]
+  sword_j_u3_v3: [978.99, 994.55]
+  sword_j_u3_v4: [978.99, 1059.22]
+  sword_j_u3_vn1: [978.99, 725.15]
+  sword_j_u3_vn2: [978.99, 661.3]
+  sword_j_u3_vn3: [978.99, 592.23]
+  sword_j_u3_vn4: [978.99, 522.36]
+  sword_j_u3_vn5: [978.99, 459.51]
+  sword_j_u4_v0p: [1055.31, 793.89]
+  sword_j_u4_v2: [1055.31, 926.73]
+  sword_j_u4_v3: [1055.31, 994.55]
+  sword_j_u4_vn1: [1055.31, 725.15]
+  sword_j_u4_vn2: [1055.31, 661.3]
+  sword_j_u4_vn3: [1055.31, 592.23]
+  sword_j_u4_vn4: [1055.31, 522.36]
+  sword_j_u4_vn5: [1055.31, 459.58]
+  sword_j_u5_v0p: [1128.1, 793.89]
+  sword_j_u5_v2: [1128.1, 926.73]
+  sword_j_u5_vn1: [1128.1, 725.15]
+  sword_j_u5_vn2: [1128.1, 661.3]
+  sword_j_u5_vn3: [1128.1, 592.23]
+  sword_j_un1_v0n: [671.94, 793.89]
+  sword_j_un1_v2: [671.94, 926.73]
+  sword_j_un1_v3: [671.94, 994.55]
+  sword_j_un1_v4: [671.94, 1059.22]
+  sword_j_un1_vn1: [671.94, 725.15]
+  sword_j_un1_vn2: [671.94, 661.3]
+  sword_j_un1_vn3: [671.94, 592.23]
+  sword_j_un1_vn4: [671.94, 522.36]
+  sword_j_un1_vn5: [671.94, 459.51]
+  sword_j_un2_v0n: [595.21, 793.89]
+  sword_j_un2_v2: [595.21, 926.73]
+  sword_j_un2_v3: [595.21, 994.55]
+  sword_j_un2_v4: [595.21, 1059.22]
+  sword_j_un2_vn1: [595.21, 725.15]
+  sword_j_un2_vn2: [595.21, 661.3]
+  sword_j_un2_vn3: [595.21, 592.23]
+  sword_j_un2_vn4: [595.21, 522.36]
+  sword_j_un2_vn5: [595.21, 459.51]
+  sword_j_un4_v0n: [445.49, 793.89]
+  sword_j_un4_v2: [445.49, 926.73]
+  sword_j_un4_v3: [445.49, 994.55]
+  sword_j_un4_vn1: [445.49, 725.15]
+  sword_j_un4_vn2: [445.49, 661.3]
+  sword_j_un4_vn3: [445.49, 592.23]
+  sword_j_un4_vn4: [445.49, 522.36]
+  sword_j_un4_vn5: [445.49, 459.05]
+  sword_j_un5_v0n: [365.5, 793.89]
+  sword_j_un5_v2: [365.5, 926.73]
+  sword_j_un5_vn1: [365.5, 725.15]
+  sword_j_un5_vn2: [365.5, 661.3]
+  sword_j_un5_vn3: [365.5, 592.23]
+  sword_rv_1: [739.86, 788.42]
+  sword_rv_2: [717.56, 797.66]
+  sword_rv_3: [695.26, 788.42]
+  sword_rv_4: [686.02, 766.12]
+  sword_rv_5: [695.26, 743.82]
+  sword_rv_6: [717.56, 734.58]
+  sword_rv_7: [739.86, 743.82]
+
+crossings:
+  - { id: sword_gate_b0_x, type: gate, at: sword_gate_b0 }
+  - { id: sword_gate_o1_x, type: gate, at: sword_gate_o1 }
+  - { id: sword_gate_u1n_x, type: gate, at: sword_gate_u1n }
+  - { id: sword_gate_un1p_x, type: gate, at: sword_gate_un1p }
+  - { id: sword_gate_v0n_x, type: gate, at: sword_gate_v0n }
+  - { id: sword_bridge_1_x, type: bridge, at: [515.82, 793.89], r: 31.59 }
+  - { id: sword_bridge_10_x, type: bridge, at: [515.82, 707.98], r: 31.59 }
+  - { id: sword_bridge_2_x, type: bridge, at: [515.82, 926.73], r: 31.59 }
+  - { id: sword_bridge_3_x, type: bridge, at: [515.82, 994.55], r: 31.59 }
+  - { id: sword_bridge_4_x, type: bridge, at: [515.82, 1059.22], r: 31.59 }
+  - { id: sword_bridge_5_x, type: bridge, at: [515.82, 725.15], r: 31.59 }
+  - { id: sword_bridge_6_x, type: bridge, at: [515.82, 661.3], r: 31.59 }
+  - { id: sword_bridge_7_x, type: bridge, at: [515.82, 592.23], r: 31.59 }
+  - { id: sword_bridge_8_x, type: bridge, at: [515.82, 522.36], r: 31.59 }
+  - { id: sword_bridge_9_x, type: bridge, at: [515.82, 459.51], r: 31.59 }
+
+pois:
+  - { id: sword_plaza, type: landmark, at: [717.56, 766.12], r: 31.54, label: "Market Square" }
+  - { id: sword_o1, type: landmark, at: [215.22, 795.36], r: 52.78, label: "Outlying Fort 1" }

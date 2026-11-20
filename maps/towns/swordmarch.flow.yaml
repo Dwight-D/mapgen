@@ -1,0 +1,416 @@
+format_version: 1
+name: swordmarch
+brief: |
+  Settlement movement graph of swordmarch (generator grid, seed 4) with two spawns linked to gates sword_gate_u1n and sword_gate_un1p.
+
+nodes:
+  A: { kind: spawn, team: A, name: Marchwardens spawn }
+  B: { kind: spawn, team: B, name: Riverkin spawn }
+  sword_bridge_10_a: { kind: choke }
+  sword_bridge_10_b: { kind: choke }
+  sword_bridge_1_a: { kind: choke }
+  sword_bridge_1_b: { kind: choke }
+  sword_bridge_2_a: { kind: choke }
+  sword_bridge_2_b: { kind: choke }
+  sword_bridge_3_a: { kind: choke }
+  sword_bridge_3_b: { kind: choke }
+  sword_bridge_4_a: { kind: choke }
+  sword_bridge_4_b: { kind: choke }
+  sword_bridge_5_a: { kind: choke }
+  sword_bridge_5_b: { kind: choke }
+  sword_bridge_6_a: { kind: choke }
+  sword_bridge_6_b: { kind: choke }
+  sword_bridge_7_a: { kind: choke }
+  sword_bridge_7_b: { kind: choke }
+  sword_bridge_8_a: { kind: choke }
+  sword_bridge_8_b: { kind: choke }
+  sword_bridge_9_a: { kind: choke }
+  sword_bridge_9_b: { kind: choke }
+  sword_e_b1: { kind: choke }
+  sword_e_u0n: { kind: choke }
+  sword_e_u0p: { kind: choke }
+  sword_e_u1p: { kind: choke }
+  sword_e_u2n: { kind: choke }
+  sword_e_u2p: { kind: choke }
+  sword_e_u3n: { kind: choke }
+  sword_e_u3p: { kind: choke }
+  sword_e_u4p: { kind: choke }
+  sword_e_u5n: { kind: choke }
+  sword_e_u5p: { kind: choke }
+  sword_e_un1n: { kind: choke }
+  sword_e_un2n: { kind: choke }
+  sword_e_un2p: { kind: choke }
+  sword_e_un4p: { kind: choke }
+  sword_e_un5n: { kind: choke }
+  sword_e_un5p: { kind: choke }
+  sword_e_v0p: { kind: choke }
+  sword_e_v2n: { kind: choke }
+  sword_e_v3n: { kind: choke }
+  sword_e_v3p: { kind: choke }
+  sword_e_v4n: { kind: choke }
+  sword_e_v4p: { kind: choke }
+  sword_e_vn1n: { kind: choke }
+  sword_e_vn1p: { kind: choke }
+  sword_e_vn2n: { kind: choke }
+  sword_e_vn2p: { kind: choke }
+  sword_e_vn3n: { kind: choke }
+  sword_e_vn3p: { kind: choke }
+  sword_e_vn4n: { kind: choke }
+  sword_e_vn4p: { kind: choke }
+  sword_gate_b0: { kind: choke, name: "Gate b0" }
+  sword_gate_o1: { kind: choke, name: "Gate o1" }
+  sword_gate_u1n: { kind: choke, name: "Gate u1n" }
+  sword_gate_un1p: { kind: choke, name: "Gate un1p" }
+  sword_gate_v0n: { kind: choke, name: "Gate v0n" }
+  sword_j_b0_ring: { kind: choke }
+  sword_j_b0_u0p: { kind: choke }
+  sword_j_b0_u1: { kind: choke }
+  sword_j_b0_u2: { kind: choke }
+  sword_j_b0_u3: { kind: choke }
+  sword_j_b0_u4: { kind: choke }
+  sword_j_b0_u5: { kind: choke }
+  sword_j_b0_v0p: { kind: choke }
+  sword_j_b1_ring: { kind: choke }
+  sword_j_b1_un1: { kind: choke }
+  sword_j_b1_un2: { kind: choke }
+  sword_j_b1_un4: { kind: choke }
+  sword_j_b1_un5: { kind: choke }
+  sword_j_b1_vn1: { kind: choke }
+  sword_j_b1_vn2: { kind: choke }
+  sword_j_ring_u0n: { kind: choke }
+  sword_j_ring_v0n: { kind: choke }
+  sword_j_ring_v0p: { kind: choke }
+  sword_j_u0n_vn1: { kind: choke }
+  sword_j_u0n_vn2: { kind: choke }
+  sword_j_u0n_vn3: { kind: choke }
+  sword_j_u0n_vn4: { kind: choke }
+  sword_j_u0n_vn5: { kind: choke }
+  sword_j_u0p_v0p: { kind: choke }
+  sword_j_u0p_v2: { kind: choke }
+  sword_j_u0p_v3: { kind: choke }
+  sword_j_u0p_v4: { kind: choke }
+  sword_j_u1_v0p: { kind: choke }
+  sword_j_u1_v2: { kind: choke }
+  sword_j_u1_v3: { kind: choke }
+  sword_j_u1_v4: { kind: choke }
+  sword_j_u1_vn1: { kind: choke }
+  sword_j_u1_vn2: { kind: choke }
+  sword_j_u1_vn3: { kind: choke }
+  sword_j_u1_vn4: { kind: choke }
+  sword_j_u1_vn5: { kind: choke }
+  sword_j_u2_v0p: { kind: choke }
+  sword_j_u2_v2: { kind: choke }
+  sword_j_u2_v3: { kind: choke }
+  sword_j_u2_v4: { kind: choke }
+  sword_j_u2_vn1: { kind: choke }
+  sword_j_u2_vn2: { kind: choke }
+  sword_j_u2_vn3: { kind: choke }
+  sword_j_u2_vn4: { kind: choke }
+  sword_j_u2_vn5: { kind: choke }
+  sword_j_u3_v0p: { kind: choke }
+  sword_j_u3_v2: { kind: choke }
+  sword_j_u3_v3: { kind: choke }
+  sword_j_u3_v4: { kind: choke }
+  sword_j_u3_vn1: { kind: choke }
+  sword_j_u3_vn2: { kind: choke }
+  sword_j_u3_vn3: { kind: choke }
+  sword_j_u3_vn4: { kind: choke }
+  sword_j_u3_vn5: { kind: choke }
+  sword_j_u4_v0p: { kind: choke }
+  sword_j_u4_v2: { kind: choke }
+  sword_j_u4_v3: { kind: choke }
+  sword_j_u4_vn1: { kind: choke }
+  sword_j_u4_vn2: { kind: choke }
+  sword_j_u4_vn3: { kind: choke }
+  sword_j_u4_vn4: { kind: choke }
+  sword_j_u4_vn5: { kind: choke }
+  sword_j_u5_v0p: { kind: choke }
+  sword_j_u5_v2: { kind: choke }
+  sword_j_u5_vn1: { kind: choke }
+  sword_j_u5_vn2: { kind: choke }
+  sword_j_u5_vn3: { kind: choke }
+  sword_j_un1_v0n: { kind: choke }
+  sword_j_un1_v2: { kind: choke }
+  sword_j_un1_v3: { kind: choke }
+  sword_j_un1_v4: { kind: choke }
+  sword_j_un1_vn1: { kind: choke }
+  sword_j_un1_vn2: { kind: choke }
+  sword_j_un1_vn3: { kind: choke }
+  sword_j_un1_vn4: { kind: choke }
+  sword_j_un1_vn5: { kind: choke }
+  sword_j_un2_v0n: { kind: choke }
+  sword_j_un2_v2: { kind: choke }
+  sword_j_un2_v3: { kind: choke }
+  sword_j_un2_v4: { kind: choke }
+  sword_j_un2_vn1: { kind: choke }
+  sword_j_un2_vn2: { kind: choke }
+  sword_j_un2_vn3: { kind: choke }
+  sword_j_un2_vn4: { kind: choke }
+  sword_j_un2_vn5: { kind: choke }
+  sword_j_un4_v0n: { kind: choke }
+  sword_j_un4_v2: { kind: choke }
+  sword_j_un4_v3: { kind: choke }
+  sword_j_un4_vn1: { kind: choke }
+  sword_j_un4_vn2: { kind: choke }
+  sword_j_un4_vn3: { kind: choke }
+  sword_j_un4_vn4: { kind: choke }
+  sword_j_un4_vn5: { kind: choke }
+  sword_j_un5_v0n: { kind: choke }
+  sword_j_un5_v2: { kind: choke }
+  sword_j_un5_vn1: { kind: choke }
+  sword_j_un5_vn2: { kind: choke }
+  sword_j_un5_vn3: { kind: choke }
+  sword_o1: { kind: zone, name: "Outlying Fort 1" }
+  sword_plaza: { kind: zone, name: "Market Square" }
+  sword_rv_1: { kind: choke }
+  sword_rv_2: { kind: choke }
+  sword_rv_3: { kind: choke }
+  sword_rv_4: { kind: choke }
+  sword_rv_5: { kind: choke }
+  sword_rv_6: { kind: choke }
+  sword_rv_7: { kind: choke }
+
+edges:
+  - A - sword_gate_u1n
+  - B - sword_gate_un1p
+  - { link: "sword_bridge_10_a - sword_bridge_10_b", name: sword_bridge_10 }
+  - { link: "sword_j_b1_vn1 - sword_bridge_10_a", name: sword_blvd_b1 }
+  - { link: "sword_bridge_10_b - sword_j_b1_un4", name: sword_blvd_b1_s2 }
+  - { link: "sword_bridge_1_a - sword_bridge_1_b", name: sword_bridge_1 }
+  - { link: "sword_j_un4_v0n - sword_bridge_1_a", name: sword_av_v0n }
+  - { link: "sword_bridge_1_b - sword_j_un2_v0n", name: sword_av_v0n_s2 }
+  - { link: "sword_bridge_2_a - sword_bridge_2_b", name: sword_bridge_2 }
+  - { link: "sword_j_un4_v2 - sword_bridge_2_a", name: sword_av_v2 }
+  - { link: "sword_bridge_2_b - sword_j_un2_v2", name: sword_av_v2_s2 }
+  - { link: "sword_bridge_3_a - sword_bridge_3_b", name: sword_bridge_3 }
+  - { link: "sword_j_un4_v3 - sword_bridge_3_a", name: sword_av_v3 }
+  - { link: "sword_bridge_3_b - sword_j_un2_v3", name: sword_av_v3_s2 }
+  - { link: "sword_bridge_4_a - sword_bridge_4_b", name: sword_bridge_4 }
+  - { link: "sword_e_v4n - sword_bridge_4_a", name: sword_av_v4 }
+  - { link: "sword_bridge_4_b - sword_j_un2_v4", name: sword_av_v4_s2 }
+  - { link: "sword_bridge_5_a - sword_bridge_5_b", name: sword_bridge_5 }
+  - { link: "sword_j_un4_vn1 - sword_bridge_5_a", name: sword_av_vn1 }
+  - { link: "sword_bridge_5_b - sword_j_b1_vn1", name: sword_av_vn1_s2 }
+  - { link: "sword_bridge_6_a - sword_bridge_6_b", name: sword_bridge_6 }
+  - { link: "sword_j_un4_vn2 - sword_bridge_6_a", name: sword_av_vn2 }
+  - { link: "sword_bridge_6_b - sword_j_un2_vn2", name: sword_av_vn2_s2 }
+  - { link: "sword_bridge_7_a - sword_bridge_7_b", name: sword_bridge_7 }
+  - { link: "sword_j_un4_vn3 - sword_bridge_7_a", name: sword_av_vn3 }
+  - { link: "sword_bridge_7_b - sword_j_un2_vn3", name: sword_av_vn3_s2 }
+  - { link: "sword_bridge_8_a - sword_bridge_8_b", name: sword_bridge_8 }
+  - { link: "sword_j_un4_vn4 - sword_bridge_8_a", name: sword_av_vn4 }
+  - { link: "sword_bridge_8_b - sword_j_un2_vn4", name: sword_av_vn4_s2 }
+  - { link: "sword_bridge_9_a - sword_bridge_9_b", name: sword_bridge_9 }
+  - { link: "sword_j_un4_vn5 - sword_bridge_9_a", name: sword_av_vn5 }
+  - { link: "sword_bridge_9_b - sword_j_un2_vn5", name: sword_av_vn5_s2 }
+  - { link: "sword_j_b1_vn2 - sword_e_b1", name: sword_blvd_b1_s2 }
+  - { link: "sword_e_u0n - sword_j_u0n_vn5", name: sword_av_u0n }
+  - { link: "sword_j_u0p_v4 - sword_e_u0p", name: sword_av_u0p }
+  - { link: "sword_j_u1_v4 - sword_e_u1p", name: sword_av_u1 }
+  - { link: "sword_e_u2n - sword_j_u2_vn5", name: sword_av_u2 }
+  - { link: "sword_j_u2_v4 - sword_e_u2p", name: sword_av_u2 }
+  - { link: "sword_e_u3n - sword_j_u3_vn5", name: sword_av_u3 }
+  - { link: "sword_j_u3_v4 - sword_e_u3p", name: sword_av_u3 }
+  - { link: "sword_j_u4_v3 - sword_e_u4p", name: sword_av_u4 }
+  - { link: "sword_e_u5n - sword_j_u5_vn3", name: sword_av_u5 }
+  - { link: "sword_j_u5_v2 - sword_e_u5p", name: sword_av_u5 }
+  - { link: "sword_e_un1n - sword_j_un1_vn5", name: sword_av_un1 }
+  - { link: "sword_e_un2n - sword_j_un2_vn5", name: sword_av_un2 }
+  - { link: "sword_j_un2_v4 - sword_e_un2p", name: sword_av_un2 }
+  - { link: "sword_j_un4_v3 - sword_e_un4p", name: sword_av_un4 }
+  - { link: "sword_e_un5n - sword_j_un5_vn3", name: sword_av_un5 }
+  - { link: "sword_j_un5_v2 - sword_e_un5p", name: sword_av_un5 }
+  - { link: "sword_j_u5_v0p - sword_e_v0p", name: sword_av_v0p }
+  - { link: "sword_e_v2n - sword_j_un5_v2", name: sword_av_v2 }
+  - { link: "sword_e_v3n - sword_j_un4_v3", name: sword_av_v3 }
+  - { link: "sword_j_u4_v3 - sword_e_v3p", name: sword_av_v3_s2 }
+  - { link: "sword_j_u3_v4 - sword_e_v4p", name: sword_av_v4_s2 }
+  - { link: "sword_e_vn1n - sword_j_un5_vn1", name: sword_av_vn1 }
+  - { link: "sword_j_u5_vn1 - sword_e_vn1p", name: sword_av_vn1_s2 }
+  - { link: "sword_e_vn2n - sword_j_b1_vn2", name: sword_av_vn2 }
+  - { link: "sword_j_u5_vn2 - sword_e_vn2p", name: sword_av_vn2_s2 }
+  - { link: "sword_e_vn3n - sword_j_un5_vn3", name: sword_av_vn3 }
+  - { link: "sword_j_u5_vn3 - sword_e_vn3p", name: sword_av_vn3_s2 }
+  - { link: "sword_e_vn4n - sword_j_un4_vn4", name: sword_av_vn4 }
+  - { link: "sword_j_u4_vn4 - sword_e_vn4p", name: sword_av_vn4_s2 }
+  - { link: "sword_j_b0_u5 - sword_gate_b0", name: sword_blvd_b0 }
+  - { link: "sword_j_u5_v2 - sword_gate_b0", name: sword_av_v2_s2 }
+  - { link: "sword_gate_v0n - sword_gate_o1", name: sword_apr_o1 }
+  - { link: "sword_gate_o1 - sword_o1", name: sword_apr_o1 }
+  - { link: "sword_gate_u1n - sword_j_u1_vn5", name: sword_av_u1 }
+  - { link: "sword_j_un1_v4 - sword_gate_un1p", name: sword_av_un1 }
+  - { link: "sword_gate_v0n - sword_j_un5_v0n", name: sword_av_v0n }
+  - { link: "sword_j_b0_ring - sword_j_b0_u0p", name: sword_blvd_b0 }
+  - { link: "sword_j_ring_u0n - sword_j_b0_ring", name: sword_ring_1 }
+  - { link: "sword_plaza - sword_j_b0_ring", name: sword_blvd_b0 }
+  - { link: "sword_j_b0_ring - sword_rv_1", name: sword_ring_1 }
+  - { link: "sword_j_b0_u0p - sword_j_b0_v0p", name: sword_blvd_b0 }
+  - { link: "sword_j_ring_u0n - sword_j_b0_u0p", name: sword_av_u0p }
+  - { link: "sword_j_b0_u0p - sword_j_u0p_v0p", name: sword_av_u0p }
+  - { link: "sword_j_b0_u1 - sword_j_b0_u2", name: sword_blvd_b0 }
+  - { link: "sword_j_b0_v0p - sword_j_b0_u1", name: sword_blvd_b0 }
+  - { link: "sword_j_u1_v0p - sword_j_b0_u1", name: sword_av_u1 }
+  - { link: "sword_j_b0_u1 - sword_j_u1_v2", name: sword_av_u1 }
+  - { link: "sword_j_b0_u2 - sword_j_b0_u3", name: sword_blvd_b0 }
+  - { link: "sword_j_u2_v0p - sword_j_b0_u2", name: sword_av_u2 }
+  - { link: "sword_j_b0_u2 - sword_j_u2_v2", name: sword_av_u2 }
+  - { link: "sword_j_b0_u3 - sword_j_b0_u4", name: sword_blvd_b0 }
+  - { link: "sword_j_u3_v0p - sword_j_b0_u3", name: sword_av_u3 }
+  - { link: "sword_j_b0_u3 - sword_j_u3_v2", name: sword_av_u3 }
+  - { link: "sword_j_b0_u4 - sword_j_b0_u5", name: sword_blvd_b0 }
+  - { link: "sword_j_u4_v0p - sword_j_b0_u4", name: sword_av_u4 }
+  - { link: "sword_j_b0_u4 - sword_j_u4_v2", name: sword_av_u4 }
+  - { link: "sword_j_u5_v0p - sword_j_b0_u5", name: sword_av_u5 }
+  - { link: "sword_j_b0_u5 - sword_j_u5_v2", name: sword_av_u5 }
+  - { link: "sword_j_u0p_v0p - sword_j_b0_v0p", name: sword_av_v0p }
+  - { link: "sword_j_b0_v0p - sword_j_u1_v0p", name: sword_av_v0p }
+  - { link: "sword_j_b1_ring - sword_j_b1_un1", name: sword_blvd_b1 }
+  - { link: "sword_plaza - sword_j_b1_ring", name: sword_blvd_b1 }
+  - { link: "sword_rv_4 - sword_j_b1_ring", name: sword_ring_1 }
+  - { link: "sword_j_b1_ring - sword_rv_5", name: sword_ring_1 }
+  - { link: "sword_j_b1_un1 - sword_j_b1_un2", name: sword_blvd_b1 }
+  - { link: "sword_j_b1_un1 - sword_j_un1_v0n", name: sword_av_un1 }
+  - { link: "sword_j_un1_vn1 - sword_j_b1_un1", name: sword_av_un1 }
+  - { link: "sword_j_b1_un2 - sword_j_b1_vn1", name: sword_blvd_b1 }
+  - { link: "sword_j_b1_un2 - sword_j_un2_v0n", name: sword_av_un2 }
+  - { link: "sword_j_un2_vn1 - sword_j_b1_un2", name: sword_av_un2 }
+  - { link: "sword_j_b1_un4 - sword_j_b1_un5", name: sword_blvd_b1_s2 }
+  - { link: "sword_j_b1_un4 - sword_j_un4_vn1", name: sword_av_un4 }
+  - { link: "sword_j_un4_vn2 - sword_j_b1_un4", name: sword_av_un4 }
+  - { link: "sword_j_b1_un5 - sword_j_b1_vn2", name: sword_blvd_b1_s2 }
+  - { link: "sword_j_b1_un5 - sword_j_un5_vn1", name: sword_av_un5 }
+  - { link: "sword_j_un5_vn2 - sword_j_b1_un5", name: sword_av_un5 }
+  - { link: "sword_j_b1_vn1 - sword_j_un2_vn1", name: sword_av_vn1_s2 }
+  - { link: "sword_j_b1_vn2 - sword_j_un5_vn2", name: sword_av_vn2 }
+  - { link: "sword_j_u0n_vn1 - sword_j_ring_u0n", name: sword_av_u0n }
+  - { link: "sword_rv_7 - sword_j_ring_u0n", name: sword_ring_1 }
+  - { link: "sword_j_un1_v0n - sword_j_ring_v0n", name: sword_av_v0n_s2 }
+  - { link: "sword_rv_2 - sword_j_ring_v0n", name: sword_ring_1 }
+  - { link: "sword_j_ring_v0n - sword_rv_3", name: sword_ring_1 }
+  - { link: "sword_j_ring_v0p - sword_j_u0p_v0p", name: sword_av_v0p }
+  - { link: "sword_rv_1 - sword_j_ring_v0p", name: sword_ring_1 }
+  - { link: "sword_j_ring_v0p - sword_rv_2", name: sword_ring_1 }
+  - { link: "sword_j_u0n_vn2 - sword_j_u0n_vn1", name: sword_av_u0n }
+  - { link: "sword_j_u0n_vn1 - sword_j_u1_vn1", name: sword_av_vn1_s2 }
+  - { link: "sword_j_un1_vn1 - sword_j_u0n_vn1", name: sword_av_vn1_s2 }
+  - { link: "sword_j_u0n_vn3 - sword_j_u0n_vn2", name: sword_av_u0n }
+  - { link: "sword_j_u0n_vn2 - sword_j_u1_vn2", name: sword_av_vn2_s2 }
+  - { link: "sword_j_un1_vn2 - sword_j_u0n_vn2", name: sword_av_vn2_s2 }
+  - { link: "sword_j_u0n_vn4 - sword_j_u0n_vn3", name: sword_av_u0n }
+  - { link: "sword_j_u0n_vn3 - sword_j_u1_vn3", name: sword_av_vn3_s2 }
+  - { link: "sword_j_un1_vn3 - sword_j_u0n_vn3", name: sword_av_vn3_s2 }
+  - { link: "sword_j_u0n_vn5 - sword_j_u0n_vn4", name: sword_av_u0n }
+  - { link: "sword_j_u0n_vn4 - sword_j_u1_vn4", name: sword_av_vn4_s2 }
+  - { link: "sword_j_un1_vn4 - sword_j_u0n_vn4", name: sword_av_vn4_s2 }
+  - { link: "sword_j_u0n_vn5 - sword_j_u1_vn5", name: sword_av_vn5_s2 }
+  - { link: "sword_j_un1_vn5 - sword_j_u0n_vn5", name: sword_av_vn5_s2 }
+  - { link: "sword_j_u0p_v0p - sword_j_u0p_v2", name: sword_av_u0p }
+  - { link: "sword_j_u0p_v2 - sword_j_u0p_v3", name: sword_av_u0p }
+  - { link: "sword_j_u0p_v2 - sword_j_u1_v2", name: sword_av_v2_s2 }
+  - { link: "sword_j_un1_v2 - sword_j_u0p_v2", name: sword_av_v2_s2 }
+  - { link: "sword_j_u0p_v3 - sword_j_u0p_v4", name: sword_av_u0p }
+  - { link: "sword_j_u0p_v3 - sword_j_u1_v3", name: sword_av_v3_s2 }
+  - { link: "sword_j_un1_v3 - sword_j_u0p_v3", name: sword_av_v3_s2 }
+  - { link: "sword_j_u0p_v4 - sword_j_u1_v4", name: sword_av_v4_s2 }
+  - { link: "sword_j_un1_v4 - sword_j_u0p_v4", name: sword_av_v4_s2 }
+  - { link: "sword_j_u1_vn1 - sword_j_u1_v0p", name: sword_av_u1 }
+  - { link: "sword_j_u1_v0p - sword_j_u2_v0p", name: sword_av_v0p }
+  - { link: "sword_j_u1_v2 - sword_j_u1_v3", name: sword_av_u1 }
+  - { link: "sword_j_u1_v2 - sword_j_u2_v2", name: sword_av_v2_s2 }
+  - { link: "sword_j_u1_v3 - sword_j_u1_v4", name: sword_av_u1 }
+  - { link: "sword_j_u1_v3 - sword_j_u2_v3", name: sword_av_v3_s2 }
+  - { link: "sword_j_u1_v4 - sword_j_u2_v4", name: sword_av_v4_s2 }
+  - { link: "sword_j_u1_vn2 - sword_j_u1_vn1", name: sword_av_u1 }
+  - { link: "sword_j_u1_vn1 - sword_j_u2_vn1", name: sword_av_vn1_s2 }
+  - { link: "sword_j_u1_vn3 - sword_j_u1_vn2", name: sword_av_u1 }
+  - { link: "sword_j_u1_vn2 - sword_j_u2_vn2", name: sword_av_vn2_s2 }
+  - { link: "sword_j_u1_vn4 - sword_j_u1_vn3", name: sword_av_u1 }
+  - { link: "sword_j_u1_vn3 - sword_j_u2_vn3", name: sword_av_vn3_s2 }
+  - { link: "sword_j_u1_vn5 - sword_j_u1_vn4", name: sword_av_u1 }
+  - { link: "sword_j_u1_vn4 - sword_j_u2_vn4", name: sword_av_vn4_s2 }
+  - { link: "sword_j_u1_vn5 - sword_j_u2_vn5", name: sword_av_vn5_s2 }
+  - { link: "sword_j_u2_vn1 - sword_j_u2_v0p", name: sword_av_u2 }
+  - { link: "sword_j_u2_v0p - sword_j_u3_v0p", name: sword_av_v0p }
+  - { link: "sword_j_u2_v2 - sword_j_u2_v3", name: sword_av_u2 }
+  - { link: "sword_j_u2_v2 - sword_j_u3_v2", name: sword_av_v2_s2 }
+  - { link: "sword_j_u2_v3 - sword_j_u2_v4", name: sword_av_u2 }
+  - { link: "sword_j_u2_v3 - sword_j_u3_v3", name: sword_av_v3_s2 }
+  - { link: "sword_j_u2_v4 - sword_j_u3_v4", name: sword_av_v4_s2 }
+  - { link: "sword_j_u2_vn2 - sword_j_u2_vn1", name: sword_av_u2 }
+  - { link: "sword_j_u2_vn1 - sword_j_u3_vn1", name: sword_av_vn1_s2 }
+  - { link: "sword_j_u2_vn3 - sword_j_u2_vn2", name: sword_av_u2 }
+  - { link: "sword_j_u2_vn2 - sword_j_u3_vn2", name: sword_av_vn2_s2 }
+  - { link: "sword_j_u2_vn4 - sword_j_u2_vn3", name: sword_av_u2 }
+  - { link: "sword_j_u2_vn3 - sword_j_u3_vn3", name: sword_av_vn3_s2 }
+  - { link: "sword_j_u2_vn5 - sword_j_u2_vn4", name: sword_av_u2 }
+  - { link: "sword_j_u2_vn4 - sword_j_u3_vn4", name: sword_av_vn4_s2 }
+  - { link: "sword_j_u2_vn5 - sword_j_u3_vn5", name: sword_av_vn5_s2 }
+  - { link: "sword_j_u3_vn1 - sword_j_u3_v0p", name: sword_av_u3 }
+  - { link: "sword_j_u3_v0p - sword_j_u4_v0p", name: sword_av_v0p }
+  - { link: "sword_j_u3_v2 - sword_j_u3_v3", name: sword_av_u3 }
+  - { link: "sword_j_u3_v2 - sword_j_u4_v2", name: sword_av_v2_s2 }
+  - { link: "sword_j_u3_v3 - sword_j_u3_v4", name: sword_av_u3 }
+  - { link: "sword_j_u3_v3 - sword_j_u4_v3", name: sword_av_v3_s2 }
+  - { link: "sword_j_u3_vn2 - sword_j_u3_vn1", name: sword_av_u3 }
+  - { link: "sword_j_u3_vn1 - sword_j_u4_vn1", name: sword_av_vn1_s2 }
+  - { link: "sword_j_u3_vn3 - sword_j_u3_vn2", name: sword_av_u3 }
+  - { link: "sword_j_u3_vn2 - sword_j_u4_vn2", name: sword_av_vn2_s2 }
+  - { link: "sword_j_u3_vn4 - sword_j_u3_vn3", name: sword_av_u3 }
+  - { link: "sword_j_u3_vn3 - sword_j_u4_vn3", name: sword_av_vn3_s2 }
+  - { link: "sword_j_u3_vn5 - sword_j_u3_vn4", name: sword_av_u3 }
+  - { link: "sword_j_u3_vn4 - sword_j_u4_vn4", name: sword_av_vn4_s2 }
+  - { link: "sword_j_u3_vn5 - sword_j_u4_vn5", name: sword_av_vn5_s2 }
+  - { link: "sword_j_u4_vn1 - sword_j_u4_v0p", name: sword_av_u4 }
+  - { link: "sword_j_u4_v0p - sword_j_u5_v0p", name: sword_av_v0p }
+  - { link: "sword_j_u4_v2 - sword_j_u4_v3", name: sword_av_u4 }
+  - { link: "sword_j_u4_v2 - sword_j_u5_v2", name: sword_av_v2_s2 }
+  - { link: "sword_j_u4_vn2 - sword_j_u4_vn1", name: sword_av_u4 }
+  - { link: "sword_j_u4_vn1 - sword_j_u5_vn1", name: sword_av_vn1_s2 }
+  - { link: "sword_j_u4_vn3 - sword_j_u4_vn2", name: sword_av_u4 }
+  - { link: "sword_j_u4_vn2 - sword_j_u5_vn2", name: sword_av_vn2_s2 }
+  - { link: "sword_j_u4_vn4 - sword_j_u4_vn3", name: sword_av_u4 }
+  - { link: "sword_j_u4_vn3 - sword_j_u5_vn3", name: sword_av_vn3_s2 }
+  - { link: "sword_j_u4_vn5 - sword_j_u4_vn4", name: sword_av_u4 }
+  - { link: "sword_j_u5_vn1 - sword_j_u5_v0p", name: sword_av_u5 }
+  - { link: "sword_j_u5_vn2 - sword_j_u5_vn1", name: sword_av_u5 }
+  - { link: "sword_j_u5_vn3 - sword_j_u5_vn2", name: sword_av_u5 }
+  - { link: "sword_j_un1_v0n - sword_j_un1_v2", name: sword_av_un1 }
+  - { link: "sword_j_un2_v0n - sword_j_un1_v0n", name: sword_av_v0n_s2 }
+  - { link: "sword_j_un1_v2 - sword_j_un1_v3", name: sword_av_un1 }
+  - { link: "sword_j_un2_v2 - sword_j_un1_v2", name: sword_av_v2_s2 }
+  - { link: "sword_j_un1_v3 - sword_j_un1_v4", name: sword_av_un1 }
+  - { link: "sword_j_un2_v3 - sword_j_un1_v3", name: sword_av_v3_s2 }
+  - { link: "sword_j_un2_v4 - sword_j_un1_v4", name: sword_av_v4_s2 }
+  - { link: "sword_j_un1_vn2 - sword_j_un1_vn1", name: sword_av_un1 }
+  - { link: "sword_j_un2_vn1 - sword_j_un1_vn1", name: sword_av_vn1_s2 }
+  - { link: "sword_j_un1_vn3 - sword_j_un1_vn2", name: sword_av_un1 }
+  - { link: "sword_j_un2_vn2 - sword_j_un1_vn2", name: sword_av_vn2_s2 }
+  - { link: "sword_j_un1_vn4 - sword_j_un1_vn3", name: sword_av_un1 }
+  - { link: "sword_j_un2_vn3 - sword_j_un1_vn3", name: sword_av_vn3_s2 }
+  - { link: "sword_j_un1_vn5 - sword_j_un1_vn4", name: sword_av_un1 }
+  - { link: "sword_j_un2_vn4 - sword_j_un1_vn4", name: sword_av_vn4_s2 }
+  - { link: "sword_j_un2_vn5 - sword_j_un1_vn5", name: sword_av_vn5_s2 }
+  - { link: "sword_j_un2_v0n - sword_j_un2_v2", name: sword_av_un2 }
+  - { link: "sword_j_un2_v2 - sword_j_un2_v3", name: sword_av_un2 }
+  - { link: "sword_j_un2_v3 - sword_j_un2_v4", name: sword_av_un2 }
+  - { link: "sword_j_un2_vn2 - sword_j_un2_vn1", name: sword_av_un2 }
+  - { link: "sword_j_un2_vn3 - sword_j_un2_vn2", name: sword_av_un2 }
+  - { link: "sword_j_un2_vn4 - sword_j_un2_vn3", name: sword_av_un2 }
+  - { link: "sword_j_un2_vn5 - sword_j_un2_vn4", name: sword_av_un2 }
+  - { link: "sword_j_un4_v0n - sword_j_un4_v2", name: sword_av_un4 }
+  - { link: "sword_j_un4_vn1 - sword_j_un4_v0n", name: sword_av_un4 }
+  - { link: "sword_j_un5_v0n - sword_j_un4_v0n", name: sword_av_v0n }
+  - { link: "sword_j_un4_v2 - sword_j_un4_v3", name: sword_av_un4 }
+  - { link: "sword_j_un5_v2 - sword_j_un4_v2", name: sword_av_v2 }
+  - { link: "sword_j_un5_vn1 - sword_j_un4_vn1", name: sword_av_vn1 }
+  - { link: "sword_j_un4_vn3 - sword_j_un4_vn2", name: sword_av_un4 }
+  - { link: "sword_j_un5_vn2 - sword_j_un4_vn2", name: sword_av_vn2 }
+  - { link: "sword_j_un4_vn4 - sword_j_un4_vn3", name: sword_av_un4 }
+  - { link: "sword_j_un5_vn3 - sword_j_un4_vn3", name: sword_av_vn3 }
+  - { link: "sword_j_un4_vn5 - sword_j_un4_vn4", name: sword_av_un4 }
+  - { link: "sword_j_un5_v0n - sword_j_un5_v2", name: sword_av_un5 }
+  - { link: "sword_j_un5_vn1 - sword_j_un5_v0n", name: sword_av_un5 }
+  - { link: "sword_j_un5_vn3 - sword_j_un5_vn2", name: sword_av_un5 }
+  - { link: "sword_rv_3 - sword_rv_4", name: sword_ring_1 }
+  - { link: "sword_rv_5 - sword_rv_6", name: sword_ring_1 }
+  - { link: "sword_rv_6 - sword_rv_7", name: sword_ring_1 }

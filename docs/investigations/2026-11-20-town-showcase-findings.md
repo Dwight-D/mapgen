@@ -1,6 +1,6 @@
 # Town showcase maps: findings (GDU-57 integration)
 
-Maps: `maps/towns/{hearthmoor,pentring,ashgrove,marchfold}.yaml` (1000/1200/900/1500 m). All pass `mapgen validate`, `mapgen build`
+Maps: `maps/towns/{hearthmoor,pentring,ashgrove,marchfold,twinbridge,saltport,swordmarch}.yaml` (1000/1200/900/1500/1200/1000/1500 m). All pass `mapgen validate`, `mapgen build`
 (`out/<map>/map.png`) and `flowgraph check --strict` (0 missing/extra nodes and edges). Regeneration: `maps/towns/README.md`.
 
 ## What worked
@@ -46,3 +46,28 @@ Maps: `maps/towns/{hearthmoor,pentring,ashgrove,marchfold}.yaml` (1000/1200/900/
   the outpost on gate_0/gate_3 approaches is a cheap capture pair.
 - Objectives: none added (settlement landmarks are `landmark` POIs, not objectives), so the report objective tables are empty;
   balance analysis needs landmarks converted to `capture`/`keep_site` by hand.
+
+## Water and fort showcase maps (final integration)
+
+- twinbridge (radial, river, seed 12), saltport (voronoi, bay + island site, seed 7), swordmarch (grid, river, `fort=island`, seed 4):
+  validate OK, build with 0 warnings, `flowgraph check --strict` 0 missing/extra. Built with the unchanged `build.py` flow plus
+  `water*`/`fort` params; terrain bases are hand-written around the centred settlement (rivers/bays are emitted by the generator and
+  run to the map edge, so the base only needs meadows, woods and fen).
+- Bridge/bank-node <30 m limit: hit with twinbridge seed 11 (extra edges between `twin_bridge_1` and `_2` nodes). Avoided by seed choice
+  (12); no change to `water.py` (a spacing fix would alter generation for the suite's town tests).
+- saltport seed 5 builds with two warnings ("road crosses lake with no bridge or ford"): a smoothed road next to the shore node dips
+  into the bay, and the bridge crossing `salt_bridge_1_x` sits on a bank node rather than the bridge midpoint. Seed 7 has no bridge.
+  Both are generator/emitter issues (`water.py`, emit), not fixed here.
+- Defect found: an inner fort (`fort=corner` or `centre`) combined with `water=river` raises `shapely GEOSException: side location
+  conflict` in `check_water` on `grid`, `radial` and `voronoi` (seeds 4, 5 tried); `fort=peninsula` fits nowhere with the river.
+  The fort add-on yields an invalid district polygon once water clipping runs. Swordmarch therefore uses `fort=island` (detached fort
+  with an approach road). Needs a fix in `fort.py`/`water.py` ordering; not in this territory.
+- Island site: reserved only; the fort add-on does not use it (`water_island=true` plus `fort=island` was not attempted together).
+
+## Ashgrove defects: not fixed
+
+Both defects originate in the voronoi generator and `emit_spec`, not in `embed.py`/`build.py`: the unroaded district has no road in the
+Settlement itself, and the regions past the wall are the pre-wall district polygons (visible on saltport too: town cells poke out past
+the wall at several corners). A build-side patch would require clipping region polygons or inventing roads that are absent from the
+settlement graph, which breaks the `flowgraph check --strict` agreement. Fix belongs in `mapgen/town/voronoi.py` (road coverage) and
+`emit_spec` (clip district regions to the wall ring).

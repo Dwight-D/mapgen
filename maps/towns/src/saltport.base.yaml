@@ -1,0 +1,22 @@
+format_version: 1
+name: saltport
+brief: |
+  PITCH: Saltport, a bay harbour town with docks and an open-shore wall (showcase map for the bay overlay on a voronoi base).
+  FLOW: teams start on opposite sides of the settlement and fight through its gates and crossings.
+  TEST: do teams fight for the docks, or take the landward gates?
+size: [1000, 1000]
+seed: 5706
+
+terrain:
+  base_height: 30
+  relief: 10
+  relief_scale: 500
+  detail: 3
+  detail_scale: 120
+
+regions:
+  - { id: sp_dunes, seed: 0, type: field, shape: blob, at: [160, 160], r: 170, rough: 0.4, warp: 60 }
+  - { id: sp_fields, seed: 1, type: field, shape: blob, at: [850, 800], r: 170, rough: 0.4, warp: 60 }
+  - { id: sp_wood, seed: 2, type: forest, shape: blob, at: [150, 850], r: 100, rough: 0.5, fragment: 0.4, fragment_scale: 60 }
+  - { id: sp_saltmarsh, seed: 3, type: marsh, shape: blob, at: [880, 150], r: 90, rough: 0.5, warp: 40 }
+  - { id: sp_cliffs, seed: 4, type: hills, shape: blob, at: [500, 920], r: 100, rough: 0.4, warp: 40, height: 25 }

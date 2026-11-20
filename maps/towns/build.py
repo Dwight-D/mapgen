@@ -23,6 +23,14 @@ MAPS = {
     "marchfold": dict(gen="voronoi", seed=33, sid="march", size=1500, teams=("Marcher Lords", "Border Reivers"),
                       params=dict(radius_frac=0.5, patches=14, gates=4, fort="corner", fort_outposts=2,
                                   citadel="false")),
+    "twinbridge": dict(gen="radial", seed=12, sid="twin", size=1200, teams=("Northbank", "Southbank"),
+                       params=dict(radius_frac=0.55, spokes=6, rings=2, gates=6, citadel="false", water="river")),
+    "saltport": dict(gen="voronoi", seed=7, sid="salt", size=1000, teams=("Landward Guard", "Sea Wardens"),
+                     params=dict(radius_frac=0.5, patches=14, gates=4, citadel="false", water="bay",
+                                 water_island="true")),
+    "swordmarch": dict(gen="grid", seed=4, sid="sword", size=1500, teams=("Marchwardens", "Riverkin"),
+                       params=dict(extent_frac=0.5, gates=4, inner_wall="false", citadel="false", rotation=0,
+                                   water="river", fort="island")),
 }
 
 

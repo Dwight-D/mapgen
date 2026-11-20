@@ -1,0 +1,22 @@
+format_version: 1
+name: swordmarch
+brief: |
+  PITCH: Swordmarch, a Manhattan-grid river town guarded by a border fort (showcase map for the river overlay and fort add-on on a grid base).
+  FLOW: teams start on opposite sides of the settlement and fight through its gates and crossings.
+  TEST: does the fort dominate the bridges, or can the river be crossed without it?
+size: [1500, 1500]
+seed: 5707
+
+terrain:
+  base_height: 30
+  relief: 10
+  relief_scale: 500
+  detail: 3
+  detail_scale: 120
+
+regions:
+  - { id: sw_hills_nw, seed: 0, type: hills, shape: blob, at: [250, 1250], r: 240, rough: 0.4, warp: 80, height: 40 }
+  - { id: sw_fields_se, seed: 1, type: field, shape: blob, at: [1250, 250], r: 260, rough: 0.4, warp: 80 }
+  - { id: sw_fields_sw, seed: 2, type: field, shape: blob, at: [280, 280], r: 240, rough: 0.4, warp: 80 }
+  - { id: sw_wood_ne, seed: 3, type: forest, shape: blob, at: [1250, 1250], r: 170, rough: 0.5, fragment: 0.4, fragment_scale: 80 }
+  - { id: sw_fen, seed: 4, type: marsh, shape: blob, at: [750, 1420], r: 90, rough: 0.5, warp: 40 }

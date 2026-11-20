@@ -1,0 +1,69 @@
+format_version: 1
+name: twinbridge
+brief: |
+  Settlement movement graph of twinbridge (generator radial, seed 12) with two spawns linked to gates twin_gate_1 and twin_gate_4.
+
+nodes:
+  A: { kind: spawn, team: A, name: Northbank spawn }
+  B: { kind: spawn, team: B, name: Southbank spawn }
+  twin_bank_1: { kind: choke }
+  twin_bridge_1_a: { kind: choke }
+  twin_bridge_1_b: { kind: choke }
+  twin_bridge_2_a: { kind: choke }
+  twin_bridge_2_b: { kind: choke }
+  twin_gate_0: { kind: choke, name: "Gate 0" }
+  twin_gate_1: { kind: choke, name: "Gate 1" }
+  twin_gate_2: { kind: choke, name: "Gate 2" }
+  twin_gate_3: { kind: choke, name: "Gate 3" }
+  twin_gate_4: { kind: choke, name: "Gate 4" }
+  twin_gate_5: { kind: choke, name: "Gate 5" }
+  twin_j_r1s0: { kind: choke }
+  twin_j_r1s1: { kind: choke }
+  twin_j_r1s2: { kind: choke }
+  twin_j_r1s3: { kind: choke }
+  twin_j_r1s4: { kind: choke }
+  twin_j_r1s5: { kind: choke }
+  twin_j_r2s0: { kind: choke }
+  twin_j_r2s1: { kind: choke }
+  twin_j_r2s2: { kind: choke }
+  twin_j_r2s3: { kind: choke }
+  twin_j_r2s4: { kind: choke }
+  twin_j_r2s5: { kind: choke }
+  twin_plaza: { kind: zone, name: "Central Plaza" }
+
+edges:
+  - A - twin_gate_1
+  - B - twin_gate_4
+  - { link: "twin_bank_1 - twin_j_r2s1", name: twin_ring_2 }
+  - { link: "twin_bridge_1_a - twin_bridge_1_b", name: twin_bridge_1 }
+  - { link: "twin_j_r2s1 - twin_bridge_1_a", name: twin_ring_2 }
+  - { link: "twin_bridge_1_b - twin_j_r2s2", name: twin_ring_2_s2 }
+  - { link: "twin_bridge_2_a - twin_bridge_2_b", name: twin_bridge_2 }
+  - { link: "twin_j_r1s1 - twin_bridge_2_a", name: twin_spoke_1 }
+  - { link: "twin_bridge_2_b - twin_j_r2s1", name: twin_spoke_1_s2 }
+  - { link: "twin_j_r2s0 - twin_gate_0", name: twin_spoke_0 }
+  - { link: "twin_j_r2s1 - twin_gate_1", name: twin_spoke_1_s2 }
+  - { link: "twin_j_r2s2 - twin_gate_2", name: twin_spoke_2 }
+  - { link: "twin_j_r2s3 - twin_gate_3", name: twin_spoke_3 }
+  - { link: "twin_j_r2s4 - twin_gate_4", name: twin_spoke_4 }
+  - { link: "twin_j_r2s5 - twin_gate_5", name: twin_spoke_5 }
+  - { link: "twin_j_r1s0 - twin_j_r1s1", name: twin_ring_1 }
+  - { link: "twin_j_r1s5 - twin_j_r1s0", name: twin_ring_1 }
+  - { link: "twin_j_r1s0 - twin_j_r2s0", name: twin_spoke_0 }
+  - { link: "twin_plaza - twin_j_r1s0", name: twin_spoke_0 }
+  - { link: "twin_j_r1s1 - twin_j_r1s2", name: twin_ring_1 }
+  - { link: "twin_plaza - twin_j_r1s1", name: twin_spoke_1 }
+  - { link: "twin_j_r1s2 - twin_j_r1s3", name: twin_ring_1 }
+  - { link: "twin_j_r1s2 - twin_j_r2s2", name: twin_spoke_2 }
+  - { link: "twin_plaza - twin_j_r1s2", name: twin_spoke_2 }
+  - { link: "twin_j_r1s3 - twin_j_r1s4", name: twin_ring_1 }
+  - { link: "twin_j_r1s3 - twin_j_r2s3", name: twin_spoke_3 }
+  - { link: "twin_plaza - twin_j_r1s3", name: twin_spoke_3 }
+  - { link: "twin_j_r1s4 - twin_j_r1s5", name: twin_ring_1 }
+  - { link: "twin_j_r1s4 - twin_j_r2s4", name: twin_spoke_4 }
+  - { link: "twin_plaza - twin_j_r1s4", name: twin_spoke_4 }
+  - { link: "twin_j_r1s5 - twin_j_r2s5", name: twin_spoke_5 }
+  - { link: "twin_j_r2s5 - twin_j_r2s0", name: twin_ring_2_s2 }
+  - { link: "twin_j_r2s2 - twin_j_r2s3", name: twin_ring_2_s2 }
+  - { link: "twin_j_r2s3 - twin_j_r2s4", name: twin_ring_2_s2 }
+  - { link: "twin_j_r2s4 - twin_j_r2s5", name: twin_ring_2_s2 }

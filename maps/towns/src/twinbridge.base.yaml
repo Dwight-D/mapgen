@@ -1,0 +1,23 @@
+format_version: 1
+name: twinbridge
+brief: |
+  PITCH: Twinbridge, a walled river city whose districts are joined only by bridges (showcase map for the river overlay on a radial base).
+  FLOW: teams start on opposite sides of the settlement and fight through its gates and crossings.
+  TEST: do teams contest the bridges, or force the walls on their own bank?
+size: [1200, 1200]
+seed: 5705
+
+terrain:
+  base_height: 30
+  relief: 10
+  relief_scale: 500
+  detail: 3
+  detail_scale: 120
+
+regions:
+  - { id: tb_meadow_w, seed: 0, type: field, shape: blob, at: [220, 600], r: 200, rough: 0.4, warp: 60 }
+  - { id: tb_meadow_e, seed: 1, type: field, shape: blob, at: [1000, 620], r: 200, rough: 0.4, warp: 60 }
+  - { id: tb_wood_n, seed: 2, type: forest, shape: blob, at: [350, 1100], r: 120, rough: 0.5, fragment: 0.4, fragment_scale: 70 }
+  - { id: tb_wood_s, seed: 3, type: forest, shape: blob, at: [900, 110], r: 120, rough: 0.5, fragment: 0.4, fragment_scale: 70 }
+  - { id: tb_fen, seed: 4, type: marsh, shape: blob, at: [110, 1100], r: 90, rough: 0.5, warp: 40 }
+  - { id: tb_hill, seed: 5, type: hills, shape: blob, at: [1100, 1100], r: 110, rough: 0.4, warp: 40, height: 25 }
