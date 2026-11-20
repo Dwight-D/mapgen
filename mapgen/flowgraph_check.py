@@ -54,13 +54,15 @@ def _raw_line_paths(spec_path: str) -> Dict[int, list]:
         return raw_line_paths_text(f.read().decode("utf-8"))
 
 
-def derive_edges(g: Flowgraph, spec: MapSpec) -> Set[frozenset]:
+def derive_edges(g: Flowgraph, spec: MapSpec, raw_paths: Optional[Dict[int, list]] = None) -> Set[frozenset]:
     """Present edges (frozensets of two node ids) derived from the spec's road/trail lines. Only nodes whose
-    bound feature exists in the spec take part."""
+    bound feature exists in the spec take part. `raw_paths` (`raw_line_paths_text` / `raw_line_paths_doc` of the spec
+    text) replaces the read of the spec file, so an in-memory buffer can be checked without touching disk."""
     feats = spec_features(spec)
     by_bind = {n.bind: n.id for n in g.nodes if n.bind in feats}
     bound = [(nid, feats[b]) for b, nid in by_bind.items()]
-    raw_paths = _raw_line_paths(spec.spec_path)
+    if raw_paths is None:
+        raw_paths = _raw_line_paths(spec.spec_path)
     edges: Set[frozenset] = set()
     for ln in spec.lines:
         if ln.type not in TRAVERSABLE:
@@ -118,13 +120,13 @@ def _label(n) -> str:
     return "%s: %s" % (n.id, n.name) if n.name else n.id
 
 
-def check(g: Flowgraph, spec: MapSpec, terrain: bool = False) -> CheckResult:
+def check(g: Flowgraph, spec: MapSpec, terrain: bool = False, raw_paths: Optional[Dict[int, list]] = None) -> CheckResult:
     feats = spec_features(spec)
     res = CheckResult()
     for n in g.nodes:
         if n.bind not in feats:
             res.missing_nodes.append("missing node %s (%s)" % (n.bind, _label(n)))
-    derived = derive_edges(g, spec)
+    derived = derive_edges(g, spec, raw_paths)
     wanted = set()
     for e in g.edges:
         key = frozenset((e.a, e.b))

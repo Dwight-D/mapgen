@@ -61,6 +61,22 @@ _HTML = """<!DOCTYPE html>
     <div id="status" aria-live="polite"></div>
     <div id="panel"></div>
     <div id="errwrap"><h2 id="errhead">Loader</h2><ul id="errors"></ul></div>
+    <div id="fgwrap" style="display:none">
+      <h2>Flowgraph <span id="fg-name"></span></h2>
+      <div class="fgrow">
+        <button id="fg-badge" aria-expanded="false" aria-controls="fg-body" title="flowgraph check of the buffer (read-only; the graph is edited with `mapgen flowgraph edit`)">flowgraph: ...</button>
+        <label><input type="checkbox" id="fg-strict"> strict (extra edges and nodes)</label>
+        <button id="fg-terrain" title="Also check terrain adjacency (takes seconds; runs in the background)">Check terrain</button>
+      </div>
+      <div id="fg-warn" role="status"></div>
+      <div id="fg-body" style="display:none">
+        <div id="fg-terr-state"></div>
+        <ul id="fg-findings"></ul>
+        <h3 id="fg-unbound-h" style="display:none">Unbound nodes (bound feature absent in the spec)</h3>
+        <ul id="fg-unbound"></ul>
+        <ul id="fg-errors"></ul>
+      </div>
+    </div>
     <div id="pickwrap"><h2><label for="pick">Features</label></h2><select id="pick" size="9"></select></div>
     <div id="layers"></div>
     <div id="legend"></div>
@@ -142,6 +158,17 @@ input.bad{outline:3px double #000}
 .lbl{font-size:12px;paint-order:stroke;stroke:#fff;stroke-width:3px;fill:#000;pointer-events:none}
 .seg{stroke:transparent;stroke-width:11;fill:none;cursor:copy}
 .stale{opacity:.35}
+#fgwrap{border:1px solid #0b1020;padding:4px 8px;font-size:12px}
+#fgwrap h3{font-size:12px;margin:6px 0 2px}
+#fgwrap ul{margin:2px 0;padding-left:0;list-style:none;overflow-wrap:anywhere}
+#fgwrap li{margin:2px 0;padding:1px 3px}
+#fgwrap li[data-idx]{cursor:pointer}
+#fgwrap li.on{outline:2px solid #0b1020}
+.fgrow{display:flex;flex-wrap:wrap;gap:4px 10px;align-items:center}
+#fg-badge{font-weight:700}
+#fg-badge[data-state=bad],#fg-badge[data-state=error]{border-style:double;border-width:4px}
+#fg-badge[data-state=wait]{border-style:dashed}
+#fg-warn div{font-weight:700;margin:3px 0;border:2px dashed #0b1020;padding:2px 4px}
 </style>"""
 
 _JS = r"""
@@ -151,13 +178,15 @@ var NS = 'http://www.w3.org/2000/svg';
 var S = {token: BOOT.token, st: BOOT.state, sel: null, feat: null, geo: null, geoVersion: 0, imgVersion: 0, view: null, drag: null, pan: null,
          chain: Promise.resolve(), errors: [], errRefs: [], refused: false, abort: null, timer: null, url: null,
          tool: 'select', toolType: {}, draft: null, cursor: null, prompt: null, layers: loadLayers(),
-         brush: {r: 15, imp: false}, stroke: null, hover: null, hits: null};
+         brush: {r: 15, imp: false}, stroke: null, hover: null, hits: null,
+         fg: null, fgHi: null, fgWarn: [], fgOpen: false, fgStrict: false, terr: null, fgAbort: null, terrAbort: null};
 var $ = function (id) { return document.getElementById(id); };
 // drawing order of handle kinds (later = on top); the selected feature's handles are raised above all of them
 var RANK = {center: 0, vertex: 0, waypoint: 1, crossing: 1, point: 2, poi: 3, base: 4, radius: 5, width: 5};
 var DASH = ['none', '7 4', '2 4', '10 4 2 4', '5 3 1 3', '14 5'];
 var LINE_DASH = {road: 'none', trail: '8 4', river: '14 3 2 3', cliff: '2 3'};
 var LAYERS = [['regions', 'regions'], ['lines', 'lines'], ['crossings', 'crossings'], ['pois', 'POIs and bases'], ['points', 'named points'], ['scatter', 'scatter areas']];
+if (BOOT.state.flowgraph) LAYERS.push(['flowgraph', 'flowgraph overlay']);
 var TOOLS = [['select', 'Select', 'v'], ['poi', 'POI', 'p'], ['blob', 'Blob', 'b'], ['band', 'Band', 'd'], ['poly', 'Poly', 'g'], ['line', 'Line', 'l'], ['crossing', 'Crossing', 'x'],
              ['paint', 'Paint', 'f'], ['erase', 'Erase', 'e'], ['scatter', 'Scatter area', 's']];
 var TOOL_TABLE = {poi: 'poi', blob: 'region', band: 'region', poly: 'region', line: 'line', crossing: 'crossing'};
@@ -307,6 +336,7 @@ function render() {
       mk('path', {d: d, stroke: '#000', 'stroke-width': (on ? 3 : 2) * mpp, 'stroke-dasharray': dashArr(LINE_DASH[l.type] || '6 4', mpp)}, gl);
     });
   }
+  if (BOOT.state.flowgraph && layer('flowgraph').vis) drawFlowgraph(gw, sz, mpp, S.fg && S.fg.version !== S.st.version);
   // control polylines (the author's values): every line, and the selected region/crossing; hit segments insert a vertex on double-click
   var chains = chainsOf(), gs = mk('g', {}, ov), gm = mk('g', {}, ov);
   Object.keys(chains).forEach(function (cp) {
@@ -620,6 +650,7 @@ function updateAll() {
   $('l-imp').style.display = S.tool === 'erase' ? 'none' : '';
   $('sc-fields').style.display = S.tool === 'scatter' ? '' : 'none';
   $('finish').style.display = S.draft ? '' : 'none';
+  fgUpdate();
 }
 
 // ---- edits ---------------------------------------------------------------------------------------------------------
@@ -629,7 +660,7 @@ function submit(path, body, after, ops) {
     body.version = S.st.version;
     return api(path, body).then(function (r) { return r.json(); }).then(function (j) {
       if (j.ok) {
-        S.st = j.state; S.errors = []; S.errRefs = []; S.refused = false; S.prompt = null;
+        S.st = j.state; S.errors = []; S.errRefs = []; S.refused = false; S.prompt = null; S.fgWarn = j.state.flowgraph_warnings || [];
         setStatus('Edit applied (version ' + S.st.version + ').');
         if (typeof after === 'function') after(j);
         else if (after !== undefined) { S.sel = after; var hh = after ? byKey(after) : null; S.feat = hh ? hh.feature : (after === null ? null : S.feat); }
@@ -651,7 +682,7 @@ function submit(path, body, after, ops) {
 function simple(path) {
   S.chain = S.chain.then(function () {
     return api(path, {}).then(function (r) { return r.json(); }).then(function (j) {
-      if (j.ok) { S.st = j.state; S.errors = []; S.errRefs = []; S.refused = false; S.prompt = null; if (path === '/api/save') setStatus('Saved ' + j.bytes + ' bytes to ' + j.path); else setStatus(path.slice(5) + ' done.'); }
+      if (j.ok) { S.st = j.state; S.errors = []; S.errRefs = []; S.refused = false; S.prompt = null; S.fgWarn = []; if (path === '/api/save') setStatus('Saved ' + j.bytes + ' bytes to ' + j.path); else setStatus(path.slice(5) + ' done.'); }
       else { S.errors = j.errors || []; S.errRefs = []; S.refused = true; if (j.state) S.st = j.state; setStatus(path.slice(5) + ' refused: ' + S.errors[0]); }
       changed();
     });
@@ -696,6 +727,7 @@ function refresh() {
   var v = S.st.version;
   if (S.abort) S.abort.abort();
   var ac = new AbortController(); S.abort = ac;
+  fgFetch(v);
   api('/api/geometry', {version: v}, ac.signal).then(function (r) { return r.json(); }).then(function (j) {
     if (!j.ok || S.st.version !== v) return null;
     S.geo = j.geometry; S.geoVersion = v; render();
@@ -714,6 +746,153 @@ function refresh() {
     });
   }).catch(function (e) { if (e.name !== 'AbortError') setPrev('preview failed: ' + e); });
 }
+
+// ---- flowgraph overlay and live check badge (read-only; the graph is written by `mapgen flowgraph edit`) -----------------
+var FG_STYLE = {spawn: ['square', '#14213d'], objective: ['star', '#3a4f7a'], zone: ['hexagon', '#7d8fb5'], choke: ['diamond', '#bcc6dc'], area: ['circle', '#f2f4f8']};
+function fgShape(g, kind, r, hollow) {   // node-kind marker centred at 0,0 (same kinds as the flowgraph preview); halo first, then the fill
+  var sh = FG_STYLE[kind] || FG_STYLE.area, pts = null, i;
+  if (sh[0] === 'diamond') pts = [[0, -r * 1.2], [r * 1.2, 0], [0, r * 1.2], [-r * 1.2, 0]];
+  else if (sh[0] === 'hexagon') { pts = []; for (i = 0; i < 6; i++) pts.push([r * 1.1 * Math.cos(Math.PI / 3 * i), r * 1.1 * Math.sin(Math.PI / 3 * i)]); }
+  else if (sh[0] === 'star') { pts = []; for (i = 0; i < 10; i++) { var k = r * 1.3 * (i % 2 ? 0.45 : 1); pts.push([k * Math.sin(Math.PI / 5 * i), -k * Math.cos(Math.PI / 5 * i)]); } }
+  [[7, '#fff', 'none', null], [2.5, '#0b1020', hollow ? '#fff' : sh[1], sh[0] === 'circle' || hollow ? '4 3' : null]].forEach(function (p) {
+    var a = {stroke: p[1], 'stroke-width': p[0], fill: p[2], 'stroke-linejoin': 'round'};
+    if (p[3]) a['stroke-dasharray'] = p[3];
+    if (sh[0] === 'square') { a.x = -r * 0.9; a.y = -r * 0.9; a.width = r * 1.8; a.height = r * 1.8; mk('rect', a, g); }
+    else if (sh[0] === 'circle') { a.r = r; mk('circle', a, g); }
+    else { a.points = pts.map(function (q) { return q[0].toFixed(1) + ',' + q[1].toFixed(1); }).join(' '); mk('polygon', a, g); }
+  });
+}
+function fgData() { return S.fg && S.fg.data ? S.fg.data : null; }
+function fgIsHi(e) { var h = S.fgHi; return !!(h && h.edge && ((h.edge[0] === e.a && h.edge[1] === e.b) || (h.edge[0] === e.b && h.edge[1] === e.a))); }
+function drawFlowgraph(parent, sz, mpp, stale) {
+  var d = fgData();
+  if (!d) return;
+  var g = mk('g', {id: 'fg-layer', 'class': stale ? 'stale' : '', 'pointer-events': 'none'}, parent), pos = {}, hiN = {};
+  d.nodes.forEach(function (n) { if (n.bound) pos[n.id] = n; });
+  ((S.fgHi && S.fgHi.nodes) || []).forEach(function (n) { hiN[n] = true; });
+  d.edges.forEach(function (e) {   // solid = satisfied, long dashes + X = missing, dots + plus = extra (strict only)
+    if (!e.drawn || !pos[e.a] || !pos[e.b] || (e.status === 'extra' && !S.fgStrict)) return;
+    var a = pos[e.a].at, b = pos[e.b].at, hi = fgIsHi(e), w = e.status === 'extra' ? 2 : 3;
+    var dash = e.status === 'ok' ? 'none' : e.status === 'missing' ? (10 * mpp) + ' ' + (6 * mpp) : (2 * mpp) + ' ' + (5 * mpp);
+    var c = {x1: a[0], y1: sz[1] - a[1], x2: b[0], y2: sz[1] - b[1], 'stroke-linecap': 'butt'};
+    var eg = mk('g', {'class': 'fg-edge', 'data-edge': e.a + '-' + e.b, 'data-status': e.status + (hi ? ' hi' : '')}, g);
+    if (hi) mk('line', Object.assign({stroke: '#000', 'stroke-width': (w + 11) * mpp}, c), eg);
+    mk('line', Object.assign({stroke: '#fff', 'stroke-width': (w + (hi ? 8 : 4)) * mpp}, c), eg);
+    mk('line', Object.assign({stroke: '#000', 'stroke-width': w * mpp, 'stroke-dasharray': dash}, c), eg);
+    if (e.status !== 'ok') {
+      var mg = mk('g', {transform: 'translate(' + (a[0] + b[0]) / 2 + ' ' + (sz[1] - (a[1] + b[1]) / 2) + ') scale(' + mpp + ')'}, eg);
+      mk('rect', {x: -8, y: -8, width: 16, height: 16, rx: 3, fill: '#fff', stroke: '#000', 'stroke-width': 2}, mg);
+      mk('path', {d: e.status === 'missing' ? 'M-4 -4L4 4M4 -4L-4 4' : 'M-4 0H4M0 -4V4', stroke: '#000', 'stroke-width': 2.4}, mg);
+    }
+  });
+  d.nodes.forEach(function (n) {
+    if (!n.bound) return;
+    var x = n.at[0], y = sz[1] - n.at[1];
+    var ng = mk('g', {'class': 'fg-node', 'data-node': n.id}, g);
+    mk('circle', {cx: x, cy: y, r: n.r, fill: '#000', 'fill-opacity': 0.07, stroke: '#fff', 'stroke-width': 4.5 * mpp}, ng);
+    mk('circle', {cx: x, cy: y, r: n.r, fill: 'none', stroke: '#000', 'stroke-width': 1.6 * mpp, 'stroke-dasharray': (3 * mpp) + ' ' + (2 * mpp)}, ng);
+    var mg = mk('g', {transform: 'translate(' + x + ' ' + (y - n.r) + ') scale(' + mpp + ')'}, ng);
+    if (hiN[n.id]) { mk('circle', {r: 19, fill: 'none', stroke: '#fff', 'stroke-width': 6}, mg); mk('circle', {r: 19, fill: 'none', stroke: '#000', 'stroke-width': 2.4, 'stroke-dasharray': '5 3'}, mg); }
+    fgShape(mg, n.kind, 9, false);
+    mk('text', {'class': 'lbl', x: 14, y: 4, 'font-weight': 700}, mg, n.id + (n.name ? ' ' + n.name : ''));
+  });
+}
+function fgFetch(v) {
+  if (!BOOT.state.flowgraph) return;
+  if (S.fgAbort) S.fgAbort.abort();
+  var ac = new AbortController(); S.fgAbort = ac;
+  api('/api/flowgraph', {version: v}, ac.signal).then(function (r) { return r.json(); }).then(function (j) {
+    if (!j.ok || S.st.version !== v) return;
+    S.fg = {version: v, data: j.flowgraph.errors && j.flowgraph.errors.length ? null : j.flowgraph, errors: j.flowgraph.errors || []};
+    if (S.fgHi && S.fgHi.text && !fgFindings().some(function (f) { return f.text === S.fgHi.text; })) S.fgHi = null;
+    updateAll(); render();
+  }).catch(function (e) { if (e.name !== 'AbortError') setStatus('flowgraph check failed: ' + e); });
+}
+function fgTerrainRun() {
+  var v = S.st.version;
+  if (S.terrAbort) S.terrAbort.abort();
+  var ac = new AbortController(); S.terrAbort = ac;
+  S.terr = {version: v, computing: true, findings: []};
+  updateAll();
+  api('/api/flowgraph_terrain', {version: v}, ac.signal).then(function (r) { return r.json(); }).then(function (j) {
+    if (S.terr && S.terr.version !== v) return;   // latest wins
+    if (!j.ok) { S.terr = j.stale ? null : {version: v, computing: false, findings: [], error: (j.errors || ['failed'])[0]}; updateAll(); return; }
+    S.terr = {version: v, computing: false, findings: j.findings, ms: j.ms};
+    updateAll(); render();
+  }).catch(function (e) { if (e.name !== 'AbortError') { S.terr = {version: v, computing: false, findings: [], error: String(e)}; updateAll(); } });
+}
+function fgFindings() {   // the findings the badge counts and lists: check findings (extras only when strict) plus current terrain findings
+  var d = fgData(), out = [];
+  if (d) d.findings.forEach(function (f) { if (!f.strict_only || S.fgStrict) out.push(f); });
+  if (S.terr && !S.terr.computing && S.terr.version === S.st.version) out = out.concat(S.terr.findings);
+  return out;
+}
+function fgCount() { return fgFindings().filter(function (f) { return f.kind !== 'note'; }).length; }
+function fgSelect(f) {
+  S.fgHi = {edge: f.edge, nodes: f.nodes || [], text: f.text};
+  var d = fgData();
+  if (f.feature && featOf(f.feature)) { selectFeature(f.feature); }
+  else if (d) {
+    var pts = (f.nodes || []).map(function (id) { return d.nodes.filter(function (n) { return n.id === id && n.bound; })[0]; }).filter(Boolean);
+    if (pts.length) {   // bring the finding into view
+      var cx = 0, cy = 0, sz = size(), r = $('map').getBoundingClientRect(), v = S.view;
+      pts.forEach(function (n) { cx += n.at[0] / pts.length; cy += (sz[1] - n.at[1]) / pts.length; });
+      if (Math.abs(cx - v.cx) > r.width * v.mpp * 0.4 || Math.abs(cy - v.cy) > r.height * v.mpp * 0.4) { v.cx = cx; v.cy = cy; }
+    }
+    updateAll(); render();
+  } else { updateAll(); render(); }
+  setStatus('Flowgraph: ' + f.text);
+}
+function fgUpdate() {
+  var fgw = $('fgwrap'), info = S.st.flowgraph;
+  if (!info) { fgw.style.display = 'none'; return; }
+  fgw.style.display = '';
+  var d = fgData(), bd = $('fg-badge'), ul = $('fg-findings'), un = $('fg-unbound'), er = $('fg-errors'), wr = $('fg-warn');
+  [ul, un, er, wr].forEach(function (u) { while (u.firstChild) u.removeChild(u.firstChild); });
+  $('fg-name').textContent = d ? '(' + d.name + ')' : '';
+  var errs = info.errors && info.errors.length ? info.errors : (S.fg && S.fg.errors) || [];
+  var fresh = S.fg && S.fg.version === S.st.version, state, text;
+  if (errs.length) { state = 'error'; text = '✖ flowgraph: invalid file'; }
+  else if (!d) { state = 'wait'; text = 'flowgraph: checking...'; }
+  else {
+    var n = fgCount();
+    state = n ? 'bad' : 'ok';
+    text = n ? '✖ ' + n + ' problem' + (n === 1 ? '' : 's') : '✔ flowgraph: OK';
+    if (!fresh) { state = 'wait'; text += ' (checking...)'; }
+  }
+  bd.textContent = text; bd.setAttribute('data-state', state); bd.setAttribute('aria-expanded', S.fgOpen ? 'true' : 'false');
+  $('fg-body').style.display = S.fgOpen ? '' : 'none';
+  S.fgWarn.forEach(function (w) { el('div', {}, wr, '⚠ ' + w); });
+  errs.forEach(function (m) { el('li', {}, er, '✖ ' + m); });
+  var fs = fgFindings();
+  fs.forEach(function (f, i) {
+    var li = el('li', {'data-idx': i, tabindex: 0, role: 'button', title: 'show on the map'}, ul, (f.kind === 'note' ? 'i ' : f.strict_only ? '+ ' : '✖ ') + f.text);
+    if (S.fgHi && S.fgHi.text === f.text) li.className = 'on';
+  });
+  if (d && !fs.length) el('li', {}, ul, '✔ no findings' + (S.fgStrict ? ' (strict)' : ''));
+  var ub = d ? d.nodes.filter(function (n) { return !n.bound; }) : [];
+  $('fg-unbound-h').style.display = ub.length ? '' : 'none';
+  ub.forEach(function (n) {
+    var li = el('li', {'data-unbound': n.id}, un), svg = mk('svg', {width: 24, height: 22, viewBox: '-12 -11 24 22'}, null);
+    li.appendChild(svg); fgShape(mk('g', {}, svg), n.kind, 7, true);
+    el('span', {}, li, ' ' + n.id + (n.name ? ' ' + n.name : '') + ' (needs feature `' + n.bind + '`)');
+  });
+  var t = S.terr, tb = $('fg-terrain'), ts = $('fg-terr-state');
+  tb.disabled = !!(t && t.computing) || !d;
+  ts.textContent = !t ? 'terrain: not computed' : t.computing ? 'terrain: computing...' : t.error ? 'terrain: failed: ' + t.error :
+    t.version !== S.st.version ? 'terrain: outdated (press Check terrain)' : 'terrain: ' + t.findings.filter(function (f) { return f.kind !== 'note'; }).length + ' finding(s), ' + t.ms + ' ms';
+}
+$('fg-badge').addEventListener('click', function () { S.fgOpen = !S.fgOpen; fgUpdate(); });
+$('fg-strict').addEventListener('change', function () { S.fgStrict = $('fg-strict').checked; updateAll(); render(); });
+$('fg-terrain').addEventListener('click', fgTerrainRun);
+$('fg-findings').addEventListener('click', function (ev) {
+  var li = ev.target.closest ? ev.target.closest('li[data-idx]') : null;
+  if (li) fgSelect(fgFindings()[Number(li.getAttribute('data-idx'))]);
+});
+$('fg-findings').addEventListener('keydown', function (ev) {
+  var li = ev.target.closest ? ev.target.closest('li[data-idx]') : null;
+  if (li && (ev.key === 'Enter' || ev.key === ' ')) { ev.preventDefault(); fgSelect(fgFindings()[Number(li.getAttribute('data-idx'))]); }
+});
 
 // ---- tools: add a feature by clicking ------------------------------------------------------------------------------
 function clampPt(p) { var sz = size(); return [Math.min(Math.max(Math.round(p[0]), 0), sz[0]), Math.min(Math.max(Math.round(p[1]), 0), sz[1])]; }

@@ -120,7 +120,11 @@ def cmd_spec_edit(args) -> int:
         for line in e.errors:
             print("  " + line)
         return 1
-    return spec_editor.serve(args.spec, args.port, not args.no_open, args.preview_px)
+    fg = args.flowgraph
+    if fg is None and not args.no_flowgraph:
+        from . import spec_editor_flowgraph
+        fg = spec_editor_flowgraph.find_flowgraph(args.spec)
+    return spec_editor.serve(args.spec, args.port, not args.no_open, args.preview_px, fg)
 
 
 def cmd_flowgraph_validate(args) -> int:
@@ -498,6 +502,8 @@ def main(argv: Optional[List[str]] = None) -> int:
     se.add_argument("--port", type=int, default=0, help="port on 127.0.0.1 (default: any free port)")
     se.add_argument("--no-open", action="store_true", help="do not open a browser")
     se.add_argument("--preview-px", type=int, default=768, help="longest side of the preview image in pixels (default 768)")
+    se.add_argument("--flowgraph", metavar="GRAPH", help="flowgraph (*.flow.yaml) shown as an overlay with a live check badge; read-only (default: flowgraphs/<spec name>.flow.yaml or <name minus _vN>.flow.yaml when exactly one exists)")
+    se.add_argument("--no-flowgraph", action="store_true", help="do not auto-detect a flowgraph")
     se.set_defaults(func=cmd_spec_edit)
 
     fg = sub.add_parser("flowgraph", help="flowgraph (topology precursor) commands")

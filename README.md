@@ -34,7 +34,7 @@ python -m mapgen spec rename <spec> forest_1 north_wood        # rename an id an
 python -m mapgen flowgraph validate flowgraphs/town_square.flow.yaml   # validate a topology graph (see mapgen/FLOWGRAPH_SPEC.md)
 python -m mapgen flowgraph scaffold <graph> [--out <file> [--force]] [--size X Y]   # draft spec text from a graph (stdout by default; deterministic; node positions from a stress layout that balances edge lengths and honours the optional node key `place`: west/east/north/south/center/north-west/...)
 python -m mapgen flowgraph preview <graph> [--out <html>] [--force]   # self-contained HTML/SVG graph view (default out/flowgraph_<name>.html, overwritten freely; --out refuses an existing file without --force)
-python -m mapgen spec-edit <spec> [--port N] [--no-open] [--preview-px N]   # browser map editor on a local 127.0.0.1-only server: full shape editing: drag/resize/add/delete regions (blob, band, poly), lines, crossings, POIs, `points`; property panel, rename, layers, undo/redo, explicit atomic Save (see "Editing a spec in the browser")
+python -m mapgen spec-edit <spec> [--port N] [--no-open] [--preview-px N] [--flowgraph GRAPH]   # browser map editor on a local 127.0.0.1-only server: full shape editing: drag/resize/add/delete regions (blob, band, poly), lines, crossings, POIs, `points`; property panel, rename, layers, undo/redo, explicit atomic Save (see "Editing a spec in the browser")
 python -m mapgen flowgraph edit <graph> [--new] [--port N] [--no-open]   # browser editor on a local 127.0.0.1-only server: add/edit/delete nodes and edges, drag, undo/redo, Re-layout (Python layout incl. place hints), live validation; Save writes the canonical .flow.yaml (comments not preserved; refused while invalid); --new starts a two-spawn template written on first Save
 python -m mapgen flowgraph check <graph> <spec> [--strict]       # spec vs graph: missing nodes/edges; --strict adds extras (no files)
 python -m mapgen flowgraph check <graph> <spec> --terrain [--strict]   # also: walkable terrain must connect exactly the graph's nodes (terrain-missing / terrain-extra edges; ~7 s on town_square)
@@ -63,7 +63,7 @@ the report is printed, whether or not the builds differ (`"identical"` in the JS
 
 ## Editing a spec in the browser (`spec-edit`)
 
-`mapgen spec-edit <spec> [--port N] [--no-open] [--preview-px N]` starts a local editor (stdlib server on 127.0.0.1 only,
+`mapgen spec-edit <spec> [--port N] [--no-open] [--preview-px N] [--flowgraph GRAPH | --no-flowgraph]` starts a local editor (stdlib server on 127.0.0.1 only,
 per-run token, Host/Origin checks) and opens it in the browser. The page shows a reduced-resolution preview image of the map
 (default 768 px, 257 heightmap; labelled "not a build", refreshed about 300 ms after each edit, never blocking the UI) with the
 resolved region outlines and line centrelines and the spec's own values as handles: team bases (square), POIs (circle),
@@ -104,6 +104,23 @@ meaning, never hue.
   loader's errors and the buffer is unchanged. The server keeps the text buffer and a whole-text undo stack; the file is
   written only by Save (no autosave), atomically and in place, only while the buffer is valid and the file on disk is the one
   that was read. A saved drag is a one-line diff; line endings are preserved.
+- Flowgraph overlay and live check badge (GDU-54). `--flowgraph <graph.flow.yaml>` (or, without the flag, the one file
+  `flowgraphs/<spec name>.flow.yaml` or `flowgraphs/<spec name minus _vN>.flow.yaml` in this repo when exactly one of the two
+  exists; `--no-flowgraph` turns the detection off) adds a "flowgraph overlay" layer (show/lock like the others) and a
+  "Flowgraph" box in the side panel. The editor only READS the graph (re-read whenever the file changes; it is never
+  written, not even by Save; a graph that does not load shows its errors in the panel and the editor keeps working). Edit the
+  graph with `mapgen flowgraph edit`. Overlay: each bound node as a dotted disc (the radius the check uses: POI `r` and 30 m
+  minimum, base 120 m, `points` 30 m) with its kind marker (spawn square, objective star, zone hexagon, choke diamond, area
+  dashed circle) and "id name" label; graph edges as lines between the node positions: solid when the road/trail
+  derivation satisfies the edge, long dashes with an X box when missing, dotted with a + box for an extra derived edge
+  (strict mode only). Nodes whose bound feature is absent from the spec (renamed or deleted) are listed under "Unbound nodes"
+  with a hollow marker and the feature they need, not drawn. The badge reads "flowgraph: OK" or "N problems" (missing
+  nodes and edges; with the strict box also extra edges and nodes) and is recomputed in-process on the buffer text about
+  300 ms after each edit (no file is written). Click the badge for the finding list; clicking a finding highlights the edge
+  and its nodes on the map (an extra node selects its feature). "Check terrain" adds the `--terrain` findings on demand
+  (seconds, background request, latest wins, shown as "computing"; they go stale with the next edit). Renaming a feature
+  that a node binds (`bind`, or the default bind) does not touch the graph: a warning says the node is now unbound and to
+  update `bind` in `flowgraph edit`.
 - The spec must load when the editor starts (otherwise it prints the errors and exits 1).
 - Painting (Paint F, Erase E; GDU-53). Pick a region type from the type table, a brush radius (slider, `[` and `]`, 1-120 m)
   and optionally `impassable`, then drag strokes on the map: a brush cursor ring (dashed for paint, dotted with a cross for

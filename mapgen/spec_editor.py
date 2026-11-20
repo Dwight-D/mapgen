@@ -22,7 +22,14 @@ API (all POST, JSON in and out, header X-Token; see editor_http for the guards):
   /api/geometry {version}     -> {ok, version, geometry, ms} | {ok: false, stale: true}: resolved centrelines and outlines
   /api/image {version}        -> image/png (reduced-resolution preview) with headers X-Version, X-Render-Ms
                                  | JSON {ok: false, stale: true} when the buffer moved on before rendering started
-`state` = {version, dirty, can_undo, can_redo, path, size, handles, referrers, features}.
+  /api/flowgraph {version}    -> {ok, version, flowgraph} | {ok: false, stale: true}: with a flowgraph configured (`--flowgraph` or
+                                 auto-detected; read-only, never written): node discs, edge status, structured check findings and
+                                 the unbound nodes, computed in-process on the buffer (spec_editor_flowgraph.overlay). `flowgraph`
+                                 is {path, name, errors} only when the graph file does not load. {ok: false} without a graph.
+  /api/flowgraph_terrain {version} -> {ok, version, findings, ms} | {ok: false, stale: true}: the `--terrain` findings (seconds).
+`state` = {version, dirty, can_undo, can_redo, path, size, handles, referrers, features, flowgraph}; `flowgraph` is null without a
+graph, else {path, name, errors}. An /api/apply that renames a feature a flowgraph node binds adds `flowgraph_warnings` (the graph is
+not rewritten; the node is unbound).
 """
 from __future__ import annotations
 
@@ -35,7 +42,7 @@ import time
 from collections import OrderedDict
 from typing import Any, Dict, List, Optional, Tuple
 
-from . import geometry, height, paint, schema, specpatch
+from . import geometry, height, paint, schema, specpatch, spec_editor_flowgraph as fgmod
 from .editor_http import HOST, GuardedHandler, LoopbackServer
 from .spec_editor_page import render_page
 from .spec_model import Model, geometry_json, map_error, schema_json
@@ -60,8 +67,12 @@ def _sha(b: bytes) -> str:
 class SpecEditor:
     """Buffer, history, validation and preview computation for one spec file. No HTTP."""
 
-    def __init__(self, path: str, preview_px: int = PREVIEW_PX, palette_path: Optional[str] = None):
+    def __init__(self, path: str, preview_px: int = PREVIEW_PX, palette_path: Optional[str] = None,
+                 flowgraph_path: Optional[str] = None):
         self.path = path
+        self.fg = fgmod.FlowgraphSource(flowgraph_path) if flowgraph_path else None
+        self._terrain = OrderedDict()  # text hash -> (findings, ms)
+        self._terr_lock = threading.Lock()
         self.preview_px = preview_px
         self.palette_path = palette_path
         self.lock = threading.RLock()
@@ -89,6 +100,7 @@ class SpecEditor:
             st = {"version": self.version, "dirty": self.text != self.disk_text, "can_undo": bool(self.undo_stack),
                   "can_redo": bool(self.redo_stack), "path": os.path.abspath(self.path)}
             st.update(self.model.state())
+            st["flowgraph"] = self.fg.info() if self.fg else None
             return st
 
     def apply(self, version: Any, ops_json: Any) -> Dict[str, Any]:
@@ -131,6 +143,9 @@ class SpecEditor:
                 self.version += 1
             st = self.state()
             st["results"] = results
+            if self.fg is not None:
+                renames = [r for r in results if "renamed" in r]
+                st["flowgraph_warnings"] = fgmod.rename_warnings(self.fg.graph, renames, self.fg.path) if renames else []
             return st
 
     def paint(self, body: Dict[str, Any]) -> Dict[str, Any]:
@@ -249,6 +264,49 @@ class SpecEditor:
         hit = self._derived(*cur)
         return {"ok": True, "version": version, "geometry": hit[2], "ms": hit[3]}
 
+    def flowgraph(self, version: Any) -> Optional[Dict[str, Any]]:
+        """Overlay + check of the buffer at `version` against the flowgraph (in-process; the graph file is only read);
+        None when stale. Without a graph: {"ok": False}."""
+        if self.fg is None:
+            return {"ok": False, "errors": ["no flowgraph is configured"]}
+        with self.lock:
+            if version != self.version:
+                return None
+            model = self.model
+        info = self.fg.info()
+        if self.fg.graph is None:
+            return {"ok": True, "version": version, "flowgraph": {"path": info["path"], "name": None, "errors": info["errors"]}}
+        t0 = time.time()
+        data = fgmod.overlay(self.fg.graph, model.spec, model.raw)
+        data.update(path=info["path"], errors=[], ms=int(round(1000 * (time.time() - t0))))
+        return {"ok": True, "version": version, "flowgraph": data}
+
+    def flowgraph_terrain(self, version: Any) -> Optional[Dict[str, Any]]:
+        """`--terrain` findings for the buffer at `version`, cached per text; latest wins (a request that waited behind a
+        running computation re-checks the version); None when stale."""
+        if self.fg is None:
+            return {"ok": False, "errors": ["no flowgraph is configured"]}
+        self.fg.info()
+        if self.fg.graph is None:
+            return {"ok": False, "errors": ["no valid flowgraph is loaded"]}
+        cur = self._current(version)
+        if cur is None:
+            return None
+        graph = self.fg.graph
+        key = cur[1] + ":" + str(id(graph))
+        with self._terr_lock:
+            if self._current(version) is None:
+                return None
+            hit = self._terrain.get(key)
+            if hit is None:
+                t0 = time.time()
+                spec = schema.load_spec_text(cur[0].encode("utf-8"), self.path, self.palette_path)
+                hit = (fgmod.terrain(graph, spec), int(round(1000 * (time.time() - t0))))
+                self._terrain[key] = hit
+                while len(self._terrain) > 4:
+                    self._terrain.popitem(last=False)
+            return {"ok": True, "version": version, "findings": hit[0], "ms": hit[1]}
+
     def image(self, version: Any) -> Optional[Tuple[bytes, int]]:
         """PNG of the buffer at `version` at preview settings, cached per text; None when stale. Never writes files."""
         cur = self._current(version)
@@ -279,8 +337,9 @@ class SpecEditor:
 
 
 class SpecEditorServer(LoopbackServer):
-    def __init__(self, path: str, port: int = 0, token: Optional[str] = None, preview_px: int = PREVIEW_PX):
-        self.ed = SpecEditor(path, preview_px)
+    def __init__(self, path: str, port: int = 0, token: Optional[str] = None, preview_px: int = PREVIEW_PX,
+                 flowgraph_path: Optional[str] = None):
+        self.ed = SpecEditor(path, preview_px, flowgraph_path=flowgraph_path)
         super().__init__(_Handler, port, token)
 
     def page(self) -> str:
@@ -304,7 +363,8 @@ class _Handler(GuardedHandler):
         if not self.guard_post():
             return
         routes = {"/api/state": self._state, "/api/apply": self._apply, "/api/undo": self._undo, "/api/redo": self._redo,
-                  "/api/save": self._save, "/api/paint": self._paint, "/api/geometry": self._geometry, "/api/image": self._image}
+                  "/api/save": self._save, "/api/paint": self._paint, "/api/geometry": self._geometry, "/api/image": self._image,
+                  "/api/flowgraph": self._flowgraph, "/api/flowgraph_terrain": self._flowgraph_terrain}
         route = routes.get(self.path)
         if route is None:
             return self._json(404, {"ok": False, "errors": ["not found"]})
@@ -343,6 +403,14 @@ class _Handler(GuardedHandler):
         r = self.server.ed.geometry(body.get("version"))
         self._json(200, r if r is not None else {"ok": False, "stale": True, "errors": []})
 
+    def _flowgraph(self, body):
+        r = self.server.ed.flowgraph(body.get("version"))
+        self._json(200, r if r is not None else {"ok": False, "stale": True, "errors": []})
+
+    def _flowgraph_terrain(self, body):
+        r = self.server.ed.flowgraph_terrain(body.get("version"))
+        self._json(200, r if r is not None else {"ok": False, "stale": True, "errors": []})
+
     def _image(self, body):
         v = body.get("version")
         r = self.server.ed.image(v)
@@ -361,15 +429,18 @@ class _Handler(GuardedHandler):
         self.wfile.write(png)
 
 
-def serve(path: str, port: int = 0, open_browser: bool = True, preview_px: int = PREVIEW_PX) -> int:
+def serve(path: str, port: int = 0, open_browser: bool = True, preview_px: int = PREVIEW_PX,
+          flowgraph_path: Optional[str] = None) -> int:
     """Run the editor until interrupted. Returns a process exit code."""
     try:
-        srv = SpecEditorServer(path, port, preview_px=preview_px)
+        srv = SpecEditorServer(path, port, preview_px=preview_px, flowgraph_path=flowgraph_path)
     except OSError as e:
         print("error: cannot listen on %s:%d: %s" % (HOST, port, e))
         return 1
     url = "http://127.0.0.1:%d/" % srv.server_address[1]
     print("spec editor for %s at %s (Ctrl+C to stop)" % (path, url))
+    if flowgraph_path:
+        print("flowgraph (read-only): %s" % flowgraph_path)
     if open_browser:
         import webbrowser
         threading.Timer(0.3, webbrowser.open, (url,)).start()
