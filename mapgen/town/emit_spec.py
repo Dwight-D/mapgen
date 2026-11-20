@@ -10,6 +10,7 @@ from typing import List
 
 from ..schema import feature_seed
 from .model import Settlement
+from .water import wall_runs
 
 ROAD_TYPE = {"artery": "road", "ring": "road", "boulevard": "road", "bridge": "road", "approach": "road"}
 LANDMARK_POI = {"square": "landmark", "market": "landmark", "temple": "landmark", "docks": "landmark",
@@ -61,6 +62,12 @@ def emit_spec(s: Settlement) -> str:
             w("  %s: %s" % (n.id, _p(n.at)))
     w("")
     w("regions:")
+    for b in s.water.get("bays", []):
+        w("  - { id: %s, seed: %d, type: lake, shape: poly, points: %s, rough: 0, label: \"Bay\" }"
+          % (b["id"], feature_seed(b["id"]), _pts(b["polygon"])))
+    for isl in s.water.get("islands", []):   # a walkable `clearing` painted over the lake
+        w("  - { id: %s, seed: %d, type: clearing, shape: poly, points: %s, rough: 0, label: \"Island\" }"
+          % (isl["id"], feature_seed(isl["id"]), _pts(isl["polygon"])))
     for d in s.districts:
         w("  - { id: %s, seed: %d, type: town, shape: poly, points: %s, rough: 0, label: %s }"
           % (d.id, feature_seed(d.id), _pts(d.polygon), json.dumps(d.label)))
@@ -69,13 +76,24 @@ def emit_spec(s: Settlement) -> str:
     for r in s.roads:
         w("  - { id: %s, seed: %d, type: road, path: [%s], width: %s, smooth: true }"
           % (r.id, feature_seed(r.id), ", ".join(road_path(s, r)), num(r.width)))
+    for rv in s.water.get("rivers", []):
+        w("  - { id: %s, seed: %d, type: river, path: %s, width: %s, smooth: true }"
+          % (rv["id"], feature_seed(rv["id"]), _pts(rv["polyline"]), num(rv["width"])))
     for wl in s.walls:
-        w("  - { id: %s, seed: %d, type: wall, path: %s, width: %s }"
-          % (wl.id, feature_seed(wl.id), _pts(wl.polyline), num(wl.thickness)))
+        for k, run in enumerate(wall_runs(wl)):
+            rid = wl.id if k == 0 else "%s_%d" % (wl.id, k + 1)
+            w("  - { id: %s, seed: %d, type: wall, path: %s, width: %s }"
+              % (rid, feature_seed(rid), _pts(run), num(wl.thickness)))
     w("")
     w("crossings:")
     for g in s.gates:
         w("  - { id: %s_x, type: gate, at: %s }" % (g.id, g.id))
+    rw = {r["id"]: r["width"] for r in s.water.get("rivers", [])}
+    half = max(rw.values()) / 2.0 if rw else 0.0
+    for r in s.roads:
+        if r.cls == "bridge":
+            mid = r.polyline[len(r.polyline) // 2]
+            w("  - { id: %s_x, type: bridge, at: %s, r: %s }" % (r.id, _p(mid), num(half + 15.0)))
     w("")
     w("pois:")
     for l in s.landmarks:

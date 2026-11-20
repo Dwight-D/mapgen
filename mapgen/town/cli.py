@@ -6,7 +6,7 @@ from typing import Any, Dict, List
 
 from . import (GENERATORS, GenerationError, ParamError, Settlement, check, check_determinism, emit_flow, emit_spec,
                generate, render_png, render_sheet)
-from . import fort
+from . import fort, water
 from .registry import DEFAULT_SIZE
 
 
@@ -116,6 +116,9 @@ def cmd_list(args) -> int:
     print("fort add-on (any generator; --param name=value):")
     for name, doc in fort.DOC.items():
         print("  %-14s %s" % (name, doc))
+    print("water overlay (any generator; --param name=value):")
+    for name, doc in water.DOC.items():
+        print("  %-16s %s" % (name, doc))
     return 0
 
 

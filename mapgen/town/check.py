@@ -33,6 +33,9 @@ def _geometry(s: Settlement) -> List[str]:
     if not foot.is_valid:
         errs.append("footprint: invalid polygon")
     elif polys:
+        if s.water:
+            from .water import water_union
+            foot = foot.difference(water_union(s))
         union = unary_union([Polygon(d.polygon) for d in s.districts if d.inside_wall and Polygon(d.polygon).is_valid])
         if abs(union.area - foot.area) > 0.01 * foot.area:
             errs.append("districts cover %.1f m2 of the %.1f m2 footprint (more than 1 %% apart)" % (union.area, foot.area))
@@ -100,7 +103,7 @@ def _reachability(s: Settlement) -> List[str]:
             if n.id not in seen:
                 errs.append("district %s is not reachable from outside through the gates" % n.id)
     for g in s.gates:
-        if g.id not in listed:
+        if g.id not in listed and g.kind != "water_gate":
             errs.append("gate %s lies on no district-graph wall edge" % g.id)
     ids = {n.id for n in s.graph_nodes}
     madj: Dict[str, Set[str]] = {i: set() for i in ids}
@@ -150,7 +153,8 @@ def _identity(s: Settlement) -> List[str]:
 
 def check(s: Settlement) -> List[str]:
     """Geometry, walls and gates, reachability, identity. (Determinism: `check_determinism`.)"""
-    return _geometry(s) + _walls_gates(s) + _reachability(s) + _identity(s)
+    from .water import check_water
+    return _geometry(s) + _walls_gates(s) + _reachability(s) + _identity(s) + check_water(s)
 
 
 def check_determinism(s: Settlement) -> List[str]:

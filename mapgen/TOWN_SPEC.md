@@ -1,6 +1,6 @@
 # Town layout — procedural settlement generators
 
-Status: slices 1-3 implemented (core model, JSON, checks, preview, spec and flowgraph emitters, `town` CLI, `radial`,
+Status: slices 1-3 and the water overlay (§7.5) implemented (core model, JSON, checks, preview, spec and flowgraph emitters, `town` CLI, `radial`,
 `voronoi` and `grid` generators). The `wall` line type and `gate` crossing type are a prepared contract addition awaiting an approved re-baseline
 (§9.1). Slices 2-6 (§14) are design; each is a backlog item in the `mapgen`
 workstream (mission: `docs/missions/town-layout/MISSION.md`, evidence: `docs/investigations/2026-11-20-town-layout-*.md`).
@@ -48,9 +48,9 @@ Settlement
   walls[]        id, kind, polyline (closed), thickness, open_shore[[first, last], ...]
   gates[]        id, wall, at, normal, road, kind (gate | postern | water_gate)
   landmarks[]    id, kind, at, r, district, label
-  water          {} (reserved for the water overlay, slice 5: river polylines, bay and island polygons)
+  water          {} without water; with it: kind, angle, rivers[], bays[], islands[], bridges[], bridge_nodes[] (§7.5)
   graph          nodes[] (id, kind, at, districts[]), edges[] (id, a, b, class, road, length, passable)
-  district_graph nodes[] (id, kind: district | outside), edges[] (id, a, b, kind, length, passable, gates[], roads[])
+  district_graph nodes[] (id, kind: district | outside), edges[] (id, a, b, kind: adjacent | wall | bridge, length, passable, gates[], roads[])
 ```
 
 JSON file `settlement.json` (`Settlement.to_json()`): keys sorted, 2-space indent, LF, trailing newline. `road.class`,
@@ -306,6 +306,66 @@ Slice 1 contains these in `radial` or `graph`; later slices move the generic par
 strategies: polar noise, hull, superellipse, union of patches, hand polygon), `gates.py` (gate selection with minimum angular and
 metric separation, snapping to external approach points), `landmarks.py` (square, market, citadel placement rules).
 
+### 7.5 Water overlay (implemented; `mapgen/town/water.py`)
+
+An add-on that acts on any generator's output (`radial`, `voronoi`, `grid`). Parameters are passed like generator parameters
+(`--param water=river`); `town list` prints them. With `water=none` (the default) nothing changes and `water` stays `{}`.
+
+| name | valid | meaning |
+|---|---|---|
+| `water` | none, river, bay, both | `river`: a river through the settlement with bridges; `bay`: coast on one side with harbour, docks and an open-shore wall; `both`: a river that runs into the bay |
+| `water_width` | 12-80 | river width in metres (drawn 24-40) |
+| `water_angle` | 0-360 | river heading, or direction of the bay from the centre, degrees (drawn) |
+| `water_bay_size` | 0.2-0.7 | bay radius / settlement radius (drawn 0.35-0.5) |
+| `water_island` | bool | reserve an island site in the bay (default false) |
+
+Only the parameters given are echoed in `params`; the resolved geometry is in `water`.
+
+Construction (the first of up to 100 seeded attempts, stages `water0`..., whose result passes every check):
+
+1. River: a Catmull-Rom line through 7 control points past the footprint centre at a lateral offset of at least `width/2 + 0.16 R`
+   (R = footprint radius), clipped to the map, buffered by `width/2` to the river polygon. Bay: a 64-vertex blob of radius
+   `water_bay_size * R` centred just outside the footprint along `water_angle`, plus a channel to the map edge; the footprint becomes the
+   dry rest (`footprint` follows the shore; the bay must remove 2.5-40 % of it). A landmark within 12 m of water, a gate in or within 4 m of
+   the river, or a new bank or bridge node within 10 m of an existing node rejects the attempt.
+2. Districts are clipped to dry land. A piece split by the river takes the suffix `a`, `b`, ... on id and key (label gets the letter);
+   a piece smaller than `min_district_area` merges into the neighbour with the longest shared border (a citadel last), or is dropped.
+3. Roads are cut at the banks. A road that crosses the water is split into pieces (`<road>`, `<road>_s2`, ...) joined by a
+   `<sid>_bridge_<k>` road of class `bridge` between bank nodes `<sid>_bridge_<k>_a` and `_b` (a crossing longer than `2.2 * width + 30` m is not
+   bridged). A road that ends in the water ends at a `<sid>_bank_<m>` node. A gate that falls in the bay becomes a `water_gate` at the shore
+   point where its road now ends (same id). Banks or districts no road crosses to are joined by a straight `artery` link `<sid>_link_<k>a/b`
+   plus a bridge. Bridges are `bridge` movement-graph edges and `bridge` district-graph edges (passable, `roads` lists the bridge).
+4. Walls: every wall that touches water is split at the water boundary and the edges on or in the water form `open_shore` ranges
+   (`[first, last]` vertex indices; edges `first..last-1` carry no wall; the ring is rotated to start at a dry vertex). The outer wall of a bay
+   settlement follows the shore. `wall_runs(wall)` returns the solid polylines; the emitters and the preview draw only those.
+5. Bay: districts touching water get `waterfront`; the waterfront district with the longest shore that is not core, citadel, temple or a
+   plaza district becomes the single `harbour` district; a `docks` landmark (`<sid>_docks`, r 25) sits in it near the shore.
+6. `water` JSON: `kind`, `angle`, `rivers[]` (`id`, `polyline`, `width`, `polygon`), `bays[]` (`id`, `polygon`, `at`, `r`), `islands[]`,
+   `bridges[]` (bridge road ids), `bridge_nodes[]`.
+
+Island hook: with `water_island=true` the bay holds `islands[]` = `{id, at, r, polygon, fort: false, link: "none"}` (a 28 m or larger
+disc clear of the shore). It is a reserved site only: the fort add-on may set `fort: true` and `link` to
+`bridge` or `ferry` and add its district; the water overlay adds no districts or edges there. An island is emitted as a `clearing`
+region over the `lake`.
+
+Emission: the bay is a `lake` region (`shape: poly`), the river a `river` line (`smooth: true`), bridge roads are ordinary `road`
+lines that cross it plus an explicit `bridge` crossing `<bridge id>_x` at the bridge midpoint (`r = width/2 + 15`); a wall with open
+shore is emitted as one `wall` line per solid run (`<wall id>`, `<wall id>_2`, ...). Preview: water is a dark grey with light
+horizontal lines, shown under the districts.
+
+Checks (`check_water`, part of `check`): no district overlaps the water (1 m2); the districts tile the footprint minus the water; no gate
+lies in the water and a `water_gate` is within 1 m of it; a non-bridge road runs at most 0.5 m through water; a bridge is class `bridge`,
+has two nodes on the banks, spans water and is a movement-graph edge; every `open_shore` range starts and ends on the shore and lies on
+the water, every other wall edge is dry; a bay has a `harbour` district, a `docks` landmark within 80 m of the water and an outer wall with
+an open shore; islands lie inside the bay. `water_gate` gates are exempt from the "lies on a wall edge" check, whose wall edges exclude
+open shore. Connectivity across bridges is the ordinary reachability check: the movement graph is connected only through the bridges.
+
+Known limit: `flowgraph check --strict` binds a node to a `points` entry within 30 m, so two bridge or bank nodes of different roads closer
+than 30 m (dense `grid` lattices) can derive wrong edges; the generator rejects only a bank or bridge node within 10 m of an existing node.
+
+Does not express: ferries and island links (the hook only), tidal flats, quays and moles, a river fork, a river leaving through a
+gate, terrain height along the banks.
+
 ### 7.6 Fort add-on (implemented; `mapgen/town/fort.py`)
 
 A post-processing step on any generator's Settlement, selected by parameters that every generator accepts (they are not part of
@@ -365,7 +425,7 @@ wall towers in the spec fragment.
 
 `check_determinism(settlement)` regenerates from the settlement's own inputs and compares `to_json()` byte for byte, and checks the
 JSON round trip. Tests run both over 20 seeds per generator (§13). Every later generator adds its invariants here (for water:
-every wall opening is a gate or an `open_shore` range; every approach point lies within 30 m of a gate).
+every wall opening is a gate or an `open_shore` range (implemented, §7.5); every approach point lies within 30 m of a gate).
 
 ## 9. Mapping onto the map spec
 
@@ -440,13 +500,14 @@ registry.py     GENERATORS, generate
 gen_radial.py   slice 1
 gen_voronoi.py  slice 2
 gen_grid.py     slice 3
+water.py        water overlay (§7.5): rivers, bays, bridges, open-shore walls, harbour, island hook
 emit_spec.py    Settlement -> spec YAML fragment
 emit_flow.py    Settlement -> flowgraph fragment
 render.py       preview PNG
 cli.py          `town` command group
-fort.py         fort add-on (section 7.6): fortress, wall towers, outlying forts
+fort.py         fort add-on (�7.6): fortress, wall towers, outlying forts
 fort_preview.py preview with towers and outlying forts
-(later)         planar.py, outline.py, gates.py, landmarks.py, env.py (water), gen_bsp.py, gen_hybrid.py
+(later)         planar.py, outline.py, gates.py, landmarks.py, gen_bsp.py, gen_hybrid.py
 ```
 
 ## 13. Tests (`tests/test_town_*.py`)
@@ -474,12 +535,8 @@ Each slice is independently mergeable and adds a generator to the registry plus 
 3. **`grid`** (Manhattan; implemented, §7.3). The L1 variant (nearest-centre labels under the L1 metric, vectorised with
    `skimage.measure.find_contours`) is a second step, not implemented; so are the octagon, hull and hand-polygon outlines. Optional
    `bsp` generator (recursive splits, split depth decides road versus border) shares the outline code.
-4. **Fort add-on** (implemented as `fort.py`, §7.6): rectangle with corner towers or star bastions; placements `corner`, `centre`, `peninsula`, `island`; own `citadel` wall with inward and outward gate, `citadel` district, `fortress` landmark, outlying forts.
-5. **Water overlay** (`env.py`): a land mask (footprint with water holes and shore lines); river as a Catmull-Rom line through the
-   town: districts clipped, slivers under 600 m2 dropped, each artery crossing emitted as a `road` crossing a `river` line (the
-   automatic bridge of `MAPGEN_SPEC.md` §4.7), bridge nodes and `bridge` edges in the graphs; bay as a blob: `waterfront` districts, a
-   harbour district and `docks` landmark, wall omitted on the shore (`open_shore`, optional `water_gate`); islands: a small
-   settlement or fortress joined by a bridge edge or a graph-only `ferry` edge. Checks extend as in §8; `water` is echoed in the JSON.
+4. **Fort add-on** (implemented as `fort.py`, �7.6): rectangle with corner towers or star bastions; placements `corner`, `centre`, `peninsula`, `island`; own `citadel` wall with inward and outward gate, `citadel` district, `fortress` landmark, outlying forts.
+5. **Water overlay** (implemented as `water.py`, §7.5): river with bridges, bay with harbour and open-shore wall, island-site hook for the fort add-on.
 6. **Organic and hybrid**. A road-first generator (hub points connected by weighted shortest paths over a cost grid, faces by
    `shapely.polygonize`) and composition (core partition A inside a disc, outskirts partition B in the annulus, core arteries
    continued to the outer wall; overlay of boulevards or a second wall). Terrain fit (nestle against a mountain, wrap a bay: footprint

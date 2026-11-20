@@ -11,6 +11,7 @@ from typing import List, Sequence, Tuple
 from PIL import Image, ImageDraw, ImageFont
 
 from .model import Settlement
+from .water import wall_runs
 
 # kind -> (grey level, pattern)
 KIND_STYLE = {
@@ -64,6 +65,19 @@ def render_png(s: Settlement, px: int = 900, title: str = "") -> Image.Image:
     v = _View(s, px)
     img = Image.new("RGB", (v.px, v.px), (BG,) * 3)
     d = ImageDraw.Draw(img)
+    for ring in [r["polygon"] for r in s.water.get("rivers", [])] + [b["polygon"] for b in s.water.get("bays", [])]:
+        wpts = [v(p) for p in ring]
+        d.polygon(wpts, fill=(48, 48, 48))
+        mask = Image.new("L", img.size, 0)
+        ImageDraw.Draw(mask).polygon(wpts, fill=255)
+        layer = Image.new("RGB", img.size, (48, 48, 48))
+        ld = ImageDraw.Draw(layer)
+        for yy in range(0, img.size[1], 8 * SS):
+            ld.line([(0, yy), (img.size[0], yy)], fill=(120, 120, 120), width=SS)
+        img.paste(layer, (0, 0), mask)
+        d = ImageDraw.Draw(img)
+    for isl in s.water.get("islands", []):
+        d.polygon([v(p) for p in isl["polygon"]], fill=(200, 200, 200), outline=INK)
     for dist in s.districts:
         pts = [v(p) for p in dist.polygon]
         grey, pat = KIND_STYLE.get(dist.kind, (200, "none"))
@@ -83,10 +97,11 @@ def render_png(s: Settlement, px: int = 900, title: str = "") -> Image.Image:
         d.line(pts, fill=INK, width=int(w + 2 * SS), joint="curve")
         d.line(pts, fill=(255, 255, 255), width=int(w), joint="curve")
     for wl in s.walls:
-        pts = [v(p) for p in wl.polyline]
         w = max(4.0 * SS, wl.thickness * v.scale * 0.6)
-        d.line(pts, fill=INK, width=int(w + 3 * SS), joint="curve")
-        d.line(pts, fill=(235, 225, 195), width=max(1, int(w - 3 * SS)), joint="curve")
+        for run in wall_runs(wl):
+            pts = [v(p) for p in run]
+            d.line(pts, fill=INK, width=int(w + 3 * SS), joint="curve")
+            d.line(pts, fill=(235, 225, 195), width=max(1, int(w - 3 * SS)), joint="curve")
     for g in s.gates:
         x, y = v(g.at)
         r = 8 * SS
