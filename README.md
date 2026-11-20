@@ -104,6 +104,19 @@ meaning, never hue.
   loader's errors and the buffer is unchanged. The server keeps the text buffer and a whole-text undo stack; the file is
   written only by Save (no autosave), atomically and in place, only while the buffer is valid and the file on disk is the one
   that was read. A saved drag is a one-line diff; line endings are preserved.
+- External-change safety (GDU-55). The server watches the spec file (a thread hashes it every 0.5 s; the page also polls
+  `/api/poll` every second) and compares its content hash with the baseline (the text loaded or last saved). Your own Save
+  updates the baseline, so it never triggers the watcher. A clean buffer reloads automatically: a banner "file changed on
+  disk - reloaded" appears and the undo history is cleared. With unsaved edits a banner offers: **Replay my edits** (the
+  session's unsaved edits, recorded as id-addressed ops, are re-applied onto the new disk text; ops whose target is gone or
+  that no longer apply are listed and skipped, the rest applied; the result is the buffer, unsaved, validated and one undo
+  step), **Discard my edits** (load the disk text, history cleared), **Save as copy** (writes the buffer to
+  `<name>.edited<N>.<ext>` next to the spec, first free N, never overwriting; you keep editing the original buffer) and
+  **Cancel** (keep editing; the banner collapses to a strip and Save stays refused with HTTP 409 until resolved). A deleted
+  or renamed file allows only Save as copy; a file replaced by another editor is detected by hash; a file that no longer
+  loads shows the loader errors, the last valid buffer is kept and Replay and Discard stay disabled until the file loads
+  again. Replay is also unavailable after an undo past your last Save (Discard or Save as copy instead). Line endings (CRLF or
+  LF) follow the file. Op log format: design doc section 9.1.
 - Flowgraph overlay and live check badge (GDU-54). `--flowgraph <graph.flow.yaml>` (or, without the flag, the one file
   `flowgraphs/<spec name>.flow.yaml` or `flowgraphs/<spec name minus _vN>.flow.yaml` in this repo when exactly one of the two
   exists; `--no-flowgraph` turns the detection off) adds a "flowgraph overlay" layer (show/lock like the others) and a

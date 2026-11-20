@@ -51,6 +51,8 @@ _HTML = """<!DOCTYPE html>
   </span>
   <span id="path" title="the file being edited"></span>
 </div>
+<div id="info" role="status" style="display:none"></div>
+<div id="ext" role="alert" style="display:none"></div>
 <div id="main">
   <div id="mapwrap"><svg id="map" xmlns="http://www.w3.org/2000/svg" role="application" aria-label="map editor"
        tabindex="0"><defs>
@@ -168,6 +170,15 @@ input.bad{outline:3px double #000}
 #fg-badge{font-weight:700}
 #fg-badge[data-state=bad],#fg-badge[data-state=error]{border-style:double;border-width:4px}
 #fg-badge[data-state=wait]{border-style:dashed}
+#info{border:2px solid #0b1020;background:#fff;padding:4px 8px;margin-bottom:6px;font-size:13px}
+#info:before{content:"\\2139  ";font-weight:700}
+#info ul{margin:4px 0 0;padding-left:18px;font-family:Consolas,monospace;font-size:12px}
+#ext{border:4px double #0b1020;background:#fff;padding:6px 10px;margin-bottom:6px;font-size:13px}
+#ext:before{content:"\\26A0  ";font-weight:700}
+#ext .msg{font-weight:700}
+#ext ul{margin:4px 0;padding-left:18px;font-family:Consolas,monospace;font-size:12px;overflow-wrap:anywhere}
+#ext .btns{display:flex;gap:8px;flex-wrap:wrap;margin-top:4px}
+#ext.compact{border-style:dashed;border-width:3px}
 #fg-warn div{font-weight:700;margin:3px 0;border:2px dashed #0b1020;padding:2px 4px}
 </style>"""
 
@@ -617,6 +628,7 @@ function buildPanel() {
 }
 function updateAll() {
   var st = S.st;
+  if (typeof extUpdate === 'function') extUpdate();
   $('dirty').textContent = st.dirty ? '● UNSAVED CHANGES' : '○ saved';
   document.title = (st.dirty ? '* ' : '') + st.path.split(/[\\/]/).pop() + ' - spec editor';
   $('path').textContent = st.path;
@@ -1289,7 +1301,77 @@ function legend() {
     el('span', {}, d, x[1]);
   });
 }
+// ---- external-change safety: the server watches the file; the page polls and shows the banner -----------------------------------
+S.seenNotice = (S.st.notice || {}).seq || 0; S.info = null; S.extHidden = null;
+function clearNode(n) { while (n.firstChild) n.removeChild(n.firstChild); }
+function setInfo(msg, list) { S.info = {msg: msg, list: list || []}; extUpdate(); }
+function extUpdate() {
+  var ib = $('info'), box = $('ext'), ex = S.st.external;
+  clearNode(ib); clearNode(box);
+  if (S.info) {
+    ib.style.display = '';
+    el('span', {}, ib, S.info.msg + ' ');
+    el('button', {id: 'info-x', 'class': 'mini'}, ib, 'Dismiss').addEventListener('click', function () { S.info = null; extUpdate(); });
+    if (S.info.list.length) { var ul = el('ul', {id: 'info-list'}, ib); S.info.list.forEach(function (t) { el('li', {}, ul, t); }); }
+  } else ib.style.display = 'none';
+  if (!ex) { box.style.display = 'none'; S.extHidden = null; return; }
+  box.style.display = '';
+  var hidden = S.extHidden === ex.kind + ':' + (ex.disk_hash || '');
+  box.className = hidden ? 'compact' : '';
+  var title = ex.kind === 'deleted' ? 'File deleted or renamed on disk' : ex.kind === 'invalid' ? 'File changed on disk and no longer loads' : 'File changed on disk';
+  el('span', {'class': 'msg', id: 'ext-msg'}, box, title + ' \u2014 Save is blocked until this is resolved.');
+  if (hidden) {
+    el('button', {id: 'ext-open', 'class': 'mini'}, box, 'Resolve...').addEventListener('click', function () { S.extHidden = null; extUpdate(); });
+    return;
+  }
+  el('div', {}, box, ex.message + (ex.kind === 'changed' ? ' (' + S.st.unsaved_ops + ' unsaved edit op' + (S.st.unsaved_ops === 1 ? '' : 's') + ' in your session).' : '.'));
+  if (ex.errors) { var ul2 = el('ul', {id: 'ext-errors'}, box); ex.errors.slice(0, 8).forEach(function (m) { el('li', {}, ul2, '\u2716 ' + m); }); }
+  var bt = el('div', {'class': 'btns'}, box);
+  var bR = el('button', {id: 'ext-replay', title: 'Re-apply your edits onto the new file text; edits that no longer apply are listed and skipped'}, bt, 'Replay my edits');
+  var bD = el('button', {id: 'ext-discard', title: 'Drop your edits and load the file from disk'}, bt, 'Discard my edits');
+  var bC = el('button', {id: 'ext-copy', title: 'Write your buffer next to the spec as <name>.edited<N>.<ext>; the original is not touched'}, bt, 'Save as copy');
+  var bX = el('button', {id: 'ext-cancel', title: 'Keep editing; Save stays blocked'}, bt, 'Cancel');
+  if (!ex.can_replay) { bR.disabled = true; bR.title = ex.replay_blocked || 'Replay needs a file that loads'; }
+  if (!ex.can_discard) { bD.disabled = true; bD.title = 'Discard needs a file that loads'; }
+  bR.addEventListener('click', function () { resolveExt('replay'); });
+  bD.addEventListener('click', function () { resolveExt('discard'); });
+  bC.addEventListener('click', function () { resolveExt('copy'); });
+  bX.addEventListener('click', function () { S.extHidden = ex.kind + ':' + (ex.disk_hash || ''); extUpdate(); });
+}
+function resolveExt(action) {
+  S.chain = S.chain.then(function () {
+    return api('/api/resolve', {action: action, version: S.st.version}).then(function (r) { return r.json(); }).then(function (j) {
+      if (j.state) S.st = j.state;
+      if (j.ok) {
+        S.errors = []; S.errRefs = []; S.refused = false; S.prompt = null; S.fast = true;
+        if (action === 'replay') {
+          var rp = j.state.replay;
+          setInfo('Replayed ' + rp.applied + ' op' + (rp.applied === 1 ? '' : 's') + ' onto the file from disk; ' + rp.skipped.length + ' skipped.' +
+                  ' The result is unsaved and undoable.', rp.skipped.map(function (k) { return 'skipped: ' + k.text + ' \u2014 ' + k.reason; }));
+        } else if (action === 'discard') setInfo('Your edits were discarded; the file from disk is loaded (undo history cleared).');
+        else setInfo('Saved a copy of your buffer to ' + j.state.copy + '. The original buffer is still open; Save stays blocked until the disk change is resolved.');
+        setStatus(action + ' done.');
+      } else setStatus(action + ' refused: ' + (j.errors || ['failed'])[0]);
+      changed(); extUpdate();
+    });
+  }).catch(function (e) { setStatus('Request failed: ' + e); });
+}
+function pollDisk() {
+  S.chain = S.chain.then(function () {
+    if (S.drag || S.stroke) return null;
+    return api('/api/poll', {}).then(function (r) { return r.json(); }).then(function (j) {
+      if (!j.ok || S.drag || S.stroke) return;
+      var n = j.state, o = S.st, moved = n.version !== o.version;
+      if (moved) { S.st = n; S.errors = []; S.errRefs = []; S.refused = false; S.prompt = null; S.fast = true; }
+      else { o.external = n.external; o.notice = n.notice; o.unsaved_ops = n.unsaved_ops; }
+      if (n.notice && n.notice.seq > S.seenNotice) { S.seenNotice = n.notice.seq; setInfo(n.notice.message); setStatus(n.notice.message); }
+      if (moved) changed();
+      extUpdate();
+    });
+  }).catch(function () {});
+}
+setInterval(pollDisk, 1000);
 buildTools(); buildLayers(); legend();
-fit(); updateAll(); render(); refresh();
+fit(); updateAll(); extUpdate(); render(); refresh();
 setStatus('Loaded ' + S.st.path);
 """

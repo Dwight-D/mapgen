@@ -18,7 +18,13 @@ API (all POST, JSON in and out, header X-Token; see editor_http for the guards):
                                  mode erase: {stroke, radius, type | "any"} subtracts from painted polys (summary.skipped lists
                                  blob/band/reference polys under the brush); mode convert: {id} turns a blob or band into a poly (paint.py)
   /api/undo, /api/redo        -> {ok, state}
-  /api/save                   -> {ok, path, bytes, state} | 409 (file changed on disk) | 422 (invalid)
+  /api/save                   -> {ok, path, bytes, state} | 409 (file changed, replaced or deleted on disk) | 422 (invalid)
+  /api/poll                   -> {ok, state}: re-reads the file now (a watcher thread does it every 0.5 s too); `state.external`
+                                 is null or {kind: changed | deleted | invalid, ...}, `state.notice` the last automatic reload
+  /api/resolve {action, version} -> {ok, state} | 409 | 422. action replay: re-apply this session's unsaved ops (the op log)
+                                 onto the changed disk text, state.replay = {applied, skipped: [{op, text, reason}]};
+                                 discard: drop the buffer, load the disk text; copy: write the buffer to <name>.edited<N>.<ext>
+                                 (never overwrites), state.copy = path. See the design doc section 9.1 for the whole protocol.
   /api/geometry {version}     -> {ok, version, geometry, ms} | {ok: false, stale: true}: resolved centrelines and outlines
   /api/image {version}        -> image/png (reduced-resolution preview) with headers X-Version, X-Render-Ms
                                  | JSON {ok: false, stale: true} when the buffer moved on before rendering started
@@ -64,6 +70,18 @@ def _sha(b: bytes) -> str:
     return hashlib.sha256(b).hexdigest()
 
 
+def _op_text(o: Any) -> str:
+    """One-line human description of a logged op."""
+    if not isinstance(o, dict):
+        return str(o)
+    k = o.get("op")
+    if k == "add":
+        return "add %s %s" % (o.get("section"), o.get("id") or "")
+    if k == "rename":
+        return "rename %s -> %s" % (o.get("from"), o.get("to"))
+    return "%s %s" % (k, o.get("path"))
+
+
 class SpecEditor:
     """Buffer, history, validation and preview computation for one spec file. No HTTP."""
 
@@ -85,6 +103,15 @@ class SpecEditor:
         self.undo_stack = []  # type: List[str]
         self.redo_stack = []  # type: List[str]
         self.retired = set()  # type: set  # ids deleted during this session: a generated id never reuses one
+        # op log: one entry per committed edit (parallel to the undo stack), {"ops": [wire ops], "saved": bool}. `saved` entries
+        # are in the file already; Replay re-applies the others.
+        self.oplog = []  # type: List[Dict[str, Any]]
+        self.redo_oplog = []  # type: List[Dict[str, Any]]
+        self.crossed = False   # an undo went past a save: the log can no longer express buffer - disk
+        self.ext = None  # type: Optional[Dict[str, Any]]   # external change pending resolution
+        self._disk_eval = None  # (hash, text, errors, model) of the last foreign disk content
+        self.notice = None  # type: Optional[Dict[str, Any]]
+        self.notice_seq = 0
         self.model = self._load(self.text)  # raises schema.SpecError when the file is invalid
         self._geom_lock = threading.Lock()
         self._img_lock = threading.Lock()
@@ -101,6 +128,16 @@ class SpecEditor:
                   "can_redo": bool(self.redo_stack), "path": os.path.abspath(self.path)}
             st.update(self.model.state())
             st["flowgraph"] = self.fg.info() if self.fg else None
+            st["unsaved_ops"] = sum(len(e["ops"]) for e in self.oplog if not e["saved"])
+            st["external"] = None
+            if self.ext is not None:
+                ex = {k: v for k, v in self.ext.items() if k not in ("text", "model")}
+                ex["can_replay"] = ex["kind"] == "changed" and not self.crossed
+                ex["can_discard"] = ex["kind"] == "changed"
+                if ex["kind"] == "changed" and self.crossed:
+                    ex["replay_blocked"] = "an undo went past your last save; Replay cannot express that"
+                st["external"] = ex
+            st["notice"] = self.notice
             return st
 
     def apply(self, version: Any, ops_json: Any) -> Dict[str, Any]:
@@ -137,8 +174,18 @@ class SpecEditor:
                 if "renamed" in r:
                     self.retired.add(r["renamed"][0])
             if new != self.text:
+                logged = []
+                for o, op in zip(ops_json, ops):
+                    o = copy.deepcopy(o)
+                    if isinstance(op, specpatch.Add) and op.result.get("id"):
+                        o["id"] = op.result["id"]   # a replay recreates the same id
+                    logged.append(o)
                 self._push(self.undo_stack, self.text)
                 self.redo_stack = []
+                if any(e["saved"] for e in self.redo_oplog):
+                    self.crossed = True
+                self.redo_oplog = []
+                self.oplog.append({"ops": logged, "saved": False})
                 self.text, self.model = new, model
                 self.version += 1
             st = self.state()
@@ -203,6 +250,14 @@ class SpecEditor:
             self._push(dst, self.text)
             self.text, self.model = prev, model
             self.version += 1
+            if src is self.undo_stack:
+                if self.oplog:
+                    e = self.oplog.pop()
+                    self.redo_oplog.append(e)
+                    if e["saved"]:
+                        self.crossed = True
+            elif self.redo_oplog:
+                self.oplog.append(self.redo_oplog.pop())
             return self.state()
 
     def undo(self) -> Dict[str, Any]:
@@ -212,7 +267,8 @@ class SpecEditor:
         return self._step(self.redo_stack, self.undo_stack)
 
     def save(self) -> Tuple[int, Dict[str, Any]]:
-        """Write the buffer over the file atomically. Refused when the buffer is invalid or the file changed on disk."""
+        """Write the buffer over the file atomically. Refused when the buffer is invalid or the file on disk is not the one
+        that was loaded or last saved (changed, replaced, deleted)."""
         with self.lock:
             try:
                 self._load(self.text)
@@ -221,10 +277,15 @@ class SpecEditor:
             try:
                 with open(self.path, "rb") as f:
                     on_disk = _sha(f.read())
+            except FileNotFoundError:
+                self.check_disk()
+                raise Refused(["%s no longer exists; use Save as copy" % self.path], 409)
             except OSError as e:
                 raise Refused(["cannot read %s: %s" % (self.path, e)], 500)
             if on_disk != self.disk_hash:
-                raise Refused(["%s changed on disk since it was loaded; not overwritten" % self.path], 409)
+                self.check_disk()
+                raise Refused(["%s changed on disk since it was loaded; not overwritten (resolve: Replay, Discard or Save as copy)"
+                               % self.path], 409)
             if self.text == self.disk_text:
                 return 0, self.state()
             data = self.text.encode("utf-8")
@@ -233,7 +294,150 @@ class SpecEditor:
             except OSError as e:
                 raise Refused(["write failed: %s" % e], 500)
             self.disk_text, self.disk_hash = self.text, _sha(data)
+            for e in self.oplog:
+                e["saved"] = True
+            for e in self.redo_oplog:
+                e["saved"] = False
+            self.crossed = False
+            self.ext = None
             return len(data), self.state()
+
+    # -- external changes -------------------------------------------------------------------------------------------
+    def _eval_disk(self, h: str, data: bytes):
+        """(text, errors, model) of foreign disk content, cached by hash."""
+        if self._disk_eval is not None and self._disk_eval[0] == h:
+            return self._disk_eval[1:]
+        text, errors, model = None, None, None
+        try:
+            text = data.decode("utf-8")
+            model = self._load(text)
+        except UnicodeDecodeError as e:
+            errors = ["the file is not valid UTF-8: %s" % e]
+        except schema.SpecError as e:
+            errors = list(e.errors)
+        except Exception as e:   # a parser failure on arbitrary bytes is an invalid file, never a server error
+            errors = ["%s: %s" % (type(e).__name__, e)]
+        self._disk_eval = (h, text, errors, model)
+        return text, errors, model
+
+    def check_disk(self) -> None:
+        """Compare the file on disk with the baseline (content hash). A clean buffer reloads automatically (history cleared,
+        `notice` set); a dirty one records `ext` for the user to resolve; a deleted or invalid file is recorded as such and
+        the buffer is kept. Safe to call from any thread."""
+        with self.lock:
+            try:
+                with open(self.path, "rb") as f:
+                    data = f.read()
+            except OSError:
+                self.ext = {"kind": "deleted", "message": "The file no longer exists on disk (deleted or renamed)"}
+                return
+            h = _sha(data)
+            if h == self.disk_hash:
+                self.ext = None
+                return
+            text, errors, model = self._eval_disk(h, data)
+            if errors:
+                self.ext = {"kind": "invalid", "disk_hash": h[:12], "errors": errors,
+                            "message": "The file on disk does not load; your last valid buffer is kept"}
+                return
+            if self.text == self.disk_text:
+                self._adopt(text, h, model)
+                self.notice_seq += 1
+                self.notice = {"seq": self.notice_seq, "kind": "reloaded",
+                               "message": "file changed on disk — reloaded (undo history cleared)"}
+                return
+            self.ext = {"kind": "changed", "disk_hash": h[:12], "text": text, "model": model,
+                        "message": "The file changed on disk while you have unsaved edits"}
+
+    def _adopt(self, text: str, h: str, model: Model) -> None:
+        """Make the disk content the buffer: history and op log cleared."""
+        self.text, self.model = text, model
+        self.disk_text, self.disk_hash = text, h
+        self.undo_stack, self.redo_stack = [], []
+        self.oplog, self.redo_oplog, self.crossed = [], [], False
+        self.ext = None
+        self.version += 1
+
+    def _try_ops(self, text: str, ops_json: List[Any]):
+        """Apply wire ops to text and run the loader. Returns (new text, None) or (None, reason)."""
+        try:
+            ops = [specpatch.op_from_json(o) for o in ops_json]
+            new = specpatch.apply_ops(text, ops)
+            schema.load_spec_text(new.encode("utf-8"), self.path, self.palette_path)
+            return new, None
+        except specpatch.PatchError as e:
+            return None, "%s: %s" % (type(e).__name__, e)
+        except schema.SpecError as e:
+            return None, "the result does not load: " + "; ".join(e.errors[:3])
+
+    def resolve(self, action: Any, version: Any) -> Dict[str, Any]:
+        with self.lock:
+            if action == "copy":
+                return self._save_copy()
+            if action not in ("replay", "discard"):
+                raise Refused(["unknown action %r (replay | discard | copy)" % (action,)], 400)
+            self.check_disk()
+            ex = self.ext
+            if ex is None:
+                raise Refused(["nothing to resolve: the file on disk is the one that was loaded"], 409)
+            if version != self.version:
+                raise Refused(["the buffer changed (version %s, yours %s); state refreshed" % (self.version, version)], 409)
+            if ex["kind"] != "changed":
+                raise Refused(["the file on disk is %s; only Save as copy is possible until it is valid again" %
+                               ("missing" if ex["kind"] == "deleted" else "invalid")], 409)
+            base, h, model = ex["text"], self._disk_eval[0], ex["model"]
+            if action == "discard":
+                self._adopt(base, h, model)
+                return self.state()
+            if self.crossed:
+                raise Refused(["an undo went past your last save; Replay cannot express that (Discard or Save as copy)"], 409)
+            text, applied, skipped = base, [], []
+            for entry in [e for e in self.oplog if not e["saved"]]:
+                new, why = self._try_ops(text, entry["ops"])
+                if new is not None:
+                    text = new
+                    applied.extend(entry["ops"])
+                    continue
+                for o in entry["ops"]:   # the step as a whole failed: keep what applies one op at a time
+                    new, why = self._try_ops(text, [o])
+                    if new is not None:
+                        text = new
+                        applied.append(o)
+                    else:
+                        skipped.append({"op": o, "text": _op_text(o), "reason": why})
+            try:
+                nmodel = self._load(text)
+            except schema.SpecError as e:   # cannot happen: every step was validated; never leave a broken buffer
+                raise Refused(list(e.errors))
+            self.disk_text, self.disk_hash = base, h
+            self.undo_stack, self.redo_stack, self.redo_oplog = [], [], []
+            self.oplog, self.crossed, self.ext = [], False, None
+            if text != base:
+                self._push(self.undo_stack, base)
+                self.oplog.append({"ops": applied, "saved": False})
+            self.text, self.model = text, nmodel
+            self.version += 1
+            st = self.state()
+            st["replay"] = {"applied": len(applied), "skipped": skipped}
+            return st
+
+    def _save_copy(self) -> Dict[str, Any]:
+        root, ext = os.path.splitext(self.path)
+        data = self.text.encode("utf-8")
+        n = 1
+        while True:
+            target = "%s.edited%d%s" % (root, n, ext)
+            try:
+                with open(target, "xb") as f:   # exclusive create: never overwrites
+                    f.write(data)
+                break
+            except FileExistsError:
+                n += 1
+            except OSError as e:
+                raise Refused(["cannot write %s: %s" % (target, e)], 500)
+        st = self.state()
+        st["copy"] = os.path.abspath(target)
+        return st
 
     # -- preview ----------------------------------------------------------------------------------------------------
     def _current(self, version: Any) -> Optional[Tuple[str, str]]:
@@ -338,9 +542,23 @@ class SpecEditor:
 
 class SpecEditorServer(LoopbackServer):
     def __init__(self, path: str, port: int = 0, token: Optional[str] = None, preview_px: int = PREVIEW_PX,
-                 flowgraph_path: Optional[str] = None):
+                 flowgraph_path: Optional[str] = None, watch_interval: float = 0.5):
         self.ed = SpecEditor(path, preview_px, flowgraph_path=flowgraph_path)
         super().__init__(_Handler, port, token)
+        self._stop = threading.Event()
+        self._watcher = threading.Thread(target=self._watch, args=(watch_interval,), daemon=True)
+        self._watcher.start()
+
+    def _watch(self, interval: float) -> None:
+        while not self._stop.wait(interval):
+            try:
+                self.ed.check_disk()
+            except Exception:   # the watcher never dies; /api/poll surfaces real errors
+                pass
+
+    def server_close(self) -> None:
+        self._stop.set()
+        super().server_close()
 
     def page(self) -> str:
         boot = {"token": self.token, "state": self.ed.state(), "preview_px": self.ed.preview_px,
@@ -364,7 +582,7 @@ class _Handler(GuardedHandler):
             return
         routes = {"/api/state": self._state, "/api/apply": self._apply, "/api/undo": self._undo, "/api/redo": self._redo,
                   "/api/save": self._save, "/api/paint": self._paint, "/api/geometry": self._geometry, "/api/image": self._image,
-                  "/api/flowgraph": self._flowgraph, "/api/flowgraph_terrain": self._flowgraph_terrain}
+                  "/api/poll": self._poll, "/api/resolve": self._resolve, "/api/flowgraph": self._flowgraph, "/api/flowgraph_terrain": self._flowgraph_terrain}
         route = routes.get(self.path)
         if route is None:
             return self._json(404, {"ok": False, "errors": ["not found"]})
@@ -382,6 +600,13 @@ class _Handler(GuardedHandler):
 
     def _state(self, body):
         self._json(200, {"ok": True, "state": self.server.ed.state()})
+
+    def _poll(self, body):
+        self.server.ed.check_disk()
+        self._json(200, {"ok": True, "state": self.server.ed.state()})
+
+    def _resolve(self, body):
+        self._json(200, {"ok": True, "state": self.server.ed.resolve(body.get("action"), body.get("version"))})
 
     def _apply(self, body):
         self._json(200, {"ok": True, "state": self.server.ed.apply(body.get("version"), body.get("ops"))})

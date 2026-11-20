@@ -2,7 +2,7 @@
 
 - Date: 2026-11-19
 - Backlog item: GDU-49 (mapgen workstream). Design only; no code, spec or map was changed.
-- Slice status: slice 1 (GDU-50) implemented: `mapgen/specpatch.py`, `schema.load_spec_text`, `mapgen spec set` (grammar in `MAPGEN_SPEC.md` section 7), `tests/test_specpatch.py`. `spec_model.py` is not part of the slice (the id and reference lookups live in `specpatch.py`). Slice 2 (GDU-51) implemented: `mapgen spec-edit` with `editor_http.py` (guards shared with the flowgraph editor), `spec_model.py`, `spec_editor.py`, `spec_editor_page.py`, `tests/test_spec_editor.py`, `tests/browser/spec_editor_drive.mjs`; handles for POIs, bases, `points`, line waypoints, blob centres and poly/band vertices, reference-aware drag and Alt-detach, waypoint insert/delete, undo/redo, atomic Save; preview image tier T2 (geometry JSON and image fetched separately, latest wins); T1 `/api/preview` during drags is client-side only. Slice 3 (GDU-52) implemented: the engine gains `Put` (new key), key and feature `Delete` (refused while referenced, or `detach_refs`), `Add` (generated unique id, flow and block style, missing section created) and `Rename` (every reference, seed pinned); `mapgen spec set --create`, `spec add | delete | rename`; the editor gains blob radius grips, band/line/crossing width grips, vertex insert (+ handle, double-click) and delete on every chain, add-feature tools with type pickers, delete with the referrer prompt, a schema-driven property panel, rename, layer show/lock, error-to-feature highlighting and click cycling of stacked handles; id generation uses one above the largest number in use for the base (not the smallest free number) and never reissues an id deleted in the session; `tests/test_specpatch_structure.py`, API and browser-drive extensions. Not in slice 3: scatter `within` vertex handles, snapping to existing features, painting (slice 4), flowgraph layer and `bind` rewrite on rename (slice 5). Slice 4 (GDU-53) implemented: `mapgen/paint.py` (brush polygon: buffer, simplify 1.5 m, integer metres, clip to the map, 400-vertex ring cap; merge, split, erase, hole and convert planning over the span-patch engine), `POST /api/paint` (modes paint, erase, convert; one undo step), the Paint, Erase and Scatter-area tools with brush cursor and stroke preview, scatter `within` vertex handles, click-inside-region selection, `tests/test_paint.py`, `tests/browser/paint_drive.mjs`. Decisions: merge and erase targets are all `shape: poly` regions with literal points (not only ids of the form `<type>_<n>`); holes (merge or erase) append a `clearing` poly (holes under 25 m2 are filled); a merge that a later painted `clearing` would hide paints the stroke on top as a new region; a blob, band or reference poly is never rewritten, erase reports it and "Convert to polygon" is the explicit action; painted regions carry no `seed`, no `rough`; send-backward is not built. Slice 5 (GDU-54) implemented: `mapgen spec-edit --flowgraph` (or the unambiguous `flowgraphs/<name>[_vN]` auto-detect; the editor only reads the graph, never writes it), `mapgen/spec_editor_flowgraph.py`, `POST /api/flowgraph` and `/api/flowgraph_terrain`, the flowgraph overlay layer (node discs, kind markers, solid/dashed/dotted edges with X and + boxes, unbound-node list), the live check badge with expandable findings, strict toggle and on-demand terrain check, the rename warning, `flowgraph_check.derive_edges`/`check` taking the buffer's raw line paths, `tests/test_spec_editor_flowgraph.py`, `tests/browser/flowgraph_drive.mjs`. Decisions: node disc radii are the radii the derivation uses (a `points` entry is 30 m, not the 25 m of the terrain check); extra edges and nodes count only in strict mode; the terrain findings are not part of the cached overlay. Slices 6-7 open.
+- Slice status: slice 1 (GDU-50) implemented: `mapgen/specpatch.py`, `schema.load_spec_text`, `mapgen spec set` (grammar in `MAPGEN_SPEC.md` section 7), `tests/test_specpatch.py`. `spec_model.py` is not part of the slice (the id and reference lookups live in `specpatch.py`). Slice 2 (GDU-51) implemented: `mapgen spec-edit` with `editor_http.py` (guards shared with the flowgraph editor), `spec_model.py`, `spec_editor.py`, `spec_editor_page.py`, `tests/test_spec_editor.py`, `tests/browser/spec_editor_drive.mjs`; handles for POIs, bases, `points`, line waypoints, blob centres and poly/band vertices, reference-aware drag and Alt-detach, waypoint insert/delete, undo/redo, atomic Save; preview image tier T2 (geometry JSON and image fetched separately, latest wins); T1 `/api/preview` during drags is client-side only. Slice 3 (GDU-52) implemented: the engine gains `Put` (new key), key and feature `Delete` (refused while referenced, or `detach_refs`), `Add` (generated unique id, flow and block style, missing section created) and `Rename` (every reference, seed pinned); `mapgen spec set --create`, `spec add | delete | rename`; the editor gains blob radius grips, band/line/crossing width grips, vertex insert (+ handle, double-click) and delete on every chain, add-feature tools with type pickers, delete with the referrer prompt, a schema-driven property panel, rename, layer show/lock, error-to-feature highlighting and click cycling of stacked handles; id generation uses one above the largest number in use for the base (not the smallest free number) and never reissues an id deleted in the session; `tests/test_specpatch_structure.py`, API and browser-drive extensions. Not in slice 3: scatter `within` vertex handles, snapping to existing features, painting (slice 4), flowgraph layer and `bind` rewrite on rename (slice 5). Slice 4 (GDU-53) implemented: `mapgen/paint.py` (brush polygon: buffer, simplify 1.5 m, integer metres, clip to the map, 400-vertex ring cap; merge, split, erase, hole and convert planning over the span-patch engine), `POST /api/paint` (modes paint, erase, convert; one undo step), the Paint, Erase and Scatter-area tools with brush cursor and stroke preview, scatter `within` vertex handles, click-inside-region selection, `tests/test_paint.py`, `tests/browser/paint_drive.mjs`. Decisions: merge and erase targets are all `shape: poly` regions with literal points (not only ids of the form `<type>_<n>`); holes (merge or erase) append a `clearing` poly (holes under 25 m2 are filled); a merge that a later painted `clearing` would hide paints the stroke on top as a new region; a blob, band or reference poly is never rewritten, erase reports it and "Convert to polygon" is the explicit action; painted regions carry no `seed`, no `rough`; send-backward is not built. Slice 5 (GDU-54) implemented: `mapgen spec-edit --flowgraph` (or the unambiguous `flowgraphs/<name>[_vN]` auto-detect; the editor only reads the graph, never writes it), `mapgen/spec_editor_flowgraph.py`, `POST /api/flowgraph` and `/api/flowgraph_terrain`, the flowgraph overlay layer (node discs, kind markers, solid/dashed/dotted edges with X and + boxes, unbound-node list), the live check badge with expandable findings, strict toggle and on-demand terrain check, the rename warning, `flowgraph_check.derive_edges`/`check` taking the buffer's raw line paths, `tests/test_spec_editor_flowgraph.py`, `tests/browser/flowgraph_drive.mjs`. Decisions: node disc radii are the radii the derivation uses (a `points` entry is 30 m, not the 25 m of the terrain check); extra edges and nodes count only in strict mode; the terrain findings are not part of the cached overlay. Slice 6 (GDU-55) implemented: disk watcher (`SpecEditor.check_disk`, watcher thread, `/api/poll`), `/api/resolve` (replay | discard | copy), the op log, the page banner, `tests/test_spec_editor_external.py`, `tests/browser/external_drive.mjs` (protocol in section 9.1; the uncommitted-changes notice is not implemented). Slice 7 open.
 - Checked against: commit `aeb0b56`, `maps/iterations/town_square/v3_natural/town_square_v3.yaml`
 - Statements marked **[measured]** come from running the tool on this machine; **[verified]** from reading the code.
 
@@ -291,12 +291,48 @@ and the flowgraph named in the spec's brief, and runs without the layer when non
 - **Undo and backup:** the undo stack covers the session; git covers everything else. The editor never runs git and never
   creates backup files in the repo. At start, if the spec has uncommitted changes (`git status --porcelain <file>`, read-only),
   the page shows "spec has uncommitted changes" so the owner can commit first and get a clean undo point.
-- **File changed on disk:** the server stats the file every 2 s (mtime and size, hash on change). On a change it sends the
-  page a notice. If the buffer has no edits, the editor reloads. If it has edits, the editor shows three choices: **replay**
-  (re-apply the session's ops, which are addressed by feature id, onto the new disk text; an op whose target changed or
-  vanished is reported and skipped), **discard** (load disk), **save as copy** (`<name>.editor.yaml` next to the spec). Replay is
-  safe because ops are id-addressed and each result is re-validated.
+- **File changed on disk (slice 6, GDU-55, implemented):** see section 9.1.
 - **Network:** unchanged from the flowgraph editor: loopback only, token, Host and Origin checks, CSP, body cap.
+
+### 9.1 External-change protocol and the op log (slice 6)
+
+**Baseline.** `disk_hash` is the SHA-256 of the file as loaded or last saved by this session. A watcher thread (every 0.5 s)
+and `POST /api/poll` (the page calls it every second) re-read the file and compare the hash; mtime and size are not trusted, so
+a rename-over by another editor and a same-size rewrite are caught, and a rewrite with identical bytes is not a change.
+Save refuses with 409 whenever the file's hash differs from the baseline or the file is missing. A successful Save sets the
+baseline, so the session's own write is never reported.
+
+**States** (`state.external`, null when the file equals the baseline):
+
+| disk | buffer | behaviour |
+|---|---|---|
+| changed, loads | clean | reload at once; history and op log cleared; `state.notice` = reloaded (the page shows the banner) |
+| changed, loads | dirty | `external.kind = changed`: Replay / Discard / Save as copy / Cancel |
+| missing (deleted, renamed away) | any | `kind = deleted`: Save as copy only; the file returning with the baseline bytes clears it |
+| changed, does not load or not UTF-8 | any | `kind = invalid` with the loader errors; buffer kept; Replay and Discard refused until the file loads (then it becomes `changed`, or reloads when clean) |
+
+`POST /api/resolve {action, version}`: `replay` | `discard` | `copy`. Copy writes the buffer with an exclusive create to
+`<name>.edited<N>.<ext>` (N = 1, 2, ... first free) and changes nothing else; the pending state stays. Replay and discard
+adopt the disk text as the new baseline.
+
+**Op log.** `SpecEditor.oplog` holds one entry per committed edit, parallel to the undo stack: `{"ops": [...], "saved": bool}`.
+The ops are the wire ops of `specpatch.op_from_json` (`set`, `put`, `insert`, `delete`, `add`, `rename`), exactly what
+`/api/apply` received (paint, erase, convert and scatter-within are planned by the server into the same ops, so they are
+logged identically). Every op is addressed by feature id (`pois.fa.at`, `lines.river.path[2]`, `regions.r1.points`,
+`scatter.wild_wood.within`); only vertex ops also carry a sequence position inside the feature. An `add` is logged with the id
+it received (a generated id is written into the entry) so later ops of the session that name it replay onto the same id.
+Paint rewrites of a polygon are `set regions.<id>.points`; they apply when the region still exists, otherwise they are
+skipped. Undo moves the last entry to `redo_oplog`, redo moves it back, a new edit drops the redo entries, Save marks all
+entries `saved` (they are in the file, Replay does not re-apply them). If an undo pops a `saved` entry the buffer differs
+from the file by a revert the log cannot express: Replay is refused (`can_replay` false, `replay_blocked` says why) and
+Discard or Save as copy remain.
+
+**Replay.** Starting from the new disk text, each unsaved entry is applied as a unit (engine patch, then the real loader). A
+unit that fails is retried op by op; ops that still fail are skipped and reported as `{op, text, reason}` (target id gone, a
+`PatchError`, or a result the loader rejects). The remaining ops stay applied. The result is the buffer (dirty against the new
+baseline, loader-valid), the undo stack is `[disk text]` (one undo step back to the disk text) and the op log is the applied
+ops as one entry.
+
 
 ## 10. Testing (question 7)
 
@@ -319,7 +355,7 @@ Ordered by value. Each slice ships on its own and includes its own tests, browse
 | 3 | **Structure and shapes:** add/delete/insert vertices, blob `at`/`r`/`squash`/`angle`, band path and width, poly vertices, crossings, inspector with key editing, id generation, new-feature tools, delete with referrer choice, rename, layer lock and visibility, snapping | complete geometry editing of every feature kind | L | 2 |
 | 4 | **Painting:** brush, erase, merge into poly regions, `clearing` holes, send backward, scatter `within` polygon tool | the forest and mountain painting the owner asked for | L | 3 |
 | 5 | **Flowgraph layer:** nodes, edges, live `check` badge, failing-edge highlighting, click to select | design intent visible while editing | S | 2 |
-| 6 | **External-change safety:** file watcher, replay/discard/save-as-copy, uncommitted-changes notice | concurrent editing in another editor is safe | S | 2 |
+| 6 | **External-change safety (implemented, GDU-55):** file watcher, replay/discard/save-as-copy, uncommitted-changes notice | concurrent editing in another editor is safe | S | 2 |
 | 7 | **Analysis preview:** T3 coarse travel/territory overlays and a side panel of base-to-base time, objective spreads and warnings; T4 build button with progress | balance feedback while moving things | M | 2 |
 
 Minimal first slice that already helps: slice 1 (agents and the owner's scripts get comment-safe edits immediately), then
