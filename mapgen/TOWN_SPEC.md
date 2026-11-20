@@ -306,6 +306,49 @@ Slice 1 contains these in `radial` or `graph`; later slices move the generic par
 strategies: polar noise, hull, superellipse, union of patches, hand polygon), `gates.py` (gate selection with minimum angular and
 metric separation, snapping to external approach points), `landmarks.py` (square, market, citadel placement rules).
 
+### 7.6 Fort add-on (implemented; `mapgen/town/fort.py`)
+
+A post-processing step on any generator's Settlement, selected by parameters that every generator accepts (they are not part of
+the generator's own parameter set and are echoed in `params` only when active):
+
+| parameter | values | meaning |
+|---|---|---|
+| `fort` | `none` (default), `corner`, `centre`, `peninsula`, `island` | placement of the main fort |
+| `fort_shape` | `auto` (default), `rectangle`, `star` | `auto` is a star on `voronoi`, else a rectangle |
+| `fort_size` | 0.08-0.45, default 0.22 | fort half extent as a fraction of the settlement radius (floor: area >= 3000 m2) |
+| `fort_outposts` | 0-4, default 0 | extra detached fortified sites outside the outer wall |
+
+Placements. `corner`: the polygon sits on an outer-wall vertex, pointing at it from the centre, clipped to the footprint. `centre`:
+an interior site clear of the plaza and of every gate by 40 m; when none exists it falls back to `corner`. `peninsula`: the polygon
+straddles the outer wall, the footprint and the `outer` wall ring grow to the union. `island`: a detached fort outside the footprint
+(no water exists without the overlay; the site is reached by an `approach` road from an unused outer gate). Candidates are drawn from
+the `fort` stage stream (60-360 attempts, sizes 1.0, 0.8, 0.6) and the first that passes `check` wins; none fitting raises `GenerationError`.
+
+Inner fort (`corner`, `centre`, `peninsula`). The polygon F is subtracted from the districts; remainder pieces under
+`min_district_area`, and a whole district that holds F as a hole, are absorbed into F; larger pieces stay districts (a split gets the
+suffix `_b`, `_c`, ... on id and key). F becomes district `<sid>_d_fort` (kind `citadel`, label `Fortress`), landmark `<sid>_fort`
+(`fortress`, also the `zone` node), wall `<sid>_wall_fort` (kind `citadel`, thickness 7, `towers`). A candidate is rejected when F
+(or the absorbed F) lies within 8 m of a gate, meets a non-outer wall or covers the plaza or core. Roads crossing F are cut at its
+wall; pieces with no node vanish; ids of the second and later pieces take the suffix `_b`, ... and a gate whose road was cut
+points at the piece that carries it. Two gates are placed on road crossings: `<sid>_gate_fort_in` (nearest the plaza) and
+`<sid>_gate_fort_out` (far from it); a gate without a crossing road gets a straight `artery` link `<sid>_fort_link_<in|out>` to the
+nearest node. Road `<sid>_fort_road` (`artery`) runs gate in - fort node - gate out. New vertices are inserted into every ring that
+passes through them (tolerance 0.02 m), so shared borders stay bit-identical. Movement graph nodes without a road are dropped,
+components are joined by straight `artery` links `<sid>_fort_link<k>`, and both graphs are rebuilt.
+
+Detached forts (`island`, `fort_outposts`). Placed 55-110 m beyond an unused outer gate along its normal, at least 30 m from the
+footprint and 25 m from each other, inside the map margin; a gate with no room is skipped, so fewer outposts than requested can
+result. Each is district `<sid>_d_o<n>` (kind `citadel`, `inside_wall` false, excluded from the footprint coverage check), wall
+`<sid>_wall_o<n>`, gate `<sid>_gate_o<n>`, landmark and node `<sid>_o<n>`, and `approach` road `<sid>_apr_o<n>` from the outer gate. The
+district graph joins it to `outside` by a non-passable `wall` edge that lists its gate.
+
+Wall towers. `Wall.towers` (JSON key `towers`, omitted when empty) lists the convex corners of a fort wall turning by more than
+30 degrees: rectangle corners, star bastion tips. `emit_spec` does not emit them; `fort_preview.render_fort` draws them as dark
+squares and widens the view to outlying forts.
+
+Not implemented: the `radial` `citadel` wedge as a fort placement, water-bound sites (the water overlay offers an island hook), and
+wall towers in the spec fragment.
+
 ## 8. Checks (`mapgen/town/check.py`)
 
 `check(settlement) -> List[str]` (empty = pass), also run by `town generate` before it writes anything and by `town check`:
@@ -401,7 +444,9 @@ emit_spec.py    Settlement -> spec YAML fragment
 emit_flow.py    Settlement -> flowgraph fragment
 render.py       preview PNG
 cli.py          `town` command group
-(later)         planar.py, outline.py, gates.py, landmarks.py, env.py (water, fort), gen_bsp.py, gen_hybrid.py
+fort.py         fort add-on (section 7.6): fortress, wall towers, outlying forts
+fort_preview.py preview with towers and outlying forts
+(later)         planar.py, outline.py, gates.py, landmarks.py, env.py (water), gen_bsp.py, gen_hybrid.py
 ```
 
 ## 13. Tests (`tests/test_town_*.py`)
@@ -429,10 +474,7 @@ Each slice is independently mergeable and adds a generator to the registry plus 
 3. **`grid`** (Manhattan; implemented, §7.3). The L1 variant (nearest-centre labels under the L1 metric, vectorised with
    `skimage.measure.find_contours`) is a second step, not implemented; so are the octagon, hull and hand-polygon outlines. Optional
    `bsp` generator (recursive splits, split depth decides road versus border) shares the outline code.
-4. **Fort add-on** (`env.py`, acts on any generator's output): a reserved polygon (star bastion, rectangle with corner towers, wall-corner
-   citadel) with placement modes `corner`, `centre`, `peninsula`, `island`; subtracted from the districts, its own `citadel` wall
-   with an inward and an outward gate; kind `citadel` district and a `fortress` landmark. The `radial` citadel wedge becomes one
-   placement.
+4. **Fort add-on** (implemented as `fort.py`, §7.6): rectangle with corner towers or star bastions; placements `corner`, `centre`, `peninsula`, `island`; own `citadel` wall with inward and outward gate, `citadel` district, `fortress` landmark, outlying forts.
 5. **Water overlay** (`env.py`): a land mask (footprint with water holes and shore lines); river as a Catmull-Rom line through the
    town: districts clipped, slivers under 600 m2 dropped, each artery crossing emitted as a `road` crossing a `river` line (the
    automatic bridge of `MAPGEN_SPEC.md` §4.7), bridge nodes and `bridge` edges in the graphs; bay as a blob: `waterfront` districts, a

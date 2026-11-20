@@ -48,6 +48,7 @@ class Wall:
     polyline: List[Point]           # closed: first point repeated
     thickness: float
     open_shore: List[List[int]] = field(default_factory=list)   # [first, last] vertex index ranges without wall
+    towers: List[Point] = field(default_factory=list)           # tower / bastion positions (fort walls); omitted from JSON when empty
 
 
 @dataclass
@@ -134,6 +135,8 @@ class Settlement:
                 d = asdict(it)
                 if "cls" in d:
                     d["class"] = d.pop("cls")
+                if "towers" in d and not d["towers"]:
+                    del d["towers"]
                 out.append(d)
             return out
         return {

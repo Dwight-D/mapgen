@@ -5,7 +5,7 @@ import re
 from dataclasses import dataclass
 from typing import Any, Callable, Dict, List, Optional, Sequence, Tuple
 
-from . import gen_grid, gen_radial, gen_voronoi
+from . import fort, gen_grid, gen_radial, gen_voronoi
 from .model import Settlement
 from .params import ParamDef, ParamError, resolve
 
@@ -52,5 +52,8 @@ def generate(generator: str, seed: int, size: Sequence[float] = DEFAULT_SIZE, pa
     sz = (float(size[0]), float(size[1]))
     c = (sz[0] / 2.0, sz[1] / 2.0) if centre is None else (float(centre[0]), float(centre[1]))
     gen = GENERATORS[generator]
-    p = resolve(gen.defs, seed, sid, generator, params)
-    return gen.build(p, seed, sz, c, sid)
+    base_params = {k: v for k, v in (params or {}).items() if not fort.is_fort_param(k)}
+    fp = fort.resolve({k: v for k, v in (params or {}).items() if fort.is_fort_param(k)})
+    p = resolve(gen.defs, seed, sid, generator, base_params)
+    s = gen.build(p, seed, sz, c, sid)
+    return fort.apply(s, fp) if fort.active(fp) else s

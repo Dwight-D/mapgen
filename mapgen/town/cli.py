@@ -6,6 +6,7 @@ from typing import Any, Dict, List
 
 from . import (GENERATORS, GenerationError, ParamError, Settlement, check, check_determinism, emit_flow, emit_spec,
                generate, render_png, render_sheet)
+from . import fort
 from .registry import DEFAULT_SIZE
 
 
@@ -112,6 +113,9 @@ def cmd_list(args) -> int:
             rng = "default %g" % d.default if d.default is not None else "drawn %g..%g" % (
                 d.lo if d.draw_lo is None else d.draw_lo, d.hi if d.draw_hi is None else d.draw_hi)
             print("  %-18s %-5s valid %g..%g, %s: %s" % (d.name, d.type, d.lo, d.hi, rng, d.doc))
+    print("fort add-on (any generator; --param name=value):")
+    for name, doc in fort.DOC.items():
+        print("  %-14s %s" % (name, doc))
     return 0
 
 

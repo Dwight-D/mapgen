@@ -33,7 +33,7 @@ def _geometry(s: Settlement) -> List[str]:
     if not foot.is_valid:
         errs.append("footprint: invalid polygon")
     elif polys:
-        union = unary_union([p for _, p in polys])
+        union = unary_union([Polygon(d.polygon) for d in s.districts if d.inside_wall and Polygon(d.polygon).is_valid])
         if abs(union.area - foot.area) > 0.01 * foot.area:
             errs.append("districts cover %.1f m2 of the %.1f m2 footprint (more than 1 %% apart)" % (union.area, foot.area))
         if foot.difference(union).area > 0.01 * foot.area or union.difference(foot).area > 0.01 * foot.area:
