@@ -1,0 +1,58 @@
+format_version: 1
+name: marchfold
+brief: |
+  Settlement movement graph of marchfold (generator voronoi, seed 33) with two spawns linked to gates march_gate_1 and march_gate_2.
+
+nodes:
+  A: { kind: spawn, team: A, name: Marcher Lords spawn }
+  B: { kind: spawn, team: B, name: Border Reivers spawn }
+  march_fort: { kind: zone, name: "Fortress" }
+  march_gate_0: { kind: choke, name: "Gate 0" }
+  march_gate_1: { kind: choke, name: "Gate 1" }
+  march_gate_2: { kind: choke, name: "Gate 2" }
+  march_gate_3: { kind: choke, name: "Gate 3" }
+  march_gate_fort_in: { kind: choke, name: "Gate in" }
+  march_gate_fort_out: { kind: choke, name: "Gate out" }
+  march_gate_o1: { kind: choke, name: "Gate o1" }
+  march_gate_o2: { kind: choke, name: "Gate o2" }
+  march_j_p0p1p2: { kind: choke }
+  march_j_p0p2p5: { kind: choke }
+  march_j_p0p3p8: { kind: choke }
+  march_j_p0p5p8: { kind: choke }
+  march_j_p1p2p4: { kind: choke }
+  march_j_p1p4p9: { kind: choke }
+  march_j_p2p10: { kind: choke }
+  march_j_p2p5p10: { kind: choke }
+  march_j_p3p8: { kind: choke }
+  march_j_p4p9: { kind: choke }
+  march_j_p5p8: { kind: choke }
+  march_o1: { kind: zone, name: "Outlying Fort 1" }
+  march_o2: { kind: zone, name: "Outlying Fort 2" }
+  march_plaza: { kind: zone, name: "Central Plaza" }
+
+edges:
+  - A - march_gate_1
+  - B - march_gate_2
+  - { link: "march_gate_fort_in - march_fort", name: march_fort_road }
+  - { link: "march_fort - march_gate_fort_out", name: march_fort_road }
+  - { link: "march_gate_0 - march_gate_o2", name: march_apr_o2 }
+  - { link: "march_gate_0 - march_j_p5p8", name: march_artery_0 }
+  - { link: "march_gate_1 - march_j_p3p8", name: march_artery_1 }
+  - { link: "march_gate_2 - march_j_p4p9", name: march_artery_2 }
+  - { link: "march_gate_3 - march_gate_o1", name: march_apr_o1 }
+  - { link: "march_gate_3 - march_j_p2p10", name: march_artery_3 }
+  - { link: "march_gate_fort_in - march_j_p0p3p8", name: march_fort_link_in }
+  - { link: "march_gate_fort_out - march_j_p3p8", name: march_fort_link_out }
+  - { link: "march_gate_o1 - march_o1", name: march_apr_o1 }
+  - { link: "march_gate_o2 - march_o2", name: march_apr_o2 }
+  - { link: "march_j_p1p2p4 - march_j_p0p1p2", name: march_artery_2 }
+  - { link: "march_j_p0p1p2 - march_plaza", name: march_artery_2 }
+  - { link: "march_j_p2p5p10 - march_j_p0p2p5", name: march_artery_3 }
+  - { link: "march_j_p0p2p5 - march_plaza", name: march_artery_3 }
+  - { link: "march_j_p3p8 - march_j_p0p3p8", name: march_artery_1 }
+  - { link: "march_j_p0p3p8 - march_plaza", name: march_artery_1 }
+  - { link: "march_j_p5p8 - march_j_p0p5p8", name: march_artery_0 }
+  - { link: "march_j_p0p5p8 - march_plaza", name: march_artery_0 }
+  - { link: "march_j_p1p4p9 - march_j_p1p2p4", name: march_artery_2 }
+  - { link: "march_j_p4p9 - march_j_p1p4p9", name: march_artery_2 }
+  - { link: "march_j_p2p10 - march_j_p2p5p10", name: march_artery_3 }

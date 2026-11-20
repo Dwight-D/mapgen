@@ -1,0 +1,198 @@
+format_version: 1
+name: hearthmoor
+brief: |
+  PITCH: Hearthmoor, a walled market town on open moorland plains (showcase map for the grid town generator).
+  FLOW: Team A (Dunmark) holds the west road, team B (Eastwold) the east road; the town's gates and the
+  market square in the middle are the fight. Open fields around the walls favour a siege approach, the
+  copses to the north and south hide flanking columns.
+  TEST: does play funnel into the gates, or do teams skirt the wall through the fields?
+size: [1000, 1000]
+seed: 5701
+
+terrain:
+  base_height: 40
+  relief: 8
+  relief_scale: 500
+  detail: 3
+  detail_scale: 120
+
+regions:
+  - { id: moor_fields_w, seed: 0, type: field,  shape: blob, at: [200, 500], r: 190, rough: 0.4, warp: 60, warp_scale: 120 }
+  - { id: moor_fields_e, seed: 1, type: field,  shape: blob, at: [820, 480], r: 190, rough: 0.4, warp: 60, warp_scale: 120 }
+  - { id: copse_n, seed: 2, type: forest, shape: blob, at: [250, 880], r: 110, rough: 0.5, fragment: 0.4, fragment_scale: 60 }
+  - { id: copse_n2, seed: 3, type: forest, shape: blob, at: [780, 900], r: 90, rough: 0.5, fragment: 0.4, fragment_scale: 60 }
+  - { id: copse_s, seed: 4, type: forest, shape: blob, at: [720, 110], r: 120, rough: 0.5, fragment: 0.4, fragment_scale: 60 }
+  - { id: copse_s2, seed: 5, type: forest, shape: blob, at: [200, 130], r: 80, rough: 0.5, fragment: 0.4, fragment_scale: 60 }
+  - { id: barrow_hill, seed: 6, type: hills, shape: blob, at: [900, 880], r: 120, rough: 0.4, warp: 40, height: 30, label: Barrow Hill }
+  - { id: mere, seed: 7, type: marsh, shape: blob, at: [90, 900], r: 90, rough: 0.5, warp: 40, label: Hearthmere }
+  - { id: hearth_d_plaza, seed: 3808212814, type: town, shape: poly, points: [[544.58, 495.92], [543.09, 499.53], [533.77, 503.39], [518.47, 509.72], [493.85, 499.53], [492.36, 495.92], [490.05, 490.36], [483.66, 474.91], [493.85, 450.29], [518.47, 440.1], [533.77, 446.43], [543.09, 450.29], [553.28, 474.91]], rough: 0, label: "Market Square" }
+  - { id: hearth_d_x0y0, seed: 1861720479, type: town, shape: poly, points: [[490.05, 490.36], [479.83, 495.92], [431.87, 495.92], [431.87, 377.33], [521.81, 377.33], [518.47, 440.1], [493.85, 450.29], [483.66, 474.91]], rough: 0, label: "Market Ward 1" }
+  - { id: hearth_d_x0y1, seed: 3475505619, type: town, shape: poly, points: [[431.87, 495.92], [479.83, 495.92], [490.05, 490.36], [492.36, 495.92], [493.85, 499.53], [518.47, 509.72], [533.77, 503.39], [533.77, 602.94], [431.87, 602.94], [431.87, 522]], rough: 0, label: "Citadel Ward 1" }
+  - { id: hearth_d_x0y2, seed: 1541171191, type: town, shape: poly, points: [[533.77, 719.76], [431.87, 719.76], [431.87, 602.94], [533.77, 602.94]], rough: 0, label: "Residential Ward 1" }
+  - { id: hearth_d_x0y3, seed: 172843414, type: town, shape: poly, points: [[527.82, 764.73], [513.87, 764.73], [500, 764.73], [486.13, 764.73], [472.18, 764.73], [458.07, 764.73], [443.73, 764.73], [429.07, 764.73], [431.87, 719.76], [533.77, 719.76], [533.77, 764.73]], rough: 0, label: "Craft Quarter 1" }
+  - { id: hearth_d_x0yn1, seed: 4275713012, type: town, shape: poly, points: [[431.87, 254.09], [526.03, 254.09], [533.77, 254.09], [533.77, 377.33], [521.81, 377.33], [431.87, 377.33]], rough: 0, label: "Residential Ward 2" }
+  - { id: hearth_d_x0yn2, seed: 532100298, type: town, shape: poly, points: [[429.07, 235.27], [443.73, 235.27], [458.07, 235.27], [472.18, 235.27], [486.13, 235.27], [500, 235.27], [513.87, 235.27], [527.82, 235.27], [533.77, 235.27], [533.77, 254.09], [526.03, 254.09], [431.87, 254.09]], rough: 0, label: "Craft Quarter 2" }
+  - { id: hearth_d_x1y0, seed: 2062130441, type: town, shape: poly, points: [[533.77, 446.43], [518.47, 440.1], [521.81, 377.33], [533.77, 377.33], [625.21, 377.33], [625.21, 495.92], [544.58, 495.92], [553.28, 474.91], [543.09, 450.29]], rough: 0, label: "Market Ward 2" }
+  - { id: hearth_d_x1y1a, seed: 1666499092, type: town, shape: poly, points: [[544.58, 495.92], [625.21, 557.57], [625.21, 602.94], [533.77, 602.94], [533.77, 503.39], [543.09, 499.53]], rough: 0, label: "Market Ward 3" }
+  - { id: hearth_d_x1y1b, seed: 3772452893, type: town, shape: poly, points: [[544.58, 495.92], [625.21, 495.92], [625.21, 557.57]], rough: 0, label: "Residential Ward 3" }
+  - { id: hearth_d_x1y2, seed: 1997780388, type: town, shape: poly, points: [[533.77, 602.94], [625.21, 602.94], [625.21, 719.76], [533.77, 719.76]], rough: 0, label: "Residential Ward 4" }
+  - { id: hearth_d_x1y3, seed: 3254787743, type: town, shape: poly, points: [[617.87, 764.73], [601.62, 764.73], [586.02, 764.73], [570.93, 764.73], [556.27, 764.73], [541.93, 764.73], [533.77, 764.73], [533.77, 719.76], [625.21, 719.76], [625.21, 764.73]], rough: 0, label: "Craft Quarter 3" }
+  - { id: hearth_d_x1yn1, seed: 900708600, type: town, shape: poly, points: [[533.77, 254.09], [625.21, 254.09], [625.21, 377.33], [533.77, 377.33]], rough: 0, label: "Residential Ward 5" }
+  - { id: hearth_d_x1yn2, seed: 4197147470, type: town, shape: poly, points: [[541.93, 235.27], [556.27, 235.27], [570.93, 235.27], [586.02, 235.27], [601.62, 235.27], [617.87, 235.27], [625.21, 235.27], [625.21, 254.09], [533.77, 254.09], [533.77, 235.27]], rough: 0, label: "Craft Quarter 4" }
+  - { id: hearth_d_x2y0, seed: 624177874, type: town, shape: poly, points: [[625.21, 377.33], [716.06, 377.33], [716.06, 495.92], [625.21, 495.92]], rough: 0, label: "Residential Ward 6" }
+  - { id: hearth_d_x2y1, seed: 4052118081, type: town, shape: poly, points: [[716.06, 602.94], [683.79, 602.94], [625.21, 602.94], [625.21, 557.57], [625.21, 495.92], [716.06, 495.92]], rough: 0, label: "Residential Ward 7" }
+  - { id: hearth_d_x2y2, seed: 1516242419, type: town, shape: poly, points: [[716.06, 602.94], [716.06, 627.93], [716.06, 719.76], [625.21, 719.76], [625.21, 602.94], [683.79, 602.94]], rough: 0, label: "Residential Ward 8" }
+  - { id: hearth_d_x2y3, seed: 1402887200, type: town, shape: poly, points: [[692.18, 764.51], [671.87, 764.66], [652.83, 764.71], [634.88, 764.72], [625.21, 764.73], [625.21, 719.76], [716.06, 719.76], [713.86, 764.1]], rough: 0, label: "Craft Quarter 5" }
+  - { id: hearth_d_x2yn1, seed: 3087379459, type: town, shape: poly, points: [[625.21, 254.09], [716.06, 254.09], [716.06, 377.33], [625.21, 377.33]], rough: 0, label: "Residential Ward 9" }
+  - { id: hearth_d_x2yn2, seed: 1689549185, type: town, shape: poly, points: [[634.88, 235.28], [652.83, 235.29], [671.87, 235.34], [692.18, 235.49], [713.86, 235.9], [716.06, 254.09], [625.21, 254.09], [625.21, 235.27]], rough: 0, label: "Craft Quarter 6" }
+  - { id: hearth_d_x3y0, seed: 2823177858, type: town, shape: poly, points: [[716.06, 495.92], [716.06, 377.33], [805.98, 377.33], [817.66, 378.06], [817.68, 396.78], [817.68, 414.88], [817.68, 432.48], [817.68, 449.68], [817.68, 466.61], [817.68, 483.35], [817.68, 495.92], [805.98, 495.92]], rough: 0, label: "Craft Quarter 7" }
+  - { id: hearth_d_x3y1, seed: 1421174175, type: town, shape: poly, points: [[716.06, 602.94], [716.06, 495.92], [805.98, 495.92], [817.68, 495.92], [817.68, 500], [817.68, 516.65], [817.68, 533.39], [817.68, 550.32], [817.68, 567.52], [817.68, 585.12], [817.68, 603.22], [805.98, 602.94]], rough: 0, label: "Craft Quarter 8" }
+  - { id: hearth_d_x3y2a, seed: 1547887239, type: town, shape: poly, points: [[716.06, 627.93], [805.98, 697.56], [814.77, 704.42], [811.13, 719.76], [805.98, 719.76], [716.06, 719.76]], rough: 0, label: "Craft Quarter 9" }
+  - { id: hearth_d_x3y2b, seed: 1811161032, type: town, shape: poly, points: [[805.98, 697.56], [716.06, 627.93], [716.06, 602.94], [805.98, 602.94], [817.68, 603.22], [817.66, 621.94], [817.6, 641.4], [817.38, 661.71], [816.7, 682.85], [814.77, 704.42]], rough: 0, label: "Craft Quarter 10" }
+  - { id: hearth_d_x3y3, seed: 390408115, type: town, shape: poly, points: [[811.13, 719.76], [809.86, 725.13], [805.98, 731.6], [799.45, 742.49], [782.28, 754.17], [760.32, 760.32], [736.83, 763.02], [713.86, 764.1], [716.06, 719.76], [805.98, 719.76]], rough: 0, label: "Craft Quarter 11" }
+  - { id: hearth_d_x3yn1, seed: 43812673, type: town, shape: poly, points: [[713.86, 235.9], [736.83, 236.98], [760.32, 239.68], [782.28, 245.83], [794.43, 254.09], [799.45, 257.51], [805.98, 268.4], [809.86, 274.87], [814.77, 295.58], [816.7, 317.15], [817.38, 338.29], [817.6, 358.6], [817.66, 378.06], [805.98, 377.33], [716.06, 377.33], [716.06, 254.09]], rough: 0, label: "Craft Quarter 12" }
+  - { id: hearth_d_xn1y0, seed: 2491629117, type: town, shape: poly, points: [[431.87, 495.92], [336.57, 495.92], [336.57, 377.33], [431.87, 377.33]], rough: 0, label: "Residential Ward 10" }
+  - { id: hearth_d_xn1y1a, seed: 2570789992, type: town, shape: poly, points: [[336.57, 573.81], [336.57, 495.92], [431.87, 495.92], [431.87, 522]], rough: 0, label: "Residential Ward 11" }
+  - { id: hearth_d_xn1y1b, seed: 4185109409, type: town, shape: poly, points: [[431.87, 522], [431.87, 602.94], [336.57, 602.94], [336.57, 573.81]], rough: 0, label: "Residential Ward 12" }
+  - { id: hearth_d_xn1y2, seed: 707987751, type: town, shape: poly, points: [[431.87, 719.76], [336.57, 719.76], [336.57, 602.94], [431.87, 602.94]], rough: 0, label: "Residential Ward 13" }
+  - { id: hearth_d_xn1y3, seed: 2467394314, type: town, shape: poly, points: [[413.98, 764.73], [398.38, 764.73], [382.13, 764.73], [365.12, 764.72], [347.17, 764.71], [336.57, 764.68], [336.57, 719.76], [431.87, 719.76], [429.07, 764.73]], rough: 0, label: "Craft Quarter 13" }
+  - { id: hearth_d_xn1yn1, seed: 2456752738, type: town, shape: poly, points: [[431.87, 377.33], [336.57, 377.33], [336.57, 254.09], [431.87, 254.09]], rough: 0, label: "Residential Ward 14" }
+  - { id: hearth_d_xn1yn2, seed: 3101756190, type: town, shape: poly, points: [[347.17, 235.29], [365.12, 235.28], [382.13, 235.27], [398.38, 235.27], [413.98, 235.27], [429.07, 235.27], [431.87, 254.09], [336.57, 254.09], [336.57, 235.32]], rough: 0, label: "Craft Quarter 14" }
+  - { id: hearth_d_xn2y0, seed: 440524257, type: town, shape: poly, points: [[336.57, 495.92], [249.55, 495.92], [249.55, 377.33], [336.57, 377.33]], rough: 0, label: "Residential Ward 15" }
+  - { id: hearth_d_xn2y1, seed: 3612801833, type: town, shape: poly, points: [[336.57, 495.92], [336.57, 573.81], [336.57, 602.94], [283, 602.94], [249.55, 602.94], [249.55, 495.92]], rough: 0, label: "Residential Ward 16" }
+  - { id: hearth_d_xn2y2, seed: 3008507107, type: town, shape: poly, points: [[249.55, 602.94], [283, 602.94], [336.57, 602.94], [336.57, 719.76], [249.55, 719.76], [249.55, 621.12]], rough: 0, label: "Residential Ward 17" }
+  - { id: hearth_d_xn2y3, seed: 2433764712, type: town, shape: poly, points: [[328.13, 764.66], [307.82, 764.51], [286.14, 764.1], [263.17, 763.02], [249.55, 761.45], [249.55, 719.76], [336.57, 719.76], [336.57, 764.68]], rough: 0, label: "Craft Quarter 15" }
+  - { id: hearth_d_xn2yn1, seed: 2200807529, type: town, shape: poly, points: [[249.55, 238.55], [263.17, 236.98], [286.14, 235.9], [307.82, 235.49], [328.13, 235.34], [336.57, 235.32], [336.57, 254.09], [336.57, 377.33], [249.55, 377.33], [249.55, 254.09]], rough: 0, label: "Craft Quarter 16" }
+  - { id: hearth_d_xn3y0, seed: 4052443459, type: town, shape: poly, points: [[182.32, 483.35], [182.32, 466.61], [182.32, 449.68], [182.32, 432.48], [182.32, 414.88], [182.32, 396.78], [182.34, 378.06], [249.55, 377.33], [249.55, 495.92], [182.32, 495.92]], rough: 0, label: "Craft Quarter 17" }
+  - { id: hearth_d_xn3y1, seed: 2958423133, type: town, shape: poly, points: [[182.32, 585.12], [182.32, 567.52], [182.32, 550.32], [182.32, 533.39], [182.32, 516.65], [182.32, 500], [182.32, 495.92], [249.55, 495.92], [249.55, 602.94], [182.32, 603.22]], rough: 0, label: "Craft Quarter 18" }
+  - { id: hearth_d_xn3y2a, seed: 2656098352, type: town, shape: poly, points: [[182.4, 641.4], [182.34, 621.94], [182.32, 603.22], [249.55, 602.94], [249.55, 621.12], [182.57, 657.53]], rough: 0, label: "Craft Quarter 19" }
+  - { id: hearth_d_xn3y2b, seed: 867177346, type: town, shape: poly, points: [[185.23, 704.42], [183.3, 682.85], [182.62, 661.71], [182.57, 657.53], [249.55, 621.12], [249.55, 719.76], [188.87, 719.76]], rough: 0, label: "Craft Quarter 20" }
+  - { id: hearth_d_xn3y3, seed: 4241402121, type: town, shape: poly, points: [[239.68, 760.32], [217.72, 754.17], [200.55, 742.49], [190.14, 725.13], [188.87, 719.76], [249.55, 719.76], [249.55, 761.45]], rough: 0, label: "Craft Quarter 21" }
+  - { id: hearth_d_xn3yn1, seed: 436355063, type: town, shape: poly, points: [[205.57, 254.09], [217.72, 245.83], [239.68, 239.68], [249.55, 238.55], [249.55, 254.09], [249.55, 377.33], [182.34, 378.06], [182.4, 358.6], [182.62, 338.29], [183.3, 317.15], [185.23, 295.58], [190.14, 274.87], [200.55, 257.51]], rough: 0, label: "Craft Quarter 22" }
+
+scatter:
+  - { id: scatter_copses, seed: 0, type: forest, coverage: 0.05, scale: 120, clump: 0.5, avoid: 12 }
+  - { id: scatter_fields, seed: 1, type: field,  coverage: 0.2, scale: 150, clump: 0.3, avoid: 10 }
+
+teams:
+  A: { base: [929, 722], name: Dunmark }
+  B: { base: [73, 659], name: Eastwold }
+
+lines:
+  - { id: approach_a, type: road, path: [base_A, [869, 731], hearth_gate_b0], width: 10, smooth: true }
+  - { id: approach_b, type: road, path: [base_B, [127, 640], hearth_gate_b1], width: 10, smooth: true }
+  - { id: hearth_av_u0n, seed: 2515564358, type: road, path: [hearth_e_u0n, hearth_j_u0n_vn2, hearth_j_u0n_vn1, hearth_j_ring_u0n], width: 10, smooth: true }
+  - { id: hearth_av_u0p, seed: 2205472816, type: road, path: [hearth_j_ring_u0p, hearth_j_u0p_v1, hearth_j_u0p_v2, hearth_e_u0p], width: 10, smooth: true }
+  - { id: hearth_av_u1, seed: 3192504831, type: road, path: [hearth_e_u1n, hearth_j_u1_vn2, hearth_j_u1_vn1, hearth_j_u1_v0p, hearth_j_b0_u1, hearth_j_u1_v1, hearth_j_u1_v2, hearth_e_u1p], width: 10, smooth: true }
+  - { id: hearth_av_u2, seed: 3860071548, type: road, path: [hearth_gate_u2n, hearth_j_u2_vn2, hearth_j_u2_vn1, hearth_j_u2_v0p, hearth_j_u2_v1, hearth_j_b0_u2, hearth_j_u2_v2, hearth_e_u2p], width: 10, smooth: true }
+  - { id: hearth_av_u3, seed: 2071129729, type: road, path: [hearth_e_u3n, hearth_j_u3_vn1, hearth_j_u3_v0p, hearth_j_u3_v1, hearth_j_b0_u3, hearth_j_u3_v2, hearth_e_u3p], width: 10, smooth: true }
+  - { id: hearth_av_un1, seed: 2451641053, type: road, path: [hearth_e_un1n, hearth_j_un1_vn2, hearth_j_un1_vn1, hearth_j_un1_v0n, hearth_j_b1_un1, hearth_j_un1_v1, hearth_j_un1_v2, hearth_e_un1p], width: 10, smooth: true }
+  - { id: hearth_av_un2, seed: 1853266391, type: road, path: [hearth_e_un2n, hearth_j_un2_vn2, hearth_j_un2_vn1, hearth_j_un2_v0n, hearth_j_b1_un2, hearth_j_un2_v1, hearth_j_un2_v2, hearth_e_un2p], width: 10, smooth: true }
+  - { id: hearth_av_un3, seed: 1313655103, type: road, path: [hearth_gate_un3n, hearth_j_un3_vn2, hearth_j_un3_vn1, hearth_j_un3_v0n, hearth_j_un3_v1, hearth_j_b1_un3, hearth_j_un3_v2, hearth_e_un3p], width: 10, smooth: true }
+  - { id: hearth_av_v0n, seed: 1795705819, type: road, path: [hearth_e_v0n, hearth_j_un3_v0n, hearth_j_un2_v0n, hearth_j_un1_v0n, hearth_j_b1_v0n, hearth_j_ring_v0n], width: 10, smooth: true }
+  - { id: hearth_av_v0p, seed: 1947682517, type: road, path: [hearth_j_b0_ring, hearth_j_u1_v0p, hearth_j_u2_v0p, hearth_j_u3_v0p, hearth_e_v0p], width: 10, smooth: true }
+  - { id: hearth_av_v1, seed: 4123604860, type: road, path: [hearth_e_v1n, hearth_j_un3_v1, hearth_j_b1_v1, hearth_j_un2_v1, hearth_j_un1_v1, hearth_j_u0p_v1, hearth_j_u1_v1, hearth_j_b0_v1, hearth_j_u2_v1, hearth_j_u3_v1, hearth_e_v1p], width: 10, smooth: true }
+  - { id: hearth_av_v2, seed: 2094215729, type: road, path: [hearth_e_v2n, hearth_j_un3_v2, hearth_j_un2_v2, hearth_j_un1_v2, hearth_j_u0p_v2, hearth_j_u1_v2, hearth_j_u2_v2, hearth_j_u3_v2, hearth_e_v2p], width: 10, smooth: true }
+  - { id: hearth_av_vn1, seed: 4275830502, type: road, path: [hearth_e_vn1n, hearth_j_un3_vn1, hearth_j_un2_vn1, hearth_j_un1_vn1, hearth_j_b2_vn1, hearth_j_u0n_vn1, hearth_j_u1_vn1, hearth_j_u2_vn1, hearth_j_u3_vn1, hearth_e_vn1p], width: 10, smooth: true }
+  - { id: hearth_av_vn2, seed: 3416450147, type: road, path: [hearth_e_vn2n, hearth_j_un3_vn2, hearth_j_un2_vn2, hearth_j_un1_vn2, hearth_j_b2_vn2, hearth_j_u0n_vn2, hearth_j_u1_vn2, hearth_j_u2_vn2, hearth_e_vn2p], width: 10, smooth: true }
+  - { id: hearth_blvd_b0, seed: 2106066532, type: road, path: [hearth_plaza, hearth_j_b0_ring, hearth_j_b0_u1, hearth_j_b0_v1, hearth_j_b0_u2, hearth_j_b0_u3, hearth_gate_b0], width: 16, smooth: true }
+  - { id: hearth_blvd_b1, seed: 422886360, type: road, path: [hearth_plaza, hearth_j_b1_ring, hearth_j_b1_v0n, hearth_j_b1_un1, hearth_j_b1_un2, hearth_j_b1_v1, hearth_j_b1_un3, hearth_gate_b1], width: 16, smooth: true }
+  - { id: hearth_blvd_b2, seed: 1998127840, type: road, path: [hearth_plaza, hearth_j_b2_ring, hearth_j_b2_vn1, hearth_j_b2_vn2, hearth_e_b2], width: 16, smooth: true }
+  - { id: hearth_ring_1, seed: 1647643030, type: road, path: [hearth_rv_0, hearth_j_b0_ring, hearth_rv_1, hearth_j_ring_u0p, hearth_rv_2, hearth_rv_3, hearth_j_ring_v0n, hearth_j_b1_ring, hearth_rv_4, hearth_rv_5, hearth_j_b2_ring, hearth_j_ring_u0n, hearth_rv_7, hearth_rv_0], width: 10, smooth: true }
+  - { id: hearth_wall_outer, seed: 3373417421, type: wall, path: [[817.68, 500], [817.68, 516.65], [817.68, 533.39], [817.68, 550.32], [817.68, 567.52], [817.68, 585.12], [817.68, 603.22], [817.66, 621.94], [817.6, 641.4], [817.38, 661.71], [816.7, 682.85], [814.77, 704.42], [811.13, 719.76], [809.86, 725.13], [805.98, 731.6], [799.45, 742.49], [782.28, 754.17], [760.32, 760.32], [736.83, 763.02], [713.86, 764.1], [692.18, 764.51], [671.87, 764.66], [652.83, 764.71], [634.88, 764.72], [625.21, 764.73], [617.87, 764.73], [601.62, 764.73], [586.02, 764.73], [570.93, 764.73], [556.27, 764.73], [541.93, 764.73], [533.77, 764.73], [527.82, 764.73], [513.87, 764.73], [500, 764.73], [486.13, 764.73], [472.18, 764.73], [458.07, 764.73], [443.73, 764.73], [429.07, 764.73], [413.98, 764.73], [398.38, 764.73], [382.13, 764.73], [365.12, 764.72], [347.17, 764.71], [336.57, 764.68], [328.13, 764.66], [307.82, 764.51], [286.14, 764.1], [263.17, 763.02], [249.55, 761.45], [239.68, 760.32], [217.72, 754.17], [200.55, 742.49], [190.14, 725.13], [188.87, 719.76], [185.23, 704.42], [183.3, 682.85], [182.62, 661.71], [182.57, 657.53], [182.4, 641.4], [182.34, 621.94], [182.32, 603.22], [182.32, 585.12], [182.32, 567.52], [182.32, 550.32], [182.32, 533.39], [182.32, 516.65], [182.32, 500], [182.32, 495.92], [182.32, 483.35], [182.32, 466.61], [182.32, 449.68], [182.32, 432.48], [182.32, 414.88], [182.32, 396.78], [182.34, 378.06], [182.4, 358.6], [182.62, 338.29], [183.3, 317.15], [185.23, 295.58], [190.14, 274.87], [200.55, 257.51], [205.57, 254.09], [217.72, 245.83], [239.68, 239.68], [249.55, 238.55], [263.17, 236.98], [286.14, 235.9], [307.82, 235.49], [328.13, 235.34], [336.57, 235.32], [347.17, 235.29], [365.12, 235.28], [382.13, 235.27], [398.38, 235.27], [413.98, 235.27], [429.07, 235.27], [443.73, 235.27], [458.07, 235.27], [472.18, 235.27], [486.13, 235.27], [500, 235.27], [513.87, 235.27], [527.82, 235.27], [533.77, 235.27], [541.93, 235.27], [556.27, 235.27], [570.93, 235.27], [586.02, 235.27], [601.62, 235.27], [617.87, 235.27], [625.21, 235.27], [634.88, 235.28], [652.83, 235.29], [671.87, 235.34], [692.18, 235.49], [713.86, 235.9], [736.83, 236.98], [760.32, 239.68], [782.28, 245.83], [794.43, 254.09], [799.45, 257.51], [805.98, 268.4], [809.86, 274.87], [814.77, 295.58], [816.7, 317.15], [817.38, 338.29], [817.6, 358.6], [817.66, 378.06], [817.68, 396.78], [817.68, 414.88], [817.68, 432.48], [817.68, 449.68], [817.68, 466.61], [817.68, 483.35], [817.68, 495.92], [817.68, 500]], width: 8 }
+
+points:
+  hearth_e_b2: [527.82, 235.27]
+  hearth_e_u0n: [533.77, 235.27]
+  hearth_e_u0p: [533.77, 764.73]
+  hearth_e_u1n: [625.21, 235.27]
+  hearth_e_u1p: [625.21, 764.73]
+  hearth_e_u2p: [713.86, 764.1]
+  hearth_e_u3n: [805.98, 268.4]
+  hearth_e_u3p: [805.98, 731.6]
+  hearth_e_un1n: [429.07, 235.27]
+  hearth_e_un1p: [429.07, 764.73]
+  hearth_e_un2n: [336.57, 235.32]
+  hearth_e_un2p: [336.57, 764.68]
+  hearth_e_un3p: [249.55, 761.45]
+  hearth_e_v0n: [182.32, 495.92]
+  hearth_e_v0p: [817.68, 495.92]
+  hearth_e_v1n: [182.32, 603.22]
+  hearth_e_v1p: [817.68, 603.22]
+  hearth_e_v2n: [188.87, 719.76]
+  hearth_e_v2p: [811.13, 719.76]
+  hearth_e_vn1n: [182.34, 378.06]
+  hearth_e_vn1p: [817.66, 378.06]
+  hearth_e_vn2n: [205.57, 254.09]
+  hearth_e_vn2p: [794.43, 254.09]
+  hearth_gate_b0: [814.77, 704.42]
+  hearth_gate_b1: [182.57, 657.53]
+  hearth_gate_u2n: [713.86, 235.9]
+  hearth_gate_un3n: [249.55, 238.55]
+  hearth_j_b0_ring: [544.58, 495.92]
+  hearth_j_b0_u1: [625.21, 557.57]
+  hearth_j_b0_u2: [716.06, 627.93]
+  hearth_j_b0_u3: [805.98, 697.56]
+  hearth_j_b0_v1: [683.79, 602.94]
+  hearth_j_b1_ring: [490.05, 490.36]
+  hearth_j_b1_un1: [431.87, 522]
+  hearth_j_b1_un2: [336.57, 573.81]
+  hearth_j_b1_un3: [249.55, 621.12]
+  hearth_j_b1_v0n: [479.83, 495.92]
+  hearth_j_b1_v1: [283, 602.94]
+  hearth_j_b2_ring: [518.47, 440.1]
+  hearth_j_b2_vn1: [521.81, 377.33]
+  hearth_j_b2_vn2: [526.03, 254.09]
+  hearth_j_ring_u0n: [533.77, 446.43]
+  hearth_j_ring_u0p: [533.77, 503.39]
+  hearth_j_ring_v0n: [492.36, 495.92]
+  hearth_j_u0n_vn1: [533.77, 377.33]
+  hearth_j_u0n_vn2: [533.77, 254.09]
+  hearth_j_u0p_v1: [533.77, 602.94]
+  hearth_j_u0p_v2: [533.77, 719.76]
+  hearth_j_u1_v0p: [625.21, 495.92]
+  hearth_j_u1_v1: [625.21, 602.94]
+  hearth_j_u1_v2: [625.21, 719.76]
+  hearth_j_u1_vn1: [625.21, 377.33]
+  hearth_j_u1_vn2: [625.21, 254.09]
+  hearth_j_u2_v0p: [716.06, 495.92]
+  hearth_j_u2_v1: [716.06, 602.94]
+  hearth_j_u2_v2: [716.06, 719.76]
+  hearth_j_u2_vn1: [716.06, 377.33]
+  hearth_j_u2_vn2: [716.06, 254.09]
+  hearth_j_u3_v0p: [805.98, 495.92]
+  hearth_j_u3_v1: [805.98, 602.94]
+  hearth_j_u3_v2: [805.98, 719.76]
+  hearth_j_u3_vn1: [805.98, 377.33]
+  hearth_j_un1_v0n: [431.87, 495.92]
+  hearth_j_un1_v1: [431.87, 602.94]
+  hearth_j_un1_v2: [431.87, 719.76]
+  hearth_j_un1_vn1: [431.87, 377.33]
+  hearth_j_un1_vn2: [431.87, 254.09]
+  hearth_j_un2_v0n: [336.57, 495.92]
+  hearth_j_un2_v1: [336.57, 602.94]
+  hearth_j_un2_v2: [336.57, 719.76]
+  hearth_j_un2_vn1: [336.57, 377.33]
+  hearth_j_un2_vn2: [336.57, 254.09]
+  hearth_j_un3_v0n: [249.55, 495.92]
+  hearth_j_un3_v1: [249.55, 602.94]
+  hearth_j_un3_v2: [249.55, 719.76]
+  hearth_j_un3_vn1: [249.55, 377.33]
+  hearth_j_un3_vn2: [249.55, 254.09]
+  hearth_rv_0: [553.28, 474.91]
+  hearth_rv_1: [543.09, 499.53]
+  hearth_rv_2: [518.47, 509.72]
+  hearth_rv_3: [493.85, 499.53]
+  hearth_rv_4: [483.66, 474.91]
+  hearth_rv_5: [493.85, 450.29]
+  hearth_rv_7: [543.09, 450.29]
+
+crossings:
+  - { id: hearth_gate_b0_x, type: gate, at: hearth_gate_b0 }
+  - { id: hearth_gate_b1_x, type: gate, at: hearth_gate_b1 }
+  - { id: hearth_gate_u2n_x, type: gate, at: hearth_gate_u2n }
+  - { id: hearth_gate_un3n_x, type: gate, at: hearth_gate_un3n }
+
+pois:
+  - { id: hearth_plaza, type: landmark, at: [518.47, 474.91], r: 34.81, label: "Market Square" }
+  - { id: hearth_citadel, type: landmark, at: [482.82, 562.47], r: 45, label: "Citadel" }

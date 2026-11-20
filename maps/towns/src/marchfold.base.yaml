@@ -1,0 +1,28 @@
+format_version: 1
+name: marchfold
+brief: |
+  PITCH: Marchfold, a border fortress town on a march of low hills and fields (showcase map for the fort
+  add-on: a star fortress inside the walls and two detached outposts).
+  FLOW: the fortress is a hard point inside the town; outposts guard the approaches outside the gates. Teams
+  start on opposite sides and must take the outposts or bypass them along the roads.
+  TEST: is the fortress gate a mandatory pass, or can the town be crossed without touching it?
+size: [1500, 1500]
+seed: 5704
+
+terrain:
+  base_height: 45
+  relief: 20
+  relief_scale: 700
+  detail: 5
+  detail_scale: 160
+
+regions:
+  - { id: march_hills_nw, seed: 0, type: hills, shape: blob, at: [250, 1250], r: 260, rough: 0.4, warp: 90, height: 45 }
+  - { id: march_hills_se, seed: 1, type: hills, shape: blob, at: [1250, 250], r: 260, rough: 0.4, warp: 90, height: 45 }
+  - { id: march_fields_ne, seed: 2, type: field, shape: blob, at: [1200, 1200], r: 280, rough: 0.4, warp: 90 }
+  - { id: march_fields_sw, seed: 3, type: field, shape: blob, at: [300, 300], r: 280, rough: 0.4, warp: 90 }
+  - { id: march_wood_n, seed: 4, type: forest, shape: blob, at: [760, 1400], r: 170, rough: 0.5, fragment: 0.4, fragment_scale: 80 }
+  - { id: march_wood_s, seed: 5, type: forest, shape: blob, at: [740, 110], r: 170, rough: 0.5, fragment: 0.4, fragment_scale: 80 }
+
+scatter:
+  - { id: scatter_march, seed: 0, type: forest, coverage: 0.07, scale: 180, clump: 0.4, avoid: 15 }

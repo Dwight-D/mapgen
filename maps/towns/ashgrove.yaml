@@ -1,0 +1,70 @@
+format_version: 1
+name: ashgrove
+brief: |
+  PITCH: Ashgrove, an organic hill town of irregular Voronoi districts with no planned grid, set in
+  woodland with a marsh pocket (showcase map for the organic voronoi generator).
+  FLOW: crooked arteries join four gates to the central plaza; the winding streets slow vehicles and favour
+  infantry. Forest hugs the walls on two sides.
+  TEST: do the irregular districts create usable alternative routes between the gates?
+size: [900, 900]
+seed: 5703
+
+terrain:
+  base_height: 55
+  relief: 18
+  relief_scale: 450
+  detail: 5
+  detail_scale: 110
+
+regions:
+  - { id: ash_wood_w, seed: 0, type: forest, shape: blob, at: [130, 450], r: 200, rough: 0.5, warp: 70, fragment: 0.35, fragment_scale: 60 }
+  - { id: ash_wood_e, seed: 1, type: forest, shape: blob, at: [790, 420], r: 190, rough: 0.5, warp: 70, fragment: 0.35, fragment_scale: 60 }
+  - { id: ash_hill_n, seed: 2, type: hills,  shape: blob, at: [450, 820], r: 170, rough: 0.4, warp: 60, height: 40 }
+  - { id: ash_fen, seed: 3, type: marsh,  shape: blob, at: [460, 70],  r: 130, rough: 0.5, warp: 50, label: Ash Fen }
+  - { id: ash_clearing_s, seed: 4, type: clearing, shape: blob, at: [250, 100], r: 90, rough: 0.5, warp: 30 }
+  - { id: ash_clearing_n, seed: 5, type: clearing, shape: blob, at: [680, 790], r: 90, rough: 0.5, warp: 30 }
+  - { id: ash_d_p0, seed: 2728730346, type: town, shape: poly, points: [[575.97, 469.8], [559.87, 483.45], [565.98, 520.73], [509.83, 535.83], [506.02, 485.62], [497.24, 474.6], [457.64, 480.46], [452.75, 443.07], [468.06, 396.33], [499.44, 400.21], [512.12, 387.66], [533.74, 386.59], [546.25, 380.82]], rough: 0, label: "Central Plaza" }
+  - { id: ash_d_p1, seed: 2533161056, type: town, shape: poly, points: [[427.47, 413.68], [452.75, 443.07], [457.64, 480.46], [454.5, 491.01], [415.98, 490.34], [411.52, 465.37]], rough: 0, label: "Market Ward 1" }
+  - { id: ash_d_p2, seed: 2998777785, type: town, shape: poly, points: [[467.34, 291.35], [478.55, 284.53], [512.12, 387.66], [499.44, 400.21], [468.06, 396.33], [453.82, 355.78]], rough: 0, label: "Residential Ward 1" }
+  - { id: ash_d_p3, seed: 2037288271, type: town, shape: poly, points: [[497.24, 474.6], [506.02, 485.62], [509.83, 535.83], [503.29, 570.87], [461.6, 553.51], [454.5, 491.01], [457.64, 480.46]], rough: 0, label: "Market Ward 2" }
+  - { id: ash_d_p4, seed: 2719696354, type: town, shape: poly, points: [[453.82, 355.78], [468.06, 396.33], [452.75, 443.07], [427.47, 413.68], [420.42, 377.87]], rough: 0, label: "Residential Ward 2" }
+  - { id: ash_d_p6, seed: 4241274603, type: town, shape: poly, points: [[415.98, 490.34], [454.5, 491.01], [461.6, 553.51], [428.59, 586.76], [384.59, 557.49]], rough: 0, label: "Residential Ward 3" }
+  - { id: ash_d_p7, seed: 3120682031, type: town, shape: poly, points: [[400.69, 276.53], [467.34, 291.35], [453.82, 355.78], [420.42, 377.87], [420.22, 377.64]], rough: 0, label: "Craft Quarter 1" }
+  - { id: ash_d_p9, seed: 549344342, type: town, shape: poly, points: [[416.77, 142.71], [372.84, 251.76], [400.69, 276.53], [420.22, 377.64], [420.42, 377.87], [427.47, 413.68], [411.52, 465.37], [389.76, 438.24], [404.3, 388.72], [377.77, 364.19], [368.87, 254.86], [118.26, 322.4], [114.5, 189.21], [171.91, 50.3], [335.39, 10], [449, 18.53]], rough: 0, label: "Craft Quarter 2" }
+  - { id: ash_d_p10, seed: 3067450407, type: town, shape: poly, points: [[493.88, 265.36], [504.71, 263.22], [549.99, 306.58], [556.78, 374.14], [546.25, 380.82], [533.74, 386.59], [512.12, 387.66], [478.55, 284.53]], rough: 0, label: "Residential Ward 4" }
+  - { id: ash_d_p13, seed: 3567005962, type: town, shape: poly, points: [[597.65, 289.89], [701.14, 316.51], [596.56, 380.74], [556.78, 374.14], [549.99, 306.58]], rough: 0, label: "Craft Quarter 3" }
+
+scatter:
+  - { id: scatter_ash, seed: 0, type: forest, coverage: 0.25, scale: 120, clump: 0.5, avoid: 12 }
+
+teams:
+  A: { base: [226, 418], name: Westhold }
+  B: { base: [723, 345], name: Easthold }
+
+lines:
+  - { id: approach_a, type: road, path: [base_A, [312, 385], ash_gate_2], width: 10, smooth: true }
+  - { id: approach_b, type: road, path: [base_B, [638, 380], ash_gate_3], width: 10, smooth: true }
+  - { id: ash_artery_0, seed: 1848374796, type: road, path: [ash_gate_0, ash_plaza], width: 14, smooth: true }
+  - { id: ash_artery_1, seed: 1632165263, type: road, path: [ash_gate_1, ash_j_p1p3p6, ash_j_p0p1p3, ash_plaza], width: 14, smooth: true }
+  - { id: ash_artery_2, seed: 378611689, type: road, path: [ash_gate_2, ash_j_p9, ash_j_p1p9, ash_gate_1], width: 14, smooth: true }
+  - { id: ash_artery_3, seed: 1177137908, type: road, path: [ash_gate_3, ash_plaza], width: 14, smooth: true }
+  - { id: ash_wall_outer, seed: 2741452500, type: wall, path: [[171.91, 50.3], [335.39, 10], [449, 18.53], [416.77, 142.71], [372.84, 251.76], [400.69, 276.53], [467.34, 291.35], [478.55, 284.53], [493.88, 265.36], [504.71, 263.22], [549.99, 306.58], [597.65, 289.89], [701.14, 316.51], [596.56, 380.74], [556.78, 374.14], [546.25, 380.82], [575.97, 469.8], [559.87, 483.45], [565.98, 520.73], [509.83, 535.83], [503.29, 570.87], [461.6, 553.51], [428.59, 586.76], [384.59, 557.49], [415.98, 490.34], [411.52, 465.37], [389.76, 438.24], [404.3, 388.72], [377.77, 364.19], [368.87, 254.86], [118.26, 322.4], [114.5, 189.21], [171.91, 50.3]], width: 8 }
+
+points:
+  ash_gate_0: [509.83, 535.83]
+  ash_gate_1: [415.98, 490.34]
+  ash_gate_2: [404.3, 388.72]
+  ash_gate_3: [546.25, 380.82]
+  ash_j_p0p1p3: [457.64, 480.46]
+  ash_j_p1p3p6: [454.5, 491.01]
+  ash_j_p1p9: [411.52, 465.37]
+  ash_j_p9: [389.76, 438.24]
+
+crossings:
+  - { id: ash_gate_0_x, type: gate, at: ash_gate_0 }
+  - { id: ash_gate_1_x, type: gate, at: ash_gate_1 }
+  - { id: ash_gate_2_x, type: gate, at: ash_gate_2 }
+  - { id: ash_gate_3_x, type: gate, at: ash_gate_3 }
+
+pois:
+  - { id: ash_plaza, type: landmark, at: [517.58, 453.15], r: 33.81, label: "Central Plaza" }

@@ -1,0 +1,101 @@
+format_version: 1
+name: marchfold
+brief: |
+  PITCH: Marchfold, a border fortress town on a march of low hills and fields (showcase map for the fort
+  add-on: a star fortress inside the walls and two detached outposts).
+  FLOW: the fortress is a hard point inside the town; outposts guard the approaches outside the gates. Teams
+  start on opposite sides and must take the outposts or bypass them along the roads.
+  TEST: is the fortress gate a mandatory pass, or can the town be crossed without touching it?
+size: [1500, 1500]
+seed: 5704
+
+terrain:
+  base_height: 45
+  relief: 20
+  relief_scale: 700
+  detail: 5
+  detail_scale: 160
+
+regions:
+  - { id: march_hills_nw, seed: 0, type: hills, shape: blob, at: [250, 1250], r: 260, rough: 0.4, warp: 90, height: 45 }
+  - { id: march_hills_se, seed: 1, type: hills, shape: blob, at: [1250, 250], r: 260, rough: 0.4, warp: 90, height: 45 }
+  - { id: march_fields_ne, seed: 2, type: field, shape: blob, at: [1200, 1200], r: 280, rough: 0.4, warp: 90 }
+  - { id: march_fields_sw, seed: 3, type: field, shape: blob, at: [300, 300], r: 280, rough: 0.4, warp: 90 }
+  - { id: march_wood_n, seed: 4, type: forest, shape: blob, at: [760, 1400], r: 170, rough: 0.5, fragment: 0.4, fragment_scale: 80 }
+  - { id: march_wood_s, seed: 5, type: forest, shape: blob, at: [740, 110], r: 170, rough: 0.5, fragment: 0.4, fragment_scale: 80 }
+  - { id: march_d_p0, seed: 339013025, type: town, shape: poly, points: [[692.36, 1047.98], [677.15, 940.09], [777.25, 868.81], [826.4, 914.12], [793.57, 1026.47]], rough: 0, label: "Central Plaza" }
+  - { id: march_d_p1, seed: 2514440262, type: town, shape: poly, points: [[668.96, 1170.82], [670.01, 1066.15], [692.36, 1047.98], [793.57, 1026.47], [853.51, 1061.3], [766.64, 1177.65], [722.34, 1194.74]], rough: 0, label: "Residential Ward 1" }
+  - { id: march_d_p2, seed: 2901046971, type: town, shape: poly, points: [[563.25, 1063.16], [550.27, 909.46], [557.41, 897.14], [592.2, 888.69], [677.15, 940.09], [692.36, 1047.98], [670.01, 1066.15]], rough: 0, label: "Residential Ward 2" }
+  - { id: march_d_p3, seed: 2860182691, type: town, shape: poly, points: [[793.57, 1026.47], [826.4, 914.12], [960.18, 905.66], [975.59, 951.16], [886.28, 1056.52], [853.51, 1061.3]], rough: 0, label: "Market Ward 1" }
+  - { id: march_d_p4, seed: 3212341565, type: town, shape: poly, points: [[528.36, 1224.48], [522.86, 1218.92], [522.49, 1087.57], [563.25, 1063.16], [670.01, 1066.15], [668.96, 1170.82]], rough: 0, label: "Residential Ward 3" }
+  - { id: march_d_p5, seed: 1486818172, type: town, shape: poly, points: [[592.2, 888.69], [624.28, 765.35], [765.31, 799.22], [777.25, 868.81], [677.15, 940.09]], rough: 0, label: "Market Ward 2" }
+  - { id: march_d_p6, seed: 255873638, type: town, shape: poly, points: [[831.23, 1200.2], [766.64, 1177.65], [853.51, 1061.3], [886.28, 1056.52], [958.83, 1131.36], [948.63, 1168.34]], rough: 0, label: "Residential Ward 4" }
+  - { id: march_d_p7, seed: 1802028396, type: town, shape: poly, points: [[408, 1041.94], [471.45, 938.23], [550.27, 909.46], [563.25, 1063.16], [522.49, 1087.57]], rough: 0, label: "Residential Ward 5" }
+  - { id: march_d_p8, seed: 3292760986, type: town, shape: poly, points: [[826.4, 914.12], [777.25, 868.81], [765.31, 799.22], [793.79, 753.16], [894.54, 761.5], [970.09, 871.17], [960.18, 905.66]], rough: 0, label: "Residential Ward 6" }
+  - { id: march_d_p9, seed: 2106196907, type: town, shape: poly, points: [[549.13, 1313.63], [528.36, 1224.48], [668.96, 1170.82], [722.34, 1194.74], [705.76, 1307.87], [688.3, 1324.53]], rough: 0, label: "Craft Quarter 1" }
+  - { id: march_d_p10, seed: 2165139719, type: town, shape: poly, points: [[346.2, 661.19], [608.7, 734.17], [624.28, 765.35], [592.2, 888.69], [557.41, 897.14]], rough: 0, label: "Craft Quarter 2" }
+  - { id: march_d_p12, seed: 3575457511, type: town, shape: poly, points: [[417.06, 1197.78], [391.93, 1046.56], [408, 1041.94], [522.49, 1087.57], [522.86, 1218.92]], rough: 0, label: "Craft Quarter 3" }
+  - { id: march_d_fort, seed: 3015321056, type: town, shape: poly, points: [[886.28, 1056.52], [975.59, 951.16], [1099.34, 1059.13], [958.83, 1131.36]], rough: 0, label: "Fortress" }
+  - { id: march_d_o1, seed: 3242797830, type: town, shape: poly, points: [[196.24, 613.83], [216.34, 606.68], [222.25, 586.17], [240.38, 597.43], [260.09, 589.26], [262.59, 610.46], [281.27, 620.78], [266.26, 635.95], [269.83, 656.98], [248.62, 654.71], [234.4, 670.62], [222.95, 652.61], [201.64, 651.42], [208.59, 631.24]], rough: 0, label: "Outlying Fort 1" }
+  - { id: march_d_o2, seed: 1126142903, type: town, shape: poly, points: [[743.9, 582.12], [761.02, 594.85], [781.35, 588.35], [782.08, 609.68], [799.83, 621.52], [783.6, 635.39], [785.41, 656.65], [764.46, 652.61], [748.96, 667.28], [739.06, 648.38], [717.93, 645.41], [726.53, 625.88], [715.67, 607.51], [736.3, 602.06]], rough: 0, label: "Outlying Fort 2" }
+
+scatter:
+  - { id: scatter_march, seed: 0, type: forest, coverage: 0.07, scale: 180, clump: 0.4, avoid: 15 }
+
+teams:
+  A: { base: [1243, 748], name: Marcher Lords }
+  B: { base: [473, 1427], name: Border Reivers }
+
+lines:
+  - { id: approach_a, type: road, path: [base_A, [1114, 826], march_gate_1], width: 10, smooth: true }
+  - { id: approach_b, type: road, path: [base_B, [481, 1319], march_gate_2], width: 10, smooth: true }
+  - { id: march_apr_o1, seed: 370979022, type: road, path: [march_gate_3, march_gate_o1, march_o1], width: 10, smooth: true }
+  - { id: march_apr_o2, seed: 3194783878, type: road, path: [march_gate_0, march_gate_o2, march_o2], width: 10, smooth: true }
+  - { id: march_artery_0, seed: 577728414, type: road, path: [march_gate_0, march_j_p5p8, march_j_p0p5p8, march_plaza], width: 14, smooth: true }
+  - { id: march_artery_1, seed: 4207484564, type: road, path: [march_gate_1, march_j_p3p8, march_j_p0p3p8, march_plaza], width: 14, smooth: true }
+  - { id: march_artery_2, seed: 786897187, type: road, path: [march_gate_2, march_j_p4p9, march_j_p1p4p9, march_j_p1p2p4, march_j_p0p1p2, march_plaza], width: 14, smooth: true }
+  - { id: march_artery_3, seed: 3478440498, type: road, path: [march_gate_3, march_j_p2p10, march_j_p2p5p10, march_j_p0p2p5, march_plaza], width: 14, smooth: true }
+  - { id: march_fort_link_in, seed: 3590605425, type: road, path: [march_gate_fort_in, march_j_p0p3p8], width: 8, smooth: true }
+  - { id: march_fort_link_out, seed: 160841309, type: road, path: [march_gate_fort_out, march_j_p3p8], width: 8, smooth: true }
+  - { id: march_fort_road, seed: 1373801300, type: road, path: [march_gate_fort_in, march_fort, march_gate_fort_out], width: 12, smooth: true }
+  - { id: march_wall_outer, seed: 658369845, type: wall, path: [[557.41, 897.14], [346.2, 661.19], [608.7, 734.17], [624.28, 765.35], [765.31, 799.22], [793.79, 753.16], [894.54, 761.5], [970.09, 871.17], [960.18, 905.66], [975.59, 951.16], [1099.34, 1059.13], [958.83, 1131.36], [948.63, 1168.34], [831.23, 1200.2], [766.64, 1177.65], [722.34, 1194.74], [705.76, 1307.87], [688.3, 1324.53], [549.13, 1313.63], [528.36, 1224.48], [522.86, 1218.92], [417.06, 1197.78], [391.93, 1046.56], [408, 1041.94], [471.45, 938.23], [550.27, 909.46], [557.41, 897.14]], width: 8 }
+  - { id: march_wall_fort, seed: 902159501, type: wall, path: [[886.28, 1056.52], [975.59, 951.16], [1099.34, 1059.13], [958.83, 1131.36], [886.28, 1056.52]], width: 7 }
+  - { id: march_wall_o1, seed: 443727334, type: wall, path: [[196.24, 613.83], [216.34, 606.68], [222.25, 586.17], [240.38, 597.43], [260.09, 589.26], [262.59, 610.46], [281.27, 620.78], [266.26, 635.95], [269.83, 656.98], [248.62, 654.71], [234.4, 670.62], [222.95, 652.61], [201.64, 651.42], [208.59, 631.24], [196.24, 613.83]], width: 7 }
+  - { id: march_wall_o2, seed: 2877009585, type: wall, path: [[743.9, 582.12], [761.02, 594.85], [781.35, 588.35], [782.08, 609.68], [799.83, 621.52], [783.6, 635.39], [785.41, 656.65], [764.46, 652.61], [748.96, 667.28], [739.06, 648.38], [717.93, 645.41], [726.53, 625.88], [715.67, 607.51], [736.3, 602.06], [743.9, 582.12]], width: 7 }
+
+points:
+  march_gate_0: [793.79, 753.16]
+  march_gate_1: [970.09, 871.17]
+  march_gate_2: [522.86, 1218.92]
+  march_gate_3: [346.2, 661.19]
+  march_gate_fort_in: [886.28, 1056.52]
+  march_gate_fort_out: [1099.34, 1059.13]
+  march_gate_o1: [281.27, 620.78]
+  march_gate_o2: [785.41, 656.65]
+  march_j_p0p1p2: [692.36, 1047.98]
+  march_j_p0p2p5: [677.15, 940.09]
+  march_j_p0p3p8: [826.4, 914.12]
+  march_j_p0p5p8: [777.25, 868.81]
+  march_j_p1p2p4: [670.01, 1066.15]
+  march_j_p1p4p9: [668.96, 1170.82]
+  march_j_p2p10: [557.41, 897.14]
+  march_j_p2p5p10: [592.2, 888.69]
+  march_j_p3p8: [960.18, 905.66]
+  march_j_p4p9: [528.36, 1224.48]
+  march_j_p5p8: [765.31, 799.22]
+
+crossings:
+  - { id: march_gate_0_x, type: gate, at: march_gate_0 }
+  - { id: march_gate_1_x, type: gate, at: march_gate_1 }
+  - { id: march_gate_2_x, type: gate, at: march_gate_2 }
+  - { id: march_gate_3_x, type: gate, at: march_gate_3 }
+  - { id: march_gate_fort_in_x, type: gate, at: march_gate_fort_in }
+  - { id: march_gate_fort_out_x, type: gate, at: march_gate_fort_out }
+  - { id: march_gate_o1_x, type: gate, at: march_gate_o1 }
+  - { id: march_gate_o2_x, type: gate, at: march_gate_o2 }
+
+pois:
+  - { id: march_plaza, type: landmark, at: [750.19, 962.48], r: 41.17, label: "Central Plaza" }
+  - { id: march_fort, type: landmark, at: [984.78, 1046.89], r: 44.46, label: "Fortress" }
+  - { id: march_o1, type: landmark, at: [237.96, 627.01], r: 20.14, label: "Outlying Fort 1" }
+  - { id: march_o2, type: landmark, at: [756.15, 624.12], r: 20.14, label: "Outlying Fort 2" }

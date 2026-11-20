@@ -1,0 +1,28 @@
+format_version: 1
+name: ashgrove
+brief: |
+  PITCH: Ashgrove, an organic hill town of irregular Voronoi districts with no planned grid, set in
+  woodland with a marsh pocket (showcase map for the organic voronoi generator).
+  FLOW: crooked arteries join four gates to the central plaza; the winding streets slow vehicles and favour
+  infantry. Forest hugs the walls on two sides.
+  TEST: do the irregular districts create usable alternative routes between the gates?
+size: [900, 900]
+seed: 5703
+
+terrain:
+  base_height: 55
+  relief: 18
+  relief_scale: 450
+  detail: 5
+  detail_scale: 110
+
+regions:
+  - { id: ash_wood_w, seed: 0, type: forest, shape: blob, at: [130, 450], r: 200, rough: 0.5, warp: 70, fragment: 0.35, fragment_scale: 60 }
+  - { id: ash_wood_e, seed: 1, type: forest, shape: blob, at: [790, 420], r: 190, rough: 0.5, warp: 70, fragment: 0.35, fragment_scale: 60 }
+  - { id: ash_hill_n, seed: 2, type: hills,  shape: blob, at: [450, 820], r: 170, rough: 0.4, warp: 60, height: 40 }
+  - { id: ash_fen, seed: 3, type: marsh,  shape: blob, at: [460, 70],  r: 130, rough: 0.5, warp: 50, label: Ash Fen }
+  - { id: ash_clearing_s, seed: 4, type: clearing, shape: blob, at: [250, 100], r: 90, rough: 0.5, warp: 30 }
+  - { id: ash_clearing_n, seed: 5, type: clearing, shape: blob, at: [680, 790], r: 90, rough: 0.5, warp: 30 }
+
+scatter:
+  - { id: scatter_ash, seed: 0, type: forest, coverage: 0.25, scale: 120, clump: 0.5, avoid: 12 }

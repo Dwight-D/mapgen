@@ -1,0 +1,29 @@
+format_version: 1
+name: ashgrove
+brief: |
+  Settlement movement graph of ashgrove (generator voronoi, seed 21) with two spawns linked to gates ash_gate_2 and ash_gate_3.
+
+nodes:
+  A: { kind: spawn, team: A, name: Westhold spawn }
+  B: { kind: spawn, team: B, name: Easthold spawn }
+  ash_gate_0: { kind: choke, name: "Gate 0" }
+  ash_gate_1: { kind: choke, name: "Gate 1" }
+  ash_gate_2: { kind: choke, name: "Gate 2" }
+  ash_gate_3: { kind: choke, name: "Gate 3" }
+  ash_j_p0p1p3: { kind: choke }
+  ash_j_p1p3p6: { kind: choke }
+  ash_j_p1p9: { kind: choke }
+  ash_j_p9: { kind: choke }
+  ash_plaza: { kind: zone, name: "Central Plaza" }
+
+edges:
+  - A - ash_gate_2
+  - B - ash_gate_3
+  - { link: "ash_gate_0 - ash_plaza", name: ash_artery_0 }
+  - { link: "ash_gate_1 - ash_j_p1p3p6", name: ash_artery_1 }
+  - { link: "ash_j_p1p9 - ash_gate_1", name: ash_artery_2 }
+  - { link: "ash_gate_2 - ash_j_p9", name: ash_artery_2 }
+  - { link: "ash_gate_3 - ash_plaza", name: ash_artery_3 }
+  - { link: "ash_j_p1p3p6 - ash_j_p0p1p3", name: ash_artery_1 }
+  - { link: "ash_j_p0p1p3 - ash_plaza", name: ash_artery_1 }
+  - { link: "ash_j_p9 - ash_j_p1p9", name: ash_artery_2 }

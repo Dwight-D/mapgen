@@ -1,0 +1,31 @@
+format_version: 1
+name: hearthmoor
+brief: |
+  PITCH: Hearthmoor, a walled market town on open moorland plains (showcase map for the grid town generator).
+  FLOW: Team A (Dunmark) holds the west road, team B (Eastwold) the east road; the town's gates and the
+  market square in the middle are the fight. Open fields around the walls favour a siege approach, the
+  copses to the north and south hide flanking columns.
+  TEST: does play funnel into the gates, or do teams skirt the wall through the fields?
+size: [1000, 1000]
+seed: 5701
+
+terrain:
+  base_height: 40
+  relief: 8
+  relief_scale: 500
+  detail: 3
+  detail_scale: 120
+
+regions:
+  - { id: moor_fields_w, seed: 0, type: field,  shape: blob, at: [200, 500], r: 190, rough: 0.4, warp: 60, warp_scale: 120 }
+  - { id: moor_fields_e, seed: 1, type: field,  shape: blob, at: [820, 480], r: 190, rough: 0.4, warp: 60, warp_scale: 120 }
+  - { id: copse_n, seed: 2, type: forest, shape: blob, at: [250, 880], r: 110, rough: 0.5, fragment: 0.4, fragment_scale: 60 }
+  - { id: copse_n2, seed: 3, type: forest, shape: blob, at: [780, 900], r: 90, rough: 0.5, fragment: 0.4, fragment_scale: 60 }
+  - { id: copse_s, seed: 4, type: forest, shape: blob, at: [720, 110], r: 120, rough: 0.5, fragment: 0.4, fragment_scale: 60 }
+  - { id: copse_s2, seed: 5, type: forest, shape: blob, at: [200, 130], r: 80, rough: 0.5, fragment: 0.4, fragment_scale: 60 }
+  - { id: barrow_hill, seed: 6, type: hills, shape: blob, at: [900, 880], r: 120, rough: 0.4, warp: 40, height: 30, label: Barrow Hill }
+  - { id: mere, seed: 7, type: marsh, shape: blob, at: [90, 900], r: 90, rough: 0.5, warp: 40, label: Hearthmere }
+
+scatter:
+  - { id: scatter_copses, seed: 0, type: forest, coverage: 0.05, scale: 120, clump: 0.5, avoid: 12 }
+  - { id: scatter_fields, seed: 1, type: field,  coverage: 0.2, scale: 150, clump: 0.3, avoid: 10 }

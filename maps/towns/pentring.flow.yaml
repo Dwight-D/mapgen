@@ -1,0 +1,53 @@
+format_version: 1
+name: pentring
+brief: |
+  Settlement movement graph of pentring (generator radial, seed 7) with two spawns linked to gates pent_gate_1 and pent_gate_3.
+
+nodes:
+  A: { kind: spawn, team: A, name: Northguard spawn }
+  B: { kind: spawn, team: B, name: Southguard spawn }
+  pent_gate_0: { kind: choke, name: "Gate 0" }
+  pent_gate_1: { kind: choke, name: "Gate 1" }
+  pent_gate_2: { kind: choke, name: "Gate 2" }
+  pent_gate_3: { kind: choke, name: "Gate 3" }
+  pent_gate_4: { kind: choke, name: "Gate 4" }
+  pent_j_r1s0: { kind: choke }
+  pent_j_r1s1: { kind: choke }
+  pent_j_r1s2: { kind: choke }
+  pent_j_r1s3: { kind: choke }
+  pent_j_r1s4: { kind: choke }
+  pent_j_r2s0: { kind: choke }
+  pent_j_r2s1: { kind: choke }
+  pent_j_r2s2: { kind: choke }
+  pent_j_r2s3: { kind: choke }
+  pent_j_r2s4: { kind: choke }
+  pent_plaza: { kind: zone, name: "Central Plaza" }
+
+edges:
+  - A - pent_gate_1
+  - B - pent_gate_3
+  - { link: "pent_j_r2s0 - pent_gate_0", name: pent_spoke_0 }
+  - { link: "pent_j_r2s1 - pent_gate_1", name: pent_spoke_1 }
+  - { link: "pent_j_r2s2 - pent_gate_2", name: pent_spoke_2 }
+  - { link: "pent_j_r2s3 - pent_gate_3", name: pent_spoke_3 }
+  - { link: "pent_j_r2s4 - pent_gate_4", name: pent_spoke_4 }
+  - { link: "pent_j_r1s0 - pent_j_r1s1", name: pent_ring_1 }
+  - { link: "pent_j_r1s4 - pent_j_r1s0", name: pent_ring_1 }
+  - { link: "pent_j_r1s0 - pent_j_r2s0", name: pent_spoke_0 }
+  - { link: "pent_plaza - pent_j_r1s0", name: pent_spoke_0 }
+  - { link: "pent_j_r1s1 - pent_j_r1s2", name: pent_ring_1 }
+  - { link: "pent_j_r1s1 - pent_j_r2s1", name: pent_spoke_1 }
+  - { link: "pent_plaza - pent_j_r1s1", name: pent_spoke_1 }
+  - { link: "pent_j_r1s2 - pent_j_r1s3", name: pent_ring_1 }
+  - { link: "pent_j_r1s2 - pent_j_r2s2", name: pent_spoke_2 }
+  - { link: "pent_plaza - pent_j_r1s2", name: pent_spoke_2 }
+  - { link: "pent_j_r1s3 - pent_j_r1s4", name: pent_ring_1 }
+  - { link: "pent_j_r1s3 - pent_j_r2s3", name: pent_spoke_3 }
+  - { link: "pent_plaza - pent_j_r1s3", name: pent_spoke_3 }
+  - { link: "pent_j_r1s4 - pent_j_r2s4", name: pent_spoke_4 }
+  - { link: "pent_plaza - pent_j_r1s4", name: pent_spoke_4 }
+  - { link: "pent_j_r2s0 - pent_j_r2s1", name: pent_ring_2 }
+  - { link: "pent_j_r2s4 - pent_j_r2s0", name: pent_ring_2 }
+  - { link: "pent_j_r2s1 - pent_j_r2s2", name: pent_ring_2 }
+  - { link: "pent_j_r2s2 - pent_j_r2s3", name: pent_ring_2 }
+  - { link: "pent_j_r2s3 - pent_j_r2s4", name: pent_ring_2 }
