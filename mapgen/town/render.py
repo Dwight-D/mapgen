@@ -47,6 +47,16 @@ def _pattern(draw: ImageDraw.ImageDraw, kind: str, box, dark: int) -> None:
             draw.line([(x0, k), (x1, k)], fill=col, width=SS)
 
 
+def _parity(s: Settlement):
+    """Lightness offset (+-10) of each leaf by the index parity among its siblings, so adjacent children separate."""
+    nodes = {n.id: n for n in s.layers}
+    out = {}
+    for n in s.layers:
+        for i, c in enumerate(n.children):
+            out[c] = 10 if i % 2 == 0 else -10
+    return out
+
+
 class _View:
     def __init__(self, s: Settlement, px: int):
         xs = [p[0] for p in s.footprint]
@@ -78,9 +88,13 @@ def render_png(s: Settlement, px: int = 900, title: str = "") -> Image.Image:
         d = ImageDraw.Draw(img)
     for isl in s.water.get("islands", []):
         d.polygon([v(p) for p in isl["polygon"]], fill=(200, 200, 200), outline=INK)
+    layered = bool(s.layers)
+    parity = _parity(s) if layered else {}
     for dist in s.districts:
         pts = [v(p) for p in dist.polygon]
         grey, pat = KIND_STYLE.get(dist.kind, (200, "none"))
+        if layered:
+            grey = max(60, min(250, grey + parity.get(dist.id, 0)))
         d.polygon(pts, fill=(grey,) * 3)
         if pat != "none":
             mask = Image.new("L", img.size, 0)
@@ -90,10 +104,15 @@ def render_png(s: Settlement, px: int = 900, title: str = "") -> Image.Image:
                                                   max(p[0] for p in pts), max(p[1] for p in pts)), grey)
             img.paste(layer, (0, 0), mask)
             d = ImageDraw.Draw(img)
-        d.line(pts + [pts[0]], fill=(90, 90, 90), width=SS)
+        d.line(pts + [pts[0]], fill=(150, 150, 150) if dist.depth else (90, 90, 90), width=SS)
+    for n in s.layers:     # hierarchy: the outline of a subdivided district, heavier the shallower it is
+        pts = [v(p) for p in n.polygon]
+        d.line(pts + [pts[0]], fill=(40, 40, 40) if n.depth == 0 else (90, 90, 90), width=(3 if n.depth == 0 else 2) * SS)
     for r in s.roads:
         pts = [v(p) for p in r.polyline]
         w = max(3.0, r.width * v.scale * 0.6)
+        if r.cls == "street":
+            w = max(2.0 * SS, r.width * v.scale * 0.4)
         d.line(pts, fill=INK, width=int(w + 2 * SS), joint="curve")
         d.line(pts, fill=(255, 255, 255), width=int(w), joint="curve")
     for wl in s.walls:
@@ -120,14 +139,23 @@ def render_png(s: Settlement, px: int = 900, title: str = "") -> Image.Image:
             d.rectangle([x - q / 3, y - q / 3, x + q / 3, y + q / 3], fill=INK)
     font = ImageFont.load_default()
     for dist in s.districts:
-        if dist.kind == "core":
+        if dist.kind == "core" or (dist.depth and len(s.districts) > 120):
             continue
         poly_x = [p[0] for p in dist.polygon]
         poly_y = [p[1] for p in dist.polygon]
         x, y = v((sum(poly_x) / len(poly_x), sum(poly_y) / len(poly_y)))
         d.text((x - 8 * SS, y - 5 * SS), dist.key, fill=INK, font=font)
+    if s.layers and len(s.layers) <= 20:
+        for n in s.layers:
+            xs = [p[0] for p in n.polygon]
+            ys = [p[1] for p in n.polygon]
+            x, y = v((sum(xs) / len(xs), sum(ys) / len(ys)))
+            d.text((x - 8 * SS, y + 5 * SS), n.id.split("_d_", 1)[-1].upper(), fill=INK, font=font)
     img = img.resize((px, px), Image.LANCZOS)
     t = ImageDraw.Draw(img)
+    if not title and s.layers:
+        title = "%s %s seed %d  (%d districts, %d subdivided, depth %d)" % (
+            s.generator, s.id, s.seed, len(s.districts), len(s.layers), max(d.depth for d in s.districts))
     t.text((8, 6), title or "%s %s seed %d  (%d districts, %d gates)" % (s.generator, s.id, s.seed, len(s.districts), len(s.gates)),
            fill=INK, font=font)
     return img

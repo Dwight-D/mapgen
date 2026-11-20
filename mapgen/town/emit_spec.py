@@ -12,7 +12,7 @@ from ..schema import feature_seed
 from .model import Settlement
 from .water import wall_runs
 
-ROAD_TYPE = {"artery": "road", "ring": "road", "boulevard": "road", "bridge": "road", "approach": "road"}
+ROAD_TYPE = {"artery": "road", "ring": "road", "boulevard": "road", "bridge": "road", "approach": "road", "street": "road"}
 LANDMARK_POI = {"square": "landmark", "market": "landmark", "temple": "landmark", "docks": "landmark",
                 "citadel": "landmark", "fortress": "landmark"}   # `landmark` is never an extra node for `flowgraph check --strict`
 
@@ -55,6 +55,8 @@ def emit_spec(s: Settlement) -> str:
     w("# Paste each list under the same key of the spec; every id starts with `%s_`. Coordinates are map metres." % s.id)
     w("# Districts are `town` regions, roads are `road` lines, the wall is a `wall` line, gates are `gate` crossings")
     w("# on `points` entries, squares, citadels and other landmarks are `landmark` POIs (change one to `keep_site` or `capture` to make it an objective).")
+    if s.layers:
+        w("# layers: %d subdivided districts, %d districts in all" % (len(s.layers), len(s.districts)))
     w("")
     w("points:")
     for n in s.graph_nodes:

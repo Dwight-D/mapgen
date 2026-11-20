@@ -1,8 +1,8 @@
 # Town layers — nested district subdivision
 
-Status: design (mission GDU-57). Self-contained apart from `TOWN_SPEC.md` (the settlement model, §3, ids, graphs §5, checks §8,
+Status: L1-L4 implemented (mission GDU-57); L5 showcase pending the owner's review. Section 16 lists where the implementation differs from the text below. Self-contained apart from `TOWN_SPEC.md` (the settlement model, §3, ids, graphs §5, checks §8,
 emitters §9, preview §10), which this file extends. Nothing here changes the output of a settlement generated without `layers`.
-The grid polygon-fill (§4.1) is prototyped and validated (§13); radial and voronoi fills (§4.2, §4.3) are validated at the start of their slices.
+All three fills are validated (§13, §16).
 
 ## 1. Purpose
 
@@ -299,3 +299,21 @@ Nothing under `maps/` or `tests/baselines/` changes.
 | L5 | Showcase and tuning: three layered settlements in `maps/towns/` (e.g. radial+grid, grid+voronoi, voronoi+radial) with previews; owner reviews; baselines only with approval | `maps/towns/build.py`, `maps/towns/*.yaml` |
 
 L1 is the only slice that edits `model.py`, `check.py`, `registry.py`; L2 and L3 touch only their own files plus one registration line each. The full suite (`pytest`, about 3 minutes) runs between waves; no baseline changes without owner approval.
+
+## 16. Implemented form (deviations from sections 4-12)
+
+Module layout: `layers.py` (apply), `layers_params.py` (parse, validate, echo, CLI string form), `layerfill.py` (contract and shared tail `finish`), `fill_grid.py`, `fill_radial.py`, `fill_voronoi.py`. Validation on 30 random convex polygons and non-convex shapes: the contracts hold; a fill that cannot comply raises `Unfit`.
+
+- **Fill tail (`layerfill.finish`)**: lines are extended 0.3 m past any end on `P.boundary` and clipped back so noding is exact; road ends within 0.06 m of `P.boundary` or another road are snapped onto it; stubs are dropped in a loop.
+- **Grid**: `block` default 0 means derived (`max(sqrt(1.3 * min_area), sqrt(area) / 3)` drawn +-25 % from the geometry stream), since a ParamDef range cannot depend on the polygon.
+- **Radial**: spokes start at the first ring (0.8 of its radius; the part inside the core is cut away); the disc inside ring 1 is face `core`; `rings` 1-2 are the concentric streets; `spokes` and `rings` 0 mean derived. Faces under `min_area` merge, so small districts keep few roads.
+- **Voronoi**: cells come from `shapely.ops.voronoi_diagram` clipped to `P` (`gen_voronoi` is not touched); seeds by rejection sampling, `lloyd` 0-2, `cells` 0 = derived; arteries are `gen_voronoi._route` paths between the two farthest boundary vertices and from the vertex nearest the centroid to the boundary; every other border chain is a `street`. There is no `anisotropy` parameter.
+- **Boundary streets** are made after stitching, edge by edge (wall or shore within 1 m: none; road within 0.3 m: none; otherwise the run shared with the nearest neighbour of depth at most the node's, shallower first). Ids over 64 characters become `<sid>_bs_<12 hex>`. A junction id uses the first two road ids (sorted) meeting at the vertex; a clash appends `_2`, `_3` in coordinate order.
+- **Stitching** first merges vertices within 0.015 m onto the earlier one (existing road, gate and node coordinates never move), then inserts into each polygon and polyline every foreign vertex within 0.02 m of an edge (never one within 0.05 m of an end of that edge, never one of the sequence's own vertices). The district graph derives from walls stitched the same way.
+- **Pruning**: after stitching, a sub-road end that touches no other road is cut back to its nearest shared vertex (dropped if none); sub-roads and boundary streets not connected to a parent road are dropped. `graph: major` promotes street sub-roads into the movement graph when an artery component would otherwise be cut off from the parent network. A bridge joins nodes only at its ends.
+- **`roads_only`** is applied first; the settlement is rebuilt with `streets` when the movement graph is disconnected.
+- **Alignment**: `align_jitter` is a rule key; `parent` uses the parent node's stored `rot` (degrees, in `LayerNode.params`).
+- **Check `_layers`**: the wall test is "at most 5 m of a layer road within 0.5 m of a wall"; the connectivity test is "every layer road lies in the component of a parent road".
+- **Flow fragment**: `emit_flow` of a layered settlement lists the edges `flowgraph check` derives from the emitted lines (a literal vertex resolves to the nearest node within 30 m, and junction nodes are denser than that): the movement graph plus the connections the lines imply. `emit_spec` adds the comment `# layers: N subdivided districts, M districts in all`.
+- **Preview**: leaf outlines 1 px light grey (depth > 0); subdivided-district outlines 3 px (depth 0) or 2 px; street sub-roads narrower; siblings are not dashed.
+- **Eligibility**: a district under `min_split_area` is skipped silently; kinds `core`, `citadel`, `harbour` are skipped by default; `skipped` lists `road_inside`, `unfit: <reason>`, `max_districts`, `id_length`. Grid blocks of the top-level `grid` generator are about 2 000-5 000 m2, so pass `min_split_area=2500` to subdivide them.

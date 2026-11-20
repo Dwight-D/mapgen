@@ -5,7 +5,7 @@ import re
 from dataclasses import dataclass
 from typing import Any, Callable, Dict, List, Optional, Sequence, Tuple
 
-from . import fort, gen_grid, gen_radial, gen_voronoi, water
+from . import fort, gen_grid, gen_radial, gen_voronoi, layers, layers_params, water
 from .model import Settlement
 from .params import ParamDef, ParamError, resolve
 
@@ -53,10 +53,14 @@ def generate(generator: str, seed: int, size: Sequence[float] = DEFAULT_SIZE, pa
     c = (sz[0] / 2.0, sz[1] / 2.0) if centre is None else (float(centre[0]), float(centre[1]))
     gen = GENERATORS[generator]
     wp = water.resolve({k: v for k, v in (params or {}).items() if water.is_water_param(k)})
-    base_params = {k: v for k, v in (params or {}).items() if not fort.is_fort_param(k) and not water.is_water_param(k)}
+    base_params = {k: v for k, v in (params or {}).items() if not fort.is_fort_param(k) and not water.is_water_param(k)
+                   and not layers_params.is_layer_param(k)}
     fp = fort.resolve({k: v for k, v in (params or {}).items() if fort.is_fort_param(k)})
     p = resolve(gen.defs, seed, sid, generator, base_params)
     s = gen.build(p, seed, sz, c, sid)
     if water.active(wp):
         s = water.apply(s, wp)
-    return fort.apply(s, fp) if fort.active(fp) else s
+    if fort.active(fp):
+        s = fort.apply(s, fp)
+    spec = layers_params.resolve((params or {}).get("layers"), p.get("min_district_area", 1600.0))
+    return layers.apply(s, spec) if spec else s

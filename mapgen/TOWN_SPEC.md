@@ -507,6 +507,10 @@ render.py       preview PNG
 cli.py          `town` command group
 fort.py         fort add-on (§7.6): fortress, wall towers, outlying forts
 fort_preview.py preview with towers and outlying forts
+layers.py       layer subdivision (TOWN_LAYERS_SPEC.md): apply, stitching, boundary streets, junction nodes
+layers_params.py `layers` parameter: dict and CLI string forms, validation, echo
+layerfill.py    fill contract (Fill, SubRoad, Frame, Unfit) and the shared tail of every fill
+fill_grid.py, fill_radial.py, fill_voronoi.py   polygon fills used by layers
 (later)         planar.py, outline.py, gates.py, landmarks.py, gen_bsp.py, gen_hybrid.py
 ```
 
@@ -542,6 +546,8 @@ Each slice is independently mergeable and adds a generator to the registry plus 
    continued to the outer wall; overlay of boulevards or a second wall). Terrain fit (nestle against a mountain, wrap a bay: footprint
    from slope, lattice aligned with contours) and a spec `settlements:` section (form B: expanded at load time, needs `MAPGEN_SPEC.md`
    and `EXPORT_FORMAT.md` changes and a re-baseline) come after.
+
+7. **Layers** (implemented; design and status in `TOWN_LAYERS_SPEC.md`): `--param layers=...` subdivides districts of any generator with a grid, radial or Voronoi fill, to depth 3; a settlement without `layers` is unchanged.
 
 ## 15. Implementation notes
 

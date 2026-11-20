@@ -30,12 +30,27 @@ class District:
     inside_wall: bool = True
     waterfront: bool = False
     landmarks: List[str] = field(default_factory=list)
+    parent: str = ""                # id of the parent layer node ("" for depth 0); omitted from JSON while ""
+    depth: int = 0                  # layer depth (0 = top level); omitted from JSON while 0
+
+
+@dataclass
+class LayerNode:
+    """A subdivided district (design: mapgen/TOWN_LAYERS_SPEC.md section 3)."""
+    id: str                         # the id the district had before it was subdivided
+    parent: str                     # layer node id or "" (depth 0)
+    depth: int                      # depth of this district (0 = top level)
+    polygon: List[Point]
+    use: str                        # grid | radial | voronoi
+    rule: int                       # index of the matching rule (diagnostic)
+    params: Dict[str, Any]          # resolved sub-generator parameters, plus `rot` (frame rotation, degrees)
+    children: List[str] = field(default_factory=list)   # ids of child districts or layer nodes, sorted
 
 
 @dataclass
 class Road:
     id: str
-    cls: str                        # artery | ring | boulevard | bridge | approach
+    cls: str                        # artery | ring | boulevard | bridge | approach | street
     polyline: List[Point]           # a closed ring repeats its first point
     width: float
     nodes: List[str] = field(default_factory=list)
@@ -127,6 +142,7 @@ class Settlement:
     graph_edges: List[GraphEdge] = field(default_factory=list)
     district_nodes: List[DistrictNode] = field(default_factory=list)
     district_edges: List[DistrictEdge] = field(default_factory=list)
+    layers: List[LayerNode] = field(default_factory=list)       # key "layers" in JSON, omitted when empty
 
     def to_dict(self) -> Dict[str, Any]:
         def lst(items):
@@ -137,9 +153,14 @@ class Settlement:
                     d["class"] = d.pop("cls")
                 if "towers" in d and not d["towers"]:
                     del d["towers"]
+                if "depth" in d and "parent" in d and "polygon" in d and "key" in d:   # District
+                    if not d["parent"]:
+                        del d["parent"]
+                    if not d["depth"]:
+                        del d["depth"]
                 out.append(d)
             return out
-        return {
+        out = {
             "format_version": FORMAT_VERSION,
             "id": self.id,
             "generator": self.generator,
@@ -157,6 +178,9 @@ class Settlement:
             "graph": {"nodes": lst(self.graph_nodes), "edges": lst(self.graph_edges)},
             "district_graph": {"nodes": lst(self.district_nodes), "edges": lst(self.district_edges)},
         }
+        if self.layers:
+            out["layers"] = [asdict(n) for n in self.layers]
+        return out
 
     def to_json(self) -> str:
         """Canonical text: sorted keys, 2-space indent, LF, trailing newline. Same Settlement => same bytes."""
@@ -182,7 +206,8 @@ class Settlement:
             districts=mk(District, d["districts"]), roads=mk(Road, d["roads"]), walls=mk(Wall, d["walls"]),
             gates=mk(Gate, d["gates"]), landmarks=mk(Landmark, d["landmarks"]), water=d.get("water", {}),
             graph_nodes=mk(GraphNode, g["nodes"]), graph_edges=mk(GraphEdge, g["edges"]),
-            district_nodes=mk(DistrictNode, dg["nodes"]), district_edges=mk(DistrictEdge, dg["edges"]))
+            district_nodes=mk(DistrictNode, dg["nodes"]), district_edges=mk(DistrictEdge, dg["edges"]),
+            layers=mk(LayerNode, d.get("layers", [])))
 
     @staticmethod
     def from_json(text: str) -> "Settlement":

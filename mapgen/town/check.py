@@ -21,8 +21,11 @@ def _geometry(s: Settlement) -> List[str]:
             continue
         if abs(poly.area - d.area) > 0.5:
             errs.append("district %s: area %g does not match its polygon (%g)" % (d.id, d.area, poly.area))
-        if d.area < s.params.get("min_district_area", 0.0):
-            errs.append("district %s: area %g below min_district_area %g" % (d.id, d.area, s.params["min_district_area"]))
+        minarea = s.params.get("min_district_area", 0.0)
+        if d.depth > 0:
+            minarea = s.params.get("layers", {}).get("min_area", minarea)
+        if d.area < minarea:
+            errs.append("district %s: area %g below min_district_area %g" % (d.id, d.area, minarea))
         polys.append((d.id, poly))
     for i in range(len(polys)):
         for j in range(i + 1, len(polys)):
@@ -151,10 +154,89 @@ def _identity(s: Settlement) -> List[str]:
     return errs
 
 
+def _layers(s: Settlement) -> List[str]:
+    """Layer invariants (TOWN_LAYERS_SPEC section 7); applies only to a layered settlement."""
+    if not s.layers and not any(d.depth > 0 for d in s.districts):
+        return []
+    errs: List[str] = []
+    spec = s.params.get("layers", {})
+    nodes = {n.id: n for n in s.layers}
+    leaves = {d.id: d for d in s.districts}
+    if len(leaves) > spec.get("max_districts", 10 ** 9):
+        errs.append("layers: %d districts exceed max_districts %d" % (len(leaves), spec["max_districts"]))
+    for n in s.layers:
+        if n.parent and n.parent not in nodes:
+            errs.append("layer node %s: unknown parent %s" % (n.id, n.parent))
+        elif n.parent and nodes[n.parent].depth + 1 != n.depth:
+            errs.append("layer node %s: depth %d is not parent depth + 1" % (n.id, n.depth))
+        if n.parent and not n.id.startswith(n.parent + "_"):
+            errs.append("layer node %s: id does not start with its parent id" % n.id)
+        if n.depth >= spec.get("max_depth", 99):
+            errs.append("layer node %s: depth %d reaches max_depth" % (n.id, n.depth))
+        P = Polygon(n.polygon)
+        kids = []
+        for c in n.children:
+            poly = leaves[c].polygon if c in leaves else (nodes[c].polygon if c in nodes else None)
+            if poly is None:
+                errs.append("layer node %s: unknown child %s" % (n.id, c))
+            else:
+                kids.append((c, Polygon(poly)))
+        for i in range(len(kids)):
+            for j in range(i + 1, len(kids)):
+                if kids[i][1].envelope.intersects(kids[j][1].envelope) and kids[i][1].intersection(kids[j][1]).area > 1.0:
+                    errs.append("layer node %s: children %s and %s overlap" % (n.id, kids[i][0], kids[j][0]))
+        if kids and abs(unary_union([k[1] for k in kids]).area - P.area) > 0.01 * P.area:
+            errs.append("layer node %s: children do not cover the node within 1 %%" % n.id)
+    for d in s.districts:
+        if d.depth > 0:
+            if d.parent not in nodes:
+                errs.append("district %s: unknown parent %s" % (d.id, d.parent))
+            else:
+                if not d.id.startswith(d.parent + "_"):
+                    errs.append("district %s: id does not start with its parent id" % d.id)
+                if nodes[d.parent].depth + 1 != d.depth:
+                    errs.append("district %s: depth %d is not parent depth + 1" % (d.id, d.depth))
+    lay = [r for r in s.roads if "_sr_" in r.id or "_bs_" in r.id]
+    if lay:
+        borders = unary_union([Polygon(d.polygon).boundary for d in s.districts]).buffer(0.5)
+        walls = unary_union([LineString(w.polyline) for w in s.walls]) if s.walls else None
+        cmap: Dict[tuple, Set[str]] = {}
+        for r in s.roads:
+            for p in r.polyline:
+                cmap.setdefault((p[0], p[1]), set()).add(r.id)
+        uf: Dict[str, str] = {r.id: r.id for r in s.roads}
+
+        def find(x: str) -> str:
+            while uf[x] != x:
+                uf[x] = uf[uf[x]]
+                x = uf[x]
+            return x
+        for ids in cmap.values():
+            for o in ids:
+                uf[find(o)] = find(next(iter(ids)))
+        main = {find(r.id) for r in s.roads if r not in lay}
+        for r in lay:
+            ln = LineString(r.polyline)
+            if ln.difference(borders).length > 0.5:
+                errs.append("road %s runs through a district interior" % r.id)
+            if walls is not None and ln.intersection(walls.buffer(0.5)).length > 5.0:
+                errs.append("road %s crosses a wall" % r.id)
+            if find(r.id) not in main:
+                errs.append("road %s is not connected to the parent road network" % r.id)
+            if "_sr_" in r.id and r.polyline[0] != r.polyline[-1]:
+                for e in (r.polyline[0], r.polyline[-1]):
+                    if not (cmap[(e[0], e[1])] - {r.id}):
+                        errs.append("road %s: dangling end at %s" % (r.id, e))
+    ids = [e.id for e in s.graph_edges]
+    if len(ids) != len(set(ids)):
+        errs.append("duplicate movement edge ids")
+    return errs
+
+
 def check(s: Settlement) -> List[str]:
-    """Geometry, walls and gates, reachability, identity. (Determinism: `check_determinism`.)"""
+    """Geometry, walls and gates, reachability, identity, layers. (Determinism: `check_determinism`.)"""
     from .water import check_water
-    return _geometry(s) + _walls_gates(s) + _reachability(s) + _identity(s) + check_water(s)
+    return _geometry(s) + _walls_gates(s) + _reachability(s) + _identity(s) + check_water(s) + _layers(s)
 
 
 def check_determinism(s: Settlement) -> List[str]:
