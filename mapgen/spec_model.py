@@ -79,6 +79,15 @@ class Model:
                               closed=reg.shape == "poly", minimum=3 if reg.shape == "poly" else 2)
                 if reg.shape == "band" and reg.path:
                     self._width_handle("regions.%s.width" % reg.id, reg.id, reg.type, reg.path, reg.width, "regions.%s.path" % reg.id)
+        sc_by_id = {s.id: s for s in spec.scatter}
+        for it in raw.get("scatter") or []:   # a scatter entry's `within` polygon (literal points only)
+            sc = sc_by_id.get(it.get("id")) if isinstance(it, dict) else None
+            if sc is None or not isinstance(it.get("within"), list):
+                continue
+            for j, pt in enumerate(it["within"]):
+                if isinstance(pt, list) and len(pt) == 2:
+                    self._add("vertex", "scatter.%s.within[%d]" % (sc.id, j), sc.id, sc.type, pt, None, index=j,
+                              count=len(it["within"]), chain="scatter.%s.within" % sc.id, closed=True, minimum=3)
         explicit = {c.id: c for c in spec.crossings if not c.auto}
         for cr in raw.get("crossings") or []:
             if not isinstance(cr, dict):

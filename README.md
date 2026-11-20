@@ -96,7 +96,7 @@ meaning, never hue.
   coordinates, a `join` is removed) or Cancel.
 - Loader errors of a refused edit are mapped to the feature they name (`pois[3].at` is POI `g`): the first such feature is
   selected, its handles carry a dashed ring and a "!", its error rows and the invalid property field are marked.
-- Layers (regions, lines, crossings, POIs and bases, named points): show and lock toggles, kept in the browser's local
+- Layers (regions, lines, crossings, POIs and bases, named points, scatter areas): show and lock toggles, kept in the browser's local
   storage per spec path; a locked layer is drawn but cannot be hit.
 - Keyboard: Tab through handles, arrows nudge 1 m (Shift 10 m), Ctrl+Z / Ctrl+Y, Ctrl+S, `+` `-` `0` zoom and fit, wheel and
   background drag zoom and pan.
@@ -105,7 +105,34 @@ meaning, never hue.
   written only by Save (no autosave), atomically and in place, only while the buffer is valid and the file on disk is the one
   that was read. A saved drag is a one-line diff; line endings are preserved.
 - The spec must load when the editor starts (otherwise it prints the errors and exits 1).
-- Not in the editor: scatter `within` polygons and `label_at` (edit in the file), the flowgraph layer, painting.
+- Painting (Paint F, Erase E; GDU-53). Pick a region type from the type table, a brush radius (slider, `[` and `]`, 1-120 m)
+  and optionally `impassable`, then drag strokes on the map: a brush cursor ring (dashed for paint, dotted with a cross for
+  erase) shows the radius and a translucent hatched (paint) or dotted (erase) preview follows the drag. On mouse-up the server
+  turns the stroke into a polygon (`LineString.buffer(radius)`, round caps, clipped to the map, simplified at 1.5 m, vertices
+  rounded to whole metres) and commits ONE undo step:
+  - over empty ground or other terrain: a new `{ id: forest_3, type: forest, shape: poly, points: [[x, y], ...] }` region
+    (a flow list; `impassable: true` when the toggle is on; no `seed`, no `rough`: the outline is exactly the brush) appended
+    last, so it paints on top;
+  - touching or overlapping a `poly` region of the same type and `impassable` flag: merged into it (its `points` are
+    rewritten; id, key order, comments stay). A stroke that bridges several keeps the id of the largest and deletes the others.
+    A union of several parts gives one region per part. A ring that encloses ground (a loop stroke) keeps its simple outer
+    ring and appends a `clearing` poly for the hole (holes under 25 m2 are filled). A merge that a later painted `clearing`
+    would hide is not done: the stroke is painted on top as a new region;
+  - Erase subtracts from painted `poly` regions of the chosen type (or "any painted polygon"). A region reduced to nothing
+    is deleted (its id is not reissued in the session); a split keeps the original id on the largest piece and gives the
+    others generated ids; a hole becomes a `clearing` poly.
+  - Only regions authored as `shape: poly` with literal points are merged or erased. Blob, band and point-reference regions
+    are never rewritten silently: paint adds a new poly on top; erase reports them ("not erased: wood is a blob") and the panel
+    of a selected blob or band has "Convert to polygon" (one explicit action: the base outline without rough and warp noise).
+  - A ring has at most 400 vertices (the simplify tolerance doubles until it fits); a 250 m stroke gives about 15-30.
+  The same strokes give the same YAML bytes.
+- Scatter area tool (S): click polygon vertices, Enter; the polygon becomes the `within` of the entry chosen in the picker
+  ("within of <id>") or of a new scatter entry of the chosen type (`coverage 0.4, scale 120, clump 0.4, avoid 20` and the
+  `impassable` toggle, editable in the toolbar; the defaults of `SCATTER_SPEC.md`). The vertices of every `within` polygon are
+  handles (drag, insert, delete, minimum 3); scatter entries keep their procedural texture inside the polygon.
+- Select by click: with the Select tool a click inside a region (blob, band, poly or scatter patch, from the resolved
+  geometry) selects it; clicking again cycles through the regions stacked there. Delete removes the selected region.
+- Not in the editor: `label_at` (edit in the file), the flowgraph layer.
 
 ## Editing a spec as text (`spec set`)
 

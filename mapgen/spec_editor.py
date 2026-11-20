@@ -13,6 +13,10 @@ API (all POST, JSON in and out, header X-Token; see editor_http for the guards):
                                    {feature, path, key} of errors[i]; a delete of a referenced feature adds `referenced` and
                                    `referrers`) | 409 (stale version)
                                  ops: set | put | insert | delete | add | rename (specpatch.op_from_json)
+  /api/paint  {version, mode, ...} -> same as /api/apply, one undo step; state.results[0] = {paint: summary}.
+                                 mode paint: {stroke: [[x, y], ...], radius, type, impassable} merges into / appends `poly` regions;
+                                 mode erase: {stroke, radius, type | "any"} subtracts from painted polys (summary.skipped lists
+                                 blob/band/reference polys under the brush); mode convert: {id} turns a blob or band into a poly (paint.py)
   /api/undo, /api/redo        -> {ok, state}
   /api/save                   -> {ok, path, bytes, state} | 409 (file changed on disk) | 422 (invalid)
   /api/geometry {version}     -> {ok, version, geometry, ms} | {ok: false, stale: true}: resolved centrelines and outlines
@@ -31,7 +35,7 @@ import time
 from collections import OrderedDict
 from typing import Any, Dict, List, Optional, Tuple
 
-from . import geometry, height, schema, specpatch
+from . import geometry, height, paint, schema, specpatch
 from .editor_http import HOST, GuardedHandler, LoopbackServer
 from .spec_editor_page import render_page
 from .spec_model import Model, geometry_json, map_error, schema_json
@@ -127,6 +131,45 @@ class SpecEditor:
                 self.version += 1
             st = self.state()
             st["results"] = results
+            return st
+
+    def paint(self, body: Dict[str, Any]) -> Dict[str, Any]:
+        """Plan a paint / erase / convert request (paint.py) and apply it as one edit (one undo step)."""
+        with self.lock:
+            if body.get("version") != self.version:
+                raise Refused(["the buffer changed (version %s, yours %s); state refreshed" % (self.version, body.get("version"))], 409)
+            mode, spec = body.get("mode"), self.model.spec
+            types = spec.types.regions
+            try:
+                py = specpatch.parsed_document(self.text)
+                if mode == "convert":
+                    plan = paint.plan_convert(py, spec, spec.size, body.get("id"))
+                elif mode in ("paint", "erase"):
+                    rtype = body.get("type")
+                    if mode == "paint" and rtype not in types:
+                        raise paint.PaintError("unknown region type %r (known: %s)" % (rtype, ", ".join(types)))
+                    if mode == "erase" and rtype not in (None, "any") and rtype not in types:
+                        raise paint.PaintError("unknown region type %r" % (rtype,))
+                    if body.get("impassable") not in (None, True, False):
+                        raise paint.PaintError("impassable is true or false")
+                    brush = paint.brush_polygon(body.get("stroke"), body.get("radius"), spec.size)
+                    if brush is None:
+                        raise paint.PaintError("the stroke is outside the map")
+                    plan = (paint.plan_paint(py, spec.size, brush, rtype, body.get("impassable") is True) if mode == "paint"
+                            else paint.plan_erase(py, spec, brush, None if rtype in (None, "any") else rtype))
+                else:
+                    raise paint.PaintError("unknown paint mode %r (paint | erase | convert)" % (mode,))
+            except paint.PaintError as e:
+                raise Refused([str(e)], 400)
+            summary = plan.summary()
+            if not plan.ops:
+                st = self.state()
+                summary["notes"] = summary["notes"] + ["nothing changed"]
+                st["results"] = [{"paint": summary}]
+                return st
+            st = self.apply(body.get("version"), plan.ops)
+            summary["created_ids"] = [r["id"] for r in st["results"] if "id" in r]
+            st["results"].insert(0, {"paint": summary})
             return st
 
     @staticmethod
@@ -261,7 +304,7 @@ class _Handler(GuardedHandler):
         if not self.guard_post():
             return
         routes = {"/api/state": self._state, "/api/apply": self._apply, "/api/undo": self._undo, "/api/redo": self._redo,
-                  "/api/save": self._save, "/api/geometry": self._geometry, "/api/image": self._image}
+                  "/api/save": self._save, "/api/paint": self._paint, "/api/geometry": self._geometry, "/api/image": self._image}
         route = routes.get(self.path)
         if route is None:
             return self._json(404, {"ok": False, "errors": ["not found"]})
@@ -282,6 +325,9 @@ class _Handler(GuardedHandler):
 
     def _apply(self, body):
         self._json(200, {"ok": True, "state": self.server.ed.apply(body.get("version"), body.get("ops"))})
+
+    def _paint(self, body):
+        self._json(200, {"ok": True, "state": self.server.ed.paint(body)})
 
     def _undo(self, body):
         self._json(200, {"ok": True, "state": self.server.ed.undo()})

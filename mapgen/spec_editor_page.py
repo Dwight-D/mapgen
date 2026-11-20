@@ -32,6 +32,16 @@ _HTML = """<!DOCTYPE html>
     <select id="tool-type" aria-label="type of the feature to add" style="display:none"></select>
     <button id="finish" style="display:none" title="Finish the shape being drawn (Enter)">Finish (Enter)</button>
   </span>
+  <span class="grp" id="brush" style="display:none">
+    <label id="l-radius">radius <input type="range" id="brush-r" min="1" max="120" step="1" value="15" aria-label="brush radius in metres"><output id="brush-rv">15</output> m</label>
+    <label id="l-imp"><input type="checkbox" id="brush-imp"> impassable</label>
+    <span id="sc-fields">
+      <label>coverage <input type="number" id="sc-coverage" min="0" max="1" step="0.05" value="0.4"></label>
+      <label>scale <input type="number" id="sc-scale" min="1" step="5" value="120"></label>
+      <label>clump <input type="number" id="sc-clump" min="0" max="1" step="0.05" value="0.4"></label>
+      <label>avoid <input type="number" id="sc-avoid" min="0" step="1" value="20"></label>
+    </span>
+  </span>
   <span class="grp">
     <button id="b-fit" title="Fit the map (0)">Fit</button>
     <button id="b-zin" title="Zoom in (+)">+</button>
@@ -43,7 +53,9 @@ _HTML = """<!DOCTYPE html>
 </div>
 <div id="main">
   <div id="mapwrap"><svg id="map" xmlns="http://www.w3.org/2000/svg" role="application" aria-label="map editor"
-       tabindex="0"><g id="bgimg"><image id="bg" x="0" y="0" preserveAspectRatio="none"/><rect id="frame" fill="none"/></g><g id="ov"></g></svg>
+       tabindex="0"><defs>
+    <pattern id="pat-paint" patternUnits="userSpaceOnUse" width="8" height="8" patternTransform="rotate(45)"><line id="pat-paint-l" x1="0" y1="0" x2="0" y2="8" stroke="#000" stroke-width="2"/></pattern>
+    <pattern id="pat-erase" patternUnits="userSpaceOnUse" width="8" height="8"><circle id="pat-erase-c" cx="4" cy="4" r="1.6" fill="#000"/></pattern></defs><g id="bgimg"><image id="bg" x="0" y="0" preserveAspectRatio="none"/><rect id="frame" fill="none"/></g><g id="ov"></g></svg>
     <div id="preview" aria-live="polite"></div></div>
   <div id="side">
     <div id="status" aria-live="polite"></div>
@@ -58,6 +70,11 @@ _HTML = """<!DOCTYPE html>
       handle is not a vertex (a referenced feature asks first). Drag a radius or width grip to resize. Tools (V select,
       P POI, B blob, D band, G poly, L line, X crossing): click to place; shapes with several vertices end with Enter
       or a double-click, Backspace drops the last vertex, Esc cancels. Arrow keys nudge the selection (Shift: 10 m).
+      Paint (F) and Erase (E): drag strokes on the map; [ and ] change the brush radius; one stroke is one undo step.
+      Paint merges into touching painted polygons of the same type, erase subtracts from painted polygons (blob and band
+      regions are converted to a polygon first, from the panel). Scatter area (S): click vertices, Enter, then the polygon
+      becomes the `within` of the chosen scatter entry or of a new one. Clicking inside a region with the Select tool
+      selects it (click again to cycle the regions stacked there).
       Wheel zooms, drag the background pans. Ctrl+Z / Ctrl+Y undo / redo, Ctrl+S saves.</div>
   </div>
 </div>
@@ -133,17 +150,20 @@ var SCH = BOOT.schema;
 var NS = 'http://www.w3.org/2000/svg';
 var S = {token: BOOT.token, st: BOOT.state, sel: null, feat: null, geo: null, geoVersion: 0, imgVersion: 0, view: null, drag: null, pan: null,
          chain: Promise.resolve(), errors: [], errRefs: [], refused: false, abort: null, timer: null, url: null,
-         tool: 'select', toolType: {}, draft: null, cursor: null, prompt: null, layers: loadLayers()};
+         tool: 'select', toolType: {}, draft: null, cursor: null, prompt: null, layers: loadLayers(),
+         brush: {r: 15, imp: false}, stroke: null, hover: null, hits: null};
 var $ = function (id) { return document.getElementById(id); };
 // drawing order of handle kinds (later = on top); the selected feature's handles are raised above all of them
 var RANK = {center: 0, vertex: 0, waypoint: 1, crossing: 1, point: 2, poi: 3, base: 4, radius: 5, width: 5};
 var DASH = ['none', '7 4', '2 4', '10 4 2 4', '5 3 1 3', '14 5'];
 var LINE_DASH = {road: 'none', trail: '8 4', river: '14 3 2 3', cliff: '2 3'};
-var LAYERS = [['regions', 'regions'], ['lines', 'lines'], ['crossings', 'crossings'], ['pois', 'POIs and bases'], ['points', 'named points']];
-var TOOLS = [['select', 'Select', 'v'], ['poi', 'POI', 'p'], ['blob', 'Blob', 'b'], ['band', 'Band', 'd'], ['poly', 'Poly', 'g'], ['line', 'Line', 'l'], ['crossing', 'Crossing', 'x']];
+var LAYERS = [['regions', 'regions'], ['lines', 'lines'], ['crossings', 'crossings'], ['pois', 'POIs and bases'], ['points', 'named points'], ['scatter', 'scatter areas']];
+var TOOLS = [['select', 'Select', 'v'], ['poi', 'POI', 'p'], ['blob', 'Blob', 'b'], ['band', 'Band', 'd'], ['poly', 'Poly', 'g'], ['line', 'Line', 'l'], ['crossing', 'Crossing', 'x'],
+             ['paint', 'Paint', 'f'], ['erase', 'Erase', 'e'], ['scatter', 'Scatter area', 's']];
 var TOOL_TABLE = {poi: 'poi', blob: 'region', band: 'region', poly: 'region', line: 'line', crossing: 'crossing'};
-var TOOL_DEFAULT = {poi: 'capture', blob: 'forest', band: 'field', poly: 'forest', line: 'road', crossing: 'bridge'};
-var MIN_PTS = {band: 2, poly: 3, line: 2};
+var TOOL_DEFAULT = {paint: 'forest', erase: 'any', poi: 'capture', blob: 'forest', band: 'field', poly: 'forest', line: 'road', crossing: 'bridge'};
+var MIN_PTS = {band: 2, poly: 3, line: 2, scatter: 3};
+var BRUSH_TOOLS = {paint: 1, erase: 1};
 
 function loadLayers() {
   try { var t = localStorage.getItem('mapgen-layers:' + BOOT.state.path); return t ? JSON.parse(t) : {}; } catch (e) { return {}; }
@@ -158,6 +178,7 @@ function layerOf(h) {
   if (p.indexOf('lines.') === 0) return 'lines';
   if (p.indexOf('crossings.') === 0) return 'crossings';
   if (p.indexOf('points.') === 0) return 'points';
+  if (p.indexOf('scatter.') === 0) return 'scatter';
   return 'pois';
 }
 
@@ -333,9 +354,30 @@ function render() {
       mk('text', {'class': 'lbl', x: 9, y: -8}, g, String(i + 1));
     });
   }
+  var pl = $('pat-paint'), pe = $('pat-erase');
+  pl.setAttribute('width', 8 * mpp); pl.setAttribute('height', 8 * mpp); $('pat-paint-l').setAttribute('y2', 8 * mpp); $('pat-paint-l').setAttribute('stroke-width', 2.2 * mpp);
+  pe.setAttribute('width', 6 * mpp); pe.setAttribute('height', 6 * mpp); $('pat-erase-c').setAttribute('cx', 3 * mpp); $('pat-erase-c').setAttribute('cy', 3 * mpp); $('pat-erase-c').setAttribute('r', 1.5 * mpp);
+  if (S.stroke || (BRUSH_TOOLS[S.tool] && S.hover)) {
+    var gb = mk('g', {'pointer-events': 'none', id: 'brush-layer'}, ov), R = S.brush.r, pat = S.tool === 'erase' ? 'url(#pat-erase)' : 'url(#pat-paint)';
+    if (S.stroke) {   // translucent stroke preview: dark rim, light body, hatch (paint) or dots (erase); the server computes the real polygon
+      var sp = S.stroke.pts.map(function (p) { return p[0] + ',' + (sz[1] - p[1]); }).join(' ');
+      if (S.stroke.pts.length === 1) sp += ' ' + sp;
+      var gp = mk('g', {opacity: .55, id: 'stroke-preview'}, gb);
+      mk('polyline', {points: sp, fill: 'none', stroke: '#000', 'stroke-width': 2 * R + 3 * mpp, 'stroke-linecap': 'round', 'stroke-linejoin': 'round'}, gp);
+      mk('polyline', {points: sp, fill: 'none', stroke: '#fff', 'stroke-width': 2 * R - 1 * mpp, 'stroke-linecap': 'round', 'stroke-linejoin': 'round'}, gp);
+      mk('polyline', {points: sp, fill: 'none', stroke: pat, 'stroke-width': 2 * R - 1 * mpp, 'stroke-linecap': 'round', 'stroke-linejoin': 'round'}, gb);
+    }
+    if (S.hover) {   // brush cursor at the current radius: dashed ring (paint) or dotted ring with a cross (erase)
+      var hx = S.hover[0], hy = sz[1] - S.hover[1];
+      mk('circle', {id: 'brush-cursor', cx: hx, cy: hy, r: R, fill: 'none', stroke: '#fff', 'stroke-width': 4.5 * mpp}, gb);
+      mk('circle', {cx: hx, cy: hy, r: R, fill: 'none', stroke: '#000', 'stroke-width': 2 * mpp, 'stroke-dasharray': S.tool === 'erase' ? (2 * mpp) + ' ' + (3 * mpp) : (8 * mpp) + ' ' + (4 * mpp)}, gb);
+      if (S.tool === 'erase') mk('path', {d: 'M' + (hx - 6 * mpp) + ' ' + (hy - 6 * mpp) + 'L' + (hx + 6 * mpp) + ' ' + (hy + 6 * mpp) + 'M' + (hx - 6 * mpp) + ' ' + (hy + 6 * mpp) + 'L' + (hx + 6 * mpp) + ' ' + (hy - 6 * mpp), stroke: '#000', 'stroke-width': 2 * mpp}, gb);
+    }
+  }
   var gh = mk('g', {}, ov), ef = errFeatures();
   S.st.handles.filter(function (h) {
     if (!layer(layerOf(h)).vis) return false;
+    if (h.kind === 'vertex' && h.count > 24 && h.feature !== S.feat) return false;   // painted polygons: vertices only when selected
     return !((h.kind === 'radius' || h.kind === 'width') && h.feature !== S.feat);
   }).sort(function (a, b) {
     return (RANK[a.kind] + (a.feature === S.feat ? 10 : 0)) - (RANK[b.kind] + (b.feature === S.feat ? 10 : 0));
@@ -379,7 +421,7 @@ function refsOf(h) {
   return name === null ? [] : (S.st.referrers[name] || []).filter(function (r) { return r.path !== h.path; }).map(function (r) { return r.path; });
 }
 function kindKey(f) { return f.kind === 'region' ? 'region_' + f.shape : f.kind; }
-function typeTable(f) { return SCH.types[f.kind === 'base' ? 'poi' : f.kind]; }
+function typeTable(f) { return SCH.types[f.kind === 'base' ? 'poi' : f.kind === 'scatter' ? 'region' : f.kind]; }   // a scatter entry's type is a region type
 function typeLabel(name, row) {
   var bits = [];
   if (row && row.cost !== undefined) bits.push('cost ' + row.cost);
@@ -534,6 +576,10 @@ function buildPanel() {
       });
     }
   }
+  if (f.kind === 'region' && (f.shape === 'blob' || f.shape === 'band')) {
+    var bc = el('button', {id: 'b-convert', title: 'Replace the shape by a polygon of its base outline (rough and warp noise dropped) so paint and erase can edit it'}, p, 'Convert to polygon');
+    bc.addEventListener('click', function () { paintReq({mode: 'convert', id: f.id}); });
+  }
   if (f.kind !== 'base') {
     var bf = el('button', {id: 'b-del-feature', 'class': 'danger'}, p, 'Delete ' + f.kind);
     bf.addEventListener('click', function () { delFeature(f.id); });
@@ -568,13 +614,20 @@ function updateAll() {
   buildPanel();
   document.querySelectorAll('#tools button').forEach(function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-tool') === S.tool ? 'true' : 'false'); });
   $('tool-type').style.display = S.tool === 'select' ? 'none' : '';
+  var bt = S.tool === 'paint' || S.tool === 'erase' || S.tool === 'scatter';
+  $('brush').style.display = bt ? '' : 'none';
+  $('l-radius').style.display = S.tool === 'scatter' ? 'none' : '';
+  $('l-imp').style.display = S.tool === 'erase' ? 'none' : '';
+  $('sc-fields').style.display = S.tool === 'scatter' ? '' : 'none';
   $('finish').style.display = S.draft ? '' : 'none';
 }
 
 // ---- edits ---------------------------------------------------------------------------------------------------------
-function commit(ops, after) {
+function commit(ops, after) { return submit('/api/apply', {ops: ops}, after, ops); }
+function submit(path, body, after, ops) {
   S.chain = S.chain.then(function () {
-    return api('/api/apply', {version: S.st.version, ops: ops}).then(function (r) { return r.json(); }).then(function (j) {
+    body.version = S.st.version;
+    return api(path, body).then(function (r) { return r.json(); }).then(function (j) {
       if (j.ok) {
         S.st = j.state; S.errors = []; S.errRefs = []; S.refused = false; S.prompt = null;
         setStatus('Edit applied (version ' + S.st.version + ').');
@@ -606,7 +659,7 @@ function simple(path) {
 }
 function changed() {
   updateAll(); render();
-  if (S.geoVersion !== S.st.version) schedule();
+  if (S.geoVersion !== S.st.version) { var ms = S.fast ? 0 : 300; S.fast = false; schedule(ms); }
 }
 function featPath(f) { return f.section + '.' + f.id; }
 function delFeature(id) {
@@ -633,10 +686,10 @@ function nudge(dx, dy) {
 }
 
 // ---- preview refresh (debounced, latest wins) ----------------------------------------------------------------------
-function schedule() {
+function schedule(ms) {
   if (S.timer) clearTimeout(S.timer);
   setPrev('preview image: stale, updating...');
-  S.timer = setTimeout(refresh, 300);
+  S.timer = setTimeout(refresh, ms === undefined ? 300 : ms);
 }
 function refresh() {
   S.timer = null;
@@ -666,20 +719,70 @@ function refresh() {
 function clampPt(p) { var sz = size(); return [Math.min(Math.max(Math.round(p[0]), 0), sz[0]), Math.min(Math.max(Math.round(p[1]), 0), sz[1])]; }
 function setTool(t) {
   S.tool = t; S.draft = null; S.cursor = null;
+  S.stroke = null;
   if (t !== 'select') {
     var tt = $('tool-type');
     while (tt.firstChild) tt.removeChild(tt.firstChild);
-    var table = SCH.types[TOOL_TABLE[t]];
-    var cur = S.toolType[t] || TOOL_DEFAULT[t];
-    if (!(cur in table)) cur = Object.keys(table)[0];
-    fillTypeSelect(tt, table, cur);
-    S.toolType[t] = cur;
+    if (t === 'scatter') fillScatterTargets(tt);
+    else {
+      var table = SCH.types[TOOL_TABLE[t] || 'region'];
+      var cur = S.toolType[t] || TOOL_DEFAULT[t];
+      if (t === 'erase') el('option', {value: 'any'}, tt, 'any painted polygon');
+      if (!(cur in table)) cur = Object.keys(table)[0];
+      fillTypeSelect(tt, table, cur);
+      if (t === 'erase' && !S.toolType[t]) tt.value = 'any'; else tt.value = cur;
+      S.toolType[t] = tt.value;
+    }
     S.sel = null; S.feat = null;
     setStatus(toolHelp(t));
   } else setStatus('Select tool.');
   updateAll(); render();
 }
+function fillScatterTargets(tt) {
+  var rt = SCH.types.region;
+  Object.keys(rt).forEach(function (n) { el('option', {value: 'new:' + n}, tt, 'new scatter entry: ' + typeLabel(n, rt[n])); });
+  S.st.features.filter(function (f) { return f.kind === 'scatter'; }).forEach(function (f) {
+    el('option', {value: 'set:' + f.id}, tt, 'within of ' + f.id + ' (' + f.type + ')');
+  });
+  var want = S.toolType.scatter;
+  tt.value = want && tt.querySelector('option[value="' + want + '"]') ? want : 'new:forest';
+}
+function brushPatch() { return {radius: S.brush.r, impassable: S.brush.imp}; }
+function setRadius(r) {
+  S.brush.r = Math.max(1, Math.min(120, Math.round(r)));
+  $('brush-r').value = S.brush.r; $('brush-rv').textContent = String(S.brush.r);
+  render();
+}
+function paintResult(j) {
+  var r = j.state.results && j.state.results[0], p = r && r.paint;
+  if (!p) return;
+  S.fast = true;
+  var bits = [];
+  if (p.mode === 'convert') bits.push(p.notes[0]);
+  else if (p.mode === 'paint') {
+    if (p.modified.length) bits.push('merged into ' + p.modified.join(', '));
+    if (p.created_ids && p.created_ids.length) bits.push('added ' + p.created_ids.join(', '));
+    if (p.deleted.length) bits.push('removed ' + p.deleted.join(', '));
+    if (p.holes) bits.push(p.holes + ' hole' + (p.holes > 1 ? 's' : '') + ' became clearing polygon' + (p.holes > 1 ? 's' : ''));
+  } else {
+    if (p.modified.length) bits.push('trimmed ' + p.modified.join(', '));
+    if (p.created_ids && p.created_ids.length) bits.push('split off ' + p.created_ids.join(', '));
+    if (p.deleted.length) bits.push('deleted ' + p.deleted.join(', ') + ' (nothing left)');
+    if (!bits.length) bits.push('no painted polygon under the brush');
+  }
+  if (p.skipped.length) bits.push('not erased (' + p.skipped.map(function (x) { return x.id + ' ' + x.why; }).join('; ') + '): select it and use Convert to polygon');
+  if (p.notes.length && p.mode !== 'convert') bits.push(p.notes.join('; '));
+  bits.push(p.vertices.reduce(function (a, b) { return a + b; }, 0) + ' vertices');
+  S.st = j.state;
+  var id = (p.created_ids && p.created_ids[0]) || p.modified[0] || (p.skipped[0] && p.skipped[0].id) || null;
+  if (id && featOf(id)) { S.feat = id; S.sel = null; }
+  setStatus(p.mode + ': ' + bits.join('; ') + '.');
+}
+function paintReq(body) { return submit('/api/paint', body, paintResult); }
 function toolHelp(t) {
+  if (t === 'paint') return 'paint tool: drag strokes; [ and ] change the radius; one stroke is one undo step.';
+  if (t === 'erase') return 'erase tool: drag over painted polygons to subtract; [ and ] change the radius.';
+  if (t === 'scatter') return 'scatter area tool: click polygon vertices (at least 3), Enter finishes; the polygon becomes the within of the chosen scatter entry.';
   if (t === 'poi' || t === 'crossing' || t === 'blob') return t + ' tool: click the map to place it.';
   return t + ' tool: click vertices (at least ' + MIN_PTS[t] + '), Enter or double-click finishes, Backspace removes the last, Esc cancels.';
 }
@@ -703,12 +806,28 @@ function toolClick(pt) {
   setStatus(t + ': ' + S.draft.pts.length + ' vertex' + (S.draft.pts.length === 1 ? '' : 'es') + ' (Enter or double-click to finish).');
   updateAll(); render();
 }
+function finishScatter(pts, target) {
+  S.toolType.scatter = target;
+  if (target.indexOf('set:') === 0) {
+    var id = target.slice(4);
+    return commit([putOp('scatter.' + id + '.within', pts)], function (j) {
+      S.tool = 'select'; S.draft = null; S.cursor = null; S.st = j.state; selectFeature(id); setStatus('Set the within polygon of ' + id + '.');
+    });
+  }
+  var num = function (i, d) { var v = Number($(i).value); return isFinite(v) ? v : d; };
+  var val = {type: target.slice(4), coverage: Math.min(1, Math.max(0, num('sc-coverage', 0.4))), scale: Math.max(1, num('sc-scale', 120)),
+             clump: Math.min(1, Math.max(0, num('sc-clump', 0.4))), avoid: Math.max(0, num('sc-avoid', 20))};
+  if (S.brush.imp) val.impassable = true;
+  val.within = pts;
+  addFeature(val, 'scatter');
+}
 function finishDraft() {
   var d = S.draft, t = S.tool;
   if (!d) return;
   var pts = d.pts.filter(function (p, i) { return i === 0 || p[0] !== d.pts[i - 1][0] || p[1] !== d.pts[i - 1][1]; });
   if (pts.length < MIN_PTS[t]) { setStatus(t + ' needs at least ' + MIN_PTS[t] + ' vertices (have ' + pts.length + ').'); return; }
   var type = $('tool-type').value;
+  if (t === 'scatter') return finishScatter(pts, type);
   if (t === 'line') return addFeature({type: type, path: pts}, 'lines');
   if (t === 'band') return addFeature({type: type, shape: 'band', path: pts, width: 30}, 'regions');
   return addFeature({type: type, shape: 'poly', points: pts}, 'regions');
@@ -725,6 +844,14 @@ function handleStack(ev) {   // the handles under the pointer, topmost first
 }
 $('map').addEventListener('mousedown', function (ev) {
   if (ev.button !== 0 && ev.button !== 1) return;
+  if (ev.button === 0 && BRUSH_TOOLS[S.tool]) {   // a stroke: the points are collected until mouse-up
+    ev.preventDefault();
+    var m0 = toMetres(ev);
+    S.stroke = {pts: [m0]}; S.hover = m0;
+    $('map').focus({preventScroll: true});
+    render();
+    return;
+  }
   var mid = ev.target.closest ? ev.target.closest('.mid') : null;
   if (mid && S.tool === 'select') {
     ev.preventDefault();
@@ -794,12 +921,31 @@ window.addEventListener('mousemove', function (ev) {
     if (Math.abs(ev.clientX - p.x) + Math.abs(ev.clientY - p.y) > 3) p.moved = true;
     S.view.cx = p.cx - (ev.clientX - p.x) * S.view.mpp; S.view.cy = p.cy - (ev.clientY - p.y) * S.view.mpp;
     render();
+  } else if (S.stroke) {
+    var m = toMetres(ev), last = S.stroke.pts[S.stroke.pts.length - 1];
+    S.hover = m;
+    if (dist(m, last) >= Math.max(1, S.brush.r / 6)) S.stroke.pts.push(m);
+    render();
+  } else if (BRUSH_TOOLS[S.tool]) {
+    S.hover = toMetres(ev); render();
   } else if (S.draft) {
     S.cursor = clampPt(toMetres(ev)); render();
   }
 });
+$('map').addEventListener('mouseleave', function () { if (S.hover && !S.stroke) { S.hover = null; render(); } });
 window.addEventListener('mouseup', function (ev) {
   var d = S.drag;
+  if (S.stroke) {
+    var st = S.stroke, m1 = toMetres(ev);
+    if (dist(m1, st.pts[st.pts.length - 1]) > 0.5) st.pts.push(m1);
+    S.stroke = null;
+    var body = {mode: S.tool, stroke: st.pts.map(function (p) { return [Math.round(p[0] * 10) / 10, Math.round(p[1] * 10) / 10]; }),
+                radius: S.brush.r, type: $('tool-type').value};
+    if (S.tool === 'paint') body.impassable = S.brush.imp;
+    paintReq(body);
+    render();
+    return;
+  }
   if (d) {
     S.drag = null;
     var h = d.h;
@@ -820,10 +966,37 @@ window.addEventListener('mouseup', function (ev) {
     $('map').classList.remove('panning');
     if (!moved) {
       if (S.tool !== 'select') toolClick(clampPt(toMetres(ev)));
-      else select(null);
+      else clickSelect(toMetres(ev));
     }
   }
 });
+function inRing(p, ring) {
+  var c = false;
+  for (var i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+    var a = ring[i], b = ring[j];
+    if ((a[1] > p[1]) !== (b[1] > p[1]) && p[0] < (b[0] - a[0]) * (p[1] - a[1]) / (b[1] - a[1]) + a[0]) c = !c;
+  }
+  return c;
+}
+function regionsAt(p) {   // ids of the regions (resolved geometry, blob/band/poly/scatter) containing p, topmost (painted last) first
+  var out = [];
+  if (!S.geo || layer('regions').lock || !layer('regions').vis) return out;
+  S.geo.regions.forEach(function (r) {
+    var n = 0;
+    r.rings.forEach(function (ring) { if (inRing(p, ring)) n++; });
+    if (n % 2 === 1 && featOf(r.id) && out.indexOf(r.id) < 0) out.unshift(r.id);
+  });
+  return out;
+}
+function clickSelect(p) {
+  var hits = regionsAt(p);
+  if (!hits.length) { select(null); return; }
+  var i = hits.indexOf(S.feat);
+  var id = hits[(i + 1) % hits.length];
+  selectFeature(id);
+  S.sel = null; updateAll(); render();   // the feature, not one of its vertices: Delete removes the whole region
+  setStatus('Selected ' + id + (hits.length > 1 ? ' (' + hits.length + ' regions here; click again to cycle).' : '.'));
+}
 $('map').addEventListener('wheel', function (ev) { ev.preventDefault(); zoomAt(ev, Math.exp(Math.max(-400, Math.min(400, ev.deltaY)) * 0.0015)); }, {passive: false});
 $('map').addEventListener('dblclick', function (ev) {
   if (S.draft) { finishDraft(); return; }
@@ -866,6 +1039,7 @@ document.addEventListener('keydown', function (ev) {
   if ((ev.ctrlKey || ev.metaKey) && (k === 'y' || k === 'Y' || ((k === 'z' || k === 'Z') && ev.shiftKey))) { if (!inField) { ev.preventDefault(); simple('/api/redo'); } return; }
   if ((ev.ctrlKey || ev.metaKey) && (k === 's' || k === 'S')) { ev.preventDefault(); simple('/api/save'); return; }
   if (inField) return;
+  if (S.stroke && k === 'Escape') { S.stroke = null; setStatus('Stroke cancelled.'); render(); return; }
   if (S.draft) {
     if (k === 'Enter') { ev.preventDefault(); finishDraft(); return; }
     if (k === 'Escape') { S.draft = null; S.cursor = null; setStatus('Drawing cancelled.'); updateAll(); render(); return; }
@@ -879,6 +1053,7 @@ document.addEventListener('keydown', function (ev) {
   if (!ev.ctrlKey && !ev.metaKey && !ev.altKey) {
     for (var i = 0; i < TOOLS.length; i++) if (k === TOOLS[i][2]) { setTool(TOOLS[i][0]); return; }
   }
+  if (k === '[' || k === ']') { var rr = S.brush.r, stp = rr >= 40 ? 10 : rr >= 10 ? 5 : 1; setRadius(rr + (k === ']' ? stp : -stp)); setStatus('Brush radius ' + S.brush.r + ' m.'); return; }
   if (k === '+' || k === '=') { zoomAt(null, 1 / 1.25); return; }
   if (k === '-' || k === '_') { zoomAt(null, 1.25); return; }
   if (k === '0') { fit(); render(); return; }
@@ -894,6 +1069,8 @@ $('b-fit').addEventListener('click', function () { fit(); render(); });
 $('b-zin').addEventListener('click', function () { zoomAt(null, 1 / 1.25); });
 $('b-zout').addEventListener('click', function () { zoomAt(null, 1.25); });
 $('finish').addEventListener('click', finishDraft);
+$('brush-r').addEventListener('input', function () { setRadius(Number($('brush-r').value)); });
+$('brush-imp').addEventListener('change', function () { S.brush.imp = $('brush-imp').checked; });
 $('tool-type').addEventListener('change', function () { S.toolType[S.tool] = $('tool-type').value; });
 $('c-outlines').addEventListener('change', render);
 $('c-image').addEventListener('change', render);
