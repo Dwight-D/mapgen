@@ -396,6 +396,7 @@ the edge lists the roads on the district boundary and the entries within `SNAP` 
 | `wardring` (revised) | existing radial + layers, plus `warp=0.5` | the layered favourite, curved |
 | `hearthmoor`, `swordmarch` (revised) | grid + `layers=organic` + `warp=0.6` (blocks re-filled at several angles; main lattice bent) | grid towns that are no longer uniform |
 | `ashgrove` | `organic`, `edge=wall`, `warp=0.6`, `layers=organic`, seed 21, 900 m (no pinch) | splotchy walled outline |
+| `rivermere`, `wyndale`, `greywatch`, `driftholt`, `harrowmouth`, `cindermarket` | `organic` with `layers=organic-radial` + `water=river`, `organic-voronoi` + `edge=open`, `organic-grid` + `fort=corner`, `organic-cells` + `edge=fade`, `organic-mixed` + `water=bay`, `organic-mixed` + `arteries=7 arcs=3` | the named presets on walled, open, faded, river, bay and fort towns; seeds in `README.md` |
 
 Seeds are chosen by scanning (as the README records for twinbridge): the first seed passing `check`, `flowgraph check --strict` and the visual criteria of §12.
 

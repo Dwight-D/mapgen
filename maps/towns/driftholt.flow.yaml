@@ -1,0 +1,123 @@
+format_version: 1
+name: driftholt
+brief: |
+  Settlement movement graph of driftholt (generator organic, seed 13) with two spawns linked to gates drift_entry_a0 and drift_entry_a2.
+
+nodes:
+  A: { kind: spawn, team: A, name: Holtmen spawn }
+  B: { kind: spawn, team: B, name: Moorfolk spawn }
+  drift_entry_a0: { kind: choke, name: "Entry a0" }
+  drift_entry_a1: { kind: choke, name: "Entry a1" }
+  drift_entry_a2: { kind: choke, name: "Entry a2" }
+  drift_entry_a3: { kind: choke, name: "Entry a3" }
+  drift_h0_end: { kind: choke }
+  drift_h1_end: { kind: choke }
+  drift_j_a0_h0: { kind: choke }
+  drift_j_a0s0_u0_0_a0s0_v0_0: { kind: choke }
+  drift_j_a0s0_u0_0_a0s0_vn1_0: { kind: choke }
+  drift_j_a0s0_u0_0_a0s0_x0y0_b1: { kind: choke }
+  drift_j_a0s0_vn1_0_a0s0_xn1yn2_b1: { kind: choke }
+  drift_j_a0s0_vn2_0_a0s0_xn1yn2_b1: { kind: choke }
+  drift_j_a0s0_x0y0_b0_a0s0_x0y0_b1: { kind: choke }
+  drift_j_a1_h1: { kind: choke }
+  drift_j_a1s0_b4_a1s0_p1_spoke1_0: { kind: choke }
+  drift_j_a1s0_p1_ring1_0_a1s0_p1_spoke1_0: { kind: choke }
+  drift_j_a1s0_p1_ring1_0_a1s0_p1_spoke2_0: { kind: choke }
+  drift_j_a3s0_u0_0_a3s0_v0_0: { kind: choke }
+  drift_j_a3s0_x1y0_b1_a3s0_x1y0_b2: { kind: choke }
+  drift_j_a3s0_xn3yn2_b0_a3s0_xn3yn2_b1: { kind: choke }
+  drift_j_artery_0_a0s0_u0_0: { kind: choke }
+  drift_j_artery_0_bs_a0s0_x_edge: { kind: choke }
+  drift_j_artery_0_bs_a0s0_x_plaza: { kind: choke }
+  drift_j_artery_1_a0s0_v0_0: { kind: choke }
+  drift_j_artery_1_a0s0_vn1_0: { kind: choke }
+  drift_j_artery_1_a0s0_vn2_0: { kind: choke }
+  drift_j_artery_1_a1s0_p1_spoke2_0: { kind: choke }
+  drift_j_artery_1_a1s0_p6_sr_0: { kind: choke }
+  drift_j_artery_1_bs_a0s0_x_edge: { kind: choke }
+  drift_j_artery_1_bs_a0s0_x_plaza: { kind: choke }
+  drift_j_artery_2_a1s0_b0: { kind: choke }
+  drift_j_artery_2_a1s0_b4: { kind: choke }
+  drift_j_artery_2_a3s1_p2_u0_0: { kind: choke }
+  drift_j_artery_2_bs_a3s1_x_plaza: { kind: choke }
+  drift_j_artery_3_a3s0_x1y0_b2: { kind: choke }
+  drift_j_artery_3_a3s1_p2_u0_0: { kind: choke }
+  drift_j_artery_3_bs_a3s0_x_edge: { kind: choke }
+  drift_j_artery_3_bs_a3s0_x_plaza: { kind: choke }
+  drift_j_bs_a0s0_x_edge_a0s0_v0_0: { kind: choke }
+  drift_j_bs_a0s0_x_edge_a0s0_vn2_0: { kind: choke }
+  drift_j_bs_a1s0_x_edge_a1s0_p6_sr_0: { kind: choke }
+  drift_j_bs_a3s0_x_edge_2_a3s0_xn3yn2_b1: { kind: choke }
+  drift_j_bs_a3s0_x_edge_a3s0_u0_0: { kind: choke }
+  drift_j_bs_a3s0_x_edge_a3s0_xn3yn2_b0: { kind: choke }
+  drift_j_bs_a3s0_x_plaza_a3s0_u0_0: { kind: choke }
+  drift_plaza: { kind: zone, name: "Central Plaza" }
+
+edges:
+  - A - drift_entry_a0
+  - B - drift_entry_a2
+  - { link: "drift_entry_a0 - drift_j_a0_h0", name: drift_artery_0 }
+  - { link: "drift_entry_a1 - drift_j_a1_h1", name: drift_artery_1 }
+  - { link: "drift_entry_a2 - drift_j_artery_2_a3s1_p2_u0_0", name: drift_artery_2 }
+  - { link: "drift_entry_a2 - drift_j_artery_3_bs_a3s0_x_edge", name: drift_bs_a3s1_x_edge }
+  - { link: "drift_entry_a3 - drift_j_artery_3_bs_a3s0_x_edge", name: drift_artery_3 }
+  - { link: "drift_h0_end - drift_j_a0_h0", name: drift_street_h0 }
+  - { link: "drift_h1_end - drift_j_a1_h1", name: drift_street_h1 }
+  - { link: "drift_j_a0_h0 - drift_j_artery_0_bs_a0s0_x_edge", name: drift_artery_0 }
+  - { link: "drift_j_a0s0_u0_0_a0s0_v0_0 - drift_j_a0s0_u0_0_a0s0_vn1_0", name: drift_sr_a0s0_u0_0 }
+  - { link: "drift_j_a0s0_u0_0_a0s0_v0_0 - drift_j_a0s0_u0_0_a0s0_x0y0_b1", name: drift_sr_a0s0_u0_0 }
+  - { link: "drift_j_a0s0_u0_0_a0s0_v0_0 - drift_j_artery_1_a0s0_v0_0", name: drift_sr_a0s0_v0_0 }
+  - { link: "drift_j_a0s0_u0_0_a0s0_v0_0 - drift_j_bs_a0s0_x_edge_a0s0_v0_0", name: drift_sr_a0s0_v0_0 }
+  - { link: "drift_j_a0s0_u0_0_a0s0_vn1_0 - drift_j_a0s0_vn1_0_a0s0_xn1yn2_b1", name: drift_sr_a0s0_vn1_0 }
+  - { link: "drift_j_a0s0_u0_0_a0s0_vn1_0 - drift_j_artery_1_a0s0_vn1_0", name: drift_sr_a0s0_vn1_0 }
+  - { link: "drift_j_a0s0_u0_0_a0s0_x0y0_b1 - drift_j_a0s0_x0y0_b0_a0s0_x0y0_b1", name: drift_sr_a0s0_x0y0_b1 }
+  - { link: "drift_j_a0s0_u0_0_a0s0_x0y0_b1 - drift_j_artery_0_a0s0_u0_0", name: drift_sr_a0s0_u0_0 }
+  - { link: "drift_j_a0s0_vn1_0_a0s0_xn1yn2_b1 - drift_j_a0s0_vn2_0_a0s0_xn1yn2_b1", name: drift_sr_a0s0_xn1yn2_b1 }
+  - { link: "drift_j_a0s0_vn2_0_a0s0_xn1yn2_b1 - drift_j_artery_1_a0s0_vn2_0", name: drift_sr_a0s0_vn2_0 }
+  - { link: "drift_j_a0s0_vn2_0_a0s0_xn1yn2_b1 - drift_j_bs_a0s0_x_edge_a0s0_vn2_0", name: drift_sr_a0s0_vn2_0 }
+  - { link: "drift_j_a0s0_x0y0_b0_a0s0_x0y0_b1 - drift_j_artery_0_bs_a0s0_x_plaza", name: drift_sr_a0s0_x0y0_b0 }
+  - { link: "drift_j_a1_h1 - drift_j_artery_1_bs_a0s0_x_edge", name: drift_artery_1 }
+  - { link: "drift_j_a1s0_b4_a1s0_p1_spoke1_0 - drift_j_a1s0_p1_ring1_0_a1s0_p1_spoke1_0", name: drift_sr_a1s0_b4 }
+  - { link: "drift_j_a1s0_b4_a1s0_p1_spoke1_0 - drift_j_artery_2_a1s0_b4", name: drift_sr_a1s0_b4 }
+  - { link: "drift_j_a1s0_p1_ring1_0_a1s0_p1_spoke1_0 - drift_j_a1s0_p1_ring1_0_a1s0_p1_spoke2_0", name: drift_sr_a1s0_p1_ring1_0 }
+  - { link: "drift_j_a1s0_p1_ring1_0_a1s0_p1_spoke2_0 - drift_j_artery_1_a1s0_p1_spoke2_0", name: drift_sr_a1s0_p1_spoke2_0 }
+  - { link: "drift_j_a3s0_u0_0_a3s0_v0_0 - drift_j_a3s0_x1y0_b1_a3s0_x1y0_b2", name: drift_sr_a3s0_v0_0 }
+  - { link: "drift_j_a3s0_u0_0_a3s0_v0_0 - drift_j_bs_a3s0_x_edge_a3s0_u0_0", name: drift_sr_a3s0_u0_0 }
+  - { link: "drift_j_a3s0_u0_0_a3s0_v0_0 - drift_j_bs_a3s0_x_plaza_a3s0_u0_0", name: drift_sr_a3s0_u0_0 }
+  - { link: "drift_j_a3s0_x1y0_b1_a3s0_x1y0_b2 - drift_j_artery_3_a3s0_x1y0_b2", name: drift_sr_a3s0_x1y0_b2 }
+  - { link: "drift_j_a3s0_xn3yn2_b0_a3s0_xn3yn2_b1 - drift_j_bs_a3s0_x_edge_2_a3s0_xn3yn2_b1", name: drift_sr_a3s0_xn3yn2_b1 }
+  - { link: "drift_j_a3s0_xn3yn2_b0_a3s0_xn3yn2_b1 - drift_j_bs_a3s0_x_edge_a3s0_xn3yn2_b0", name: drift_sr_a3s0_xn3yn2_b0 }
+  - { link: "drift_j_artery_0_a0s0_u0_0 - drift_j_artery_0_bs_a0s0_x_edge", name: drift_artery_0 }
+  - { link: "drift_j_artery_0_a0s0_u0_0 - drift_j_artery_0_bs_a0s0_x_plaza", name: drift_artery_0 }
+  - { link: "drift_j_artery_0_bs_a0s0_x_edge - drift_j_bs_a0s0_x_edge_a0s0_v0_0", name: drift_bs_a0s0_x_edge }
+  - { link: "drift_j_artery_0_bs_a0s0_x_edge - drift_j_bs_a3s0_x_edge_2_a3s0_xn3yn2_b1", name: drift_bs_a3s0_x_edge_2 }
+  - { link: "drift_j_artery_0_bs_a0s0_x_plaza - drift_j_artery_1_bs_a0s0_x_plaza", name: drift_bs_a0s0_x_plaza }
+  - { link: "drift_j_artery_0_bs_a0s0_x_plaza - drift_j_bs_a3s0_x_plaza_a3s0_u0_0", name: drift_bs_a3s0_x_plaza }
+  - { link: "drift_j_artery_0_bs_a0s0_x_plaza - drift_plaza", name: drift_artery_0 }
+  - { link: "drift_j_artery_1_a0s0_v0_0 - drift_j_artery_1_a0s0_vn1_0", name: drift_artery_1 }
+  - { link: "drift_j_artery_1_a0s0_v0_0 - drift_j_artery_1_a1s0_p1_spoke2_0", name: drift_artery_1 }
+  - { link: "drift_j_artery_1_a0s0_vn1_0 - drift_j_artery_1_a1s0_p6_sr_0", name: drift_artery_1 }
+  - { link: "drift_j_artery_1_a0s0_vn2_0 - drift_j_artery_1_a1s0_p6_sr_0", name: drift_artery_1 }
+  - { link: "drift_j_artery_1_a0s0_vn2_0 - drift_j_artery_1_bs_a0s0_x_edge", name: drift_artery_1 }
+  - { link: "drift_j_artery_1_a1s0_p1_spoke2_0 - drift_j_artery_1_bs_a0s0_x_plaza", name: drift_artery_1 }
+  - { link: "drift_j_artery_1_a1s0_p6_sr_0 - drift_j_bs_a1s0_x_edge_a1s0_p6_sr_0", name: drift_sr_a1s0_p6_sr_0 }
+  - { link: "drift_j_artery_1_bs_a0s0_x_edge - drift_j_bs_a0s0_x_edge_a0s0_vn2_0", name: drift_bs_a0s0_x_edge }
+  - { link: "drift_j_artery_1_bs_a0s0_x_edge - drift_j_bs_a1s0_x_edge_a1s0_p6_sr_0", name: drift_bs_a1s0_x_edge }
+  - { link: "drift_j_artery_1_bs_a0s0_x_plaza - drift_j_artery_2_bs_a3s1_x_plaza", name: drift_bs_a1s0_x_plaza }
+  - { link: "drift_j_artery_1_bs_a0s0_x_plaza - drift_plaza", name: drift_artery_1 }
+  - { link: "drift_j_artery_2_a1s0_b0 - drift_j_artery_2_a1s0_b4", name: drift_artery_2 }
+  - { link: "drift_j_artery_2_a1s0_b0 - drift_j_artery_2_a3s1_p2_u0_0", name: drift_artery_2 }
+  - { link: "drift_j_artery_2_a1s0_b4 - drift_j_artery_2_bs_a3s1_x_plaza", name: drift_artery_2 }
+  - { link: "drift_j_artery_2_a3s1_p2_u0_0 - drift_j_artery_3_a3s1_p2_u0_0", name: drift_sr_a3s1_p2_u0_0 }
+  - { link: "drift_j_artery_2_bs_a3s1_x_plaza - drift_j_artery_3_bs_a3s0_x_plaza", name: drift_bs_a3s1_x_plaza }
+  - { link: "drift_j_artery_2_bs_a3s1_x_plaza - drift_plaza", name: drift_artery_2 }
+  - { link: "drift_j_artery_3_a3s0_x1y0_b2 - drift_j_artery_3_a3s1_p2_u0_0", name: drift_artery_3 }
+  - { link: "drift_j_artery_3_a3s0_x1y0_b2 - drift_j_artery_3_bs_a3s0_x_plaza", name: drift_artery_3 }
+  - { link: "drift_j_artery_3_a3s1_p2_u0_0 - drift_j_artery_3_bs_a3s0_x_edge", name: drift_artery_3 }
+  - { link: "drift_j_artery_3_bs_a3s0_x_edge - drift_j_bs_a3s0_x_edge_a3s0_u0_0", name: drift_bs_a3s0_x_edge }
+  - { link: "drift_j_artery_3_bs_a3s0_x_plaza - drift_j_bs_a3s0_x_plaza_a3s0_u0_0", name: drift_bs_a3s0_x_plaza }
+  - { link: "drift_j_artery_3_bs_a3s0_x_plaza - drift_plaza", name: drift_artery_3 }
+  - { link: "drift_j_bs_a0s0_x_edge_a0s0_v0_0 - drift_j_bs_a0s0_x_edge_a0s0_vn2_0", name: drift_bs_a0s0_x_edge }
+  - { link: "drift_j_bs_a3s0_x_edge_2_a3s0_xn3yn2_b1 - drift_j_bs_a3s0_x_edge_a3s0_xn3yn2_b0", name: drift_bs_a3s0_x_edge_2 }
+  - { link: "drift_j_bs_a3s0_x_edge_a3s0_u0_0 - drift_j_bs_a3s0_x_edge_a3s0_xn3yn2_b0", name: drift_bs_a3s0_x_edge }
+  - { link: "drift_j_bs_a3s0_x_edge_a3s0_xn3yn2_b0 - drift_j_bs_a3s0_x_plaza_a3s0_u0_0", name: drift_sr_a3s0_vn1_0 }

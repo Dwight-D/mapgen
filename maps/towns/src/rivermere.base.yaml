@@ -1,0 +1,24 @@
+format_version: 1
+name: rivermere
+brief: |
+  PITCH: Rivermere, a walled town of radial districts split into grids and lots, straddling a river (organic generator, layers=organic-radial, water=river).
+  FLOW: bridges are the only dry crossings between the river banks; each bank's districts form their own street mazes.
+  TEST: do bridge fights dominate, or do the wall gates and ford-less banks split the match into two halves?
+size: [1000, 1000]
+seed: 5709
+
+terrain:
+  base_height: 50
+  relief: 14
+  relief_scale: 400
+  detail: 4
+  detail_scale: 100
+
+regions:
+  - { id: rm_r0, seed: 0, type: field, shape: blob, at: [150, 150], r: 170, rough: 0.45, warp: 50 }
+  - { id: rm_r1, seed: 1, type: forest, shape: blob, at: [880, 860], r: 150, rough: 0.45, warp: 50, fragment: 0.35, fragment_scale: 60 }
+  - { id: rm_r2, seed: 2, type: hills, shape: blob, at: [880, 140], r: 130, rough: 0.45, warp: 50, height: 30 }
+  - { id: rm_r3, seed: 3, type: marsh, shape: blob, at: [120, 880], r: 100, rough: 0.45, warp: 50 }
+
+scatter:
+  - { id: scatter_rm, seed: 0, type: forest, coverage: 0.15, scale: 110, clump: 0.5, avoid: 12 }

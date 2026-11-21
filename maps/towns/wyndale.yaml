@@ -1,0 +1,267 @@
+format_version: 1
+name: wyndale
+brief: |
+  PITCH: Wyndale, an unwalled town of Voronoi cells re-cut into grids, bsp lots and fans, spilling over a valley floor (organic, edge=open, layers=organic-voronoi).
+  FLOW: open entries on every artery; no wall, so the surrounding fields and copses give flanking approaches into the cell maze.
+  TEST: does an open perimeter of irregular cells let attackers filter in from any side, or do arteries still dominate?
+size: [1000, 1000]
+seed: 5710
+
+terrain:
+  base_height: 50
+  relief: 18
+  relief_scale: 400
+  detail: 4
+  detail_scale: 100
+
+regions:
+  - { id: wy_r0, seed: 0, type: field, shape: blob, at: [200, 800], r: 180, rough: 0.45, warp: 50 }
+  - { id: wy_r1, seed: 1, type: forest, shape: blob, at: [850, 200], r: 160, rough: 0.45, warp: 50, fragment: 0.35, fragment_scale: 60 }
+  - { id: wy_r2, seed: 2, type: hills, shape: blob, at: [120, 200], r: 140, rough: 0.45, warp: 50, height: 35 }
+  - { id: wy_r3, seed: 3, type: forest, shape: blob, at: [880, 860], r: 110, rough: 0.45, warp: 50, fragment: 0.4, fragment_scale: 60 }
+  - { id: wynd_d_a0s0_core_p0, seed: 2626032480, type: town, shape: poly, points: [[442.58, 357.62], [461.12, 401.83], [450.63, 448.01], [438.31, 442.07], [432.6, 437.62], [427.6, 432.37], [423.43, 426.44], [420.17, 419.97], [417.89, 413.09], [416.66, 405.95], [416.48, 398.7], [417.36, 391.51], [419.3, 384.52], [422.23, 377.9], [426.11, 371.78], [430.85, 366.29], [436.33, 361.55]], rough: 0, label: "Market Ward 1 1 1" }
+  - { id: wynd_d_a0s0_core_p1, seed: 2149650952, type: town, shape: poly, points: [[503.79, 369.92], [461.12, 401.83], [442.58, 357.62], [451.38, 353.98], [458.45, 352.39], [468.09, 351.92], [475.29, 352.81], [484.53, 355.61], [491, 358.87], [498.75, 364.62]], rough: 0, label: "Market Ward 1 1 2" }
+  - { id: wynd_d_a0s0_core_p2, seed: 1416328535, type: town, shape: poly, points: [[450.63, 448.01], [461.12, 401.83], [503.79, 369.92], [507.93, 375.79], [512.05, 384.52], [513.99, 391.51], [514.87, 398.7], [514.7, 405.95], [513.46, 413.09], [510.9, 420.61], [506.63, 428.48], [500.51, 435.95], [495.02, 440.68], [488.9, 444.56], [482.27, 447.5], [475.29, 449.43], [465.68, 450.38], [458.45, 449.84]], rough: 0, label: "Market Ward 1 1 3" }
+  - { id: wynd_d_a0s0_r1s2, seed: 2808810738, type: town, shape: poly, points: [[423.86, 333], [434.14, 321.83], [447.48, 355.36], [438.31, 360.16], [430.85, 366.29], [424.72, 373.75], [420.45, 381.63], [386.35, 366.94], [387.76, 358.91], [391.93, 351.79], [400.14, 345.77]], rough: 0, label: "Market Ward 1 2" }
+  - { id: wynd_d_a0s0_r1s5, seed: 806230760, type: town, shape: poly, points: [[541.7, 430.57], [540.14, 433.2], [510.9, 420.61], [513.99, 410.73], [514.93, 401.12], [513.99, 391.51], [511.43, 382.92], [583.64, 354.2], [559.29, 400.03]], rough: 0, label: "Market Ward 1 3" }
+  - { id: wynd_d_a0s0_r1s6, seed: 4111629199, type: town, shape: poly, points: [[510.9, 420.61], [540.14, 433.2], [514.44, 477.24], [508.61, 474.93], [502.32, 474.13], [495.18, 475.3], [483.87, 446.88], [493.04, 442.07], [500.51, 435.95], [506.63, 428.48]], rough: 0, label: "Market Ward 1 4" }
+  - { id: wynd_d_a0s0_r1s7, seed: 1075976505, type: town, shape: poly, points: [[434.95, 472.42], [446.19, 446.34], [456.07, 449.43], [465.68, 450.38], [475.29, 449.43], [483.87, 446.88], [495.18, 475.3], [490.17, 477.36], [485.07, 481.15], [480.95, 486.06], [477.75, 494.09], [428.84, 486.6]], rough: 0, label: "Market Ward 1 5" }
+  - { id: wynd_d_a0s0_r2s0_b0, seed: 3537749525, type: town, shape: poly, points: [[407.51, 424.25], [400.8, 481.82], [370.46, 474.7], [342.6, 464.79], [327.78, 455.96]], rough: 0, label: "Market Ward 1 6 1" }
+  - { id: wynd_d_a0s0_r2s0_b1, seed: 1230679116, type: town, shape: poly, points: [[400.8, 481.82], [407.51, 424.25], [419.92, 419.32], [424.72, 428.48], [430.85, 435.95], [438.31, 442.07], [446.19, 446.34], [428.84, 486.6]], rough: 0, label: "Market Ward 1 6 2" }
+  - { id: wynd_d_a0s0_r2s1_b0, seed: 2185008345, type: town, shape: poly, points: [[354.93, 382.61], [380.09, 435.16], [327.78, 455.96], [320.24, 451.47], [305.94, 434.04], [305.61, 432.31], [321.86, 416.29], [336.61, 395.83], [344.29, 388.29]], rough: 0, label: "Market Ward 1 7 1" }
+  - { id: wynd_d_a0s0_r2s1_b1, seed: 4237968292, type: town, shape: poly, points: [[380.09, 435.16], [354.93, 382.61], [356.72, 381.65], [376.82, 378.85], [381.79, 376.57], [385.51, 371.7], [386.35, 366.94], [420.45, 381.63], [417.36, 391.51], [416.42, 401.12], [417.36, 410.73], [419.92, 419.32]], rough: 0, label: "Market Ward 1 7 2" }
+  - { id: wynd_d_a0s0_r2s3, seed: 3156748669, type: town, shape: poly, points: [[476.1, 297.42], [509.34, 299.79], [485.16, 355.89], [475.29, 352.81], [465.68, 351.86], [456.07, 352.81], [447.48, 355.36], [434.14, 321.83], [446.49, 308.41], [454.41, 302.6], [463.85, 299.02]], rough: 0, label: "Market Ward 1 8" }
+  - { id: wynd_d_a0s0_r2s4_p0, seed: 1728855929, type: town, shape: poly, points: [[499.27, 323.16], [584.48, 352.51], [583.64, 354.2], [511.43, 382.92], [506.63, 373.75], [500.51, 366.29], [493.04, 360.16], [485.16, 355.89]], rough: 0, label: "Market Ward 1 9 1" }
+  - { id: wynd_d_a0s0_r2s4_p1, seed: 4085971684, type: town, shape: poly, points: [[584.48, 352.51], [499.27, 323.16], [509.34, 299.79], [512.81, 300.04], [558.53, 286.55], [591.47, 338.47]], rough: 0, label: "Market Ward 1 9 2" }
+  - { id: wynd_d_a0s0_r2s4_p2, seed: 28123347, type: town, shape: poly, points: [[591.47, 338.47], [558.53, 286.55], [568.16, 283.71], [575.46, 280.18], [581.3, 273.66], [589.29, 254.5], [598.16, 249.6], [622.77, 248.74], [618.14, 270.41], [607.69, 301.52]], rough: 0, label: "Market Ward 1 9 3" }
+  - { id: wynd_d_a1s0_p0, seed: 2737853497, type: town, shape: poly, points: [[560.52, 397.78], [582.93, 416.19], [563.37, 482.79], [521.9, 483.93], [519.66, 481.06], [514.44, 477.24]], rough: 0, label: "Market Ward 2 1" }
+  - { id: wynd_d_a1s0_p1, seed: 1348700846, type: town, shape: poly, points: [[521.9, 483.93], [563.37, 482.79], [580.66, 494.73], [579.46, 542.77], [555.75, 560.3], [519.07, 517.55], [524.08, 510.96], [526.23, 504.81], [526.91, 498.4], [526.07, 492.04], [523.6, 486.11]], rough: 0, label: "Market Ward 2 2" }
+  - { id: wynd_d_a1s0_p10, seed: 3581089818, type: town, shape: poly, points: [[692.69, 436.19], [646.49, 396.11], [653.95, 363.16], [663.56, 357.2], [684.94, 363.14], [727.42, 408.61], [716.09, 418.86], [695.79, 431.96]], rough: 0, label: "Market Ward 2 3" }
+  - { id: wynd_d_a1s0_p11, seed: 4116534267, type: town, shape: poly, points: [[738.87, 342.37], [684.94, 363.14], [663.56, 357.2], [674.91, 318.1], [713.6, 316.34], [724.11, 319.24], [731.38, 325.38], [737.47, 336.94]], rough: 0, label: "Market Ward 2 4" }
+  - { id: wynd_d_a1s0_p12, seed: 3951300402, type: town, shape: poly, points: [[727.42, 408.61], [684.94, 363.14], [738.87, 342.37], [742.27, 355.52], [742.82, 368.45], [740.44, 384.08], [735.9, 396.64]], rough: 0, label: "Market Ward 2 5" }
+  - { id: wynd_d_a1s0_p2, seed: 231772272, type: town, shape: poly, points: [[582.93, 416.19], [612.69, 421.79], [631.61, 472.57], [625.21, 483.63], [580.66, 494.73], [563.37, 482.79]], rough: 0, label: "Market Ward 2 6" }
+  - { id: wynd_d_a1s0_p3, seed: 3271316156, type: town, shape: poly, points: [[555.75, 560.3], [579.46, 542.77], [613.01, 549.97], [627.05, 606.01], [618.15, 616.78], [611.39, 622.87], [587.67, 597.23]], rough: 0, label: "Market Ward 2 7" }
+  - { id: wynd_d_a1s0_p4, seed: 939975403, type: town, shape: poly, points: [[580.66, 494.73], [625.21, 483.63], [641.18, 528.94], [613.01, 549.97], [579.46, 542.77]], rough: 0, label: "Market Ward 2 8" }
+  - { id: wynd_d_a1s0_p5_b0, seed: 1216266250, type: town, shape: poly, points: [[583.89, 353.69], [646.49, 396.09], [646.49, 396.11], [612.69, 421.79], [582.93, 416.19], [560.52, 397.78]], rough: 0, label: "Market Ward 2 9 1" }
+  - { id: wynd_d_a1s0_p5_b1, seed: 3691514949, type: town, shape: poly, points: [[646.49, 396.09], [583.89, 353.69], [594.19, 332.81], [653.95, 363.16]], rough: 0, label: "Market Ward 2 9 2" }
+  - { id: wynd_d_a1s0_p6, seed: 3992629119, type: town, shape: poly, points: [[674.91, 318.1], [663.56, 357.2], [653.95, 363.16], [594.19, 332.81], [607.69, 301.52], [618.14, 270.41], [622.77, 248.74], [632.26, 251.86], [637.28, 255.84], [642.98, 264.84], [645.86, 276.28], [645.12, 305.75], [647.53, 312.68], [651.76, 316.88], [660.59, 318.75]], rough: 0, label: "Market Ward 2 10" }
+  - { id: wynd_d_a1s0_p7, seed: 980264080, type: town, shape: poly, points: [[627.05, 606.01], [613.01, 549.97], [641.18, 528.94], [679.51, 541.51], [670.81, 555.93], [648.64, 579.87]], rough: 0, label: "Market Ward 2 11" }
+  - { id: wynd_d_a1s0_p8_x0y0, seed: 730648360, type: town, shape: poly, points: [[691.76, 444.35], [697.99, 455.88], [699.67, 463.34], [637.04, 471.83], [670.64, 417.06], [692.69, 436.19]], rough: 0, label: "Market Ward 2 12 1" }
+  - { id: wynd_d_a1s0_p8_xn1yn1, seed: 2929241812, type: town, shape: poly, points: [[646.49, 396.11], [670.64, 417.06], [637.04, 471.83], [631.61, 472.57], [612.69, 421.79]], rough: 0, label: "Market Ward 2 12 2" }
+  - { id: wynd_d_a1s0_p9, seed: 995326661, type: town, shape: poly, points: [[679.51, 541.51], [641.18, 528.94], [625.21, 483.63], [631.61, 472.57], [699.67, 463.34], [696.41, 500.11], [692.86, 511.91]], rough: 0, label: "Market Ward 2 13" }
+  - { id: wynd_d_a2s0_p0, seed: 2774298426, type: town, shape: poly, points: [[277.37, 720.42], [294.41, 757.43], [271.76, 764.54], [239.39, 766.28], [220.92, 775.96], [212.01, 777.14], [204.51, 775.25], [198.21, 769.29], [196.33, 765.53], [213.41, 757.37], [251.02, 737.13]], rough: 0, label: "Market Ward 3 1" }
+  - { id: wynd_d_a2s0_p1, seed: 700000001, type: town, shape: poly, points: [[326.88, 681.65], [359.43, 724.48], [344.02, 746.34], [328.8, 746.64], [294.41, 757.43], [277.37, 720.42], [284.5, 715.9], [315.93, 691.47]], rough: 0, label: "Market Ward 3 2" }
+  - { id: wynd_d_a2s0_p10, seed: 3198265184, type: town, shape: poly, points: [[502.98, 524.21], [509.33, 584.55], [490.72, 605.57], [442.29, 564.35], [484.93, 517.33], [489.4, 520.78], [495.63, 523.38]], rough: 0, label: "Market Ward 3 3" }
+  - { id: wynd_d_a2s0_p11, seed: 1249491355, type: town, shape: poly, points: [[571.53, 578.65], [509.33, 584.55], [502.98, 524.21], [509.02, 523.42], [515.23, 520.75], [519.07, 517.55]], rough: 0, label: "Market Ward 3 4" }
+  - { id: wynd_d_a2s0_p12_b0, seed: 4124116142, type: town, shape: poly, points: [[528.84, 582.7], [545.16, 627.9], [510.17, 640.73], [490.25, 617.04], [490.72, 605.57], [509.33, 584.55]], rough: 0, label: "Market Ward 3 5 1" }
+  - { id: wynd_d_a2s0_p12_b1, seed: 705331827, type: town, shape: poly, points: [[545.16, 627.9], [528.84, 582.7], [571.53, 578.65], [598.1, 608.5]], rough: 0, label: "Market Ward 3 5 2" }
+  - { id: wynd_d_a2s0_p13_x0y0, seed: 1965461534, type: town, shape: poly, points: [[510.17, 640.73], [535.16, 631.57], [571.37, 658.87], [559, 670], [516.9, 687.5]], rough: 0, label: "Market Ward 3 6 1" }
+  - { id: wynd_d_a2s0_p13_xn1yn1, seed: 1851568675, type: town, shape: poly, points: [[582.04, 614.39], [598.1, 608.5], [611.39, 622.87], [571.37, 658.87], [535.16, 631.57]], rough: 0, label: "Market Ward 3 6 2" }
+  - { id: wynd_d_a2s0_p2, seed: 609937954, type: town, shape: poly, points: [[366.32, 644.66], [398.34, 673.95], [386.93, 721.74], [359.43, 724.48], [326.88, 681.65], [348.05, 662.66]], rough: 0, label: "Market Ward 3 7" }
+  - { id: wynd_d_a2s0_p3_core, seed: 630523241, type: town, shape: poly, points: [[359.43, 724.48], [386.93, 721.74], [403.81, 733.47], [404.31, 770.03], [390.04, 757.19], [386.65, 759.99], [383.33, 761.46], [379.03, 762.1], [375.43, 761.66], [369.08, 758.26], [364.95, 751.87], [354.88, 755.15], [352.97, 751.46], [346.23, 746.3], [344.02, 746.34]], rough: 0, label: "Market Ward 3 8 1" }
+  - { id: wynd_d_a2s0_p3_r1s0, seed: 832936964, type: town, shape: poly, points: [[354.88, 755.15], [364.95, 751.87], [367.13, 756.11], [370.21, 759.19], [374.04, 761.23], [378.3, 762.08], [384.7, 760.97], [390.04, 757.19], [404.31, 770.03], [404.58, 789.4], [367.31, 820.73], [363.98, 814.49], [358.59, 787.98], [356.54, 758.33]], rough: 0, label: "Market Ward 3 8 2" }
+  - { id: wynd_d_a2s0_p4, seed: 1893989071, type: town, shape: poly, points: [[406.52, 603.35], [442.6, 641.07], [436.8, 663.52], [398.34, 673.95], [366.32, 644.66]], rough: 0, label: "Market Ward 3 9" }
+  - { id: wynd_d_a2s0_p5, seed: 2745222614, type: town, shape: poly, points: [[434.81, 727.7], [403.81, 733.47], [386.93, 721.74], [398.34, 673.95], [436.8, 663.52], [460.15, 697.05], [436.26, 707.54], [431.03, 712.65], [429.68, 719.29], [432.25, 725.74]], rough: 0, label: "Market Ward 3 10" }
+  - { id: wynd_d_a2s0_p6, seed: 254044496, type: town, shape: poly, points: [[367.31, 820.73], [404.58, 789.4], [474.83, 796.62], [474.48, 823.42], [469.75, 836.63], [459.09, 847.85], [440.14, 858.62], [429.75, 861.2], [421.24, 861.31], [404.12, 854.57], [379.95, 836.39], [369.57, 824.97]], rough: 0, label: "Market Ward 3 11" }
+  - { id: wynd_d_a2s0_p7_xn1y0, seed: 214848007, type: town, shape: poly, points: [[404.58, 789.4], [404.31, 760.49], [472.3, 770.49], [474.83, 796.62]], rough: 0, label: "Market Ward 3 12 1" }
+  - { id: wynd_d_a2s0_p7_xn1yn1, seed: 1436449466, type: town, shape: poly, points: [[403.81, 733.47], [434.81, 727.7], [436.86, 729.26], [452.4, 734.68], [459.54, 740.04], [467.5, 751.91], [471.7, 764.64], [472.3, 770.49], [404.18, 760.47]], rough: 0, label: "Market Ward 3 12 2" }
+  - { id: wynd_d_a2s0_p8, seed: 2013237554, type: town, shape: poly, points: [[442.29, 564.35], [490.72, 605.57], [490.25, 617.04], [442.6, 641.07], [406.52, 603.35]], rough: 0, label: "Market Ward 3 13" }
+  - { id: wynd_d_a2s0_p9_w1c1, seed: 423101927, type: town, shape: poly, points: [[501.64, 630.58], [510.17, 640.73], [516.9, 687.5], [503.82, 692.94], [494.2, 694.01], [490.97, 693.6], [479.85, 642.09], [471.24, 643.11], [464.33, 642.74], [457.55, 641.33], [448.96, 637.86], [490.25, 617.04]], rough: 0, label: "Market Ward 3 14 1" }
+  - { id: wynd_d_a2s0_p9_w3c1, seed: 3802151989, type: town, shape: poly, points: [[436.8, 663.52], [442.6, 641.07], [448.96, 637.86], [457.55, 641.33], [464.33, 642.74], [471.24, 643.11], [479.85, 642.09], [490.97, 693.6], [476.75, 691.8], [468.69, 693.3], [460.15, 697.05]], rough: 0, label: "Market Ward 3 14 2" }
+  - { id: wynd_d_a3s0_p1, seed: 3640868497, type: town, shape: poly, points: [[251.02, 737.13], [213.41, 757.37], [196.33, 765.53], [193.54, 759.95], [191.33, 750.37], [190.03, 739.02], [196.22, 725.29], [204.62, 718.54], [231.53, 707.19], [252, 691.54], [275.51, 721.6]], rough: 0, label: "Market Ward 4 1" }
+  - { id: wynd_d_a3s0_p2, seed: 3005770987, type: town, shape: poly, points: [[275.51, 721.6], [252, 691.54], [256.72, 687.93], [263.26, 680.15], [272.55, 662.37], [284.33, 645.56], [333.48, 675.73], [315.93, 691.47], [284.5, 715.9]], rough: 0, label: "Market Ward 4 2" }
+  - { id: wynd_d_a3s0_p3, seed: 2530880141, type: town, shape: poly, points: [[378.03, 476.48], [323.58, 513.2], [312.99, 498.13], [307.56, 494.29], [292.03, 488.26], [285.32, 482.28], [280.65, 471.79], [279.95, 461.31], [284.15, 453.46], [305.61, 432.31], [305.94, 434.04], [320.24, 451.47], [342.6, 464.79], [370.46, 474.7]], rough: 0, label: "Market Ward 4 3" }
+  - { id: wynd_d_a3s0_p4, seed: 2144995165, type: town, shape: poly, points: [[333.48, 675.73], [284.33, 645.56], [293.97, 631.8], [303.77, 600.36], [316.66, 571.73], [329.57, 576.73], [362, 648.92]], rough: 0, label: "Market Ward 4 4" }
+  - { id: wynd_d_a3s0_p5, seed: 2289013250, type: town, shape: poly, points: [[379.73, 476.87], [387.23, 564.85], [329.57, 576.73], [316.66, 571.73], [328.85, 544.66], [330.39, 529.8], [327.49, 518.76], [323.58, 513.2], [378.03, 476.48]], rough: 0, label: "Market Ward 4 5" }
+  - { id: wynd_d_a3s0_p6_b0, seed: 1669098407, type: town, shape: poly, points: [[361.3, 570.19], [384.6, 626.35], [362, 648.92], [329.57, 576.73]], rough: 0, label: "Market Ward 4 6 1" }
+  - { id: wynd_d_a3s0_p6_b1, seed: 2391580375, type: town, shape: poly, points: [[384.6, 626.35], [361.3, 570.19], [387.23, 564.85], [424.79, 583.55]], rough: 0, label: "Market Ward 4 6 2" }
+  - { id: wynd_d_a3s0_p7_core, seed: 1572267987, type: town, shape: poly, points: [[428.26, 546.27], [428.02, 550.06], [438.63, 551.93], [441.73, 564.97], [424.79, 583.55], [393.65, 568.05], [400.25, 560.18], [395.45, 553.64], [394.17, 546.27], [396.16, 539.06], [398.57, 535.64], [401.73, 532.91], [406.26, 530.77], [410.38, 530.06], [415.36, 530.55], [419.26, 532.05], [422.68, 534.46], [425.85, 538.33], [427.55, 542.15]], rough: 0, label: "Market Ward 4 7 1" }
+  - { id: wynd_d_a3s0_p7_r1s2, seed: 2167413101, type: town, shape: poly, points: [[422.84, 485.58], [438.63, 551.93], [428.02, 550.06], [428.2, 545.43], [426.98, 540.57], [424.41, 536.28], [420.7, 532.91], [416.96, 531.04], [412.89, 530.12], [405.37, 531.07], [401.73, 532.91], [398.57, 535.64], [394.88, 542.15], [394.15, 547.1], [394.88, 552.06], [397.02, 556.59], [400.25, 560.18], [393.65, 568.05], [387.23, 564.85], [379.73, 476.87], [401.26, 481.93]], rough: 0, label: "Market Ward 4 7 2" }
+  - { id: wynd_d_a3s0_p8, seed: 4007746989, type: town, shape: poly, points: [[441.73, 564.97], [438.63, 551.93], [422.84, 485.58], [477.75, 494.09], [476.96, 498.4], [477.59, 505.03], [480.02, 511.27], [484.93, 517.33]], rough: 0, label: "Market Ward 4 8" }
+  - { id: wynd_d_plaza, seed: 3241428386, type: town, shape: poly, points: [[519.07, 517.55], [515.23, 520.75], [509.02, 523.42], [502.32, 524.3], [495.63, 523.38], [489.4, 520.78], [484.06, 516.66], [480.02, 511.27], [477.59, 505.03], [476.96, 498.4], [478.15, 491.92], [480.95, 486.06], [485.07, 481.15], [490.17, 477.36], [496.04, 474.95], [502.32, 474.13], [508.61, 474.93], [514.52, 477.27], [519.66, 481.06], [523.6, 486.11], [526.07, 492.04], [526.91, 498.4], [526.23, 504.81], [524.08, 510.96]], rough: 0, label: "Central Plaza" }
+
+scatter:
+  - { id: scatter_wy, seed: 0, type: forest, coverage: 0.2, scale: 110, clump: 0.5, avoid: 12 }
+
+teams:
+  A: { base: [249, 138], name: Valewatch }
+  B: { base: [815, 842], name: Hillmen }
+
+lines:
+  - { id: approach_a, type: road, path: [base_A, [295, 221], [251, 306], [309, 365], wynd_entry_a0], width: 10, smooth: true, wobble: 14, wobble_scale: 140 }
+  - { id: approach_b, type: road, path: [base_B, [771, 760], [675, 748], [680, 649], wynd_entry_a2], width: 10, smooth: true, wobble: 14, wobble_scale: 140 }
+  - { id: wynd_artery_0, seed: 2553813333, type: road, path: [wynd_plaza, wynd_j_artery_0_bs_a0s0_x_plaza, wynd_j_artery_0_a0s0_spoke0_0, wynd_j_artery_0_a3s0_b9, wynd_j_artery_0_a0s0_r2s0_sr_0, [370.46, 474.7], [342.6, 464.79], wynd_j_artery_0_a0s0_spoke1_0, [320.24, 451.47], wynd_entry_a0], width: 14, smooth: true }
+  - { id: wynd_artery_1, seed: 64786304, type: road, path: [wynd_plaza, wynd_j_artery_1_bs_a0s0_x_plaza, wynd_j_artery_1_a0s0_spoke6_0, wynd_j_artery_1_a1s0_b6, wynd_j_artery_1_a0s0_spoke5_0, [607.69, 301.52], [618.14, 270.41], wynd_entry_a1], width: 14, smooth: true }
+  - { id: wynd_artery_2, seed: 4069533793, type: road, path: [wynd_plaza, wynd_j_artery_2_bs_a1s0_x_plaza, wynd_j_artery_2_a2s0_b22, wynd_j_artery_2_a2s0_b23, wynd_entry_a2], width: 14, smooth: true }
+  - { id: wynd_artery_3, seed: 2435883600, type: road, path: [wynd_plaza, wynd_j_artery_3_bs_a2s0_x_plaza, wynd_j_artery_3_a3s0_b9, wynd_j_artery_3_a3s0_b8, wynd_j_artery_3_a3s0_p6_sr_0, [348.05, 662.66], [315.93, 691.47], [284.5, 715.9], [251.02, 737.13], wynd_entry_a3], width: 14, smooth: true }
+  - { id: wynd_bs_a0s0_x_edge, seed: 1647838450, type: road, path: [wynd_entry_a0, [321.86, 416.29], [336.61, 395.83], [344.29, 388.29], wynd_j_bs_a0s0_x_edge_a0s0_r2s1_sr_0, [376.82, 378.85], [381.79, 376.57], [385.51, 371.7], wynd_j_bs_a0s0_x_edge_a0s0_spoke2_0, [387.76, 358.91], [391.93, 351.79], [400.14, 345.77], [423.86, 333], wynd_j_bs_a0s0_x_edge_a0s0_spoke3_0, [446.49, 308.41], [454.41, 302.6], [463.85, 299.02], [476.1, 297.42], wynd_j_bs_a0s0_x_edge_a0s0_spoke4_0, [512.81, 300.04], [568.16, 283.71], [575.46, 280.18], [581.3, 273.66], [589.29, 254.5], wynd_j_bs_a0s0_x_edge_a0s0_spoke4_0, [622.7, 248.72]], width: 5, smooth: true }
+  - { id: wynd_bs_a0s0_x_plaza, seed: 2267224077, type: road, path: [wynd_j_artery_1_bs_a0s0_x_plaza, [502.32, 474.13], wynd_j_bs_a0s0_x_plaza_a0s0_spoke7_0, [485.07, 481.15], [480.95, 486.06], wynd_j_artery_0_bs_a0s0_x_plaza], width: 5, smooth: true }
+  - { id: wynd_bs_a1s0_x_edge, seed: 2792747354, type: road, path: [wynd_entry_a1, [632.26, 251.86], [637.28, 255.84], [642.98, 264.84], [645.86, 276.28], [645.12, 305.75], [647.53, 312.68], [651.76, 316.88], [660.59, 318.75], wynd_j_bs_a1s0_x_edge_a1s0_b19, [713.6, 316.34], [724.11, 319.24], [731.38, 325.38], [737.47, 336.94], [742.27, 355.52], [742.82, 368.45], [740.44, 384.08], [735.9, 396.64], [727.94, 408.14], [716.09, 418.86], [695.79, 431.96], wynd_j_bs_a1s0_x_edge_a1s0_b22, [691.76, 444.35], [697.99, 455.88], wynd_j_bs_a1s0_x_edge_a1s0_b23], width: 5, smooth: true }
+  - { id: wynd_bs_a1s0_x_edge_2, seed: 1454192347, type: road, path: [[699.7, 463.47], [696.41, 500.11], [692.86, 511.91], [679.12, 542.38], [670.81, 555.93], [648.64, 579.87], wynd_j_bs_a1s0_x_edge_2_a1s0_b13, [618.15, 616.78], wynd_entry_a2], width: 5, smooth: true }
+  - { id: wynd_bs_a1s0_x_plaza, seed: 4091516258, type: road, path: [wynd_j_artery_2_bs_a1s0_x_plaza, [524.08, 510.96], [526.91, 498.4], wynd_j_artery_2_bs_a1s0_x_plaza, [514.52, 477.27]], width: 5, smooth: true }
+  - { id: wynd_bs_a2s0_x_edge, seed: 1720480173, type: road, path: [wynd_entry_a2, wynd_j_bs_a2s0_x_edge_a2s0_p13_v0_0, [559, 670], [503.82, 692.94], [494.2, 694.01], [476.75, 691.8], [468.69, 693.3], wynd_j_bs_a2s0_x_edge_a2s0_b14, [436.26, 707.54], [431.03, 712.65], [429.68, 719.29], [432.25, 725.74], [436.86, 729.26], [452.4, 734.68], [459.54, 740.04], [467.5, 751.91], [471.7, 764.64], wynd_j_bs_a2s0_x_edge_a2s0_p7_v0_0, [474.85, 795.26], [474.48, 823.42], [469.75, 836.63], [459.09, 847.85], [440.14, 858.62], [429.75, 861.2], [421.24, 861.31], [404.12, 854.57], [379.95, 836.39], [369.57, 824.97], [363.98, 814.49], [358.59, 787.98], [356.54, 758.33], wynd_j_bs_a2s0_x_edge_a2s0_p3_spoke1_0, [352.97, 751.46], [346.23, 746.3], [328.8, 746.64], [271.76, 764.54], [239.39, 766.28], [220.92, 775.96], [212.01, 777.14], [204.51, 775.25], [198.21, 769.29], wynd_entry_a3], width: 5, smooth: true }
+  - { id: wynd_bs_a2s0_x_plaza, seed: 2127496673, type: road, path: [wynd_j_artery_3_bs_a2s0_x_plaza, [489.4, 520.78], [495.63, 523.38], [502.32, 524.3], [509.02, 523.42], [515.23, 520.75], wynd_j_artery_2_bs_a1s0_x_plaza], width: 5, smooth: true }
+  - { id: wynd_bs_a3s0_x_edge, seed: 3693069423, type: road, path: [wynd_entry_a3, [193.54, 759.95], [190.03, 739.02], [196.22, 725.29], [204.62, 718.54], [231.53, 707.19], [256.72, 687.93], [263.26, 680.15], [272.55, 662.37], [293.97, 631.8], [303.77, 600.36], wynd_j_bs_a3s0_x_edge_a3s0_b3, [328.85, 544.66], [330.39, 529.8], [327.49, 518.76], [312.99, 498.13], [307.56, 494.29], [292.03, 488.26], [285.32, 482.28], [280.65, 471.79], [279.95, 461.31], [284.15, 453.46], wynd_entry_a0], width: 5, smooth: true }
+  - { id: wynd_bs_a3s0_x_plaza, seed: 2203400474, type: road, path: [wynd_j_artery_0_bs_a0s0_x_plaza, [477.59, 505.03], [480.02, 511.27], wynd_j_artery_3_bs_a2s0_x_plaza], width: 5, smooth: true }
+  - { id: wynd_sr_a0s0_core_b0, seed: 2368172305, type: road, path: [wynd_j_a0s0_core_b0_a0s0_ring1_0, wynd_j_a0s0_core_b0_a0s0_core_b1], width: 8, smooth: true }
+  - { id: wynd_sr_a0s0_core_b1, seed: 2234660114, type: road, path: [wynd_j_a0s0_core_b0_a0s0_core_b1, wynd_j_a0s0_core_b1_a0s0_ring1_0], width: 5, smooth: true }
+  - { id: wynd_sr_a0s0_core_b2, seed: 1890408376, type: road, path: [wynd_j_a0s0_core_b0_a0s0_core_b1, wynd_j_a0s0_core_b2_a0s0_ring1_0], width: 8, smooth: true }
+  - { id: wynd_sr_a0s0_r2s0_sr_0, seed: 3414263472, type: road, path: [wynd_j_a0s0_r2s0_sr_0_a0s0_spoke1_0, wynd_j_artery_0_a0s0_r2s0_sr_0], width: 8, smooth: true }
+  - { id: wynd_sr_a0s0_r2s1_sr_0, seed: 4229395619, type: road, path: [wynd_j_bs_a0s0_x_edge_a0s0_r2s1_sr_0, wynd_j_a0s0_r2s1_sr_0_a0s0_spoke1_0], width: 8, smooth: true }
+  - { id: wynd_sr_a0s0_r2s4_b0, seed: 734714635, type: road, path: [[558.53, 286.55], [591.47, 338.47]], width: 5, smooth: true }
+  - { id: wynd_sr_a0s0_r2s4_b1, seed: 2203232264, type: road, path: [[584.48, 352.51], [499.27, 323.16]], width: 5, smooth: true }
+  - { id: wynd_sr_a0s0_ring1_0, seed: 2037657603, type: road, path: [[514.93, 401.12], [513.99, 391.51], wynd_j_a0s0_ring1_0_a0s0_spoke5_0, wynd_j_a0s0_core_b2_a0s0_ring1_0, [495.02, 361.55], wynd_j_a0s0_ring1_0_a0s0_spoke4_0, [475.29, 352.81], [465.68, 351.86], [456.07, 352.81], wynd_j_a0s0_ring1_0_a0s0_spoke3_0, wynd_j_a0s0_core_b1_a0s0_ring1_0, [429.18, 368.04], wynd_j_a0s0_ring1_0_a0s0_spoke2_0, [417.36, 391.51], [416.42, 401.12], [417.36, 410.73], wynd_j_a0s0_ring1_0_a0s0_spoke1_0, [424.72, 428.48], [430.85, 435.95], [438.31, 442.07], wynd_j_a0s0_ring1_0_a0s0_spoke0_0, wynd_j_a0s0_core_b0_a0s0_ring1_0, [468.09, 450.32], wynd_j_a0s0_ring1_0_a0s0_spoke7_0, [493.04, 442.07], [500.51, 435.95], [506.63, 428.48], wynd_j_a0s0_ring1_0_a0s0_spoke6_0, [513.99, 410.73], [514.93, 401.12]], width: 5, smooth: true }
+  - { id: wynd_sr_a0s0_spoke0_0, seed: 2185948734, type: road, path: [wynd_j_a0s0_ring1_0_a0s0_spoke0_0, wynd_j_artery_0_a0s0_spoke0_0], width: 10, smooth: true }
+  - { id: wynd_sr_a0s0_spoke1_0, seed: 3551654322, type: road, path: [wynd_j_a0s0_ring1_0_a0s0_spoke1_0, wynd_j_a0s0_r2s0_sr_0_a0s0_spoke1_0, wynd_j_a0s0_r2s1_sr_0_a0s0_spoke1_0, wynd_j_artery_0_a0s0_spoke1_0], width: 10, smooth: true }
+  - { id: wynd_sr_a0s0_spoke2_0, seed: 887375166, type: road, path: [wynd_j_a0s0_ring1_0_a0s0_spoke2_0, wynd_j_bs_a0s0_x_edge_a0s0_spoke2_0], width: 10, smooth: true }
+  - { id: wynd_sr_a0s0_spoke3_0, seed: 3292220458, type: road, path: [wynd_j_a0s0_ring1_0_a0s0_spoke3_0, wynd_j_bs_a0s0_x_edge_a0s0_spoke3_0], width: 10, smooth: true }
+  - { id: wynd_sr_a0s0_spoke4_0, seed: 2382791209, type: road, path: [wynd_j_a0s0_ring1_0_a0s0_spoke4_0, wynd_j_bs_a0s0_x_edge_a0s0_spoke4_0], width: 10, smooth: true }
+  - { id: wynd_sr_a0s0_spoke5_0, seed: 2556564326, type: road, path: [wynd_j_a0s0_ring1_0_a0s0_spoke5_0, wynd_j_artery_1_a0s0_spoke5_0], width: 10, smooth: true }
+  - { id: wynd_sr_a0s0_spoke6_0, seed: 1334137215, type: road, path: [wynd_j_a0s0_ring1_0_a0s0_spoke6_0, wynd_j_artery_1_a0s0_spoke6_0], width: 10, smooth: true }
+  - { id: wynd_sr_a0s0_spoke7_0, seed: 3559971268, type: road, path: [wynd_j_a0s0_ring1_0_a0s0_spoke7_0, wynd_j_bs_a0s0_x_plaza_a0s0_spoke7_0], width: 10, smooth: true }
+  - { id: wynd_sr_a1s0_b0, seed: 2075805941, type: road, path: [[555.75, 560.3], [579.46, 542.77]], width: 5, smooth: true }
+  - { id: wynd_sr_a1s0_b1, seed: 3212226565, type: road, path: [[563.37, 482.79], [521.9, 483.93]], width: 5, smooth: true }
+  - { id: wynd_sr_a1s0_b10, seed: 3235663915, type: road, path: [wynd_j_a1s0_b10_a1s0_b13, wynd_j_a1s0_b10_a1s0_b11], width: 10, smooth: true }
+  - { id: wynd_sr_a1s0_b11, seed: 4254997203, type: road, path: [wynd_j_a1s0_b11_a1s0_b12, wynd_j_a1s0_b10_a1s0_b11], width: 10, smooth: true }
+  - { id: wynd_sr_a1s0_b12, seed: 884887482, type: road, path: [wynd_j_a1s0_b11_a1s0_b12, wynd_j_a1s0_b12_a1s0_b14], width: 10, smooth: true }
+  - { id: wynd_sr_a1s0_b13, seed: 2957380116, type: road, path: [wynd_j_bs_a1s0_x_edge_2_a1s0_b13, wynd_j_a1s0_b10_a1s0_b13], width: 10, smooth: true }
+  - { id: wynd_sr_a1s0_b14, seed: 635278536, type: road, path: [wynd_j_a1s0_b12_a1s0_b14, wynd_j_a1s0_b14_a1s0_b7], width: 10, smooth: true }
+  - { id: wynd_sr_a1s0_b15, seed: 4094777551, type: road, path: [[641.18, 528.94], [679.51, 541.51]], width: 5, smooth: true }
+  - { id: wynd_sr_a1s0_b16, seed: 1125366295, type: road, path: [wynd_j_a1s0_b16_a1s0_b22, wynd_j_a1s0_b16_a1s0_b18], width: 10, smooth: true }
+  - { id: wynd_sr_a1s0_b17, seed: 1832388328, type: road, path: [[653.95, 363.16], [594.19, 332.81]], width: 5, smooth: true }
+  - { id: wynd_sr_a1s0_b18, seed: 1251498237, type: road, path: [wynd_j_a1s0_b16_a1s0_b18, wynd_j_a1s0_b18_a1s0_b19], width: 10, smooth: true }
+  - { id: wynd_sr_a1s0_b19, seed: 2736678570, type: road, path: [wynd_j_a1s0_b18_a1s0_b19, wynd_j_bs_a1s0_x_edge_a1s0_b19], width: 10, smooth: true }
+  - { id: wynd_sr_a1s0_b2, seed: 275875316, type: road, path: [[563.37, 482.79], [582.93, 416.19]], width: 5, smooth: true }
+  - { id: wynd_sr_a1s0_b20, seed: 3339752598, type: road, path: [[684.94, 363.14], [663.56, 357.2]], width: 5, smooth: true }
+  - { id: wynd_sr_a1s0_b21, seed: 1015887292, type: road, path: [[684.94, 363.14], [727.42, 408.61]], width: 5, smooth: true }
+  - { id: wynd_sr_a1s0_b22, seed: 296942772, type: road, path: [wynd_j_bs_a1s0_x_edge_a1s0_b22, wynd_j_a1s0_b22_a1s0_p8_u0_0, wynd_j_a1s0_b16_a1s0_b22], width: 5, smooth: true }
+  - { id: wynd_sr_a1s0_b23, seed: 834170801, type: road, path: [wynd_j_bs_a1s0_x_edge_a1s0_b23, wynd_j_a1s0_b23_a1s0_p8_u0_0, wynd_j_a1s0_b12_a1s0_b14], width: 5, smooth: true }
+  - { id: wynd_sr_a1s0_b24, seed: 3948944644, type: road, path: [[738.87, 342.37], [684.94, 363.14]], width: 5, smooth: true }
+  - { id: wynd_sr_a1s0_b3, seed: 4287459612, type: road, path: [[579.46, 542.77], [580.66, 494.73]], width: 5, smooth: true }
+  - { id: wynd_sr_a1s0_b4, seed: 2218356604, type: road, path: [[580.66, 494.73], [563.37, 482.79]], width: 5, smooth: true }
+  - { id: wynd_sr_a1s0_b5, seed: 668147990, type: road, path: [[580.66, 494.73], [625.21, 483.63]], width: 5, smooth: true }
+  - { id: wynd_sr_a1s0_b6, seed: 3152532825, type: road, path: [wynd_j_a1s0_b6_a1s0_b7, wynd_j_artery_1_a1s0_b6], width: 10, smooth: true }
+  - { id: wynd_sr_a1s0_b7, seed: 788179582, type: road, path: [wynd_j_a1s0_b14_a1s0_b7, wynd_j_a1s0_b6_a1s0_b7], width: 10, smooth: true }
+  - { id: wynd_sr_a1s0_b8, seed: 1172784258, type: road, path: [wynd_j_a1s0_b14_a1s0_b7, wynd_j_a1s0_b16_a1s0_b22], width: 10, smooth: true }
+  - { id: wynd_sr_a1s0_b9, seed: 716136341, type: road, path: [[613.01, 549.97], [579.46, 542.77]], width: 5, smooth: true }
+  - { id: wynd_sr_a1s0_p8_u0_0, seed: 1296177417, type: road, path: [wynd_j_a1s0_b22_a1s0_p8_u0_0, wynd_j_a1s0_b23_a1s0_p8_u0_0], width: 8, smooth: true }
+  - { id: wynd_sr_a2s0_b0, seed: 2352860450, type: road, path: [[294.41, 757.43], [277.37, 720.42]], width: 5, smooth: true }
+  - { id: wynd_sr_a2s0_b1, seed: 707911757, type: road, path: [[326.88, 681.65], [359.43, 724.48]], width: 5, smooth: true }
+  - { id: wynd_sr_a2s0_b10, seed: 4192710523, type: road, path: [[404.58, 789.4], wynd_j_a2s0_b10_a2s0_p3_spoke0_0, wynd_j_a2s0_b10_a2s0_p7_v0_0, [403.81, 733.47]], width: 5, smooth: true }
+  - { id: wynd_sr_a2s0_b11, seed: 906143226, type: road, path: [[436.8, 663.52], [442.6, 641.07]], width: 5, smooth: true }
+  - { id: wynd_sr_a2s0_b12, seed: 4173250196, type: road, path: [[442.29, 564.35], [490.72, 605.57]], width: 5, smooth: true }
+  - { id: wynd_sr_a2s0_b13, seed: 2942768975, type: road, path: [[442.6, 641.07], [406.52, 603.35]], width: 5, smooth: true }
+  - { id: wynd_sr_a2s0_b14, seed: 3511920616, type: road, path: [wynd_j_bs_a2s0_x_edge_a2s0_b14, [436.8, 663.52]], width: 10, smooth: true }
+  - { id: wynd_sr_a2s0_b15, seed: 2516237272, type: road, path: [[474.83, 796.62], [404.58, 789.4]], width: 5, smooth: true }
+  - { id: wynd_sr_a2s0_b16, seed: 2791679180, type: road, path: [[490.25, 617.04], [442.6, 641.07]], width: 5, smooth: true }
+  - { id: wynd_sr_a2s0_b17, seed: 1731185951, type: road, path: [[490.25, 617.04], [490.72, 605.57]], width: 5, smooth: true }
+  - { id: wynd_sr_a2s0_b18, seed: 1343650768, type: road, path: [[490.72, 605.57], [509.33, 584.55]], width: 5, smooth: true }
+  - { id: wynd_sr_a2s0_b19, seed: 3005703431, type: road, path: [[509.33, 584.55], [502.98, 524.21]], width: 5, smooth: true }
+  - { id: wynd_sr_a2s0_b2, seed: 1201521040, type: road, path: [[359.43, 724.48], [344.02, 746.34]], width: 5, smooth: true }
+  - { id: wynd_sr_a2s0_b20, seed: 139469594, type: road, path: [[510.17, 640.73], [490.25, 617.04]], width: 5, smooth: true }
+  - { id: wynd_sr_a2s0_b21, seed: 1506982452, type: road, path: [[516.9, 687.5], [510.17, 640.73]], width: 5, smooth: true }
+  - { id: wynd_sr_a2s0_b22, seed: 3225979483, type: road, path: [wynd_j_artery_2_a2s0_b22, wynd_j_a2s0_b22_a2s0_p12_sr_0, [509.33, 584.55]], width: 5, smooth: true }
+  - { id: wynd_sr_a2s0_b23, seed: 3848121854, type: road, path: [wynd_j_artery_2_a2s0_b23, wynd_j_a2s0_b23_a2s0_p12_sr_0, wynd_j_a2s0_b23_a2s0_p13_v0_0, [510.17, 640.73]], width: 5, smooth: true }
+  - { id: wynd_sr_a2s0_b3, seed: 903489976, type: road, path: [[359.43, 724.48], [386.93, 721.74]], width: 5, smooth: true }
+  - { id: wynd_sr_a2s0_b4, seed: 649531855, type: road, path: [[367.31, 820.73], [404.58, 789.4]], width: 5, smooth: true }
+  - { id: wynd_sr_a2s0_b5, seed: 2316682277, type: road, path: [[386.93, 721.74], [398.34, 673.95]], width: 5, smooth: true }
+  - { id: wynd_sr_a2s0_b6, seed: 2800998036, type: road, path: [[398.34, 673.95], [366.32, 644.66]], width: 5, smooth: true }
+  - { id: wynd_sr_a2s0_b7, seed: 2098001783, type: road, path: [[398.34, 673.95], [436.8, 663.52]], width: 5, smooth: true }
+  - { id: wynd_sr_a2s0_b8, seed: 2459666859, type: road, path: [[403.81, 733.47], [386.93, 721.74]], width: 5, smooth: true }
+  - { id: wynd_sr_a2s0_b9, seed: 3319283174, type: road, path: [[403.81, 733.47], [434.81, 727.7]], width: 5, smooth: true }
+  - { id: wynd_sr_a2s0_p12_sr_0, seed: 3944304672, type: road, path: [wynd_j_a2s0_b22_a2s0_p12_sr_0, wynd_j_a2s0_b23_a2s0_p12_sr_0], width: 8, smooth: true }
+  - { id: wynd_sr_a2s0_p13_v0_0, seed: 2788752035, type: road, path: [wynd_j_a2s0_b23_a2s0_p13_v0_0, wynd_j_bs_a2s0_x_edge_a2s0_p13_v0_0], width: 8, smooth: true }
+  - { id: wynd_sr_a2s0_p3_ring1_0, seed: 4031092854, type: road, path: [wynd_j_a2s0_p3_ring1_0_a2s0_p3_spoke1_0, [369.08, 758.26], [376.14, 761.82], [383.33, 761.46], wynd_j_a2s0_p3_ring1_0_a2s0_p3_spoke0_0], width: 5, smooth: true }
+  - { id: wynd_sr_a2s0_p3_spoke0_0, seed: 1244243769, type: road, path: [wynd_j_a2s0_p3_ring1_0_a2s0_p3_spoke0_0, wynd_j_a2s0_b10_a2s0_p3_spoke0_0], width: 8, smooth: true }
+  - { id: wynd_sr_a2s0_p3_spoke1_0, seed: 1901703222, type: road, path: [wynd_j_a2s0_p3_ring1_0_a2s0_p3_spoke1_0, wynd_j_bs_a2s0_x_edge_a2s0_p3_spoke1_0], width: 8, smooth: true }
+  - { id: wynd_sr_a2s0_p7_v0_0, seed: 1529836638, type: road, path: [wynd_j_a2s0_b10_a2s0_p7_v0_0, wynd_j_bs_a2s0_x_edge_a2s0_p7_v0_0], width: 8, smooth: true }
+  - { id: wynd_sr_a2s0_p9_c0_2_0, seed: 2124512784, type: road, path: [[479.85, 642.09], [464.33, 642.74], [448.96, 637.86]], width: 5, smooth: true }
+  - { id: wynd_sr_a2s0_p9_w2_0, seed: 2432258496, type: road, path: [[479.85, 642.09], [490.97, 693.6]], width: 5, smooth: true }
+  - { id: wynd_sr_a3s0_b1, seed: 2490900137, type: road, path: [[275.51, 721.6], [252, 691.54]], width: 5, smooth: true }
+  - { id: wynd_sr_a3s0_b2, seed: 2685749159, type: road, path: [[323.58, 513.2], [378.03, 476.48]], width: 5, smooth: true }
+  - { id: wynd_sr_a3s0_b3, seed: 1762686280, type: road, path: [[329.57, 576.73], wynd_j_bs_a3s0_x_edge_a3s0_b3], width: 10, smooth: true }
+  - { id: wynd_sr_a3s0_b4, seed: 1774048787, type: road, path: [[329.57, 576.73], [362, 648.92]], width: 5, smooth: true }
+  - { id: wynd_sr_a3s0_b5, seed: 2966623911, type: road, path: [[333.48, 675.73], [284.33, 645.56]], width: 5, smooth: true }
+  - { id: wynd_sr_a3s0_b6, seed: 975619013, type: road, path: [[379.73, 476.87], [387.23, 564.85]], width: 5, smooth: true }
+  - { id: wynd_sr_a3s0_b7, seed: 2244941396, type: road, path: [[387.23, 564.85], [329.57, 576.73]], width: 5, smooth: true }
+  - { id: wynd_sr_a3s0_b8, seed: 1453549185, type: road, path: [wynd_j_artery_3_a3s0_b8, wynd_j_a3s0_b8_a3s0_p7_spoke1_0, [387.23, 564.85]], width: 5, smooth: true }
+  - { id: wynd_sr_a3s0_b9, seed: 3038773042, type: road, path: [wynd_j_artery_3_a3s0_b9, wynd_j_a3s0_b9_a3s0_p7_spoke0_0, wynd_j_artery_0_a3s0_b9], width: 5, smooth: true }
+  - { id: wynd_sr_a3s0_p6_sr_0, seed: 1706911623, type: road, path: [wynd_j_artery_3_a3s0_p6_sr_0, [361.3, 570.19]], width: 8, smooth: true }
+  - { id: wynd_sr_a3s0_p7_ring1_0, seed: 535604989, type: road, path: [wynd_j_a3s0_p7_ring1_0_a3s0_p7_spoke0_0, [427.28, 541.36], [422.04, 533.91], [413.72, 530.22], [405.37, 531.07], [398.02, 536.28], [394.33, 544.6], [395.45, 553.64], wynd_j_a3s0_p7_ring1_0_a3s0_p7_spoke1_0], width: 5, smooth: true }
+  - { id: wynd_sr_a3s0_p7_spoke0_0, seed: 2961571576, type: road, path: [wynd_j_a3s0_p7_ring1_0_a3s0_p7_spoke0_0, wynd_j_a3s0_b9_a3s0_p7_spoke0_0], width: 8, smooth: true }
+  - { id: wynd_sr_a3s0_p7_spoke1_0, seed: 3381524890, type: road, path: [wynd_j_a3s0_p7_ring1_0_a3s0_p7_spoke1_0, wynd_j_a3s0_b8_a3s0_p7_spoke1_0], width: 8, smooth: true }
+
+points:
+  wynd_entry_a0: [305.61, 432.31]
+  wynd_entry_a1: [622.77, 248.74]
+  wynd_entry_a2: [611.39, 622.87]
+  wynd_entry_a3: [196.33, 765.53]
+  wynd_j_a0s0_core_b0_a0s0_core_b1: [461.12, 401.83]
+  wynd_j_a0s0_core_b0_a0s0_ring1_0: [450.63, 448.01]
+  wynd_j_a0s0_core_b1_a0s0_ring1_0: [442.58, 357.62]
+  wynd_j_a0s0_core_b2_a0s0_ring1_0: [503.79, 369.92]
+  wynd_j_a0s0_r2s0_sr_0_a0s0_spoke1_0: [407.51, 424.25]
+  wynd_j_a0s0_r2s1_sr_0_a0s0_spoke1_0: [380.09, 435.16]
+  wynd_j_a0s0_ring1_0_a0s0_spoke0_0: [446.19, 446.34]
+  wynd_j_a0s0_ring1_0_a0s0_spoke1_0: [419.92, 419.32]
+  wynd_j_a0s0_ring1_0_a0s0_spoke2_0: [420.45, 381.63]
+  wynd_j_a0s0_ring1_0_a0s0_spoke3_0: [447.48, 355.36]
+  wynd_j_a0s0_ring1_0_a0s0_spoke4_0: [485.16, 355.89]
+  wynd_j_a0s0_ring1_0_a0s0_spoke5_0: [511.43, 382.92]
+  wynd_j_a0s0_ring1_0_a0s0_spoke6_0: [510.9, 420.61]
+  wynd_j_a0s0_ring1_0_a0s0_spoke7_0: [483.87, 446.88]
+  wynd_j_a1s0_b10_a1s0_b11: [641.18, 528.94]
+  wynd_j_a1s0_b10_a1s0_b13: [613.01, 549.97]
+  wynd_j_a1s0_b11_a1s0_b12: [625.21, 483.63]
+  wynd_j_a1s0_b12_a1s0_b14: [631.61, 472.57]
+  wynd_j_a1s0_b14_a1s0_b7: [612.69, 421.79]
+  wynd_j_a1s0_b16_a1s0_b18: [653.95, 363.16]
+  wynd_j_a1s0_b16_a1s0_b22: [646.49, 396.11]
+  wynd_j_a1s0_b18_a1s0_b19: [663.56, 357.2]
+  wynd_j_a1s0_b22_a1s0_p8_u0_0: [670.64, 417.06]
+  wynd_j_a1s0_b23_a1s0_p8_u0_0: [637.04, 471.83]
+  wynd_j_a1s0_b6_a1s0_b7: [582.93, 416.19]
+  wynd_j_a2s0_b10_a2s0_p3_spoke0_0: [404.31, 770.03]
+  wynd_j_a2s0_b10_a2s0_p7_v0_0: [404.18, 760.47]
+  wynd_j_a2s0_b22_a2s0_p12_sr_0: [528.84, 582.7]
+  wynd_j_a2s0_b23_a2s0_p12_sr_0: [545.16, 627.9]
+  wynd_j_a2s0_b23_a2s0_p13_v0_0: [535.16, 631.57]
+  wynd_j_a2s0_p3_ring1_0_a2s0_p3_spoke0_0: [390.04, 757.19]
+  wynd_j_a2s0_p3_ring1_0_a2s0_p3_spoke1_0: [364.95, 751.87]
+  wynd_j_a3s0_b8_a3s0_p7_spoke1_0: [393.65, 568.05]
+  wynd_j_a3s0_b9_a3s0_p7_spoke0_0: [438.63, 551.93]
+  wynd_j_a3s0_p7_ring1_0_a3s0_p7_spoke0_0: [428.02, 550.06]
+  wynd_j_a3s0_p7_ring1_0_a3s0_p7_spoke1_0: [400.25, 560.18]
+  wynd_j_artery_0_a0s0_r2s0_sr_0: [400.8, 481.82]
+  wynd_j_artery_0_a0s0_spoke0_0: [428.84, 486.6]
+  wynd_j_artery_0_a0s0_spoke1_0: [327.78, 455.96]
+  wynd_j_artery_0_a3s0_b9: [422.84, 485.58]
+  wynd_j_artery_0_bs_a0s0_x_plaza: [477.75, 494.09]
+  wynd_j_artery_1_a0s0_spoke5_0: [583.64, 354.2]
+  wynd_j_artery_1_a0s0_spoke6_0: [540.14, 433.2]
+  wynd_j_artery_1_a1s0_b6: [560.52, 397.78]
+  wynd_j_artery_1_bs_a0s0_x_plaza: [514.44, 477.24]
+  wynd_j_artery_2_a2s0_b22: [571.53, 578.65]
+  wynd_j_artery_2_a2s0_b23: [598.1, 608.5]
+  wynd_j_artery_2_bs_a1s0_x_plaza: [519.07, 517.55]
+  wynd_j_artery_3_a3s0_b8: [424.79, 583.55]
+  wynd_j_artery_3_a3s0_b9: [441.73, 564.97]
+  wynd_j_artery_3_a3s0_p6_sr_0: [384.6, 626.35]
+  wynd_j_artery_3_bs_a2s0_x_plaza: [484.93, 517.33]
+  wynd_j_bs_a0s0_x_edge_a0s0_r2s1_sr_0: [354.93, 382.61]
+  wynd_j_bs_a0s0_x_edge_a0s0_spoke2_0: [386.35, 366.94]
+  wynd_j_bs_a0s0_x_edge_a0s0_spoke3_0: [434.14, 321.83]
+  wynd_j_bs_a0s0_x_edge_a0s0_spoke4_0: [509.34, 299.79]
+  wynd_j_bs_a0s0_x_plaza_a0s0_spoke7_0: [495.18, 475.3]
+  wynd_j_bs_a1s0_x_edge_2_a1s0_b13: [627.05, 606.01]
+  wynd_j_bs_a1s0_x_edge_a1s0_b19: [674.91, 318.1]
+  wynd_j_bs_a1s0_x_edge_a1s0_b22: [692.69, 436.19]
+  wynd_j_bs_a1s0_x_edge_a1s0_b23: [699.67, 463.34]
+  wynd_j_bs_a2s0_x_edge_a2s0_b14: [460.15, 697.05]
+  wynd_j_bs_a2s0_x_edge_a2s0_p13_v0_0: [571.37, 658.87]
+  wynd_j_bs_a2s0_x_edge_a2s0_p3_spoke1_0: [354.88, 755.15]
+  wynd_j_bs_a2s0_x_edge_a2s0_p7_v0_0: [472.3, 770.49]
+  wynd_j_bs_a3s0_x_edge_a3s0_b3: [316.66, 571.73]
+
+pois:
+  - { id: wynd_plaza, type: landmark, at: [502.32, 498.4], r: 25, label: "Central Plaza" }

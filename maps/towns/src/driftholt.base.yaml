@@ -1,0 +1,24 @@
+format_version: 1
+name: driftholt
+brief: |
+  PITCH: Driftholt, a sprawl with no wall: a Voronoi, radial and wedge core fading along its roads into hamlets and scattered farm clusters (organic, edge=fade, layers=organic-cells).
+  FLOW: the town has no distinct boundary; entries lie at the far tips of the fringe roads, and the open scrub between the arms is the battlefield.
+  TEST: does a tapering edge give a gradual transition from lane fighting to open ground, or does the fringe feel empty?
+size: [1100, 1100]
+seed: 5712
+
+terrain:
+  base_height: 50
+  relief: 14
+  relief_scale: 400
+  detail: 4
+  detail_scale: 100
+
+regions:
+  - { id: dh_r0, seed: 0, type: forest, shape: blob, at: [150, 850], r: 170, rough: 0.45, warp: 50, fragment: 0.35, fragment_scale: 60 }
+  - { id: dh_r1, seed: 1, type: forest, shape: blob, at: [900, 200], r: 150, rough: 0.45, warp: 50, fragment: 0.35, fragment_scale: 60 }
+  - { id: dh_r2, seed: 2, type: marsh, shape: blob, at: [880, 880], r: 110, rough: 0.45, warp: 50 }
+  - { id: dh_r3, seed: 3, type: hills, shape: blob, at: [130, 160], r: 140, rough: 0.45, warp: 50, height: 30 }
+
+scatter:
+  - { id: scatter_dh, seed: 0, type: forest, coverage: 0.22, scale: 110, clump: 0.5, avoid: 12 }

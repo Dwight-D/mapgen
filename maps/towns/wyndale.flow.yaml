@@ -1,0 +1,189 @@
+format_version: 1
+name: wyndale
+brief: |
+  Settlement movement graph of wyndale (generator organic, seed 13) with two spawns linked to gates wynd_entry_a0 and wynd_entry_a2.
+
+nodes:
+  A: { kind: spawn, team: A, name: Valewatch spawn }
+  B: { kind: spawn, team: B, name: Hillmen spawn }
+  wynd_entry_a0: { kind: choke, name: "Entry a0" }
+  wynd_entry_a1: { kind: choke, name: "Entry a1" }
+  wynd_entry_a2: { kind: choke, name: "Entry a2" }
+  wynd_entry_a3: { kind: choke, name: "Entry a3" }
+  wynd_j_a0s0_core_b0_a0s0_core_b1: { kind: choke }
+  wynd_j_a0s0_core_b0_a0s0_ring1_0: { kind: choke }
+  wynd_j_a0s0_core_b1_a0s0_ring1_0: { kind: choke }
+  wynd_j_a0s0_core_b2_a0s0_ring1_0: { kind: choke }
+  wynd_j_a0s0_r2s0_sr_0_a0s0_spoke1_0: { kind: choke }
+  wynd_j_a0s0_r2s1_sr_0_a0s0_spoke1_0: { kind: choke }
+  wynd_j_a0s0_ring1_0_a0s0_spoke0_0: { kind: choke }
+  wynd_j_a0s0_ring1_0_a0s0_spoke1_0: { kind: choke }
+  wynd_j_a0s0_ring1_0_a0s0_spoke2_0: { kind: choke }
+  wynd_j_a0s0_ring1_0_a0s0_spoke3_0: { kind: choke }
+  wynd_j_a0s0_ring1_0_a0s0_spoke4_0: { kind: choke }
+  wynd_j_a0s0_ring1_0_a0s0_spoke5_0: { kind: choke }
+  wynd_j_a0s0_ring1_0_a0s0_spoke6_0: { kind: choke }
+  wynd_j_a0s0_ring1_0_a0s0_spoke7_0: { kind: choke }
+  wynd_j_a1s0_b10_a1s0_b11: { kind: choke }
+  wynd_j_a1s0_b10_a1s0_b13: { kind: choke }
+  wynd_j_a1s0_b11_a1s0_b12: { kind: choke }
+  wynd_j_a1s0_b12_a1s0_b14: { kind: choke }
+  wynd_j_a1s0_b14_a1s0_b7: { kind: choke }
+  wynd_j_a1s0_b16_a1s0_b18: { kind: choke }
+  wynd_j_a1s0_b16_a1s0_b22: { kind: choke }
+  wynd_j_a1s0_b18_a1s0_b19: { kind: choke }
+  wynd_j_a1s0_b22_a1s0_p8_u0_0: { kind: choke }
+  wynd_j_a1s0_b23_a1s0_p8_u0_0: { kind: choke }
+  wynd_j_a1s0_b6_a1s0_b7: { kind: choke }
+  wynd_j_a2s0_b10_a2s0_p3_spoke0_0: { kind: choke }
+  wynd_j_a2s0_b10_a2s0_p7_v0_0: { kind: choke }
+  wynd_j_a2s0_b22_a2s0_p12_sr_0: { kind: choke }
+  wynd_j_a2s0_b23_a2s0_p12_sr_0: { kind: choke }
+  wynd_j_a2s0_b23_a2s0_p13_v0_0: { kind: choke }
+  wynd_j_a2s0_p3_ring1_0_a2s0_p3_spoke0_0: { kind: choke }
+  wynd_j_a2s0_p3_ring1_0_a2s0_p3_spoke1_0: { kind: choke }
+  wynd_j_a3s0_b8_a3s0_p7_spoke1_0: { kind: choke }
+  wynd_j_a3s0_b9_a3s0_p7_spoke0_0: { kind: choke }
+  wynd_j_a3s0_p7_ring1_0_a3s0_p7_spoke0_0: { kind: choke }
+  wynd_j_a3s0_p7_ring1_0_a3s0_p7_spoke1_0: { kind: choke }
+  wynd_j_artery_0_a0s0_r2s0_sr_0: { kind: choke }
+  wynd_j_artery_0_a0s0_spoke0_0: { kind: choke }
+  wynd_j_artery_0_a0s0_spoke1_0: { kind: choke }
+  wynd_j_artery_0_a3s0_b9: { kind: choke }
+  wynd_j_artery_0_bs_a0s0_x_plaza: { kind: choke }
+  wynd_j_artery_1_a0s0_spoke5_0: { kind: choke }
+  wynd_j_artery_1_a0s0_spoke6_0: { kind: choke }
+  wynd_j_artery_1_a1s0_b6: { kind: choke }
+  wynd_j_artery_1_bs_a0s0_x_plaza: { kind: choke }
+  wynd_j_artery_2_a2s0_b22: { kind: choke }
+  wynd_j_artery_2_a2s0_b23: { kind: choke }
+  wynd_j_artery_2_bs_a1s0_x_plaza: { kind: choke }
+  wynd_j_artery_3_a3s0_b8: { kind: choke }
+  wynd_j_artery_3_a3s0_b9: { kind: choke }
+  wynd_j_artery_3_a3s0_p6_sr_0: { kind: choke }
+  wynd_j_artery_3_bs_a2s0_x_plaza: { kind: choke }
+  wynd_j_bs_a0s0_x_edge_a0s0_r2s1_sr_0: { kind: choke }
+  wynd_j_bs_a0s0_x_edge_a0s0_spoke2_0: { kind: choke }
+  wynd_j_bs_a0s0_x_edge_a0s0_spoke3_0: { kind: choke }
+  wynd_j_bs_a0s0_x_edge_a0s0_spoke4_0: { kind: choke }
+  wynd_j_bs_a0s0_x_plaza_a0s0_spoke7_0: { kind: choke }
+  wynd_j_bs_a1s0_x_edge_2_a1s0_b13: { kind: choke }
+  wynd_j_bs_a1s0_x_edge_a1s0_b19: { kind: choke }
+  wynd_j_bs_a1s0_x_edge_a1s0_b22: { kind: choke }
+  wynd_j_bs_a1s0_x_edge_a1s0_b23: { kind: choke }
+  wynd_j_bs_a2s0_x_edge_a2s0_b14: { kind: choke }
+  wynd_j_bs_a2s0_x_edge_a2s0_p13_v0_0: { kind: choke }
+  wynd_j_bs_a2s0_x_edge_a2s0_p3_spoke1_0: { kind: choke }
+  wynd_j_bs_a2s0_x_edge_a2s0_p7_v0_0: { kind: choke }
+  wynd_j_bs_a3s0_x_edge_a3s0_b3: { kind: choke }
+  wynd_plaza: { kind: zone, name: "Central Plaza" }
+
+edges:
+  - A - wynd_entry_a0
+  - B - wynd_entry_a2
+  - { link: "wynd_entry_a0 - wynd_j_artery_0_a0s0_spoke1_0", name: wynd_artery_0 }
+  - { link: "wynd_entry_a0 - wynd_j_bs_a0s0_x_edge_a0s0_r2s1_sr_0", name: wynd_bs_a0s0_x_edge }
+  - { link: "wynd_entry_a0 - wynd_j_bs_a3s0_x_edge_a3s0_b3", name: wynd_bs_a3s0_x_edge }
+  - { link: "wynd_entry_a1 - wynd_j_artery_1_a0s0_spoke5_0", name: wynd_artery_1 }
+  - { link: "wynd_entry_a1 - wynd_j_bs_a0s0_x_edge_a0s0_spoke4_0", name: wynd_bs_a0s0_x_edge }
+  - { link: "wynd_entry_a1 - wynd_j_bs_a1s0_x_edge_a1s0_b19", name: wynd_bs_a1s0_x_edge }
+  - { link: "wynd_entry_a2 - wynd_j_artery_2_a2s0_b23", name: wynd_artery_2 }
+  - { link: "wynd_entry_a2 - wynd_j_bs_a1s0_x_edge_2_a1s0_b13", name: wynd_bs_a1s0_x_edge_2 }
+  - { link: "wynd_entry_a2 - wynd_j_bs_a2s0_x_edge_a2s0_p13_v0_0", name: wynd_bs_a2s0_x_edge }
+  - { link: "wynd_entry_a3 - wynd_j_artery_3_a3s0_p6_sr_0", name: wynd_artery_3 }
+  - { link: "wynd_entry_a3 - wynd_j_bs_a2s0_x_edge_a2s0_p3_spoke1_0", name: wynd_bs_a2s0_x_edge }
+  - { link: "wynd_entry_a3 - wynd_j_bs_a3s0_x_edge_a3s0_b3", name: wynd_bs_a3s0_x_edge }
+  - { link: "wynd_j_a0s0_core_b0_a0s0_core_b1 - wynd_j_a0s0_core_b0_a0s0_ring1_0", name: wynd_sr_a0s0_core_b0 }
+  - { link: "wynd_j_a0s0_core_b0_a0s0_core_b1 - wynd_j_a0s0_core_b1_a0s0_ring1_0", name: wynd_sr_a0s0_core_b1 }
+  - { link: "wynd_j_a0s0_core_b0_a0s0_core_b1 - wynd_j_a0s0_core_b2_a0s0_ring1_0", name: wynd_sr_a0s0_core_b2 }
+  - { link: "wynd_j_a0s0_core_b0_a0s0_ring1_0 - wynd_j_a0s0_ring1_0_a0s0_spoke0_0", name: wynd_sr_a0s0_ring1_0 }
+  - { link: "wynd_j_a0s0_core_b0_a0s0_ring1_0 - wynd_j_a0s0_ring1_0_a0s0_spoke7_0", name: wynd_sr_a0s0_ring1_0 }
+  - { link: "wynd_j_a0s0_core_b1_a0s0_ring1_0 - wynd_j_a0s0_ring1_0_a0s0_spoke2_0", name: wynd_sr_a0s0_ring1_0 }
+  - { link: "wynd_j_a0s0_core_b1_a0s0_ring1_0 - wynd_j_a0s0_ring1_0_a0s0_spoke3_0", name: wynd_sr_a0s0_ring1_0 }
+  - { link: "wynd_j_a0s0_core_b2_a0s0_ring1_0 - wynd_j_a0s0_ring1_0_a0s0_spoke4_0", name: wynd_sr_a0s0_ring1_0 }
+  - { link: "wynd_j_a0s0_core_b2_a0s0_ring1_0 - wynd_j_a0s0_ring1_0_a0s0_spoke5_0", name: wynd_sr_a0s0_ring1_0 }
+  - { link: "wynd_j_a0s0_r2s0_sr_0_a0s0_spoke1_0 - wynd_j_a0s0_r2s1_sr_0_a0s0_spoke1_0", name: wynd_sr_a0s0_spoke1_0 }
+  - { link: "wynd_j_a0s0_r2s0_sr_0_a0s0_spoke1_0 - wynd_j_a0s0_ring1_0_a0s0_spoke1_0", name: wynd_sr_a0s0_spoke1_0 }
+  - { link: "wynd_j_a0s0_r2s0_sr_0_a0s0_spoke1_0 - wynd_j_artery_0_a0s0_r2s0_sr_0", name: wynd_sr_a0s0_r2s0_sr_0 }
+  - { link: "wynd_j_a0s0_r2s1_sr_0_a0s0_spoke1_0 - wynd_j_artery_0_a0s0_spoke1_0", name: wynd_sr_a0s0_spoke1_0 }
+  - { link: "wynd_j_a0s0_r2s1_sr_0_a0s0_spoke1_0 - wynd_j_bs_a0s0_x_edge_a0s0_r2s1_sr_0", name: wynd_sr_a0s0_r2s1_sr_0 }
+  - { link: "wynd_j_a0s0_ring1_0_a0s0_spoke0_0 - wynd_j_a0s0_ring1_0_a0s0_spoke1_0", name: wynd_sr_a0s0_ring1_0 }
+  - { link: "wynd_j_a0s0_ring1_0_a0s0_spoke0_0 - wynd_j_artery_0_a0s0_spoke0_0", name: wynd_sr_a0s0_spoke0_0 }
+  - { link: "wynd_j_a0s0_ring1_0_a0s0_spoke1_0 - wynd_j_a0s0_ring1_0_a0s0_spoke2_0", name: wynd_sr_a0s0_ring1_0 }
+  - { link: "wynd_j_a0s0_ring1_0_a0s0_spoke2_0 - wynd_j_bs_a0s0_x_edge_a0s0_spoke2_0", name: wynd_sr_a0s0_spoke2_0 }
+  - { link: "wynd_j_a0s0_ring1_0_a0s0_spoke3_0 - wynd_j_a0s0_ring1_0_a0s0_spoke4_0", name: wynd_sr_a0s0_ring1_0 }
+  - { link: "wynd_j_a0s0_ring1_0_a0s0_spoke3_0 - wynd_j_bs_a0s0_x_edge_a0s0_spoke3_0", name: wynd_sr_a0s0_spoke3_0 }
+  - { link: "wynd_j_a0s0_ring1_0_a0s0_spoke4_0 - wynd_j_bs_a0s0_x_edge_a0s0_spoke4_0", name: wynd_sr_a0s0_spoke4_0 }
+  - { link: "wynd_j_a0s0_ring1_0_a0s0_spoke5_0 - wynd_j_a0s0_ring1_0_a0s0_spoke6_0", name: wynd_sr_a0s0_ring1_0 }
+  - { link: "wynd_j_a0s0_ring1_0_a0s0_spoke5_0 - wynd_j_artery_1_a0s0_spoke5_0", name: wynd_sr_a0s0_spoke5_0 }
+  - { link: "wynd_j_a0s0_ring1_0_a0s0_spoke6_0 - wynd_j_a0s0_ring1_0_a0s0_spoke7_0", name: wynd_sr_a0s0_ring1_0 }
+  - { link: "wynd_j_a0s0_ring1_0_a0s0_spoke6_0 - wynd_j_artery_1_a0s0_spoke6_0", name: wynd_sr_a0s0_spoke6_0 }
+  - { link: "wynd_j_a0s0_ring1_0_a0s0_spoke7_0 - wynd_j_bs_a0s0_x_plaza_a0s0_spoke7_0", name: wynd_sr_a0s0_spoke7_0 }
+  - { link: "wynd_j_a1s0_b10_a1s0_b11 - wynd_j_a1s0_b10_a1s0_b13", name: wynd_sr_a1s0_b10 }
+  - { link: "wynd_j_a1s0_b10_a1s0_b11 - wynd_j_a1s0_b11_a1s0_b12", name: wynd_sr_a1s0_b11 }
+  - { link: "wynd_j_a1s0_b10_a1s0_b13 - wynd_j_bs_a1s0_x_edge_2_a1s0_b13", name: wynd_sr_a1s0_b13 }
+  - { link: "wynd_j_a1s0_b11_a1s0_b12 - wynd_j_a1s0_b12_a1s0_b14", name: wynd_sr_a1s0_b12 }
+  - { link: "wynd_j_a1s0_b12_a1s0_b14 - wynd_j_a1s0_b14_a1s0_b7", name: wynd_sr_a1s0_b14 }
+  - { link: "wynd_j_a1s0_b12_a1s0_b14 - wynd_j_a1s0_b23_a1s0_p8_u0_0", name: wynd_sr_a1s0_b23 }
+  - { link: "wynd_j_a1s0_b14_a1s0_b7 - wynd_j_a1s0_b16_a1s0_b22", name: wynd_sr_a1s0_b8 }
+  - { link: "wynd_j_a1s0_b14_a1s0_b7 - wynd_j_a1s0_b6_a1s0_b7", name: wynd_sr_a1s0_b7 }
+  - { link: "wynd_j_a1s0_b16_a1s0_b18 - wynd_j_a1s0_b16_a1s0_b22", name: wynd_sr_a1s0_b16 }
+  - { link: "wynd_j_a1s0_b16_a1s0_b18 - wynd_j_a1s0_b18_a1s0_b19", name: wynd_sr_a1s0_b18 }
+  - { link: "wynd_j_a1s0_b16_a1s0_b18 - wynd_j_artery_1_a0s0_spoke5_0", name: wynd_sr_a1s0_b17 }
+  - { link: "wynd_j_a1s0_b16_a1s0_b22 - wynd_j_a1s0_b22_a1s0_p8_u0_0", name: wynd_sr_a1s0_b22 }
+  - { link: "wynd_j_a1s0_b18_a1s0_b19 - wynd_j_bs_a1s0_x_edge_a1s0_b19", name: wynd_sr_a1s0_b19 }
+  - { link: "wynd_j_a1s0_b22_a1s0_p8_u0_0 - wynd_j_a1s0_b23_a1s0_p8_u0_0", name: wynd_sr_a1s0_p8_u0_0 }
+  - { link: "wynd_j_a1s0_b22_a1s0_p8_u0_0 - wynd_j_bs_a1s0_x_edge_a1s0_b22", name: wynd_sr_a1s0_b22 }
+  - { link: "wynd_j_a1s0_b23_a1s0_p8_u0_0 - wynd_j_bs_a1s0_x_edge_a1s0_b23", name: wynd_sr_a1s0_b23 }
+  - { link: "wynd_j_a1s0_b6_a1s0_b7 - wynd_j_artery_1_a1s0_b6", name: wynd_sr_a1s0_b6 }
+  - { link: "wynd_j_a2s0_b10_a2s0_p3_spoke0_0 - wynd_j_a2s0_b10_a2s0_p7_v0_0", name: wynd_sr_a2s0_b10 }
+  - { link: "wynd_j_a2s0_b10_a2s0_p3_spoke0_0 - wynd_j_a2s0_p3_ring1_0_a2s0_p3_spoke0_0", name: wynd_sr_a2s0_p3_spoke0_0 }
+  - { link: "wynd_j_a2s0_b10_a2s0_p3_spoke0_0 - wynd_j_bs_a2s0_x_edge_a2s0_p7_v0_0", name: wynd_sr_a2s0_b15 }
+  - { link: "wynd_j_a2s0_b10_a2s0_p7_v0_0 - wynd_j_bs_a2s0_x_edge_a2s0_p7_v0_0", name: wynd_sr_a2s0_p7_v0_0 }
+  - { link: "wynd_j_a2s0_b22_a2s0_p12_sr_0 - wynd_j_a2s0_b23_a2s0_p12_sr_0", name: wynd_sr_a2s0_p12_sr_0 }
+  - { link: "wynd_j_a2s0_b22_a2s0_p12_sr_0 - wynd_j_artery_2_a2s0_b22", name: wynd_sr_a2s0_b22 }
+  - { link: "wynd_j_a2s0_b22_a2s0_p12_sr_0 - wynd_j_artery_2_bs_a1s0_x_plaza", name: wynd_sr_a2s0_b19 }
+  - { link: "wynd_j_a2s0_b23_a2s0_p12_sr_0 - wynd_j_a2s0_b23_a2s0_p13_v0_0", name: wynd_sr_a2s0_b23 }
+  - { link: "wynd_j_a2s0_b23_a2s0_p12_sr_0 - wynd_j_artery_2_a2s0_b23", name: wynd_sr_a2s0_b23 }
+  - { link: "wynd_j_a2s0_b23_a2s0_p13_v0_0 - wynd_j_bs_a2s0_x_edge_a2s0_p13_v0_0", name: wynd_sr_a2s0_p13_v0_0 }
+  - { link: "wynd_j_a2s0_p3_ring1_0_a2s0_p3_spoke0_0 - wynd_j_a2s0_p3_ring1_0_a2s0_p3_spoke1_0", name: wynd_sr_a2s0_p3_ring1_0 }
+  - { link: "wynd_j_a2s0_p3_ring1_0_a2s0_p3_spoke1_0 - wynd_j_bs_a2s0_x_edge_a2s0_p3_spoke1_0", name: wynd_sr_a2s0_b2 }
+  - { link: "wynd_j_a3s0_b8_a3s0_p7_spoke1_0 - wynd_j_a3s0_p7_ring1_0_a3s0_p7_spoke1_0", name: wynd_sr_a3s0_p7_spoke1_0 }
+  - { link: "wynd_j_a3s0_b8_a3s0_p7_spoke1_0 - wynd_j_artery_0_a0s0_r2s0_sr_0", name: wynd_sr_a3s0_b6 }
+  - { link: "wynd_j_a3s0_b8_a3s0_p7_spoke1_0 - wynd_j_artery_3_a3s0_b8", name: wynd_sr_a3s0_b8 }
+  - { link: "wynd_j_a3s0_b8_a3s0_p7_spoke1_0 - wynd_j_bs_a3s0_x_edge_a3s0_b3", name: wynd_sr_a3s0_b7 }
+  - { link: "wynd_j_a3s0_b9_a3s0_p7_spoke0_0 - wynd_j_a3s0_p7_ring1_0_a3s0_p7_spoke0_0", name: wynd_sr_a3s0_p7_spoke0_0 }
+  - { link: "wynd_j_a3s0_b9_a3s0_p7_spoke0_0 - wynd_j_artery_0_a3s0_b9", name: wynd_sr_a3s0_b9 }
+  - { link: "wynd_j_a3s0_b9_a3s0_p7_spoke0_0 - wynd_j_artery_3_a3s0_b9", name: wynd_sr_a3s0_b9 }
+  - { link: "wynd_j_a3s0_p7_ring1_0_a3s0_p7_spoke0_0 - wynd_j_a3s0_p7_ring1_0_a3s0_p7_spoke1_0", name: wynd_sr_a3s0_p7_ring1_0 }
+  - { link: "wynd_j_artery_0_a0s0_r2s0_sr_0 - wynd_j_artery_0_a0s0_spoke1_0", name: wynd_artery_0 }
+  - { link: "wynd_j_artery_0_a0s0_r2s0_sr_0 - wynd_j_artery_0_a3s0_b9", name: wynd_artery_0 }
+  - { link: "wynd_j_artery_0_a0s0_spoke0_0 - wynd_j_artery_0_a3s0_b9", name: wynd_artery_0 }
+  - { link: "wynd_j_artery_0_a0s0_spoke0_0 - wynd_j_artery_0_bs_a0s0_x_plaza", name: wynd_artery_0 }
+  - { link: "wynd_j_artery_0_bs_a0s0_x_plaza - wynd_j_artery_3_bs_a2s0_x_plaza", name: wynd_bs_a3s0_x_plaza }
+  - { link: "wynd_j_artery_0_bs_a0s0_x_plaza - wynd_j_bs_a0s0_x_plaza_a0s0_spoke7_0", name: wynd_bs_a0s0_x_plaza }
+  - { link: "wynd_j_artery_0_bs_a0s0_x_plaza - wynd_plaza", name: wynd_artery_0 }
+  - { link: "wynd_j_artery_1_a0s0_spoke5_0 - wynd_j_artery_1_a1s0_b6", name: wynd_artery_1 }
+  - { link: "wynd_j_artery_1_a0s0_spoke5_0 - wynd_j_bs_a0s0_x_edge_a0s0_spoke4_0", name: wynd_sr_a0s0_r2s4_b1 }
+  - { link: "wynd_j_artery_1_a0s0_spoke6_0 - wynd_j_artery_1_a1s0_b6", name: wynd_artery_1 }
+  - { link: "wynd_j_artery_1_a0s0_spoke6_0 - wynd_j_artery_1_bs_a0s0_x_plaza", name: wynd_artery_1 }
+  - { link: "wynd_j_artery_1_bs_a0s0_x_plaza - wynd_j_artery_2_bs_a1s0_x_plaza", name: wynd_bs_a1s0_x_plaza }
+  - { link: "wynd_j_artery_1_bs_a0s0_x_plaza - wynd_j_bs_a0s0_x_plaza_a0s0_spoke7_0", name: wynd_bs_a0s0_x_plaza }
+  - { link: "wynd_j_artery_1_bs_a0s0_x_plaza - wynd_plaza", name: wynd_artery_1 }
+  - { link: "wynd_j_artery_2_a2s0_b22 - wynd_j_artery_2_a2s0_b23", name: wynd_artery_2 }
+  - { link: "wynd_j_artery_2_a2s0_b22 - wynd_j_artery_2_bs_a1s0_x_plaza", name: wynd_artery_2 }
+  - { link: "wynd_j_artery_2_bs_a1s0_x_plaza - wynd_j_artery_3_bs_a2s0_x_plaza", name: wynd_bs_a2s0_x_plaza }
+  - { link: "wynd_j_artery_2_bs_a1s0_x_plaza - wynd_plaza", name: wynd_artery_2 }
+  - { link: "wynd_j_artery_3_a3s0_b8 - wynd_j_artery_3_a3s0_b9", name: wynd_artery_3 }
+  - { link: "wynd_j_artery_3_a3s0_b8 - wynd_j_artery_3_a3s0_p6_sr_0", name: wynd_artery_3 }
+  - { link: "wynd_j_artery_3_a3s0_b9 - wynd_j_artery_3_bs_a2s0_x_plaza", name: wynd_artery_3 }
+  - { link: "wynd_j_artery_3_bs_a2s0_x_plaza - wynd_plaza", name: wynd_artery_3 }
+  - { link: "wynd_j_bs_a0s0_x_edge_a0s0_r2s1_sr_0 - wynd_j_bs_a0s0_x_edge_a0s0_spoke2_0", name: wynd_bs_a0s0_x_edge }
+  - { link: "wynd_j_bs_a0s0_x_edge_a0s0_spoke2_0 - wynd_j_bs_a0s0_x_edge_a0s0_spoke3_0", name: wynd_bs_a0s0_x_edge }
+  - { link: "wynd_j_bs_a0s0_x_edge_a0s0_spoke3_0 - wynd_j_bs_a0s0_x_edge_a0s0_spoke4_0", name: wynd_bs_a0s0_x_edge }
+  - { link: "wynd_j_bs_a1s0_x_edge_2_a1s0_b13 - wynd_j_bs_a1s0_x_edge_a1s0_b23", name: wynd_bs_a1s0_x_edge_2 }
+  - { link: "wynd_j_bs_a1s0_x_edge_a1s0_b19 - wynd_j_bs_a1s0_x_edge_a1s0_b22", name: wynd_bs_a1s0_x_edge }
+  - { link: "wynd_j_bs_a1s0_x_edge_a1s0_b22 - wynd_j_bs_a1s0_x_edge_a1s0_b23", name: wynd_bs_a1s0_x_edge }
+  - { link: "wynd_j_bs_a2s0_x_edge_a2s0_b14 - wynd_j_bs_a2s0_x_edge_a2s0_p13_v0_0", name: wynd_bs_a2s0_x_edge }
+  - { link: "wynd_j_bs_a2s0_x_edge_a2s0_b14 - wynd_j_bs_a2s0_x_edge_a2s0_p7_v0_0", name: wynd_bs_a2s0_x_edge }
+  - { link: "wynd_j_bs_a2s0_x_edge_a2s0_p3_spoke1_0 - wynd_j_bs_a2s0_x_edge_a2s0_p7_v0_0", name: wynd_bs_a2s0_x_edge }

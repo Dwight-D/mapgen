@@ -1,0 +1,24 @@
+format_version: 1
+name: greywatch
+brief: |
+  PITCH: Greywatch, a walled market town of sheared grid blocks re-cut by radial and Voronoi pockets, with a corner fort on the wall (organic, layers=organic-grid, fort=corner).
+  FLOW: the fort commands one wall corner; the grid districts give long lanes broken by radial pockets.
+  TEST: does the corner fort anchor the defence, and do the grid lanes remain readable under the layered blocks?
+size: [1100, 1100]
+seed: 5711
+
+terrain:
+  base_height: 50
+  relief: 12
+  relief_scale: 400
+  detail: 4
+  detail_scale: 100
+
+regions:
+  - { id: gw_r0, seed: 0, type: field, shape: blob, at: [170, 170], r: 190, rough: 0.45, warp: 50 }
+  - { id: gw_r1, seed: 1, type: hills, shape: blob, at: [900, 200], r: 140, rough: 0.45, warp: 50, height: 30 }
+  - { id: gw_r2, seed: 2, type: forest, shape: blob, at: [160, 900], r: 130, rough: 0.45, warp: 50, fragment: 0.4, fragment_scale: 60 }
+  - { id: gw_r3, seed: 3, type: field, shape: blob, at: [900, 900], r: 170, rough: 0.45, warp: 50 }
+
+scatter:
+  - { id: scatter_gw, seed: 0, type: forest, coverage: 0.12, scale: 110, clump: 0.5, avoid: 12 }

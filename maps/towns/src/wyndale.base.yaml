@@ -1,0 +1,24 @@
+format_version: 1
+name: wyndale
+brief: |
+  PITCH: Wyndale, an unwalled town of Voronoi cells re-cut into grids, bsp lots and fans, spilling over a valley floor (organic, edge=open, layers=organic-voronoi).
+  FLOW: open entries on every artery; no wall, so the surrounding fields and copses give flanking approaches into the cell maze.
+  TEST: does an open perimeter of irregular cells let attackers filter in from any side, or do arteries still dominate?
+size: [1000, 1000]
+seed: 5710
+
+terrain:
+  base_height: 50
+  relief: 18
+  relief_scale: 400
+  detail: 4
+  detail_scale: 100
+
+regions:
+  - { id: wy_r0, seed: 0, type: field, shape: blob, at: [200, 800], r: 180, rough: 0.45, warp: 50 }
+  - { id: wy_r1, seed: 1, type: forest, shape: blob, at: [850, 200], r: 160, rough: 0.45, warp: 50, fragment: 0.35, fragment_scale: 60 }
+  - { id: wy_r2, seed: 2, type: hills, shape: blob, at: [120, 200], r: 140, rough: 0.45, warp: 50, height: 35 }
+  - { id: wy_r3, seed: 3, type: forest, shape: blob, at: [880, 860], r: 110, rough: 0.45, warp: 50, fragment: 0.4, fragment_scale: 60 }
+
+scatter:
+  - { id: scatter_wy, seed: 0, type: forest, coverage: 0.2, scale: 110, clump: 0.5, avoid: 12 }

@@ -1,0 +1,89 @@
+format_version: 1
+name: rivermere
+brief: |
+  Settlement movement graph of rivermere (generator organic, seed 4) with two spawns linked to gates river_gate_a0 and river_gate_a3.
+
+nodes:
+  A: { kind: spawn, team: A, name: Eastbank spawn }
+  B: { kind: spawn, team: B, name: Westbank spawn }
+  river_bridge_1_a: { kind: choke }
+  river_bridge_1_b: { kind: choke }
+  river_bridge_2_a: { kind: choke }
+  river_bridge_2_b: { kind: choke }
+  river_gate_a0: { kind: choke, name: "Gate a0" }
+  river_gate_a1: { kind: choke, name: "Gate a1" }
+  river_gate_a2: { kind: choke, name: "Gate a2" }
+  river_gate_a3: { kind: choke, name: "Gate a3" }
+  river_j_a1s1b_b5_a1s1b_b7: { kind: choke }
+  river_j_a1s1b_b6_a1s1b_b7: { kind: choke }
+  river_j_a1s1b_b6_a1s1b_b9: { kind: choke }
+  river_j_a1s1b_b6_a1s1b_p2_u0_0: { kind: choke }
+  river_j_a2_c0: { kind: choke }
+  river_j_a3_c0: { kind: choke }
+  river_j_a3s0b_b4_a3s0b_b6: { kind: choke }
+  river_j_a3s0b_b5_a3s0b_p3_sr_0: { kind: choke }
+  river_j_a3s0b_b8_a3s0b_p5_sr_0: { kind: choke }
+  river_j_artery_0_bs_a0s0b_x_plaza: { kind: choke }
+  river_j_artery_1_a0s0b_core_sr_0: { kind: choke }
+  river_j_artery_1_a1s1b_b5: { kind: choke }
+  river_j_artery_1_bs_a0s0b_x_plaza: { kind: choke }
+  river_j_artery_2_a1s0_spoke2_0: { kind: choke }
+  river_j_artery_2_a1s1b_b9: { kind: choke }
+  river_j_artery_2_a1s2_spoke5_0: { kind: choke }
+  river_j_artery_2_bs_a1s0_x_plaza: { kind: choke }
+  river_j_artery_3_a1s0_spoke1_0: { kind: choke }
+  river_j_artery_3_a1s2_spoke4_0: { kind: choke }
+  river_j_artery_3_a3s0b_b8: { kind: choke }
+  river_j_artery_3_bs_a1s0_x_plaza: { kind: choke }
+  river_j_bs_a3s0b_p0_x_a3s0b_p1_bs_a3s0b_p0_x_a3s0b_p5: { kind: choke }
+  river_j_bs_a3s0b_p0_x_a3s0b_p5_a3s0b_b4: { kind: choke }
+  river_j_bs_a3s0b_p1_x_a3s0b_p5_a3s0b_b5: { kind: choke }
+  river_j_bs_a3s0b_x_plaza_a3s0b_p3_sr_0: { kind: choke }
+  river_plaza: { kind: zone, name: "Central Plaza" }
+
+edges:
+  - A - river_gate_a0
+  - B - river_gate_a3
+  - { link: "river_bridge_1_a - river_bridge_1_b", name: river_bridge_1 }
+  - { link: "river_bridge_1_a - river_j_artery_0_bs_a0s0b_x_plaza", name: river_artery_0 }
+  - { link: "river_bridge_1_b - river_gate_a0", name: river_artery_0_s2 }
+  - { link: "river_bridge_2_a - river_bridge_2_b", name: river_bridge_2 }
+  - { link: "river_bridge_2_a - river_j_artery_1_a0s0b_core_sr_0", name: river_artery_1 }
+  - { link: "river_bridge_2_b - river_gate_a1", name: river_artery_1_s2 }
+  - { link: "river_gate_a2 - river_j_artery_2_a1s2_spoke5_0", name: river_artery_2 }
+  - { link: "river_gate_a3 - river_j_artery_3_a1s2_spoke4_0", name: river_artery_3 }
+  - { link: "river_j_a1s1b_b5_a1s1b_b7 - river_j_a1s1b_b6_a1s1b_b7", name: river_sr_a1s1b_b7 }
+  - { link: "river_j_a1s1b_b5_a1s1b_b7 - river_j_a1s1b_b6_a1s1b_p2_u0_0", name: river_sr_a1s1b_p2_u0_0 }
+  - { link: "river_j_a1s1b_b5_a1s1b_b7 - river_j_artery_1_a1s1b_b5", name: river_sr_a1s1b_b5 }
+  - { link: "river_j_a1s1b_b6_a1s1b_b7 - river_j_a1s1b_b6_a1s1b_p2_u0_0", name: river_sr_a1s1b_b6 }
+  - { link: "river_j_a1s1b_b6_a1s1b_b9 - river_j_a1s1b_b6_a1s1b_p2_u0_0", name: river_sr_a1s1b_b6 }
+  - { link: "river_j_a1s1b_b6_a1s1b_b9 - river_j_artery_2_a1s1b_b9", name: river_sr_a1s1b_b9 }
+  - { link: "river_j_a2_c0 - river_j_a3_c0", name: river_arc_0 }
+  - { link: "river_j_a2_c0 - river_j_artery_2_a1s0_spoke2_0", name: river_artery_2 }
+  - { link: "river_j_a2_c0 - river_j_artery_2_a1s1b_b9", name: river_artery_2 }
+  - { link: "river_j_a3_c0 - river_j_a3s0b_b8_a3s0b_p5_sr_0", name: river_sr_a3s0b_p5_sr_0 }
+  - { link: "river_j_a3_c0 - river_j_artery_3_a1s0_spoke1_0", name: river_artery_3 }
+  - { link: "river_j_a3_c0 - river_j_artery_3_a1s2_spoke4_0", name: river_artery_3 }
+  - { link: "river_j_a3s0b_b4_a3s0b_b6 - river_j_bs_a3s0b_p0_x_a3s0b_p5_a3s0b_b4", name: river_sr_a3s0b_b4 }
+  - { link: "river_j_a3s0b_b5_a3s0b_p3_sr_0 - river_j_bs_a3s0b_p1_x_a3s0b_p5_a3s0b_b5", name: river_sr_a3s0b_b5 }
+  - { link: "river_j_a3s0b_b5_a3s0b_p3_sr_0 - river_j_bs_a3s0b_x_plaza_a3s0b_p3_sr_0", name: river_sr_a3s0b_p3_sr_0 }
+  - { link: "river_j_a3s0b_b8_a3s0b_p5_sr_0 - river_j_artery_3_a3s0b_b8", name: river_sr_a3s0b_b8 }
+  - { link: "river_j_a3s0b_b8_a3s0b_p5_sr_0 - river_j_bs_a3s0b_p1_x_a3s0b_p5_a3s0b_b5", name: river_sr_a3s0b_b8 }
+  - { link: "river_j_artery_0_bs_a0s0b_x_plaza - river_j_artery_1_bs_a0s0b_x_plaza", name: river_bs_a0s0b_x_plaza }
+  - { link: "river_j_artery_0_bs_a0s0b_x_plaza - river_j_bs_a3s0b_x_plaza_a3s0b_p3_sr_0", name: river_bs_a3s0b_x_plaza }
+  - { link: "river_j_artery_0_bs_a0s0b_x_plaza - river_plaza", name: river_artery_0 }
+  - { link: "river_j_artery_1_a0s0b_core_sr_0 - river_j_artery_1_a1s1b_b5", name: river_artery_1 }
+  - { link: "river_j_artery_1_a1s1b_b5 - river_j_artery_1_bs_a0s0b_x_plaza", name: river_artery_1 }
+  - { link: "river_j_artery_1_bs_a0s0b_x_plaza - river_j_artery_2_bs_a1s0_x_plaza", name: river_bs_a1s1b_x_plaza }
+  - { link: "river_j_artery_1_bs_a0s0b_x_plaza - river_plaza", name: river_artery_1 }
+  - { link: "river_j_artery_2_a1s0_spoke2_0 - river_j_artery_2_bs_a1s0_x_plaza", name: river_artery_2 }
+  - { link: "river_j_artery_2_a1s0_spoke2_0 - river_j_artery_3_a1s0_spoke1_0", name: river_sr_a1s0_ring1_0 }
+  - { link: "river_j_artery_2_a1s1b_b9 - river_j_artery_2_a1s2_spoke5_0", name: river_artery_2 }
+  - { link: "river_j_artery_2_bs_a1s0_x_plaza - river_j_artery_3_bs_a1s0_x_plaza", name: river_bs_a1s0_x_plaza }
+  - { link: "river_j_artery_2_bs_a1s0_x_plaza - river_plaza", name: river_artery_2 }
+  - { link: "river_j_artery_3_a1s0_spoke1_0 - river_j_artery_3_a3s0b_b8", name: river_artery_3 }
+  - { link: "river_j_artery_3_a3s0b_b8 - river_j_artery_3_bs_a1s0_x_plaza", name: river_artery_3 }
+  - { link: "river_j_artery_3_bs_a1s0_x_plaza - river_j_bs_a3s0b_x_plaza_a3s0b_p3_sr_0", name: river_bs_a3s0b_x_plaza }
+  - { link: "river_j_artery_3_bs_a1s0_x_plaza - river_plaza", name: river_artery_3 }
+  - { link: "river_j_bs_a3s0b_p0_x_a3s0b_p1_bs_a3s0b_p0_x_a3s0b_p5 - river_j_bs_a3s0b_p0_x_a3s0b_p5_a3s0b_b4", name: river_bs_a3s0b_p0_x_a3s0b_p5 }
+  - { link: "river_j_bs_a3s0b_p0_x_a3s0b_p1_bs_a3s0b_p0_x_a3s0b_p5 - river_j_bs_a3s0b_p1_x_a3s0b_p5_a3s0b_b5", name: river_bs_a3s0b_p1_x_a3s0b_p5 }

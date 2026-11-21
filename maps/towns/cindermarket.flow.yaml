@@ -1,0 +1,122 @@
+format_version: 1
+name: cindermarket
+brief: |
+  Settlement movement graph of cindermarket (generator organic, seed 3) with two spawns linked to gates cinder_gate_a1 and cinder_gate_a3.
+
+nodes:
+  A: { kind: spawn, team: A, name: Ashward spawn }
+  B: { kind: spawn, team: B, name: Slagward spawn }
+  cinder_gate_a0: { kind: choke, name: "Gate a0" }
+  cinder_gate_a1: { kind: choke, name: "Gate a1" }
+  cinder_gate_a2: { kind: choke, name: "Gate a2" }
+  cinder_gate_a3: { kind: choke, name: "Gate a3" }
+  cinder_gate_a4: { kind: choke, name: "Gate a4" }
+  cinder_gate_a5: { kind: choke, name: "Gate a5" }
+  cinder_j_a0s0_b16_a0s0_p10_sr_0: { kind: choke }
+  cinder_j_a0s0_b25_a0s0_p10_sr_0: { kind: choke }
+  cinder_j_a0s0_b25_a0s0_p13_u0_0: { kind: choke }
+  cinder_j_a4s0_b10_a4s0_b22: { kind: choke }
+  cinder_j_a4s0_b10_a4s0_b4: { kind: choke }
+  cinder_j_a4s0_b11_a4s0_b13: { kind: choke }
+  cinder_j_a4s0_b11_a4s0_b20: { kind: choke }
+  cinder_j_a4s0_b13_a4s0_b22: { kind: choke }
+  cinder_j_a4s0_b14_a4s0_b15: { kind: choke }
+  cinder_j_a4s0_b14_a4s0_p4_spoke2_0: { kind: choke }
+  cinder_j_a4s0_b15_a4s0_b8: { kind: choke }
+  cinder_j_a4s0_b17_a4s0_b21: { kind: choke }
+  cinder_j_a4s0_b17_a4s0_b26: { kind: choke }
+  cinder_j_a4s0_b21_a4s0_b24: { kind: choke }
+  cinder_j_a4s0_b24_a4s0_b25: { kind: choke }
+  cinder_j_a4s0_b6_a4s0_p4_spoke1_0: { kind: choke }
+  cinder_j_a4s0_p4_ring1_0_a4s0_p4_spoke1_0: { kind: choke }
+  cinder_j_a4s0_p4_ring1_0_a4s0_p4_spoke2_0: { kind: choke }
+  cinder_j_a5s0_u0_0_a5s0_v0_0: { kind: choke }
+  cinder_j_artery_0_a0s0_b4: { kind: choke }
+  cinder_j_artery_0_a5s0_u0_0: { kind: choke }
+  cinder_j_artery_0_a5s0_v0_0: { kind: choke }
+  cinder_j_artery_0_bs_a0s0_x_plaza: { kind: choke }
+  cinder_j_artery_1_a0s0_b25: { kind: choke }
+  cinder_j_artery_1_a0s0_p13_u0_0: { kind: choke }
+  cinder_j_artery_1_bs_a0s0_x_plaza: { kind: choke }
+  cinder_j_artery_2_a1s0_b9: { kind: choke }
+  cinder_j_artery_2_bs_a2s0_x_plaza: { kind: choke }
+  cinder_j_artery_3_bs_a4s1_x_plaza: { kind: choke }
+  cinder_j_artery_4_a4s0_b20: { kind: choke }
+  cinder_j_artery_4_a4s0_b25: { kind: choke }
+  cinder_j_artery_4_a4s0_b27: { kind: choke }
+  cinder_j_artery_4_bs_a4s0_x_plaza: { kind: choke }
+  cinder_j_artery_5_a4s0_b14: { kind: choke }
+  cinder_j_artery_5_a5s0_u0_0: { kind: choke }
+  cinder_j_artery_5_bs_a4s0_x_plaza: { kind: choke }
+  cinder_j_bs_a4s0_p2_x_a4s0_p4_a4s0_b6: { kind: choke }
+  cinder_j_bs_a4s0_p2_x_a4s0_p4_a4s0_b8: { kind: choke }
+  cinder_plaza: { kind: zone, name: "Central Plaza" }
+
+edges:
+  - A - cinder_gate_a1
+  - B - cinder_gate_a3
+  - { link: "cinder_gate_a0 - cinder_j_artery_0_a0s0_b4", name: cinder_sr_a5s0_v1_0 }
+  - { link: "cinder_gate_a0 - cinder_j_artery_0_a5s0_u0_0", name: cinder_artery_0 }
+  - { link: "cinder_gate_a1 - cinder_j_artery_1_a0s0_p13_u0_0", name: cinder_artery_1 }
+  - { link: "cinder_gate_a2 - cinder_j_artery_2_a1s0_b9", name: cinder_artery_2 }
+  - { link: "cinder_gate_a3 - cinder_j_artery_3_bs_a4s1_x_plaza", name: cinder_artery_3 }
+  - { link: "cinder_gate_a4 - cinder_j_artery_4_a4s0_b20", name: cinder_artery_4 }
+  - { link: "cinder_gate_a5 - cinder_j_artery_5_a5s0_u0_0", name: cinder_artery_5 }
+  - { link: "cinder_j_a0s0_b16_a0s0_p10_sr_0 - cinder_j_a0s0_b25_a0s0_p10_sr_0", name: cinder_sr_a0s0_p10_sr_0 }
+  - { link: "cinder_j_a0s0_b16_a0s0_p10_sr_0 - cinder_j_artery_0_a5s0_v0_0", name: cinder_sr_a0s0_b12 }
+  - { link: "cinder_j_a0s0_b25_a0s0_p10_sr_0 - cinder_j_a0s0_b25_a0s0_p13_u0_0", name: cinder_sr_a0s0_b25 }
+  - { link: "cinder_j_a0s0_b25_a0s0_p13_u0_0 - cinder_j_artery_1_a0s0_b25", name: cinder_sr_a0s0_b25 }
+  - { link: "cinder_j_a0s0_b25_a0s0_p13_u0_0 - cinder_j_artery_1_a0s0_p13_u0_0", name: cinder_sr_a0s0_p13_u0_0 }
+  - { link: "cinder_j_a4s0_b10_a4s0_b22 - cinder_j_a4s0_b10_a4s0_b4", name: cinder_sr_a4s0_b10 }
+  - { link: "cinder_j_a4s0_b10_a4s0_b22 - cinder_j_a4s0_b13_a4s0_b22", name: cinder_sr_a4s0_b22 }
+  - { link: "cinder_j_a4s0_b10_a4s0_b4 - cinder_j_a4s0_b11_a4s0_b13", name: cinder_sr_a4s0_b12 }
+  - { link: "cinder_j_a4s0_b10_a4s0_b4 - cinder_j_bs_a4s0_p2_x_a4s0_p4_a4s0_b8", name: cinder_sr_a4s0_b9 }
+  - { link: "cinder_j_a4s0_b11_a4s0_b13 - cinder_j_a4s0_b11_a4s0_b20", name: cinder_sr_a4s0_b11 }
+  - { link: "cinder_j_a4s0_b11_a4s0_b13 - cinder_j_a4s0_b13_a4s0_b22", name: cinder_sr_a4s0_b13 }
+  - { link: "cinder_j_a4s0_b11_a4s0_b20 - cinder_j_artery_4_a4s0_b20", name: cinder_sr_a4s0_b20 }
+  - { link: "cinder_j_a4s0_b14_a4s0_b15 - cinder_j_a4s0_b14_a4s0_p4_spoke2_0", name: cinder_sr_a4s0_b14 }
+  - { link: "cinder_j_a4s0_b14_a4s0_b15 - cinder_j_a4s0_b15_a4s0_b8", name: cinder_sr_a4s0_b15 }
+  - { link: "cinder_j_a4s0_b14_a4s0_b15 - cinder_j_a4s0_p4_ring1_0_a4s0_p4_spoke1_0", name: cinder_sr_a4s0_p4_ring1_0 }
+  - { link: "cinder_j_a4s0_b14_a4s0_b15 - cinder_j_a4s0_p4_ring1_0_a4s0_p4_spoke2_0", name: cinder_sr_a4s0_p4_ring1_0 }
+  - { link: "cinder_j_a4s0_b14_a4s0_b15 - cinder_j_artery_4_a4s0_b27", name: cinder_sr_a4s0_b18 }
+  - { link: "cinder_j_a4s0_b14_a4s0_p4_spoke2_0 - cinder_j_a4s0_p4_ring1_0_a4s0_p4_spoke2_0", name: cinder_sr_a4s0_p4_spoke2_0 }
+  - { link: "cinder_j_a4s0_b14_a4s0_p4_spoke2_0 - cinder_j_artery_5_a4s0_b14", name: cinder_sr_a4s0_b14 }
+  - { link: "cinder_j_a4s0_b15_a4s0_b8 - cinder_j_bs_a4s0_p2_x_a4s0_p4_a4s0_b8", name: cinder_sr_a4s0_b8 }
+  - { link: "cinder_j_a4s0_b17_a4s0_b21 - cinder_j_a4s0_b17_a4s0_b26", name: cinder_sr_a4s0_b17 }
+  - { link: "cinder_j_a4s0_b17_a4s0_b21 - cinder_j_a4s0_b21_a4s0_b24", name: cinder_sr_a4s0_b21 }
+  - { link: "cinder_j_a4s0_b17_a4s0_b26 - cinder_j_a4s0_b24_a4s0_b25", name: cinder_sr_a4s0_b26 }
+  - { link: "cinder_j_a4s0_b17_a4s0_b26 - cinder_j_artery_4_a4s0_b27", name: cinder_sr_a4s0_b27 }
+  - { link: "cinder_j_a4s0_b21_a4s0_b24 - cinder_j_a4s0_b24_a4s0_b25", name: cinder_sr_a4s0_b24 }
+  - { link: "cinder_j_a4s0_b24_a4s0_b25 - cinder_j_artery_4_a4s0_b25", name: cinder_sr_a4s0_b25 }
+  - { link: "cinder_j_a4s0_b6_a4s0_p4_spoke1_0 - cinder_j_a4s0_p4_ring1_0_a4s0_p4_spoke1_0", name: cinder_sr_a4s0_p4_spoke1_0 }
+  - { link: "cinder_j_a4s0_b6_a4s0_p4_spoke1_0 - cinder_j_artery_5_a5s0_u0_0", name: cinder_sr_a4s0_b1 }
+  - { link: "cinder_j_a4s0_b6_a4s0_p4_spoke1_0 - cinder_j_bs_a4s0_p2_x_a4s0_p4_a4s0_b6", name: cinder_sr_a4s0_b6 }
+  - { link: "cinder_j_a4s0_p4_ring1_0_a4s0_p4_spoke1_0 - cinder_j_a4s0_p4_ring1_0_a4s0_p4_spoke2_0", name: cinder_sr_a4s0_p4_ring1_0 }
+  - { link: "cinder_j_a4s0_p4_ring1_0_a4s0_p4_spoke2_0 - cinder_j_artery_0_a0s0_b4", name: cinder_sr_a5s0_un1_0 }
+  - { link: "cinder_j_a5s0_u0_0_a5s0_v0_0 - cinder_j_artery_0_a5s0_u0_0", name: cinder_sr_a5s0_u0_0 }
+  - { link: "cinder_j_a5s0_u0_0_a5s0_v0_0 - cinder_j_artery_0_a5s0_v0_0", name: cinder_sr_a5s0_v0_0 }
+  - { link: "cinder_j_a5s0_u0_0_a5s0_v0_0 - cinder_j_artery_5_a5s0_u0_0", name: cinder_sr_a5s0_u0_0 }
+  - { link: "cinder_j_artery_0_a0s0_b4 - cinder_j_artery_0_a5s0_u0_0", name: cinder_artery_0 }
+  - { link: "cinder_j_artery_0_a0s0_b4 - cinder_j_artery_0_a5s0_v0_0", name: cinder_artery_0 }
+  - { link: "cinder_j_artery_0_a5s0_v0_0 - cinder_j_artery_0_bs_a0s0_x_plaza", name: cinder_artery_0 }
+  - { link: "cinder_j_artery_0_bs_a0s0_x_plaza - cinder_j_artery_1_bs_a0s0_x_plaza", name: cinder_bs_a0s0_x_plaza }
+  - { link: "cinder_j_artery_0_bs_a0s0_x_plaza - cinder_j_artery_5_bs_a4s0_x_plaza", name: cinder_bs_a5s0_x_plaza }
+  - { link: "cinder_j_artery_0_bs_a0s0_x_plaza - cinder_plaza", name: cinder_artery_0 }
+  - { link: "cinder_j_artery_1_a0s0_b25 - cinder_j_artery_1_a0s0_p13_u0_0", name: cinder_artery_1 }
+  - { link: "cinder_j_artery_1_a0s0_b25 - cinder_j_artery_1_bs_a0s0_x_plaza", name: cinder_artery_1 }
+  - { link: "cinder_j_artery_1_bs_a0s0_x_plaza - cinder_j_artery_2_bs_a2s0_x_plaza", name: cinder_bs_a1s0_x_plaza }
+  - { link: "cinder_j_artery_1_bs_a0s0_x_plaza - cinder_plaza", name: cinder_artery_1 }
+  - { link: "cinder_j_artery_2_a1s0_b9 - cinder_j_artery_2_bs_a2s0_x_plaza", name: cinder_artery_2 }
+  - { link: "cinder_j_artery_2_bs_a2s0_x_plaza - cinder_j_artery_3_bs_a4s1_x_plaza", name: cinder_bs_a2s0_x_plaza }
+  - { link: "cinder_j_artery_2_bs_a2s0_x_plaza - cinder_plaza", name: cinder_artery_2 }
+  - { link: "cinder_j_artery_3_bs_a4s1_x_plaza - cinder_j_artery_4_bs_a4s0_x_plaza", name: cinder_bs_a4s1_x_plaza }
+  - { link: "cinder_j_artery_3_bs_a4s1_x_plaza - cinder_plaza", name: cinder_artery_3 }
+  - { link: "cinder_j_artery_4_a4s0_b20 - cinder_j_artery_4_a4s0_b25", name: cinder_artery_4 }
+  - { link: "cinder_j_artery_4_a4s0_b25 - cinder_j_artery_4_a4s0_b27", name: cinder_artery_4 }
+  - { link: "cinder_j_artery_4_a4s0_b27 - cinder_j_artery_4_bs_a4s0_x_plaza", name: cinder_artery_4 }
+  - { link: "cinder_j_artery_4_bs_a4s0_x_plaza - cinder_j_artery_5_bs_a4s0_x_plaza", name: cinder_bs_a4s0_x_plaza }
+  - { link: "cinder_j_artery_4_bs_a4s0_x_plaza - cinder_plaza", name: cinder_artery_4 }
+  - { link: "cinder_j_artery_5_a4s0_b14 - cinder_j_artery_5_a5s0_u0_0", name: cinder_artery_5 }
+  - { link: "cinder_j_artery_5_a4s0_b14 - cinder_j_artery_5_bs_a4s0_x_plaza", name: cinder_artery_5 }
+  - { link: "cinder_j_artery_5_bs_a4s0_x_plaza - cinder_plaza", name: cinder_artery_5 }
+  - { link: "cinder_j_bs_a4s0_p2_x_a4s0_p4_a4s0_b6 - cinder_j_bs_a4s0_p2_x_a4s0_p4_a4s0_b8", name: cinder_bs_a4s0_p2_x_a4s0_p4 }

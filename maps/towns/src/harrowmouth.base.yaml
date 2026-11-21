@@ -1,0 +1,24 @@
+format_version: 1
+name: harrowmouth
+brief: |
+  PITCH: Harrowmouth, a walled harbour town on a bay, its land districts a mix of radial, Voronoi, grid, wedge and bsp layers (organic, layers=organic-mixed, water=bay).
+  FLOW: the bay closes one flank; the wall is open on the shore, so sea-side assaults land in the harbour district.
+  TEST: does the harbour flank pull the fight to the shore, and do the mixed districts keep the inland lanes varied?
+size: [1100, 1100]
+seed: 5713
+
+terrain:
+  base_height: 50
+  relief: 10
+  relief_scale: 400
+  detail: 4
+  detail_scale: 100
+
+regions:
+  - { id: hm_r0, seed: 0, type: field, shape: blob, at: [170, 880], r: 180, rough: 0.45, warp: 50 }
+  - { id: hm_r1, seed: 1, type: hills, shape: blob, at: [900, 150], r: 130, rough: 0.45, warp: 50, height: 25 }
+  - { id: hm_r2, seed: 2, type: forest, shape: blob, at: [120, 140], r: 110, rough: 0.45, warp: 50, fragment: 0.4, fragment_scale: 60 }
+  - { id: hm_r3, seed: 3, type: marsh, shape: blob, at: [500, 60], r: 90, rough: 0.45, warp: 50 }
+
+scatter:
+  - { id: scatter_hm, seed: 0, type: forest, coverage: 0.1, scale: 110, clump: 0.5, avoid: 12 }
