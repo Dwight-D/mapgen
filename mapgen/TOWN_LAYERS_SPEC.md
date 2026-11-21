@@ -198,7 +198,7 @@ layers:
       skip_kinds: [core, citadel, harbour]
 ```
 
-Validation (all collected into one `ParamError`): unknown keys, `use` not in {grid, radial, voronoi, none}, ranges, `p` in [0, 1], `params` names not belonging to every
+Validation (all collected into one `ParamError`): unknown keys, `use` not in {grid, radial, voronoi, bsp, wedge, follow, none} (the last three: TOWN_ORGANIC_SPEC.md), ranges, `p` in [0, 1], `params` names not belonging to every
 generator in `use` (a name must exist in each weighted generator, or the generator be selected by one rule per generator). The resolved spec echoes into `Settlement.params["layers"]`
 with all defaults filled in and `skipped` appended.
 

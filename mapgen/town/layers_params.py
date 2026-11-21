@@ -5,17 +5,17 @@ import json
 import re
 from typing import Any, Dict, List, Optional
 
-from . import fill_grid, fill_radial, fill_voronoi
+from . import fill_bsp, fill_follow, fill_grid, fill_radial, fill_voronoi, fill_wedge
 from .params import ParamError
 
-FILLS = {"grid": fill_grid, "radial": fill_radial, "voronoi": fill_voronoi}
-USES = ("grid", "radial", "voronoi", "none")
+FILLS = {"grid": fill_grid, "radial": fill_radial, "voronoi": fill_voronoi, "bsp": fill_bsp, "wedge": fill_wedge, "follow": fill_follow}
+USES = tuple(sorted(FILLS)) + ("none",)
 SKIP_KINDS = ["core", "citadel", "harbour"]
 RULE_KEYS = ("depth", "kind", "area", "key", "p", "use", "params", "align", "kinds", "skip_kinds", "align_jitter")
 GLOBAL_KEYS = ("max_depth", "min_area", "min_split_area", "boundary", "graph", "max_districts", "align")
-_ALIGN = re.compile(r"^(edge|parent|none|angle:-?\d+(\.\d+)?)$")
+_ALIGN = re.compile(r"^(edge|parent|none|random|angle:-?\d+(\.\d+)?)$")
 DOC = {
-    "layers": "subdivide districts with another layout: JSON/YAML dict, or `[d:]use[@k=v,...];...;max_depth=2` (use = grid | radial | voronoi | a/b*2 | none)",
+    "layers": "subdivide districts with another layout: JSON/YAML dict, or `[d:]use[@k=v,...];...;max_depth=2` (use = grid | radial | voronoi | bsp | wedge | follow | a/b*2 | none)",
 }
 
 
@@ -159,7 +159,7 @@ def resolve(raw: Any, min_district_area: float) -> Optional[Dict[str, Any]]:
     maxd = _num(raw.get("max_districts", 400), "max_districts", errs, 20, 2000, True) or 400
     align = raw.get("align", "edge")
     if not isinstance(align, str) or not _ALIGN.match(align):
-        errs.append("layers.align: expected edge, parent, none or angle:<deg>, got %r" % (align,))
+        errs.append("layers.align: expected edge, parent, none, random or angle:<deg>, got %r" % (align,))
     rules_in = raw.get("rules")
     if not isinstance(rules_in, list) or not rules_in:
         errs.append("layers.rules: expected a non-empty list")
@@ -181,7 +181,7 @@ def resolve(raw: Any, min_district_area: float) -> Optional[Dict[str, Any]]:
         p = _num(r.get("p", 1.0), w + ".p", errs, 0, 1)
         ra = r.get("align", align)
         if not isinstance(ra, str) or not _ALIGN.match(ra):
-            errs.append("layers.%s.align: expected edge, parent, none or angle:<deg>, got %r" % (w, ra))
+            errs.append("layers.%s.align: expected edge, parent, none, random or angle:<deg>, got %r" % (w, ra))
         kinds = r.get("kinds")
         if kinds is not None:
             kinds = _weights(kinds, w + ".kinds", errs, None)
@@ -197,7 +197,7 @@ def resolve(raw: Any, min_district_area: float) -> Optional[Dict[str, Any]]:
                 for k in sorted(rp):
                     if k not in known:
                         errs.append("layers.%s.params.%s: unknown for %s (known: %s)" % (w, k, name, ", ".join(sorted(known))))
-        aj = _num(r.get("align_jitter", 0.0), w + ".align_jitter", errs, 0, 20)
+        aj = _num(r.get("align_jitter", 0.0), w + ".align_jitter", errs, 0, 45)
         rules.append({
             "depth": dep or [0, 0], "kind": _list(r["kind"]) if r.get("kind") is not None else None, "area": area,
             "key": r.get("key"), "p": p if p is not None else 1.0, "use": use or {}, "params": rp, "align": ra,

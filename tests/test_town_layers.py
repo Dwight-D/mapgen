@@ -59,7 +59,7 @@ def test_absent_layers_identical():
 
 
 def test_depth_two_and_ids():
-    s = _gen("radial", 2, "max_depth=2;0:grid;1:voronoi")
+    s = _gen("radial", 2, "max_depth=2;min_split_area=3000;0:grid;1:voronoi")
     assert town.check(s) == []
     assert max(d.depth for d in s.districts) == 2
     assert any(n.depth == 1 for n in s.layers)

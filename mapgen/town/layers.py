@@ -125,9 +125,6 @@ def _subdivide(s: Settlement, spec: Dict[str, Any]) -> _State:
             if bad:
                 st.skipped[d.id] = bad
                 continue
-            mod = FILLS[use]
-            overrides = {k: v for k, v in rule["params"].items()}
-            p = resolve_params(mod.SUB_DEFS, s.seed, sid, "layers/%s/%s" % (d.id, use), overrides)
             al = rule["align"]
             if al == "edge":
                 rot = _ref_rot(P, road_geom)
@@ -141,16 +138,28 @@ def _subdivide(s: Settlement, spec: Dict[str, Any]) -> _State:
                     rot = _ref_rot(P, road_geom)
             elif al == "none":
                 rot = 0.0
+            elif al == "random":
+                rot = math.radians(rp.uniform(0.0, 90.0))
             else:
                 rot = math.radians(float(al.split(":")[1]))
             if rule["align_jitter"]:
                 rot += math.radians(rp.uniform(-1.0, 1.0) * rule["align_jitter"])
             cen = P.centroid if P.contains(P.centroid) else P.representative_point()
-            frame = Frame((cen.x, cen.y), rot)
-            try:
-                fl = mod.fill(P, stage_rng(sid, "layers", s.seed, d.id + "/geom"), p, frame, spec["min_area"])
-            except Unfit as e:
-                st.skipped[d.id] = "unfit: %s" % e
+            frame = Frame((cen.x, cen.y), rot, road_geom)
+            # the drawn fill first, then the other weighted fills by descending weight (ties by name) when it is Unfit
+            order = [use] + sorted((n for n in rule["use"] if n != use and n != "none"), key=lambda n: (-rule["use"][n], n))
+            fl = None
+            why = ""
+            for use in order:
+                mod = FILLS[use]
+                p = resolve_params(mod.SUB_DEFS, s.seed, sid, "layers/%s/%s" % (d.id, use), dict(rule["params"]))
+                try:
+                    fl = mod.fill(P, stage_rng(sid, "layers", s.seed, d.id + ("/geom" if use == order[0] else "/geom/" + use)), p, frame, spec["min_area"])
+                    break
+                except Unfit as e:
+                    why = why or "unfit: %s" % e
+            if fl is None:
+                st.skipped[d.id] = why
                 continue
             pk = _key(sid, d.id)
             ids = ["%s_%s" % (d.id, k) for k, _ in fl.faces] + ["%s_sr_%s_%s" % (sid, pk, r.key) for r in fl.roads]
