@@ -1,5 +1,6 @@
 """Town coordinate warp (design: mapgen/TOWN_ORGANIC_SPEC.md sections 6 and 10.2)."""
 import json
+import math
 import os
 
 import pytest
@@ -107,7 +108,17 @@ def test_warp_curves_roads():
     base_s = _gen("grid", 2, None)
     assert s.params["warp"]["scale"] > 0
     assert max(len(r.polyline) for r in s.roads) > 2 * max(len(r.polyline) for r in base_s.roads) // 2
-    assert sum(len(r.polyline) for r in s.roads) > 3 * sum(len(r.polyline) for r in base_s.roads)
+    # Densification is step-bound, not a multiple of the base vertex count (fills put varying vertex
+    # density on base roads): every warped edge is short, while unwarped roads keep long straight edges.
+    step = s.params["warp"]["step"]
+
+    def edges(st):
+        return [math.dist(a, b) for r in st.roads for a, b in zip(r.polyline, r.polyline[1:])]
+
+    we, be = edges(s), edges(base_s)
+    assert max(we) <= 1.5 * step < 2 * step < max(be)
+    assert len(we) > 2 * len(be)
+    assert sum(len(r.polyline) for r in s.roads) > 2.5 * sum(len(r.polyline) for r in base_s.roads)
 
 
 def test_densify_same_points_from_either_side():
