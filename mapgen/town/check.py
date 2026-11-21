@@ -165,6 +165,9 @@ def _identity(s: Settlement) -> List[str]:
     return errs
 
 
+BANK_TOL = 7.0    # m: a layer street ends at most this far from a river without a junction (water.BANK_MARGIN + slack)
+
+
 def _layers(s: Settlement) -> List[str]:
     """Layer invariants (TOWN_LAYERS_SPEC section 7); applies only to a layered settlement."""
     if not s.layers and not any(d.depth > 0 for d in s.districts):
@@ -211,6 +214,8 @@ def _layers(s: Settlement) -> List[str]:
     if lay:
         borders = unary_union([Polygon(d.polygon).boundary for d in s.districts]).buffer(0.5)
         walls = unary_union([LineString(w.polyline) for w in s.walls]) if s.walls else None
+        rivers = [Polygon(rv["polygon"]) for rv in s.water.get("rivers", [])] if s.water else []
+        river = unary_union(rivers) if rivers else None    # a street may end BANK_TOL short of the river (water.trim_banks)
         cmap: Dict[tuple, Set[str]] = {}
         for r in s.roads:
             for p in r.polyline:
@@ -236,11 +241,54 @@ def _layers(s: Settlement) -> List[str]:
                 errs.append("road %s is not connected to the parent road network" % r.id)
             if "_sr_" in r.id and r.polyline[0] != r.polyline[-1]:
                 for e in (r.polyline[0], r.polyline[-1]):
-                    if not (cmap[(e[0], e[1])] - {r.id}):
+                    if not (cmap[(e[0], e[1])] - {r.id}) and not (river is not None and river.distance(Point(e)) <= BANK_TOL):
                         errs.append("road %s: dangling end at %s" % (r.id, e))
     ids = [e.id for e in s.graph_edges]
     if len(ids) != len(set(ids)):
         errs.append("duplicate movement edge ids")
+    return errs
+
+
+UNSPLIT_RATIO = 3.0     # a leaf district above this multiple of the median leaf area is an unsplit blob
+ORPHAN_LIMIT = 3.0      # ... or above this multiple of the median leaf area under its subdivided siblings (an orphan blob)
+_EXEMPT = ("core", "citadel", "harbour", "outskirt", "plaza", "park", "fort")
+
+
+def _leaf_balance(s: Settlement) -> List[str]:
+    """No leaf far larger than the rest of a layered town (TOWN_ORGANIC_SPEC section 7.8): a leaf over UNSPLIT_RATIO times the median
+    leaf area, or over ORPHAN_LIMIT times the median leaf area below its subdivided siblings, is a district the layers missed."""
+    if not s.layers or not s.params.get("layers", {}).get("balance"):
+        return []
+    leaves = {d.id: d for d in s.districts}
+    nodes = {n.id: n for n in s.layers}
+    areas = sorted(d.area for d in s.districts if d.kind not in _EXEMPT)
+    if len(areas) < 4:
+        return []
+    med = areas[len(areas) // 2]
+    errs: List[str] = []
+    for d in sorted(s.districts, key=lambda d: d.id):
+        if d.kind in _EXEMPT:
+            continue
+        if d.area > UNSPLIT_RATIO * med:
+            errs.append("district %s: unsplit leaf of %g m2 exceeds %g times the median leaf area %g" % (d.id, d.area, UNSPLIT_RATIO, med))
+            continue
+        par = nodes.get(d.parent)
+        if par is None:
+            continue
+        sib: List[float] = []
+        todo = [c for c in par.children if c in nodes]
+        while todo:
+            n = nodes[todo.pop()]
+            for k in n.children:
+                if k in nodes:
+                    todo.append(k)
+                elif k in leaves:
+                    sib.append(leaves[k].area)
+        if len(sib) >= 3:
+            sm = sorted(sib)[len(sib) // 2]
+            if d.area > ORPHAN_LIMIT * sm:
+                errs.append("district %s: orphan leaf of %g m2 exceeds %g times the median %g of its subdivided siblings" % (
+                    d.id, d.area, ORPHAN_LIMIT, sm))
     return errs
 
 
@@ -302,9 +350,9 @@ def _organic(s: Settlement) -> List[str]:
 
 
 def check(s: Settlement) -> List[str]:
-    """Geometry, walls and gates, reachability, identity, layers, organic. (Determinism: `check_determinism`.)"""
+    """Geometry, walls and gates, reachability, identity, layers, leaf balance, organic. (Determinism: `check_determinism`.)"""
     from .water import check_water
-    return _geometry(s) + _walls_gates(s) + _reachability(s) + _identity(s) + check_water(s) + _layers(s) + _organic(s)
+    return _geometry(s) + _walls_gates(s) + _reachability(s) + _identity(s) + check_water(s) + _layers(s) + _leaf_balance(s) + _organic(s)
 
 
 def check_determinism(s: Settlement) -> List[str]:

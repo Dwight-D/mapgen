@@ -12,7 +12,7 @@ FILLS = {"grid": fill_grid, "radial": fill_radial, "voronoi": fill_voronoi, "bsp
 USES = tuple(sorted(FILLS)) + ("none",)
 SKIP_KINDS = ["core", "citadel", "harbour", "outskirt"]
 RULE_KEYS = ("depth", "kind", "area", "key", "p", "use", "params", "align", "kinds", "skip_kinds", "align_jitter", "params_random", "parent_use")
-GLOBAL_KEYS = ("max_depth", "min_area", "min_split_area", "boundary", "graph", "max_districts", "align")
+GLOBAL_KEYS = ("max_depth", "min_area", "min_split_area", "boundary", "graph", "max_districts", "align", "balance")
 _ALIGN = re.compile(r"^(edge|parent|none|random|angle:-?\d+(\.\d+)?)$")
 DOC = {
     "layers": "subdivide districts with another layout: JSON/YAML dict, or `[d:]use[@k=v,...];...;max_depth=2` (a preset name: organic | organic-radial | organic-voronoi | organic-grid | organic-cells | organic-mixed; use = grid | radial | voronoi | bsp | wedge | follow | a/b*2 | none)",
@@ -20,7 +20,7 @@ DOC = {
 
 
 ORGANIC_PRESET: Dict[str, Any] = {
-    "max_depth": 3, "min_split_area": 3000, "align": "edge",
+    "max_depth": 3, "min_split_area": 3000, "align": "edge", "balance": True,
     "rules": [
         {"depth": 0, "kind": ["market"], "use": {"grid": 2, "bsp": 1}, "align_jitter": 10},
         {"depth": 0, "kind": ["residential", "craft", "slum"], "use": {"bsp": 3, "grid": 2, "follow": 2, "wedge": 2, "voronoi": 1},
@@ -38,7 +38,7 @@ _CAP = {"depth": [1, 2], "area": [6500, 1000000], "use": {"bsp": 2, "voronoi": 2
 
 
 def _p(rules: List[Dict[str, Any]]) -> Dict[str, Any]:
-    return {"max_depth": 3, "min_split_area": 3000, "align": "edge", "rules": rules}
+    return {"max_depth": 3, "min_split_area": 3000, "align": "edge", "balance": True, "rules": rules}
 
 
 def _top(use: Dict[str, float], p: float = 1.0, **kw: Any) -> List[Dict[str, Any]]:
@@ -60,8 +60,8 @@ def _child(parent: str, use: Dict[str, float], p: float = 0.85) -> List[Dict[str
 # by the fill that made the parent, the final area rule caps every district at about 6500 m2.
 PRESETS: Dict[str, Dict[str, Any]] = {
     "organic": ORGANIC_PRESET,
-    "organic-radial": _p(_top({"radial": 6, "wedge": 1, "voronoi": 1}) + [
-        *_child("radial", {"bsp": 2, "grid": 3, "voronoi": 1, "follow": 1}, 0.9),
+    "organic-radial": _p(_top({"radial": 6, "wedge": 2, "voronoi": 1}) + [
+        *_child("radial", {"bsp": 2, "grid": 3, "voronoi": 1, "follow": 1, "wedge": 1}, 0.9),
         *_child("wedge", {"grid": 2, "voronoi": 2, "bsp": 1}, 0.7),
         *_child("voronoi", {"grid": 2, "radial": 1, "bsp": 1}, 0.7), _CAP]),
     "organic-voronoi": _p(_top({"voronoi": 6, "wedge": 1, "radial": 1}) + [
@@ -69,7 +69,7 @@ PRESETS: Dict[str, Dict[str, Any]] = {
         *_child("radial", {"voronoi": 2, "grid": 1, "bsp": 1}, 0.7),
         *_child("bsp", {"voronoi": 2, "grid": 1}, 0.7), _CAP]),
     "organic-grid": _p(_top({"grid": 6, "radial": 1, "voronoi": 1}) + [
-        *_child("grid", {"radial": 3, "voronoi": 3, "wedge": 2, "bsp": 1}, 0.8),
+        *_child("grid", {"radial": 3, "voronoi": 3, "wedge": 1, "bsp": 1}, 0.8),
         *_child("radial", {"voronoi": 2, "grid": 1, "bsp": 1}, 0.7),
         *_child("voronoi", {"grid": 2, "bsp": 1, "radial": 1}, 0.7), _CAP]),
     "organic-cells": _p(_top({"voronoi": 4, "grid": 1, "radial": 1}) + [
@@ -80,7 +80,7 @@ PRESETS: Dict[str, Dict[str, Any]] = {
         _CAP]),
     "organic-mixed": _p(_top({"radial": 3, "voronoi": 3, "grid": 2, "wedge": 2, "bsp": 1}) + [
         *_child("radial", {"bsp": 2, "grid": 2, "voronoi": 1, "wedge": 1}, 0.85),
-        *_child("voronoi", {"grid": 3, "bsp": 1, "radial": 2, "wedge": 1}, 0.85),
+        *_child("voronoi", {"grid": 3, "bsp": 1, "radial": 2, "wedge": 0.15}, 0.85),
         *_child("grid", {"radial": 3, "voronoi": 2, "wedge": 1}, 0.85),
         *_child("wedge", {"voronoi": 3, "grid": 2, "radial": 1}, 0.85),
         *_child("bsp", {"voronoi": 2, "radial": 2, "grid": 1}, 0.7),
@@ -239,6 +239,10 @@ def resolve(raw: Any, min_district_area: float) -> Optional[Dict[str, Any]]:
     align = raw.get("align", "edge")
     if not isinstance(align, str) or not _ALIGN.match(align):
         errs.append("layers.align: expected edge, parent, none, random or angle:<deg>, got %r" % (align,))
+    balance = raw.get("balance", False)
+    if not isinstance(balance, bool):
+        errs.append("layers.balance: expected true or false, got %r" % (balance,))
+        balance = False
     rules_in = raw.get("rules")
     if not isinstance(rules_in, list) or not rules_in:
         errs.append("layers.rules: expected a non-empty list")
@@ -296,4 +300,4 @@ def resolve(raw: Any, min_district_area: float) -> Optional[Dict[str, Any]]:
     if errs:
         raise ParamError(errs)
     return {"max_depth": md, "min_area": min_area, "min_split_area": min_split, "boundary": boundary, "graph": graph,
-            "max_districts": maxd, "align": align, "rules": rules, "skipped": {}}
+            "max_districts": maxd, "align": align, "balance": balance, "rules": rules, "skipped": {}}

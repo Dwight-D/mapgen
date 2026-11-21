@@ -317,6 +317,34 @@ Contact sheets: `python -m mapgen.town.combo_sheet [preset ...]` writes `out/tow
 Non-convex organic districts: radial raises `Unfit` when not star-shaped about the hub, wedge and voronoi when they yield fewer than 2 faces; the fallback tries the other weighted uses
 of the rule, and a district every use is unfit for stays a leaf listed in `layers.skipped`.
 
+### 7.8 Leaf balance: road cuts, the final pass, the check
+
+Layer rules decide per district; a district that ends far larger than its neighbours reads as an unsplit blob at the rim (and, with small districts inside a subdivided
+parent, as orphans). Measured over 20 seeds per preset (`warp` default, edges wall/open/fade, `water=river|bay`, `fort=corner`), the cause of every leaf above 3 times the median
+leaf area (29 of 29 in `organic-radial`) is `skipped: road_inside`: a depth-0 market district a parent road runs through (a bridge approach, a fort road, a spur) was never
+subdivided, because `_subdivide` refused any polygon a parent road crosses. Without water or fort no leaf exceeded 3 times the median, but fills that raise `Unfit` ("fewer than 2
+faces after merging", thin rim strips) and depth-1 rules that miss their probability still leave leaves of 2-3 times the median beside subdivided siblings.
+
+The layers key `balance` (bool, default false; true in every named preset and `organic`; echoed in the resolved dict) switches on:
+
+- **Road cuts.** A parent road with an end inside the polygon is cut out as a 0.6 m slit (`_clear_of_roads`, at most 0.8 % of the area) and the fill runs on the slit polygon. A
+  parent road running from side to side splits the district into its pieces (`_cut_by_roads`, layer use `cut`, no sub-roads, the road is the border, each piece at least
+  `min_area`). When a piece would be under `min_area`, the final pass fills the whole polygon and its sub-streets may cross that road. Without `balance` the district stays a
+  `road_inside` leaf.
+- **Final pass** (`layers._resplit`, after the depth loop, independent of the rules). Median `med` = median area of the leaves whose kind is not `core`, `citadel`, `harbour`,
+  `outskirt`, `plaza`, `park`, `fort`. A leaf of another kind with `area >= min_split_area` and depth < `max_depth` is re-split when `area > RESPLIT_RATIO * med` (2.0), or when
+  at least 3 leaves lie below its subdivided siblings and `area > ORPHAN_RATIO * median(those leaf areas)` (2.5); largest first, up to `max_depth` rounds, `med` recomputed per round.
+  The fill is the first that succeeds of `bsp`, `voronoi` (both with `cells = round(area / t) + 1`, 3-12, `t = max(1.6 * min_area, 0.7 * min_split_area)`, a function of the spec
+  only) and `grid`, default parameters, streams `<district id>/resplit/<use>`. The layer node records `rule = -1`. A leaf no fill serves stays a leaf.
+- **Check** (`check._leaf_balance`, run by `check` for layered settlements with `balance` on): an error for a leaf (kinds above exempt) over 3.0 times the median leaf area
+  ("unsplit leaf") and for a leaf over 3.0 times the median leaf area below its subdivided siblings ("orphan leaf", needs 3 sibling leaves).
+
+Result (20 seeds, presets x variants): leaves over 3 times the median fall from 12/20 (river), 16/20 (fort), 1/20 (bay) per preset and 1/20 in `organic-mixed` (rim) to 0; the
+largest leaf over the median falls from 14-22 to about 2.0; orphan ratio worst case from 5.0 to below 2.7.
+
+Tests: `tests/test_town_layers_balance.py` (4 preset/water/fort/edge combinations x 6 seeds, the rivermere spur district, coarse blocks re-split, determinism, the check on
+synthetic areas).
+
 ## 8. The `organic` generator (`gen_organic.py`)
 
 A top-level generator (registry name `organic`) whose footprint is the shape field contour (§4) and whose macro districts are the faces of a few curved arteries and arcs.

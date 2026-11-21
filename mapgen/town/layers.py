@@ -11,7 +11,7 @@ from shapely.geometry.polygon import orient
 from shapely.ops import unary_union
 
 from . import graph as G
-from .layerfill import Frame, Unfit
+from .layerfill import Fill, Frame, Unfit
 from .layers_params import FILLS
 from .model import District, DistrictEdge, GraphNode, LayerNode, Road, Settlement, Wall, polyline_length, r2
 from .params import ParamError, resolve as resolve_params, stage_rng
@@ -89,6 +89,160 @@ class _State:
     pass
 
 
+NOTCH = 0.3           # half width (m) of the slit cut along a parent road that ends inside a district
+NOTCH_LOSS = 0.008    # largest share of the district area a slit may remove
+
+
+def _clear_of_roads(P: Polygon, parent_roads, slit: bool) -> Tuple[Polygon, Optional[str]]:
+    """(polygon to fill, skip reason). A parent road with an end inside P is cut out of P as a thin slit, so the fill never crosses
+    it; a district no slit can serve (the road runs from side to side, or the slit costs too much area) is `road_inside`."""
+    cut = [ln for _, ln in parent_roads if ln.envelope.intersects(P.envelope) and ln.intersection(P.buffer(-0.05)).length > 1.0]
+    if not cut:
+        return P, None
+    if not slit:
+        return P, "road_inside"
+    Q = P.difference(unary_union(cut).buffer(NOTCH, cap_style=2))
+    if Q.geom_type != "Polygon" or Q.is_empty or not Q.is_valid or Q.interiors or Q.area < (1.0 - NOTCH_LOSS) * P.area:
+        return P, "road_inside"
+    return orient(Q, 1.0), None
+
+
+def _cut_by_roads(P: Polygon, parent_roads, min_area: float) -> Optional[Fill]:
+    """The pieces (each at least `min_area`) a parent road running from side to side of P cuts it into, as a fill without roads (the
+    road is the border)."""
+    cut = [ln for _, ln in parent_roads if ln.envelope.intersects(P.envelope) and ln.intersection(P.buffer(-0.05)).length > 1.0]
+    if not cut:
+        return None
+    Q = P.difference(unary_union(cut).buffer(NOTCH, cap_style=2))
+    if Q.geom_type != "MultiPolygon" or Q.area < (1.0 - NOTCH_LOSS) * P.area:
+        return None
+    parts = sorted((orient(g, 1.0) for g in Q.geoms if g.area >= 1.0), key=lambda g: (round(g.centroid.x, 3), round(g.centroid.y, 3)))
+    if len(parts) < 2 or any(g.interiors or not g.is_valid or g.area < min_area for g in parts):
+        return None
+    return Fill([("c%d" % i, g) for i, g in enumerate(parts)], [])
+
+
+RESPLIT_RATIO = 2.0   # a leaf above this multiple of the median leaf area is re-split by the final pass
+ORPHAN_RATIO = 2.5    # ... or above this multiple of the median leaf area under its split siblings
+RESPLIT_FILLS = ("bsp", "voronoi", "grid")
+EXEMPT_KINDS = ("core", "citadel", "harbour", "outskirt", "plaza", "park", "fort")
+
+
+def _commit(s: Settlement, st: _State, spec: Dict[str, Any], d: District, fl, use: str, rot: float, p: Dict[str, Any], ri: int,
+            rule_kinds: Any) -> bool:
+    """Replace the leaf `d` by the faces of `fl`; False (and `skipped` filled) when the result breaks an id or district limit."""
+    sid = s.id
+    pk = _key(sid, d.id)
+    ids = ["%s_%s" % (d.id, k) for k, _ in fl.faces] + ["%s_sr_%s_%s" % (sid, pk, r.key) for r in fl.roads]
+    if max(len(i) for i in ids) > ID_MAX:
+        st.skipped[d.id] = "id_length"
+        return False
+    if len(st.leaves) - 1 + len(fl.faces) > spec["max_districts"]:
+        st.skipped[d.id] = "max_districts"
+        return False
+    kdraw = stage_rng(sid, "layers", s.seed, d.id + "/kinds") if rule_kinds else None
+    children = []
+    for n, (k, poly) in enumerate(sorted(fl.faces, key=lambda t: t[0])):
+        kind = _weighted(kdraw, rule_kinds) if kdraw is not None else d.kind
+        wf = d.waterfront
+        if wf and s.water:
+            wf = poly.distance(water_union(s)) <= 1.0
+        children.append(District(id="%s_%s" % (d.id, k), key=k, kind=kind, polygon=_ring(poly), area=r2(poly.area),
+                                 label="%s %d" % (d.label, n + 1), inside_wall=d.inside_wall, waterfront=wf,
+                                 landmarks=[], parent=d.id, depth=d.depth + 1))
+    pp = dict(p)
+    pp["rot"] = round(math.degrees(rot) % 360.0, 4)
+    st.nodes[d.id] = LayerNode(id=d.id, parent=d.parent, depth=d.depth, polygon=d.polygon, use=use, rule=ri, params=pp,
+                               children=sorted(c.id for c in children))
+    del st.leaves[d.id]
+    for c in children:
+        st.leaves[c.id] = c
+    for r in fl.roads:
+        st.sub.append(Road(id="%s_sr_%s_%s" % (sid, pk, r.key), cls=r.cls, polyline=[[x, y] for x, y in r.polyline],
+                           width=float(max(7, 10 - 2 * d.depth)) if r.cls == "artery" else 5.0))
+
+    return True
+
+
+def _sibling_leaf_areas(st: _State, d: District) -> List[float]:
+    """Areas of the leaves below the split siblings of `d` (children of its parent that were subdivided themselves)."""
+    par = st.nodes.get(d.parent)
+    if par is None:
+        return []
+    out: List[float] = []
+    for c in par.children:
+        if c in st.nodes:
+            todo = [c]
+            while todo:
+                n = st.nodes[todo.pop()]
+                for k in n.children:
+                    if k in st.nodes:
+                        todo.append(k)
+                    elif k in st.leaves:
+                        out.append(st.leaves[k].area)
+    return out
+
+
+def _median(v: List[float]) -> float:
+    v = sorted(v)
+    return v[len(v) // 2] if v else 0.0
+
+
+def _resplit(s: Settlement, st: _State, spec: Dict[str, Any], rules: List[Dict[str, Any]], parent_roads, road_geom) -> None:
+    """Final pass: a leaf far larger than its neighbours (above RESPLIT_RATIO times the median leaf area, or ORPHAN_RATIO times the
+    median under its split siblings) is subdivided with a robust fill (bsp, then voronoi, then grid) whatever the rules said. The
+    rules cap the area of depth 1-2 districts only when their draw succeeds; a rule that missed, an `Unfit` fill or a skipped
+    district leaves big leaves that read as unsplit edge blobs."""
+    sid = s.id
+    for _ in range(spec["max_depth"]):
+        med = _median([d.area for d in st.leaves.values() if d.kind not in EXEMPT_KINDS])
+        if med <= 0:
+            return
+        tgt = max(1.6 * spec["min_area"], 0.7 * spec["min_split_area"])     # cell area: a function of the spec, not of the other districts
+        done = False
+        for d in sorted(st.leaves.values(), key=lambda d: (-d.area, d.id)):
+            if d.id not in st.leaves or d.kind in EXEMPT_KINDS or d.depth >= spec["max_depth"] or d.area < spec["min_split_area"]:
+                continue
+            sib = _sibling_leaf_areas(st, d)
+            lim = RESPLIT_RATIO * med
+            if len(sib) >= 3:
+                lim = min(lim, ORPHAN_RATIO * _median(sib))
+            if d.area <= lim:
+                continue
+            P = orient(Polygon(d.polygon), 1.0)
+            P, bad = _clear_of_roads(P, parent_roads, True)
+            if bad:
+                cutfl = _cut_by_roads(P, parent_roads, spec["min_area"])
+                if cutfl is not None:
+                    if _commit(s, st, spec, d, cutfl, "cut", 0.0, {}, -1, None):
+                        st.skipped.pop(d.id, None)
+                        done = True
+                    continue
+                # the cut would leave a piece below min_area: fill the whole polygon, its sub-streets may cross the parent road
+            rot = _ref_rot(P, road_geom)
+            cen = P.centroid if P.contains(P.centroid) else P.representative_point()
+            frame = Frame((cen.x, cen.y), rot, road_geom)
+            fl = None
+            for use in RESPLIT_FILLS:
+                mod = FILLS[use]
+                n = max(3, min(12, int(round(d.area / tgt)) + 1))
+                rp = {"cells": n} if use in ("bsp", "voronoi") else {}
+                p = resolve_params(mod.SUB_DEFS, s.seed, sid, "layers/%s/resplit/%s" % (d.id, use), rp)
+                try:
+                    fl = mod.fill(P, stage_rng(sid, "layers", s.seed, d.id + "/resplit/" + use), p, frame, spec["min_area"])
+                    break
+                except Unfit:
+                    continue
+            if fl is None:
+                continue
+            pp = dict(p)
+            if _commit(s, st, spec, d, fl, use, rot, pp, -1, None):
+                st.skipped.pop(d.id, None)
+                done = True
+        if not done:
+            return
+
+
 def _subdivide(s: Settlement, spec: Dict[str, Any]) -> _State:
     sid = s.id
     st = _State()
@@ -120,13 +274,11 @@ def _subdivide(s: Settlement, spec: Dict[str, Any]) -> _State:
             if use == "none":
                 continue
             P = orient(Polygon(d.polygon), 1.0)
-            bad = None
-            for rid, ln in parent_roads:
-                if ln.envelope.intersects(P.envelope) and ln.intersection(P.buffer(-0.05)).length > 1.0:
-                    bad = "road_inside"
-                    break
+            P, bad = _clear_of_roads(P, parent_roads, spec["balance"])
             if bad:
-                st.skipped[d.id] = bad
+                cutfl = _cut_by_roads(orient(Polygon(d.polygon), 1.0), parent_roads, spec["min_area"]) if spec["balance"] else None
+                if cutfl is None or not _commit(s, st, spec, d, cutfl, "cut", 0.0, {}, ri, None):
+                    st.skipped[d.id] = bad
                 continue
             al = rule["align"]
             if al == "edge":
@@ -174,34 +326,10 @@ def _subdivide(s: Settlement, spec: Dict[str, Any]) -> _State:
             if fl is None:
                 st.skipped[d.id] = why
                 continue
-            pk = _key(sid, d.id)
-            ids = ["%s_%s" % (d.id, k) for k, _ in fl.faces] + ["%s_sr_%s_%s" % (sid, pk, r.key) for r in fl.roads]
-            if max(len(i) for i in ids) > ID_MAX:
-                st.skipped[d.id] = "id_length"
+            if _commit(s, st, spec, d, fl, use, rot, p, ri, rule["kinds"]):
                 continue
-            if len(st.leaves) - 1 + len(fl.faces) > spec["max_districts"]:
-                st.skipped[d.id] = "max_districts"
-                continue
-            kdraw = stage_rng(sid, "layers", s.seed, d.id + "/kinds") if rule["kinds"] else None
-            children = []
-            for n, (k, poly) in enumerate(sorted(fl.faces, key=lambda t: t[0])):
-                kind = _weighted(kdraw, rule["kinds"]) if kdraw is not None else d.kind
-                wf = d.waterfront
-                if wf and s.water:
-                    wf = poly.distance(water_union(s)) <= 1.0
-                children.append(District(id="%s_%s" % (d.id, k), key=k, kind=kind, polygon=_ring(poly), area=r2(poly.area),
-                                         label="%s %d" % (d.label, n + 1), inside_wall=d.inside_wall, waterfront=wf,
-                                         landmarks=[], parent=d.id, depth=d.depth + 1))
-            pp = dict(p)
-            pp["rot"] = round(math.degrees(rot) % 360.0, 4)
-            st.nodes[d.id] = LayerNode(id=d.id, parent=d.parent, depth=d.depth, polygon=d.polygon, use=use, rule=ri, params=pp,
-                                       children=sorted(c.id for c in children))
-            del st.leaves[d.id]
-            for c in children:
-                st.leaves[c.id] = c
-            for r in fl.roads:
-                st.sub.append(Road(id="%s_sr_%s_%s" % (sid, pk, r.key), cls=r.cls, polyline=[[x, y] for x, y in r.polyline],
-                                   width=float(max(7, 10 - 2 * d.depth)) if r.cls == "artery" else 5.0))
+    if spec["balance"]:
+        _resplit(s, st, spec, rules, parent_roads, road_geom)
     return st
 
 
