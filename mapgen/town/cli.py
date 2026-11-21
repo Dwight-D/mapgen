@@ -6,7 +6,7 @@ from typing import Any, Dict, List
 
 from . import (GENERATORS, GenerationError, ParamError, Settlement, check, check_determinism, emit_flow, emit_spec,
                generate, render_png, render_sheet)
-from . import fort, layers_params, water
+from . import fort, layers_params, warp, water
 from .registry import DEFAULT_SIZE
 
 
@@ -119,6 +119,9 @@ def cmd_list(args) -> int:
     print("water overlay (any generator; --param name=value):")
     for name, doc in water.DOC.items():
         print("  %-16s %s" % (name, doc))
+    print("warp (any generator; --param warp=<strength 0-1 | k=v,...>): %s" % warp.DOC["warp"])
+    for name in warp.KEYS:
+        print("  %-16s %s" % (name, warp.DOC[name]))
     print("layers (any generator; --param layers=<spec>): %s" % layers_params.DOC["layers"])
     print("  rule keys: %s; global keys: %s" % (", ".join(layers_params.RULE_KEYS), ", ".join(layers_params.GLOBAL_KEYS)))
     for name in sorted(layers_params.FILLS):

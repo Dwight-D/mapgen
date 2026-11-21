@@ -200,7 +200,7 @@ Voronoi-cell districts with an angular wall; `organic=true` is the high-jitter r
 | `anisotropy` | float | 1-1.6 | 1-1.3 | area-preserving stretch |
 | `radius_frac` | float | 0.3-0.95 | 0.45-0.75 | mean town radius / half the shorter side, clamped to fit 10 m inside the map |
 | `rotation` | float | 0-360 | 0-360 | degrees |
-| `warp` | float | 0-0.2 | 0-0.06 | smooth sinusoidal domain warp amplitude, fraction of the town radius |
+| `cell_warp` | float | 0-0.2 | 0-0.06 | smooth sinusoidal domain warp amplitude, fraction of the town radius |
 | `organic` | bool | | default false | effective jitter >= 0.9, lloyd <= 1, warp >= 0.12 (echoed params keep the raw values) |
 | `gates` | int | 2-8 | 3-5 | gates in the wall |
 | `plaza_frac` | float | 0.02-0.2 | 0.04-0.09 | minimum plaza area / town area |

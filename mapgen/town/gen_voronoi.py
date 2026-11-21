@@ -34,7 +34,7 @@ DEFS = [
     ParamDef("radius_frac", "float", 0.3, 0.95, "mean radius of the town as a fraction of half the map's shorter side",
              draw_lo=0.45, draw_hi=0.75),
     ParamDef("rotation", "float", 0.0, 360.0, "rotation of the whole layout, degrees"),
-    ParamDef("warp", "float", 0.0, 0.2, "smooth domain warp amplitude, fraction of the town radius", draw_lo=0.0, draw_hi=0.06),
+    ParamDef("cell_warp", "float", 0.0, 0.2, "smooth domain warp amplitude, fraction of the town radius", draw_lo=0.0, draw_hi=0.06),
     ParamDef("organic", "bool", 0, 1, "organic regime: jitter at least 0.9, one Lloyd pass, warp at least 0.12", default=False),
     ParamDef("gates", "int", 2, 8, "gates in the wall", draw_lo=3, draw_hi=5),
     ParamDef("plaza_frac", "float", 0.02, 0.2, "minimum plaza district area as a fraction of the town", draw_lo=0.04, draw_hi=0.09),
@@ -155,7 +155,7 @@ def _build(p: Dict[str, Any], seed: int, size: Tuple[float, float], centre: Tupl
     org = bool(p["organic"])
     jitter = max(p["jitter"], ORGANIC_JITTER) if org else p["jitter"]
     lloyd = min(int(p["lloyd"]), 1) if org else int(p["lloyd"])
-    warp = max(p["warp"], ORGANIC_WARP) if org else p["warp"]
+    warp = max(p["cell_warp"], ORGANIC_WARP) if org else p["cell_warp"]
     vor, cells = _seeds(p, seed, sid, attempt, jitter, lloyd)
 
     # normalise: mean radius of the town 1, centred on the union's centroid, then warp and rotate

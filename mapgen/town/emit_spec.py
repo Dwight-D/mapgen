@@ -6,9 +6,9 @@ the `points`, `regions`, `lines`, `crossings` and `pois` entries; the author pas
 from __future__ import annotations
 
 import json
-from typing import List
+from typing import List, Tuple
 
-from shapely.geometry import Polygon
+from shapely.geometry import LineString, Point, Polygon
 
 from ..geometry import chaikin
 from ..schema import feature_seed
@@ -35,15 +35,83 @@ def _pts(ps) -> str:
 def road_path(s: Settlement, road) -> List[str]:
     """The road's `path` tokens: a node's id (a point reference) where the polyline vertex is a node, else the vertex
     coordinates. Flowgraph edge derivation reads the references, so consecutive nodes along the road are the edges."""
+    return [tok for tok, _ in road_tokens(s, road)]
+
+
+def road_tokens(s: Settlement, road) -> List[Tuple[str, Tuple[float, float]]]:
+    """`road_path` with the position each token stands for (a node's position, or the literal vertex): (token, (x, y))."""
     node_at = {n.id: n.at for n in s.graph_nodes}
+    if "warp" in s.params:
+        return _warped_road_path(s, road, node_at)
     by_at = {}
     for nid in road.nodes:
         by_at.setdefault(tuple(node_at[nid]), nid)
-    out: List[str] = []
+    out: List[Tuple[str, Tuple[float, float]]] = []
     for v in road.polyline:
         nid = by_at.get(tuple(v))
-        out.append(nid if nid else _p(v))
+        out.append((nid if nid else _p(v), (v[0], v[1])))
     return out
+
+
+SIMPLIFY_ROAD = 0.8      # m, Douglas-Peucker tolerance between a road's nodes (warped settlements)
+SIMPLIFY_REGION = 0.5    # m, tolerance of the emitted district rings (warped settlements)
+FOREIGN_NODE = 30.0      # m: a literal vertex this close to a node of another road resolves to that node in flowgraph derivation
+KEEP_WITHIN = 3.0        # m: a dropped vertex may move the line at most this far
+
+
+def _warped_road_path(s: Settlement, road, node_at) -> List[Tuple[str, Tuple[float, float]]]:
+    """Path tokens of a densified road (TOWN_ORGANIC_SPEC section 6.5): node ids at the road's nodes; between consecutive nodes the
+    Douglas-Peucker simplified vertices as coordinates, except a vertex whose nearest choke node within 30 m belongs to no node of
+    this road (flowgraph would bind it there): it is dropped when the line stays within 3 m of the full one, else replaced by the nearer
+    of the two bounding node references (consecutive duplicates are removed, so no edge appears)."""
+    node_idx = {}
+    last = -1
+    for nid in road.nodes:
+        j = next(k for k in range(last + 1, len(road.polyline)) if list(road.polyline[k]) == list(node_at[nid]))
+        node_idx[j] = nid
+        last = j
+    marks = sorted(set([0, len(road.polyline) - 1] + list(node_idx)))
+
+    def tok(j: int) -> Tuple[str, Tuple[float, float]]:
+        return (node_idx.get(j) or _p(road.polyline[j]), (road.polyline[j][0], road.polyline[j][1]))
+    own = set(road.nodes)
+    chokes = [(n.id, n.at) for n in s.graph_nodes if n.kind == "choke"]
+    out: List[Tuple[str, Tuple[float, float]]] = [tok(marks[0])]
+    for i0, i1 in zip(marks, marks[1:]):
+        full = road.polyline[i0:i1 + 1]
+        a, b = node_idx.get(i0), node_idx.get(i1)
+        simp = [tuple(c) for c in LineString(full).simplify(SIMPLIFY_ROAD).coords] if len(full) > 2 else [tuple(p) for p in full]
+        kept = list(simp)
+        res: List[Tuple[str, Tuple[float, float]]] = []
+        for v in simp[1:-1]:
+            near = min((((v[0] - at[0]) ** 2 + (v[1] - at[1]) ** 2) ** 0.5, nid) for nid, at in chokes) if chokes else (1e9, "")
+            if near[0] > FOREIGN_NODE or near[1] in own:
+                res.append((_p(v), v))
+                continue
+            trial = [q for q in kept if q != v]
+            if max(LineString(trial).distance(Point(p)) for p in full) <= KEEP_WITHIN:
+                kept = trial
+                continue
+            da = ((v[0] - simp[0][0]) ** 2 + (v[1] - simp[0][1]) ** 2) ** 0.5
+            db = ((v[0] - simp[-1][0]) ** 2 + (v[1] - simp[-1][1]) ** 2) ** 0.5
+            ref = (a if da <= db else b) if (a and b) else (a or b)
+            res.append((ref, (node_at[ref][0], node_at[ref][1])) if ref else (_p(v), v))
+        for t_ in res + [tok(i1)]:
+            if t_[0] != out[-1][0]:
+                out.append(t_)
+    return out
+
+
+def region_ring(s: Settlement, d) -> List[List[float]]:
+    """District outline for its `town` region; a warped (densified) settlement emits the ring simplified to 0.5 m."""
+    pts = region_points(s, d)
+    if "warp" not in s.params:
+        return pts
+    g = Polygon(pts).simplify(SIMPLIFY_REGION, preserve_topology=True)
+    if g.is_empty or g.geom_type != "Polygon":
+        return pts
+    out = [[round(x, 2), round(y, 2)] for x, y in list(g.exterior.coords)[:-1]]
+    return out if len(out) >= 3 else pts
 
 
 def wall_gate_types():
@@ -127,7 +195,7 @@ def emit_spec(s: Settlement) -> str:
           % (isl["id"], feature_seed(isl["id"]), _pts(isl["polygon"])))
     for d in s.districts:
         w("  - { id: %s, seed: %d, type: town, shape: poly, points: %s, rough: 0, label: %s }"
-          % (d.id, feature_seed(d.id), _pts(region_points(s, d)), json.dumps(d.label)))
+          % (d.id, feature_seed(d.id), _pts(region_ring(s, d)), json.dumps(d.label)))
     w("")
     w("lines:")
     for r in s.roads:

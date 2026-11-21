@@ -12,7 +12,7 @@ from typing import Dict, List
 import math
 
 from .model import Settlement
-from .emit_spec import road_path
+from .emit_spec import road_tokens
 
 
 def emit_flow(s: Settlement) -> str:
@@ -50,7 +50,7 @@ def _derived(s: Settlement) -> Dict[tuple, str]:
     out: Dict[tuple, str] = {}
     for r in s.roads:
         seq: List[str] = []
-        for tok, v in zip(road_path(s, r), r.polyline):
+        for tok, v in road_tokens(s, r):
             nid = tok if tok in at else None
             if nid is None:
                 best = None

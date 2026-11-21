@@ -1,6 +1,6 @@
 # Town organic shaping — warped outlines, open edges, mixed block fills
 
-Status: design, nothing implemented; the warp stage is prototype-validated (§13). Self-contained apart from `TOWN_SPEC.md` (settlement model §3, params and seeds §4, graphs §5, checks §8,
+Status: design; the warp stage (§6) is implemented (`mapgen/town/warp.py`, `tests/test_town_warp.py`), everything else is design. Self-contained apart from `TOWN_SPEC.md` (settlement model §3, params and seeds §4, graphs §5, checks §8,
 emitters §9, preview §10, generators §7) and `TOWN_LAYERS_SPEC.md` (fill contract §4, `apply` §5, rules §6), which this file extends. Section 11
 lists every API assumption verified against the code. A settlement generated without any parameter introduced here is unchanged byte for byte.
 
@@ -148,7 +148,8 @@ add-ons work as on walled towns: the add-ons act on top-level districts and road
 ### 6.1 Parameter `warp`
 
 Settlement-level parameter, split off in `registry.generate` like `layers` (`warp.is_warp_param`). Absent or `none`: nothing runs, `params` has no `warp` key.
-Forms: a strength `warp=0.6` (0-1, preset below) or a dict/`k=v` list `{amp, wavelength, fine_amp, fine_wavelength, step, fort_damp}`.
+Forms: a strength `warp=0.6` (0-1, preset below; 0 is none) or a dict / `k=v` list `{amp, wavelength, fine_amp, fine_wavelength, step, fort_damp}`
+(missing keys take the strength-1 default). The dict also accepts the echoed `scale` and `seed` (below). Unknown keys and out-of-range values are `ParamError`s listing every problem.
 
 | key | range | default at strength 1 | meaning |
 |---|---|---|---|
@@ -157,20 +158,24 @@ Forms: a strength `warp=0.6` (0-1, preset below) or a dict/`k=v` list `{amp, wav
 | `fine_amp` | 0-0.03 | 0.012 | small-scale amplitude, fraction of `Rs` (irregular block edges) |
 | `fine_wavelength` | 0.05-0.4 | 0.15 | multiples of `Rs` |
 | `step` | 4-30 m | 10 | densification step |
-| `fort_damp` | 0-1 | 0.8 | fraction by which displacement is reduced inside and within 40 m of fort districts |
+| `fort_damp` | 0-1 | 0.8 | fraction by which displacement is reduced inside and within 40 m of fort districts (districts of kind `citadel`) |
 
-Strength `a` scales `amp` and `fine_amp` linearly from 0. Echoed resolved dict adds `scale` (the final amplitude multiplier after retries, §6.3) and `seed`.
+Strength `a` scales `amp` and `fine_amp` linearly from 0 (rounded to 6 decimals). The echoed dict in `params["warp"]` holds the six keys plus `scale` (the final amplitude
+multiplier after retries, §6.3) and `seed` (`s1`, below). A dict that carries `scale` is applied at exactly that scale, without retries: this is what makes regeneration from the echo a fixed point.
 
 ### 6.2 Displacement
 
 `W(p) = p + d(p)`, `d_x = amp * Rs * fbm2(p / (wavelength * Rs), s1, 3) + fine_amp * Rs * fbm2(p / (fine_wavelength * Rs), s1 + 11, 2)`; `d_y` the same with
-offsets (+31.7, -12.3) and seed `s2`. `s1, s2` come from stage `warp` (`rng.randrange(1 << 30)`). `noise.fbm2` is hash-based and stateless (no global RNG), so
+offsets (+31.7, -12.3) and seed `s2`. `s1` is `seed`, drawn from stage `warp` (`rng.randrange(1 << 30)`) unless given; `s2 = (s1 * 2654435761 + 40503) mod 2^30`. `noise.fbm2` is hash-based and stateless (no global RNG), so
 `W` is a deterministic pure function of `(x, y, params)`. The fort damping multiplies `d` by `1 - fort_damp * smoothstep(40, 0, dist(p, fort districts))`.
 
 ### 6.3 Procedure (`warp.apply(s, params) -> Settlement`)
 
-1. **Densify** (endpoints copied exactly, never recomputed; only interior points are computed) every polyline and ring that must stay on shared borders: district polygons, layer-node polygons, footprint, road polylines, wall polylines, water
-   polygons and river polylines. An edge `(a, b)` is split into `k = ceil(len / step)` equal parts computed from the **lexicographically smaller endpoint**, so the
+1. **Weld, stitch, densify** every polyline and ring that must stay on shared borders: district polygons, layer-node polygons, footprint, road polylines, wall polylines (and their `open_shore` vertex
+   index ranges, remapped), water polygons and river polylines. Generators leave vertices a few hundredths of a metre apart and borders whose neighbour carries an extra vertex, so first
+   (a) **weld**: vertices within 0.03 m become one (the lexicographically smallest of the cluster; two graph-node positions are never merged), consecutive repeats dropped; then
+   (b) **stitch**: every vertex of any geometry (and every graph node and gate position) lying within 0.02 m of an edge is inserted into that edge, so both sides of a border list the same vertices; then
+   (c) **densify** (endpoints copied exactly, never recomputed; only interior points are computed). An edge `(a, b)` is split into `k = ceil(len / step)` equal parts computed from the **lexicographically smaller endpoint**, so the
    same border densified from either side yields the same points. Run after `layers._stitch_all`'s result (T-junctions already shared), i.e. on the final
    Settlement; every border then has identical vertex lists on both sides.
 2. **Displace** every vertex by `W`, scaled by `scale`; round with `model.r2` once. Identical input coordinates give identical output (shared vertices stay shared).
@@ -179,7 +184,8 @@ offsets (+31.7, -12.3) and seed `s2`. `s1, s2` come from stage `warp` (`rng.rand
 3. **Rebuild derived data**: `District.area` from the polygon; `Road.nodes` unchanged (nodes sit on polyline vertices, which survive); `graph_edges` via
    `graph.movement_edges(roads, nodes)` (lengths change); `district_nodes/edges` via `graph.district_graph(districts, roads, walls, gates)`;
    `graph.attach_districts`.
-4. **Accept or retry**: run `check.check(s)`. Any error (invalid or overlapping polygon, area below minimum, footprint outside the map, a road leaving its border) multiplies
+4. **Accept or retry**: a candidate is rejected when `check.check(s)` returns any error or raises a topology exception (invalid or overlapping polygon, area below minimum, footprint outside the map, a road leaving its border),
+   or when a district adjacency longer than 3 m of the unwarped settlement is missing from the warped district graph. A rejection multiplies
    `scale` by 0.75 and repeats from the unwarped settlement, up to 6 times; then the settlement is returned unwarped with `scale: 0` echoed (never an error). Injectivity is
    not assumed, it is verified: any fold shows up as an invalid or overlapping polygon. The safe bound for no fold is `amp * 2*pi / wavelength < 0.8` (default 0.18 * 6.28 / 1.2 = 0.94 is
    deliberately at the edge; the retry handles the rest).
@@ -188,16 +194,17 @@ offsets (+31.7, -12.3) and seed `s2`. `s1, s2` come from stage `warp` (`rng.rand
 ### 6.4 Invariants preserved
 
 Districts still tile the footprint (W is a homeomorphism on the plane, verified by `check`); roads still lie on district borders; walls on borders; every gate within 1 m
-of its wall and road; node ids, district ids, road ids and layer ids unchanged (identity never depends on coordinates); `graph.district_graph` edges unchanged as a set.
+of its wall and road; node ids, district ids, road ids and layer ids unchanged (identity never depends on coordinates); `graph.district_graph` loses no edge longer than 3 m (the stitch step can add adjacencies that the generators' unstitched borders hid).
 Straight segments become polylines with vertices every `step` m; polylines of both a road and the border it runs on contain identical vertices.
 
 ### 6.5 Emission consequences
 
 `emit_spec.road_path` writes literal vertices for polyline points that are not nodes; with densification that is a vertex every `step` m, and a literal coordinate
-within 30 m of a foreign node would resolve to it in `flowgraph` edge derivation (`FLOWGRAPH_SPEC.md` §4). Therefore: before emission, each road is simplified between its nodes
+within 30 m of a foreign node would resolve to it in `flowgraph` edge derivation (`FLOWGRAPH_SPEC.md` §4). Therefore, for a settlement with `params["warp"]` only (every other settlement emits as before): each road is simplified between its nodes (or between its ends where it has none)
 with Douglas-Peucker (tolerance 0.8 m), and a literal vertex whose nearest bound node within 30 m is not a node of the same road is dropped (only when dropping keeps the
 simplified line within 3 m of the full one; otherwise the vertex is replaced by the nearest own-road node reference that preserves order, which cannot add an edge). The
-region polygons emit the simplified rings (tolerance 0.5 m). Proof obligation: `flowgraph check --strict` passes on every showcase map (§12, W3).
+region polygons emit the simplified rings (tolerance 0.5 m). `emit_spec.road_tokens(s, road)` returns the emitted tokens with the position each stands for; `road_path` is its token list and
+`emit_flow` derives the layered edge list from it (a layered fragment lists the edges the emitted lines derive, so it must follow the simplified path, not the full polyline). Proof obligation: `flowgraph check --strict` passes on every showcase map (§12, W3).
 
 ## 7. Mixed block fills
 
@@ -372,6 +379,7 @@ Seeds are chosen by scanning (as the README records for twinbridge): the first s
 - Checks: `check._geometry` requires footprint valid, inside the map, union of `inside_wall` districts within 1 % of footprint (fringe districts with `inside_wall=False` are excluded), area at least `min_district_area` (all districts; hence fringe clusters are at least that); `_walls_gates` only demands an outer wall and 2 gates `if s.walls`; a gate's `wall` must be a known wall id (hence `entry` relaxation);
   `_reachability` seeds from the `outside` node, which has edges only through `graph.district_graph`'s wall edges today (a wall-less settlement fails it: §9.2 is required).
 - Emission: `emit_spec.road_path` writes node ids where a polyline vertex is a node, else coordinates; `FLOWGRAPH_SPEC.md` §4: a literal coordinate resolves to the nearest bound node within 30 m (hence §6.5).
+- Parameter names: the `voronoi` generator's smooth cell warp is the parameter `cell_warp`; `warp` is only the settlement-level parameter of §6 (a generator parameter of that name would be echoed into `params` and read as the settlement warp).
 - Dependencies: `scikit-image==0.21.0` (`find_contours`), `shapely==2.0.7` (`offset_curve`, `polygonize`, `voronoi_diagram`), numpy, scipy are pinned in `requirements.txt`; Python 3.8 rules apply.
 - `water._catmull(ctrl, per)` is a Catmull-Rom helper reusable for artery curves.
 - Prototype (scratch script, not committed): see §13 (the warp is validated; shape field, generator and fills are not).
@@ -386,7 +394,7 @@ Each slice names its evidence. The full suite (`pytest -n 8`, about 9 minutes) r
 
 | slice | content | files | evidence |
 |---|---|---|---|
-| W1a warp | `warp.py` (§6), registry hook, `warp` param parse/validate/echo, `town list` entry, `check` unchanged, emission simplification (§6.5) | `warp.py`, `registry.py`, `cli.py`, `emit_spec.py`, `tests/test_town_warp.py` | tests of §10.2 Warp pass; `layers=grid warp=0.6` previews of radial, grid, voronoi in `out/town_organic/warp_*.png` show curved roads and borders with `check` OK; `flowgraph check --strict` on `hearthmoor` rebuilt with `warp=0.6` passes |
+| W1a warp (done) | `warp.py` (§6), registry hook, `warp` param parse/validate/echo, `town list` entry, `check` area floor (§9.3), emission simplification (§6.5) | `warp.py`, `registry.py`, `cli.py`, `emit_spec.py`, `emit_flow.py`, `check.py`, `gen_voronoi.py` (`cell_warp`), `tests/test_town_warp.py` | tests of §10.2 Warp pass; `layers=grid warp=0.6` previews of radial, grid, voronoi in `out/town_organic/warp_*.png` show curved roads and borders with `check` OK; `flowgraph check --strict` on `hearthmoor` rebuilt with `warp=0.6` passes |
 | W1b fills | `fill_bsp.py`, `fill_wedge.py`, `fill_follow.py`, grid `shear`/`fan`, `USES`/`FILLS`, `align random`, widened `align_jitter`, `Unfit` fallback | `fill_*.py`, `layers.py`, `layers_params.py`, `tests/test_town_fills_organic.py` | fill-contract tests on 30 convex plus L and wedge polygons; contact sheet `out/town_organic/fills.png` (each fill on 6 polygons) |
 | W1c shape | `shape.py` field, contour, rejection guards, `noise` usage, standalone `town shape` debug command or script | `shape.py`, `tests/test_town_shape.py` | 30-seed sweep sheet `out/town_organic/outlines.png` (splotchy, lobed, tongued, no pinch); tests green |
 
@@ -430,7 +438,7 @@ A scratch script (a 40-line `densify + fbm2 displacement` of a finished Settleme
 
 Nothing existing changes unless a new parameter is given. Edits to existing files add defaulted fields and branches: `District.density` and `Gate.kind entry` (omitted/unused when absent), `fill_grid` params
 `shear`, `fan` (default 0, no extra draws), `align_jitter` range, `Unfit` fallback (a district that was a leaf because its only fill was `Unfit` stays a leaf when its `use` has one entry). The showcase
-rebuilds of `hearthmoor`, `swordmarch`, `wardring` change those maps' generated files by design; the regression suite does not cover them. `voronoi organic=true` remains available and documented as the
+rebuilds of `hearthmoor`, `swordmarch`, `wardring` change those maps' generated files by design; the regression suite does not cover them. The `voronoi` generator's own smooth cell warp parameter is `cell_warp`, so `warp` names only the settlement-level stage (§6). `voronoi organic=true` remains available and documented as the
 chaotic regime with large outer cells; `ashgrove` is rebuilt from `organic`. `TOWN_SPEC.md` §7, §12 and §14 gain pointers to this file in the slice that lands each part.
 
 ## 15. Open decisions for the owner

@@ -24,6 +24,8 @@ def _geometry(s: Settlement) -> List[str]:
         minarea = s.params.get("min_district_area", 0.0)
         if d.depth > 0:
             minarea = s.params.get("layers", {}).get("min_area", minarea)
+        if "warp" in s.params:
+            minarea *= 0.7      # the warp changes areas by up to about 25 % (TOWN_ORGANIC_SPEC section 13)
         if d.area < minarea:
             errs.append("district %s: area %g below min_district_area %g" % (d.id, d.area, minarea))
         polys.append((d.id, poly))
