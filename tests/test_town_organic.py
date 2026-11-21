@@ -13,7 +13,7 @@ from mapgen.town.params import ParamError
 from test_cli_exit_codes import run
 
 SEEDS = list(range(1, 21))
-EDGES = ["wall", "open"]
+EDGES = ["wall", "open", "fade"]
 HEADER = """format_version: 1
 name: organictest
 size: [2000, 2000]
@@ -44,7 +44,8 @@ def test_checks_determinism_round_trip(edge, seed):
 @pytest.mark.parametrize("edge", EDGES)
 @pytest.mark.parametrize("seed", SEEDS)
 def test_fragment_validates_and_flowgraph_strict(edge, seed):
-    s = _gen(seed, edge)
+    # hamlet street nodes can lie within a spawn base's 120 m reach (W3b places bases; see TOWN_ORGANIC_SPEC section 12), so this checks the pure-artery fringe
+    s = _gen(seed, edge, **({"hamlets": 0} if edge == "fade" else {}))
     ga, gb = s.gates[0], s.gates[-1]
     pos = lambda g: [min(1995.0, max(5.0, round(g.at[0] + g.normal[0] * 260, 2))), min(1995.0, max(5.0, round(g.at[1] + g.normal[1] * 260, 2)))]
     text = HEADER % (pos(ga), pos(gb)) + town.emit_spec(s)

@@ -277,10 +277,10 @@ def _organic(s: Settlement) -> List[str]:
         if not shape.neck_ok(foot, 30.0 if warped else shape.NECK):
             errs.append("footprint has a neck narrower than %g m" % (30.0 if warped else shape.NECK))
     if not s.layers and len(s.districts) > 2:
-        areas = sorted(d.area for d in s.districts)
+        areas = sorted(d.area for d in s.districts if d.kind != "outskirt")
         med = areas[len(areas) // 2]
         for d in s.districts:
-            if d.area > 6.0 * med and d.kind not in ("core", "citadel"):
+            if d.area > 6.0 * med and d.kind not in ("core", "citadel", "outskirt"):
                 errs.append("district %s: area %g exceeds 6 times the median %g" % (d.id, d.area, med))
     for r in s.roads:
         if "_sr_" in r.id or "_bs_" in r.id:
@@ -292,6 +292,12 @@ def _organic(s: Settlement) -> List[str]:
     for d in s.districts:
         if not (0.0 < d.density <= 1.0):
             errs.append("district %s: density %g outside (0, 1]" % (d.id, d.density))
+        if d.kind == "outskirt":
+            poly = Polygon(d.polygon)
+            if d.inside_wall:
+                errs.append("district %s: outskirt must have inside_wall false" % d.id)
+            elif not any(LineString(r.polyline).intersection(poly.boundary.buffer(0.3)).length > 1.0 for r in s.roads):
+                errs.append("district %s: outskirt has no road on its border" % d.id)
     return errs
 
 

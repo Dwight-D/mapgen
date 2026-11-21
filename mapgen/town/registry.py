@@ -66,7 +66,8 @@ def generate(generator: str, seed: int, size: Sequence[float] = DEFAULT_SIZE, pa
             raise ParamError(["params.edge: %r is not one of %s" % (edge, ", ".join(gen_organic.EDGES))])
         if edge == "open" and fort.active(fp):
             raise ParamError(["params.fort: the fort add-on needs an outer wall (edge=wall)"])
-    p = resolve(gen.defs, seed, sid, generator, base_params)
+    defs = gen.defs + gen_organic.FADE_DEFS if edge == "fade" else gen.defs
+    p = resolve(defs, seed, sid, generator, base_params)
     if edge is not None:
         p["edge"] = edge
     s = gen.build(p, seed, sz, c, sid)

@@ -13,18 +13,18 @@ from shapely.ops import polygonize, unary_union
 
 from .. import noise
 from . import graph as G
-from . import shape
+from . import fringe, shape
 from .gen_radial import GenerationError
 from .model import District, Gate, GraphNode, Landmark, Road, Settlement, Wall, pt, r2
 from .params import ParamDef, stage_rng
 from .water import _catmull
 
 NAME = "organic"
-EDGES = ("wall", "open")
+EDGES = ("wall", "open", "fade")
 ATTEMPTS = 8
 MIN_ANGLE = math.radians(38.0)      # smallest angle between two arteries at the hub
 MIN_ARTERY = 60.0                   # m an artery must run inside the footprint
-EDGE_DOC = "wall (outer wall, gates) | open (no wall, entries)"
+EDGE_DOC = "wall (outer wall, gates) | open (no wall, entries) | fade (open plus a tapering fringe of outskirt clusters and hamlets)"
 
 DEFS = [
     ParamDef("radius_frac", "float", 0.3, 0.95, "base radius of the footprint as a fraction of the map's shorter half",
@@ -42,6 +42,10 @@ DEFS = [
     ParamDef("min_solidity", "float", 0.4, 0.9, "smallest footprint area / convex hull area", default=0.62),
     ParamDef("min_district_area", "float", 100.0, 20000.0, "smallest allowed district, m2", default=1600.0),
     ParamDef("citadel", "bool", 0, 1, "the outer district farthest from the entries becomes a citadel", draw_hi=0.3),
+]
+FADE_DEFS = [
+    ParamDef("fade_len", "float", 80.0, 400.0, "edge=fade: how far the arteries and the fringe run past the footprint, m", draw_lo=200.0, draw_hi=400.0),
+    ParamDef("hamlets", "int", 0, 8, "edge=fade: side streets with outskirt clusters", draw_lo=2, draw_hi=6),
 ]
 SHAPE_KEYS = ("radius_frac", "irregularity", "lobes", "ribbons", "hub_offset", "min_solidity", "min_district_area")
 
@@ -284,10 +288,14 @@ def _layout(p: Dict[str, Any], seed: int, size: Tuple[float, float], sid: str, s
     for i, j, dd in arcs:                  # junctions become vertices of their arteries
         _insert(arts[i], dd[0], False)
         _insert(arts[j], dd[-1], False)
-    return _assemble(p, seed, size, sid, sh, hub, rp, ring, pl, arts, arcs, gates_at, krng, edge)
+    fr = None
+    if edge == "fade":
+        fr = fringe.plan(p, seed, size, sid, _sfx(attempt), P0, arts, [])
+        arts = fr.arteries
+    return _assemble(p, seed, size, sid, sh, hub, rp, ring, pl, arts, arcs, gates_at, krng, edge, fr)
 
 
-def _assemble(p, seed, size, sid, sh, hub, rp, ring, pl, arts, arcs, gates_at, krng, edge) -> Settlement:
+def _assemble(p, seed, size, sid, sh, hub, rp, ring, pl, arts, arcs, gates_at, krng, edge, fr=None) -> Settlement:
     P0 = Polygon(ring)
     line_geoms = [LineString(ring + [ring[0]]), LineString(pl + [pl[0]])] + [LineString(a[1:]) for a in arts] + \
         [LineString(a[2]) for a in arcs]
@@ -366,6 +374,14 @@ def _assemble(p, seed, size, sid, sh, hub, rp, ring, pl, arts, arcs, gates_at, k
         counters[d.kind] = counters.get(d.kind, 0) + 1
         d.label = "%s %d" % (names[d.kind], counters[d.kind])
 
+    if edge == "fade":
+        dens = {"core": fringe.DENS_CORE, "market": 1.0, "craft": 0.95, "citadel": 0.9, "residential": fringe.DENS_RESIDENTIAL}
+        for d in districts:
+            d.density = dens.get(d.kind, fringe.DENS_RESIDENTIAL)
+        for c in fr.clusters:
+            districts.append(District(id="%s_d_%s" % (sid, c.key), key=c.key, kind="outskirt",
+                                      polygon=[list(q) for q in c.poly.exterior.coords[:-1]], area=r2(c.poly.area),
+                                      label=c.label, inside_wall=False, density=fringe.density(c.t)))
     # roads and movement nodes
     hubl = [r2(hub[0]), r2(hub[1])]
     cpt = hubl
@@ -375,6 +391,8 @@ def _assemble(p, seed, size, sid, sh, hub, rp, ring, pl, arts, arcs, gates_at, k
     gate_pref = "gate" if edge == "wall" else "entry"
     wall_id = "%s_wall_outer" % sid
     junc2: Dict[Tuple[int, Tuple[float, float]], str] = {}
+    for hid, st, ak, jx in (fr.streets if fr else []):
+        junc2[(ak, st[0])] = "%s_j_a%d_%s" % (sid, ak, hid)
     for m, (i, j, dd) in enumerate(arcs):
         junc2[(i, dd[0])] = "%s_j_a%d_c%d" % (sid, i, m)
         junc2[(j, dd[-1])] = "%s_j_a%d_c%d" % (sid, j, m)
@@ -400,6 +418,12 @@ def _assemble(p, seed, size, sid, sh, hub, rp, ring, pl, arts, arcs, gates_at, k
     for m, (i, j, dd) in enumerate(arcs):
         ids = [junc2[(i, dd[0])], junc2[(j, dd[-1])]]
         roads.append(Road(id="%s_arc_%d" % (sid, m), cls="ring", polyline=[[x, y] for x, y in dd], width=10.0, nodes=ids))
+    for hid, st, ak, jx in (fr.streets if fr else []):
+        jn = junc2[(ak, st[0])]
+        nodes[jn] = GraphNode(id=jn, kind="choke", at=[st[0][0], st[0][1]])
+        en = "%s_%s_end" % (sid, hid)
+        nodes[en] = GraphNode(id=en, kind="choke", at=[st[-1][0], st[-1][1]])
+        roads.append(Road(id="%s_street_%s" % (sid, hid), cls="street", polyline=[[x, y] for x, y in st], width=8.0, nodes=[jn, en]))
     walls: List[Wall] = []
     if edge == "wall":
         walls.append(Wall(id=wall_id, kind="outer", polyline=[[x, y] for x, y in ring] + [[ring[0][0], ring[0][1]]], thickness=8.0))

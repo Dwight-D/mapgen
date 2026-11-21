@@ -24,9 +24,9 @@ INK = (20, 20, 20)
 SS = 2                    # supersampling of the working canvas
 
 
-def _pattern(draw: ImageDraw.ImageDraw, kind: str, box, dark: int) -> None:
+def _pattern(draw: ImageDraw.ImageDraw, kind: str, box, dark: int, density: float = 1.0) -> None:
     x0, y0, x1, y1 = [int(v) for v in box]
-    step = 9 * SS
+    step = int(round((9 + 14 * (1.0 - density)) * SS))
     col = (max(dark - 70, 0),) * 3
     if kind == "hatch":
         for k in range(x0 - (y1 - y0), x1, step):
@@ -59,8 +59,12 @@ def _parity(s: Settlement):
 
 class _View:
     def __init__(self, s: Settlement, px: int):
-        xs = [p[0] for p in s.footprint]
-        ys = [p[1] for p in s.footprint]
+        pts = list(s.footprint)
+        for d in s.districts:
+            if d.kind == "outskirt":
+                pts.extend(d.polygon)
+        xs = [p[0] for p in pts]
+        ys = [p[1] for p in pts]
         cx, cy = (min(xs) + max(xs)) / 2.0, (min(ys) + max(ys)) / 2.0
         half = max(max(xs) - min(xs), max(ys) - min(ys)) / 2.0 * 1.12
         self.scale = px * SS / (2.0 * half)
@@ -93,6 +97,8 @@ def render_png(s: Settlement, px: int = 900, title: str = "") -> Image.Image:
     for dist in s.districts:
         pts = [v(p) for p in dist.polygon]
         grey, pat = KIND_STYLE.get(dist.kind, (200, "none"))
+        if dist.kind == "outskirt":     # lighter the thinner the density; denser dots the denser the buildings
+            grey, pat = int(round(232 - 40 * dist.density)), "dots"
         if layered:
             grey = max(60, min(250, grey + parity.get(dist.id, 0)))
         d.polygon(pts, fill=(grey,) * 3)
@@ -101,7 +107,7 @@ def render_png(s: Settlement, px: int = 900, title: str = "") -> Image.Image:
             ImageDraw.Draw(mask).polygon(pts, fill=255)
             layer = Image.new("RGB", img.size, (grey,) * 3)
             _pattern(ImageDraw.Draw(layer), pat, (min(p[0] for p in pts), min(p[1] for p in pts),
-                                                  max(p[0] for p in pts), max(p[1] for p in pts)), grey)
+                                                  max(p[0] for p in pts), max(p[1] for p in pts)), grey, dist.density)
             img.paste(layer, (0, 0), mask)
             d = ImageDraw.Draw(img)
         d.line(pts + [pts[0]], fill=(150, 150, 150) if dist.depth else (90, 90, 90), width=SS)

@@ -10,7 +10,7 @@ from .params import ParamError
 
 FILLS = {"grid": fill_grid, "radial": fill_radial, "voronoi": fill_voronoi, "bsp": fill_bsp, "wedge": fill_wedge, "follow": fill_follow}
 USES = tuple(sorted(FILLS)) + ("none",)
-SKIP_KINDS = ["core", "citadel", "harbour"]
+SKIP_KINDS = ["core", "citadel", "harbour", "outskirt"]
 RULE_KEYS = ("depth", "kind", "area", "key", "p", "use", "params", "align", "kinds", "skip_kinds", "align_jitter", "params_random")
 GLOBAL_KEYS = ("max_depth", "min_area", "min_split_area", "boundary", "graph", "max_districts", "align")
 _ALIGN = re.compile(r"^(edge|parent|none|random|angle:-?\d+(\.\d+)?)$")

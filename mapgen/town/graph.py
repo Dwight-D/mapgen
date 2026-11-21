@@ -111,4 +111,16 @@ def district_graph(districts: List[District], roads: List[Road], walls: List[Wal
                 gids = sorted(gid for gid, p in gate_pts if p.distance(border) <= SNAP)
                 edges.append(DistrictEdge(id="%s~%s" % (did, OUTSIDE), a=did, b=OUTSIDE, kind="adjacent",
                                           length=r2(border.length), passable=True, gates=gids, roads=rids))
+        done = {e.a for e in edges if e.b == OUTSIDE}
+        for d, (did, poly) in zip(districts, polys):       # fringe districts (edge=fade) lie outside the footprint
+            if d.inside_wall or did in done:
+                continue
+            near = [q.boundary for oid, q in polys if oid != did and q.envelope.intersects(poly.envelope)]
+            border = poly.boundary.difference(unary_union(near)) if near else poly.boundary
+            if border.length <= BORDER_MIN:
+                border = poly.boundary
+            rids = sorted(rid for rid, rl in road_lines if rl.intersection(poly.boundary).length > BORDER_MIN)
+            gids = sorted(gid for gid, p in gate_pts if p.distance(border) <= SNAP)
+            edges.append(DistrictEdge(id="%s~%s" % (did, OUTSIDE), a=did, b=OUTSIDE, kind="adjacent",
+                                      length=r2(border.length), passable=True, gates=gids, roads=rids))
     return nodes, sorted(edges, key=lambda e: e.id)
