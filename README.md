@@ -254,7 +254,7 @@ several YAML documents, and comments in the way of a deletion. Engine: `mapgen/s
 
 ## Tests
 
-`.venv/Scripts/python -m pytest` runs the regression suite (about 3 minutes): every committed map is
+`.venv/Scripts/python -m pytest` runs the regression suite (about 9 minutes with `-n 8`; 1464 tests, 524 s): every committed map is
 built and compared file by file with its baseline in `tests/baselines/`, plus spec-validation and
 exit-code tests. `-k <map name>` runs one map. After the owner has approved the
 `mapgen diff` report of an output change,

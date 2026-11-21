@@ -43,7 +43,7 @@ The spec is the single source of truth; everything in `out/` is derived, git-ign
 
 ## Verification
 
-Run the regression suite: `.venv/Scripts/python -m pytest` (about 3 minutes). It builds the three
+Run the regression suite: `.venv/Scripts/python -m pytest` (about 9 minutes with `-n 8`; 1464 tests, 524 s). It builds the three
 `maps/example_*.yaml` maps and the five `maps/concepts/*.yaml` maps into temporary directories and
 compares the SHA-256 of every output file with the committed baseline in `tests/baselines/<map>.json`.
 It also covers spec validation errors and command exit codes. Run one map with `-k <map name>`.
@@ -77,6 +77,9 @@ Exported JSON uses `x` (east), `z` (north), `y` (height).
 | `mapgen/SCATTER_SPEC.md` | the scatter threshold over the entry's own area: locality property, `coverage` meaning, migration of the scatter maps, tests |
 | `mapgen/DIFF_SPEC.md` | the diff command: report format, algorithms, tests |
 | `mapgen/FLOWGRAPH_SPEC.md` | the flowgraph feature: topology graph format and rules, spec binding, edge derivation, `flowgraph` commands, slices |
+| `mapgen/TOWN_SPEC.md` | the town-layout generators in `mapgen/town/` (radial, voronoi, grid), the fort and water add-ons, spec emission |
+| `mapgen/TOWN_LAYERS_SPEC.md` | layered subdivision: nested district fills (grid, radial, voronoi), boundary streets, junction nodes, layer checks |
+| `maps/towns/` | generated town maps and their flow graphs; `README.md` there describes the set |
 | `HANDOVER_UNITY_IMPORTER.md` | the prompt that started the Battlehounds importer session |
 
 Map concepts in `maps/concepts/` are authored with the `map-concept` skill
