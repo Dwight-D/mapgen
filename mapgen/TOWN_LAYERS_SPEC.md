@@ -196,6 +196,7 @@ layers:
       align: edge                    # overrides the default
       kinds: {residential: 3, craft: 1}   # optional: each child draws its kind from these weights
       skip_kinds: [core, citadel, harbour]
+      parent_use: [radial, wedge]    # depth >= 1 only: the parent layer node used one of these fills (TOWN_ORGANIC_SPEC.md 7.7)
 ```
 
 Validation (all collected into one `ParamError`): unknown keys, `use` not in {grid, radial, voronoi, bsp, wedge, follow, none} (the last three: TOWN_ORGANIC_SPEC.md), ranges, `p` in [0, 1], `params` names not belonging to every

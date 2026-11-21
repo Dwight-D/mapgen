@@ -11,11 +11,11 @@ from .params import ParamError
 FILLS = {"grid": fill_grid, "radial": fill_radial, "voronoi": fill_voronoi, "bsp": fill_bsp, "wedge": fill_wedge, "follow": fill_follow}
 USES = tuple(sorted(FILLS)) + ("none",)
 SKIP_KINDS = ["core", "citadel", "harbour", "outskirt"]
-RULE_KEYS = ("depth", "kind", "area", "key", "p", "use", "params", "align", "kinds", "skip_kinds", "align_jitter", "params_random")
+RULE_KEYS = ("depth", "kind", "area", "key", "p", "use", "params", "align", "kinds", "skip_kinds", "align_jitter", "params_random", "parent_use")
 GLOBAL_KEYS = ("max_depth", "min_area", "min_split_area", "boundary", "graph", "max_districts", "align")
 _ALIGN = re.compile(r"^(edge|parent|none|random|angle:-?\d+(\.\d+)?)$")
 DOC = {
-    "layers": "subdivide districts with another layout: JSON/YAML dict, or `[d:]use[@k=v,...];...;max_depth=2` (`organic` = the mixed-fill preset; use = grid | radial | voronoi | bsp | wedge | follow | a/b*2 | none)",
+    "layers": "subdivide districts with another layout: JSON/YAML dict, or `[d:]use[@k=v,...];...;max_depth=2` (a preset name: organic | organic-radial | organic-voronoi | organic-grid | organic-cells | organic-mixed; use = grid | radial | voronoi | bsp | wedge | follow | a/b*2 | none)",
 }
 
 
@@ -32,10 +32,67 @@ ORGANIC_PRESET: Dict[str, Any] = {
 }
 
 
+_MACRO = ["market", "residential", "craft", "slum"]
+_CAP = {"depth": [1, 2], "area": [6500, 1000000], "use": {"bsp": 2, "voronoi": 2, "grid": 2, "radial": 1, "wedge": 1}, "params_random": True,
+        "align_jitter": 25}
+
+
+def _p(rules: List[Dict[str, Any]]) -> Dict[str, Any]:
+    return {"max_depth": 3, "min_split_area": 3000, "align": "edge", "rules": rules}
+
+
+def _top(use: Dict[str, float], p: float = 1.0, **kw: Any) -> List[Dict[str, Any]]:
+    """The depth-0 rule: every macro district draws `use`."""
+    r = {"depth": 0, "kind": list(_MACRO), "use": use, "params_random": True, "align_jitter": 20, "p": p}
+    r.update(kw)
+    return [r]
+
+
+def _child(parent: str, use: Dict[str, float], p: float = 0.85) -> List[Dict[str, Any]]:
+    """Depth-1 rules for children of a `parent` fill: districts above 6500 m2 always split, smaller ones stay leaves with probability 1 - p."""
+    small = dict(use)
+    small["none"] = sum(use.values()) * (1.0 - p) / p
+    return [{"depth": 1, "parent_use": [parent], "area": [6500, 1000000], "use": dict(use), "params_random": True, "align_jitter": 20},
+            {"depth": 1, "parent_use": [parent], "use": small, "params_random": True, "align_jitter": 20}]
+
+
+# Named presets (design: TOWN_ORGANIC_SPEC.md section 7.7). Depth 0 fills the macro districts, `parent_use` rules pick the next level
+# by the fill that made the parent, the final area rule caps every district at about 6500 m2.
+PRESETS: Dict[str, Dict[str, Any]] = {
+    "organic": ORGANIC_PRESET,
+    "organic-radial": _p(_top({"radial": 6, "wedge": 1, "voronoi": 1}) + [
+        *_child("radial", {"bsp": 2, "grid": 3, "voronoi": 1, "follow": 1}, 0.9),
+        *_child("wedge", {"grid": 2, "voronoi": 2, "bsp": 1}, 0.7),
+        *_child("voronoi", {"grid": 2, "radial": 1, "bsp": 1}, 0.7), _CAP]),
+    "organic-voronoi": _p(_top({"voronoi": 6, "wedge": 1, "radial": 1}) + [
+        *_child("voronoi", {"grid": 3, "bsp": 1, "radial": 1, "wedge": 1}, 0.9),
+        *_child("radial", {"voronoi": 2, "grid": 1, "bsp": 1}, 0.7),
+        *_child("bsp", {"voronoi": 2, "grid": 1}, 0.7), _CAP]),
+    "organic-grid": _p(_top({"grid": 6, "radial": 1, "voronoi": 1}) + [
+        *_child("grid", {"radial": 3, "voronoi": 3, "wedge": 2, "bsp": 1}, 0.8),
+        *_child("radial", {"voronoi": 2, "grid": 1, "bsp": 1}, 0.7),
+        *_child("voronoi", {"grid": 2, "bsp": 1, "radial": 1}, 0.7), _CAP]),
+    "organic-cells": _p(_top({"voronoi": 4, "grid": 1, "radial": 1}) + [
+        *_child("voronoi", {"radial": 3, "bsp": 1, "wedge": 2, "grid": 1}, 0.85),
+        *_child("grid", {"voronoi": 2, "radial": 2}, 0.8),
+        *_child("radial", {"voronoi": 1, "bsp": 1}, 0.7),
+        {"depth": 2, "parent_use": ["radial", "wedge"], "use": {"grid": 2, "bsp": 2}, "p": 0.5, "params_random": True},
+        _CAP]),
+    "organic-mixed": _p(_top({"radial": 3, "voronoi": 3, "grid": 2, "wedge": 2, "bsp": 1}) + [
+        *_child("radial", {"bsp": 2, "grid": 2, "voronoi": 1, "wedge": 1}, 0.85),
+        *_child("voronoi", {"grid": 3, "bsp": 1, "radial": 2, "wedge": 1}, 0.85),
+        *_child("grid", {"radial": 3, "voronoi": 2, "wedge": 1}, 0.85),
+        *_child("wedge", {"voronoi": 3, "grid": 2, "radial": 1}, 0.85),
+        *_child("bsp", {"voronoi": 2, "radial": 2, "grid": 1}, 0.7),
+        *_child("follow", {"voronoi": 2, "bsp": 1}, 0.7),
+        {"depth": 2, "p": 0.4, "use": {"bsp": 2, "grid": 2, "voronoi": 1, "radial": 1}, "params_random": True}, _CAP]),
+}
+
+
 def preset(name: str) -> Optional[Dict[str, Any]]:
     """The canonical (unresolved) dict of a named preset, None when `name` is not one."""
-    if isinstance(name, str) and name.strip().lower() == "organic":
-        return json.loads(json.dumps(ORGANIC_PRESET))
+    if isinstance(name, str) and name.strip().lower() in PRESETS:
+        return json.loads(json.dumps(PRESETS[name.strip().lower()]))
     return None
 
 
@@ -142,7 +199,7 @@ def parse_string(s: str) -> Dict[str, Any]:
             if k.startswith("sub."):
                 sub[k[4:]] = _scalar(v)
             else:
-                rule[k] = v.strip() if k in ("kind", "area", "key", "kinds", "align", "skip_kinds") else _scalar(v)
+                rule[k] = v.strip() if k in ("kind", "area", "key", "kinds", "align", "skip_kinds", "parent_use") else _scalar(v)
         if sub:
             rule["params"] = sub
         rules.append(rule)
@@ -219,6 +276,12 @@ def resolve(raw: Any, min_district_area: float) -> Optional[Dict[str, Any]]:
                 for k in sorted(rp):
                     if k not in known:
                         errs.append("layers.%s.params.%s: unknown for %s (known: %s)" % (w, k, name, ", ".join(sorted(known))))
+        pu = r.get("parent_use")
+        if pu is not None:
+            pu = _list(pu)
+            for u in pu:
+                if u not in FILLS:
+                    errs.append("layers.%s.parent_use: unknown fill %r (known: %s)" % (w, u, ", ".join(sorted(FILLS))))
         pr = r.get("params_random", False)
         if not isinstance(pr, bool):
             errs.append("layers.%s.params_random: expected true or false, got %r" % (w, pr))
@@ -228,7 +291,7 @@ def resolve(raw: Any, min_district_area: float) -> Optional[Dict[str, Any]]:
             "depth": dep or [0, 0], "kind": _list(r["kind"]) if r.get("kind") is not None else None, "area": area,
             "key": r.get("key"), "p": p if p is not None else 1.0, "use": use or {}, "params": rp, "align": ra,
             "kinds": kinds, "skip_kinds": _list(r["skip_kinds"]) if r.get("skip_kinds") is not None else list(SKIP_KINDS),
-            "align_jitter": aj or 0.0, "params_random": pr,
+            "align_jitter": aj or 0.0, "params_random": pr, "parent_use": sorted(pu) if pu else None,
         })
     if errs:
         raise ParamError(errs)

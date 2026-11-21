@@ -1,6 +1,6 @@
 # Town organic shaping — warped outlines, open edges, mixed block fills
 
-Status: design; the warp stage (§6) is implemented (`mapgen/town/warp.py`, `tests/test_town_warp.py`), the shape field and outline (§4) are implemented (`mapgen/town/shape.py`, `tests/test_town_shape.py`, sheet `python -m mapgen.town.shape_sheet` or `town shape`), the `organic` generator with `edge=wall|open` (§5.1, §5.2, §8, §9; `gen_organic.py`, `tests/test_town_organic.py`) is implemented, the `layers=organic` preset and `params_random` (§7.6, `tests/test_town_organic_preset.py`) are implemented, everything else (`edge=fade`, fringe) is design. Self-contained apart from `TOWN_SPEC.md` (settlement model §3, params and seeds §4, graphs §5, checks §8,
+Status: design; the warp stage (§6) is implemented (`mapgen/town/warp.py`, `tests/test_town_warp.py`), the shape field and outline (§4) are implemented (`mapgen/town/shape.py`, `tests/test_town_shape.py`, sheet `python -m mapgen.town.shape_sheet` or `town shape`), the `organic` generator with `edge=wall|open` (§5.1, §5.2, §8, §9; `gen_organic.py`, `tests/test_town_organic.py`) is implemented, the `layers=organic` preset and `params_random` (§7.6, `tests/test_town_organic_preset.py`) and the named presets with `parent_use` (§7.7, `tests/test_town_organic_combos.py`) are implemented, everything else (`edge=fade`, fringe) is design. Self-contained apart from `TOWN_SPEC.md` (settlement model §3, params and seeds §4, graphs §5, checks §8,
 emitters §9, preview §10, generators §7) and `TOWN_LAYERS_SPEC.md` (fill contract §4, `apply` §5, rules §6), which this file extends. Section 11
 lists every API assumption verified against the code. A settlement generated without any parameter introduced here is unchanged byte for byte.
 
@@ -289,6 +289,33 @@ The area rule (no `p`) is the size cap: any district still above 6500 m2 after a
 `layers` as the string `organic` is expanded by `layers_params.preset`; the echoed `params["layers"]` is the resolved dict, which regenerates identically. `params_random` is a rule key (bool, default false).
 
 `params_random: true` makes `shear` (drawn 0-30), `fan` (drawn 0-6) of a chosen `grid` (unless the rule's `params` set them) and the rotation (uniform 0-90 degrees, with probability 0.5 per district, replacing the `align` result) draw from the per-district stream `<district id>/params`; a rule without the flag draws nothing from it. Skip kinds gain `outskirt`.
+
+### 7.7 Named presets and `parent_use`
+
+Rule key `parent_use` (list of fill names, `radial/wedge` in the string form): the rule matches a depth >= 1 district only when the layer node that produced it used one of
+those fills. This is how a level picks its layout by the parent's layout (radial x bsp, voronoi x grid, grid x radial, ...); without it a rule sees only kind, area, key, depth.
+Resolved rules echo `parent_use` (sorted list or null).
+
+`layers=<preset>` accepts these names (`layers_params.PRESETS`; `organic` is §7.6; `python -m mapgen town list` prints them). All have `max_depth: 3`, `min_split_area: 3000`,
+`align: edge`, every depth-0 macro district (kinds market, residential, craft, slum) split with probability 1 and `params_random`, and two rules per `parent_use` parent fill at
+depth 1: districts above 6500 m2 always split (weights of the table), smaller ones stay leaves with probability 0.1-0.3 (the weight `none`). A last depth 1-2 area rule
+(above 6500 m2: bsp 2, voronoi 2, grid 2, radial 1, wedge 1) caps district size; the depth-0 and depth-1 uses fall back to the other weighted uses when `Unfit` (§7.6).
+
+| preset | depth 0 | depth 1 by parent | depth 2 |
+|---|---|---|---|
+| `organic-radial` | radial 6, wedge 1, voronoi 1 | radial -> grid 3, bsp 2, voronoi 1, follow 1; wedge -> grid, voronoi, bsp; voronoi -> grid, radial, bsp | size cap |
+| `organic-voronoi` | voronoi 6, wedge 1, radial 1 | voronoi -> grid 3, bsp, radial, wedge; radial -> voronoi, grid, bsp; bsp -> voronoi, grid | size cap |
+| `organic-grid` | grid 6, radial 1, voronoi 1 | grid -> radial 3, voronoi 3, wedge 2, bsp 1; radial -> voronoi, grid, bsp; voronoi -> grid, bsp | size cap |
+| `organic-cells` | voronoi 4, grid 1, radial 1 | voronoi -> radial 3, wedge 2, bsp, grid; grid -> voronoi, radial; radial -> voronoi, bsp | radial/wedge parents: grid or bsp (p 0.5), size cap |
+| `organic-mixed` | radial 3, voronoi 3, grid 2, wedge 2, bsp 1 | one mix per parent fill (radial, voronoi, grid, wedge, bsp, follow), 3-level chains | any: bsp, grid, voronoi, radial (p 0.4), size cap |
+
+Acceptance (`tests/test_town_organic_combos.py`, 20 seeds per preset, `warp=0.6`, `edge` alternating wall and open): `check` and `check_determinism` pass; the expected
+(depth, fill) pairs occur (e.g. `organic-mixed`: all of radial, voronoi, grid, wedge at depth 0); at least 4 distinct (parent fill, child fill) pairs; leaves of bsp parents are at most
+35 % of all depth >= 1 leaves; no district (kinds other than core, citadel, plaza) above 6 times the median area; `flowgraph check --strict` passes on seeds 1-6.
+Contact sheets: `python -m mapgen.town.combo_sheet [preset ...]` writes `out/town_organic/combo_<preset>.png` (6 seeds, odd seeds walled, even open).
+
+Non-convex organic districts: radial raises `Unfit` when not star-shaped about the hub, wedge and voronoi when they yield fewer than 2 faces; the fallback tries the other weighted uses
+of the rule, and a district every use is unfit for stays a leaf listed in `layers.skipped`.
 
 ## 8. The `organic` generator (`gen_organic.py`)
 

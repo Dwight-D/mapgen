@@ -56,7 +56,8 @@ def _ref_rot(P: Polygon, road_geom) -> float:
     return best
 
 
-def _match(rules: List[Dict[str, Any]], d: District, depth: int) -> Optional[int]:
+def _match(rules: List[Dict[str, Any]], d: District, depth: int, nodes: Optional[Dict[str, Any]] = None) -> Optional[int]:
+    par = nodes.get(d.parent) if nodes else None
     for i, r in enumerate(rules):
         if not (r["depth"][0] <= depth <= r["depth"][1]):
             continue
@@ -67,6 +68,8 @@ def _match(rules: List[Dict[str, Any]], d: District, depth: int) -> Optional[int
         if r["area"] is not None and not (r["area"][0] <= d.area <= r["area"][1]):
             continue
         if r["key"] is not None and not fnmatchcase(d.key, r["key"]):
+            continue
+        if r.get("parent_use") and (par is None or par.use not in r["parent_use"]):
             continue
         return i
     return None
@@ -105,7 +108,7 @@ def _subdivide(s: Settlement, spec: Dict[str, Any]) -> _State:
         for d in cands:
             if d.area < spec["min_split_area"]:
                 continue
-            ri = _match(rules, d, depth)
+            ri = _match(rules, d, depth, st.nodes)
             if ri is None:
                 continue
             rule = rules[ri]
