@@ -11,15 +11,16 @@ nodes:
   ward_gate_2: { kind: choke, name: "Gate 2" }
   ward_gate_3: { kind: choke, name: "Gate 3" }
   ward_gate_4: { kind: choke, name: "Gate 4" }
-  ward_j_bs_plaza_x_r0s0_2_spoke_0: { kind: choke }
+  ward_j_bs_plaza_x_r0s0_bs_plaza_x_r0s4: { kind: choke }
   ward_j_bs_plaza_x_r0s0_spoke_1: { kind: choke }
   ward_j_bs_plaza_x_r0s2_2_spoke_2: { kind: choke }
   ward_j_bs_plaza_x_r0s2_bs_plaza_x_r0s3: { kind: choke }
-  ward_j_bs_plaza_x_r0s3_spoke_4: { kind: choke }
-  ward_j_r0s0_u0_0_r0s0_v0_0: { kind: choke }
+  ward_j_bs_plaza_x_r0s3_bs_plaza_x_r0s4: { kind: choke }
+  ward_j_r0s2_u0_0_r0s2_v0_0: { kind: choke }
   ward_j_r0s3_u0_0_r0s3_v0_0: { kind: choke }
+  ward_j_r0s4_u0_0_r0s4_v0_0_1: { kind: choke }
   ward_j_r1s0: { kind: choke }
-  ward_j_r1s0_u0_0_r1s0_v0_0_0: { kind: choke }
+  ward_j_r1s0_u0_0_r1s0_v0_0: { kind: choke }
   ward_j_r1s1: { kind: choke }
   ward_j_r1s1_u0_0_r1s1_v0_0: { kind: choke }
   ward_j_r1s2: { kind: choke }
@@ -27,131 +28,130 @@ nodes:
   ward_j_r1s3: { kind: choke }
   ward_j_r1s3_u0_0_r1s3_v0_0: { kind: choke }
   ward_j_r1s4: { kind: choke }
-  ward_j_r1s4_u1_0_r1s4_v0_0: { kind: choke }
-  ward_j_r1s4_un1_0_r1s4_v0_0: { kind: choke }
+  ward_j_r1s4_u0_0_r1s4_v0_0: { kind: choke }
   ward_j_r2s0: { kind: choke }
   ward_j_r2s0_u0_0_r2s0_v0_0: { kind: choke }
   ward_j_r2s1: { kind: choke }
   ward_j_r2s1_u0_0_r2s1_v0_0: { kind: choke }
-  ward_j_r2s1_u0_0_r2s1_v1_0: { kind: choke }
-  ward_j_r2s1_un1_0_r2s1_v0_0: { kind: choke }
   ward_j_r2s2: { kind: choke }
   ward_j_r2s2_u0_0_r2s2_v0_0: { kind: choke }
-  ward_j_r2s2_u0_0_r2s2_v1_0: { kind: choke }
-  ward_j_r2s2_u0_0_r2s2_vn1_0: { kind: choke }
-  ward_j_r2s2_u0_0_r2s2_vn2_0: { kind: choke }
-  ward_j_r2s2_un1_0_r2s2_v0_0: { kind: choke }
-  ward_j_r2s2_un1_0_r2s2_v1_0: { kind: choke }
   ward_j_r2s3: { kind: choke }
+  ward_j_r2s3_u0_0_r2s3_v0_0: { kind: choke }
+  ward_j_r2s3_u0_0_r2s3_vn1_0: { kind: choke }
+  ward_j_r2s3_un1_0_r2s3_v0_0: { kind: choke }
   ward_j_r2s4: { kind: choke }
   ward_j_r2s4_u0_0_r2s4_v0_0: { kind: choke }
   ward_j_ring_1_r0s0_u0_0: { kind: choke }
   ward_j_ring_1_r0s2_v0_0: { kind: choke }
-  ward_j_ring_1_r1s0_v0_0_1: { kind: choke }
-  ward_j_ring_1_r1s1_u0_0: { kind: choke }
-  ward_j_ring_1_r1s3_v0_0: { kind: choke }
-  ward_j_ring_1_r1s4_u1_0: { kind: choke }
-  ward_j_ring_2_r1s0_v0_0_0: { kind: choke }
+  ward_j_ring_1_r0s3_v0_0: { kind: choke }
+  ward_j_ring_1_r0s4_u0_0: { kind: choke }
+  ward_j_ring_1_r0s4_v0_0_0: { kind: choke }
+  ward_j_ring_1_r1s1_v0_0: { kind: choke }
+  ward_j_ring_1_r1s4_u0_0: { kind: choke }
+  ward_j_ring_2_r1s0_v0_0: { kind: choke }
+  ward_j_ring_2_r1s1_u0_0: { kind: choke }
   ward_j_ring_2_r1s1_v0_0: { kind: choke }
   ward_j_ring_2_r1s2_v0_0: { kind: choke }
   ward_j_ring_2_r1s3_v0_0: { kind: choke }
-  ward_j_ring_2_r1s4_u1_0: { kind: choke }
-  ward_j_ring_2_r1s4_un1_0: { kind: choke }
-  ward_j_ring_2_r2s0_u0_0: { kind: choke }
-  ward_j_ring_2_r2s2_un1_0: { kind: choke }
-  ward_j_ring_2_r2s4_v0_0: { kind: choke }
-  ward_j_spoke_0_r0s0_u0_0: { kind: choke }
-  ward_j_spoke_0_r1s4_un1_0: { kind: choke }
-  ward_j_spoke_1_r2s1_v1_0: { kind: choke }
+  ward_j_ring_2_r1s4_u0_0: { kind: choke }
+  ward_j_ring_2_r1s4_v0_0: { kind: choke }
+  ward_j_ring_2_r2s0_v0_0: { kind: choke }
+  ward_j_ring_2_r2s1_v0_0: { kind: choke }
+  ward_j_ring_2_r2s2_v0_0: { kind: choke }
+  ward_j_ring_2_r2s3_un1_0: { kind: choke }
+  ward_j_ring_2_r2s3_vn1_0: { kind: choke }
+  ward_j_ring_2_r2s4_u0_0: { kind: choke }
+  ward_j_spoke_2_r0s2_u0_0: { kind: choke }
+  ward_j_spoke_2_r1s2_u0_0: { kind: choke }
   ward_j_spoke_3_r0s3_u0_0: { kind: choke }
-  ward_j_spoke_3_r1s3_u0_0: { kind: choke }
-  ward_j_spoke_3_r2s2_v1_0: { kind: choke }
+  ward_j_spoke_4_r0s4_v0_0_1: { kind: choke }
   ward_plaza: { kind: zone, name: "Central Plaza" }
 
 edges:
   - A - ward_gate_0
   - B - ward_gate_3
   - { link: "ward_gate_0 - ward_j_r2s0", name: ward_spoke_0 }
-  - { link: "ward_gate_1 - ward_j_spoke_1_r2s1_v1_0", name: ward_spoke_1 }
+  - { link: "ward_gate_1 - ward_j_r2s1", name: ward_spoke_1 }
   - { link: "ward_gate_2 - ward_j_r2s2", name: ward_spoke_2 }
-  - { link: "ward_gate_3 - ward_j_spoke_3_r2s2_v1_0", name: ward_spoke_3 }
+  - { link: "ward_gate_3 - ward_j_r2s3", name: ward_spoke_3 }
   - { link: "ward_gate_4 - ward_j_r2s4", name: ward_spoke_4 }
-  - { link: "ward_j_bs_plaza_x_r0s0_2_spoke_0 - ward_j_spoke_0_r0s0_u0_0", name: ward_spoke_0 }
-  - { link: "ward_j_bs_plaza_x_r0s0_2_spoke_0 - ward_plaza", name: ward_spoke_0 }
+  - { link: "ward_j_bs_plaza_x_r0s0_bs_plaza_x_r0s4 - ward_j_r0s4_u0_0_r0s4_v0_0_1", name: ward_sr_r0s4_u0_0 }
+  - { link: "ward_j_bs_plaza_x_r0s0_bs_plaza_x_r0s4 - ward_j_r1s0", name: ward_spoke_0 }
+  - { link: "ward_j_bs_plaza_x_r0s0_bs_plaza_x_r0s4 - ward_plaza", name: ward_bs_plaza_x_r0s0 }
   - { link: "ward_j_bs_plaza_x_r0s0_spoke_1 - ward_j_r1s1", name: ward_spoke_1 }
   - { link: "ward_j_bs_plaza_x_r0s0_spoke_1 - ward_plaza", name: ward_bs_plaza_x_r0s0 }
   - { link: "ward_j_bs_plaza_x_r0s2_2_spoke_2 - ward_j_bs_plaza_x_r0s2_bs_plaza_x_r0s3", name: ward_bs_plaza_x_r0s2_2 }
-  - { link: "ward_j_bs_plaza_x_r0s2_2_spoke_2 - ward_j_r1s2", name: ward_spoke_2 }
+  - { link: "ward_j_bs_plaza_x_r0s2_2_spoke_2 - ward_j_spoke_2_r0s2_u0_0", name: ward_spoke_2 }
   - { link: "ward_j_bs_plaza_x_r0s2_2_spoke_2 - ward_plaza", name: ward_spoke_2 }
-  - { link: "ward_j_bs_plaza_x_r0s2_bs_plaza_x_r0s3 - ward_j_ring_1_r0s2_v0_0", name: ward_sr_r0s2_v0_0 }
+  - { link: "ward_j_bs_plaza_x_r0s2_bs_plaza_x_r0s3 - ward_j_r0s2_u0_0_r0s2_v0_0", name: ward_sr_r0s2_v0_0 }
   - { link: "ward_j_bs_plaza_x_r0s2_bs_plaza_x_r0s3 - ward_j_spoke_3_r0s3_u0_0", name: ward_spoke_3 }
   - { link: "ward_j_bs_plaza_x_r0s2_bs_plaza_x_r0s3 - ward_plaza", name: ward_bs_plaza_x_r0s3 }
-  - { link: "ward_j_bs_plaza_x_r0s3_spoke_4 - ward_j_r0s3_u0_0_r0s3_v0_0", name: ward_sr_r0s3_v0_0 }
-  - { link: "ward_j_bs_plaza_x_r0s3_spoke_4 - ward_j_r1s4", name: ward_spoke_4 }
-  - { link: "ward_j_bs_plaza_x_r0s3_spoke_4 - ward_plaza", name: ward_bs_plaza_x_r0s3 }
-  - { link: "ward_j_r0s0_u0_0_r0s0_v0_0 - ward_j_ring_1_r0s0_u0_0", name: ward_sr_r0s0_u0_0 }
-  - { link: "ward_j_r0s0_u0_0_r0s0_v0_0 - ward_j_spoke_0_r0s0_u0_0", name: ward_sr_r0s0_u0_0 }
-  - { link: "ward_j_r0s3_u0_0_r0s3_v0_0 - ward_j_r1s3", name: ward_ring_1 }
-  - { link: "ward_j_r0s3_u0_0_r0s3_v0_0 - ward_j_ring_1_r1s3_v0_0", name: ward_ring_1 }
+  - { link: "ward_j_bs_plaza_x_r0s3_bs_plaza_x_r0s4 - ward_j_spoke_4_r0s4_v0_0_1", name: ward_spoke_4 }
+  - { link: "ward_j_bs_plaza_x_r0s3_bs_plaza_x_r0s4 - ward_plaza", name: ward_bs_plaza_x_r0s3 }
+  - { link: "ward_j_r0s2_u0_0_r0s2_v0_0 - ward_j_ring_1_r0s2_v0_0", name: ward_sr_r0s2_v0_0 }
+  - { link: "ward_j_r0s2_u0_0_r0s2_v0_0 - ward_j_spoke_2_r0s2_u0_0", name: ward_sr_r0s2_u0_0 }
+  - { link: "ward_j_r0s3_u0_0_r0s3_v0_0 - ward_j_r1s4", name: ward_ring_1 }
+  - { link: "ward_j_r0s3_u0_0_r0s3_v0_0 - ward_j_ring_1_r0s3_v0_0", name: ward_ring_1 }
   - { link: "ward_j_r0s3_u0_0_r0s3_v0_0 - ward_j_spoke_3_r0s3_u0_0", name: ward_sr_r0s3_u0_0 }
+  - { link: "ward_j_r0s3_u0_0_r0s3_v0_0 - ward_j_spoke_4_r0s4_v0_0_1", name: ward_sr_r0s3_v0_0 }
+  - { link: "ward_j_r0s4_u0_0_r0s4_v0_0_1 - ward_j_ring_1_r0s4_u0_0", name: ward_sr_r0s4_u0_0 }
+  - { link: "ward_j_r0s4_u0_0_r0s4_v0_0_1 - ward_j_spoke_4_r0s4_v0_0_1", name: ward_sr_r0s4_v0_0_1 }
+  - { link: "ward_j_r1s0 - ward_j_r2s0", name: ward_spoke_0 }
   - { link: "ward_j_r1s0 - ward_j_ring_1_r0s0_u0_0", name: ward_ring_1 }
-  - { link: "ward_j_r1s0 - ward_j_ring_1_r1s4_u1_0", name: ward_ring_1 }
-  - { link: "ward_j_r1s0 - ward_j_spoke_0_r0s0_u0_0", name: ward_spoke_0 }
-  - { link: "ward_j_r1s0 - ward_j_spoke_0_r1s4_un1_0", name: ward_spoke_0 }
-  - { link: "ward_j_r1s0_u0_0_r1s0_v0_0_0 - ward_j_ring_2_r1s0_v0_0_0", name: ward_sr_r1s0_v0_0_0 }
+  - { link: "ward_j_r1s0 - ward_j_ring_1_r1s4_u0_0", name: ward_ring_1 }
+  - { link: "ward_j_r1s0_u0_0_r1s0_v0_0 - ward_j_ring_2_r1s0_v0_0", name: ward_sr_r1s0_v0_0 }
   - { link: "ward_j_r1s1 - ward_j_r2s1", name: ward_spoke_1 }
-  - { link: "ward_j_r1s1 - ward_j_ring_1_r1s0_v0_0_1", name: ward_ring_1 }
-  - { link: "ward_j_r1s1 - ward_j_ring_1_r1s1_u0_0", name: ward_ring_1 }
-  - { link: "ward_j_r1s1_u0_0_r1s1_v0_0 - ward_j_ring_1_r1s1_u0_0", name: ward_sr_r1s1_u0_0 }
+  - { link: "ward_j_r1s1 - ward_j_ring_1_r0s0_u0_0", name: ward_ring_1 }
+  - { link: "ward_j_r1s1 - ward_j_ring_1_r1s1_v0_0", name: ward_ring_1 }
+  - { link: "ward_j_r1s1_u0_0_r1s1_v0_0 - ward_j_ring_1_r1s1_v0_0", name: ward_sr_r1s1_v0_0 }
   - { link: "ward_j_r1s1_u0_0_r1s1_v0_0 - ward_j_ring_2_r1s1_v0_0", name: ward_sr_r1s1_v0_0 }
-  - { link: "ward_j_r1s2 - ward_j_r2s2", name: ward_spoke_2 }
+  - { link: "ward_j_r1s1_u0_0_r1s1_v0_0 - ward_j_ring_2_r2s1_v0_0", name: ward_sr_r1s1_u0_0 }
   - { link: "ward_j_r1s2 - ward_j_ring_1_r0s2_v0_0", name: ward_ring_1 }
-  - { link: "ward_j_r1s2 - ward_j_ring_1_r1s1_u0_0", name: ward_ring_1 }
+  - { link: "ward_j_r1s2 - ward_j_ring_1_r1s1_v0_0", name: ward_ring_1 }
+  - { link: "ward_j_r1s2 - ward_j_spoke_2_r0s2_u0_0", name: ward_spoke_2 }
+  - { link: "ward_j_r1s2 - ward_j_spoke_2_r1s2_u0_0", name: ward_spoke_2 }
   - { link: "ward_j_r1s2_u0_0_r1s2_v0_0 - ward_j_ring_2_r1s2_v0_0", name: ward_sr_r1s2_v0_0 }
+  - { link: "ward_j_r1s2_u0_0_r1s2_v0_0 - ward_j_spoke_2_r1s2_u0_0", name: ward_sr_r1s2_u0_0 }
+  - { link: "ward_j_r1s3 - ward_j_r2s3", name: ward_spoke_3 }
   - { link: "ward_j_r1s3 - ward_j_ring_1_r0s2_v0_0", name: ward_ring_1 }
+  - { link: "ward_j_r1s3 - ward_j_ring_1_r0s3_v0_0", name: ward_ring_1 }
   - { link: "ward_j_r1s3 - ward_j_spoke_3_r0s3_u0_0", name: ward_spoke_3 }
-  - { link: "ward_j_r1s3 - ward_j_spoke_3_r1s3_u0_0", name: ward_spoke_3 }
-  - { link: "ward_j_r1s3_u0_0_r1s3_v0_0 - ward_j_ring_1_r1s3_v0_0", name: ward_sr_r1s3_v0_0 }
   - { link: "ward_j_r1s3_u0_0_r1s3_v0_0 - ward_j_ring_2_r1s3_v0_0", name: ward_sr_r1s3_v0_0 }
-  - { link: "ward_j_r1s3_u0_0_r1s3_v0_0 - ward_j_spoke_3_r1s3_u0_0", name: ward_sr_r1s3_u0_0 }
-  - { link: "ward_j_r1s4 - ward_j_r1s4_u1_0_r1s4_v0_0", name: ward_ring_1 }
   - { link: "ward_j_r1s4 - ward_j_r2s4", name: ward_spoke_4 }
-  - { link: "ward_j_r1s4 - ward_j_ring_1_r1s3_v0_0", name: ward_ring_1 }
-  - { link: "ward_j_r1s4_u1_0_r1s4_v0_0 - ward_j_r1s4_un1_0_r1s4_v0_0", name: ward_sr_r1s4_v0_0 }
-  - { link: "ward_j_r1s4_u1_0_r1s4_v0_0 - ward_j_ring_1_r1s4_u1_0", name: ward_ring_1 }
-  - { link: "ward_j_r1s4_u1_0_r1s4_v0_0 - ward_j_ring_2_r1s4_u1_0", name: ward_sr_r1s4_u1_0 }
-  - { link: "ward_j_r1s4_un1_0_r1s4_v0_0 - ward_j_r2s0", name: ward_ring_2 }
-  - { link: "ward_j_r1s4_un1_0_r1s4_v0_0 - ward_j_ring_2_r1s4_un1_0", name: ward_ring_2 }
-  - { link: "ward_j_r1s4_un1_0_r1s4_v0_0 - ward_j_spoke_0_r1s4_un1_0", name: ward_sr_r1s4_un1_0 }
-  - { link: "ward_j_r2s0 - ward_j_ring_2_r1s0_v0_0_0", name: ward_ring_2 }
-  - { link: "ward_j_r2s0 - ward_j_spoke_0_r1s4_un1_0", name: ward_spoke_0 }
-  - { link: "ward_j_r2s0_u0_0_r2s0_v0_0 - ward_j_ring_2_r2s0_u0_0", name: ward_sr_r2s0_u0_0 }
-  - { link: "ward_j_r2s1 - ward_j_ring_2_r1s1_v0_0", name: ward_ring_2 }
-  - { link: "ward_j_r2s1 - ward_j_ring_2_r2s0_u0_0", name: ward_ring_2 }
-  - { link: "ward_j_r2s1 - ward_j_spoke_1_r2s1_v1_0", name: ward_spoke_1 }
-  - { link: "ward_j_r2s1_u0_0_r2s1_v0_0 - ward_j_r2s1_u0_0_r2s1_v1_0", name: ward_sr_r2s1_u0_0 }
-  - { link: "ward_j_r2s1_u0_0_r2s1_v0_0 - ward_j_r2s1_un1_0_r2s1_v0_0", name: ward_sr_r2s1_v0_0 }
-  - { link: "ward_j_r2s1_u0_0_r2s1_v1_0 - ward_j_spoke_1_r2s1_v1_0", name: ward_sr_r2s1_v1_0 }
-  - { link: "ward_j_r2s2 - ward_j_r2s2_u0_0_r2s2_vn2_0", name: ward_ring_2 }
+  - { link: "ward_j_r1s4 - ward_j_ring_1_r0s4_u0_0", name: ward_ring_1 }
+  - { link: "ward_j_r1s4 - ward_j_spoke_4_r0s4_v0_0_1", name: ward_spoke_4 }
+  - { link: "ward_j_r1s4_u0_0_r1s4_v0_0 - ward_j_ring_1_r0s4_u0_0", name: ward_sr_r1s4_v0_0 }
+  - { link: "ward_j_r1s4_u0_0_r1s4_v0_0 - ward_j_ring_1_r1s4_u0_0", name: ward_sr_r1s4_u0_0 }
+  - { link: "ward_j_r1s4_u0_0_r1s4_v0_0 - ward_j_ring_2_r1s4_u0_0", name: ward_sr_r1s4_u0_0 }
+  - { link: "ward_j_r1s4_u0_0_r1s4_v0_0 - ward_j_ring_2_r1s4_v0_0", name: ward_sr_r1s4_v0_0 }
+  - { link: "ward_j_r2s0 - ward_j_ring_2_r1s4_v0_0", name: ward_ring_2 }
+  - { link: "ward_j_r2s0 - ward_j_ring_2_r2s0_v0_0", name: ward_ring_2 }
+  - { link: "ward_j_r2s0_u0_0_r2s0_v0_0 - ward_j_ring_2_r2s0_v0_0", name: ward_sr_r2s0_v0_0 }
+  - { link: "ward_j_r2s1 - ward_j_ring_2_r1s0_v0_0", name: ward_ring_2 }
+  - { link: "ward_j_r2s1 - ward_j_ring_2_r1s1_u0_0", name: ward_ring_2 }
+  - { link: "ward_j_r2s1_u0_0_r2s1_v0_0 - ward_j_ring_2_r2s1_v0_0", name: ward_sr_r2s1_v0_0 }
   - { link: "ward_j_r2s2 - ward_j_ring_2_r1s1_v0_0", name: ward_ring_2 }
-  - { link: "ward_j_r2s2_u0_0_r2s2_v0_0 - ward_j_r2s2_u0_0_r2s2_v1_0", name: ward_sr_r2s2_u0_0 }
-  - { link: "ward_j_r2s2_u0_0_r2s2_v0_0 - ward_j_r2s2_u0_0_r2s2_vn1_0", name: ward_sr_r2s2_u0_0 }
-  - { link: "ward_j_r2s2_u0_0_r2s2_v0_0 - ward_j_r2s2_un1_0_r2s2_v0_0", name: ward_sr_r2s2_v0_0 }
-  - { link: "ward_j_r2s2_u0_0_r2s2_v1_0 - ward_j_r2s2_un1_0_r2s2_v1_0", name: ward_sr_r2s2_v1_0 }
-  - { link: "ward_j_r2s2_u0_0_r2s2_vn1_0 - ward_j_r2s2_u0_0_r2s2_vn2_0", name: ward_sr_r2s2_u0_0 }
-  - { link: "ward_j_r2s2_u0_0_r2s2_vn2_0 - ward_j_ring_2_r1s2_v0_0", name: ward_ring_2 }
-  - { link: "ward_j_r2s2_un1_0_r2s2_v0_0 - ward_j_r2s2_un1_0_r2s2_v1_0", name: ward_sr_r2s2_un1_0 }
-  - { link: "ward_j_r2s2_un1_0_r2s2_v0_0 - ward_j_r2s3", name: ward_ring_2 }
-  - { link: "ward_j_r2s2_un1_0_r2s2_v0_0 - ward_j_ring_2_r2s2_un1_0", name: ward_ring_2 }
-  - { link: "ward_j_r2s2_un1_0_r2s2_v1_0 - ward_j_spoke_3_r2s2_v1_0", name: ward_sr_r2s2_v1_0 }
-  - { link: "ward_j_r2s3 - ward_j_ring_2_r1s3_v0_0", name: ward_ring_2 }
-  - { link: "ward_j_r2s3 - ward_j_spoke_3_r1s3_u0_0", name: ward_spoke_3 }
-  - { link: "ward_j_r2s3 - ward_j_spoke_3_r2s2_v1_0", name: ward_spoke_3 }
-  - { link: "ward_j_r2s4 - ward_j_ring_2_r1s3_v0_0", name: ward_ring_2 }
-  - { link: "ward_j_r2s4 - ward_j_ring_2_r1s4_u1_0", name: ward_ring_2 }
-  - { link: "ward_j_r2s4_u0_0_r2s4_v0_0 - ward_j_ring_2_r1s4_un1_0", name: ward_ring_2 }
-  - { link: "ward_j_r2s4_u0_0_r2s4_v0_0 - ward_j_ring_2_r2s4_v0_0", name: ward_ring_2 }
-  - { link: "ward_j_ring_1_r0s0_u0_0 - ward_j_ring_1_r1s0_v0_0_1", name: ward_ring_1 }
-  - { link: "ward_j_ring_2_r1s0_v0_0_0 - ward_j_ring_2_r2s0_u0_0", name: ward_ring_2 }
-  - { link: "ward_j_ring_2_r1s2_v0_0 - ward_j_ring_2_r2s2_un1_0", name: ward_ring_2 }
-  - { link: "ward_j_ring_2_r1s4_u1_0 - ward_j_ring_2_r2s4_v0_0", name: ward_ring_2 }
+  - { link: "ward_j_r2s2 - ward_j_ring_2_r1s2_v0_0", name: ward_ring_2 }
+  - { link: "ward_j_r2s2 - ward_j_spoke_2_r1s2_u0_0", name: ward_spoke_2 }
+  - { link: "ward_j_r2s2_u0_0_r2s2_v0_0 - ward_j_ring_2_r2s2_v0_0", name: ward_sr_r2s2_v0_0 }
+  - { link: "ward_j_r2s3 - ward_j_r2s3_u0_0_r2s3_vn1_0", name: ward_ring_2 }
+  - { link: "ward_j_r2s3 - ward_j_ring_1_r0s2_v0_0", name: ward_sr_r1s2_un1_0 }
+  - { link: "ward_j_r2s3 - ward_j_ring_2_r2s2_v0_0", name: ward_ring_2 }
+  - { link: "ward_j_r2s3_u0_0_r2s3_v0_0 - ward_j_r2s3_u0_0_r2s3_vn1_0", name: ward_sr_r2s3_u0_0 }
+  - { link: "ward_j_r2s3_u0_0_r2s3_v0_0 - ward_j_r2s3_un1_0_r2s3_v0_0", name: ward_sr_r2s3_v0_0 }
+  - { link: "ward_j_r2s3_u0_0_r2s3_vn1_0 - ward_j_ring_2_r2s3_vn1_0", name: ward_ring_2 }
+  - { link: "ward_j_r2s3_un1_0_r2s3_v0_0 - ward_j_r2s4", name: ward_ring_2 }
+  - { link: "ward_j_r2s3_un1_0_r2s3_v0_0 - ward_j_ring_2_r2s3_un1_0", name: ward_ring_2 }
+  - { link: "ward_j_r2s4 - ward_j_ring_2_r1s4_u0_0", name: ward_ring_2 }
+  - { link: "ward_j_r2s4_u0_0_r2s4_v0_0 - ward_j_ring_2_r1s4_u0_0", name: ward_ring_2 }
+  - { link: "ward_j_r2s4_u0_0_r2s4_v0_0 - ward_j_ring_2_r2s4_u0_0", name: ward_ring_2 }
+  - { link: "ward_j_ring_1_r0s4_u0_0 - ward_j_ring_1_r0s4_v0_0_0", name: ward_ring_1 }
+  - { link: "ward_j_ring_1_r0s4_v0_0_0 - ward_j_ring_1_r1s4_u0_0", name: ward_ring_1 }
+  - { link: "ward_j_ring_2_r1s0_v0_0 - ward_j_ring_2_r2s0_v0_0", name: ward_ring_2 }
+  - { link: "ward_j_ring_2_r1s1_u0_0 - ward_j_ring_2_r2s1_v0_0", name: ward_ring_2 }
+  - { link: "ward_j_ring_2_r1s1_v0_0 - ward_j_ring_2_r2s1_v0_0", name: ward_ring_2 }
+  - { link: "ward_j_ring_2_r1s1_v0_0 - ward_j_spoke_2_r1s2_u0_0", name: ward_sr_r1s1_un1_0 }
+  - { link: "ward_j_ring_2_r1s2_v0_0 - ward_j_ring_2_r2s2_v0_0", name: ward_ring_2 }
+  - { link: "ward_j_ring_2_r1s3_v0_0 - ward_j_ring_2_r2s3_un1_0", name: ward_ring_2 }
+  - { link: "ward_j_ring_2_r1s3_v0_0 - ward_j_ring_2_r2s3_vn1_0", name: ward_ring_2 }
+  - { link: "ward_j_ring_2_r1s4_v0_0 - ward_j_ring_2_r2s4_u0_0", name: ward_ring_2 }
