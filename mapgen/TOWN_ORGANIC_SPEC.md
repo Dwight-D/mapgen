@@ -127,17 +127,22 @@ with `wall: ""`, `kind: "entry"`, `at` the artery end (on the footprint ring), `
 
 ### 5.3 `fade`
 
-`open` plus a **fringe** (`fringe.py`) outside the footprint along the arteries and around satellite parcels:
+`open` plus a **fringe** (`fringe.py`, `plan(...)`, stream `fringe`) outside the footprint. The parameters `fade_len` and `hamlets` exist only with `edge=fade`.
 
-- Fringe length `fade_len` (80-400 m, drawn 120-300) past the footprint along each artery; the artery continues to a tip entry `<sid>_entry_a<k>`.
-- Fringe districts are kind `outskirt`, `inside_wall: false`, ragged cluster polygons (union of 2-5 lot rectangles flanking the road, buffered 3 m and re-simplified),
-  area at least `min_district_area`, one road side lying on the artery so the road runs on a district border. Position `t` in [0, 1] along the fringe: existence
-  probability `p(t) = (1 - t) ** 1.5 * (0.6 + 0.4 * n(t))`, depth `45 * (1 - 0.6 t)` m, gap between clusters `20 + 60 t` m, all from stream `fringe`.
-- Hamlets: each satellite parcel (§4.2), up to `hamlets` (0-8), becomes 1-3 outskirt clusters at its position joined to the nearest artery by a `street` road.
-- `District.density` (§9.1): core 1.0, `residential` 0.85, `outskirt` fringe `0.55 * (1 - t) + 0.1`. It is data for the downstream filler (buildings cropping up at
-  the edge); no building geometry is generated.
-- Fringe districts are excluded from the footprint coverage check (existing rule: only `inside_wall` districts), are not subdivided by layers (`skip_kinds` gains
-  `outskirt`), and are never merged. They are connected only through the artery and hamlet streets; reachability is the ordinary movement and district graph checks.
+- Extension: each artery continues past the footprint ring along its end tangent as a gently bending polyline (10 m vertices, length `fade_len * U(0.85, 1)`), cut where it leaves the map
+  (14 m margin) or comes back into the footprint, or within 40 m of another artery. The artery is then **truncated at the end of its farthest cluster** (or at the ring when it has no
+  cluster), so the tip entry `<sid>_entry_a<k>` lies on a fringe district corner.
+- Clusters (kind `outskirt`, `inside_wall: false`, keys `f<k>_<n>`): walking each road side from the ring outward, position `t = s / fade_len`, a cluster is placed with probability
+  `p(t) = (1 - t) ** 1.5 * (0.6 + 0.4 u)`, `u ~ U(0, 1)`; depth `60 * (1 - 0.6 t)` m; gap to the next cluster `20 + 60 t` m (+ up to 15 m). A cluster is a ragged polygon: its border runs along the road
+  polyline vertices and the other side is a staircase of 2-3-step lots of depth 0.65-1.25 times the nominal, each offset point jittered by 1.2 m; it is cut by the footprint (buffered 3 m), the map margin and
+  earlier clusters, kept only when its largest part has area at least `1.12 * min_district_area` (the warp changes areas by up to 25 %) and no foreign road crosses it. A road runs on every cluster border.
+- Hamlets (`hamlets`, 0-8): a side street (class `street`, width 8, id `<sid>_street_h<m>`, nodes `<sid>_j_a<k>_h<m>` on the artery and `<sid>_h<m>_end`) leaves an artery vertex that has no cluster on its side, at about
+  90 degrees, 140-240 m long, at least 35 m from the other arteries and 10 m from the footprint, and is truncated at the end of its farthest cluster. It carries 1-2 clusters (keys `h<m>_<n>`) on its two sides, density from the junction's `t` (`0.5 t_j + 0.1` start).
+  The satellite parcels of the shape (§4.2) are not used for hamlets.
+- `District.density` (§9.1), set only with `edge=fade`: `core` and `market` 1.0, `craft` 0.95, `citadel` 0.9, `residential` 0.85, `outskirt` `0.55 * (1 - t) + 0.1` with `t` the cluster's position
+  along the fringe in [0, 1] (clamped). It is data for the downstream filler (buildings cropping up at the edge); no building geometry is generated. The preview draws an outskirt lighter and with sparser dots the lower its density.
+- Fringe districts are excluded from the footprint coverage check (only `inside_wall` districts count), are not subdivided by layers (`skip_kinds` gains `outskirt`), are never merged and are excluded from the
+  "6 times the median" rule. They are connected only through the artery and hamlet streets; reachability is the ordinary movement and district graph checks.
 
 ### 5.4 Edge cases
 
@@ -286,7 +291,7 @@ A top-level generator (registry name `organic`) whose footprint is the shape fie
 | name | type | valid | drawn | meaning |
 |---|---|---|---|---|
 | `radius_frac` | float | 0.3-0.95 | 0.4-0.65 | base radius `R` / half the shorter side |
-| `edge` | str | wall, open (fade: §5.3, not yet accepted) | default wall | §5; split off in `registry.generate`, echoed in `params["edge"]` |
+| `edge` | str | wall, open, fade | default wall | §5; split off in `registry.generate`, echoed in `params["edge"]` |
 | `irregularity` | float | 0-0.5 | 0.15-0.4 | noise weight of the field |
 | `lobes` | int | 0-6 | 0-3 | satellite lobes |
 | `ribbons` | int | 0-4 | 0-2 | arteries that grow a tongue |
@@ -295,7 +300,7 @@ A top-level generator (registry name `organic`) whose footprint is the shape fie
 | `arcs` | int | 0-3 | 1-3 | partial cross arcs between adjacent arteries |
 | `plaza_frac` | float | 0.05-0.2 | 0.07-0.12 | plaza radius / `R` (minimum 25 m) |
 | `hub_offset` | float | 0-0.3 | 0-0.15 | hub distance from the map centre / `R` |
-| `fade_len`, `hamlets` | float, int | 80-400, 0-8 | 120-300, 1-5 | §5.3; added with `edge=fade` |
+| `fade_len`, `hamlets` | float, int | 80-400, 0-8 | 200-400, 2-6 | §5.3; present only with `edge=fade` |
 | `min_solidity` | float | 0.4-0.9 | default 0.62 | §4.2 |
 | `min_district_area` | float | 100-20000 | default 1600 | m2 |
 | `citadel` | bool | | P(true) 0.3 | the macro district farthest from the entries becomes a citadel (as `radial`) |
@@ -330,8 +335,8 @@ A layout failing any check redraws from the next attempt stream (up to 8; the sh
 
 `district_graph(districts, roads, walls, gates, footprint=None)`: when `walls` has no `outer` wall and `footprint` is given, every district whose boundary overlaps the footprint ring by more than
 `BORDER_MIN` is joined to `outside` by an `adjacent` passable edge (`roads` lists roads running along it, `gates` lists entries within `SNAP`). With an `outer` wall nothing changes, and the open-edge branch runs only when some gate has `wall == ""` (so existing wall-less settlements are untouched). `footprint` defaults to the outline of the union of `inside_wall` districts, so callers that do not pass it (`layers._district_graph`, `water`, `warp._rebuild`) get the same result unless water carves the footprint. Callers in
-`layers._district_graph` and `warp.apply` pass `s.footprint`. Fringe districts: they lie outside the footprint, so they reach `outside` by an `adjacent` edge when they share more than `BORDER_MIN`
-with no other district (always), and to the core districts through the artery road only (movement graph).
+`layers._district_graph` and `warp.apply` pass `s.footprint`. Fringe districts (`inside_wall` false): each is joined to `outside` by an `adjacent` passable edge whose border is its boundary not shared with another district (the whole boundary when that is at most `BORDER_MIN`);
+the edge lists the roads on the district boundary and the entries within `SNAP` (a tip entry lies on its last cluster). They reach the core only through the artery road (movement graph).
 
 ### 9.3 Checks (`check.py`)
 
@@ -416,7 +421,7 @@ Each slice names its evidence. The full suite (`pytest -n 8`, about 9 minutes) r
 
 | slice | content | files | evidence |
 |---|---|---|---|
-| W3a fringe | `fringe.py`, `edge=fade`, `District.density`, hamlets, preview of density | `fringe.py`, `gen_organic.py`, `render.py`, tests | fade sweeps; density test; preview `thornwick_town.png` showing tapering fringe |
+| W3a fringe (done) | `fringe.py`, `edge=fade`, `District.density`, hamlets, preview of density | `fringe.py`, `gen_organic.py`, `render.py`, tests | fade sweeps; density test; preview `thornwick_town.png` showing tapering fringe |
 | W3b emit and entries (done) | `emit_spec`/`emit_flow` entries (a `points` entry and a `choke` node named "Entry <k>"; no `gate` crossing, no wall), `build.py` team bases from `entry` gates (base at least 140 m out: a base's flowgraph reach is 120 m, nearer it binds the town's own road vertices; entries with no such room are not used), showcase `thornwick` (`edge=open`, warp 0.7, seed 3) | `emit_spec.py`, `emit_flow.py`, `maps/towns/build.py`, `maps/towns/src/thornwick.base.yaml`, `tests/test_town_entries_build.py` | `validate` and `flowgraph check --strict` on `thornwick` pass |
 
 **Wave W4 (showcase and owner review):** add and revise the maps of §10.1 in `maps/towns/build.py`, `src/*.base.yaml` terrain, README table; render `maps/towns/preview/*.png` and `out/<map>/map.png`;

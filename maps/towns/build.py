@@ -28,6 +28,8 @@ MAPS = {
     "saltport": dict(gen="voronoi", seed=7, sid="salt", size=1000, teams=("Landward Guard", "Sea Wardens"),
                      params=dict(radius_frac=0.5, patches=14, gates=4, citadel="false", water="bay",
                                  water_island="true")),
+    "thornwick": dict(gen="organic", seed=3, sid="thorn", size=1000, teams=("Briarguard", "Fenwatch"),
+                      params=dict(edge="open", warp=0.7, radius_frac=0.55, citadel="false")),
     "swordmarch": dict(gen="grid", seed=4, sid="sword", size=1500, teams=("Marchwardens", "Riverkin"),
                        params=dict(extent_frac=0.5, gates=4, inner_wall="false", citadel="false", rotation=0,
                                    water="river", fort="island")),
@@ -49,23 +51,30 @@ def build(name, c):
     s = generate(c["gen"], c["seed"], (size, size), {k: str(v) for k, v in c["params"].items()}, c["sid"])
     errs = check(s)
     assert not errs, errs
-    gates = [g for g in s.gates if g.kind == "gate" and g.id.startswith(c["sid"] + "_gate_")
-             and "fort" not in g.id and not g.id.split("_gate_")[1].startswith("o")]
+    # wall towns: `<sid>_gate_<k>` gates; open-edge towns: `<sid>_entry_a<k>` entries (points in the footprint ring, no wall to cross)
+    kind = "entry" if c["params"].get("edge") in ("open", "fade") else "gate"
+    gates = [g for g in s.gates if g.kind == kind and g.id.startswith("%s_%s_" % (c["sid"], kind))
+             and "fort" not in g.id and not g.id.split("_%s_" % kind)[1].startswith("o")]
     # a gate that starts an outpost approach road is skipped: the team road would resolve onto the outpost's nodes
     used = set(r.nodes[0] for r in s.roads if "_apr_o" in r.id)
     gates = [g for g in gates if g.id not in used]
-    best = max(((a, b) for a in gates for b in gates if a.id < b.id),
-               key=lambda ab: -(ab[0].normal[0] * ab[1].normal[0] + ab[0].normal[1] * ab[1].normal[1]))
     margin = 70.0
-    pts, lines, teams, edges, nodes = [], [], [], [], []
-    for team, g, tname in zip("AB", best, c["teams"]):
-        d = 0.0
-        # largest distance <= 0.2 * size along the normal that stays inside the margin
-        for t in range(int(0.2 * size), 40, -5):
+
+    def base_dist(g):
+        """Largest distance <= 0.2 * size along the gate normal whose base stays inside the margin; 0 when none reaches 140 m (entry towns;
+        walled towns go down to 40 m). A base's flowgraph reach is 120 m: nearer, it would bind the town's own road vertices."""
+        for t in range(int(0.2 * size), 135 if kind == "entry" else 40, -5):
             x, y = g.at[0] + g.normal[0] * t, g.at[1] + g.normal[1] * t
             if margin <= x <= size - margin and margin <= y <= size - margin:
-                d = t
-                break
+                return t
+        return 0
+    if kind == "entry":
+        gates = [g for g in gates if base_dist(g)]
+    best = max(((a, b) for a in gates for b in gates if a.id < b.id),
+               key=lambda ab: -(ab[0].normal[0] * ab[1].normal[0] + ab[0].normal[1] * ab[1].normal[1]))
+    pts, lines, teams, edges, nodes = [], [], [], [], []
+    for team, g, tname in zip("AB", best, c["teams"]):
+        d = base_dist(g)
         bx, by = g.at[0] + g.normal[0] * d, g.at[1] + g.normal[1] * d
         mx, my = (g.at[0] + bx) / 2 - g.normal[1] * 18, (g.at[1] + by) / 2 + g.normal[0] * 18
         teams.append("  %s: { base: [%.0f, %.0f], name: %s }" % (team, bx, by, tname))

@@ -1,0 +1,26 @@
+format_version: 1
+name: thornwick
+brief: |
+  PITCH: Thornwick, a wall-less organic town that sprawls over a thorn-hedged moor (showcase map for the organic
+  generator with edge=open and a warped outline).
+  FLOW: curved arteries run from the plaza to open entries on the town's edge; with no wall the fight spills from
+  the lanes into the surrounding scrub and woodland.
+  TEST: does an open edge give flanking routes around the town, or do the entries still funnel play?
+size: [1000, 1000]
+seed: 5708
+
+terrain:
+  base_height: 50
+  relief: 16
+  relief_scale: 400
+  detail: 5
+  detail_scale: 100
+
+regions:
+  - { id: thorn_wood_w, seed: 0, type: forest, shape: blob, at: [110, 520], r: 170, rough: 0.5, warp: 60, fragment: 0.35, fragment_scale: 60 }
+  - { id: thorn_wood_e, seed: 1, type: forest, shape: blob, at: [900, 430], r: 150, rough: 0.5, warp: 60, fragment: 0.35, fragment_scale: 60 }
+  - { id: thorn_hill_s, seed: 2, type: hills,  shape: blob, at: [520, 90], r: 150, rough: 0.4, warp: 50, height: 35 }
+  - { id: thorn_fen, seed: 3, type: marsh, shape: blob, at: [500, 930], r: 110, rough: 0.5, warp: 40, label: Thorn Fen }
+
+scatter:
+  - { id: scatter_thorn, seed: 0, type: forest, coverage: 0.2, scale: 110, clump: 0.5, avoid: 12 }

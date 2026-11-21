@@ -74,7 +74,7 @@ def test_open_edge_has_entries_and_no_wall(seed):
     out = [e for e in s.district_edges if "outside" in (e.a, e.b)]
     assert out and all(e.passable and e.kind == "adjacent" for e in out)
     assert {gid for e in out for gid in e.gates} == {g.id for g in s.gates}
-    assert "crossings" not in town.emit_spec(s).split("crossings:")[1].split("pois:")[0].replace("\n", "")  # no gate crossings
+    assert "type: gate" not in town.emit_spec(s)  # no gate crossings
     assert "type: wall" not in town.emit_spec(s)
 
 

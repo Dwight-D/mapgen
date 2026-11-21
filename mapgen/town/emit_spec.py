@@ -210,17 +210,20 @@ def emit_spec(s: Settlement) -> str:
             w("  - { id: %s, seed: %d, type: wall, path: %s, width: %s }"
               % (rid, feature_seed(rid), _pts(run), num(wl.thickness)))
     w("")
-    w("crossings:")
+    cross: List[str] = []
     for g in s.gates:
         if g.kind != "entry":      # an entry is a point in an open edge: no wall to cross
-            w("  - { id: %s_x, type: gate, at: %s }" % (g.id, g.id))
+            cross.append("  - { id: %s_x, type: gate, at: %s }" % (g.id, g.id))
     rw = {r["id"]: r["width"] for r in s.water.get("rivers", [])}
     half = max(rw.values()) / 2.0 if rw else 0.0
     for r in s.roads:
         if r.cls == "bridge":
             mid = r.polyline[len(r.polyline) // 2]
-            w("  - { id: %s_x, type: bridge, at: %s, r: %s }" % (r.id, _p(mid), num(half + 15.0)))
-    w("")
+            cross.append("  - { id: %s_x, type: bridge, at: %s, r: %s }" % (r.id, _p(mid), num(half + 15.0)))
+    if cross:      # an empty `crossings:` key would be a null, not a list
+        w("crossings:")
+        out.extend(cross)
+        w("")
     w("pois:")
     for l in s.landmarks:
         w("  - { id: %s, type: %s, at: %s, r: %s, label: %s }" % (l.id, LANDMARK_POI[l.kind], _p(l.at), num(l.r), json.dumps(l.label)))

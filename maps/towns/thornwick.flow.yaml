@@ -1,0 +1,21 @@
+format_version: 1
+name: thornwick
+brief: |
+  Settlement movement graph of thornwick (generator organic, seed 3) with two spawns linked to gates thorn_entry_a0 and thorn_entry_a1.
+
+nodes:
+  A: { kind: spawn, team: A, name: Briarguard spawn }
+  B: { kind: spawn, team: B, name: Fenwatch spawn }
+  thorn_entry_a0: { kind: choke, name: "Entry a0" }
+  thorn_entry_a1: { kind: choke, name: "Entry a1" }
+  thorn_entry_a2: { kind: choke, name: "Entry a2" }
+  thorn_entry_a3: { kind: choke, name: "Entry a3" }
+  thorn_plaza: { kind: zone, name: "Central Plaza" }
+
+edges:
+  - A - thorn_entry_a0
+  - B - thorn_entry_a1
+  - { link: "thorn_entry_a0 - thorn_plaza", name: thorn_artery_0 }
+  - { link: "thorn_entry_a1 - thorn_plaza", name: thorn_artery_1 }
+  - { link: "thorn_entry_a2 - thorn_plaza", name: thorn_artery_2 }
+  - { link: "thorn_entry_a3 - thorn_plaza", name: thorn_artery_3 }
