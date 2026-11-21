@@ -339,7 +339,13 @@ Construction (the first of up to 100 seeded attempts, stages `water0`..., whose 
    settlement follows the shore. `wall_runs(wall)` returns the solid polylines; the emitters and the preview draw only those.
 5. Bay: districts touching water get `waterfront`; the waterfront district with the longest shore that is not core, citadel, temple or a
    plaza district becomes the single `harbour` district; a `docks` landmark (`<sid>_docks`, r 25) sits in it near the shore.
-6. `water` JSON: `kind`, `angle`, `rivers[]` (`id`, `polyline`, `width`, `polygon`), `bays[]` (`id`, `polygon`, `at`, `r`), `islands[]`,
+6. After the layers (registry stage, rivers only) every bridge end meets the road network and no dry road touches the river:
+   `attach_bridges` gives a bridge end that no non-bridge road reaches at a graph node a straight `street` connector `<sid>_conn_<k>` (at most 120 m, not through
+   water or a wall) to the nearest road node on its bank; `trim_banks` cuts every non-bridge road end within 3 m of the river back to 6 m from it (a node
+   at that end moves with it when no other road uses it; an end whose cut-away part holds a junction of another road stays), because the map renderer draws a bridge
+   wherever a road reaches a river. `check` reports `bridge <id>: end <node> is not on a road` for a bridge end without a non-bridge road at its node; the
+   layer check tolerates a layer street that ends up to 7 m short of a river.
+7. `water` JSON: `kind`, `angle`, `rivers[]` (`id`, `polyline`, `width`, `polygon`), `bays[]` (`id`, `polygon`, `at`, `r`), `islands[]`,
    `bridges[]` (bridge road ids), `bridge_nodes[]`.
 
 Island hook: with `water_island=true` the bay holds `islands[]` = `{id, at, r, polygon, fort: false, link: "none"}` (a 28 m or larger
@@ -442,9 +448,20 @@ change. The text comes from a fixed template (numbers with at most 2 decimals), 
 | junction | a `points` entry `<sid>_j_r<i>s<s>` |
 | square, citadel, other landmarks | `pois` entry, type `landmark`, `r`, `label` (change to `keep_site` or `capture` to make an objective) |
 
-`seed` of each region and line is `schema.feature_seed(id)`. Region and POI labels carry the district label, so the plaza
-label appears twice on the map (district and landmark); authors drop one. District `kind` and `waterfront` travel in
+`seed` of each region and line is `schema.feature_seed(id)`. District `kind` and `waterfront` travel in
 `settlement.json` only; all districts use the `town` splat.
+
+### 9.1 District naming
+
+Only top-level (depth-0) districts are named, 3-5 per settlement; every deeper district is unnamed and keeps only its stable id
+(`<sid>_d_...`) for checks, graphs and the spec. Implementation: `mapgen/town/naming.py` (`district_names`), used by `emit_spec` and the preview.
+
+- Group: each emitted district belongs to its depth-0 ancestor (itself when not subdivided); a group's kind is its dominant kind by area.
+- Selection: groups of kind `outskirt` are never named. The rest are ranked by `area x weight(kind)` (citadel 3, harbour 2.5, core and market 2, temple 1.5, craft 1.2, residential 1, slum 0.8; ties by id) and the first 5 are named; the others stay unnamed.
+- Names: drawn per kind from a pool (`Market Quarter`, `Harbourside`, `Citadel`, `Old Town`, `Smiths' Quarter`, ...) in an order shuffled by a stream seeded from the settlement id, without repeats (a pool exhausted repeats a name with a numeric suffix).
+- Carrier: the name is the `label` of the group's largest emitted district (ties by id), so each name appears once on the map. Every other `town` region is emitted without a `label` key (`label` is optional on regions in the spec format, so `validate` and `flowgraph check --strict` accept them). `settlement.json` keeps the generator labels.
+- Flow nodes: only landmarks (`Central Plaza`, `Citadel`, `Fortress`) and gates carry a `name`; districts are not flow nodes. POI labels are unchanged.
+- Preview: only named districts are labelled (name at the carrier's centroid); keys and layer ids are not drawn.
 
 The type table has line type `wall` (cost inf, `los: true`, splat `rock`, width 8; palette `#f2e6c8`, drawn as a pale band on a
 dark casing with crenellation ticks) and crossing type `gate` (cost 0.6, `r` 12; palette `#ffd23f`, drawn with an arch); both are

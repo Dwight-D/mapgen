@@ -11,6 +11,7 @@ from typing import List, Sequence, Tuple
 from PIL import Image, ImageDraw, ImageFont
 
 from .model import Settlement
+from .naming import district_names
 from .water import wall_runs
 
 # kind -> (grey level, pattern)
@@ -144,19 +145,16 @@ def render_png(s: Settlement, px: int = 900, title: str = "") -> Image.Image:
             d.rectangle([x - q, y - q, x + q, y + q], fill=(255, 255, 255), outline=INK, width=2 * SS)
             d.rectangle([x - q / 3, y - q / 3, x + q / 3, y + q / 3], fill=INK)
     font = ImageFont.load_default()
-    for dist in s.districts:
-        if dist.kind == "core" or (dist.depth and len(s.districts) > 120):
-            continue
-        poly_x = [p[0] for p in dist.polygon]
-        poly_y = [p[1] for p in dist.polygon]
-        x, y = v((sum(poly_x) / len(poly_x), sum(poly_y) / len(poly_y)))
-        d.text((x - 8 * SS, y - 5 * SS), dist.key, fill=INK, font=font)
-    if s.layers and len(s.layers) <= 20:
-        for n in s.layers:
-            xs = [p[0] for p in n.polygon]
-            ys = [p[1] for p in n.polygon]
-            x, y = v((sum(xs) / len(xs), sum(ys) / len(ys)))
-            d.text((x - 8 * SS, y + 5 * SS), n.id.split("_d_", 1)[-1].upper(), fill=INK, font=font)
+    try:
+        label_font = ImageFont.load_default(size=13 * SS)
+    except TypeError:
+        label_font = font
+    by_id = {dist.id: dist for dist in s.districts}
+    for did, name in sorted(district_names(s).items()):     # only the named districts are labelled
+        poly = by_id[did].polygon
+        x, y = v((sum(p[0] for p in poly) / len(poly), sum(p[1] for p in poly) / len(poly)))
+        wd = d.textlength(name, font=label_font)
+        d.text((x - wd / 2, y - 6 * SS), name, fill=INK, font=label_font, stroke_width=2 * SS, stroke_fill=(255, 255, 255))
     img = img.resize((px, px), Image.LANCZOS)
     t = ImageDraw.Draw(img)
     if not title and s.layers:

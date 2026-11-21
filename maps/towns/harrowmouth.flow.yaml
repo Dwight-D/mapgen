@@ -10,17 +10,23 @@ nodes:
   harrow_gate_a1: { kind: choke, name: "Gate a1" }
   harrow_gate_a2: { kind: choke, name: "Gate a2" }
   harrow_gate_a3: { kind: choke, name: "Gate a3" }
-  harrow_j_a0s0_b0_a0s0_p2_sr_0: { kind: choke }
-  harrow_j_a0s0_b7_a0s0_p6_v0_0: { kind: choke }
+  harrow_j_a0s0_b4_a0s0_p4_b0: { kind: choke }
+  harrow_j_a0s0_b9_a0s0_p4_b1: { kind: choke }
+  harrow_j_a0s0_p4_b0_a0s0_p4_b1: { kind: choke }
   harrow_j_a1s0_u0_0_a1s0_v0_0: { kind: choke }
   harrow_j_a1s0_u0_0_a1s0_vn1_0: { kind: choke }
-  harrow_j_a1s0_v0_0_a1s0_x0y0_p1_spoke0_0: { kind: choke }
+  harrow_j_a1s0_u0_0_a1s0_x0y0_spoke0_0: { kind: choke }
+  harrow_j_a1s0_u1_0_a1s0_v0_0: { kind: choke }
+  harrow_j_a1s0_u1_0_a1s0_x0y0_spoke1_0: { kind: choke }
   harrow_j_a1s0_vn1_0_a1s0_xn2yn1_b2: { kind: choke }
-  harrow_j_a1s0_vn1_0_a1s0_xn2yn2_b0: { kind: choke }
-  harrow_j_a1s0_vn2_0_a1s0_xn2yn2_b0: { kind: choke }
-  harrow_j_a1s0_x0y0_b0_a1s0_x0y0_b1: { kind: choke }
-  harrow_j_a1s0_x0y0_b1_a1s0_x0y0_p1_spoke1_0: { kind: choke }
+  harrow_j_a1s0_vn1_0_a1s0_xn2yn2_spoke1_0: { kind: choke }
+  harrow_j_a1s0_vn2_0_a1s0_xn2yn2_r1s2_sr_0: { kind: choke }
+  harrow_j_a1s0_x0y0_ring1_0_a1s0_x0y0_spoke0_0: { kind: choke }
+  harrow_j_a1s0_x0y0_ring1_0_a1s0_x0y0_spoke1_0: { kind: choke }
   harrow_j_a1s0_xn2yn1_b0_a1s0_xn2yn1_b2: { kind: choke }
+  harrow_j_a1s0_xn2yn2_r1s2_sr_0_a1s0_xn2yn2_ring1_0: { kind: choke }
+  harrow_j_a1s0_xn2yn2_ring1_0_a1s0_xn2yn2_spoke1_0: { kind: choke }
+  harrow_j_a1s0_xn2yn2_ring1_0_a1s0_xn2yn2_spoke2_0: { kind: choke }
   harrow_j_a2_c0: { kind: choke }
   harrow_j_a2s0_b0_a2s0_b1: { kind: choke }
   harrow_j_a3_c0: { kind: choke }
@@ -29,64 +35,82 @@ nodes:
   harrow_j_a3s0_b11_a3s0_p8_u0_0: { kind: choke }
   harrow_j_a3s0_b15_a3s0_p4_u0_0: { kind: choke }
   harrow_j_a3s0_b15_a3s0_p8_u0_0: { kind: choke }
+  harrow_j_a3s0_b1_a3s0_b6: { kind: choke }
   harrow_j_a3s0_b1_a3s0_p3_sr_0: { kind: choke }
+  harrow_j_a3s0_b3_a3s0_b4: { kind: choke }
+  harrow_j_a3s0_b3_a3s0_p2_spoke1_0: { kind: choke }
   harrow_j_a3s0_b4_a3s0_p1_u0_0: { kind: choke }
   harrow_j_a3s0_b4_a3s0_p4_v0_0: { kind: choke }
+  harrow_j_a3s0_b6_a3s0_p2_spoke0_0: { kind: choke }
+  harrow_j_a3s0_p2_ring1_0_a3s0_p2_spoke0_0: { kind: choke }
+  harrow_j_a3s0_p2_ring1_0_a3s0_p2_spoke1_0: { kind: choke }
   harrow_j_a3s0_p4_u0_0_a3s0_p4_v0_0: { kind: choke }
   harrow_j_arc_0_a2s0_b0: { kind: choke }
   harrow_j_artery_0_a0s0_b0: { kind: choke }
   harrow_j_artery_0_a0s0_b2: { kind: choke }
+  harrow_j_artery_0_a0s0_p0_b0: { kind: choke }
   harrow_j_artery_0_a3s0_b11: { kind: choke }
   harrow_j_artery_0_bs_a0s0_x_plaza_2: { kind: choke }
-  harrow_j_artery_1_a0s0_p6_v0_0: { kind: choke }
+  harrow_j_artery_1_a0s0_p6_spoke0_0: { kind: choke }
   harrow_j_artery_1_a1s0_vn1_0: { kind: choke }
   harrow_j_artery_1_a1s0_vn2_0: { kind: choke }
+  harrow_j_artery_1_a1s0_xn2yn2_spoke2_0: { kind: choke }
   harrow_j_artery_1_bs_a0s0_x_plaza: { kind: choke }
   harrow_j_artery_2_a1s0_u0_0: { kind: choke }
-  harrow_j_artery_2_a1s0_x0y0_b1: { kind: choke }
+  harrow_j_artery_2_a1s0_u1_0: { kind: choke }
   harrow_j_artery_2_a1s0_xn2yn1_b0: { kind: choke }
   harrow_j_artery_2_a2s0_b2: { kind: choke }
   harrow_j_artery_2_bs_a1s0_x_plaza: { kind: choke }
   harrow_j_artery_3_a2s0_b1: { kind: choke }
   harrow_j_artery_3_a3s0_b15: { kind: choke }
+  harrow_j_artery_3_a3s0_b3: { kind: choke }
   harrow_j_artery_3_a3s0_b4: { kind: choke }
   harrow_j_artery_3_a3s0_p1_u0_0: { kind: choke }
   harrow_j_artery_3_bs_a2s0_x_plaza: { kind: choke }
   harrow_j_bs_a0s0_p1_x_a0s0_p2_a0s0_b0: { kind: choke }
-  harrow_j_bs_a0s0_p1_x_a0s0_p2_a0s0_b6: { kind: choke }
+  harrow_j_bs_a0s0_p1_x_a0s0_p2_a0s0_b4: { kind: choke }
   harrow_j_bs_a0s0_p2_x_a0s0_p6_a0s0_b6: { kind: choke }
   harrow_j_bs_a0s0_p5_x_a0s0_p6_a0s0_b7: { kind: choke }
+  harrow_j_bs_a0s0_p5_x_a0s0_p6_a0s0_p6_spoke2_0: { kind: choke }
   harrow_plaza: { kind: zone, name: "Central Plaza" }
 
 edges:
   - A - harrow_gate_a2
   - B - harrow_gate_a3
   - { link: "harrow_gate_a0 - harrow_j_artery_0_a0s0_b2", name: harrow_artery_0 }
-  - { link: "harrow_gate_a1 - harrow_j_artery_1_a0s0_p6_v0_0", name: harrow_artery_1 }
-  - { link: "harrow_gate_a2 - harrow_j_artery_2_a1s0_x0y0_b1", name: harrow_artery_2 }
-  - { link: "harrow_gate_a3 - harrow_j_artery_3_a3s0_p1_u0_0", name: harrow_artery_3 }
-  - { link: "harrow_j_a0s0_b0_a0s0_p2_sr_0 - harrow_j_artery_0_a0s0_b0", name: harrow_sr_a0s0_b0 }
-  - { link: "harrow_j_a0s0_b0_a0s0_p2_sr_0 - harrow_j_bs_a0s0_p1_x_a0s0_p2_a0s0_b0", name: harrow_sr_a0s0_b0 }
-  - { link: "harrow_j_a0s0_b7_a0s0_p6_v0_0 - harrow_j_artery_1_a0s0_p6_v0_0", name: harrow_sr_a0s0_p6_v0_0 }
-  - { link: "harrow_j_a0s0_b7_a0s0_p6_v0_0 - harrow_j_bs_a0s0_p2_x_a0s0_p6_a0s0_b6", name: harrow_sr_a0s0_b7 }
-  - { link: "harrow_j_a0s0_b7_a0s0_p6_v0_0 - harrow_j_bs_a0s0_p5_x_a0s0_p6_a0s0_b7", name: harrow_sr_a0s0_b7 }
+  - { link: "harrow_gate_a1 - harrow_j_artery_1_a0s0_p6_spoke0_0", name: harrow_artery_1 }
+  - { link: "harrow_gate_a2 - harrow_j_artery_2_a1s0_u1_0", name: harrow_artery_2 }
+  - { link: "harrow_gate_a3 - harrow_j_artery_3_a3s0_b3", name: harrow_artery_3 }
+  - { link: "harrow_j_a0s0_b4_a0s0_p4_b0 - harrow_j_a0s0_p4_b0_a0s0_p4_b1", name: harrow_sr_a0s0_p4_b0 }
+  - { link: "harrow_j_a0s0_b4_a0s0_p4_b0 - harrow_j_bs_a0s0_p1_x_a0s0_p2_a0s0_b4", name: harrow_sr_a0s0_b4 }
+  - { link: "harrow_j_a0s0_b9_a0s0_p4_b1 - harrow_j_a0s0_p4_b0_a0s0_p4_b1", name: harrow_sr_a0s0_p4_b1 }
+  - { link: "harrow_j_a0s0_b9_a0s0_p4_b1 - harrow_j_bs_a0s0_p5_x_a0s0_p6_a0s0_b7", name: harrow_sr_a0s0_b9 }
   - { link: "harrow_j_a1s0_u0_0_a1s0_v0_0 - harrow_j_a1s0_u0_0_a1s0_vn1_0", name: harrow_sr_a1s0_u0_0 }
-  - { link: "harrow_j_a1s0_u0_0_a1s0_v0_0 - harrow_j_a1s0_v0_0_a1s0_x0y0_p1_spoke0_0", name: harrow_sr_a1s0_v0_0 }
-  - { link: "harrow_j_a1s0_u0_0_a1s0_v0_0 - harrow_j_artery_2_a1s0_u0_0", name: harrow_sr_a1s0_u0_0 }
+  - { link: "harrow_j_a1s0_u0_0_a1s0_v0_0 - harrow_j_a1s0_u0_0_a1s0_x0y0_spoke0_0", name: harrow_sr_a1s0_u0_0 }
+  - { link: "harrow_j_a1s0_u0_0_a1s0_v0_0 - harrow_j_a1s0_u1_0_a1s0_v0_0", name: harrow_sr_a1s0_v0_0 }
   - { link: "harrow_j_a1s0_u0_0_a1s0_v0_0 - harrow_j_artery_2_a2s0_b2", name: harrow_sr_a1s0_v0_0 }
-  - { link: "harrow_j_a1s0_u0_0_a1s0_vn1_0 - harrow_j_a1s0_vn1_0_a1s0_xn2yn1_b2", name: harrow_sr_a1s0_vn1_0 }
-  - { link: "harrow_j_a1s0_v0_0_a1s0_x0y0_p1_spoke0_0 - harrow_j_a1s0_x0y0_b0_a1s0_x0y0_b1", name: harrow_sr_a1s0_x0y0_p1_ring1_0 }
-  - { link: "harrow_j_a1s0_vn1_0_a1s0_xn2yn1_b2 - harrow_j_a1s0_vn1_0_a1s0_xn2yn2_b0", name: harrow_sr_a1s0_vn1_0 }
+  - { link: "harrow_j_a1s0_u0_0_a1s0_vn1_0 - harrow_j_a1s0_vn1_0_a1s0_xn2yn2_spoke1_0", name: harrow_sr_a1s0_vn1_0 }
+  - { link: "harrow_j_a1s0_u0_0_a1s0_vn1_0 - harrow_j_artery_2_a2s0_b2", name: harrow_sr_a1s0_xn1yn1_w0_0 }
+  - { link: "harrow_j_a1s0_u0_0_a1s0_x0y0_spoke0_0 - harrow_j_a1s0_x0y0_ring1_0_a1s0_x0y0_spoke0_0", name: harrow_sr_a1s0_x0y0_spoke0_0 }
+  - { link: "harrow_j_a1s0_u0_0_a1s0_x0y0_spoke0_0 - harrow_j_artery_2_a1s0_u0_0", name: harrow_sr_a1s0_u0_0 }
+  - { link: "harrow_j_a1s0_u1_0_a1s0_v0_0 - harrow_j_a1s0_u1_0_a1s0_x0y0_spoke1_0", name: harrow_sr_a1s0_u1_0 }
+  - { link: "harrow_j_a1s0_u1_0_a1s0_x0y0_spoke1_0 - harrow_j_a1s0_x0y0_ring1_0_a1s0_x0y0_spoke1_0", name: harrow_sr_a1s0_x0y0_spoke1_0 }
+  - { link: "harrow_j_a1s0_u1_0_a1s0_x0y0_spoke1_0 - harrow_j_artery_2_a1s0_u1_0", name: harrow_sr_a1s0_u1_0 }
+  - { link: "harrow_j_a1s0_vn1_0_a1s0_xn2yn1_b2 - harrow_j_a1s0_vn1_0_a1s0_xn2yn2_spoke1_0", name: harrow_sr_a1s0_vn1_0 }
   - { link: "harrow_j_a1s0_vn1_0_a1s0_xn2yn1_b2 - harrow_j_a1s0_xn2yn1_b0_a1s0_xn2yn1_b2", name: harrow_sr_a1s0_xn2yn1_b2 }
-  - { link: "harrow_j_a1s0_vn1_0_a1s0_xn2yn2_b0 - harrow_j_a1s0_vn2_0_a1s0_xn2yn2_b0", name: harrow_sr_a1s0_xn2yn2_b0 }
-  - { link: "harrow_j_a1s0_vn1_0_a1s0_xn2yn2_b0 - harrow_j_artery_1_a1s0_vn1_0", name: harrow_sr_a1s0_vn1_0 }
-  - { link: "harrow_j_a1s0_vn2_0_a1s0_xn2yn2_b0 - harrow_j_artery_1_a1s0_vn2_0", name: harrow_sr_a1s0_vn2_0 }
-  - { link: "harrow_j_a1s0_x0y0_b0_a1s0_x0y0_b1 - harrow_j_a1s0_x0y0_b1_a1s0_x0y0_p1_spoke1_0", name: harrow_sr_a1s0_x0y0_b1 }
-  - { link: "harrow_j_a1s0_x0y0_b1_a1s0_x0y0_p1_spoke1_0 - harrow_j_artery_2_a1s0_x0y0_b1", name: harrow_sr_a1s0_x0y0_b1 }
+  - { link: "harrow_j_a1s0_vn1_0_a1s0_xn2yn1_b2 - harrow_j_artery_1_a1s0_vn1_0", name: harrow_sr_a1s0_vn1_0 }
+  - { link: "harrow_j_a1s0_vn1_0_a1s0_xn2yn2_spoke1_0 - harrow_j_a1s0_xn2yn2_ring1_0_a1s0_xn2yn2_spoke1_0", name: harrow_sr_a1s0_xn2yn2_spoke1_0 }
+  - { link: "harrow_j_a1s0_vn1_0_a1s0_xn2yn2_spoke1_0 - harrow_j_artery_2_a2s0_b2", name: harrow_sr_a1s0_un1_0 }
+  - { link: "harrow_j_a1s0_vn2_0_a1s0_xn2yn2_r1s2_sr_0 - harrow_j_a1s0_xn2yn2_r1s2_sr_0_a1s0_xn2yn2_ring1_0", name: harrow_sr_a1s0_xn2yn2_r1s2_sr_0 }
+  - { link: "harrow_j_a1s0_vn2_0_a1s0_xn2yn2_r1s2_sr_0 - harrow_j_artery_1_a1s0_vn2_0", name: harrow_sr_a1s0_vn2_0 }
+  - { link: "harrow_j_a1s0_x0y0_ring1_0_a1s0_x0y0_spoke0_0 - harrow_j_a1s0_x0y0_ring1_0_a1s0_x0y0_spoke1_0", name: harrow_sr_a1s0_x0y0_ring1_0 }
   - { link: "harrow_j_a1s0_xn2yn1_b0_a1s0_xn2yn1_b2 - harrow_j_artery_2_a1s0_xn2yn1_b0", name: harrow_sr_a1s0_xn2yn1_b0 }
+  - { link: "harrow_j_a1s0_xn2yn2_r1s2_sr_0_a1s0_xn2yn2_ring1_0 - harrow_j_a1s0_xn2yn2_ring1_0_a1s0_xn2yn2_spoke1_0", name: harrow_sr_a1s0_xn2yn2_ring1_0 }
+  - { link: "harrow_j_a1s0_xn2yn2_r1s2_sr_0_a1s0_xn2yn2_ring1_0 - harrow_j_a1s0_xn2yn2_ring1_0_a1s0_xn2yn2_spoke2_0", name: harrow_sr_a1s0_xn2yn2_ring1_0 }
+  - { link: "harrow_j_a1s0_xn2yn2_ring1_0_a1s0_xn2yn2_spoke2_0 - harrow_j_artery_1_a1s0_xn2yn2_spoke2_0", name: harrow_sr_a1s0_xn2yn2_spoke2_0 }
   - { link: "harrow_j_a2_c0 - harrow_j_arc_0_a2s0_b0", name: harrow_arc_0 }
   - { link: "harrow_j_a2_c0 - harrow_j_artery_2_a1s0_u0_0", name: harrow_artery_2 }
-  - { link: "harrow_j_a2_c0 - harrow_j_artery_2_a1s0_x0y0_b1", name: harrow_artery_2 }
+  - { link: "harrow_j_a2_c0 - harrow_j_artery_2_a1s0_u1_0", name: harrow_artery_2 }
   - { link: "harrow_j_a2s0_b0_a2s0_b1 - harrow_j_arc_0_a2s0_b0", name: harrow_sr_a2s0_b0 }
   - { link: "harrow_j_a2s0_b0_a2s0_b1 - harrow_j_artery_2_a2s0_b2", name: harrow_sr_a2s0_b2 }
   - { link: "harrow_j_a2s0_b0_a2s0_b1 - harrow_j_artery_3_a2s0_b1", name: harrow_sr_a2s0_b1 }
@@ -96,28 +120,44 @@ edges:
   - { link: "harrow_j_a3s0_b10_a3s0_b11 - harrow_j_a3s0_b10_a3s0_p3_sr_0", name: harrow_sr_a3s0_b10 }
   - { link: "harrow_j_a3s0_b10_a3s0_b11 - harrow_j_a3s0_b11_a3s0_p8_u0_0", name: harrow_sr_a3s0_b11 }
   - { link: "harrow_j_a3s0_b10_a3s0_b11 - harrow_j_a3s0_b15_a3s0_p4_u0_0", name: harrow_sr_a3s0_b15 }
-  - { link: "harrow_j_a3s0_b10_a3s0_b11 - harrow_j_a3s0_b1_a3s0_p3_sr_0", name: harrow_sr_a3s0_b6 }
+  - { link: "harrow_j_a3s0_b10_a3s0_b11 - harrow_j_a3s0_b3_a3s0_b4", name: harrow_sr_a3s0_b7 }
+  - { link: "harrow_j_a3s0_b10_a3s0_b11 - harrow_j_a3s0_b6_a3s0_p2_spoke0_0", name: harrow_sr_a3s0_b6 }
   - { link: "harrow_j_a3s0_b10_a3s0_p3_sr_0 - harrow_j_a3s0_b1_a3s0_p3_sr_0", name: harrow_sr_a3s0_p3_sr_0 }
+  - { link: "harrow_j_a3s0_b10_a3s0_p3_sr_0 - harrow_j_artery_0_a0s0_p0_b0", name: harrow_sr_a3s0_b10 }
   - { link: "harrow_j_a3s0_b11_a3s0_p8_u0_0 - harrow_j_a3s0_b15_a3s0_p8_u0_0", name: harrow_sr_a3s0_p8_u0_0 }
   - { link: "harrow_j_a3s0_b11_a3s0_p8_u0_0 - harrow_j_artery_0_a3s0_b11", name: harrow_sr_a3s0_b11 }
   - { link: "harrow_j_a3s0_b15_a3s0_p4_u0_0 - harrow_j_a3s0_b15_a3s0_p8_u0_0", name: harrow_sr_a3s0_b15 }
   - { link: "harrow_j_a3s0_b15_a3s0_p4_u0_0 - harrow_j_a3s0_p4_u0_0_a3s0_p4_v0_0", name: harrow_sr_a3s0_p4_u0_0 }
   - { link: "harrow_j_a3s0_b15_a3s0_p8_u0_0 - harrow_j_artery_3_a3s0_b15", name: harrow_sr_a3s0_b15 }
+  - { link: "harrow_j_a3s0_b1_a3s0_b6 - harrow_j_a3s0_b1_a3s0_p3_sr_0", name: harrow_sr_a3s0_b1 }
+  - { link: "harrow_j_a3s0_b1_a3s0_b6 - harrow_j_a3s0_b6_a3s0_p2_spoke0_0", name: harrow_sr_a3s0_b6 }
+  - { link: "harrow_j_a3s0_b3_a3s0_b4 - harrow_j_a3s0_b3_a3s0_p2_spoke1_0", name: harrow_sr_a3s0_b3 }
+  - { link: "harrow_j_a3s0_b3_a3s0_b4 - harrow_j_a3s0_b4_a3s0_p4_v0_0", name: harrow_sr_a3s0_b4 }
+  - { link: "harrow_j_a3s0_b3_a3s0_p2_spoke1_0 - harrow_j_a3s0_p2_ring1_0_a3s0_p2_spoke1_0", name: harrow_sr_a3s0_p2_spoke1_0 }
+  - { link: "harrow_j_a3s0_b3_a3s0_p2_spoke1_0 - harrow_j_artery_3_a3s0_b3", name: harrow_sr_a3s0_b3 }
   - { link: "harrow_j_a3s0_b4_a3s0_p1_u0_0 - harrow_j_a3s0_b4_a3s0_p4_v0_0", name: harrow_sr_a3s0_b4 }
   - { link: "harrow_j_a3s0_b4_a3s0_p1_u0_0 - harrow_j_artery_3_a3s0_b4", name: harrow_sr_a3s0_b4 }
   - { link: "harrow_j_a3s0_b4_a3s0_p1_u0_0 - harrow_j_artery_3_a3s0_p1_u0_0", name: harrow_sr_a3s0_p1_u0_0 }
   - { link: "harrow_j_a3s0_b4_a3s0_p4_v0_0 - harrow_j_a3s0_p4_u0_0_a3s0_p4_v0_0", name: harrow_sr_a3s0_p4_v0_0 }
-  - { link: "harrow_j_artery_0_a0s0_b0 - harrow_j_artery_0_a0s0_b2", name: harrow_artery_0 }
+  - { link: "harrow_j_a3s0_b6_a3s0_p2_spoke0_0 - harrow_j_a3s0_p2_ring1_0_a3s0_p2_spoke0_0", name: harrow_sr_a3s0_p2_spoke0_0 }
+  - { link: "harrow_j_a3s0_p2_ring1_0_a3s0_p2_spoke0_0 - harrow_j_a3s0_p2_ring1_0_a3s0_p2_spoke1_0", name: harrow_sr_a3s0_p2_ring1_0 }
+  - { link: "harrow_j_artery_0_a0s0_b0 - harrow_j_artery_0_a0s0_p0_b0", name: harrow_artery_0 }
   - { link: "harrow_j_artery_0_a0s0_b0 - harrow_j_artery_0_a3s0_b11", name: harrow_artery_0 }
+  - { link: "harrow_j_artery_0_a0s0_b0 - harrow_j_bs_a0s0_p1_x_a0s0_p2_a0s0_b0", name: harrow_sr_a0s0_b0 }
+  - { link: "harrow_j_artery_0_a0s0_b2 - harrow_j_artery_0_a0s0_p0_b0", name: harrow_artery_0 }
   - { link: "harrow_j_artery_0_a0s0_b2 - harrow_j_bs_a0s0_p1_x_a0s0_p2_a0s0_b0", name: harrow_sr_a0s0_b2 }
   - { link: "harrow_j_artery_0_a3s0_b11 - harrow_j_artery_0_bs_a0s0_x_plaza_2", name: harrow_artery_0 }
   - { link: "harrow_j_artery_0_bs_a0s0_x_plaza_2 - harrow_j_artery_1_bs_a0s0_x_plaza", name: harrow_bs_a0s0_x_plaza }
   - { link: "harrow_j_artery_0_bs_a0s0_x_plaza_2 - harrow_j_artery_3_bs_a2s0_x_plaza", name: harrow_bs_a3s0_x_plaza }
+  - { link: "harrow_j_artery_0_bs_a0s0_x_plaza_2 - harrow_j_bs_a0s0_p1_x_a0s0_p2_a0s0_b4", name: harrow_sr_a0s0_p2_w0_0 }
   - { link: "harrow_j_artery_0_bs_a0s0_x_plaza_2 - harrow_j_bs_a0s0_p2_x_a0s0_p6_a0s0_b6", name: harrow_sr_a0s0_b1 }
   - { link: "harrow_j_artery_0_bs_a0s0_x_plaza_2 - harrow_plaza", name: harrow_artery_0 }
-  - { link: "harrow_j_artery_1_a0s0_p6_v0_0 - harrow_j_artery_1_a1s0_vn2_0", name: harrow_artery_1 }
-  - { link: "harrow_j_artery_1_a1s0_vn1_0 - harrow_j_artery_1_a1s0_vn2_0", name: harrow_artery_1 }
+  - { link: "harrow_j_artery_1_a0s0_p6_spoke0_0 - harrow_j_artery_1_a1s0_vn2_0", name: harrow_artery_1 }
+  - { link: "harrow_j_artery_1_a0s0_p6_spoke0_0 - harrow_j_bs_a0s0_p5_x_a0s0_p6_a0s0_p6_spoke2_0", name: harrow_sr_a0s0_p6_ring1_0 }
+  - { link: "harrow_j_artery_1_a1s0_vn1_0 - harrow_j_artery_1_a1s0_xn2yn2_spoke2_0", name: harrow_artery_1 }
   - { link: "harrow_j_artery_1_a1s0_vn1_0 - harrow_j_artery_1_bs_a0s0_x_plaza", name: harrow_artery_1 }
+  - { link: "harrow_j_artery_1_a1s0_vn2_0 - harrow_j_artery_1_a1s0_xn2yn2_spoke2_0", name: harrow_artery_1 }
+  - { link: "harrow_j_artery_1_a1s0_xn2yn2_spoke2_0 - harrow_j_bs_a0s0_p2_x_a0s0_p6_a0s0_b6", name: harrow_sr_a0s0_b8 }
   - { link: "harrow_j_artery_1_bs_a0s0_x_plaza - harrow_j_artery_2_bs_a1s0_x_plaza", name: harrow_bs_a1s0_x_plaza }
   - { link: "harrow_j_artery_1_bs_a0s0_x_plaza - harrow_plaza", name: harrow_artery_1 }
   - { link: "harrow_j_artery_2_a1s0_u0_0 - harrow_j_artery_2_a2s0_b2", name: harrow_artery_2 }
@@ -127,7 +167,10 @@ edges:
   - { link: "harrow_j_artery_2_bs_a1s0_x_plaza - harrow_plaza", name: harrow_artery_2 }
   - { link: "harrow_j_artery_3_a2s0_b1 - harrow_j_artery_3_a3s0_b15", name: harrow_artery_3 }
   - { link: "harrow_j_artery_3_a3s0_b15 - harrow_j_artery_3_bs_a2s0_x_plaza", name: harrow_artery_3 }
+  - { link: "harrow_j_artery_3_a3s0_b3 - harrow_j_artery_3_a3s0_p1_u0_0", name: harrow_artery_3 }
   - { link: "harrow_j_artery_3_a3s0_b4 - harrow_j_artery_3_a3s0_p1_u0_0", name: harrow_artery_3 }
   - { link: "harrow_j_artery_3_bs_a2s0_x_plaza - harrow_plaza", name: harrow_artery_3 }
-  - { link: "harrow_j_bs_a0s0_p1_x_a0s0_p2_a0s0_b0 - harrow_j_bs_a0s0_p1_x_a0s0_p2_a0s0_b6", name: harrow_bs_a0s0_p1_x_a0s0_p2 }
-  - { link: "harrow_j_bs_a0s0_p1_x_a0s0_p2_a0s0_b6 - harrow_j_bs_a0s0_p2_x_a0s0_p6_a0s0_b6", name: harrow_sr_a0s0_b6 }
+  - { link: "harrow_j_bs_a0s0_p1_x_a0s0_p2_a0s0_b0 - harrow_j_bs_a0s0_p1_x_a0s0_p2_a0s0_b4", name: harrow_bs_a0s0_p1_x_a0s0_p2 }
+  - { link: "harrow_j_bs_a0s0_p1_x_a0s0_p2_a0s0_b4 - harrow_j_bs_a0s0_p2_x_a0s0_p6_a0s0_b6", name: harrow_sr_a0s0_b6 }
+  - { link: "harrow_j_bs_a0s0_p2_x_a0s0_p6_a0s0_b6 - harrow_j_bs_a0s0_p5_x_a0s0_p6_a0s0_b7", name: harrow_sr_a0s0_b7 }
+  - { link: "harrow_j_bs_a0s0_p5_x_a0s0_p6_a0s0_b7 - harrow_j_bs_a0s0_p5_x_a0s0_p6_a0s0_p6_spoke2_0", name: harrow_bs_a0s0_p5_x_a0s0_p6 }

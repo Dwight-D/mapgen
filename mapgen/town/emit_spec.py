@@ -13,6 +13,7 @@ from shapely.geometry import LineString, Point, Polygon
 from ..geometry import chaikin
 from ..schema import feature_seed
 from .model import Settlement
+from .naming import district_names
 from .water import wall_runs
 
 ROAD_TYPE = {"artery": "road", "ring": "road", "boulevard": "road", "bridge": "road", "approach": "road", "street": "road"}
@@ -193,9 +194,11 @@ def emit_spec(s: Settlement) -> str:
     for isl in s.water.get("islands", []):   # a walkable `clearing` painted over the lake
         w("  - { id: %s, seed: %d, type: clearing, shape: poly, points: %s, rough: 0, label: \"Island\" }"
           % (isl["id"], feature_seed(isl["id"]), _pts(isl["polygon"])))
+    names = district_names(s)      # only the 3-5 named top-level districts carry a `label`; the `label` key is omitted otherwise
     for d in s.districts:
-        w("  - { id: %s, seed: %d, type: town, shape: poly, points: %s, rough: 0, label: %s }"
-          % (d.id, feature_seed(d.id), _pts(region_ring(s, d)), json.dumps(d.label)))
+        lab = ", label: %s" % json.dumps(names[d.id]) if d.id in names else ""
+        w("  - { id: %s, seed: %d, type: town, shape: poly, points: %s, rough: 0%s }"
+          % (d.id, feature_seed(d.id), _pts(region_ring(s, d)), lab))
     w("")
     w("lines:")
     for r in s.roads:
