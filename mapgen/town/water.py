@@ -32,6 +32,9 @@ DOC = {
 ATTEMPTS = 100
 MIN_PIECE = 600.0          # m2: a clipped district piece below this is dropped when it has no neighbour to merge into
 NODE_GAP = 10.0           # m: a bank or bridge node closer than this to an existing node is rejected
+BANK_TOUCH = 3.0           # m: a non-bridge road end this close to a river is drawn as a bridge by the map renderer
+BANK_MARGIN = 6.0          # m: such an end is cut back to this distance from the river
+CONNECTOR_REACH = 120.0    # m: the longest connector street that joins an unattached bridge end to the road network
 OPEN_TOL = 0.06            # m: a wall edge this close to water is a shore edge
 Pt = Tuple[float, float]
 
@@ -849,6 +852,144 @@ def apply(s: Settlement, p: Dict[str, Any]) -> Settlement:
     raise GenerationError("water %s fits nowhere on this settlement (%s); try another seed or parameters" % (p["water"], reason))
 
 
+# --- bridge attachment and banks (run after the layers) ------------------------------------------------------------
+
+def _road_nodes(s: Settlement) -> Dict[str, int]:
+    """Node id -> number of non-bridge roads listing it."""
+    cnt: Dict[str, int] = {}
+    for r in s.roads:
+        if r.cls != "bridge":
+            for n in set(r.nodes):
+                cnt[n] = cnt.get(n, 0) + 1
+    return cnt
+
+
+def unattached_bridge_ends(s: Settlement) -> List[Tuple[str, str]]:
+    """(bridge id, node id) of every bridge end that no non-bridge road meets at a node of the movement graph."""
+    if not s.water:
+        return []
+    at = {n.id: n.at for n in s.graph_nodes}
+    cnt = _road_nodes(s)
+    out: List[Tuple[str, str]] = []
+    for r in s.roads:
+        if r.cls != "bridge":
+            continue
+        for nid in (r.nodes[0], r.nodes[-1]) if r.nodes else ():
+            if nid not in at or not cnt.get(nid):
+                out.append((r.id, nid))
+    return out
+
+
+def _rebuild_movement(s: Settlement) -> None:
+    nodes = {n.id: n for n in s.graph_nodes}
+    for n in s.graph_nodes:
+        n.districts = []
+    G.attach_districts(s.graph_nodes, s.districts)
+    s.roads = sorted(s.roads, key=lambda r: r.id)
+    s.graph_edges = G.movement_edges(s.roads, nodes)
+
+
+def attach_bridges(s: Settlement) -> Settlement:
+    """Every bridge end meets the road network: an end that no road reaches (after the layers or a warp rearranged the roads) gets
+    a `street` connector to the nearest road node on its own bank, straight, not through water or a wall, at most CONNECTOR_REACH
+    long. A bridge end without a reachable node stays; `check_water` reports it."""
+    bad = unattached_bridge_ends(s)
+    if not bad:
+        return s
+    W = water_union(s)
+    walls = unary_union([LineString(w.polyline) for w in s.walls]) if s.walls else None
+    nodes = {n.id: n for n in s.graph_nodes}
+    cnt = _road_nodes(s)
+    bridge_nodes = {n for r in s.roads if r.cls == "bridge" for n in r.nodes}
+    added = 0
+    for bid, nid in sorted(bad):
+        if nid not in nodes:
+            continue
+        pa = nodes[nid].at
+        best = None
+        for m in sorted(nodes):
+            if m == nid or m in bridge_nodes or not cnt.get(m) or nodes[m].kind == "zone":
+                continue
+            pb = nodes[m].at
+            d = math.hypot(pa[0] - pb[0], pa[1] - pb[1])
+            if d > CONNECTOR_REACH or d < 1.0 or (best is not None and d >= best[0]):
+                continue
+            ln = LineString([pa, pb])
+            if ln.intersection(W).length > 0.5 or (walls is not None and ln.intersection(walls.buffer(0.5)).length > 1.0):
+                continue
+            best = (d, m)
+        if best is None:
+            continue
+        m = best[1]
+        added += 1
+        rid = "%s_conn_%d" % (s.id, added)
+        s.roads.append(Road(id=rid, cls="street", polyline=[list(pa), list(nodes[m].at)], width=5.0, nodes=[nid, m]))
+        cnt[nid] = 1
+    if added:
+        _rebuild_movement(s)
+    return s
+
+
+def _cut_back(pts: List[List[float]], W, at_start: bool) -> Optional[List[List[float]]]:
+    """`pts` with the end (the start when `at_start`) cut back to BANK_MARGIN from W; None when too little would remain."""
+    line = LineString(pts[::-1] if at_start else pts)
+    L = line.length
+    t = L
+    while t > 0.0 and W.distance(line.interpolate(t)) < BANK_MARGIN:
+        t -= 0.5
+    if t < 8.0:
+        return None
+    keep = [list(c) for c in line.coords if line.project(Point(c)) < t - 1e-6]
+    e = line.interpolate(t)
+    out = keep + [[r2(e.x), r2(e.y)]]
+    return out[::-1] if at_start else out
+
+
+def trim_banks(s: Settlement) -> Settlement:
+    """A river drawn by the map renderer turns every road that touches it into a bridge. Non-bridge road ends within BANK_TOUCH of a
+    river are cut back to BANK_MARGIN (a node at such an end moves with it when no other road uses it); bridge ends stay."""
+    if not s.water or not s.water.get("rivers"):
+        return s
+    W = unary_union([Polygon(r["polygon"]) for r in s.water["rivers"]])
+    nodes = {n.id: n for n in s.graph_nodes}
+    use: Dict[str, int] = {}
+    for r in s.roads:
+        for n in set(r.nodes):
+            use[n] = use.get(n, 0) + 1
+    gate_ids = {g.id for g in s.gates}
+    keepers = {n for r in s.roads if r.cls == "bridge" for n in r.nodes}
+    changed = False
+    dropped: set = set()
+    for r in s.roads:
+        if r.cls == "bridge" or len(r.polyline) < 2 or r.polyline[0] == r.polyline[-1]:
+            continue
+        for at_start in (True, False):
+            end = r.polyline[0] if at_start else r.polyline[-1]
+            if W.distance(Point(end)) >= BANK_TOUCH:
+                continue
+            nid = next((n for n in (r.nodes[:1] if at_start else r.nodes[-1:]) if n in nodes and list(nodes[n].at) == list(end)), None)
+            if nid is not None and (nid in keepers or nid in gate_ids or use.get(nid, 0) > 1):
+                continue
+            cut = _cut_back(r.polyline, W, at_start)
+            if cut is None:
+                continue
+            verts = {(p[0], p[1]) for p in cut}
+            gone = [n for n in r.nodes if n in nodes and (nodes[n].at[0], nodes[n].at[1]) not in verts and n != nid]
+            if any(use.get(n, 0) > 1 or n in keepers or n in gate_ids for n in gone):
+                continue        # a junction of another road lies in the cut-away part: the end stays
+            r.polyline = cut
+            if nid is not None:
+                nodes[nid].at = list((cut[0] if at_start else cut[-1]))
+            r.nodes = [n for n in r.nodes if n not in gone]       # nodes only this road used, inside the cut-away part
+            dropped.update(gone)
+            changed = True
+    if changed:
+        used = {n for r in s.roads for n in r.nodes} | {g.id for g in s.gates}
+        s.graph_nodes = [n for n in s.graph_nodes if n.id not in dropped or n.id in used]
+        _rebuild_movement(s)
+    return s
+
+
 # --- checks -----------------------------------------------------------------------------------------------------
 
 def check_water(s: Settlement) -> List[str]:
@@ -892,6 +1033,8 @@ def check_water(s: Settlement) -> List[str]:
                 errs.append("bridge %s does not span water" % r.id)
         elif inside > 0.5:
             errs.append("road %s runs %.1f m through the water" % (r.id, inside))
+    for bid, nid in unattached_bridge_ends(s):
+        errs.append("bridge %s: end %s is not on a road" % (bid, nid))
     # bridges must be graph edges, and joined to something on the movement graph
     edge_roads = {e.road for e in s.graph_edges if e.cls == "bridge"}
     for b in sorted(bridge_ids):

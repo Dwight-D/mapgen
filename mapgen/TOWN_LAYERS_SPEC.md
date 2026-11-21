@@ -82,9 +82,9 @@ that ends on neither is dropped). Output is sorted by key; coordinates rounded w
 
 Hub = `shapely.ops.polylabel(P, tolerance=1.0)`. Valid only when every ray from the hub reaches `P.boundary` before leaving `P` (star-shaped about the hub, tested with
 72 rays); else `Unfit`. SUB_DEFS: `spokes` (3-8, default `clamp(round(perimeter / 90), 3, 8)`), `rings` (1-2, default 1 when area < 20 000, else 2), `ring_frac`
-(0.3-0.7: radius of ring 1 as a fraction of the mean hub-to-boundary distance), `phase` (degrees). Spokes are rays clipped to `P` (class `artery`);
+(0.4-0.9, drawn uniformly in 0.52-0.78: radius of ring 1 as a fraction of the mean hub-to-boundary distance), `phase` (degrees). Spokes are rays clipped to `P` (class `artery`);
 rings are `hub.buffer(r) ∩ P` boundary arcs (class `street`, closed rings may be clipped into several pieces). Faces: `polygonize` of
-`P.boundary + spokes + rings`; the face containing the hub is key `core`, others `r<ring>s<spoke>` as `gen_radial`. No plaza landmark is made.
+`P.boundary + spokes + rings`; the face containing the hub is key `core`, others `r<ring>s<spoke>` as `gen_radial`. No plaza landmark is made. The ring radius is tried at 1.0, 0.9, 0.8, 0.7, 0.6 times the drawn value until no ring runs within 2.5 m of the boundary over more than 12 m (a graze) and no face is a hollow wrap around the core (face area under 0.4 of its convex hull); `Unfit` when none fits.
 
 ### 4.3 Voronoi fill (`fill_voronoi.py`)
 

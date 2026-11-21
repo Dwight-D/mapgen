@@ -503,7 +503,7 @@ def apply(s: Settlement, wp: Dict[str, Any]) -> Settlement:
             sd = densify(s, wp["step"])
         try:
             cand = _displace(sd, _Field(s, wp, seed, sc))
-        except ValueError:
+        except (ValueError, GEOSException):      # a fold made a polygon invalid while the graphs were rebuilt
             continue
         cand.params = dict(s.params)
         cand.params["warp"] = dict(_echo(wp, sc, seed))

@@ -246,10 +246,15 @@ Roads: each road-depth cut ends on `P.boundary` or on a shallower cut, so no dea
 ### 7.3 `wedge` fill (`fill_wedge.py`): fans and triangles
 
 Apex `a` is the boundary vertex of `P` with the smallest interior angle if below 100 degrees, else the point `0.35 * diameter` outside `P` on the perpendicular bisector of the
-reference edge (frame rot), pushed until the rays reach `P`. `spokes` (2-9, drawn 3-6) rays from `a`, angles spread over the angular extent of `P` as seen from `a`, with jitter
+reference edge (frame rot), pushed until the rays reach `P`. `spokes` (1-9, drawn 3-6) rays from `a`, angles spread over the angular extent of `P` as seen from `a`, with jitter
 `angle_jitter` (0-0.4 of spacing, drawn 0-0.25); class `street`, the central one `artery` when `spokes >= 4`. Optional cross streets: `cross` (0-2, default 1) arcs at fractions of the
 ray length (`0.45`, `0.75`), each broken at random (p 0.25 per sector) so blocks differ. Faces `w<ray>c<band>`. Unlike `radial` the hub need not lie inside `P` and `P` need not be star-shaped
-about it (`Unfit` only when fewer than 2 rays enter `P`).
+about it (`Unfit` only when no ray enters `P` or no layout below survives).
+
+Fit to the district: the face count `(spokes + 1) * (cross + 1)` is capped at `area / (1.2 * min_area)` (at least 2), so small districts do not collapse into one face after the
+small-face merge. The requested `(spokes, cross)` is tried first; when it is capped, `Unfit` or yields a sliver face (short side of the minimum rotated rectangle under 9 m), arcs are
+dropped, then spokes, down to one spoke without arcs. A single spoke takes the angle that halves the area of `P`. A spoke that runs along the boundary (under half of it in `P` shrunk by
+1 m) is dropped; one that lies within 0.6 m of the boundary for more than 4.5 m (a shallow angle at the boundary) makes the layout `Unfit`.
 
 ### 7.4 `follow` fill (`fill_follow.py`): blocks along a curving road
 
@@ -303,9 +308,9 @@ depth 1: districts above 6500 m2 always split (weights of the table), smaller on
 
 | preset | depth 0 | depth 1 by parent | depth 2 |
 |---|---|---|---|
-| `organic-radial` | radial 6, wedge 1, voronoi 1 | radial -> grid 3, bsp 2, voronoi 1, follow 1; wedge -> grid, voronoi, bsp; voronoi -> grid, radial, bsp | size cap |
+| `organic-radial` | radial 6, wedge 2, voronoi 1 | radial -> grid 3, bsp 2, voronoi 1, follow 1, wedge 1; wedge -> grid, voronoi, bsp; voronoi -> grid, radial, bsp | size cap |
 | `organic-voronoi` | voronoi 6, wedge 1, radial 1 | voronoi -> grid 3, bsp, radial, wedge; radial -> voronoi, grid, bsp; bsp -> voronoi, grid | size cap |
-| `organic-grid` | grid 6, radial 1, voronoi 1 | grid -> radial 3, voronoi 3, wedge 2, bsp 1; radial -> voronoi, grid, bsp; voronoi -> grid, bsp | size cap |
+| `organic-grid` | grid 6, radial 1, voronoi 1 | grid -> radial 3, voronoi 3, wedge 1, bsp 1; radial -> voronoi, grid, bsp; voronoi -> grid, bsp | size cap |
 | `organic-cells` | voronoi 4, grid 1, radial 1 | voronoi -> radial 3, wedge 2, bsp, grid; grid -> voronoi, radial; radial -> voronoi, bsp | radial/wedge parents: grid or bsp (p 0.5), size cap |
 | `organic-mixed` | radial 3, voronoi 3, grid 2, wedge 2, bsp 1 | one mix per parent fill (radial, voronoi, grid, wedge, bsp, follow), 3-level chains | any: bsp, grid, voronoi, radial (p 0.4), size cap |
 
@@ -313,6 +318,9 @@ Acceptance (`tests/test_town_organic_combos.py`, 20 seeds per preset, `warp=0.6`
 (depth, fill) pairs occur (e.g. `organic-mixed`: all of radial, voronoi, grid, wedge at depth 0); at least 4 distinct (parent fill, child fill) pairs; leaves of bsp parents are at most
 35 % of all depth >= 1 leaves; no district (kinds other than core, citadel, plaza) above 6 times the median area; `flowgraph check --strict` passes on seeds 1-6.
 Contact sheets: `python -m mapgen.town.combo_sheet [preset ...]` writes `out/town_organic/combo_<preset>.png` (6 seeds, odd seeds walled, even open).
+
+Wedge share: over 20 seeds (`edge=wall`, `warp=0.5`) wedge produces 10-14 % of all leaf districts in `organic`, `organic-radial`, `organic-grid` and `organic-mixed` (the leaves of
+layer nodes whose fill is wedge, over all leaves).
 
 Non-convex organic districts: radial raises `Unfit` when not star-shaped about the hub, wedge and voronoi when they yield fewer than 2 faces; the fallback tries the other weighted uses
 of the rule, and a district every use is unfit for stays a leaf listed in `layers.skipped`.

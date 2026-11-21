@@ -7,18 +7,22 @@ from typing import Any, Dict, List
 
 from shapely.geometry import LineString, Point, Polygon
 from shapely.geometry.polygon import orient
+from shapely.ops import split
 
 from .layerfill import Fill, Frame, SubRoad, Unfit, far, finish, line_pieces
 from .params import ParamDef
 
 SUB_DEFS = [
-    ParamDef("spokes", "int", 2, 9, "streets radiating from the apex", draw_lo=3, draw_hi=6),
+    ParamDef("spokes", "int", 1, 9, "streets radiating from the apex", draw_lo=3, draw_hi=6),
     ParamDef("angle_jitter", "float", 0.0, 0.4, "spoke angle jitter, fraction of the spoke spacing", draw_lo=0.0, draw_hi=0.25),
     ParamDef("cross", "int", 0, 2, "cross arcs between the spokes", default=1),
 ]
 ARC_FRACS = (0.45, 0.75)
 ARC_BREAK = 0.25
 SHARP = math.radians(100.0)
+FACE_AREA = 1.2            # target minimum face area, in multiples of min_area, when capping the face count
+GRAZE = 4.5                # m: a spoke may lie within 0.6 m of the boundary for at most this length
+MIN_WIDTH = 9.0            # m: faces narrower than this (short side of the minimum rotated rectangle) are slivers
 
 
 def _norm(a: float) -> float:
@@ -48,9 +52,62 @@ def _apex(P: Polygon, frame: Frame, rng: random.Random):
     return (cen.x + nx * dist, cen.y + ny * dist)
 
 
+def _grazes(q: LineString, edge) -> bool:
+    """True when a spoke piece runs within 0.6 m of the boundary for more than GRAZE m (a shallow angle at the boundary)."""
+    return q.intersection(edge).length > GRAZE
+
+
+def _slivers(fl: Fill) -> bool:
+    """True when a face is a sliver: the short side of its minimum rotated rectangle is under MIN_WIDTH."""
+    for _, f in fl.faces:
+        if f.minimum_rotated_rectangle.geom_type != "Polygon":
+            return True
+        c = list(f.minimum_rotated_rectangle.exterior.coords)
+        a, b = math.hypot(c[1][0] - c[0][0], c[1][1] - c[0][1]), math.hypot(c[2][0] - c[1][0], c[2][1] - c[1][1])
+        if min(a, b) < MIN_WIDTH:
+            return True
+    return False
+
+
 def fill(P: Polygon, rng: random.Random, p: Dict[str, Any], frame: Frame, min_area: float) -> Fill:
+    """The requested layout, thinned until it fits: the face count is capped by the area (`FACE_AREA` x `min_area` per face), then
+    on Unfit or slivers cross arcs and spokes are dropped down to one spoke (two faces) without arcs."""
     P = orient(P, 1.0)
     apex = _apex(P, frame, rng)
+    n0, c0 = int(p["spokes"]), int(p["cross"])
+    cap = max(2, int(P.area / (FACE_AREA * min_area)))
+    configs = []
+    n, c = n0, c0
+    while True:
+        if (n + 1) * (c + 1) <= cap:
+            configs.append((n, c))
+        if n <= 1 and c == 0:
+            break
+        if c > 0 and (n + 1) * (c + 1) > cap:
+            c -= 1
+        elif n > 1:
+            n -= 1
+        else:
+            c = 0
+    if not configs:
+        configs = [(1, 0)]
+    why = Unfit("no layout fits")
+    for n, c in configs:
+        q = dict(p)
+        q["spokes"], q["cross"] = n, c
+        try:
+            fl = _fill(P, apex, rng, q, frame, min_area)
+        except Unfit as e:
+            why = e
+            continue
+        if _slivers(fl):
+            why = Unfit("sliver faces")
+            continue
+        return fl
+    raise why
+
+
+def _fill(P: Polygon, apex, rng: random.Random, p: Dict[str, Any], frame: Frame, min_area: float) -> Fill:
     ax, ay = apex
     cen = P.centroid if P.contains(P.centroid) else P.representative_point()
     dir0 = math.atan2(cen.y - ay, cen.x - ax)
@@ -64,7 +121,21 @@ def fill(P: Polygon, rng: random.Random, p: Dict[str, Any], frame: Frame, min_ar
     jit = float(p["angle_jitter"])
     angs = sorted(amin + spacing * (i + 1) + spacing * jit * rng.uniform(-1.0, 1.0) for i in range(n))
     L = far(P) + math.hypot(ax - cen.x, ay - cen.y)
+    if n == 1:      # one spoke: the angle that halves the area, so neither side merges away
+        best = None
+        for k in range(1, 20):
+            a = amin + (amax - amin) * k / 20.0
+            ray = LineString([(ax, ay), (ax + L * math.cos(dir0 + a), ay + L * math.sin(dir0 + a))])
+            parts = split(P, ray)
+            if len(parts.geoms) == 2 and not any(_grazes(q, P.boundary.buffer(0.6)) for q in line_pieces(ray, P)):
+                im = abs(parts.geoms[0].area - parts.geoms[1].area)
+                if best is None or im < best[0]:
+                    best = (im, a)
+        if best is not None:
+            angs = [best[1]]
     pieces: List[SubRoad] = []
+    inner = P.buffer(-1.0)
+    edge = P.boundary.buffer(0.6)
     rmax = max(math.hypot(v[0] - ax, v[1] - ay) for v in verts)
     start = 0.8 * ARC_FRACS[0] * rmax if int(p["cross"]) else 0.0      # with arcs the spokes begin at the first arc: no slivers at the apex
     for i, a in enumerate(angs):
@@ -72,9 +143,13 @@ def fill(P: Polygon, rng: random.Random, p: Dict[str, Any], frame: Frame, min_ar
         ray = LineString([(ax + start * math.cos(t), ay + start * math.sin(t)), (ax + L * math.cos(t), ay + L * math.sin(t))])
         cls = "artery" if n >= 4 and i == n // 2 else "street"
         for j, q in enumerate(line_pieces(ray, P)):
+            if q.intersection(inner).length < 0.5 * q.length:      # a spoke that runs along the boundary is no street
+                continue
+            if _grazes(q, edge):
+                raise Unfit("a spoke grazes the boundary")
             pieces.append(SubRoad("w%d_%d" % (i, j), cls, [tuple(c) for c in q.coords]))
-    if len(pieces) < 2:
-        raise Unfit("fewer than 2 rays enter the polygon")
+    if not pieces:
+        raise Unfit("no ray enters the polygon")
     radii = [f * rmax for f in ARC_FRACS[:int(p["cross"])]]
     edges = [amin - 0.02] + angs + [amax + 0.02]
     last = len(edges) - 2

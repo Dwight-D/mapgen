@@ -78,4 +78,6 @@ def generate(generator: str, seed: int, size: Sequence[float] = DEFAULT_SIZE, pa
     spec = layers_params.resolve((params or {}).get("layers"), p.get("min_district_area", 1600.0))
     if spec:
         s = layers.apply(s, spec)
+    if water.active(wp):
+        s = water.trim_banks(water.attach_bridges(s))
     return warp.apply(s, wr) if wr else s
