@@ -1,6 +1,6 @@
 # Town organic shaping — warped outlines, open edges, mixed block fills
 
-Status: design; the warp stage (§6) is implemented (`mapgen/town/warp.py`, `tests/test_town_warp.py`), everything else is design. Self-contained apart from `TOWN_SPEC.md` (settlement model §3, params and seeds §4, graphs §5, checks §8,
+Status: design; the warp stage (§6) is implemented (`mapgen/town/warp.py`, `tests/test_town_warp.py`), the shape field and outline (§4) are implemented (`mapgen/town/shape.py`, `tests/test_town_shape.py`, sheet `python -m mapgen.town.shape_sheet`), everything else is design. Self-contained apart from `TOWN_SPEC.md` (settlement model §3, params and seeds §4, graphs §5, checks §8,
 emitters §9, preview §10, generators §7) and `TOWN_LAYERS_SPEC.md` (fill contract §4, `apply` §5, rules §6), which this file extends. Section 11
 lists every API assumption verified against the code. A settlement generated without any parameter introduced here is unchanged byte for byte.
 
@@ -74,15 +74,16 @@ For a hub `h` (map centre plus `hub_offset`) and base radius `R = radius_frac * 
 F(p) = w_core * g(|p - h| / R)
      + sum_k w_rib * g(dist(p, A_k) / rho_k) * taper_k(p)          # ribbons: tongues along artery k
      + sum_j w_lobe * g(|p - c_j| / r_j)                           # satellite lobes
-     + w_noise * fbm2(p / lam_n, seed_n, octaves 3)                # noise.fbm2, lam_n = 0.6 R
+     + w_noise * fbm2(p / lam_n, seed_n, octaves 3)                # noise.fbm2_grid, lam_n = 0.5 R
      + w_suit * (S(p) - 0.5)                                        # optional suitability (§4.5)
      - tau
 g(t) = smoothstep(1, 0, t)    (1 at t=0, 0 for t>=1)
 ```
 
-`taper_k` falls linearly from 1 at the hub-side start to 0 at the artery tip, so a tongue narrows. Defaults: `w_core 1.0`, `w_rib 0.7`, `w_lobe 0.6`, `tau 0.45`;
-`w_noise = irregularity` (0-0.5, drawn 0.15-0.4). Ribbon axes `A_k` are the generator's curved arteries (§8.3), `rho_k = 0.28 R * rng.uniform(0.7, 1.2)`.
+`taper_k` falls linearly from 1 at the hub-side start to 0 at the artery tip, so a tongue narrows. Defaults (tuned on a 30-seed sweep): `w_core 1.0`, `w_rib 0.95`, `w_lobe 0.7`, `tau 0.32`;
+`w_noise = 1.5 * irregularity` (`irregularity` 0-0.5, drawn 0.15-0.4). Ribbon axes `A_k` are the generator's curved arteries (§8.3); standalone, `shape.footprint` draws bent axes of length `R * uniform(1.5, 2.1)`. `rho_k = 0.34 R * rng.uniform(0.7, 1.2)`.
 Lobes: `lobes` (0-6, drawn 0-3) centres at distance `R * rng.uniform(0.7, 1.15)` from the hub at seeded angles, radius `R * rng.uniform(0.22, 0.4)`.
+The ribbon distance term uses a KD-tree over samples of the axis every `rho/10`. Public API: `shape.footprint(size, seed, sid, params, edge, axes, suitability, generator) -> Shape` (`ring, satellites, hub, R, axes, lobes, params, attempt, solidity, area`), `shape.field_grid`, `shape.solidity`, `shape.neck_ok`.
 
 ### 4.2 Contour to polygon
 
@@ -91,8 +92,8 @@ Rasterise F on a grid with cell `max(4 m, R / 80)` over the bounding box of its 
 other components of area at least `min_district_area` become **satellite parcels** (`edge: fade` only: hamlet seeds, §5.3; otherwise dropped). Then, in order:
 close small bays and open small spurs (`P0.buffer(c).buffer(-c)`, then `.buffer(-o).buffer(o)`, `c = 0.04 R`, `o = 0.05 R`, round joins), drop holes,
 two Chaikin passes, `simplify(1.0)`, orient CCW, round with `model.r2`. The footprint is rejected (attempt redrawn from stream `shape1`, `shape2`, ...; up to 8, then
-`GenerationError`) unless valid, inside the map by 10 m, area within 0.6-1.6 of `pi * R**2 * 0.55`, **solidity** (area / convex hull area) at least `min_solidity`
-(default 0.62; 0.5 for `edge: fade`) and **neck width** at least 40 m (`P0.buffer(-20).buffer(20)` retains at least 97 % of the area). These two rejections are the
+`GenerationError`) unless valid, inside the map by 10 m, area within 0.6-1.6 of `pi * R**2 * 0.55` (the tuned field lands near the middle of that band), **solidity** (area / convex hull area) at least `min_solidity`
+(default 0.62; 0.5 for `edge: fade`) and **neck width** at least 40 m (`P0.buffer(-20).buffer(20)` retains at least 97 % of the area and leaves at most one component of at least 5 % of the area; the second test catches a thin isthmus between two large bodies, which costs little area). These two rejections are the
 Ashgrove guard: no pinched middle, no thin isthmus.
 
 ### 4.3 Seeds
@@ -372,6 +373,7 @@ Seeds are chosen by scanning (as the README records for twinbridge): the first s
 
 - Pipeline order and param split: `registry.generate` (water, fort, layers separated by `is_water_param`, `is_fort_param`, `layers_params.is_layer_param`; layers last: `layers.apply(s, spec)`). A `warp` hook is one more split plus a call after `layers.apply`.
 - Seeds: `params.stage_rng(sid, generator, seed, stage)` (sha256 stream per stage); `params.resolve` draws defaulted-less params in `DEFS` order; params with `default` are never drawn, so new defaulted parameters shift no draw.
+- Shape (W1c, verified on real code): `noise.fbm2_grid(xs, ys, seed, octaves)` returns shape `(len(ys), len(xs))`; `skimage.measure.find_contours` returns `(row, col)` and needs a padded outside border to close contours; `GenerationError` lives in `gen_radial.py`; contour hole rings are discarded by keeping outermost components. Over 30 seeds on a 1000 m map every seed passes within 3 attempts (26 at attempt 0).
 - Noise: `mapgen/noise.py` `fbm2`, `fbm2_grid`, `value_noise2` are stateless hash noise (numpy), deterministic, vectorised. `fbm1_periodic` exists for closed curves.
 - Fill API: `layerfill.Fill/SubRoad/Frame/Unfit`, `finish(P, pieces, face_key, min_area)` (polygonize, merge small faces via private `_merge_small`, drop buried pieces and stubs, round), `FILLS` and `USES` in `layers_params.py`, `fill_grid.fill` structure (lines via `line_pieces`, key function, `finish`).
 - Layer application: `layers._subdivide` per-district streams `/pick`, `/geom`, kinds; `Unfit` becomes `skipped`; `_ref_rot` reference edge; `_stitch_all` guarantees shared vertices; `_finish` rebuilds nodes and `_district_graph`.
@@ -396,7 +398,7 @@ Each slice names its evidence. The full suite (`pytest -n 8`, about 9 minutes) r
 |---|---|---|---|
 | W1a warp (done) | `warp.py` (§6), registry hook, `warp` param parse/validate/echo, `town list` entry, `check` area floor (§9.3), emission simplification (§6.5) | `warp.py`, `registry.py`, `cli.py`, `emit_spec.py`, `emit_flow.py`, `check.py`, `gen_voronoi.py` (`cell_warp`), `tests/test_town_warp.py` | tests of §10.2 Warp pass; `layers=grid warp=0.6` previews of radial, grid, voronoi in `out/town_organic/warp_*.png` show curved roads and borders with `check` OK; `flowgraph check --strict` on `hearthmoor` rebuilt with `warp=0.6` passes |
 | W1b fills | `fill_bsp.py`, `fill_wedge.py`, `fill_follow.py`, grid `shear`/`fan`, `USES`/`FILLS`, `align random`, widened `align_jitter`, `Unfit` fallback | `fill_*.py`, `layers.py`, `layers_params.py`, `tests/test_town_fills_organic.py` | fill-contract tests on 30 convex plus L and wedge polygons; contact sheet `out/town_organic/fills.png` (each fill on 6 polygons) |
-| W1c shape | `shape.py` field, contour, rejection guards, `noise` usage, standalone `town shape` debug command or script | `shape.py`, `tests/test_town_shape.py` | 30-seed sweep sheet `out/town_organic/outlines.png` (splotchy, lobed, tongued, no pinch); tests green |
+| W1c shape (done) | `shape.py` field, contour, rejection guards, `noise` usage, standalone `python -m mapgen.town.shape_sheet` script (a `town shape` CLI hook waits for W2a, which edits `cli.py`) | `shape.py`, `shape_sheet.py`, `tests/test_town_shape.py` | 30-seed sweep sheet `out/town_organic/outlines.png` (splotchy, lobed, tongued, no pinch); tests green |
 
 **Wave W2 (after W1c and W1b):**
 
