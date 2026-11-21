@@ -9,7 +9,7 @@ import numpy as np
 from PIL import Image
 from shapely.geometry import MultiPolygon, Polygon
 
-from . import __version__, raster
+from . import __version__, export_settlements, raster
 from . import height as heightmod
 from .analysis import AnalysisResult
 from .geometry import MapGeometry, _resample, chaikin
@@ -334,5 +334,6 @@ def export_all(spec: MapSpec, geoms: MapGeometry, hm: Heightmap, an: AnalysisRes
     files += write_masks(spec, geoms, an, out)
     files += write_json(spec, geoms, hm, out)
     files += write_resolved(spec, out)
+    files += export_settlements.write_settlements(spec, out, out_dir, an.warnings)   # town maps with a settlement file only
     files += write_meta(spec, out)
     return ["export/" + f for f in files]

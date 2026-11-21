@@ -13,6 +13,7 @@ Status as of 2026-11-14.
 | `export/meta.json` | yes |
 | `export/masks/*.png` | yes — treated as clean black/white data |
 | `export/pois.json`, `regions.json`, `crossings.json` | yes |
+| `export/settlements.json` | not yet (town maps only; settlement placement data, EXPORT_FORMAT.md §3.10) |
 | `report.json` | the top-5 chokepoints only |
 | `map.png`, `overlay_*.png`, `report.md` | never |
 

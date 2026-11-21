@@ -174,6 +174,7 @@ never increasing downstream); `null` for other types.
 | `road` | fast (0.6×), flattened into terrain | spline road / decal |
 | `trail` | faster (0.8×), lightly flattened | spline path / decal |
 | `cliff` | impassable, blocks sight | wall/rock blockout along the line |
+| `wall` | town wall: impassable except at its `gate` crossings, blocks sight; `width` = wall thickness | wall blockout along the line; gate openings at the `gate` crossings |
 
 ### 3.8 `crossings.json` — bridges, fords, passes, ramps
 
@@ -193,6 +194,7 @@ passable.
 | `ford` | shallow wading crossing (slow) | shallow-water marker; the bed is already walkable |
 | `pass` | gap through a mountain | already carved into the heightmap |
 | `ramp` | walkable slope up a plateau edge or cliff | already relaxed in the heightmap |
+| `gate` | opening in a town `wall` where a road passes (disc, `r` from the type table) | gatehouse / opening blockout; outward direction in `settlements.json` (§3.10) |
 
 For a bridge's direction, use the road in `lines.json` that passes through the disc.
 
@@ -210,11 +212,80 @@ naming (`[x, y]` ground plane = export `[x, z]`). Geometry in this file is the a
 resolved [x, y] coordinates; the spec's `points` section is not part of this file. Every `regions` and
 `lines` entry carries its feature `seed`.
 
+### 3.10 `settlements.json` — settlement plans of town maps
+
+Present only in bundles of town maps built with a settlement file (below); absent otherwise. An importer that ignores
+it loses nothing in the other files. The file carries the placement data behind a town's `town` regions, `road` lines,
+`wall` lines and `gate` crossings: what each district is, how dense, how it nests, which road each block edge faces,
+which way each gate opens.
+
+**Source.** A town map spec is emitted from a settlement (`mapgen town generate`, `mapgen/TOWN_SPEC.md`). `mapgen build`
+reads that settlement from `<spec dir>/<spec stem>.settlement.json`, else from `out/<name>/settlement.json`, and writes
+`settlements.json` when every district id is a `town` region of the spec and every road id a `road` line. A settlement
+file that does not match is skipped with a build warning.
+
+```
+{ "format": "mapgen-settlements", "format_version": 1, "mapgen_version": "0.2.1", "name": "<map name>",
+  "settlements": [ { "id", "generator", "seed", "centre", "footprint",
+                     "districts", "layers", "roads", "walls", "gates", "bridges", "landmarks" } ] }
+```
+
+`format` / `format_version` version this file on its own; an importer checks both and refuses other values. All
+coordinates are export `[x, z]` metres (§2). The geometry is the settlement plan: district polygons and road polylines
+share vertices exactly, so block edges lie on road centrelines. `lines.json` holds the same roads smoothed and resampled
+for terrain; the smoothed line stays within about 1 m of the plan polyline.
+
+**`districts`** — the leaf districts (blocks), one per `town` region with the same `id` (`<sid>_d_<key>`).
+
+| key | meaning |
+|---|---|
+| `id`, `key` | region id in `regions.json`; the district key inside the settlement |
+| `kind` | `core`, `market`, `residential`, `craft`, `harbour`, `citadel`, `temple`, `slum`, `outskirt` |
+| `density` | relative built density 0–1 (1 = fully built) |
+| `area` | m² |
+| `depth`, `parent` | layer depth (0 = top level) and the id of the subdivided district it came from (`null` at depth 0) |
+| `top`, `top_label` | id of its depth-0 ancestor (itself at depth 0) and that top-level district's map name, or `null` when the group is unnamed |
+| `label` | the name carried by this region in `regions.json`, or `null` |
+| `inside_wall`, `waterfront` | booleans |
+| `landmarks` | ids of the landmarks inside it |
+| `polygon` | outer ring `[[x, z], ...]`, counter-clockwise, first point **not** repeated; no holes |
+| `edges` | one entry per polygon edge: `edges[i]` is the edge `polygon[i] → polygon[(i+1) % n]`; `{road, class, width, offset}` for the road it runs along, or `null` (wall, water, open edge) |
+
+An edge faces a road when both its ends and its midpoint lie within 0.5 m of the road's plan polyline; `offset` is the
+largest of those three distances (0 for edges on shared vertices). Ties go to the closer road, then the higher class
+(`artery` > `boulevard` > `ring` > `bridge` > `approach` > `street`), then id.
+
+**`layers`** — the subdivided (non-leaf) districts: `{id, parent, depth, use, children}` (`use` = the fill that split
+it: `grid`, `radial`, `voronoi`, `bsp`, `wedge`, ...; `children` = ids of districts or further layer nodes).
+
+**`roads`** — `{id, class, width, closed, polyline, nodes}`. `id` is the `road` line id in `lines.json`; `class` is
+`artery`, `ring`, `boulevard`, `bridge`, `approach` or `street`; `width` in metres; `closed: true` for a ring road
+whose polyline repeats its first point; `nodes` = movement-graph junction ids along it (the spec's `points` names).
+
+**`walls`** — `{id, kind, thickness, polyline, lines, open_shore, towers}`. `kind` is `outer`, `inner` or `citadel`;
+`polyline` is the closed ring (first point repeated); `lines` = the `wall` line ids in `lines.json` drawn for it (one
+per solid run: `<id>`, `<id>_2`, ...); `open_shore` = `[first, last]` vertex index ranges left open to water;
+`towers` = tower / bastion positions `[[x, z], ...]` (empty when the wall has none).
+
+**`gates`** — `{id, kind, x, z, normal, wall, road}`. `kind` is `gate`, `postern`, `water_gate` or `entry` (an
+opening in a wall-less town; `wall: null`, no crossing). `normal` = unit `[x, z]` vector pointing out of the town.
+`road` = the road id through it. A gate's `gate` crossing in `crossings.json` has id `<gate id>_x`.
+
+**`bridges`** — `{id, road, x, z, span}` per `bridge` road: `id` = its `bridge` crossing id (`<road id>_x`), `(x, z)`
+= the road's middle vertex, `span` = unit `[x, z]` direction of the road there (the bridge deck runs along it).
+
+**`landmarks`** — `{id, kind, x, z, r, district, label}`; `kind` is `square`, `market`, `citadel`, `fortress`,
+`temple` or `docks`. The same ids appear as `landmark` POIs in `pois.json`.
+
+A nodachi layout (`<name>.nlayout.json`) for house placement is derived from this file by
+`mapgen export-nlayout`; mapping in `docs/nlayout.md`.
+
 ## 4. What the bundle does not contain
 
 - No meshes, prefabs, materials or textures — only layer names; the importer maps layer and
   type names to its own assets.
-- No buildings, trees or props — only the areas and points where they belong.
+- No buildings, trees or props — only the areas and points where they belong (for towns, the block edges and road
+  frontage in `settlements.json`).
 - No navmesh — `masks/impassable.png` and the type costs describe intent.
 - No team/match rules beyond team ids, names, colours and base positions.
 
