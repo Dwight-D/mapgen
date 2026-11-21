@@ -1,6 +1,5 @@
 """`voronoi` generator: Voronoi-cell districts on an outward spiral of seeds, major roads on district borders from gates
-to a plaza, an angular wall around the union; `organic` switches to a high-jitter, warped regime
-(design: mapgen/TOWN_SPEC.md section 7.2)."""
+to a plaza, an angular wall around the union (design: mapgen/TOWN_SPEC.md section 7.2)."""
 from __future__ import annotations
 
 import heapq
@@ -21,7 +20,6 @@ from .params import ParamDef, stage_rng
 NAME = "voronoi"
 GOLDEN = 2.399963229728653          # golden angle, radians
 ATTEMPTS = 8
-ORGANIC_JITTER, ORGANIC_WARP = 0.9, 0.12
 
 DEFS = [
     ParamDef("patches", "int", 8, 30, "Voronoi cells of the town (before merging)", draw_lo=12, draw_hi=24),
@@ -35,7 +33,6 @@ DEFS = [
              draw_lo=0.45, draw_hi=0.75),
     ParamDef("rotation", "float", 0.0, 360.0, "rotation of the whole layout, degrees"),
     ParamDef("cell_warp", "float", 0.0, 0.2, "smooth domain warp amplitude, fraction of the town radius", draw_lo=0.0, draw_hi=0.06),
-    ParamDef("organic", "bool", 0, 1, "organic regime: jitter at least 0.9, one Lloyd pass, warp at least 0.12", default=False),
     ParamDef("gates", "int", 2, 8, "gates in the wall", draw_lo=3, draw_hi=5),
     ParamDef("plaza_frac", "float", 0.02, 0.2, "minimum plaza district area as a fraction of the town", draw_lo=0.04, draw_hi=0.09),
     ParamDef("merge_prob", "float", 0.0, 0.5, "probability that a district merges with a neighbour", draw_lo=0.0, draw_hi=0.25),
@@ -152,11 +149,8 @@ def _route(adj: Dict[tuple, List[Tuple[tuple, float]]], src: tuple, targets: Set
 def _build(p: Dict[str, Any], seed: int, size: Tuple[float, float], centre: Tuple[float, float], sid: str,
            attempt: int) -> Settlement:
     N = int(p["patches"])
-    org = bool(p["organic"])
-    jitter = max(p["jitter"], ORGANIC_JITTER) if org else p["jitter"]
-    lloyd = min(int(p["lloyd"]), 1) if org else int(p["lloyd"])
-    warp = max(p["cell_warp"], ORGANIC_WARP) if org else p["cell_warp"]
-    vor, cells = _seeds(p, seed, sid, attempt, jitter, lloyd)
+    warp = p["cell_warp"]
+    vor, cells = _seeds(p, seed, sid, attempt, p["jitter"], int(p["lloyd"]))
 
     # normalise: mean radius of the town 1, centred on the union's centroid, then warp and rotate
     raw = [Polygon([vor.vertices[v] for v in cells[i]]) for i in range(N)]

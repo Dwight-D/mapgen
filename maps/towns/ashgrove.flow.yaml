@@ -1,45 +1,61 @@
 format_version: 1
 name: ashgrove
 brief: |
-  Settlement movement graph of ashgrove (generator voronoi, seed 21) with two spawns linked to gates ash_gate_2 and ash_gate_3.
+  Settlement movement graph of ashgrove (generator organic, seed 21) with two spawns linked to gates ash_gate_a0 and ash_gate_a3.
 
 nodes:
   A: { kind: spawn, team: A, name: Westhold spawn }
   B: { kind: spawn, team: B, name: Easthold spawn }
-  ash_gate_0: { kind: choke, name: "Gate 0" }
-  ash_gate_1: { kind: choke, name: "Gate 1" }
-  ash_gate_2: { kind: choke, name: "Gate 2" }
-  ash_gate_3: { kind: choke, name: "Gate 3" }
-  ash_j_p0p1p3: { kind: choke }
-  ash_j_p0p1p4: { kind: choke }
-  ash_j_p0p2: { kind: choke }
-  ash_j_p0p2p10: { kind: choke }
-  ash_j_p10p13: { kind: choke }
-  ash_j_p13: { kind: choke }
-  ash_j_p1p3p6: { kind: choke }
-  ash_j_p1p4p9: { kind: choke }
-  ash_j_p1p9: { kind: choke }
-  ash_j_p4p7p9: { kind: choke }
-  ash_j_p7p9: { kind: choke }
-  ash_j_p9: { kind: choke }
+  ash_gate_a0: { kind: choke, name: "Gate a0" }
+  ash_gate_a1: { kind: choke, name: "Gate a1" }
+  ash_gate_a2: { kind: choke, name: "Gate a2" }
+  ash_gate_a3: { kind: choke, name: "Gate a3" }
+  ash_j_a1s0_u0_0_a1s0_v0_0: { kind: choke }
+  ash_j_a2s0_u0_0_a2s0_v0_0: { kind: choke }
+  ash_j_a3s0_u0_0_a3s0_v0_0: { kind: choke }
+  ash_j_artery_0_a0s0_sr_0: { kind: choke }
+  ash_j_artery_0_a3s0_un3_0: { kind: choke }
+  ash_j_artery_0_bs_a0s0_x_plaza: { kind: choke }
+  ash_j_artery_1_a1s0_u0_0: { kind: choke }
+  ash_j_artery_1_bs_a0s0_x_plaza: { kind: choke }
+  ash_j_artery_2_a1s0_xn2y0_sr_0: { kind: choke }
+  ash_j_artery_2_a2s0_v0_0: { kind: choke }
+  ash_j_artery_2_bs_a1s0_x_plaza: { kind: choke }
+  ash_j_artery_3_a2s0_u0_0: { kind: choke }
+  ash_j_artery_3_bs_a3s0_x_plaza: { kind: choke }
+  ash_j_bs_a0s0_b1000_x_a0s0_b1001_a0s0_sr_0: { kind: choke }
+  ash_j_bs_a0s0_b1000_x_a0s0_b1001_bs_a0s0_b1001_x_a0s0_b1010: { kind: choke }
+  ash_j_bs_a0s0_b1001_x_a0s0_b1010_bs_a0s0_b1001_x_a0s0_b1011: { kind: choke }
+  ash_j_bs_a3s0_x_plaza_a3s0_u0_0: { kind: choke }
   ash_plaza: { kind: zone, name: "Central Plaza" }
 
 edges:
-  - A - ash_gate_2
-  - B - ash_gate_3
-  - { link: "ash_gate_0 - ash_plaza", name: ash_artery_0 }
-  - { link: "ash_gate_1 - ash_j_p1p3p6", name: ash_artery_1 }
-  - { link: "ash_gate_1 - ash_j_p1p9", name: ash_artery_2 }
-  - { link: "ash_gate_2 - ash_j_p9", name: ash_artery_2 }
-  - { link: "ash_gate_3 - ash_j_p10p13", name: ash_artery_8 }
-  - { link: "ash_gate_3 - ash_plaza", name: ash_artery_3 }
-  - { link: "ash_j_p0p1p3 - ash_j_p1p3p6", name: ash_artery_1 }
-  - { link: "ash_j_p0p1p3 - ash_plaza", name: ash_artery_1 }
-  - { link: "ash_j_p0p1p4 - ash_j_p1p4p9", name: ash_artery_6 }
-  - { link: "ash_j_p0p1p4 - ash_plaza", name: ash_artery_6 }
-  - { link: "ash_j_p0p2 - ash_plaza", name: ash_artery_5 }
-  - { link: "ash_j_p0p2p10 - ash_plaza", name: ash_artery_4 }
-  - { link: "ash_j_p10p13 - ash_j_p13", name: ash_artery_9 }
-  - { link: "ash_j_p1p4p9 - ash_j_p4p7p9", name: ash_artery_6 }
-  - { link: "ash_j_p1p9 - ash_j_p9", name: ash_artery_2 }
-  - { link: "ash_j_p4p7p9 - ash_j_p7p9", name: ash_artery_7 }
+  - A - ash_gate_a0
+  - B - ash_gate_a3
+  - { link: "ash_gate_a0 - ash_j_artery_0_a3s0_un3_0", name: ash_artery_0 }
+  - { link: "ash_gate_a1 - ash_j_artery_1_a1s0_u0_0", name: ash_artery_1 }
+  - { link: "ash_gate_a2 - ash_j_artery_2_a1s0_xn2y0_sr_0", name: ash_artery_2 }
+  - { link: "ash_gate_a3 - ash_j_artery_3_a2s0_u0_0", name: ash_artery_3 }
+  - { link: "ash_j_a1s0_u0_0_a1s0_v0_0 - ash_j_artery_1_a1s0_u0_0", name: ash_sr_a1s0_u0_0 }
+  - { link: "ash_j_a2s0_u0_0_a2s0_v0_0 - ash_j_artery_2_a2s0_v0_0", name: ash_sr_a2s0_v0_0 }
+  - { link: "ash_j_a2s0_u0_0_a2s0_v0_0 - ash_j_artery_3_a2s0_u0_0", name: ash_sr_a2s0_u0_0 }
+  - { link: "ash_j_a3s0_u0_0_a3s0_v0_0 - ash_j_bs_a3s0_x_plaza_a3s0_u0_0", name: ash_sr_a3s0_u0_0 }
+  - { link: "ash_j_artery_0_a0s0_sr_0 - ash_j_artery_0_a3s0_un3_0", name: ash_artery_0 }
+  - { link: "ash_j_artery_0_a0s0_sr_0 - ash_j_artery_0_bs_a0s0_x_plaza", name: ash_artery_0 }
+  - { link: "ash_j_artery_0_a0s0_sr_0 - ash_j_bs_a0s0_b1000_x_a0s0_b1001_a0s0_sr_0", name: ash_sr_a0s0_sr_0 }
+  - { link: "ash_j_artery_0_bs_a0s0_x_plaza - ash_j_artery_1_bs_a0s0_x_plaza", name: ash_bs_a0s0_x_plaza }
+  - { link: "ash_j_artery_0_bs_a0s0_x_plaza - ash_j_bs_a3s0_x_plaza_a3s0_u0_0", name: ash_bs_a3s0_x_plaza }
+  - { link: "ash_j_artery_0_bs_a0s0_x_plaza - ash_plaza", name: ash_artery_0 }
+  - { link: "ash_j_artery_1_a1s0_u0_0 - ash_j_artery_1_bs_a0s0_x_plaza", name: ash_artery_1 }
+  - { link: "ash_j_artery_1_bs_a0s0_x_plaza - ash_j_artery_2_bs_a1s0_x_plaza", name: ash_bs_a1s0_x_plaza }
+  - { link: "ash_j_artery_1_bs_a0s0_x_plaza - ash_plaza", name: ash_artery_1 }
+  - { link: "ash_j_artery_2_a1s0_xn2y0_sr_0 - ash_j_artery_2_a2s0_v0_0", name: ash_artery_2 }
+  - { link: "ash_j_artery_2_a2s0_v0_0 - ash_j_artery_2_bs_a1s0_x_plaza", name: ash_artery_2 }
+  - { link: "ash_j_artery_2_bs_a1s0_x_plaza - ash_j_artery_3_bs_a3s0_x_plaza", name: ash_bs_a2s0_x_plaza }
+  - { link: "ash_j_artery_2_bs_a1s0_x_plaza - ash_plaza", name: ash_artery_2 }
+  - { link: "ash_j_artery_3_a2s0_u0_0 - ash_j_artery_3_bs_a3s0_x_plaza", name: ash_artery_3 }
+  - { link: "ash_j_artery_3_bs_a3s0_x_plaza - ash_j_bs_a3s0_x_plaza_a3s0_u0_0", name: ash_bs_a3s0_x_plaza }
+  - { link: "ash_j_artery_3_bs_a3s0_x_plaza - ash_plaza", name: ash_artery_3 }
+  - { link: "ash_j_bs_a0s0_b1000_x_a0s0_b1001_a0s0_sr_0 - ash_j_bs_a0s0_b1000_x_a0s0_b1001_bs_a0s0_b1001_x_a0s0_b1010", name: ash_bs_a0s0_b1000_x_a0s0_b1001 }
+  - { link: "ash_j_bs_a0s0_b1000_x_a0s0_b1001_a0s0_sr_0 - ash_j_bs_a0s0_b1001_x_a0s0_b1010_bs_a0s0_b1001_x_a0s0_b1011", name: ash_sr_a0s0_b1001_w1_0 }
+  - { link: "ash_j_bs_a0s0_b1000_x_a0s0_b1001_bs_a0s0_b1001_x_a0s0_b1010 - ash_j_bs_a0s0_b1001_x_a0s0_b1010_bs_a0s0_b1001_x_a0s0_b1011", name: ash_bs_a0s0_b1001_x_a0s0_b1010 }

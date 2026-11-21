@@ -188,7 +188,7 @@ Does not express: orthogonal order, outskirts outside the wall, water.
 
 ### 7.2 `voronoi` (implemented; `mapgen/town/gen_voronoi.py`)
 
-Voronoi-cell districts with an angular wall; `organic=true` is the high-jitter regime.
+Voronoi-cell districts with an angular wall.
 
 | name | type | valid | drawn | meaning |
 |---|---|---|---|---|
@@ -201,7 +201,6 @@ Voronoi-cell districts with an angular wall; `organic=true` is the high-jitter r
 | `radius_frac` | float | 0.3-0.95 | 0.45-0.75 | mean town radius / half the shorter side, clamped to fit 10 m inside the map |
 | `rotation` | float | 0-360 | 0-360 | degrees |
 | `cell_warp` | float | 0-0.2 | 0-0.06 | smooth sinusoidal domain warp amplitude, fraction of the town radius |
-| `organic` | bool | | default false | effective jitter >= 0.9, lloyd <= 1, warp >= 0.12 (echoed params keep the raw values) |
 | `gates` | int | 2-8 | 3-5 | gates in the wall |
 | `plaza_frac` | float | 0.02-0.2 | 0.04-0.09 | minimum plaza area / town area |
 | `merge_prob` | float | 0-0.5 | 0-0.25 | probability that a district merges with a neighbour |
@@ -528,7 +527,7 @@ approves a baseline.
 
 Each slice is independently mergeable and adds a generator to the registry plus its tests; slices 2-4 depend only on slice 1.
 
-2. **`voronoi`** (implemented, section 7.2; original design: Watabou style, also the organic regime). Seeds on an outward spiral, jittered, 1-3 Lloyd iterations
+2. **`voronoi`** (implemented, section 7.2; original design: Watabou style). Seeds on an outward spiral, jittered, 1-3 Lloyd iterations
    (`scipy.spatial.Voronoi`, clipped with shapely); the N inner cells form the town, each cell (or a merge of small ones) a
    district `p<n>`; arteries are shortest paths (`networkx.astar_path`) over the Voronoi edge graph from each gate to the plaza and
    between gates, Chaikin-smoothed; the wall is the simplified, smoothed exterior ring of the union; gates are wall vertices at

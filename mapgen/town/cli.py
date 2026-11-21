@@ -120,10 +120,12 @@ def cmd_list(args) -> int:
     for name, doc in water.DOC.items():
         print("  %-16s %s" % (name, doc))
     print("warp (any generator; --param warp=<strength 0-1 | k=v,...>): %s" % warp.DOC["warp"])
-    for name in warp.KEYS:
+    for name in warp.KEYS + warp.EDGE_KEYS:
         print("  %-16s %s" % (name, warp.DOC[name]))
+    print("  edge_warp param (any generator; --param edge_warp=<strength 0-1 | amp=..,wavelength=..>): large-scale outer-boundary bend, default 0 (organic: boundary follows warp)")
     print("layers (any generator; --param layers=<spec>): %s" % layers_params.DOC["layers"])
     print("  rule keys: %s; global keys: %s" % (", ".join(layers_params.RULE_KEYS), ", ".join(layers_params.GLOBAL_KEYS)))
+    print("  presets (layers=<name>): %s" % ", ".join(sorted(layers_params.PRESETS)))
     for name in sorted(layers_params.FILLS):
         print("  sub-generator %s (rule params as sub.<name>=<v>):" % name)
         for d in layers_params.FILLS[name].SUB_DEFS:

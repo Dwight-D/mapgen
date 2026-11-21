@@ -27,6 +27,11 @@ from .water import wall_runs
 Pt = Tuple[float, float]
 
 KEYS = ("amp", "wavelength", "fine_amp", "fine_wavelength", "step", "fort_damp")
+EDGE_KEYS = ("edge_amp", "edge_wavelength")
+EDGE_FULL = {"edge_amp": 0.2, "edge_wavelength": 0.75}     # edge_warp strength 1: amplitude fraction of the radius, wavelength in radii
+EDGE_RANGES = {"edge_amp": (0.0, 0.3), "edge_wavelength": (0.4, 1.5)}
+TAPER = 0.18               # interior displacement fades to zero over this many radii towards a pinned outer boundary
+EDGE_REACH = 0.6           # the edge displacement fades to zero this many radii inside the boundary
 FULL = {"amp": 0.18, "wavelength": 1.2, "fine_amp": 0.012, "fine_wavelength": 0.15, "step": 10.0, "fort_damp": 0.8}
 RANGES = {"amp": (0.0, 0.35), "wavelength": (0.4, 3.0), "fine_amp": (0.0, 0.03), "fine_wavelength": (0.05, 0.4),
           "step": (4.0, 30.0), "fort_damp": (0.0, 1.0)}
@@ -40,13 +45,66 @@ DOC = {
     "wavelength": "large-scale feature size in settlement radii, 0.4-3 (1.2)",
     "fine_amp": "small-scale amplitude, fraction of the settlement radius, 0-0.03 (0.012 at strength 1)",
     "fine_wavelength": "small-scale feature size in settlement radii, 0.05-0.4 (0.15)",
+    "edge_amp": "outer-boundary amplitude, fraction of the settlement radius, 0-0.3 (set by `edge_warp`)",
+    "edge_wavelength": "outer-boundary feature size in settlement radii, 0.4-1.5 (0.75)",
     "step": "densification step in metres, 4-30 (10)",
     "fort_damp": "displacement reduction inside and within 40 m of fort districts, 0-1 (0.8)",
 }
 
 
 def is_warp_param(name: str) -> bool:
-    return name == "warp"
+    return name in ("warp", "edge_warp")
+
+
+def merge_edge(wr: Optional[Dict[str, Any]], raw: Any) -> Optional[Dict[str, Any]]:
+    """Fold the `edge_warp` parameter (a strength 0-1, `none`, or `amp=..,wavelength=..`) into the resolved warp dict.
+    Given (even 0): the outer boundary is pinned against the interior warp and moved only by the large-scale edge field."""
+    if raw is None or wr is None:
+        return wr
+    out = dict(wr)
+    if isinstance(raw, str):
+        text = raw.strip()
+        if text.lower() in ("", "none", "false"):
+            raw = 0.0
+        else:
+            try:
+                raw = float(text)
+            except ValueError:
+                raw = {}
+                for part in text.split(","):
+                    if "=" not in part:
+                        raise ParamError(["edge_warp: cannot parse %r (expected a strength 0-1 or amp=..,wavelength=..)" % text])
+                    k, v = part.split("=", 1)
+                    raw[k.strip()] = v.strip()
+    if isinstance(raw, bool) or not isinstance(raw, (int, float, dict)):
+        raise ParamError(["edge_warp: expected a strength 0-1 or a mapping, got %r" % (raw,)])
+    if isinstance(raw, dict):
+        errs: List[str] = []
+        vals = dict(EDGE_FULL)
+        for k in sorted(raw):
+            kk = "edge_" + k
+            if kk not in EDGE_KEYS:
+                errs.append("edge_warp: unknown key %r (known: amp, wavelength)" % k)
+                continue
+            try:
+                x = float(raw[k])
+            except (TypeError, ValueError):
+                errs.append("edge_warp.%s: expected a number, got %r" % (k, raw[k]))
+                continue
+            lo, hi = EDGE_RANGES[kk]
+            if not (lo <= x <= hi):
+                errs.append("edge_warp.%s: %r outside [%g, %g]" % (k, raw[k], lo, hi))
+            else:
+                vals[kk] = x
+        if errs:
+            raise ParamError(errs)
+        out.update(vals)
+        return out
+    if not (0.0 <= float(raw) <= 1.0):
+        raise ParamError(["edge_warp: strength %r outside [0, 1]" % (raw,)])
+    out["edge_amp"] = round(EDGE_FULL["edge_amp"] * float(raw) * 1.25, 6)
+    out["edge_wavelength"] = EDGE_FULL["edge_wavelength"]
+    return out
 
 
 # --- parameter parsing ------------------------------------------------------------------------------------------
@@ -88,8 +146,8 @@ def resolve(raw: Any) -> Optional[Dict[str, Any]]:
     out = dict(FULL)
     for k in sorted(raw):
         v = raw[k]
-        if k not in KEYS and k not in ("scale", "seed"):
-            errs.append("warp: unknown key %r (known: %s, scale, seed)" % (k, ", ".join(KEYS)))
+        if k not in KEYS and k not in EDGE_KEYS and k not in ("scale", "seed"):
+            errs.append("warp: unknown key %r (known: %s, scale, seed)" % (k, ", ".join(KEYS + EDGE_KEYS)))
             continue
         try:
             if isinstance(v, bool):
@@ -109,7 +167,7 @@ def resolve(raw: Any) -> Optional[Dict[str, Any]]:
             else:
                 out[k] = x
         else:
-            lo, hi = RANGES[k]
+            lo, hi = RANGES[k] if k in RANGES else EDGE_RANGES[k]
             if not (lo <= x <= hi):
                 errs.append("warp.%s: %r outside [%g, %g]" % (k, v, lo, hi))
             else:
@@ -304,6 +362,10 @@ class _Field:
         self.fort = unary_union(forts) if forts and wp["fort_damp"] > 0 else None
         self.cache: Dict[Pt, Pt] = {}
         self.offsets: List[int] = []
+        # outer boundary: pinned against the interior field when edge_amp is given or the generator is not `organic`
+        self.edge = wp.get("edge_amp") is not None
+        self.pin = self.edge or s.generator != "organic"
+        self.bound = Polygon(s.footprint).exterior if self.pin else None
 
     def raw(self, xy: np.ndarray) -> np.ndarray:
         """Unrounded displaced positions of an (n, 2) array."""
@@ -315,10 +377,22 @@ class _Field:
         dy = (a * noise.fbm2(x / L + 31.7, y / L - 12.3, self.s2, 3)
               + fa * noise.fbm2(x / F + 31.7, y / F - 12.3, self.s2 + 11, 2))
         k = np.full(x.shape, self.scale, dtype=np.float64)
+        if self.bound is not None:
+            d = shapely.distance(shapely.points(xy), self.bound) / Rs
+            u = np.clip(d / TAPER, 0.0, 1.0)
+            k = k * (u * u * (3.0 - 2.0 * u))
         if self.fort is not None:
             dist = shapely.distance(shapely.points(xy), self.fort)
             t = np.clip(dist / 40.0, 0.0, 1.0)
             k = k * (1.0 - wp["fort_damp"] * (1.0 - t * t * (3.0 - 2.0 * t)))
+        if self.edge and wp["edge_amp"] > 0:
+            E = wp["edge_wavelength"] * Rs
+            ea = wp["edge_amp"] * Rs
+            ex = ea * noise.fbm2(x / E + 7.3, y / E + 2.9, self.s1 + 101, 2)
+            ey = ea * noise.fbm2(x / E - 19.1, y / E + 5.5, self.s2 + 101, 2)
+            w = 1.0 - np.clip(d / EDGE_REACH, 0.0, 1.0)
+            w = w * w * (3.0 - 2.0 * w) * self.scale
+            return np.stack([x + k * dx + w * ex, y + k * dy + w * ey], axis=1)
         return np.stack([x + k * dx, y + k * dy], axis=1)
 
     def _batch(self, pts: List[Pt]) -> None:
@@ -450,7 +524,7 @@ def apply(s: Settlement, wp: Dict[str, Any]) -> Settlement:
 
 
 def _echo(wp: Dict[str, Any], scale: float, seed: int) -> Dict[str, Any]:
-    out = {k: wp[k] for k in KEYS}
+    out = {k: wp[k] for k in KEYS + tuple(e for e in EDGE_KEYS if e in wp)}
     out["scale"] = scale
     out["seed"] = seed
     return out

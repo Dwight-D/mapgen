@@ -232,3 +232,31 @@ def test_warped_map_passes_flowgraph_strict(tmp_path, monkeypatch):
     rc, so, se = run("flowgraph", "check", str(tmp_path / "hearthmoor.flow.yaml"), str(tmp_path / "hearthmoor.yaml"), "--strict")
     assert rc == 0, so + se
     assert run("validate", str(tmp_path / "hearthmoor.yaml"))[0] == 0
+
+
+@pytest.mark.parametrize("seed", [3, 7, 11])
+def test_edge_warp_pins_boundary_and_bends_with_edge_warp(seed):
+    """Simple generators keep an unwiggled outline under `warp`; `edge_warp` bends it at a large scale; invariants hold."""
+    base = town.generate("radial", seed, params={"layers": LAYERS})
+    pinned = town.generate("radial", seed, params={"layers": LAYERS, "warp": "0.6"})
+    bent = town.generate("radial", seed, params={"layers": LAYERS, "warp": "0.6", "edge_warp": "0.6"})
+    assert "edge_amp" not in pinned.params["warp"] and bent.params["warp"]["edge_amp"] == 0.15
+    f0 = Polygon(base.footprint)
+    dev_pin = f0.symmetric_difference(Polygon(pinned.footprint)).area / f0.area
+    dev_bent = f0.symmetric_difference(Polygon(bent.footprint)).area / f0.area
+    assert dev_pin < 0.01 and dev_bent > 0.03
+    for s in (pinned, bent):
+        assert town.check(s) == [] and town.check_determinism(s) == []
+        assert _ids(s) == _ids(base)
+        for g in s.gates:
+            w = next(w for w in s.walls if w.id == g.wall)
+            assert min(Point(g.at).distance(Point(p)) for p in w.polyline) < 0.05
+
+
+def test_edge_warp_parse_errors():
+    assert warp.merge_edge(None, "0.5") is None
+    wr = warp.resolve(0.6)
+    assert warp.merge_edge(wr, "amp=0.1,wavelength=0.9")["edge_wavelength"] == 0.9
+    for bad in ("2", "amp=0.9", "foo=1", "x"):
+        with pytest.raises(ParamError):
+            warp.merge_edge(wr, bad)

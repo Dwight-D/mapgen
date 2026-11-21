@@ -1,4 +1,4 @@
-"""Town layout: voronoi generator and its organic regime (design: mapgen/TOWN_SPEC.md section 7.2)."""
+"""Town layout: voronoi generator (design: mapgen/TOWN_SPEC.md section 7.2)."""
 import json
 import os
 
@@ -17,8 +17,8 @@ def run(*args):
     return type("R", (), {"returncode": rc, "stdout": out, "stderr": err})
 
 SEEDS = list(range(1, 21))
-REGIMES = [{}, {"organic": True}]
-IDS = ["plain", "organic"]
+REGIMES = [{}]
+IDS = ["plain"]
 
 
 def _gen(seed, **kw):
@@ -41,15 +41,6 @@ def test_same_seed_identical_json(seed):
 
 def test_seeds_differ():
     assert len({_gen(s).to_json() for s in SEEDS}) == len(SEEDS)
-
-
-def test_organic_is_a_regime():
-    a, b = _gen(3), _gen(3, params={"organic": True})
-    assert b.params["organic"] is True and a.params["organic"] is False
-    assert a.to_json() != b.to_json()
-    # same stable draws apart from the regime flag
-    for k in ("patches", "gates", "radius_frac"):
-        assert a.params[k] == b.params[k]
 
 
 def test_override_does_not_shift_other_draws():
@@ -128,9 +119,9 @@ def test_emit_deterministic():
     assert town.emit_flow(s) == town.emit_flow(_gen(6))
 
 
-def test_cli_generate_organic(tmp_path):
+def test_cli_generate(tmp_path):
     out = str(tmp_path / "t")
-    r = run("town", "generate", "voronoi", "--seed", "3", "--param", "organic=true", "--out", out)
+    r = run("town", "generate", "voronoi", "--seed", "3", "--out", out)
     assert r.returncode == 0, r.stdout + r.stderr
     assert run("town", "check", os.path.join(out, "settlement.json")).returncode == 0
     assert run("town", "generate", "voronoi", "--param", "patches=99").returncode == 1

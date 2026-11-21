@@ -52,7 +52,7 @@ Decisions (one per question):
 | question | decision |
 |---|---|
 | Where does outline shape come from for new towns? | a scalar-field contour (§4), in the new `organic` generator; existing generators get their outline curved by the warp only |
-| Existing Voronoi angular outlines | not patched; use `organic` + `voronoi` fills. `voronoi organic=true` is retired from showcases (Ashgrove failure) |
+| Existing Voronoi angular outlines | not patched; use `organic` + `voronoi` fills. The `voronoi` generator has no organic regime |
 | How do roads and borders become curved? | one global warp `W` after layers, applied to every vertex of every geometry, never per feature |
 | How is topology kept? | W is a pure function of coordinates (shared vertices stay shared), edges are densified canonically (same points both sides), and the result must pass the full `check` or the amplitude is reduced and retried |
 | Block variety | more fills selected by weights per district (§7), not a meta-fill; Unfit falls through to the next weighted fill (§7.6) |
@@ -168,6 +168,14 @@ Forms: a strength `warp=0.6` (0-1, preset below; 0 is none) or a dict / `k=v` li
 
 Strength `a` scales `amp` and `fine_amp` linearly from 0 (rounded to 6 decimals). The echoed dict in `params["warp"]` holds the six keys plus `scale` (the final amplitude
 multiplier after retries, §6.3) and `seed` (`s1`, below). A dict that carries `scale` is applied at exactly that scale, without retries: this is what makes regeneration from the echo a fixed point.
+
+**Outer boundary vs interior.** The `warp` displacement above is the *interior warp* (roads, block borders). For every generator except `organic` the outer
+boundary (footprint, wall, towers, gates on it) is pinned against it: the interior displacement is multiplied by `smoothstep(dist(p, footprint boundary) / (0.18 * Rs))`, so the outline of a simple shape
+is not wiggled at small scale. The `organic` generator, whose outline is already a shape-field contour, keeps the unmasked displacement. The separate parameter `edge_warp`
+(split off like `warp`, `warp.merge_edge`) adds an *edge displacement* with a large wavelength: a strength 0-1 (`edge_amp = 0.25 * strength`, `edge_wavelength = 0.75`) or `amp=..,wavelength=..`
+(`edge_amp` 0-0.3 of `Rs`, `edge_wavelength` 0.4-1.5 radii). `edge_warp=0` pins the boundary for any generator including `organic`. The edge displacement is `edge_amp * Rs * fbm2(p / (edge_wavelength * Rs), s1 + 101, 2)` (y with
+offsets and seed `s2 + 101`), weighted by `smoothstep(1 - dist(p, boundary) / (0.6 * Rs))` so it fades into the interior. Without `warp` the parameter does nothing. The keys `edge_amp`, `edge_wavelength` are echoed in `params["warp"]` when `edge_warp` was given.
+Radial seeds 3 and 7: `edge_warp=0.6` bends the outline into a plausible irregular wall; `1.0` is lumpy but still valid; `0` (default) leaves a clean ellipse.
 
 ### 6.2 Displacement
 
@@ -360,7 +368,7 @@ the edge lists the roads on the district boundary and the entries within `SNAP` 
 | `dusk` | `organic`, `edge=wall`, `lobes=2`, `ribbons=1`, `warp=0.6`, `layers=organic` | splotchy walled outline, blocks following roads |
 | `wardring` (revised) | existing radial + layers, plus `warp=0.5` | the layered favourite, curved |
 | `hearthmoor`, `swordmarch` (revised) | grid + `layers=organic` + `warp=0.6` (blocks re-filled at several angles; main lattice bent) | grid towns that are no longer uniform |
-| `ashgrove` | replaced by `organic` seed chosen by scan (no pinch) | the failure case fixed |
+| `ashgrove` | `organic`, `edge=wall`, `warp=0.6`, `layers=organic`, seed 21, 900 m (no pinch) | splotchy walled outline |
 
 Seeds are chosen by scanning (as the README records for twinbridge): the first seed passing `check`, `flowgraph check --strict` and the visual criteria of §12.
 
@@ -450,12 +458,11 @@ A scratch script (a 40-line `densify + fbm2 displacement` of a finished Settleme
 
 Nothing existing changes unless a new parameter is given. Edits to existing files add defaulted fields and branches: `District.density` and `Gate.kind entry` (omitted/unused when absent), `fill_grid` params
 `shear`, `fan` (default 0, no extra draws), `align_jitter` range, `Unfit` fallback (a district that was a leaf because its only fill was `Unfit` stays a leaf when its `use` has one entry). The showcase
-rebuilds of `hearthmoor`, `swordmarch`, `wardring` change those maps' generated files by design; the regression suite does not cover them. The `voronoi` generator's own smooth cell warp parameter is `cell_warp`, so `warp` names only the settlement-level stage (§6). `voronoi organic=true` remains available (not retired in W2a: `organic` covers the splotchy-outline need, the old mode has its own tests) and documented as the
-chaotic regime with large outer cells; `ashgrove` is rebuilt from `organic`. `TOWN_SPEC.md` §7, §12 and §14 gain pointers to this file in the slice that lands each part.
+rebuilds of `hearthmoor`, `swordmarch`, `wardring` change those maps' generated files by design; the regression suite does not cover them. The `voronoi` generator's own smooth cell warp parameter is `cell_warp`, so `warp` names only the settlement-level stage (§6). The `voronoi` organic regime (`organic=true`) is removed; `ashgrove` is rebuilt from `organic`. `TOWN_SPEC.md` §7, §12 and §14 gain pointers to this file in the slice that lands each part.
 
 ## 15. Open decisions for the owner
 
 1. Wall-less towns use `Gate.kind=entry` with no wall; `build.py` team bases attach to entries. DECIDED (owner): accepted, no `portals` list.
 2. Fringe is `outskirt` districts with a `density` value, not individual plots. DECIDED (owner): outskirt districts have a minimum of 1 600 m2.
 3. Warp strength defaults (`0.6-0.8` in showcases): review the contact sheet in W4.
-4. Whether to retire `voronoi organic=true` and the `voronoi` generator for new towns, keeping it for compatibility.
+4. `voronoi organic=true`. DECIDED (owner): removed (code, tests, docs); the `voronoi` generator itself stays. Backward compatibility is not kept.

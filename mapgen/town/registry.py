@@ -27,7 +27,7 @@ GENERATORS: Dict[str, Generator] = {
     "radial": Generator("radial", gen_radial.DEFS, gen_radial.generate,
                         "ring roads, wedge districts, central plaza, irregular wall with gates on spokes"),
     "voronoi": Generator("voronoi", gen_voronoi.DEFS, gen_voronoi.generate,
-                         "Voronoi-cell districts on a seed spiral, border arteries to a plaza, angular wall; organic=true for the chaotic regime"),
+                         "Voronoi-cell districts on a seed spiral, border arteries to a plaza, angular wall"),
     "organic": Generator("organic", gen_organic.DEFS, gen_organic.generate,
                          "splotchy shape-field footprint, curved arteries and arcs, perturbed plaza; edge=%s" % gen_organic.EDGE_DOC),
     "grid": Generator("grid", gen_grid.DEFS, gen_grid.generate,
@@ -57,7 +57,7 @@ def generate(generator: str, seed: int, size: Sequence[float] = DEFAULT_SIZE, pa
     wp = water.resolve({k: v for k, v in (params or {}).items() if water.is_water_param(k)})
     base_params = {k: v for k, v in (params or {}).items() if not fort.is_fort_param(k) and not water.is_water_param(k)
                    and not layers_params.is_layer_param(k) and not warp.is_warp_param(k)}
-    wr = warp.resolve((params or {}).get("warp"))
+    wr = warp.merge_edge(warp.resolve((params or {}).get("warp")), (params or {}).get("edge_warp"))
     fp = fort.resolve({k: v for k, v in (params or {}).items() if fort.is_fort_param(k)})
     edge = None
     if generator == "organic":
