@@ -49,3 +49,16 @@ def test_build_thornwick(tmp_path):
     g = load_flowgraph_dict(flow)
     res = flow_check(g, spec, raw_paths=raw_line_paths_text(text))
     assert not res.failed(strict=True), res.lines(True)
+
+
+def test_build_writes_settlement_sidecar():
+    r = subprocess.run([sys.executable, "maps/towns/build.py", "thornwick"], cwd=ROOT, capture_output=True, text=True)
+    assert r.returncode == 0, r.stderr
+    sidecar = os.path.join(ROOT, "maps", "towns", "thornwick.settlement.json")
+    with open(sidecar, encoding="utf-8") as f:
+        text = f.read()
+    sys.path.insert(0, os.path.join(ROOT, "maps", "towns"))
+    import build
+    c = build.MAPS["thornwick"]
+    s = town.generate(c["gen"], c["seed"], (c["size"], c["size"]), {k: str(v) for k, v in c["params"].items()}, c["sid"])
+    assert text == s.to_json()

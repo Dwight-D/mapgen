@@ -1,0 +1,7539 @@
+{
+  "centre": [
+    500.0,
+    500.0
+  ],
+  "district_graph": {
+    "edges": [
+      {
+        "a": "hearth_d_plaza",
+        "b": "hearth_d_x0y0",
+        "gates": [],
+        "id": "hearth_d_plaza~hearth_d_x0y0",
+        "kind": "adjacent",
+        "length": 70.01,
+        "passable": true,
+        "roads": [
+          "hearth_ring_1"
+        ]
+      },
+      {
+        "a": "hearth_d_plaza",
+        "b": "hearth_d_x0y1",
+        "gates": [],
+        "id": "hearth_d_plaza~hearth_d_x0y1",
+        "kind": "adjacent",
+        "length": 53.13,
+        "passable": true,
+        "roads": [
+          "hearth_ring_1"
+        ]
+      },
+      {
+        "a": "hearth_d_plaza",
+        "b": "hearth_d_x1y0",
+        "gates": [],
+        "id": "hearth_d_plaza~hearth_d_x1y0",
+        "kind": "adjacent",
+        "length": 76.03,
+        "passable": true,
+        "roads": [
+          "hearth_ring_1"
+        ]
+      },
+      {
+        "a": "hearth_d_plaza",
+        "b": "hearth_d_x1y1a",
+        "gates": [],
+        "id": "hearth_d_plaza~hearth_d_x1y1a",
+        "kind": "adjacent",
+        "length": 13.99,
+        "passable": true,
+        "roads": [
+          "hearth_ring_1"
+        ]
+      },
+      {
+        "a": "hearth_d_x0y0",
+        "b": "hearth_d_x0y1",
+        "gates": [],
+        "id": "hearth_d_x0y0~hearth_d_x0y1",
+        "kind": "adjacent",
+        "length": 59.59,
+        "passable": true,
+        "roads": [
+          "hearth_av_v0n",
+          "hearth_blvd_b1"
+        ]
+      },
+      {
+        "a": "hearth_d_x0y0",
+        "b": "hearth_d_x0yn1",
+        "gates": [],
+        "id": "hearth_d_x0y0~hearth_d_x0yn1",
+        "kind": "adjacent",
+        "length": 89.94,
+        "passable": true,
+        "roads": [
+          "hearth_av_vn1"
+        ]
+      },
+      {
+        "a": "hearth_d_x0y0",
+        "b": "hearth_d_x1y0",
+        "gates": [],
+        "id": "hearth_d_x0y0~hearth_d_x1y0",
+        "kind": "adjacent",
+        "length": 62.86,
+        "passable": true,
+        "roads": [
+          "hearth_blvd_b2"
+        ]
+      },
+      {
+        "a": "hearth_d_x0y0",
+        "b": "hearth_d_xn1y0",
+        "gates": [],
+        "id": "hearth_d_x0y0~hearth_d_xn1y0",
+        "kind": "adjacent",
+        "length": 118.59,
+        "passable": true,
+        "roads": [
+          "hearth_av_un1"
+        ]
+      },
+      {
+        "a": "hearth_d_x0y1",
+        "b": "hearth_d_x0y2",
+        "gates": [],
+        "id": "hearth_d_x0y1~hearth_d_x0y2",
+        "kind": "adjacent",
+        "length": 101.9,
+        "passable": true,
+        "roads": [
+          "hearth_av_v1"
+        ]
+      },
+      {
+        "a": "hearth_d_x0y1",
+        "b": "hearth_d_x1y1a",
+        "gates": [],
+        "id": "hearth_d_x0y1~hearth_d_x1y1a",
+        "kind": "adjacent",
+        "length": 99.55,
+        "passable": true,
+        "roads": [
+          "hearth_av_u0p"
+        ]
+      },
+      {
+        "a": "hearth_d_x0y1",
+        "b": "hearth_d_xn1y1a",
+        "gates": [],
+        "id": "hearth_d_x0y1~hearth_d_xn1y1a",
+        "kind": "adjacent",
+        "length": 26.08,
+        "passable": true,
+        "roads": [
+          "hearth_av_un1"
+        ]
+      },
+      {
+        "a": "hearth_d_x0y1",
+        "b": "hearth_d_xn1y1b",
+        "gates": [],
+        "id": "hearth_d_x0y1~hearth_d_xn1y1b",
+        "kind": "adjacent",
+        "length": 80.94,
+        "passable": true,
+        "roads": [
+          "hearth_av_un1"
+        ]
+      },
+      {
+        "a": "hearth_d_x0y2",
+        "b": "hearth_d_x0y3",
+        "gates": [],
+        "id": "hearth_d_x0y2~hearth_d_x0y3",
+        "kind": "adjacent",
+        "length": 101.9,
+        "passable": true,
+        "roads": [
+          "hearth_av_v2"
+        ]
+      },
+      {
+        "a": "hearth_d_x0y2",
+        "b": "hearth_d_x1y2",
+        "gates": [],
+        "id": "hearth_d_x0y2~hearth_d_x1y2",
+        "kind": "adjacent",
+        "length": 116.82,
+        "passable": true,
+        "roads": [
+          "hearth_av_u0p"
+        ]
+      },
+      {
+        "a": "hearth_d_x0y2",
+        "b": "hearth_d_xn1y2",
+        "gates": [],
+        "id": "hearth_d_x0y2~hearth_d_xn1y2",
+        "kind": "adjacent",
+        "length": 116.82,
+        "passable": true,
+        "roads": [
+          "hearth_av_un1"
+        ]
+      },
+      {
+        "a": "hearth_d_x0y3",
+        "b": "hearth_d_x1y3",
+        "gates": [],
+        "id": "hearth_d_x0y3~hearth_d_x1y3",
+        "kind": "adjacent",
+        "length": 44.97,
+        "passable": true,
+        "roads": [
+          "hearth_av_u0p"
+        ]
+      },
+      {
+        "a": "hearth_d_x0y3",
+        "b": "hearth_d_xn1y3",
+        "gates": [],
+        "id": "hearth_d_x0y3~hearth_d_xn1y3",
+        "kind": "adjacent",
+        "length": 45.06,
+        "passable": true,
+        "roads": [
+          "hearth_av_un1"
+        ]
+      },
+      {
+        "a": "hearth_d_x0y3",
+        "b": "outside",
+        "gates": [],
+        "id": "hearth_d_x0y3~outside",
+        "kind": "wall",
+        "length": 104.7,
+        "passable": false,
+        "roads": []
+      },
+      {
+        "a": "hearth_d_x0yn1",
+        "b": "hearth_d_x0yn2",
+        "gates": [],
+        "id": "hearth_d_x0yn1~hearth_d_x0yn2",
+        "kind": "adjacent",
+        "length": 101.9,
+        "passable": true,
+        "roads": [
+          "hearth_av_vn2"
+        ]
+      },
+      {
+        "a": "hearth_d_x0yn1",
+        "b": "hearth_d_x1y0",
+        "gates": [],
+        "id": "hearth_d_x0yn1~hearth_d_x1y0",
+        "kind": "adjacent",
+        "length": 11.96,
+        "passable": true,
+        "roads": [
+          "hearth_av_vn1"
+        ]
+      },
+      {
+        "a": "hearth_d_x0yn1",
+        "b": "hearth_d_x1yn1",
+        "gates": [],
+        "id": "hearth_d_x0yn1~hearth_d_x1yn1",
+        "kind": "adjacent",
+        "length": 123.24,
+        "passable": true,
+        "roads": [
+          "hearth_av_u0n"
+        ]
+      },
+      {
+        "a": "hearth_d_x0yn1",
+        "b": "hearth_d_xn1yn1",
+        "gates": [],
+        "id": "hearth_d_x0yn1~hearth_d_xn1yn1",
+        "kind": "adjacent",
+        "length": 123.24,
+        "passable": true,
+        "roads": [
+          "hearth_av_un1"
+        ]
+      },
+      {
+        "a": "hearth_d_x0yn2",
+        "b": "hearth_d_x1yn2",
+        "gates": [],
+        "id": "hearth_d_x0yn2~hearth_d_x1yn2",
+        "kind": "adjacent",
+        "length": 18.82,
+        "passable": true,
+        "roads": [
+          "hearth_av_u0n"
+        ]
+      },
+      {
+        "a": "hearth_d_x0yn2",
+        "b": "hearth_d_xn1yn2",
+        "gates": [],
+        "id": "hearth_d_x0yn2~hearth_d_xn1yn2",
+        "kind": "adjacent",
+        "length": 19.03,
+        "passable": true,
+        "roads": [
+          "hearth_av_un1"
+        ]
+      },
+      {
+        "a": "hearth_d_x0yn2",
+        "b": "outside",
+        "gates": [],
+        "id": "hearth_d_x0yn2~outside",
+        "kind": "wall",
+        "length": 104.7,
+        "passable": false,
+        "roads": []
+      },
+      {
+        "a": "hearth_d_x1y0",
+        "b": "hearth_d_x1y1b",
+        "gates": [],
+        "id": "hearth_d_x1y0~hearth_d_x1y1b",
+        "kind": "adjacent",
+        "length": 80.63,
+        "passable": true,
+        "roads": [
+          "hearth_av_v0p"
+        ]
+      },
+      {
+        "a": "hearth_d_x1y0",
+        "b": "hearth_d_x1yn1",
+        "gates": [],
+        "id": "hearth_d_x1y0~hearth_d_x1yn1",
+        "kind": "adjacent",
+        "length": 91.44,
+        "passable": true,
+        "roads": [
+          "hearth_av_vn1"
+        ]
+      },
+      {
+        "a": "hearth_d_x1y0",
+        "b": "hearth_d_x2y0",
+        "gates": [],
+        "id": "hearth_d_x1y0~hearth_d_x2y0",
+        "kind": "adjacent",
+        "length": 118.59,
+        "passable": true,
+        "roads": [
+          "hearth_av_u1"
+        ]
+      },
+      {
+        "a": "hearth_d_x1y1a",
+        "b": "hearth_d_x1y1b",
+        "gates": [],
+        "id": "hearth_d_x1y1a~hearth_d_x1y1b",
+        "kind": "adjacent",
+        "length": 101.5,
+        "passable": true,
+        "roads": [
+          "hearth_blvd_b0"
+        ]
+      },
+      {
+        "a": "hearth_d_x1y1a",
+        "b": "hearth_d_x1y2",
+        "gates": [],
+        "id": "hearth_d_x1y1a~hearth_d_x1y2",
+        "kind": "adjacent",
+        "length": 91.44,
+        "passable": true,
+        "roads": [
+          "hearth_av_v1"
+        ]
+      },
+      {
+        "a": "hearth_d_x1y1a",
+        "b": "hearth_d_x2y1",
+        "gates": [],
+        "id": "hearth_d_x1y1a~hearth_d_x2y1",
+        "kind": "adjacent",
+        "length": 45.37,
+        "passable": true,
+        "roads": [
+          "hearth_av_u1"
+        ]
+      },
+      {
+        "a": "hearth_d_x1y1b",
+        "b": "hearth_d_x2y1",
+        "gates": [],
+        "id": "hearth_d_x1y1b~hearth_d_x2y1",
+        "kind": "adjacent",
+        "length": 61.65,
+        "passable": true,
+        "roads": [
+          "hearth_av_u1"
+        ]
+      },
+      {
+        "a": "hearth_d_x1y2",
+        "b": "hearth_d_x1y3",
+        "gates": [],
+        "id": "hearth_d_x1y2~hearth_d_x1y3",
+        "kind": "adjacent",
+        "length": 91.44,
+        "passable": true,
+        "roads": [
+          "hearth_av_v2"
+        ]
+      },
+      {
+        "a": "hearth_d_x1y2",
+        "b": "hearth_d_x2y2",
+        "gates": [],
+        "id": "hearth_d_x1y2~hearth_d_x2y2",
+        "kind": "adjacent",
+        "length": 116.82,
+        "passable": true,
+        "roads": [
+          "hearth_av_u1"
+        ]
+      },
+      {
+        "a": "hearth_d_x1y3",
+        "b": "hearth_d_x2y3",
+        "gates": [],
+        "id": "hearth_d_x1y3~hearth_d_x2y3",
+        "kind": "adjacent",
+        "length": 44.97,
+        "passable": true,
+        "roads": [
+          "hearth_av_u1"
+        ]
+      },
+      {
+        "a": "hearth_d_x1y3",
+        "b": "outside",
+        "gates": [],
+        "id": "hearth_d_x1y3~outside",
+        "kind": "wall",
+        "length": 91.44,
+        "passable": false,
+        "roads": []
+      },
+      {
+        "a": "hearth_d_x1yn1",
+        "b": "hearth_d_x1yn2",
+        "gates": [],
+        "id": "hearth_d_x1yn1~hearth_d_x1yn2",
+        "kind": "adjacent",
+        "length": 91.44,
+        "passable": true,
+        "roads": [
+          "hearth_av_vn2"
+        ]
+      },
+      {
+        "a": "hearth_d_x1yn1",
+        "b": "hearth_d_x2yn1",
+        "gates": [],
+        "id": "hearth_d_x1yn1~hearth_d_x2yn1",
+        "kind": "adjacent",
+        "length": 123.24,
+        "passable": true,
+        "roads": [
+          "hearth_av_u1"
+        ]
+      },
+      {
+        "a": "hearth_d_x1yn2",
+        "b": "hearth_d_x2yn2",
+        "gates": [],
+        "id": "hearth_d_x1yn2~hearth_d_x2yn2",
+        "kind": "adjacent",
+        "length": 18.82,
+        "passable": true,
+        "roads": [
+          "hearth_av_u1"
+        ]
+      },
+      {
+        "a": "hearth_d_x1yn2",
+        "b": "outside",
+        "gates": [],
+        "id": "hearth_d_x1yn2~outside",
+        "kind": "wall",
+        "length": 91.44,
+        "passable": false,
+        "roads": []
+      },
+      {
+        "a": "hearth_d_x2y0",
+        "b": "hearth_d_x2y1",
+        "gates": [],
+        "id": "hearth_d_x2y0~hearth_d_x2y1",
+        "kind": "adjacent",
+        "length": 90.85,
+        "passable": true,
+        "roads": [
+          "hearth_av_v0p"
+        ]
+      },
+      {
+        "a": "hearth_d_x2y0",
+        "b": "hearth_d_x2yn1",
+        "gates": [],
+        "id": "hearth_d_x2y0~hearth_d_x2yn1",
+        "kind": "adjacent",
+        "length": 90.85,
+        "passable": true,
+        "roads": [
+          "hearth_av_vn1"
+        ]
+      },
+      {
+        "a": "hearth_d_x2y0",
+        "b": "hearth_d_x3y0",
+        "gates": [],
+        "id": "hearth_d_x2y0~hearth_d_x3y0",
+        "kind": "adjacent",
+        "length": 118.59,
+        "passable": true,
+        "roads": [
+          "hearth_av_u2"
+        ]
+      },
+      {
+        "a": "hearth_d_x2y1",
+        "b": "hearth_d_x2y2",
+        "gates": [],
+        "id": "hearth_d_x2y1~hearth_d_x2y2",
+        "kind": "adjacent",
+        "length": 90.85,
+        "passable": true,
+        "roads": [
+          "hearth_av_v1"
+        ]
+      },
+      {
+        "a": "hearth_d_x2y1",
+        "b": "hearth_d_x3y1",
+        "gates": [],
+        "id": "hearth_d_x2y1~hearth_d_x3y1",
+        "kind": "adjacent",
+        "length": 107.02,
+        "passable": true,
+        "roads": [
+          "hearth_av_u2"
+        ]
+      },
+      {
+        "a": "hearth_d_x2y2",
+        "b": "hearth_d_x2y3",
+        "gates": [],
+        "id": "hearth_d_x2y2~hearth_d_x2y3",
+        "kind": "adjacent",
+        "length": 90.85,
+        "passable": true,
+        "roads": [
+          "hearth_av_v2"
+        ]
+      },
+      {
+        "a": "hearth_d_x2y2",
+        "b": "hearth_d_x3y2a",
+        "gates": [],
+        "id": "hearth_d_x2y2~hearth_d_x3y2a",
+        "kind": "adjacent",
+        "length": 91.83,
+        "passable": true,
+        "roads": [
+          "hearth_av_u2"
+        ]
+      },
+      {
+        "a": "hearth_d_x2y2",
+        "b": "hearth_d_x3y2b",
+        "gates": [],
+        "id": "hearth_d_x2y2~hearth_d_x3y2b",
+        "kind": "adjacent",
+        "length": 24.99,
+        "passable": true,
+        "roads": [
+          "hearth_av_u2"
+        ]
+      },
+      {
+        "a": "hearth_d_x2y3",
+        "b": "hearth_d_x3y3",
+        "gates": [],
+        "id": "hearth_d_x2y3~hearth_d_x3y3",
+        "kind": "adjacent",
+        "length": 44.39,
+        "passable": true,
+        "roads": [
+          "hearth_av_u2"
+        ]
+      },
+      {
+        "a": "hearth_d_x2y3",
+        "b": "outside",
+        "gates": [],
+        "id": "hearth_d_x2y3~outside",
+        "kind": "wall",
+        "length": 88.65,
+        "passable": false,
+        "roads": []
+      },
+      {
+        "a": "hearth_d_x2yn1",
+        "b": "hearth_d_x2yn2",
+        "gates": [],
+        "id": "hearth_d_x2yn1~hearth_d_x2yn2",
+        "kind": "adjacent",
+        "length": 90.85,
+        "passable": true,
+        "roads": [
+          "hearth_av_vn2"
+        ]
+      },
+      {
+        "a": "hearth_d_x2yn1",
+        "b": "hearth_d_x3yn1",
+        "gates": [],
+        "id": "hearth_d_x2yn1~hearth_d_x3yn1",
+        "kind": "adjacent",
+        "length": 123.24,
+        "passable": true,
+        "roads": [
+          "hearth_av_u2"
+        ]
+      },
+      {
+        "a": "hearth_d_x2yn2",
+        "b": "hearth_d_x3yn1",
+        "gates": [],
+        "id": "hearth_d_x2yn2~hearth_d_x3yn1",
+        "kind": "adjacent",
+        "length": 18.32,
+        "passable": true,
+        "roads": [
+          "hearth_av_u2"
+        ]
+      },
+      {
+        "a": "hearth_d_x2yn2",
+        "b": "outside",
+        "gates": [
+          "hearth_gate_u2n"
+        ],
+        "id": "hearth_d_x2yn2~outside",
+        "kind": "wall",
+        "length": 88.65,
+        "passable": false,
+        "roads": []
+      },
+      {
+        "a": "hearth_d_x3y0",
+        "b": "hearth_d_x3y1",
+        "gates": [],
+        "id": "hearth_d_x3y0~hearth_d_x3y1",
+        "kind": "adjacent",
+        "length": 101.62,
+        "passable": true,
+        "roads": [
+          "hearth_av_v0p"
+        ]
+      },
+      {
+        "a": "hearth_d_x3y0",
+        "b": "hearth_d_x3yn1",
+        "gates": [],
+        "id": "hearth_d_x3y0~hearth_d_x3yn1",
+        "kind": "adjacent",
+        "length": 101.62,
+        "passable": true,
+        "roads": [
+          "hearth_av_vn1"
+        ]
+      },
+      {
+        "a": "hearth_d_x3y0",
+        "b": "outside",
+        "gates": [],
+        "id": "hearth_d_x3y0~outside",
+        "kind": "wall",
+        "length": 117.86,
+        "passable": false,
+        "roads": []
+      },
+      {
+        "a": "hearth_d_x3y1",
+        "b": "hearth_d_x3y2b",
+        "gates": [],
+        "id": "hearth_d_x3y1~hearth_d_x3y2b",
+        "kind": "adjacent",
+        "length": 101.62,
+        "passable": true,
+        "roads": [
+          "hearth_av_v1"
+        ]
+      },
+      {
+        "a": "hearth_d_x3y1",
+        "b": "outside",
+        "gates": [],
+        "id": "hearth_d_x3y1~outside",
+        "kind": "wall",
+        "length": 107.3,
+        "passable": false,
+        "roads": []
+      },
+      {
+        "a": "hearth_d_x3y2a",
+        "b": "hearth_d_x3y2b",
+        "gates": [],
+        "id": "hearth_d_x3y2a~hearth_d_x3y2b",
+        "kind": "adjacent",
+        "length": 124.88,
+        "passable": true,
+        "roads": [
+          "hearth_blvd_b0"
+        ]
+      },
+      {
+        "a": "hearth_d_x3y2a",
+        "b": "hearth_d_x3y3",
+        "gates": [],
+        "id": "hearth_d_x3y2a~hearth_d_x3y3",
+        "kind": "adjacent",
+        "length": 95.07,
+        "passable": true,
+        "roads": [
+          "hearth_av_v2"
+        ]
+      },
+      {
+        "a": "hearth_d_x3y2a",
+        "b": "outside",
+        "gates": [
+          "hearth_gate_b0"
+        ],
+        "id": "hearth_d_x3y2a~outside",
+        "kind": "wall",
+        "length": 15.77,
+        "passable": false,
+        "roads": []
+      },
+      {
+        "a": "hearth_d_x3y2b",
+        "b": "outside",
+        "gates": [
+          "hearth_gate_b0"
+        ],
+        "id": "hearth_d_x3y2b~outside",
+        "kind": "wall",
+        "length": 101.3,
+        "passable": false,
+        "roads": []
+      },
+      {
+        "a": "hearth_d_x3y3",
+        "b": "outside",
+        "gates": [],
+        "id": "hearth_d_x3y3~outside",
+        "kind": "wall",
+        "length": 115.97,
+        "passable": false,
+        "roads": []
+      },
+      {
+        "a": "hearth_d_x3yn1",
+        "b": "outside",
+        "gates": [
+          "hearth_gate_u2n"
+        ],
+        "id": "hearth_d_x3yn1~outside",
+        "kind": "wall",
+        "length": 214.32,
+        "passable": false,
+        "roads": []
+      },
+      {
+        "a": "hearth_d_xn1y0",
+        "b": "hearth_d_xn1y1a",
+        "gates": [],
+        "id": "hearth_d_xn1y0~hearth_d_xn1y1a",
+        "kind": "adjacent",
+        "length": 95.3,
+        "passable": true,
+        "roads": [
+          "hearth_av_v0n"
+        ]
+      },
+      {
+        "a": "hearth_d_xn1y0",
+        "b": "hearth_d_xn1yn1",
+        "gates": [],
+        "id": "hearth_d_xn1y0~hearth_d_xn1yn1",
+        "kind": "adjacent",
+        "length": 95.3,
+        "passable": true,
+        "roads": [
+          "hearth_av_vn1"
+        ]
+      },
+      {
+        "a": "hearth_d_xn1y0",
+        "b": "hearth_d_xn2y0",
+        "gates": [],
+        "id": "hearth_d_xn1y0~hearth_d_xn2y0",
+        "kind": "adjacent",
+        "length": 118.59,
+        "passable": true,
+        "roads": [
+          "hearth_av_un2"
+        ]
+      },
+      {
+        "a": "hearth_d_xn1y1a",
+        "b": "hearth_d_xn1y1b",
+        "gates": [],
+        "id": "hearth_d_xn1y1a~hearth_d_xn1y1b",
+        "kind": "adjacent",
+        "length": 108.47,
+        "passable": true,
+        "roads": [
+          "hearth_blvd_b1"
+        ]
+      },
+      {
+        "a": "hearth_d_xn1y1a",
+        "b": "hearth_d_xn2y1",
+        "gates": [],
+        "id": "hearth_d_xn1y1a~hearth_d_xn2y1",
+        "kind": "adjacent",
+        "length": 77.89,
+        "passable": true,
+        "roads": [
+          "hearth_av_un2"
+        ]
+      },
+      {
+        "a": "hearth_d_xn1y1b",
+        "b": "hearth_d_xn1y2",
+        "gates": [],
+        "id": "hearth_d_xn1y1b~hearth_d_xn1y2",
+        "kind": "adjacent",
+        "length": 95.3,
+        "passable": true,
+        "roads": [
+          "hearth_av_v1"
+        ]
+      },
+      {
+        "a": "hearth_d_xn1y1b",
+        "b": "hearth_d_xn2y1",
+        "gates": [],
+        "id": "hearth_d_xn1y1b~hearth_d_xn2y1",
+        "kind": "adjacent",
+        "length": 29.13,
+        "passable": true,
+        "roads": [
+          "hearth_av_un2"
+        ]
+      },
+      {
+        "a": "hearth_d_xn1y2",
+        "b": "hearth_d_xn1y3",
+        "gates": [],
+        "id": "hearth_d_xn1y2~hearth_d_xn1y3",
+        "kind": "adjacent",
+        "length": 95.3,
+        "passable": true,
+        "roads": [
+          "hearth_av_v2"
+        ]
+      },
+      {
+        "a": "hearth_d_xn1y2",
+        "b": "hearth_d_xn2y2",
+        "gates": [],
+        "id": "hearth_d_xn1y2~hearth_d_xn2y2",
+        "kind": "adjacent",
+        "length": 116.82,
+        "passable": true,
+        "roads": [
+          "hearth_av_un2"
+        ]
+      },
+      {
+        "a": "hearth_d_xn1y3",
+        "b": "hearth_d_xn2y3",
+        "gates": [],
+        "id": "hearth_d_xn1y3~hearth_d_xn2y3",
+        "kind": "adjacent",
+        "length": 44.92,
+        "passable": true,
+        "roads": [
+          "hearth_av_un2"
+        ]
+      },
+      {
+        "a": "hearth_d_xn1y3",
+        "b": "outside",
+        "gates": [],
+        "id": "hearth_d_xn1y3~outside",
+        "kind": "wall",
+        "length": 92.5,
+        "passable": false,
+        "roads": []
+      },
+      {
+        "a": "hearth_d_xn1yn1",
+        "b": "hearth_d_xn1yn2",
+        "gates": [],
+        "id": "hearth_d_xn1yn1~hearth_d_xn1yn2",
+        "kind": "adjacent",
+        "length": 95.3,
+        "passable": true,
+        "roads": [
+          "hearth_av_vn2"
+        ]
+      },
+      {
+        "a": "hearth_d_xn1yn1",
+        "b": "hearth_d_xn2yn1",
+        "gates": [],
+        "id": "hearth_d_xn1yn1~hearth_d_xn2yn1",
+        "kind": "adjacent",
+        "length": 123.24,
+        "passable": true,
+        "roads": [
+          "hearth_av_un2"
+        ]
+      },
+      {
+        "a": "hearth_d_xn1yn2",
+        "b": "hearth_d_xn2yn1",
+        "gates": [],
+        "id": "hearth_d_xn1yn2~hearth_d_xn2yn1",
+        "kind": "adjacent",
+        "length": 18.77,
+        "passable": true,
+        "roads": [
+          "hearth_av_un2"
+        ]
+      },
+      {
+        "a": "hearth_d_xn1yn2",
+        "b": "outside",
+        "gates": [],
+        "id": "hearth_d_xn1yn2~outside",
+        "kind": "wall",
+        "length": 92.5,
+        "passable": false,
+        "roads": []
+      },
+      {
+        "a": "hearth_d_xn2y0",
+        "b": "hearth_d_xn2y1",
+        "gates": [],
+        "id": "hearth_d_xn2y0~hearth_d_xn2y1",
+        "kind": "adjacent",
+        "length": 87.02,
+        "passable": true,
+        "roads": [
+          "hearth_av_v0n"
+        ]
+      },
+      {
+        "a": "hearth_d_xn2y0",
+        "b": "hearth_d_xn2yn1",
+        "gates": [],
+        "id": "hearth_d_xn2y0~hearth_d_xn2yn1",
+        "kind": "adjacent",
+        "length": 87.02,
+        "passable": true,
+        "roads": [
+          "hearth_av_vn1"
+        ]
+      },
+      {
+        "a": "hearth_d_xn2y0",
+        "b": "hearth_d_xn3y0",
+        "gates": [],
+        "id": "hearth_d_xn2y0~hearth_d_xn3y0",
+        "kind": "adjacent",
+        "length": 118.59,
+        "passable": true,
+        "roads": [
+          "hearth_av_un3"
+        ]
+      },
+      {
+        "a": "hearth_d_xn2y1",
+        "b": "hearth_d_xn2y2",
+        "gates": [],
+        "id": "hearth_d_xn2y1~hearth_d_xn2y2",
+        "kind": "adjacent",
+        "length": 87.02,
+        "passable": true,
+        "roads": [
+          "hearth_av_v1"
+        ]
+      },
+      {
+        "a": "hearth_d_xn2y1",
+        "b": "hearth_d_xn3y1",
+        "gates": [],
+        "id": "hearth_d_xn2y1~hearth_d_xn3y1",
+        "kind": "adjacent",
+        "length": 107.02,
+        "passable": true,
+        "roads": [
+          "hearth_av_un3"
+        ]
+      },
+      {
+        "a": "hearth_d_xn2y2",
+        "b": "hearth_d_xn2y3",
+        "gates": [],
+        "id": "hearth_d_xn2y2~hearth_d_xn2y3",
+        "kind": "adjacent",
+        "length": 87.02,
+        "passable": true,
+        "roads": [
+          "hearth_av_v2"
+        ]
+      },
+      {
+        "a": "hearth_d_xn2y2",
+        "b": "hearth_d_xn3y2a",
+        "gates": [],
+        "id": "hearth_d_xn2y2~hearth_d_xn3y2a",
+        "kind": "adjacent",
+        "length": 18.18,
+        "passable": true,
+        "roads": [
+          "hearth_av_un3"
+        ]
+      },
+      {
+        "a": "hearth_d_xn2y2",
+        "b": "hearth_d_xn3y2b",
+        "gates": [],
+        "id": "hearth_d_xn2y2~hearth_d_xn3y2b",
+        "kind": "adjacent",
+        "length": 98.64,
+        "passable": true,
+        "roads": [
+          "hearth_av_un3"
+        ]
+      },
+      {
+        "a": "hearth_d_xn2y3",
+        "b": "hearth_d_xn3y3",
+        "gates": [],
+        "id": "hearth_d_xn2y3~hearth_d_xn3y3",
+        "kind": "adjacent",
+        "length": 41.69,
+        "passable": true,
+        "roads": [
+          "hearth_av_un3"
+        ]
+      },
+      {
+        "a": "hearth_d_xn2y3",
+        "b": "outside",
+        "gates": [],
+        "id": "hearth_d_xn2y3~outside",
+        "kind": "wall",
+        "length": 87.14,
+        "passable": false,
+        "roads": []
+      },
+      {
+        "a": "hearth_d_xn2yn1",
+        "b": "hearth_d_xn3yn1",
+        "gates": [],
+        "id": "hearth_d_xn2yn1~hearth_d_xn3yn1",
+        "kind": "adjacent",
+        "length": 138.78,
+        "passable": true,
+        "roads": [
+          "hearth_av_un3"
+        ]
+      },
+      {
+        "a": "hearth_d_xn2yn1",
+        "b": "outside",
+        "gates": [
+          "hearth_gate_un3n"
+        ],
+        "id": "hearth_d_xn2yn1~outside",
+        "kind": "wall",
+        "length": 87.14,
+        "passable": false,
+        "roads": []
+      },
+      {
+        "a": "hearth_d_xn3y0",
+        "b": "hearth_d_xn3y1",
+        "gates": [],
+        "id": "hearth_d_xn3y0~hearth_d_xn3y1",
+        "kind": "adjacent",
+        "length": 67.23,
+        "passable": true,
+        "roads": [
+          "hearth_av_v0n"
+        ]
+      },
+      {
+        "a": "hearth_d_xn3y0",
+        "b": "hearth_d_xn3yn1",
+        "gates": [],
+        "id": "hearth_d_xn3y0~hearth_d_xn3yn1",
+        "kind": "adjacent",
+        "length": 67.21,
+        "passable": true,
+        "roads": [
+          "hearth_av_vn1"
+        ]
+      },
+      {
+        "a": "hearth_d_xn3y0",
+        "b": "outside",
+        "gates": [],
+        "id": "hearth_d_xn3y0~outside",
+        "kind": "wall",
+        "length": 117.86,
+        "passable": false,
+        "roads": []
+      },
+      {
+        "a": "hearth_d_xn3y1",
+        "b": "hearth_d_xn3y2a",
+        "gates": [],
+        "id": "hearth_d_xn3y1~hearth_d_xn3y2a",
+        "kind": "adjacent",
+        "length": 67.23,
+        "passable": true,
+        "roads": [
+          "hearth_av_v1"
+        ]
+      },
+      {
+        "a": "hearth_d_xn3y1",
+        "b": "outside",
+        "gates": [],
+        "id": "hearth_d_xn3y1~outside",
+        "kind": "wall",
+        "length": 107.3,
+        "passable": false,
+        "roads": []
+      },
+      {
+        "a": "hearth_d_xn3y2a",
+        "b": "hearth_d_xn3y2b",
+        "gates": [],
+        "id": "hearth_d_xn3y2a~hearth_d_xn3y2b",
+        "kind": "adjacent",
+        "length": 76.24,
+        "passable": true,
+        "roads": [
+          "hearth_blvd_b1"
+        ]
+      },
+      {
+        "a": "hearth_d_xn3y2a",
+        "b": "outside",
+        "gates": [
+          "hearth_gate_b1"
+        ],
+        "id": "hearth_d_xn3y2a~outside",
+        "kind": "wall",
+        "length": 54.31,
+        "passable": false,
+        "roads": []
+      },
+      {
+        "a": "hearth_d_xn3y2b",
+        "b": "hearth_d_xn3y3",
+        "gates": [],
+        "id": "hearth_d_xn3y2b~hearth_d_xn3y3",
+        "kind": "adjacent",
+        "length": 60.68,
+        "passable": true,
+        "roads": [
+          "hearth_av_v2"
+        ]
+      },
+      {
+        "a": "hearth_d_xn3y2b",
+        "b": "outside",
+        "gates": [
+          "hearth_gate_b1"
+        ],
+        "id": "hearth_d_xn3y2b~outside",
+        "kind": "wall",
+        "length": 62.75,
+        "passable": false,
+        "roads": []
+      },
+      {
+        "a": "hearth_d_xn3y3",
+        "b": "outside",
+        "gates": [],
+        "id": "hearth_d_xn3y3~outside",
+        "kind": "wall",
+        "length": 79.27,
+        "passable": false,
+        "roads": []
+      },
+      {
+        "a": "hearth_d_xn3yn1",
+        "b": "outside",
+        "gates": [
+          "hearth_gate_un3n"
+        ],
+        "id": "hearth_d_xn3yn1~outside",
+        "kind": "wall",
+        "length": 177.61,
+        "passable": false,
+        "roads": []
+      }
+    ],
+    "nodes": [
+      {
+        "id": "hearth_d_plaza",
+        "kind": "district"
+      },
+      {
+        "id": "hearth_d_x0y0",
+        "kind": "district"
+      },
+      {
+        "id": "hearth_d_x0y1",
+        "kind": "district"
+      },
+      {
+        "id": "hearth_d_x0y2",
+        "kind": "district"
+      },
+      {
+        "id": "hearth_d_x0y3",
+        "kind": "district"
+      },
+      {
+        "id": "hearth_d_x0yn1",
+        "kind": "district"
+      },
+      {
+        "id": "hearth_d_x0yn2",
+        "kind": "district"
+      },
+      {
+        "id": "hearth_d_x1y0",
+        "kind": "district"
+      },
+      {
+        "id": "hearth_d_x1y1a",
+        "kind": "district"
+      },
+      {
+        "id": "hearth_d_x1y1b",
+        "kind": "district"
+      },
+      {
+        "id": "hearth_d_x1y2",
+        "kind": "district"
+      },
+      {
+        "id": "hearth_d_x1y3",
+        "kind": "district"
+      },
+      {
+        "id": "hearth_d_x1yn1",
+        "kind": "district"
+      },
+      {
+        "id": "hearth_d_x1yn2",
+        "kind": "district"
+      },
+      {
+        "id": "hearth_d_x2y0",
+        "kind": "district"
+      },
+      {
+        "id": "hearth_d_x2y1",
+        "kind": "district"
+      },
+      {
+        "id": "hearth_d_x2y2",
+        "kind": "district"
+      },
+      {
+        "id": "hearth_d_x2y3",
+        "kind": "district"
+      },
+      {
+        "id": "hearth_d_x2yn1",
+        "kind": "district"
+      },
+      {
+        "id": "hearth_d_x2yn2",
+        "kind": "district"
+      },
+      {
+        "id": "hearth_d_x3y0",
+        "kind": "district"
+      },
+      {
+        "id": "hearth_d_x3y1",
+        "kind": "district"
+      },
+      {
+        "id": "hearth_d_x3y2a",
+        "kind": "district"
+      },
+      {
+        "id": "hearth_d_x3y2b",
+        "kind": "district"
+      },
+      {
+        "id": "hearth_d_x3y3",
+        "kind": "district"
+      },
+      {
+        "id": "hearth_d_x3yn1",
+        "kind": "district"
+      },
+      {
+        "id": "hearth_d_xn1y0",
+        "kind": "district"
+      },
+      {
+        "id": "hearth_d_xn1y1a",
+        "kind": "district"
+      },
+      {
+        "id": "hearth_d_xn1y1b",
+        "kind": "district"
+      },
+      {
+        "id": "hearth_d_xn1y2",
+        "kind": "district"
+      },
+      {
+        "id": "hearth_d_xn1y3",
+        "kind": "district"
+      },
+      {
+        "id": "hearth_d_xn1yn1",
+        "kind": "district"
+      },
+      {
+        "id": "hearth_d_xn1yn2",
+        "kind": "district"
+      },
+      {
+        "id": "hearth_d_xn2y0",
+        "kind": "district"
+      },
+      {
+        "id": "hearth_d_xn2y1",
+        "kind": "district"
+      },
+      {
+        "id": "hearth_d_xn2y2",
+        "kind": "district"
+      },
+      {
+        "id": "hearth_d_xn2y3",
+        "kind": "district"
+      },
+      {
+        "id": "hearth_d_xn2yn1",
+        "kind": "district"
+      },
+      {
+        "id": "hearth_d_xn3y0",
+        "kind": "district"
+      },
+      {
+        "id": "hearth_d_xn3y1",
+        "kind": "district"
+      },
+      {
+        "id": "hearth_d_xn3y2a",
+        "kind": "district"
+      },
+      {
+        "id": "hearth_d_xn3y2b",
+        "kind": "district"
+      },
+      {
+        "id": "hearth_d_xn3y3",
+        "kind": "district"
+      },
+      {
+        "id": "hearth_d_xn3yn1",
+        "kind": "district"
+      },
+      {
+        "id": "outside",
+        "kind": "outside"
+      }
+    ]
+  },
+  "districts": [
+    {
+      "area": 3428.13,
+      "id": "hearth_d_plaza",
+      "inside_wall": true,
+      "key": "plaza",
+      "kind": "core",
+      "label": "Market Square",
+      "landmarks": [
+        "hearth_plaza"
+      ],
+      "polygon": [
+        [
+          544.58,
+          495.92
+        ],
+        [
+          543.09,
+          499.53
+        ],
+        [
+          533.77,
+          503.39
+        ],
+        [
+          518.47,
+          509.72
+        ],
+        [
+          493.85,
+          499.53
+        ],
+        [
+          492.36,
+          495.92
+        ],
+        [
+          490.05,
+          490.36
+        ],
+        [
+          483.66,
+          474.91
+        ],
+        [
+          493.85,
+          450.29
+        ],
+        [
+          518.47,
+          440.1
+        ],
+        [
+          533.77,
+          446.43
+        ],
+        [
+          543.09,
+          450.29
+        ],
+        [
+          553.28,
+          474.91
+        ]
+      ],
+      "waterfront": false
+    },
+    {
+      "area": 8842.82,
+      "id": "hearth_d_x0y0",
+      "inside_wall": true,
+      "key": "x0y0",
+      "kind": "market",
+      "label": "Market Ward 1",
+      "landmarks": [],
+      "polygon": [
+        [
+          490.05,
+          490.36
+        ],
+        [
+          479.83,
+          495.92
+        ],
+        [
+          431.87,
+          495.92
+        ],
+        [
+          431.87,
+          377.33
+        ],
+        [
+          521.81,
+          377.33
+        ],
+        [
+          518.47,
+          440.1
+        ],
+        [
+          493.85,
+          450.29
+        ],
+        [
+          483.66,
+          474.91
+        ]
+      ],
+      "waterfront": false
+    },
+    {
+      "area": 10560.45,
+      "id": "hearth_d_x0y1",
+      "inside_wall": true,
+      "key": "x0y1",
+      "kind": "citadel",
+      "label": "Citadel Ward 1",
+      "landmarks": [
+        "hearth_citadel"
+      ],
+      "polygon": [
+        [
+          431.87,
+          495.92
+        ],
+        [
+          479.83,
+          495.92
+        ],
+        [
+          490.05,
+          490.36
+        ],
+        [
+          492.36,
+          495.92
+        ],
+        [
+          493.85,
+          499.53
+        ],
+        [
+          518.47,
+          509.72
+        ],
+        [
+          533.77,
+          503.39
+        ],
+        [
+          533.77,
+          602.94
+        ],
+        [
+          431.87,
+          602.94
+        ],
+        [
+          431.87,
+          522.0
+        ]
+      ],
+      "waterfront": false
+    },
+    {
+      "area": 11903.96,
+      "id": "hearth_d_x0y2",
+      "inside_wall": true,
+      "key": "x0y2",
+      "kind": "residential",
+      "label": "Residential Ward 1",
+      "landmarks": [],
+      "polygon": [
+        [
+          533.77,
+          719.76
+        ],
+        [
+          431.87,
+          719.76
+        ],
+        [
+          431.87,
+          602.94
+        ],
+        [
+          533.77,
+          602.94
+        ]
+      ],
+      "waterfront": false
+    },
+    {
+      "area": 4645.4,
+      "id": "hearth_d_x0y3",
+      "inside_wall": true,
+      "key": "x0y3",
+      "kind": "craft",
+      "label": "Craft Quarter 1",
+      "landmarks": [],
+      "polygon": [
+        [
+          527.82,
+          764.73
+        ],
+        [
+          513.87,
+          764.73
+        ],
+        [
+          500.0,
+          764.73
+        ],
+        [
+          486.13,
+          764.73
+        ],
+        [
+          472.18,
+          764.73
+        ],
+        [
+          458.07,
+          764.73
+        ],
+        [
+          443.73,
+          764.73
+        ],
+        [
+          429.07,
+          764.73
+        ],
+        [
+          431.87,
+          719.76
+        ],
+        [
+          533.77,
+          719.76
+        ],
+        [
+          533.77,
+          764.73
+        ]
+      ],
+      "waterfront": false
+    },
+    {
+      "area": 12558.16,
+      "id": "hearth_d_x0yn1",
+      "inside_wall": true,
+      "key": "x0yn1",
+      "kind": "residential",
+      "label": "Residential Ward 2",
+      "landmarks": [],
+      "polygon": [
+        [
+          431.87,
+          254.09
+        ],
+        [
+          526.03,
+          254.09
+        ],
+        [
+          533.77,
+          254.09
+        ],
+        [
+          533.77,
+          377.33
+        ],
+        [
+          521.81,
+          377.33
+        ],
+        [
+          431.87,
+          377.33
+        ]
+      ],
+      "waterfront": false
+    },
+    {
+      "area": 1944.11,
+      "id": "hearth_d_x0yn2",
+      "inside_wall": true,
+      "key": "x0yn2",
+      "kind": "craft",
+      "label": "Craft Quarter 2",
+      "landmarks": [],
+      "polygon": [
+        [
+          429.07,
+          235.27
+        ],
+        [
+          443.73,
+          235.27
+        ],
+        [
+          458.07,
+          235.27
+        ],
+        [
+          472.18,
+          235.27
+        ],
+        [
+          486.13,
+          235.27
+        ],
+        [
+          500.0,
+          235.27
+        ],
+        [
+          513.87,
+          235.27
+        ],
+        [
+          527.82,
+          235.27
+        ],
+        [
+          533.77,
+          235.27
+        ],
+        [
+          533.77,
+          254.09
+        ],
+        [
+          526.03,
+          254.09
+        ],
+        [
+          431.87,
+          254.09
+        ]
+      ],
+      "waterfront": false
+    },
+    {
+      "area": 11056.45,
+      "id": "hearth_d_x1y0",
+      "inside_wall": true,
+      "key": "x1y0",
+      "kind": "market",
+      "label": "Market Ward 2",
+      "landmarks": [],
+      "polygon": [
+        [
+          533.77,
+          446.43
+        ],
+        [
+          518.47,
+          440.1
+        ],
+        [
+          521.81,
+          377.33
+        ],
+        [
+          533.77,
+          377.33
+        ],
+        [
+          625.21,
+          377.33
+        ],
+        [
+          625.21,
+          495.92
+        ],
+        [
+          544.58,
+          495.92
+        ],
+        [
+          553.28,
+          474.91
+        ],
+        [
+          543.09,
+          450.29
+        ]
+      ],
+      "waterfront": false
+    },
+    {
+      "area": 7246.17,
+      "id": "hearth_d_x1y1a",
+      "inside_wall": true,
+      "key": "x1y1a",
+      "kind": "market",
+      "label": "Market Ward 3",
+      "landmarks": [],
+      "polygon": [
+        [
+          544.58,
+          495.92
+        ],
+        [
+          625.21,
+          557.57
+        ],
+        [
+          625.21,
+          602.94
+        ],
+        [
+          533.77,
+          602.94
+        ],
+        [
+          533.77,
+          503.39
+        ],
+        [
+          543.09,
+          499.53
+        ]
+      ],
+      "waterfront": false
+    },
+    {
+      "area": 2485.42,
+      "id": "hearth_d_x1y1b",
+      "inside_wall": true,
+      "key": "x1y1b",
+      "kind": "residential",
+      "label": "Residential Ward 3",
+      "landmarks": [],
+      "polygon": [
+        [
+          544.58,
+          495.92
+        ],
+        [
+          625.21,
+          495.92
+        ],
+        [
+          625.21,
+          557.57
+        ]
+      ],
+      "waterfront": false
+    },
+    {
+      "area": 10682.02,
+      "id": "hearth_d_x1y2",
+      "inside_wall": true,
+      "key": "x1y2",
+      "kind": "residential",
+      "label": "Residential Ward 4",
+      "landmarks": [],
+      "polygon": [
+        [
+          533.77,
+          602.94
+        ],
+        [
+          625.21,
+          602.94
+        ],
+        [
+          625.21,
+          719.76
+        ],
+        [
+          533.77,
+          719.76
+        ]
+      ],
+      "waterfront": false
+    },
+    {
+      "area": 4112.06,
+      "id": "hearth_d_x1y3",
+      "inside_wall": true,
+      "key": "x1y3",
+      "kind": "craft",
+      "label": "Craft Quarter 3",
+      "landmarks": [],
+      "polygon": [
+        [
+          617.87,
+          764.73
+        ],
+        [
+          601.62,
+          764.73
+        ],
+        [
+          586.02,
+          764.73
+        ],
+        [
+          570.93,
+          764.73
+        ],
+        [
+          556.27,
+          764.73
+        ],
+        [
+          541.93,
+          764.73
+        ],
+        [
+          533.77,
+          764.73
+        ],
+        [
+          533.77,
+          719.76
+        ],
+        [
+          625.21,
+          719.76
+        ],
+        [
+          625.21,
+          764.73
+        ]
+      ],
+      "waterfront": false
+    },
+    {
+      "area": 11269.07,
+      "id": "hearth_d_x1yn1",
+      "inside_wall": true,
+      "key": "x1yn1",
+      "kind": "residential",
+      "label": "Residential Ward 5",
+      "landmarks": [],
+      "polygon": [
+        [
+          533.77,
+          254.09
+        ],
+        [
+          625.21,
+          254.09
+        ],
+        [
+          625.21,
+          377.33
+        ],
+        [
+          533.77,
+          377.33
+        ]
+      ],
+      "waterfront": false
+    },
+    {
+      "area": 1720.9,
+      "id": "hearth_d_x1yn2",
+      "inside_wall": true,
+      "key": "x1yn2",
+      "kind": "craft",
+      "label": "Craft Quarter 4",
+      "landmarks": [],
+      "polygon": [
+        [
+          541.93,
+          235.27
+        ],
+        [
+          556.27,
+          235.27
+        ],
+        [
+          570.93,
+          235.27
+        ],
+        [
+          586.02,
+          235.27
+        ],
+        [
+          601.62,
+          235.27
+        ],
+        [
+          617.87,
+          235.27
+        ],
+        [
+          625.21,
+          235.27
+        ],
+        [
+          625.21,
+          254.09
+        ],
+        [
+          533.77,
+          254.09
+        ],
+        [
+          533.77,
+          235.27
+        ]
+      ],
+      "waterfront": false
+    },
+    {
+      "area": 10773.9,
+      "id": "hearth_d_x2y0",
+      "inside_wall": true,
+      "key": "x2y0",
+      "kind": "residential",
+      "label": "Residential Ward 6",
+      "landmarks": [],
+      "polygon": [
+        [
+          625.21,
+          377.33
+        ],
+        [
+          716.06,
+          377.33
+        ],
+        [
+          716.06,
+          495.92
+        ],
+        [
+          625.21,
+          495.92
+        ]
+      ],
+      "waterfront": false
+    },
+    {
+      "area": 9722.77,
+      "id": "hearth_d_x2y1",
+      "inside_wall": true,
+      "key": "x2y1",
+      "kind": "residential",
+      "label": "Residential Ward 7",
+      "landmarks": [],
+      "polygon": [
+        [
+          716.06,
+          602.94
+        ],
+        [
+          683.79,
+          602.94
+        ],
+        [
+          625.21,
+          602.94
+        ],
+        [
+          625.21,
+          557.57
+        ],
+        [
+          625.21,
+          495.92
+        ],
+        [
+          716.06,
+          495.92
+        ]
+      ],
+      "waterfront": false
+    },
+    {
+      "area": 10613.1,
+      "id": "hearth_d_x2y2",
+      "inside_wall": true,
+      "key": "x2y2",
+      "kind": "residential",
+      "label": "Residential Ward 8",
+      "landmarks": [],
+      "polygon": [
+        [
+          716.06,
+          602.94
+        ],
+        [
+          716.06,
+          627.93
+        ],
+        [
+          716.06,
+          719.76
+        ],
+        [
+          625.21,
+          719.76
+        ],
+        [
+          625.21,
+          602.94
+        ],
+        [
+          683.79,
+          602.94
+        ]
+      ],
+      "waterfront": false
+    },
+    {
+      "area": 4022.03,
+      "id": "hearth_d_x2y3",
+      "inside_wall": true,
+      "key": "x2y3",
+      "kind": "craft",
+      "label": "Craft Quarter 5",
+      "landmarks": [],
+      "polygon": [
+        [
+          692.18,
+          764.51
+        ],
+        [
+          671.87,
+          764.66
+        ],
+        [
+          652.83,
+          764.71
+        ],
+        [
+          634.88,
+          764.72
+        ],
+        [
+          625.21,
+          764.73
+        ],
+        [
+          625.21,
+          719.76
+        ],
+        [
+          716.06,
+          719.76
+        ],
+        [
+          713.86,
+          764.1
+        ]
+      ],
+      "waterfront": false
+    },
+    {
+      "area": 11196.35,
+      "id": "hearth_d_x2yn1",
+      "inside_wall": true,
+      "key": "x2yn1",
+      "kind": "residential",
+      "label": "Residential Ward 9",
+      "landmarks": [],
+      "polygon": [
+        [
+          625.21,
+          254.09
+        ],
+        [
+          716.06,
+          254.09
+        ],
+        [
+          716.06,
+          377.33
+        ],
+        [
+          625.21,
+          377.33
+        ]
+      ],
+      "waterfront": false
+    },
+    {
+      "area": 1675.07,
+      "id": "hearth_d_x2yn2",
+      "inside_wall": true,
+      "key": "x2yn2",
+      "kind": "craft",
+      "label": "Craft Quarter 6",
+      "landmarks": [],
+      "polygon": [
+        [
+          634.88,
+          235.28
+        ],
+        [
+          652.83,
+          235.29
+        ],
+        [
+          671.87,
+          235.34
+        ],
+        [
+          692.18,
+          235.49
+        ],
+        [
+          713.86,
+          235.9
+        ],
+        [
+          716.06,
+          254.09
+        ],
+        [
+          625.21,
+          254.09
+        ],
+        [
+          625.21,
+          235.27
+        ]
+      ],
+      "waterfront": false
+    },
+    {
+      "area": 12046.65,
+      "id": "hearth_d_x3y0",
+      "inside_wall": true,
+      "key": "x3y0",
+      "kind": "craft",
+      "label": "Craft Quarter 7",
+      "landmarks": [],
+      "polygon": [
+        [
+          716.06,
+          495.92
+        ],
+        [
+          716.06,
+          377.33
+        ],
+        [
+          805.98,
+          377.33
+        ],
+        [
+          817.66,
+          378.06
+        ],
+        [
+          817.68,
+          396.78
+        ],
+        [
+          817.68,
+          414.88
+        ],
+        [
+          817.68,
+          432.48
+        ],
+        [
+          817.68,
+          449.68
+        ],
+        [
+          817.68,
+          466.61
+        ],
+        [
+          817.68,
+          483.35
+        ],
+        [
+          817.68,
+          495.92
+        ],
+        [
+          805.98,
+          495.92
+        ]
+      ],
+      "waterfront": false
+    },
+    {
+      "area": 10877.01,
+      "id": "hearth_d_x3y1",
+      "inside_wall": true,
+      "key": "x3y1",
+      "kind": "craft",
+      "label": "Craft Quarter 8",
+      "landmarks": [],
+      "polygon": [
+        [
+          716.06,
+          602.94
+        ],
+        [
+          716.06,
+          495.92
+        ],
+        [
+          805.98,
+          495.92
+        ],
+        [
+          817.68,
+          495.92
+        ],
+        [
+          817.68,
+          500.0
+        ],
+        [
+          817.68,
+          516.65
+        ],
+        [
+          817.68,
+          533.39
+        ],
+        [
+          817.68,
+          550.32
+        ],
+        [
+          817.68,
+          567.52
+        ],
+        [
+          817.68,
+          585.12
+        ],
+        [
+          817.68,
+          603.22
+        ],
+        [
+          805.98,
+          602.94
+        ]
+      ],
+      "waterfront": false
+    },
+    {
+      "area": 5263.86,
+      "id": "hearth_d_x3y2a",
+      "inside_wall": true,
+      "key": "x3y2a",
+      "kind": "craft",
+      "label": "Craft Quarter 9",
+      "landmarks": [],
+      "polygon": [
+        [
+          716.06,
+          627.93
+        ],
+        [
+          805.98,
+          697.56
+        ],
+        [
+          814.77,
+          704.42
+        ],
+        [
+          811.13,
+          719.76
+        ],
+        [
+          805.98,
+          719.76
+        ],
+        [
+          716.06,
+          719.76
+        ]
+      ],
+      "waterfront": false
+    },
+    {
+      "area": 6472.69,
+      "id": "hearth_d_x3y2b",
+      "inside_wall": true,
+      "key": "x3y2b",
+      "kind": "craft",
+      "label": "Craft Quarter 10",
+      "landmarks": [],
+      "polygon": [
+        [
+          805.98,
+          697.56
+        ],
+        [
+          716.06,
+          627.93
+        ],
+        [
+          716.06,
+          602.94
+        ],
+        [
+          805.98,
+          602.94
+        ],
+        [
+          817.68,
+          603.22
+        ],
+        [
+          817.66,
+          621.94
+        ],
+        [
+          817.6,
+          641.4
+        ],
+        [
+          817.38,
+          661.71
+        ],
+        [
+          816.7,
+          682.85
+        ],
+        [
+          814.77,
+          704.42
+        ]
+      ],
+      "waterfront": false
+    },
+    {
+      "area": 3405.16,
+      "id": "hearth_d_x3y3",
+      "inside_wall": true,
+      "key": "x3y3",
+      "kind": "craft",
+      "label": "Craft Quarter 11",
+      "landmarks": [],
+      "polygon": [
+        [
+          811.13,
+          719.76
+        ],
+        [
+          809.86,
+          725.13
+        ],
+        [
+          805.98,
+          731.6
+        ],
+        [
+          799.45,
+          742.49
+        ],
+        [
+          782.28,
+          754.17
+        ],
+        [
+          760.32,
+          760.32
+        ],
+        [
+          736.83,
+          763.02
+        ],
+        [
+          713.86,
+          764.1
+        ],
+        [
+          716.06,
+          719.76
+        ],
+        [
+          805.98,
+          719.76
+        ]
+      ],
+      "waterfront": false
+    },
+    {
+      "area": 13114.17,
+      "id": "hearth_d_x3yn1",
+      "inside_wall": true,
+      "key": "x3yn1",
+      "kind": "craft",
+      "label": "Craft Quarter 12",
+      "landmarks": [],
+      "polygon": [
+        [
+          713.86,
+          235.9
+        ],
+        [
+          736.83,
+          236.98
+        ],
+        [
+          760.32,
+          239.68
+        ],
+        [
+          782.28,
+          245.83
+        ],
+        [
+          794.43,
+          254.09
+        ],
+        [
+          799.45,
+          257.51
+        ],
+        [
+          805.98,
+          268.4
+        ],
+        [
+          809.86,
+          274.87
+        ],
+        [
+          814.77,
+          295.58
+        ],
+        [
+          816.7,
+          317.15
+        ],
+        [
+          817.38,
+          338.29
+        ],
+        [
+          817.6,
+          358.6
+        ],
+        [
+          817.66,
+          378.06
+        ],
+        [
+          805.98,
+          377.33
+        ],
+        [
+          716.06,
+          377.33
+        ],
+        [
+          716.06,
+          254.09
+        ]
+      ],
+      "waterfront": false
+    },
+    {
+      "area": 11301.63,
+      "id": "hearth_d_xn1y0",
+      "inside_wall": true,
+      "key": "xn1y0",
+      "kind": "residential",
+      "label": "Residential Ward 10",
+      "landmarks": [],
+      "polygon": [
+        [
+          431.87,
+          495.92
+        ],
+        [
+          336.57,
+          495.92
+        ],
+        [
+          336.57,
+          377.33
+        ],
+        [
+          431.87,
+          377.33
+        ]
+      ],
+      "waterfront": false
+    },
+    {
+      "area": 4954.17,
+      "id": "hearth_d_xn1y1a",
+      "inside_wall": true,
+      "key": "xn1y1a",
+      "kind": "residential",
+      "label": "Residential Ward 11",
+      "landmarks": [],
+      "polygon": [
+        [
+          336.57,
+          573.81
+        ],
+        [
+          336.57,
+          495.92
+        ],
+        [
+          431.87,
+          495.92
+        ],
+        [
+          431.87,
+          522.0
+        ]
+      ],
+      "waterfront": false
+    },
+    {
+      "area": 5244.84,
+      "id": "hearth_d_xn1y1b",
+      "inside_wall": true,
+      "key": "xn1y1b",
+      "kind": "residential",
+      "label": "Residential Ward 12",
+      "landmarks": [],
+      "polygon": [
+        [
+          431.87,
+          522.0
+        ],
+        [
+          431.87,
+          602.94
+        ],
+        [
+          336.57,
+          602.94
+        ],
+        [
+          336.57,
+          573.81
+        ]
+      ],
+      "waterfront": false
+    },
+    {
+      "area": 11132.95,
+      "id": "hearth_d_xn1y2",
+      "inside_wall": true,
+      "key": "xn1y2",
+      "kind": "residential",
+      "label": "Residential Ward 13",
+      "landmarks": [],
+      "polygon": [
+        [
+          431.87,
+          719.76
+        ],
+        [
+          336.57,
+          719.76
+        ],
+        [
+          336.57,
+          602.94
+        ],
+        [
+          431.87,
+          602.94
+        ]
+      ],
+      "waterfront": false
+    },
+    {
+      "area": 4221.96,
+      "id": "hearth_d_xn1y3",
+      "inside_wall": true,
+      "key": "xn1y3",
+      "kind": "craft",
+      "label": "Craft Quarter 13",
+      "landmarks": [],
+      "polygon": [
+        [
+          413.98,
+          764.73
+        ],
+        [
+          398.38,
+          764.73
+        ],
+        [
+          382.13,
+          764.73
+        ],
+        [
+          365.12,
+          764.72
+        ],
+        [
+          347.17,
+          764.71
+        ],
+        [
+          336.57,
+          764.68
+        ],
+        [
+          336.57,
+          719.76
+        ],
+        [
+          431.87,
+          719.76
+        ],
+        [
+          429.07,
+          764.73
+        ]
+      ],
+      "waterfront": false
+    },
+    {
+      "area": 11744.77,
+      "id": "hearth_d_xn1yn1",
+      "inside_wall": true,
+      "key": "xn1yn1",
+      "kind": "residential",
+      "label": "Residential Ward 14",
+      "landmarks": [],
+      "polygon": [
+        [
+          431.87,
+          377.33
+        ],
+        [
+          336.57,
+          377.33
+        ],
+        [
+          336.57,
+          254.09
+        ],
+        [
+          431.87,
+          254.09
+        ]
+      ],
+      "waterfront": false
+    },
+    {
+      "area": 1766.47,
+      "id": "hearth_d_xn1yn2",
+      "inside_wall": true,
+      "key": "xn1yn2",
+      "kind": "craft",
+      "label": "Craft Quarter 14",
+      "landmarks": [],
+      "polygon": [
+        [
+          347.17,
+          235.29
+        ],
+        [
+          365.12,
+          235.28
+        ],
+        [
+          382.13,
+          235.27
+        ],
+        [
+          398.38,
+          235.27
+        ],
+        [
+          413.98,
+          235.27
+        ],
+        [
+          429.07,
+          235.27
+        ],
+        [
+          431.87,
+          254.09
+        ],
+        [
+          336.57,
+          254.09
+        ],
+        [
+          336.57,
+          235.32
+        ]
+      ],
+      "waterfront": false
+    },
+    {
+      "area": 10319.7,
+      "id": "hearth_d_xn2y0",
+      "inside_wall": true,
+      "key": "xn2y0",
+      "kind": "residential",
+      "label": "Residential Ward 15",
+      "landmarks": [],
+      "polygon": [
+        [
+          336.57,
+          495.92
+        ],
+        [
+          249.55,
+          495.92
+        ],
+        [
+          249.55,
+          377.33
+        ],
+        [
+          336.57,
+          377.33
+        ]
+      ],
+      "waterfront": false
+    },
+    {
+      "area": 9312.88,
+      "id": "hearth_d_xn2y1",
+      "inside_wall": true,
+      "key": "xn2y1",
+      "kind": "residential",
+      "label": "Residential Ward 16",
+      "landmarks": [],
+      "polygon": [
+        [
+          336.57,
+          495.92
+        ],
+        [
+          336.57,
+          573.81
+        ],
+        [
+          336.57,
+          602.94
+        ],
+        [
+          283.0,
+          602.94
+        ],
+        [
+          249.55,
+          602.94
+        ],
+        [
+          249.55,
+          495.92
+        ]
+      ],
+      "waterfront": false
+    },
+    {
+      "area": 10165.68,
+      "id": "hearth_d_xn2y2",
+      "inside_wall": true,
+      "key": "xn2y2",
+      "kind": "residential",
+      "label": "Residential Ward 17",
+      "landmarks": [],
+      "polygon": [
+        [
+          249.55,
+          602.94
+        ],
+        [
+          283.0,
+          602.94
+        ],
+        [
+          336.57,
+          602.94
+        ],
+        [
+          336.57,
+          719.76
+        ],
+        [
+          249.55,
+          719.76
+        ],
+        [
+          249.55,
+          621.12
+        ]
+      ],
+      "waterfront": false
+    },
+    {
+      "area": 3839.77,
+      "id": "hearth_d_xn2y3",
+      "inside_wall": true,
+      "key": "xn2y3",
+      "kind": "craft",
+      "label": "Craft Quarter 15",
+      "landmarks": [],
+      "polygon": [
+        [
+          328.13,
+          764.66
+        ],
+        [
+          307.82,
+          764.51
+        ],
+        [
+          286.14,
+          764.1
+        ],
+        [
+          263.17,
+          763.02
+        ],
+        [
+          249.55,
+          761.45
+        ],
+        [
+          249.55,
+          719.76
+        ],
+        [
+          336.57,
+          719.76
+        ],
+        [
+          336.57,
+          764.68
+        ]
+      ],
+      "waterfront": false
+    },
+    {
+      "area": 12288.54,
+      "id": "hearth_d_xn2yn1",
+      "inside_wall": true,
+      "key": "xn2yn1",
+      "kind": "craft",
+      "label": "Craft Quarter 16",
+      "landmarks": [],
+      "polygon": [
+        [
+          249.55,
+          238.55
+        ],
+        [
+          263.17,
+          236.98
+        ],
+        [
+          286.14,
+          235.9
+        ],
+        [
+          307.82,
+          235.49
+        ],
+        [
+          328.13,
+          235.34
+        ],
+        [
+          336.57,
+          235.32
+        ],
+        [
+          336.57,
+          254.09
+        ],
+        [
+          336.57,
+          377.33
+        ],
+        [
+          249.55,
+          377.33
+        ],
+        [
+          249.55,
+          254.09
+        ]
+      ],
+      "waterfront": false
+    },
+    {
+      "area": 7948.07,
+      "id": "hearth_d_xn3y0",
+      "inside_wall": true,
+      "key": "xn3y0",
+      "kind": "craft",
+      "label": "Craft Quarter 17",
+      "landmarks": [],
+      "polygon": [
+        [
+          182.32,
+          483.35
+        ],
+        [
+          182.32,
+          466.61
+        ],
+        [
+          182.32,
+          449.68
+        ],
+        [
+          182.32,
+          432.48
+        ],
+        [
+          182.32,
+          414.88
+        ],
+        [
+          182.32,
+          396.78
+        ],
+        [
+          182.34,
+          378.06
+        ],
+        [
+          249.55,
+          377.33
+        ],
+        [
+          249.55,
+          495.92
+        ],
+        [
+          182.32,
+          495.92
+        ]
+      ],
+      "waterfront": false
+    },
+    {
+      "area": 7204.37,
+      "id": "hearth_d_xn3y1",
+      "inside_wall": true,
+      "key": "xn3y1",
+      "kind": "craft",
+      "label": "Craft Quarter 18",
+      "landmarks": [],
+      "polygon": [
+        [
+          182.32,
+          585.12
+        ],
+        [
+          182.32,
+          567.52
+        ],
+        [
+          182.32,
+          550.32
+        ],
+        [
+          182.32,
+          533.39
+        ],
+        [
+          182.32,
+          516.65
+        ],
+        [
+          182.32,
+          500.0
+        ],
+        [
+          182.32,
+          495.92
+        ],
+        [
+          249.55,
+          495.92
+        ],
+        [
+          249.55,
+          602.94
+        ],
+        [
+          182.32,
+          603.22
+        ]
+      ],
+      "waterfront": false
+    },
+    {
+      "area": 2437.48,
+      "id": "hearth_d_xn3y2a",
+      "inside_wall": true,
+      "key": "xn3y2a",
+      "kind": "craft",
+      "label": "Craft Quarter 19",
+      "landmarks": [],
+      "polygon": [
+        [
+          182.4,
+          641.4
+        ],
+        [
+          182.34,
+          621.94
+        ],
+        [
+          182.32,
+          603.22
+        ],
+        [
+          249.55,
+          602.94
+        ],
+        [
+          249.55,
+          621.12
+        ],
+        [
+          182.57,
+          657.53
+        ]
+      ],
+      "waterfront": false
+    },
+    {
+      "area": 5273.9,
+      "id": "hearth_d_xn3y2b",
+      "inside_wall": true,
+      "key": "xn3y2b",
+      "kind": "craft",
+      "label": "Craft Quarter 20",
+      "landmarks": [],
+      "polygon": [
+        [
+          185.23,
+          704.42
+        ],
+        [
+          183.3,
+          682.85
+        ],
+        [
+          182.62,
+          661.71
+        ],
+        [
+          182.57,
+          657.53
+        ],
+        [
+          249.55,
+          621.12
+        ],
+        [
+          249.55,
+          719.76
+        ],
+        [
+          188.87,
+          719.76
+        ]
+      ],
+      "waterfront": false
+    },
+    {
+      "area": 1869.29,
+      "id": "hearth_d_xn3y3",
+      "inside_wall": true,
+      "key": "xn3y3",
+      "kind": "craft",
+      "label": "Craft Quarter 21",
+      "landmarks": [],
+      "polygon": [
+        [
+          239.68,
+          760.32
+        ],
+        [
+          217.72,
+          754.17
+        ],
+        [
+          200.55,
+          742.49
+        ],
+        [
+          190.14,
+          725.13
+        ],
+        [
+          188.87,
+          719.76
+        ],
+        [
+          249.55,
+          719.76
+        ],
+        [
+          249.55,
+          761.45
+        ]
+      ],
+      "waterfront": false
+    },
+    {
+      "area": 8288.4,
+      "id": "hearth_d_xn3yn1",
+      "inside_wall": true,
+      "key": "xn3yn1",
+      "kind": "craft",
+      "label": "Craft Quarter 22",
+      "landmarks": [],
+      "polygon": [
+        [
+          205.57,
+          254.09
+        ],
+        [
+          217.72,
+          245.83
+        ],
+        [
+          239.68,
+          239.68
+        ],
+        [
+          249.55,
+          238.55
+        ],
+        [
+          249.55,
+          254.09
+        ],
+        [
+          249.55,
+          377.33
+        ],
+        [
+          182.34,
+          378.06
+        ],
+        [
+          182.4,
+          358.6
+        ],
+        [
+          182.62,
+          338.29
+        ],
+        [
+          183.3,
+          317.15
+        ],
+        [
+          185.23,
+          295.58
+        ],
+        [
+          190.14,
+          274.87
+        ],
+        [
+          200.55,
+          257.51
+        ]
+      ],
+      "waterfront": false
+    }
+  ],
+  "footprint": [
+    [
+      817.68,
+      500.0
+    ],
+    [
+      817.68,
+      516.65
+    ],
+    [
+      817.68,
+      533.39
+    ],
+    [
+      817.68,
+      550.32
+    ],
+    [
+      817.68,
+      567.52
+    ],
+    [
+      817.68,
+      585.12
+    ],
+    [
+      817.68,
+      603.22
+    ],
+    [
+      817.66,
+      621.94
+    ],
+    [
+      817.6,
+      641.4
+    ],
+    [
+      817.38,
+      661.71
+    ],
+    [
+      816.7,
+      682.85
+    ],
+    [
+      814.77,
+      704.42
+    ],
+    [
+      811.13,
+      719.76
+    ],
+    [
+      809.86,
+      725.13
+    ],
+    [
+      805.98,
+      731.6
+    ],
+    [
+      799.45,
+      742.49
+    ],
+    [
+      782.28,
+      754.17
+    ],
+    [
+      760.32,
+      760.32
+    ],
+    [
+      736.83,
+      763.02
+    ],
+    [
+      713.86,
+      764.1
+    ],
+    [
+      692.18,
+      764.51
+    ],
+    [
+      671.87,
+      764.66
+    ],
+    [
+      652.83,
+      764.71
+    ],
+    [
+      634.88,
+      764.72
+    ],
+    [
+      625.21,
+      764.73
+    ],
+    [
+      617.87,
+      764.73
+    ],
+    [
+      601.62,
+      764.73
+    ],
+    [
+      586.02,
+      764.73
+    ],
+    [
+      570.93,
+      764.73
+    ],
+    [
+      556.27,
+      764.73
+    ],
+    [
+      541.93,
+      764.73
+    ],
+    [
+      533.77,
+      764.73
+    ],
+    [
+      527.82,
+      764.73
+    ],
+    [
+      513.87,
+      764.73
+    ],
+    [
+      500.0,
+      764.73
+    ],
+    [
+      486.13,
+      764.73
+    ],
+    [
+      472.18,
+      764.73
+    ],
+    [
+      458.07,
+      764.73
+    ],
+    [
+      443.73,
+      764.73
+    ],
+    [
+      429.07,
+      764.73
+    ],
+    [
+      413.98,
+      764.73
+    ],
+    [
+      398.38,
+      764.73
+    ],
+    [
+      382.13,
+      764.73
+    ],
+    [
+      365.12,
+      764.72
+    ],
+    [
+      347.17,
+      764.71
+    ],
+    [
+      336.57,
+      764.68
+    ],
+    [
+      328.13,
+      764.66
+    ],
+    [
+      307.82,
+      764.51
+    ],
+    [
+      286.14,
+      764.1
+    ],
+    [
+      263.17,
+      763.02
+    ],
+    [
+      249.55,
+      761.45
+    ],
+    [
+      239.68,
+      760.32
+    ],
+    [
+      217.72,
+      754.17
+    ],
+    [
+      200.55,
+      742.49
+    ],
+    [
+      190.14,
+      725.13
+    ],
+    [
+      188.87,
+      719.76
+    ],
+    [
+      185.23,
+      704.42
+    ],
+    [
+      183.3,
+      682.85
+    ],
+    [
+      182.62,
+      661.71
+    ],
+    [
+      182.57,
+      657.53
+    ],
+    [
+      182.4,
+      641.4
+    ],
+    [
+      182.34,
+      621.94
+    ],
+    [
+      182.32,
+      603.22
+    ],
+    [
+      182.32,
+      585.12
+    ],
+    [
+      182.32,
+      567.52
+    ],
+    [
+      182.32,
+      550.32
+    ],
+    [
+      182.32,
+      533.39
+    ],
+    [
+      182.32,
+      516.65
+    ],
+    [
+      182.32,
+      500.0
+    ],
+    [
+      182.32,
+      495.92
+    ],
+    [
+      182.32,
+      483.35
+    ],
+    [
+      182.32,
+      466.61
+    ],
+    [
+      182.32,
+      449.68
+    ],
+    [
+      182.32,
+      432.48
+    ],
+    [
+      182.32,
+      414.88
+    ],
+    [
+      182.32,
+      396.78
+    ],
+    [
+      182.34,
+      378.06
+    ],
+    [
+      182.4,
+      358.6
+    ],
+    [
+      182.62,
+      338.29
+    ],
+    [
+      183.3,
+      317.15
+    ],
+    [
+      185.23,
+      295.58
+    ],
+    [
+      190.14,
+      274.87
+    ],
+    [
+      200.55,
+      257.51
+    ],
+    [
+      205.57,
+      254.09
+    ],
+    [
+      217.72,
+      245.83
+    ],
+    [
+      239.68,
+      239.68
+    ],
+    [
+      249.55,
+      238.55
+    ],
+    [
+      263.17,
+      236.98
+    ],
+    [
+      286.14,
+      235.9
+    ],
+    [
+      307.82,
+      235.49
+    ],
+    [
+      328.13,
+      235.34
+    ],
+    [
+      336.57,
+      235.32
+    ],
+    [
+      347.17,
+      235.29
+    ],
+    [
+      365.12,
+      235.28
+    ],
+    [
+      382.13,
+      235.27
+    ],
+    [
+      398.38,
+      235.27
+    ],
+    [
+      413.98,
+      235.27
+    ],
+    [
+      429.07,
+      235.27
+    ],
+    [
+      443.73,
+      235.27
+    ],
+    [
+      458.07,
+      235.27
+    ],
+    [
+      472.18,
+      235.27
+    ],
+    [
+      486.13,
+      235.27
+    ],
+    [
+      500.0,
+      235.27
+    ],
+    [
+      513.87,
+      235.27
+    ],
+    [
+      527.82,
+      235.27
+    ],
+    [
+      533.77,
+      235.27
+    ],
+    [
+      541.93,
+      235.27
+    ],
+    [
+      556.27,
+      235.27
+    ],
+    [
+      570.93,
+      235.27
+    ],
+    [
+      586.02,
+      235.27
+    ],
+    [
+      601.62,
+      235.27
+    ],
+    [
+      617.87,
+      235.27
+    ],
+    [
+      625.21,
+      235.27
+    ],
+    [
+      634.88,
+      235.28
+    ],
+    [
+      652.83,
+      235.29
+    ],
+    [
+      671.87,
+      235.34
+    ],
+    [
+      692.18,
+      235.49
+    ],
+    [
+      713.86,
+      235.9
+    ],
+    [
+      736.83,
+      236.98
+    ],
+    [
+      760.32,
+      239.68
+    ],
+    [
+      782.28,
+      245.83
+    ],
+    [
+      794.43,
+      254.09
+    ],
+    [
+      799.45,
+      257.51
+    ],
+    [
+      805.98,
+      268.4
+    ],
+    [
+      809.86,
+      274.87
+    ],
+    [
+      814.77,
+      295.58
+    ],
+    [
+      816.7,
+      317.15
+    ],
+    [
+      817.38,
+      338.29
+    ],
+    [
+      817.6,
+      358.6
+    ],
+    [
+      817.66,
+      378.06
+    ],
+    [
+      817.68,
+      396.78
+    ],
+    [
+      817.68,
+      414.88
+    ],
+    [
+      817.68,
+      432.48
+    ],
+    [
+      817.68,
+      449.68
+    ],
+    [
+      817.68,
+      466.61
+    ],
+    [
+      817.68,
+      483.35
+    ],
+    [
+      817.68,
+      495.92
+    ]
+  ],
+  "format_version": 1,
+  "gates": [
+    {
+      "at": [
+        814.77,
+        704.42
+      ],
+      "id": "hearth_gate_b0",
+      "kind": "gate",
+      "normal": [
+        0.99,
+        0.15
+      ],
+      "road": "hearth_blvd_b0",
+      "wall": "hearth_wall_outer"
+    },
+    {
+      "at": [
+        182.57,
+        657.53
+      ],
+      "id": "hearth_gate_b1",
+      "kind": "gate",
+      "normal": [
+        -1.0,
+        0.01
+      ],
+      "road": "hearth_blvd_b1",
+      "wall": "hearth_wall_outer"
+    },
+    {
+      "at": [
+        713.86,
+        235.9
+      ],
+      "id": "hearth_gate_u2n",
+      "kind": "gate",
+      "normal": [
+        0.03,
+        -1.0
+      ],
+      "road": "hearth_av_u2",
+      "wall": "hearth_wall_outer"
+    },
+    {
+      "at": [
+        249.55,
+        238.55
+      ],
+      "id": "hearth_gate_un3n",
+      "kind": "gate",
+      "normal": [
+        -0.11,
+        -0.99
+      ],
+      "road": "hearth_av_un3",
+      "wall": "hearth_wall_outer"
+    }
+  ],
+  "generator": "grid",
+  "graph": {
+    "edges": [
+      {
+        "a": "hearth_j_b2_vn2",
+        "b": "hearth_e_b2",
+        "class": "boulevard",
+        "id": "hearth_e_b2~hearth_j_b2_vn2",
+        "length": 18.9,
+        "passable": true,
+        "road": "hearth_blvd_b2"
+      },
+      {
+        "a": "hearth_e_u0n",
+        "b": "hearth_j_u0n_vn2",
+        "class": "artery",
+        "id": "hearth_e_u0n~hearth_j_u0n_vn2",
+        "length": 18.82,
+        "passable": true,
+        "road": "hearth_av_u0n"
+      },
+      {
+        "a": "hearth_j_u0p_v2",
+        "b": "hearth_e_u0p",
+        "class": "artery",
+        "id": "hearth_e_u0p~hearth_j_u0p_v2",
+        "length": 44.97,
+        "passable": true,
+        "road": "hearth_av_u0p"
+      },
+      {
+        "a": "hearth_e_u1n",
+        "b": "hearth_j_u1_vn2",
+        "class": "artery",
+        "id": "hearth_e_u1n~hearth_j_u1_vn2",
+        "length": 18.82,
+        "passable": true,
+        "road": "hearth_av_u1"
+      },
+      {
+        "a": "hearth_j_u1_v2",
+        "b": "hearth_e_u1p",
+        "class": "artery",
+        "id": "hearth_e_u1p~hearth_j_u1_v2",
+        "length": 44.97,
+        "passable": true,
+        "road": "hearth_av_u1"
+      },
+      {
+        "a": "hearth_j_u2_v2",
+        "b": "hearth_e_u2p",
+        "class": "artery",
+        "id": "hearth_e_u2p~hearth_j_u2_v2",
+        "length": 44.39,
+        "passable": true,
+        "road": "hearth_av_u2"
+      },
+      {
+        "a": "hearth_e_u3n",
+        "b": "hearth_j_u3_vn1",
+        "class": "artery",
+        "id": "hearth_e_u3n~hearth_j_u3_vn1",
+        "length": 108.93,
+        "passable": true,
+        "road": "hearth_av_u3"
+      },
+      {
+        "a": "hearth_j_u3_v2",
+        "b": "hearth_e_u3p",
+        "class": "artery",
+        "id": "hearth_e_u3p~hearth_j_u3_v2",
+        "length": 11.84,
+        "passable": true,
+        "road": "hearth_av_u3"
+      },
+      {
+        "a": "hearth_e_un1n",
+        "b": "hearth_j_un1_vn2",
+        "class": "artery",
+        "id": "hearth_e_un1n~hearth_j_un1_vn2",
+        "length": 19.03,
+        "passable": true,
+        "road": "hearth_av_un1"
+      },
+      {
+        "a": "hearth_j_un1_v2",
+        "b": "hearth_e_un1p",
+        "class": "artery",
+        "id": "hearth_e_un1p~hearth_j_un1_v2",
+        "length": 45.06,
+        "passable": true,
+        "road": "hearth_av_un1"
+      },
+      {
+        "a": "hearth_e_un2n",
+        "b": "hearth_j_un2_vn2",
+        "class": "artery",
+        "id": "hearth_e_un2n~hearth_j_un2_vn2",
+        "length": 18.77,
+        "passable": true,
+        "road": "hearth_av_un2"
+      },
+      {
+        "a": "hearth_j_un2_v2",
+        "b": "hearth_e_un2p",
+        "class": "artery",
+        "id": "hearth_e_un2p~hearth_j_un2_v2",
+        "length": 44.92,
+        "passable": true,
+        "road": "hearth_av_un2"
+      },
+      {
+        "a": "hearth_j_un3_v2",
+        "b": "hearth_e_un3p",
+        "class": "artery",
+        "id": "hearth_e_un3p~hearth_j_un3_v2",
+        "length": 41.69,
+        "passable": true,
+        "road": "hearth_av_un3"
+      },
+      {
+        "a": "hearth_e_v0n",
+        "b": "hearth_j_un3_v0n",
+        "class": "artery",
+        "id": "hearth_e_v0n~hearth_j_un3_v0n",
+        "length": 67.23,
+        "passable": true,
+        "road": "hearth_av_v0n"
+      },
+      {
+        "a": "hearth_j_u3_v0p",
+        "b": "hearth_e_v0p",
+        "class": "artery",
+        "id": "hearth_e_v0p~hearth_j_u3_v0p",
+        "length": 11.7,
+        "passable": true,
+        "road": "hearth_av_v0p"
+      },
+      {
+        "a": "hearth_e_v1n",
+        "b": "hearth_j_un3_v1",
+        "class": "artery",
+        "id": "hearth_e_v1n~hearth_j_un3_v1",
+        "length": 67.23,
+        "passable": true,
+        "road": "hearth_av_v1"
+      },
+      {
+        "a": "hearth_j_u3_v1",
+        "b": "hearth_e_v1p",
+        "class": "artery",
+        "id": "hearth_e_v1p~hearth_j_u3_v1",
+        "length": 11.7,
+        "passable": true,
+        "road": "hearth_av_v1"
+      },
+      {
+        "a": "hearth_e_v2n",
+        "b": "hearth_j_un3_v2",
+        "class": "artery",
+        "id": "hearth_e_v2n~hearth_j_un3_v2",
+        "length": 60.68,
+        "passable": true,
+        "road": "hearth_av_v2"
+      },
+      {
+        "a": "hearth_j_u3_v2",
+        "b": "hearth_e_v2p",
+        "class": "artery",
+        "id": "hearth_e_v2p~hearth_j_u3_v2",
+        "length": 5.15,
+        "passable": true,
+        "road": "hearth_av_v2"
+      },
+      {
+        "a": "hearth_e_vn1n",
+        "b": "hearth_j_un3_vn1",
+        "class": "artery",
+        "id": "hearth_e_vn1n~hearth_j_un3_vn1",
+        "length": 67.21,
+        "passable": true,
+        "road": "hearth_av_vn1"
+      },
+      {
+        "a": "hearth_j_u3_vn1",
+        "b": "hearth_e_vn1p",
+        "class": "artery",
+        "id": "hearth_e_vn1p~hearth_j_u3_vn1",
+        "length": 11.7,
+        "passable": true,
+        "road": "hearth_av_vn1"
+      },
+      {
+        "a": "hearth_e_vn2n",
+        "b": "hearth_j_un3_vn2",
+        "class": "artery",
+        "id": "hearth_e_vn2n~hearth_j_un3_vn2",
+        "length": 43.98,
+        "passable": true,
+        "road": "hearth_av_vn2"
+      },
+      {
+        "a": "hearth_j_u2_vn2",
+        "b": "hearth_e_vn2p",
+        "class": "artery",
+        "id": "hearth_e_vn2p~hearth_j_u2_vn2",
+        "length": 78.37,
+        "passable": true,
+        "road": "hearth_av_vn2"
+      },
+      {
+        "a": "hearth_j_b0_u3",
+        "b": "hearth_gate_b0",
+        "class": "boulevard",
+        "id": "hearth_gate_b0~hearth_j_b0_u3",
+        "length": 11.15,
+        "passable": true,
+        "road": "hearth_blvd_b0"
+      },
+      {
+        "a": "hearth_j_b1_un3",
+        "b": "hearth_gate_b1",
+        "class": "boulevard",
+        "id": "hearth_gate_b1~hearth_j_b1_un3",
+        "length": 76.24,
+        "passable": true,
+        "road": "hearth_blvd_b1"
+      },
+      {
+        "a": "hearth_gate_u2n",
+        "b": "hearth_j_u2_vn2",
+        "class": "artery",
+        "id": "hearth_gate_u2n~hearth_j_u2_vn2",
+        "length": 18.32,
+        "passable": true,
+        "road": "hearth_av_u2"
+      },
+      {
+        "a": "hearth_gate_un3n",
+        "b": "hearth_j_un3_vn2",
+        "class": "artery",
+        "id": "hearth_gate_un3n~hearth_j_un3_vn2",
+        "length": 15.54,
+        "passable": true,
+        "road": "hearth_av_un3"
+      },
+      {
+        "a": "hearth_j_b0_ring",
+        "b": "hearth_j_b0_u1",
+        "class": "boulevard",
+        "id": "hearth_j_b0_ring~hearth_j_b0_u1",
+        "length": 101.5,
+        "passable": true,
+        "road": "hearth_blvd_b0"
+      },
+      {
+        "a": "hearth_j_b0_ring",
+        "b": "hearth_j_u1_v0p",
+        "class": "artery",
+        "id": "hearth_j_b0_ring~hearth_j_u1_v0p",
+        "length": 80.63,
+        "passable": true,
+        "road": "hearth_av_v0p"
+      },
+      {
+        "a": "hearth_plaza",
+        "b": "hearth_j_b0_ring",
+        "class": "boulevard",
+        "id": "hearth_j_b0_ring~hearth_plaza",
+        "length": 33.51,
+        "passable": true,
+        "road": "hearth_blvd_b0"
+      },
+      {
+        "a": "hearth_rv_0",
+        "b": "hearth_j_b0_ring",
+        "class": "ring",
+        "id": "hearth_j_b0_ring~hearth_rv_0",
+        "length": 22.74,
+        "passable": true,
+        "road": "hearth_ring_1"
+      },
+      {
+        "a": "hearth_j_b0_ring",
+        "b": "hearth_rv_1",
+        "class": "ring",
+        "id": "hearth_j_b0_ring~hearth_rv_1",
+        "length": 3.91,
+        "passable": true,
+        "road": "hearth_ring_1"
+      },
+      {
+        "a": "hearth_j_b0_u1",
+        "b": "hearth_j_b0_v1",
+        "class": "boulevard",
+        "id": "hearth_j_b0_u1~hearth_j_b0_v1",
+        "length": 74.09,
+        "passable": true,
+        "road": "hearth_blvd_b0"
+      },
+      {
+        "a": "hearth_j_u1_v0p",
+        "b": "hearth_j_b0_u1",
+        "class": "artery",
+        "id": "hearth_j_b0_u1~hearth_j_u1_v0p",
+        "length": 61.65,
+        "passable": true,
+        "road": "hearth_av_u1"
+      },
+      {
+        "a": "hearth_j_b0_u1",
+        "b": "hearth_j_u1_v1",
+        "class": "artery",
+        "id": "hearth_j_b0_u1~hearth_j_u1_v1",
+        "length": 45.37,
+        "passable": true,
+        "road": "hearth_av_u1"
+      },
+      {
+        "a": "hearth_j_b0_u2",
+        "b": "hearth_j_b0_u3",
+        "class": "boulevard",
+        "id": "hearth_j_b0_u2~hearth_j_b0_u3",
+        "length": 113.73,
+        "passable": true,
+        "road": "hearth_blvd_b0"
+      },
+      {
+        "a": "hearth_j_b0_v1",
+        "b": "hearth_j_b0_u2",
+        "class": "boulevard",
+        "id": "hearth_j_b0_u2~hearth_j_b0_v1",
+        "length": 40.81,
+        "passable": true,
+        "road": "hearth_blvd_b0"
+      },
+      {
+        "a": "hearth_j_u2_v1",
+        "b": "hearth_j_b0_u2",
+        "class": "artery",
+        "id": "hearth_j_b0_u2~hearth_j_u2_v1",
+        "length": 24.99,
+        "passable": true,
+        "road": "hearth_av_u2"
+      },
+      {
+        "a": "hearth_j_b0_u2",
+        "b": "hearth_j_u2_v2",
+        "class": "artery",
+        "id": "hearth_j_b0_u2~hearth_j_u2_v2",
+        "length": 91.83,
+        "passable": true,
+        "road": "hearth_av_u2"
+      },
+      {
+        "a": "hearth_j_u3_v1",
+        "b": "hearth_j_b0_u3",
+        "class": "artery",
+        "id": "hearth_j_b0_u3~hearth_j_u3_v1",
+        "length": 94.62,
+        "passable": true,
+        "road": "hearth_av_u3"
+      },
+      {
+        "a": "hearth_j_b0_u3",
+        "b": "hearth_j_u3_v2",
+        "class": "artery",
+        "id": "hearth_j_b0_u3~hearth_j_u3_v2",
+        "length": 22.2,
+        "passable": true,
+        "road": "hearth_av_u3"
+      },
+      {
+        "a": "hearth_j_u1_v1",
+        "b": "hearth_j_b0_v1",
+        "class": "artery",
+        "id": "hearth_j_b0_v1~hearth_j_u1_v1",
+        "length": 58.58,
+        "passable": true,
+        "road": "hearth_av_v1"
+      },
+      {
+        "a": "hearth_j_b0_v1",
+        "b": "hearth_j_u2_v1",
+        "class": "artery",
+        "id": "hearth_j_b0_v1~hearth_j_u2_v1",
+        "length": 32.27,
+        "passable": true,
+        "road": "hearth_av_v1"
+      },
+      {
+        "a": "hearth_j_b1_ring",
+        "b": "hearth_j_b1_v0n",
+        "class": "boulevard",
+        "id": "hearth_j_b1_ring~hearth_j_b1_v0n",
+        "length": 11.63,
+        "passable": true,
+        "road": "hearth_blvd_b1"
+      },
+      {
+        "a": "hearth_j_ring_v0n",
+        "b": "hearth_j_b1_ring",
+        "class": "ring",
+        "id": "hearth_j_b1_ring~hearth_j_ring_v0n",
+        "length": 6.02,
+        "passable": true,
+        "road": "hearth_ring_1"
+      },
+      {
+        "a": "hearth_plaza",
+        "b": "hearth_j_b1_ring",
+        "class": "boulevard",
+        "id": "hearth_j_b1_ring~hearth_plaza",
+        "length": 32.35,
+        "passable": true,
+        "road": "hearth_blvd_b1"
+      },
+      {
+        "a": "hearth_j_b1_ring",
+        "b": "hearth_rv_4",
+        "class": "ring",
+        "id": "hearth_j_b1_ring~hearth_rv_4",
+        "length": 16.72,
+        "passable": true,
+        "road": "hearth_ring_1"
+      },
+      {
+        "a": "hearth_j_b1_un1",
+        "b": "hearth_j_b1_un2",
+        "class": "boulevard",
+        "id": "hearth_j_b1_un1~hearth_j_b1_un2",
+        "length": 108.47,
+        "passable": true,
+        "road": "hearth_blvd_b1"
+      },
+      {
+        "a": "hearth_j_b1_v0n",
+        "b": "hearth_j_b1_un1",
+        "class": "boulevard",
+        "id": "hearth_j_b1_un1~hearth_j_b1_v0n",
+        "length": 54.59,
+        "passable": true,
+        "road": "hearth_blvd_b1"
+      },
+      {
+        "a": "hearth_j_un1_v0n",
+        "b": "hearth_j_b1_un1",
+        "class": "artery",
+        "id": "hearth_j_b1_un1~hearth_j_un1_v0n",
+        "length": 26.08,
+        "passable": true,
+        "road": "hearth_av_un1"
+      },
+      {
+        "a": "hearth_j_b1_un1",
+        "b": "hearth_j_un1_v1",
+        "class": "artery",
+        "id": "hearth_j_b1_un1~hearth_j_un1_v1",
+        "length": 80.94,
+        "passable": true,
+        "road": "hearth_av_un1"
+      },
+      {
+        "a": "hearth_j_b1_un2",
+        "b": "hearth_j_b1_v1",
+        "class": "boulevard",
+        "id": "hearth_j_b1_un2~hearth_j_b1_v1",
+        "length": 60.98,
+        "passable": true,
+        "road": "hearth_blvd_b1"
+      },
+      {
+        "a": "hearth_j_un2_v0n",
+        "b": "hearth_j_b1_un2",
+        "class": "artery",
+        "id": "hearth_j_b1_un2~hearth_j_un2_v0n",
+        "length": 77.89,
+        "passable": true,
+        "road": "hearth_av_un2"
+      },
+      {
+        "a": "hearth_j_b1_un2",
+        "b": "hearth_j_un2_v1",
+        "class": "artery",
+        "id": "hearth_j_b1_un2~hearth_j_un2_v1",
+        "length": 29.13,
+        "passable": true,
+        "road": "hearth_av_un2"
+      },
+      {
+        "a": "hearth_j_b1_v1",
+        "b": "hearth_j_b1_un3",
+        "class": "boulevard",
+        "id": "hearth_j_b1_un3~hearth_j_b1_v1",
+        "length": 38.07,
+        "passable": true,
+        "road": "hearth_blvd_b1"
+      },
+      {
+        "a": "hearth_j_un3_v1",
+        "b": "hearth_j_b1_un3",
+        "class": "artery",
+        "id": "hearth_j_b1_un3~hearth_j_un3_v1",
+        "length": 18.18,
+        "passable": true,
+        "road": "hearth_av_un3"
+      },
+      {
+        "a": "hearth_j_b1_un3",
+        "b": "hearth_j_un3_v2",
+        "class": "artery",
+        "id": "hearth_j_b1_un3~hearth_j_un3_v2",
+        "length": 98.64,
+        "passable": true,
+        "road": "hearth_av_un3"
+      },
+      {
+        "a": "hearth_j_b1_v0n",
+        "b": "hearth_j_ring_v0n",
+        "class": "artery",
+        "id": "hearth_j_b1_v0n~hearth_j_ring_v0n",
+        "length": 12.53,
+        "passable": true,
+        "road": "hearth_av_v0n"
+      },
+      {
+        "a": "hearth_j_un1_v0n",
+        "b": "hearth_j_b1_v0n",
+        "class": "artery",
+        "id": "hearth_j_b1_v0n~hearth_j_un1_v0n",
+        "length": 47.96,
+        "passable": true,
+        "road": "hearth_av_v0n"
+      },
+      {
+        "a": "hearth_j_b1_v1",
+        "b": "hearth_j_un2_v1",
+        "class": "artery",
+        "id": "hearth_j_b1_v1~hearth_j_un2_v1",
+        "length": 53.57,
+        "passable": true,
+        "road": "hearth_av_v1"
+      },
+      {
+        "a": "hearth_j_un3_v1",
+        "b": "hearth_j_b1_v1",
+        "class": "artery",
+        "id": "hearth_j_b1_v1~hearth_j_un3_v1",
+        "length": 33.45,
+        "passable": true,
+        "road": "hearth_av_v1"
+      },
+      {
+        "a": "hearth_j_b2_ring",
+        "b": "hearth_j_b2_vn1",
+        "class": "boulevard",
+        "id": "hearth_j_b2_ring~hearth_j_b2_vn1",
+        "length": 62.86,
+        "passable": true,
+        "road": "hearth_blvd_b2"
+      },
+      {
+        "a": "hearth_j_b2_ring",
+        "b": "hearth_j_ring_u0n",
+        "class": "ring",
+        "id": "hearth_j_b2_ring~hearth_j_ring_u0n",
+        "length": 16.56,
+        "passable": true,
+        "road": "hearth_ring_1"
+      },
+      {
+        "a": "hearth_plaza",
+        "b": "hearth_j_b2_ring",
+        "class": "boulevard",
+        "id": "hearth_j_b2_ring~hearth_plaza",
+        "length": 34.81,
+        "passable": true,
+        "road": "hearth_blvd_b2"
+      },
+      {
+        "a": "hearth_rv_5",
+        "b": "hearth_j_b2_ring",
+        "class": "ring",
+        "id": "hearth_j_b2_ring~hearth_rv_5",
+        "length": 26.65,
+        "passable": true,
+        "road": "hearth_ring_1"
+      },
+      {
+        "a": "hearth_j_b2_vn1",
+        "b": "hearth_j_b2_vn2",
+        "class": "boulevard",
+        "id": "hearth_j_b2_vn1~hearth_j_b2_vn2",
+        "length": 123.31,
+        "passable": true,
+        "road": "hearth_blvd_b2"
+      },
+      {
+        "a": "hearth_j_b2_vn1",
+        "b": "hearth_j_u0n_vn1",
+        "class": "artery",
+        "id": "hearth_j_b2_vn1~hearth_j_u0n_vn1",
+        "length": 11.96,
+        "passable": true,
+        "road": "hearth_av_vn1"
+      },
+      {
+        "a": "hearth_j_un1_vn1",
+        "b": "hearth_j_b2_vn1",
+        "class": "artery",
+        "id": "hearth_j_b2_vn1~hearth_j_un1_vn1",
+        "length": 89.94,
+        "passable": true,
+        "road": "hearth_av_vn1"
+      },
+      {
+        "a": "hearth_j_b2_vn2",
+        "b": "hearth_j_u0n_vn2",
+        "class": "artery",
+        "id": "hearth_j_b2_vn2~hearth_j_u0n_vn2",
+        "length": 7.74,
+        "passable": true,
+        "road": "hearth_av_vn2"
+      },
+      {
+        "a": "hearth_j_un1_vn2",
+        "b": "hearth_j_b2_vn2",
+        "class": "artery",
+        "id": "hearth_j_b2_vn2~hearth_j_un1_vn2",
+        "length": 94.16,
+        "passable": true,
+        "road": "hearth_av_vn2"
+      },
+      {
+        "a": "hearth_j_u0n_vn1",
+        "b": "hearth_j_ring_u0n",
+        "class": "artery",
+        "id": "hearth_j_ring_u0n~hearth_j_u0n_vn1",
+        "length": 69.1,
+        "passable": true,
+        "road": "hearth_av_u0n"
+      },
+      {
+        "a": "hearth_j_ring_u0n",
+        "b": "hearth_rv_7",
+        "class": "ring",
+        "id": "hearth_j_ring_u0n~hearth_rv_7",
+        "length": 10.09,
+        "passable": true,
+        "road": "hearth_ring_1"
+      },
+      {
+        "a": "hearth_j_ring_u0p",
+        "b": "hearth_j_u0p_v1",
+        "class": "artery",
+        "id": "hearth_j_ring_u0p~hearth_j_u0p_v1",
+        "length": 99.55,
+        "passable": true,
+        "road": "hearth_av_u0p"
+      },
+      {
+        "a": "hearth_rv_1",
+        "b": "hearth_j_ring_u0p",
+        "class": "ring",
+        "id": "hearth_j_ring_u0p~hearth_rv_1",
+        "length": 10.09,
+        "passable": true,
+        "road": "hearth_ring_1"
+      },
+      {
+        "a": "hearth_j_ring_u0p",
+        "b": "hearth_rv_2",
+        "class": "ring",
+        "id": "hearth_j_ring_u0p~hearth_rv_2",
+        "length": 16.56,
+        "passable": true,
+        "road": "hearth_ring_1"
+      },
+      {
+        "a": "hearth_rv_3",
+        "b": "hearth_j_ring_v0n",
+        "class": "ring",
+        "id": "hearth_j_ring_v0n~hearth_rv_3",
+        "length": 3.91,
+        "passable": true,
+        "road": "hearth_ring_1"
+      },
+      {
+        "a": "hearth_j_u0n_vn2",
+        "b": "hearth_j_u0n_vn1",
+        "class": "artery",
+        "id": "hearth_j_u0n_vn1~hearth_j_u0n_vn2",
+        "length": 123.24,
+        "passable": true,
+        "road": "hearth_av_u0n"
+      },
+      {
+        "a": "hearth_j_u0n_vn1",
+        "b": "hearth_j_u1_vn1",
+        "class": "artery",
+        "id": "hearth_j_u0n_vn1~hearth_j_u1_vn1",
+        "length": 91.44,
+        "passable": true,
+        "road": "hearth_av_vn1"
+      },
+      {
+        "a": "hearth_j_u0n_vn2",
+        "b": "hearth_j_u1_vn2",
+        "class": "artery",
+        "id": "hearth_j_u0n_vn2~hearth_j_u1_vn2",
+        "length": 91.44,
+        "passable": true,
+        "road": "hearth_av_vn2"
+      },
+      {
+        "a": "hearth_j_u0p_v1",
+        "b": "hearth_j_u0p_v2",
+        "class": "artery",
+        "id": "hearth_j_u0p_v1~hearth_j_u0p_v2",
+        "length": 116.82,
+        "passable": true,
+        "road": "hearth_av_u0p"
+      },
+      {
+        "a": "hearth_j_u0p_v1",
+        "b": "hearth_j_u1_v1",
+        "class": "artery",
+        "id": "hearth_j_u0p_v1~hearth_j_u1_v1",
+        "length": 91.44,
+        "passable": true,
+        "road": "hearth_av_v1"
+      },
+      {
+        "a": "hearth_j_un1_v1",
+        "b": "hearth_j_u0p_v1",
+        "class": "artery",
+        "id": "hearth_j_u0p_v1~hearth_j_un1_v1",
+        "length": 101.9,
+        "passable": true,
+        "road": "hearth_av_v1"
+      },
+      {
+        "a": "hearth_j_u0p_v2",
+        "b": "hearth_j_u1_v2",
+        "class": "artery",
+        "id": "hearth_j_u0p_v2~hearth_j_u1_v2",
+        "length": 91.44,
+        "passable": true,
+        "road": "hearth_av_v2"
+      },
+      {
+        "a": "hearth_j_un1_v2",
+        "b": "hearth_j_u0p_v2",
+        "class": "artery",
+        "id": "hearth_j_u0p_v2~hearth_j_un1_v2",
+        "length": 101.9,
+        "passable": true,
+        "road": "hearth_av_v2"
+      },
+      {
+        "a": "hearth_j_u1_vn1",
+        "b": "hearth_j_u1_v0p",
+        "class": "artery",
+        "id": "hearth_j_u1_v0p~hearth_j_u1_vn1",
+        "length": 118.59,
+        "passable": true,
+        "road": "hearth_av_u1"
+      },
+      {
+        "a": "hearth_j_u1_v0p",
+        "b": "hearth_j_u2_v0p",
+        "class": "artery",
+        "id": "hearth_j_u1_v0p~hearth_j_u2_v0p",
+        "length": 90.85,
+        "passable": true,
+        "road": "hearth_av_v0p"
+      },
+      {
+        "a": "hearth_j_u1_v1",
+        "b": "hearth_j_u1_v2",
+        "class": "artery",
+        "id": "hearth_j_u1_v1~hearth_j_u1_v2",
+        "length": 116.82,
+        "passable": true,
+        "road": "hearth_av_u1"
+      },
+      {
+        "a": "hearth_j_u1_v2",
+        "b": "hearth_j_u2_v2",
+        "class": "artery",
+        "id": "hearth_j_u1_v2~hearth_j_u2_v2",
+        "length": 90.85,
+        "passable": true,
+        "road": "hearth_av_v2"
+      },
+      {
+        "a": "hearth_j_u1_vn2",
+        "b": "hearth_j_u1_vn1",
+        "class": "artery",
+        "id": "hearth_j_u1_vn1~hearth_j_u1_vn2",
+        "length": 123.24,
+        "passable": true,
+        "road": "hearth_av_u1"
+      },
+      {
+        "a": "hearth_j_u1_vn1",
+        "b": "hearth_j_u2_vn1",
+        "class": "artery",
+        "id": "hearth_j_u1_vn1~hearth_j_u2_vn1",
+        "length": 90.85,
+        "passable": true,
+        "road": "hearth_av_vn1"
+      },
+      {
+        "a": "hearth_j_u1_vn2",
+        "b": "hearth_j_u2_vn2",
+        "class": "artery",
+        "id": "hearth_j_u1_vn2~hearth_j_u2_vn2",
+        "length": 90.85,
+        "passable": true,
+        "road": "hearth_av_vn2"
+      },
+      {
+        "a": "hearth_j_u2_v0p",
+        "b": "hearth_j_u2_v1",
+        "class": "artery",
+        "id": "hearth_j_u2_v0p~hearth_j_u2_v1",
+        "length": 107.02,
+        "passable": true,
+        "road": "hearth_av_u2"
+      },
+      {
+        "a": "hearth_j_u2_vn1",
+        "b": "hearth_j_u2_v0p",
+        "class": "artery",
+        "id": "hearth_j_u2_v0p~hearth_j_u2_vn1",
+        "length": 118.59,
+        "passable": true,
+        "road": "hearth_av_u2"
+      },
+      {
+        "a": "hearth_j_u2_v0p",
+        "b": "hearth_j_u3_v0p",
+        "class": "artery",
+        "id": "hearth_j_u2_v0p~hearth_j_u3_v0p",
+        "length": 89.92,
+        "passable": true,
+        "road": "hearth_av_v0p"
+      },
+      {
+        "a": "hearth_j_u2_v1",
+        "b": "hearth_j_u3_v1",
+        "class": "artery",
+        "id": "hearth_j_u2_v1~hearth_j_u3_v1",
+        "length": 89.92,
+        "passable": true,
+        "road": "hearth_av_v1"
+      },
+      {
+        "a": "hearth_j_u2_v2",
+        "b": "hearth_j_u3_v2",
+        "class": "artery",
+        "id": "hearth_j_u2_v2~hearth_j_u3_v2",
+        "length": 89.92,
+        "passable": true,
+        "road": "hearth_av_v2"
+      },
+      {
+        "a": "hearth_j_u2_vn2",
+        "b": "hearth_j_u2_vn1",
+        "class": "artery",
+        "id": "hearth_j_u2_vn1~hearth_j_u2_vn2",
+        "length": 123.24,
+        "passable": true,
+        "road": "hearth_av_u2"
+      },
+      {
+        "a": "hearth_j_u2_vn1",
+        "b": "hearth_j_u3_vn1",
+        "class": "artery",
+        "id": "hearth_j_u2_vn1~hearth_j_u3_vn1",
+        "length": 89.92,
+        "passable": true,
+        "road": "hearth_av_vn1"
+      },
+      {
+        "a": "hearth_j_u3_v0p",
+        "b": "hearth_j_u3_v1",
+        "class": "artery",
+        "id": "hearth_j_u3_v0p~hearth_j_u3_v1",
+        "length": 107.02,
+        "passable": true,
+        "road": "hearth_av_u3"
+      },
+      {
+        "a": "hearth_j_u3_vn1",
+        "b": "hearth_j_u3_v0p",
+        "class": "artery",
+        "id": "hearth_j_u3_v0p~hearth_j_u3_vn1",
+        "length": 118.59,
+        "passable": true,
+        "road": "hearth_av_u3"
+      },
+      {
+        "a": "hearth_j_un1_vn1",
+        "b": "hearth_j_un1_v0n",
+        "class": "artery",
+        "id": "hearth_j_un1_v0n~hearth_j_un1_vn1",
+        "length": 118.59,
+        "passable": true,
+        "road": "hearth_av_un1"
+      },
+      {
+        "a": "hearth_j_un2_v0n",
+        "b": "hearth_j_un1_v0n",
+        "class": "artery",
+        "id": "hearth_j_un1_v0n~hearth_j_un2_v0n",
+        "length": 95.3,
+        "passable": true,
+        "road": "hearth_av_v0n"
+      },
+      {
+        "a": "hearth_j_un1_v1",
+        "b": "hearth_j_un1_v2",
+        "class": "artery",
+        "id": "hearth_j_un1_v1~hearth_j_un1_v2",
+        "length": 116.82,
+        "passable": true,
+        "road": "hearth_av_un1"
+      },
+      {
+        "a": "hearth_j_un2_v1",
+        "b": "hearth_j_un1_v1",
+        "class": "artery",
+        "id": "hearth_j_un1_v1~hearth_j_un2_v1",
+        "length": 95.3,
+        "passable": true,
+        "road": "hearth_av_v1"
+      },
+      {
+        "a": "hearth_j_un2_v2",
+        "b": "hearth_j_un1_v2",
+        "class": "artery",
+        "id": "hearth_j_un1_v2~hearth_j_un2_v2",
+        "length": 95.3,
+        "passable": true,
+        "road": "hearth_av_v2"
+      },
+      {
+        "a": "hearth_j_un1_vn2",
+        "b": "hearth_j_un1_vn1",
+        "class": "artery",
+        "id": "hearth_j_un1_vn1~hearth_j_un1_vn2",
+        "length": 123.24,
+        "passable": true,
+        "road": "hearth_av_un1"
+      },
+      {
+        "a": "hearth_j_un2_vn1",
+        "b": "hearth_j_un1_vn1",
+        "class": "artery",
+        "id": "hearth_j_un1_vn1~hearth_j_un2_vn1",
+        "length": 95.3,
+        "passable": true,
+        "road": "hearth_av_vn1"
+      },
+      {
+        "a": "hearth_j_un2_vn2",
+        "b": "hearth_j_un1_vn2",
+        "class": "artery",
+        "id": "hearth_j_un1_vn2~hearth_j_un2_vn2",
+        "length": 95.3,
+        "passable": true,
+        "road": "hearth_av_vn2"
+      },
+      {
+        "a": "hearth_j_un2_vn1",
+        "b": "hearth_j_un2_v0n",
+        "class": "artery",
+        "id": "hearth_j_un2_v0n~hearth_j_un2_vn1",
+        "length": 118.59,
+        "passable": true,
+        "road": "hearth_av_un2"
+      },
+      {
+        "a": "hearth_j_un3_v0n",
+        "b": "hearth_j_un2_v0n",
+        "class": "artery",
+        "id": "hearth_j_un2_v0n~hearth_j_un3_v0n",
+        "length": 87.02,
+        "passable": true,
+        "road": "hearth_av_v0n"
+      },
+      {
+        "a": "hearth_j_un2_v1",
+        "b": "hearth_j_un2_v2",
+        "class": "artery",
+        "id": "hearth_j_un2_v1~hearth_j_un2_v2",
+        "length": 116.82,
+        "passable": true,
+        "road": "hearth_av_un2"
+      },
+      {
+        "a": "hearth_j_un3_v2",
+        "b": "hearth_j_un2_v2",
+        "class": "artery",
+        "id": "hearth_j_un2_v2~hearth_j_un3_v2",
+        "length": 87.02,
+        "passable": true,
+        "road": "hearth_av_v2"
+      },
+      {
+        "a": "hearth_j_un2_vn2",
+        "b": "hearth_j_un2_vn1",
+        "class": "artery",
+        "id": "hearth_j_un2_vn1~hearth_j_un2_vn2",
+        "length": 123.24,
+        "passable": true,
+        "road": "hearth_av_un2"
+      },
+      {
+        "a": "hearth_j_un3_vn1",
+        "b": "hearth_j_un2_vn1",
+        "class": "artery",
+        "id": "hearth_j_un2_vn1~hearth_j_un3_vn1",
+        "length": 87.02,
+        "passable": true,
+        "road": "hearth_av_vn1"
+      },
+      {
+        "a": "hearth_j_un3_vn2",
+        "b": "hearth_j_un2_vn2",
+        "class": "artery",
+        "id": "hearth_j_un2_vn2~hearth_j_un3_vn2",
+        "length": 87.02,
+        "passable": true,
+        "road": "hearth_av_vn2"
+      },
+      {
+        "a": "hearth_j_un3_v0n",
+        "b": "hearth_j_un3_v1",
+        "class": "artery",
+        "id": "hearth_j_un3_v0n~hearth_j_un3_v1",
+        "length": 107.02,
+        "passable": true,
+        "road": "hearth_av_un3"
+      },
+      {
+        "a": "hearth_j_un3_vn1",
+        "b": "hearth_j_un3_v0n",
+        "class": "artery",
+        "id": "hearth_j_un3_v0n~hearth_j_un3_vn1",
+        "length": 118.59,
+        "passable": true,
+        "road": "hearth_av_un3"
+      },
+      {
+        "a": "hearth_j_un3_vn2",
+        "b": "hearth_j_un3_vn1",
+        "class": "artery",
+        "id": "hearth_j_un3_vn1~hearth_j_un3_vn2",
+        "length": 123.24,
+        "passable": true,
+        "road": "hearth_av_un3"
+      },
+      {
+        "a": "hearth_rv_7",
+        "b": "hearth_rv_0",
+        "class": "ring",
+        "id": "hearth_rv_0~hearth_rv_7",
+        "length": 26.65,
+        "passable": true,
+        "road": "hearth_ring_1"
+      },
+      {
+        "a": "hearth_rv_2",
+        "b": "hearth_rv_3",
+        "class": "ring",
+        "id": "hearth_rv_2~hearth_rv_3",
+        "length": 26.65,
+        "passable": true,
+        "road": "hearth_ring_1"
+      },
+      {
+        "a": "hearth_rv_4",
+        "b": "hearth_rv_5",
+        "class": "ring",
+        "id": "hearth_rv_4~hearth_rv_5",
+        "length": 26.65,
+        "passable": true,
+        "road": "hearth_ring_1"
+      }
+    ],
+    "nodes": [
+      {
+        "at": [
+          527.82,
+          235.27
+        ],
+        "districts": [
+          "hearth_d_x0yn2"
+        ],
+        "id": "hearth_e_b2",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          533.77,
+          235.27
+        ],
+        "districts": [
+          "hearth_d_x0yn2",
+          "hearth_d_x1yn2"
+        ],
+        "id": "hearth_e_u0n",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          533.77,
+          764.73
+        ],
+        "districts": [
+          "hearth_d_x0y3",
+          "hearth_d_x1y3"
+        ],
+        "id": "hearth_e_u0p",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          625.21,
+          235.27
+        ],
+        "districts": [
+          "hearth_d_x1yn2",
+          "hearth_d_x2yn2"
+        ],
+        "id": "hearth_e_u1n",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          625.21,
+          764.73
+        ],
+        "districts": [
+          "hearth_d_x1y3",
+          "hearth_d_x2y3"
+        ],
+        "id": "hearth_e_u1p",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          713.86,
+          764.1
+        ],
+        "districts": [
+          "hearth_d_x2y3",
+          "hearth_d_x3y3"
+        ],
+        "id": "hearth_e_u2p",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          805.98,
+          268.4
+        ],
+        "districts": [
+          "hearth_d_x3yn1"
+        ],
+        "id": "hearth_e_u3n",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          805.98,
+          731.6
+        ],
+        "districts": [
+          "hearth_d_x3y3"
+        ],
+        "id": "hearth_e_u3p",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          429.07,
+          235.27
+        ],
+        "districts": [
+          "hearth_d_x0yn2",
+          "hearth_d_xn1yn2"
+        ],
+        "id": "hearth_e_un1n",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          429.07,
+          764.73
+        ],
+        "districts": [
+          "hearth_d_x0y3",
+          "hearth_d_xn1y3"
+        ],
+        "id": "hearth_e_un1p",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          336.57,
+          235.32
+        ],
+        "districts": [
+          "hearth_d_xn1yn2",
+          "hearth_d_xn2yn1"
+        ],
+        "id": "hearth_e_un2n",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          336.57,
+          764.68
+        ],
+        "districts": [
+          "hearth_d_xn1y3",
+          "hearth_d_xn2y3"
+        ],
+        "id": "hearth_e_un2p",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          249.55,
+          761.45
+        ],
+        "districts": [
+          "hearth_d_xn2y3",
+          "hearth_d_xn3y3"
+        ],
+        "id": "hearth_e_un3p",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          182.32,
+          495.92
+        ],
+        "districts": [
+          "hearth_d_xn3y0",
+          "hearth_d_xn3y1"
+        ],
+        "id": "hearth_e_v0n",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          817.68,
+          495.92
+        ],
+        "districts": [
+          "hearth_d_x3y0",
+          "hearth_d_x3y1"
+        ],
+        "id": "hearth_e_v0p",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          182.32,
+          603.22
+        ],
+        "districts": [
+          "hearth_d_xn3y1",
+          "hearth_d_xn3y2a"
+        ],
+        "id": "hearth_e_v1n",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          817.68,
+          603.22
+        ],
+        "districts": [
+          "hearth_d_x3y1",
+          "hearth_d_x3y2b"
+        ],
+        "id": "hearth_e_v1p",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          188.87,
+          719.76
+        ],
+        "districts": [
+          "hearth_d_xn3y2b",
+          "hearth_d_xn3y3"
+        ],
+        "id": "hearth_e_v2n",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          811.13,
+          719.76
+        ],
+        "districts": [
+          "hearth_d_x3y2a",
+          "hearth_d_x3y3"
+        ],
+        "id": "hearth_e_v2p",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          182.34,
+          378.06
+        ],
+        "districts": [
+          "hearth_d_xn3y0",
+          "hearth_d_xn3yn1"
+        ],
+        "id": "hearth_e_vn1n",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          817.66,
+          378.06
+        ],
+        "districts": [
+          "hearth_d_x3y0",
+          "hearth_d_x3yn1"
+        ],
+        "id": "hearth_e_vn1p",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          205.57,
+          254.09
+        ],
+        "districts": [
+          "hearth_d_xn3yn1"
+        ],
+        "id": "hearth_e_vn2n",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          794.43,
+          254.09
+        ],
+        "districts": [
+          "hearth_d_x3yn1"
+        ],
+        "id": "hearth_e_vn2p",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          814.77,
+          704.42
+        ],
+        "districts": [
+          "hearth_d_x3y2a",
+          "hearth_d_x3y2b"
+        ],
+        "id": "hearth_gate_b0",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          182.57,
+          657.53
+        ],
+        "districts": [
+          "hearth_d_xn3y2a",
+          "hearth_d_xn3y2b"
+        ],
+        "id": "hearth_gate_b1",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          713.86,
+          235.9
+        ],
+        "districts": [
+          "hearth_d_x2yn2",
+          "hearth_d_x3yn1"
+        ],
+        "id": "hearth_gate_u2n",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          249.55,
+          238.55
+        ],
+        "districts": [
+          "hearth_d_xn2yn1",
+          "hearth_d_xn3yn1"
+        ],
+        "id": "hearth_gate_un3n",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          544.58,
+          495.92
+        ],
+        "districts": [
+          "hearth_d_plaza",
+          "hearth_d_x1y0",
+          "hearth_d_x1y1a",
+          "hearth_d_x1y1b"
+        ],
+        "id": "hearth_j_b0_ring",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          625.21,
+          557.57
+        ],
+        "districts": [
+          "hearth_d_x1y1a",
+          "hearth_d_x1y1b",
+          "hearth_d_x2y1"
+        ],
+        "id": "hearth_j_b0_u1",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          716.06,
+          627.93
+        ],
+        "districts": [
+          "hearth_d_x2y2",
+          "hearth_d_x3y2a",
+          "hearth_d_x3y2b"
+        ],
+        "id": "hearth_j_b0_u2",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          805.98,
+          697.56
+        ],
+        "districts": [
+          "hearth_d_x3y2a",
+          "hearth_d_x3y2b"
+        ],
+        "id": "hearth_j_b0_u3",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          683.79,
+          602.94
+        ],
+        "districts": [
+          "hearth_d_x2y1",
+          "hearth_d_x2y2"
+        ],
+        "id": "hearth_j_b0_v1",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          490.05,
+          490.36
+        ],
+        "districts": [
+          "hearth_d_plaza",
+          "hearth_d_x0y0",
+          "hearth_d_x0y1"
+        ],
+        "id": "hearth_j_b1_ring",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          431.87,
+          522.0
+        ],
+        "districts": [
+          "hearth_d_x0y1",
+          "hearth_d_xn1y1a",
+          "hearth_d_xn1y1b"
+        ],
+        "id": "hearth_j_b1_un1",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          336.57,
+          573.81
+        ],
+        "districts": [
+          "hearth_d_xn1y1a",
+          "hearth_d_xn1y1b",
+          "hearth_d_xn2y1"
+        ],
+        "id": "hearth_j_b1_un2",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          249.55,
+          621.12
+        ],
+        "districts": [
+          "hearth_d_xn2y2",
+          "hearth_d_xn3y2a",
+          "hearth_d_xn3y2b"
+        ],
+        "id": "hearth_j_b1_un3",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          479.83,
+          495.92
+        ],
+        "districts": [
+          "hearth_d_x0y0",
+          "hearth_d_x0y1"
+        ],
+        "id": "hearth_j_b1_v0n",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          283.0,
+          602.94
+        ],
+        "districts": [
+          "hearth_d_xn2y1",
+          "hearth_d_xn2y2"
+        ],
+        "id": "hearth_j_b1_v1",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          518.47,
+          440.1
+        ],
+        "districts": [
+          "hearth_d_plaza",
+          "hearth_d_x0y0",
+          "hearth_d_x1y0"
+        ],
+        "id": "hearth_j_b2_ring",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          521.81,
+          377.33
+        ],
+        "districts": [
+          "hearth_d_x0y0",
+          "hearth_d_x0yn1",
+          "hearth_d_x1y0"
+        ],
+        "id": "hearth_j_b2_vn1",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          526.03,
+          254.09
+        ],
+        "districts": [
+          "hearth_d_x0yn1",
+          "hearth_d_x0yn2"
+        ],
+        "id": "hearth_j_b2_vn2",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          533.77,
+          446.43
+        ],
+        "districts": [
+          "hearth_d_plaza",
+          "hearth_d_x1y0"
+        ],
+        "id": "hearth_j_ring_u0n",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          533.77,
+          503.39
+        ],
+        "districts": [
+          "hearth_d_plaza",
+          "hearth_d_x0y1",
+          "hearth_d_x1y1a"
+        ],
+        "id": "hearth_j_ring_u0p",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          492.36,
+          495.92
+        ],
+        "districts": [
+          "hearth_d_plaza",
+          "hearth_d_x0y1"
+        ],
+        "id": "hearth_j_ring_v0n",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          533.77,
+          377.33
+        ],
+        "districts": [
+          "hearth_d_x0yn1",
+          "hearth_d_x1y0",
+          "hearth_d_x1yn1"
+        ],
+        "id": "hearth_j_u0n_vn1",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          533.77,
+          254.09
+        ],
+        "districts": [
+          "hearth_d_x0yn1",
+          "hearth_d_x0yn2",
+          "hearth_d_x1yn1",
+          "hearth_d_x1yn2"
+        ],
+        "id": "hearth_j_u0n_vn2",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          533.77,
+          602.94
+        ],
+        "districts": [
+          "hearth_d_x0y1",
+          "hearth_d_x0y2",
+          "hearth_d_x1y1a",
+          "hearth_d_x1y2"
+        ],
+        "id": "hearth_j_u0p_v1",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          533.77,
+          719.76
+        ],
+        "districts": [
+          "hearth_d_x0y2",
+          "hearth_d_x0y3",
+          "hearth_d_x1y2",
+          "hearth_d_x1y3"
+        ],
+        "id": "hearth_j_u0p_v2",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          625.21,
+          495.92
+        ],
+        "districts": [
+          "hearth_d_x1y0",
+          "hearth_d_x1y1b",
+          "hearth_d_x2y0",
+          "hearth_d_x2y1"
+        ],
+        "id": "hearth_j_u1_v0p",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          625.21,
+          602.94
+        ],
+        "districts": [
+          "hearth_d_x1y1a",
+          "hearth_d_x1y2",
+          "hearth_d_x2y1",
+          "hearth_d_x2y2"
+        ],
+        "id": "hearth_j_u1_v1",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          625.21,
+          719.76
+        ],
+        "districts": [
+          "hearth_d_x1y2",
+          "hearth_d_x1y3",
+          "hearth_d_x2y2",
+          "hearth_d_x2y3"
+        ],
+        "id": "hearth_j_u1_v2",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          625.21,
+          377.33
+        ],
+        "districts": [
+          "hearth_d_x1y0",
+          "hearth_d_x1yn1",
+          "hearth_d_x2y0",
+          "hearth_d_x2yn1"
+        ],
+        "id": "hearth_j_u1_vn1",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          625.21,
+          254.09
+        ],
+        "districts": [
+          "hearth_d_x1yn1",
+          "hearth_d_x1yn2",
+          "hearth_d_x2yn1",
+          "hearth_d_x2yn2"
+        ],
+        "id": "hearth_j_u1_vn2",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          716.06,
+          495.92
+        ],
+        "districts": [
+          "hearth_d_x2y0",
+          "hearth_d_x2y1",
+          "hearth_d_x3y0",
+          "hearth_d_x3y1"
+        ],
+        "id": "hearth_j_u2_v0p",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          716.06,
+          602.94
+        ],
+        "districts": [
+          "hearth_d_x2y1",
+          "hearth_d_x2y2",
+          "hearth_d_x3y1",
+          "hearth_d_x3y2b"
+        ],
+        "id": "hearth_j_u2_v1",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          716.06,
+          719.76
+        ],
+        "districts": [
+          "hearth_d_x2y2",
+          "hearth_d_x2y3",
+          "hearth_d_x3y2a",
+          "hearth_d_x3y3"
+        ],
+        "id": "hearth_j_u2_v2",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          716.06,
+          377.33
+        ],
+        "districts": [
+          "hearth_d_x2y0",
+          "hearth_d_x2yn1",
+          "hearth_d_x3y0",
+          "hearth_d_x3yn1"
+        ],
+        "id": "hearth_j_u2_vn1",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          716.06,
+          254.09
+        ],
+        "districts": [
+          "hearth_d_x2yn1",
+          "hearth_d_x2yn2",
+          "hearth_d_x3yn1"
+        ],
+        "id": "hearth_j_u2_vn2",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          805.98,
+          495.92
+        ],
+        "districts": [
+          "hearth_d_x3y0",
+          "hearth_d_x3y1"
+        ],
+        "id": "hearth_j_u3_v0p",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          805.98,
+          602.94
+        ],
+        "districts": [
+          "hearth_d_x3y1",
+          "hearth_d_x3y2b"
+        ],
+        "id": "hearth_j_u3_v1",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          805.98,
+          719.76
+        ],
+        "districts": [
+          "hearth_d_x3y2a",
+          "hearth_d_x3y3"
+        ],
+        "id": "hearth_j_u3_v2",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          805.98,
+          377.33
+        ],
+        "districts": [
+          "hearth_d_x3y0",
+          "hearth_d_x3yn1"
+        ],
+        "id": "hearth_j_u3_vn1",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          431.87,
+          495.92
+        ],
+        "districts": [
+          "hearth_d_x0y0",
+          "hearth_d_x0y1",
+          "hearth_d_xn1y0",
+          "hearth_d_xn1y1a"
+        ],
+        "id": "hearth_j_un1_v0n",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          431.87,
+          602.94
+        ],
+        "districts": [
+          "hearth_d_x0y1",
+          "hearth_d_x0y2",
+          "hearth_d_xn1y1b",
+          "hearth_d_xn1y2"
+        ],
+        "id": "hearth_j_un1_v1",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          431.87,
+          719.76
+        ],
+        "districts": [
+          "hearth_d_x0y2",
+          "hearth_d_x0y3",
+          "hearth_d_xn1y2",
+          "hearth_d_xn1y3"
+        ],
+        "id": "hearth_j_un1_v2",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          431.87,
+          377.33
+        ],
+        "districts": [
+          "hearth_d_x0y0",
+          "hearth_d_x0yn1",
+          "hearth_d_xn1y0",
+          "hearth_d_xn1yn1"
+        ],
+        "id": "hearth_j_un1_vn1",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          431.87,
+          254.09
+        ],
+        "districts": [
+          "hearth_d_x0yn1",
+          "hearth_d_x0yn2",
+          "hearth_d_xn1yn1",
+          "hearth_d_xn1yn2"
+        ],
+        "id": "hearth_j_un1_vn2",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          336.57,
+          495.92
+        ],
+        "districts": [
+          "hearth_d_xn1y0",
+          "hearth_d_xn1y1a",
+          "hearth_d_xn2y0",
+          "hearth_d_xn2y1"
+        ],
+        "id": "hearth_j_un2_v0n",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          336.57,
+          602.94
+        ],
+        "districts": [
+          "hearth_d_xn1y1b",
+          "hearth_d_xn1y2",
+          "hearth_d_xn2y1",
+          "hearth_d_xn2y2"
+        ],
+        "id": "hearth_j_un2_v1",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          336.57,
+          719.76
+        ],
+        "districts": [
+          "hearth_d_xn1y2",
+          "hearth_d_xn1y3",
+          "hearth_d_xn2y2",
+          "hearth_d_xn2y3"
+        ],
+        "id": "hearth_j_un2_v2",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          336.57,
+          377.33
+        ],
+        "districts": [
+          "hearth_d_xn1y0",
+          "hearth_d_xn1yn1",
+          "hearth_d_xn2y0",
+          "hearth_d_xn2yn1"
+        ],
+        "id": "hearth_j_un2_vn1",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          336.57,
+          254.09
+        ],
+        "districts": [
+          "hearth_d_xn1yn1",
+          "hearth_d_xn1yn2",
+          "hearth_d_xn2yn1"
+        ],
+        "id": "hearth_j_un2_vn2",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          249.55,
+          495.92
+        ],
+        "districts": [
+          "hearth_d_xn2y0",
+          "hearth_d_xn2y1",
+          "hearth_d_xn3y0",
+          "hearth_d_xn3y1"
+        ],
+        "id": "hearth_j_un3_v0n",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          249.55,
+          602.94
+        ],
+        "districts": [
+          "hearth_d_xn2y1",
+          "hearth_d_xn2y2",
+          "hearth_d_xn3y1",
+          "hearth_d_xn3y2a"
+        ],
+        "id": "hearth_j_un3_v1",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          249.55,
+          719.76
+        ],
+        "districts": [
+          "hearth_d_xn2y2",
+          "hearth_d_xn2y3",
+          "hearth_d_xn3y2b",
+          "hearth_d_xn3y3"
+        ],
+        "id": "hearth_j_un3_v2",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          249.55,
+          377.33
+        ],
+        "districts": [
+          "hearth_d_xn2y0",
+          "hearth_d_xn2yn1",
+          "hearth_d_xn3y0",
+          "hearth_d_xn3yn1"
+        ],
+        "id": "hearth_j_un3_vn1",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          249.55,
+          254.09
+        ],
+        "districts": [
+          "hearth_d_xn2yn1",
+          "hearth_d_xn3yn1"
+        ],
+        "id": "hearth_j_un3_vn2",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          518.47,
+          474.91
+        ],
+        "districts": [
+          "hearth_d_plaza"
+        ],
+        "id": "hearth_plaza",
+        "kind": "zone"
+      },
+      {
+        "at": [
+          553.28,
+          474.91
+        ],
+        "districts": [
+          "hearth_d_plaza",
+          "hearth_d_x1y0"
+        ],
+        "id": "hearth_rv_0",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          543.09,
+          499.53
+        ],
+        "districts": [
+          "hearth_d_plaza",
+          "hearth_d_x1y1a"
+        ],
+        "id": "hearth_rv_1",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          518.47,
+          509.72
+        ],
+        "districts": [
+          "hearth_d_plaza",
+          "hearth_d_x0y1"
+        ],
+        "id": "hearth_rv_2",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          493.85,
+          499.53
+        ],
+        "districts": [
+          "hearth_d_plaza",
+          "hearth_d_x0y1"
+        ],
+        "id": "hearth_rv_3",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          483.66,
+          474.91
+        ],
+        "districts": [
+          "hearth_d_plaza",
+          "hearth_d_x0y0"
+        ],
+        "id": "hearth_rv_4",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          493.85,
+          450.29
+        ],
+        "districts": [
+          "hearth_d_plaza",
+          "hearth_d_x0y0"
+        ],
+        "id": "hearth_rv_5",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          543.09,
+          450.29
+        ],
+        "districts": [
+          "hearth_d_plaza",
+          "hearth_d_x1y0"
+        ],
+        "id": "hearth_rv_7",
+        "kind": "choke"
+      }
+    ]
+  },
+  "id": "hearth",
+  "landmarks": [
+    {
+      "at": [
+        518.47,
+        474.91
+      ],
+      "district": "hearth_d_plaza",
+      "id": "hearth_plaza",
+      "kind": "market",
+      "label": "Market Square",
+      "r": 34.81
+    },
+    {
+      "at": [
+        482.82,
+        562.47
+      ],
+      "district": "hearth_d_x0y1",
+      "id": "hearth_citadel",
+      "kind": "citadel",
+      "label": "Citadel",
+      "r": 45.0
+    }
+  ],
+  "params": {
+    "aspect": 1.2,
+    "block": 92.6603,
+    "block_ratio": 1.2449,
+    "boulevard_jitter": 0.0383,
+    "boulevard_twist": 34.9213,
+    "boulevards": 3,
+    "citadel": true,
+    "extent_frac": 0.58,
+    "gates": 4,
+    "hub_offset": 0.1112,
+    "inner_wall": false,
+    "inner_wall_frac": 0.5012,
+    "lattice_phase": 0.1222,
+    "min_district_area": 1600.0,
+    "plaza_frac": 0.1315,
+    "rotation": 0.0,
+    "roundness": 9.5697,
+    "snap": 3.0,
+    "spacing_jitter": 0.0867
+  },
+  "roads": [
+    {
+      "class": "artery",
+      "id": "hearth_av_u0n",
+      "nodes": [
+        "hearth_e_u0n",
+        "hearth_j_u0n_vn2",
+        "hearth_j_u0n_vn1",
+        "hearth_j_ring_u0n"
+      ],
+      "polyline": [
+        [
+          533.77,
+          235.27
+        ],
+        [
+          533.77,
+          254.09
+        ],
+        [
+          533.77,
+          377.33
+        ],
+        [
+          533.77,
+          446.43
+        ]
+      ],
+      "width": 10.0
+    },
+    {
+      "class": "artery",
+      "id": "hearth_av_u0p",
+      "nodes": [
+        "hearth_j_ring_u0p",
+        "hearth_j_u0p_v1",
+        "hearth_j_u0p_v2",
+        "hearth_e_u0p"
+      ],
+      "polyline": [
+        [
+          533.77,
+          503.39
+        ],
+        [
+          533.77,
+          602.94
+        ],
+        [
+          533.77,
+          719.76
+        ],
+        [
+          533.77,
+          764.73
+        ]
+      ],
+      "width": 10.0
+    },
+    {
+      "class": "artery",
+      "id": "hearth_av_u1",
+      "nodes": [
+        "hearth_e_u1n",
+        "hearth_j_u1_vn2",
+        "hearth_j_u1_vn1",
+        "hearth_j_u1_v0p",
+        "hearth_j_b0_u1",
+        "hearth_j_u1_v1",
+        "hearth_j_u1_v2",
+        "hearth_e_u1p"
+      ],
+      "polyline": [
+        [
+          625.21,
+          235.27
+        ],
+        [
+          625.21,
+          254.09
+        ],
+        [
+          625.21,
+          377.33
+        ],
+        [
+          625.21,
+          495.92
+        ],
+        [
+          625.21,
+          557.57
+        ],
+        [
+          625.21,
+          602.94
+        ],
+        [
+          625.21,
+          719.76
+        ],
+        [
+          625.21,
+          764.73
+        ]
+      ],
+      "width": 10.0
+    },
+    {
+      "class": "artery",
+      "id": "hearth_av_u2",
+      "nodes": [
+        "hearth_gate_u2n",
+        "hearth_j_u2_vn2",
+        "hearth_j_u2_vn1",
+        "hearth_j_u2_v0p",
+        "hearth_j_u2_v1",
+        "hearth_j_b0_u2",
+        "hearth_j_u2_v2",
+        "hearth_e_u2p"
+      ],
+      "polyline": [
+        [
+          713.86,
+          235.9
+        ],
+        [
+          716.06,
+          254.09
+        ],
+        [
+          716.06,
+          377.33
+        ],
+        [
+          716.06,
+          495.92
+        ],
+        [
+          716.06,
+          602.94
+        ],
+        [
+          716.06,
+          627.93
+        ],
+        [
+          716.06,
+          719.76
+        ],
+        [
+          713.86,
+          764.1
+        ]
+      ],
+      "width": 10.0
+    },
+    {
+      "class": "artery",
+      "id": "hearth_av_u3",
+      "nodes": [
+        "hearth_e_u3n",
+        "hearth_j_u3_vn1",
+        "hearth_j_u3_v0p",
+        "hearth_j_u3_v1",
+        "hearth_j_b0_u3",
+        "hearth_j_u3_v2",
+        "hearth_e_u3p"
+      ],
+      "polyline": [
+        [
+          805.98,
+          268.4
+        ],
+        [
+          805.98,
+          377.33
+        ],
+        [
+          805.98,
+          495.92
+        ],
+        [
+          805.98,
+          602.94
+        ],
+        [
+          805.98,
+          697.56
+        ],
+        [
+          805.98,
+          719.76
+        ],
+        [
+          805.98,
+          731.6
+        ]
+      ],
+      "width": 10.0
+    },
+    {
+      "class": "artery",
+      "id": "hearth_av_un1",
+      "nodes": [
+        "hearth_e_un1n",
+        "hearth_j_un1_vn2",
+        "hearth_j_un1_vn1",
+        "hearth_j_un1_v0n",
+        "hearth_j_b1_un1",
+        "hearth_j_un1_v1",
+        "hearth_j_un1_v2",
+        "hearth_e_un1p"
+      ],
+      "polyline": [
+        [
+          429.07,
+          235.27
+        ],
+        [
+          431.87,
+          254.09
+        ],
+        [
+          431.87,
+          377.33
+        ],
+        [
+          431.87,
+          495.92
+        ],
+        [
+          431.87,
+          522.0
+        ],
+        [
+          431.87,
+          602.94
+        ],
+        [
+          431.87,
+          719.76
+        ],
+        [
+          429.07,
+          764.73
+        ]
+      ],
+      "width": 10.0
+    },
+    {
+      "class": "artery",
+      "id": "hearth_av_un2",
+      "nodes": [
+        "hearth_e_un2n",
+        "hearth_j_un2_vn2",
+        "hearth_j_un2_vn1",
+        "hearth_j_un2_v0n",
+        "hearth_j_b1_un2",
+        "hearth_j_un2_v1",
+        "hearth_j_un2_v2",
+        "hearth_e_un2p"
+      ],
+      "polyline": [
+        [
+          336.57,
+          235.32
+        ],
+        [
+          336.57,
+          254.09
+        ],
+        [
+          336.57,
+          377.33
+        ],
+        [
+          336.57,
+          495.92
+        ],
+        [
+          336.57,
+          573.81
+        ],
+        [
+          336.57,
+          602.94
+        ],
+        [
+          336.57,
+          719.76
+        ],
+        [
+          336.57,
+          764.68
+        ]
+      ],
+      "width": 10.0
+    },
+    {
+      "class": "artery",
+      "id": "hearth_av_un3",
+      "nodes": [
+        "hearth_gate_un3n",
+        "hearth_j_un3_vn2",
+        "hearth_j_un3_vn1",
+        "hearth_j_un3_v0n",
+        "hearth_j_un3_v1",
+        "hearth_j_b1_un3",
+        "hearth_j_un3_v2",
+        "hearth_e_un3p"
+      ],
+      "polyline": [
+        [
+          249.55,
+          238.55
+        ],
+        [
+          249.55,
+          254.09
+        ],
+        [
+          249.55,
+          377.33
+        ],
+        [
+          249.55,
+          495.92
+        ],
+        [
+          249.55,
+          602.94
+        ],
+        [
+          249.55,
+          621.12
+        ],
+        [
+          249.55,
+          719.76
+        ],
+        [
+          249.55,
+          761.45
+        ]
+      ],
+      "width": 10.0
+    },
+    {
+      "class": "artery",
+      "id": "hearth_av_v0n",
+      "nodes": [
+        "hearth_e_v0n",
+        "hearth_j_un3_v0n",
+        "hearth_j_un2_v0n",
+        "hearth_j_un1_v0n",
+        "hearth_j_b1_v0n",
+        "hearth_j_ring_v0n"
+      ],
+      "polyline": [
+        [
+          182.32,
+          495.92
+        ],
+        [
+          249.55,
+          495.92
+        ],
+        [
+          336.57,
+          495.92
+        ],
+        [
+          431.87,
+          495.92
+        ],
+        [
+          479.83,
+          495.92
+        ],
+        [
+          492.36,
+          495.92
+        ]
+      ],
+      "width": 10.0
+    },
+    {
+      "class": "artery",
+      "id": "hearth_av_v0p",
+      "nodes": [
+        "hearth_j_b0_ring",
+        "hearth_j_u1_v0p",
+        "hearth_j_u2_v0p",
+        "hearth_j_u3_v0p",
+        "hearth_e_v0p"
+      ],
+      "polyline": [
+        [
+          544.58,
+          495.92
+        ],
+        [
+          625.21,
+          495.92
+        ],
+        [
+          716.06,
+          495.92
+        ],
+        [
+          805.98,
+          495.92
+        ],
+        [
+          817.68,
+          495.92
+        ]
+      ],
+      "width": 10.0
+    },
+    {
+      "class": "artery",
+      "id": "hearth_av_v1",
+      "nodes": [
+        "hearth_e_v1n",
+        "hearth_j_un3_v1",
+        "hearth_j_b1_v1",
+        "hearth_j_un2_v1",
+        "hearth_j_un1_v1",
+        "hearth_j_u0p_v1",
+        "hearth_j_u1_v1",
+        "hearth_j_b0_v1",
+        "hearth_j_u2_v1",
+        "hearth_j_u3_v1",
+        "hearth_e_v1p"
+      ],
+      "polyline": [
+        [
+          182.32,
+          603.22
+        ],
+        [
+          249.55,
+          602.94
+        ],
+        [
+          283.0,
+          602.94
+        ],
+        [
+          336.57,
+          602.94
+        ],
+        [
+          431.87,
+          602.94
+        ],
+        [
+          533.77,
+          602.94
+        ],
+        [
+          625.21,
+          602.94
+        ],
+        [
+          683.79,
+          602.94
+        ],
+        [
+          716.06,
+          602.94
+        ],
+        [
+          805.98,
+          602.94
+        ],
+        [
+          817.68,
+          603.22
+        ]
+      ],
+      "width": 10.0
+    },
+    {
+      "class": "artery",
+      "id": "hearth_av_v2",
+      "nodes": [
+        "hearth_e_v2n",
+        "hearth_j_un3_v2",
+        "hearth_j_un2_v2",
+        "hearth_j_un1_v2",
+        "hearth_j_u0p_v2",
+        "hearth_j_u1_v2",
+        "hearth_j_u2_v2",
+        "hearth_j_u3_v2",
+        "hearth_e_v2p"
+      ],
+      "polyline": [
+        [
+          188.87,
+          719.76
+        ],
+        [
+          249.55,
+          719.76
+        ],
+        [
+          336.57,
+          719.76
+        ],
+        [
+          431.87,
+          719.76
+        ],
+        [
+          533.77,
+          719.76
+        ],
+        [
+          625.21,
+          719.76
+        ],
+        [
+          716.06,
+          719.76
+        ],
+        [
+          805.98,
+          719.76
+        ],
+        [
+          811.13,
+          719.76
+        ]
+      ],
+      "width": 10.0
+    },
+    {
+      "class": "artery",
+      "id": "hearth_av_vn1",
+      "nodes": [
+        "hearth_e_vn1n",
+        "hearth_j_un3_vn1",
+        "hearth_j_un2_vn1",
+        "hearth_j_un1_vn1",
+        "hearth_j_b2_vn1",
+        "hearth_j_u0n_vn1",
+        "hearth_j_u1_vn1",
+        "hearth_j_u2_vn1",
+        "hearth_j_u3_vn1",
+        "hearth_e_vn1p"
+      ],
+      "polyline": [
+        [
+          182.34,
+          378.06
+        ],
+        [
+          249.55,
+          377.33
+        ],
+        [
+          336.57,
+          377.33
+        ],
+        [
+          431.87,
+          377.33
+        ],
+        [
+          521.81,
+          377.33
+        ],
+        [
+          533.77,
+          377.33
+        ],
+        [
+          625.21,
+          377.33
+        ],
+        [
+          716.06,
+          377.33
+        ],
+        [
+          805.98,
+          377.33
+        ],
+        [
+          817.66,
+          378.06
+        ]
+      ],
+      "width": 10.0
+    },
+    {
+      "class": "artery",
+      "id": "hearth_av_vn2",
+      "nodes": [
+        "hearth_e_vn2n",
+        "hearth_j_un3_vn2",
+        "hearth_j_un2_vn2",
+        "hearth_j_un1_vn2",
+        "hearth_j_b2_vn2",
+        "hearth_j_u0n_vn2",
+        "hearth_j_u1_vn2",
+        "hearth_j_u2_vn2",
+        "hearth_e_vn2p"
+      ],
+      "polyline": [
+        [
+          205.57,
+          254.09
+        ],
+        [
+          249.55,
+          254.09
+        ],
+        [
+          336.57,
+          254.09
+        ],
+        [
+          431.87,
+          254.09
+        ],
+        [
+          526.03,
+          254.09
+        ],
+        [
+          533.77,
+          254.09
+        ],
+        [
+          625.21,
+          254.09
+        ],
+        [
+          716.06,
+          254.09
+        ],
+        [
+          794.43,
+          254.09
+        ]
+      ],
+      "width": 10.0
+    },
+    {
+      "class": "boulevard",
+      "id": "hearth_blvd_b0",
+      "nodes": [
+        "hearth_plaza",
+        "hearth_j_b0_ring",
+        "hearth_j_b0_u1",
+        "hearth_j_b0_v1",
+        "hearth_j_b0_u2",
+        "hearth_j_b0_u3",
+        "hearth_gate_b0"
+      ],
+      "polyline": [
+        [
+          518.47,
+          474.91
+        ],
+        [
+          544.58,
+          495.92
+        ],
+        [
+          625.21,
+          557.57
+        ],
+        [
+          683.79,
+          602.94
+        ],
+        [
+          716.06,
+          627.93
+        ],
+        [
+          805.98,
+          697.56
+        ],
+        [
+          814.77,
+          704.42
+        ]
+      ],
+      "width": 16.0
+    },
+    {
+      "class": "boulevard",
+      "id": "hearth_blvd_b1",
+      "nodes": [
+        "hearth_plaza",
+        "hearth_j_b1_ring",
+        "hearth_j_b1_v0n",
+        "hearth_j_b1_un1",
+        "hearth_j_b1_un2",
+        "hearth_j_b1_v1",
+        "hearth_j_b1_un3",
+        "hearth_gate_b1"
+      ],
+      "polyline": [
+        [
+          518.47,
+          474.91
+        ],
+        [
+          490.05,
+          490.36
+        ],
+        [
+          479.83,
+          495.92
+        ],
+        [
+          431.87,
+          522.0
+        ],
+        [
+          336.57,
+          573.81
+        ],
+        [
+          283.0,
+          602.94
+        ],
+        [
+          249.55,
+          621.12
+        ],
+        [
+          182.57,
+          657.53
+        ]
+      ],
+      "width": 16.0
+    },
+    {
+      "class": "boulevard",
+      "id": "hearth_blvd_b2",
+      "nodes": [
+        "hearth_plaza",
+        "hearth_j_b2_ring",
+        "hearth_j_b2_vn1",
+        "hearth_j_b2_vn2",
+        "hearth_e_b2"
+      ],
+      "polyline": [
+        [
+          518.47,
+          474.91
+        ],
+        [
+          518.47,
+          440.1
+        ],
+        [
+          521.81,
+          377.33
+        ],
+        [
+          526.03,
+          254.09
+        ],
+        [
+          527.82,
+          235.27
+        ]
+      ],
+      "width": 16.0
+    },
+    {
+      "class": "ring",
+      "id": "hearth_ring_1",
+      "nodes": [
+        "hearth_rv_0",
+        "hearth_j_b0_ring",
+        "hearth_rv_1",
+        "hearth_j_ring_u0p",
+        "hearth_rv_2",
+        "hearth_rv_3",
+        "hearth_j_ring_v0n",
+        "hearth_j_b1_ring",
+        "hearth_rv_4",
+        "hearth_rv_5",
+        "hearth_j_b2_ring",
+        "hearth_j_ring_u0n",
+        "hearth_rv_7",
+        "hearth_rv_0"
+      ],
+      "polyline": [
+        [
+          553.28,
+          474.91
+        ],
+        [
+          544.58,
+          495.92
+        ],
+        [
+          543.09,
+          499.53
+        ],
+        [
+          533.77,
+          503.39
+        ],
+        [
+          518.47,
+          509.72
+        ],
+        [
+          493.85,
+          499.53
+        ],
+        [
+          492.36,
+          495.92
+        ],
+        [
+          490.05,
+          490.36
+        ],
+        [
+          483.66,
+          474.91
+        ],
+        [
+          493.85,
+          450.29
+        ],
+        [
+          518.47,
+          440.1
+        ],
+        [
+          533.77,
+          446.43
+        ],
+        [
+          543.09,
+          450.29
+        ],
+        [
+          553.28,
+          474.91
+        ]
+      ],
+      "width": 10.0
+    }
+  ],
+  "seed": 14,
+  "size": [
+    1000.0,
+    1000.0
+  ],
+  "walls": [
+    {
+      "id": "hearth_wall_outer",
+      "kind": "outer",
+      "open_shore": [],
+      "polyline": [
+        [
+          817.68,
+          500.0
+        ],
+        [
+          817.68,
+          516.65
+        ],
+        [
+          817.68,
+          533.39
+        ],
+        [
+          817.68,
+          550.32
+        ],
+        [
+          817.68,
+          567.52
+        ],
+        [
+          817.68,
+          585.12
+        ],
+        [
+          817.68,
+          603.22
+        ],
+        [
+          817.66,
+          621.94
+        ],
+        [
+          817.6,
+          641.4
+        ],
+        [
+          817.38,
+          661.71
+        ],
+        [
+          816.7,
+          682.85
+        ],
+        [
+          814.77,
+          704.42
+        ],
+        [
+          811.13,
+          719.76
+        ],
+        [
+          809.86,
+          725.13
+        ],
+        [
+          805.98,
+          731.6
+        ],
+        [
+          799.45,
+          742.49
+        ],
+        [
+          782.28,
+          754.17
+        ],
+        [
+          760.32,
+          760.32
+        ],
+        [
+          736.83,
+          763.02
+        ],
+        [
+          713.86,
+          764.1
+        ],
+        [
+          692.18,
+          764.51
+        ],
+        [
+          671.87,
+          764.66
+        ],
+        [
+          652.83,
+          764.71
+        ],
+        [
+          634.88,
+          764.72
+        ],
+        [
+          625.21,
+          764.73
+        ],
+        [
+          617.87,
+          764.73
+        ],
+        [
+          601.62,
+          764.73
+        ],
+        [
+          586.02,
+          764.73
+        ],
+        [
+          570.93,
+          764.73
+        ],
+        [
+          556.27,
+          764.73
+        ],
+        [
+          541.93,
+          764.73
+        ],
+        [
+          533.77,
+          764.73
+        ],
+        [
+          527.82,
+          764.73
+        ],
+        [
+          513.87,
+          764.73
+        ],
+        [
+          500.0,
+          764.73
+        ],
+        [
+          486.13,
+          764.73
+        ],
+        [
+          472.18,
+          764.73
+        ],
+        [
+          458.07,
+          764.73
+        ],
+        [
+          443.73,
+          764.73
+        ],
+        [
+          429.07,
+          764.73
+        ],
+        [
+          413.98,
+          764.73
+        ],
+        [
+          398.38,
+          764.73
+        ],
+        [
+          382.13,
+          764.73
+        ],
+        [
+          365.12,
+          764.72
+        ],
+        [
+          347.17,
+          764.71
+        ],
+        [
+          336.57,
+          764.68
+        ],
+        [
+          328.13,
+          764.66
+        ],
+        [
+          307.82,
+          764.51
+        ],
+        [
+          286.14,
+          764.1
+        ],
+        [
+          263.17,
+          763.02
+        ],
+        [
+          249.55,
+          761.45
+        ],
+        [
+          239.68,
+          760.32
+        ],
+        [
+          217.72,
+          754.17
+        ],
+        [
+          200.55,
+          742.49
+        ],
+        [
+          190.14,
+          725.13
+        ],
+        [
+          188.87,
+          719.76
+        ],
+        [
+          185.23,
+          704.42
+        ],
+        [
+          183.3,
+          682.85
+        ],
+        [
+          182.62,
+          661.71
+        ],
+        [
+          182.57,
+          657.53
+        ],
+        [
+          182.4,
+          641.4
+        ],
+        [
+          182.34,
+          621.94
+        ],
+        [
+          182.32,
+          603.22
+        ],
+        [
+          182.32,
+          585.12
+        ],
+        [
+          182.32,
+          567.52
+        ],
+        [
+          182.32,
+          550.32
+        ],
+        [
+          182.32,
+          533.39
+        ],
+        [
+          182.32,
+          516.65
+        ],
+        [
+          182.32,
+          500.0
+        ],
+        [
+          182.32,
+          495.92
+        ],
+        [
+          182.32,
+          483.35
+        ],
+        [
+          182.32,
+          466.61
+        ],
+        [
+          182.32,
+          449.68
+        ],
+        [
+          182.32,
+          432.48
+        ],
+        [
+          182.32,
+          414.88
+        ],
+        [
+          182.32,
+          396.78
+        ],
+        [
+          182.34,
+          378.06
+        ],
+        [
+          182.4,
+          358.6
+        ],
+        [
+          182.62,
+          338.29
+        ],
+        [
+          183.3,
+          317.15
+        ],
+        [
+          185.23,
+          295.58
+        ],
+        [
+          190.14,
+          274.87
+        ],
+        [
+          200.55,
+          257.51
+        ],
+        [
+          205.57,
+          254.09
+        ],
+        [
+          217.72,
+          245.83
+        ],
+        [
+          239.68,
+          239.68
+        ],
+        [
+          249.55,
+          238.55
+        ],
+        [
+          263.17,
+          236.98
+        ],
+        [
+          286.14,
+          235.9
+        ],
+        [
+          307.82,
+          235.49
+        ],
+        [
+          328.13,
+          235.34
+        ],
+        [
+          336.57,
+          235.32
+        ],
+        [
+          347.17,
+          235.29
+        ],
+        [
+          365.12,
+          235.28
+        ],
+        [
+          382.13,
+          235.27
+        ],
+        [
+          398.38,
+          235.27
+        ],
+        [
+          413.98,
+          235.27
+        ],
+        [
+          429.07,
+          235.27
+        ],
+        [
+          443.73,
+          235.27
+        ],
+        [
+          458.07,
+          235.27
+        ],
+        [
+          472.18,
+          235.27
+        ],
+        [
+          486.13,
+          235.27
+        ],
+        [
+          500.0,
+          235.27
+        ],
+        [
+          513.87,
+          235.27
+        ],
+        [
+          527.82,
+          235.27
+        ],
+        [
+          533.77,
+          235.27
+        ],
+        [
+          541.93,
+          235.27
+        ],
+        [
+          556.27,
+          235.27
+        ],
+        [
+          570.93,
+          235.27
+        ],
+        [
+          586.02,
+          235.27
+        ],
+        [
+          601.62,
+          235.27
+        ],
+        [
+          617.87,
+          235.27
+        ],
+        [
+          625.21,
+          235.27
+        ],
+        [
+          634.88,
+          235.28
+        ],
+        [
+          652.83,
+          235.29
+        ],
+        [
+          671.87,
+          235.34
+        ],
+        [
+          692.18,
+          235.49
+        ],
+        [
+          713.86,
+          235.9
+        ],
+        [
+          736.83,
+          236.98
+        ],
+        [
+          760.32,
+          239.68
+        ],
+        [
+          782.28,
+          245.83
+        ],
+        [
+          794.43,
+          254.09
+        ],
+        [
+          799.45,
+          257.51
+        ],
+        [
+          805.98,
+          268.4
+        ],
+        [
+          809.86,
+          274.87
+        ],
+        [
+          814.77,
+          295.58
+        ],
+        [
+          816.7,
+          317.15
+        ],
+        [
+          817.38,
+          338.29
+        ],
+        [
+          817.6,
+          358.6
+        ],
+        [
+          817.66,
+          378.06
+        ],
+        [
+          817.68,
+          396.78
+        ],
+        [
+          817.68,
+          414.88
+        ],
+        [
+          817.68,
+          432.48
+        ],
+        [
+          817.68,
+          449.68
+        ],
+        [
+          817.68,
+          466.61
+        ],
+        [
+          817.68,
+          483.35
+        ],
+        [
+          817.68,
+          495.92
+        ],
+        [
+          817.68,
+          500.0
+        ]
+      ],
+      "thickness": 8.0
+    }
+  ],
+  "water": {}
+}

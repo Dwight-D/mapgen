@@ -1,0 +1,2862 @@
+{
+  "centre": [
+    750.0,
+    750.0
+  ],
+  "district_graph": {
+    "edges": [
+      {
+        "a": "march_d_fort",
+        "b": "march_d_p3",
+        "gates": [
+          "march_gate_fort_in"
+        ],
+        "id": "march_d_fort~march_d_p3",
+        "kind": "wall",
+        "length": 138.12,
+        "passable": false,
+        "roads": []
+      },
+      {
+        "a": "march_d_fort",
+        "b": "march_d_p6",
+        "gates": [
+          "march_gate_fort_in"
+        ],
+        "id": "march_d_fort~march_d_p6",
+        "kind": "wall",
+        "length": 104.23,
+        "passable": false,
+        "roads": []
+      },
+      {
+        "a": "march_d_fort",
+        "b": "outside",
+        "gates": [
+          "march_gate_fort_out"
+        ],
+        "id": "march_d_fort~outside",
+        "kind": "wall",
+        "length": 322.22,
+        "passable": false,
+        "roads": [
+          "march_fort_link_out"
+        ]
+      },
+      {
+        "a": "march_d_o1",
+        "b": "outside",
+        "gates": [
+          "march_gate_o1"
+        ],
+        "id": "march_d_o1~outside",
+        "kind": "wall",
+        "length": 0.0,
+        "passable": false,
+        "roads": [
+          "march_apr_o1"
+        ]
+      },
+      {
+        "a": "march_d_o2",
+        "b": "outside",
+        "gates": [
+          "march_gate_o2"
+        ],
+        "id": "march_d_o2~outside",
+        "kind": "wall",
+        "length": 0.0,
+        "passable": false,
+        "roads": [
+          "march_apr_o2"
+        ]
+      },
+      {
+        "a": "march_d_p0",
+        "b": "march_d_p1",
+        "gates": [],
+        "id": "march_d_p0~march_d_p1",
+        "kind": "adjacent",
+        "length": 103.47,
+        "passable": true,
+        "roads": []
+      },
+      {
+        "a": "march_d_p0",
+        "b": "march_d_p2",
+        "gates": [],
+        "id": "march_d_p0~march_d_p2",
+        "kind": "adjacent",
+        "length": 108.96,
+        "passable": true,
+        "roads": []
+      },
+      {
+        "a": "march_d_p0",
+        "b": "march_d_p3",
+        "gates": [],
+        "id": "march_d_p0~march_d_p3",
+        "kind": "adjacent",
+        "length": 117.05,
+        "passable": true,
+        "roads": []
+      },
+      {
+        "a": "march_d_p0",
+        "b": "march_d_p5",
+        "gates": [],
+        "id": "march_d_p0~march_d_p5",
+        "kind": "adjacent",
+        "length": 122.89,
+        "passable": true,
+        "roads": []
+      },
+      {
+        "a": "march_d_p0",
+        "b": "march_d_p8",
+        "gates": [],
+        "id": "march_d_p0~march_d_p8",
+        "kind": "adjacent",
+        "length": 66.85,
+        "passable": true,
+        "roads": []
+      },
+      {
+        "a": "march_d_p10",
+        "b": "march_d_p2",
+        "gates": [],
+        "id": "march_d_p10~march_d_p2",
+        "kind": "adjacent",
+        "length": 35.8,
+        "passable": true,
+        "roads": [
+          "march_artery_3"
+        ]
+      },
+      {
+        "a": "march_d_p10",
+        "b": "march_d_p5",
+        "gates": [],
+        "id": "march_d_p10~march_d_p5",
+        "kind": "adjacent",
+        "length": 127.44,
+        "passable": true,
+        "roads": []
+      },
+      {
+        "a": "march_d_p10",
+        "b": "outside",
+        "gates": [
+          "march_gate_3"
+        ],
+        "id": "march_d_p10~outside",
+        "kind": "wall",
+        "length": 623.99,
+        "passable": false,
+        "roads": [
+          "march_artery_3"
+        ]
+      },
+      {
+        "a": "march_d_p12",
+        "b": "march_d_p4",
+        "gates": [],
+        "id": "march_d_p12~march_d_p4",
+        "kind": "adjacent",
+        "length": 131.35,
+        "passable": true,
+        "roads": []
+      },
+      {
+        "a": "march_d_p12",
+        "b": "march_d_p7",
+        "gates": [],
+        "id": "march_d_p12~march_d_p7",
+        "kind": "adjacent",
+        "length": 123.25,
+        "passable": true,
+        "roads": []
+      },
+      {
+        "a": "march_d_p12",
+        "b": "outside",
+        "gates": [
+          "march_gate_2"
+        ],
+        "id": "march_d_p12~outside",
+        "kind": "wall",
+        "length": 277.91,
+        "passable": false,
+        "roads": [
+          "march_artery_10"
+        ]
+      },
+      {
+        "a": "march_d_p1",
+        "b": "march_d_p2",
+        "gates": [],
+        "id": "march_d_p1~march_d_p2",
+        "kind": "adjacent",
+        "length": 28.8,
+        "passable": true,
+        "roads": [
+          "march_artery_2"
+        ]
+      },
+      {
+        "a": "march_d_p1",
+        "b": "march_d_p3",
+        "gates": [],
+        "id": "march_d_p1~march_d_p3",
+        "kind": "adjacent",
+        "length": 69.32,
+        "passable": true,
+        "roads": [
+          "march_artery_9"
+        ]
+      },
+      {
+        "a": "march_d_p1",
+        "b": "march_d_p4",
+        "gates": [],
+        "id": "march_d_p1~march_d_p4",
+        "kind": "adjacent",
+        "length": 104.68,
+        "passable": true,
+        "roads": [
+          "march_artery_2"
+        ]
+      },
+      {
+        "a": "march_d_p1",
+        "b": "march_d_p6",
+        "gates": [],
+        "id": "march_d_p1~march_d_p6",
+        "kind": "adjacent",
+        "length": 145.2,
+        "passable": true,
+        "roads": []
+      },
+      {
+        "a": "march_d_p1",
+        "b": "march_d_p9",
+        "gates": [],
+        "id": "march_d_p1~march_d_p9",
+        "kind": "adjacent",
+        "length": 58.49,
+        "passable": true,
+        "roads": [
+          "march_artery_4"
+        ]
+      },
+      {
+        "a": "march_d_p1",
+        "b": "outside",
+        "gates": [],
+        "id": "march_d_p1~outside",
+        "kind": "wall",
+        "length": 47.48,
+        "passable": false,
+        "roads": [
+          "march_artery_4"
+        ]
+      },
+      {
+        "a": "march_d_p2",
+        "b": "march_d_p4",
+        "gates": [],
+        "id": "march_d_p2~march_d_p4",
+        "kind": "adjacent",
+        "length": 106.8,
+        "passable": true,
+        "roads": []
+      },
+      {
+        "a": "march_d_p2",
+        "b": "march_d_p5",
+        "gates": [],
+        "id": "march_d_p2~march_d_p5",
+        "kind": "adjacent",
+        "length": 99.29,
+        "passable": true,
+        "roads": [
+          "march_artery_3"
+        ]
+      },
+      {
+        "a": "march_d_p2",
+        "b": "march_d_p7",
+        "gates": [],
+        "id": "march_d_p2~march_d_p7",
+        "kind": "adjacent",
+        "length": 154.25,
+        "passable": true,
+        "roads": []
+      },
+      {
+        "a": "march_d_p2",
+        "b": "outside",
+        "gates": [],
+        "id": "march_d_p2~outside",
+        "kind": "wall",
+        "length": 14.24,
+        "passable": false,
+        "roads": [
+          "march_artery_6"
+        ]
+      },
+      {
+        "a": "march_d_p3",
+        "b": "march_d_p6",
+        "gates": [],
+        "id": "march_d_p3~march_d_p6",
+        "kind": "adjacent",
+        "length": 33.12,
+        "passable": true,
+        "roads": [
+          "march_artery_9",
+          "march_fort_link_in"
+        ]
+      },
+      {
+        "a": "march_d_p3",
+        "b": "march_d_p8",
+        "gates": [],
+        "id": "march_d_p3~march_d_p8",
+        "kind": "adjacent",
+        "length": 134.05,
+        "passable": true,
+        "roads": [
+          "march_artery_1"
+        ]
+      },
+      {
+        "a": "march_d_p3",
+        "b": "outside",
+        "gates": [],
+        "id": "march_d_p3~outside",
+        "kind": "wall",
+        "length": 48.04,
+        "passable": false,
+        "roads": [
+          "march_artery_8"
+        ]
+      },
+      {
+        "a": "march_d_p4",
+        "b": "march_d_p7",
+        "gates": [],
+        "id": "march_d_p4~march_d_p7",
+        "kind": "adjacent",
+        "length": 47.51,
+        "passable": true,
+        "roads": []
+      },
+      {
+        "a": "march_d_p4",
+        "b": "march_d_p9",
+        "gates": [],
+        "id": "march_d_p4~march_d_p9",
+        "kind": "adjacent",
+        "length": 150.49,
+        "passable": true,
+        "roads": [
+          "march_artery_2"
+        ]
+      },
+      {
+        "a": "march_d_p4",
+        "b": "outside",
+        "gates": [
+          "march_gate_2"
+        ],
+        "id": "march_d_p4~outside",
+        "kind": "wall",
+        "length": 7.82,
+        "passable": false,
+        "roads": [
+          "march_artery_2"
+        ]
+      },
+      {
+        "a": "march_d_p5",
+        "b": "march_d_p8",
+        "gates": [],
+        "id": "march_d_p5~march_d_p8",
+        "kind": "adjacent",
+        "length": 70.61,
+        "passable": true,
+        "roads": [
+          "march_artery_0"
+        ]
+      },
+      {
+        "a": "march_d_p5",
+        "b": "outside",
+        "gates": [],
+        "id": "march_d_p5~outside",
+        "kind": "wall",
+        "length": 145.04,
+        "passable": false,
+        "roads": []
+      },
+      {
+        "a": "march_d_p6",
+        "b": "outside",
+        "gates": [],
+        "id": "march_d_p6~outside",
+        "kind": "wall",
+        "length": 228.42,
+        "passable": false,
+        "roads": [
+          "march_artery_5"
+        ]
+      },
+      {
+        "a": "march_d_p7",
+        "b": "outside",
+        "gates": [],
+        "id": "march_d_p7~outside",
+        "kind": "wall",
+        "length": 205.49,
+        "passable": false,
+        "roads": [
+          "march_artery_7"
+        ]
+      },
+      {
+        "a": "march_d_p8",
+        "b": "outside",
+        "gates": [
+          "march_gate_0",
+          "march_gate_1"
+        ],
+        "id": "march_d_p8~outside",
+        "kind": "wall",
+        "length": 324.31,
+        "passable": false,
+        "roads": [
+          "march_artery_0",
+          "march_artery_1"
+        ]
+      },
+      {
+        "a": "march_d_p9",
+        "b": "outside",
+        "gates": [],
+        "id": "march_d_p9~outside",
+        "kind": "wall",
+        "length": 369.61,
+        "passable": false,
+        "roads": []
+      }
+    ],
+    "nodes": [
+      {
+        "id": "march_d_p0",
+        "kind": "district"
+      },
+      {
+        "id": "march_d_p1",
+        "kind": "district"
+      },
+      {
+        "id": "march_d_p2",
+        "kind": "district"
+      },
+      {
+        "id": "march_d_p3",
+        "kind": "district"
+      },
+      {
+        "id": "march_d_p4",
+        "kind": "district"
+      },
+      {
+        "id": "march_d_p5",
+        "kind": "district"
+      },
+      {
+        "id": "march_d_p6",
+        "kind": "district"
+      },
+      {
+        "id": "march_d_p7",
+        "kind": "district"
+      },
+      {
+        "id": "march_d_p8",
+        "kind": "district"
+      },
+      {
+        "id": "march_d_p9",
+        "kind": "district"
+      },
+      {
+        "id": "march_d_p10",
+        "kind": "district"
+      },
+      {
+        "id": "march_d_p12",
+        "kind": "district"
+      },
+      {
+        "id": "march_d_fort",
+        "kind": "district"
+      },
+      {
+        "id": "march_d_o1",
+        "kind": "district"
+      },
+      {
+        "id": "march_d_o2",
+        "kind": "district"
+      },
+      {
+        "id": "outside",
+        "kind": "outside"
+      }
+    ]
+  },
+  "districts": [
+    {
+      "area": 17600.65,
+      "id": "march_d_p0",
+      "inside_wall": true,
+      "key": "p0",
+      "kind": "core",
+      "label": "Central Plaza",
+      "landmarks": [
+        "march_plaza"
+      ],
+      "polygon": [
+        [
+          692.36,
+          1047.98
+        ],
+        [
+          677.15,
+          940.09
+        ],
+        [
+          777.25,
+          868.81
+        ],
+        [
+          826.4,
+          914.12
+        ],
+        [
+          793.57,
+          1026.47
+        ]
+      ],
+      "waterfront": false
+    },
+    {
+      "area": 20586.21,
+      "id": "march_d_p1",
+      "inside_wall": true,
+      "key": "p1",
+      "kind": "residential",
+      "label": "Residential Ward 1",
+      "landmarks": [],
+      "polygon": [
+        [
+          668.96,
+          1170.82
+        ],
+        [
+          670.01,
+          1066.15
+        ],
+        [
+          692.36,
+          1047.98
+        ],
+        [
+          793.57,
+          1026.47
+        ],
+        [
+          853.51,
+          1061.3
+        ],
+        [
+          766.64,
+          1177.65
+        ],
+        [
+          722.34,
+          1194.74
+        ]
+      ],
+      "waterfront": false
+    },
+    {
+      "area": 19779.5,
+      "id": "march_d_p2",
+      "inside_wall": true,
+      "key": "p2",
+      "kind": "residential",
+      "label": "Residential Ward 2",
+      "landmarks": [],
+      "polygon": [
+        [
+          563.25,
+          1063.16
+        ],
+        [
+          550.27,
+          909.46
+        ],
+        [
+          557.41,
+          897.14
+        ],
+        [
+          592.2,
+          888.69
+        ],
+        [
+          677.15,
+          940.09
+        ],
+        [
+          692.36,
+          1047.98
+        ],
+        [
+          670.01,
+          1066.15
+        ]
+      ],
+      "waterfront": false
+    },
+    {
+      "area": 19037.23,
+      "id": "march_d_p3",
+      "inside_wall": true,
+      "key": "p3",
+      "kind": "market",
+      "label": "Market Ward 1",
+      "landmarks": [],
+      "polygon": [
+        [
+          793.57,
+          1026.47
+        ],
+        [
+          826.4,
+          914.12
+        ],
+        [
+          960.18,
+          905.66
+        ],
+        [
+          975.59,
+          951.16
+        ],
+        [
+          886.28,
+          1056.52
+        ],
+        [
+          853.51,
+          1061.3
+        ]
+      ],
+      "waterfront": false
+    },
+    {
+      "area": 19215.6,
+      "id": "march_d_p4",
+      "inside_wall": true,
+      "key": "p4",
+      "kind": "residential",
+      "label": "Residential Ward 3",
+      "landmarks": [],
+      "polygon": [
+        [
+          528.36,
+          1224.48
+        ],
+        [
+          522.86,
+          1218.92
+        ],
+        [
+          522.49,
+          1087.57
+        ],
+        [
+          563.25,
+          1063.16
+        ],
+        [
+          670.01,
+          1066.15
+        ],
+        [
+          668.96,
+          1170.82
+        ]
+      ],
+      "waterfront": false
+    },
+    {
+      "area": 21398.28,
+      "id": "march_d_p5",
+      "inside_wall": true,
+      "key": "p5",
+      "kind": "market",
+      "label": "Market Ward 2",
+      "landmarks": [],
+      "polygon": [
+        [
+          592.2,
+          888.69
+        ],
+        [
+          624.28,
+          765.35
+        ],
+        [
+          765.31,
+          799.22
+        ],
+        [
+          777.25,
+          868.81
+        ],
+        [
+          677.15,
+          940.09
+        ]
+      ],
+      "waterfront": false
+    },
+    {
+      "area": 16239.81,
+      "id": "march_d_p6",
+      "inside_wall": true,
+      "key": "p6",
+      "kind": "residential",
+      "label": "Residential Ward 4",
+      "landmarks": [],
+      "polygon": [
+        [
+          831.23,
+          1200.2
+        ],
+        [
+          766.64,
+          1177.65
+        ],
+        [
+          853.51,
+          1061.3
+        ],
+        [
+          886.28,
+          1056.52
+        ],
+        [
+          958.83,
+          1131.36
+        ],
+        [
+          948.63,
+          1168.34
+        ]
+      ],
+      "waterfront": false
+    },
+    {
+      "area": 17295.02,
+      "id": "march_d_p7",
+      "inside_wall": true,
+      "key": "p7",
+      "kind": "residential",
+      "label": "Residential Ward 5",
+      "landmarks": [],
+      "polygon": [
+        [
+          408.0,
+          1041.94
+        ],
+        [
+          471.45,
+          938.23
+        ],
+        [
+          550.27,
+          909.46
+        ],
+        [
+          563.25,
+          1063.16
+        ],
+        [
+          522.49,
+          1087.57
+        ]
+      ],
+      "waterfront": false
+    },
+    {
+      "area": 24221.92,
+      "id": "march_d_p8",
+      "inside_wall": true,
+      "key": "p8",
+      "kind": "residential",
+      "label": "Residential Ward 6",
+      "landmarks": [],
+      "polygon": [
+        [
+          826.4,
+          914.12
+        ],
+        [
+          777.25,
+          868.81
+        ],
+        [
+          765.31,
+          799.22
+        ],
+        [
+          793.79,
+          753.16
+        ],
+        [
+          894.54,
+          761.5
+        ],
+        [
+          970.09,
+          871.17
+        ],
+        [
+          960.18,
+          905.66
+        ]
+      ],
+      "waterfront": false
+    },
+    {
+      "area": 22135.74,
+      "id": "march_d_p9",
+      "inside_wall": true,
+      "key": "p9",
+      "kind": "craft",
+      "label": "Craft Quarter 1",
+      "landmarks": [],
+      "polygon": [
+        [
+          549.13,
+          1313.63
+        ],
+        [
+          528.36,
+          1224.48
+        ],
+        [
+          668.96,
+          1170.82
+        ],
+        [
+          722.34,
+          1194.74
+        ],
+        [
+          705.76,
+          1307.87
+        ],
+        [
+          688.3,
+          1324.53
+        ]
+      ],
+      "waterfront": false
+    },
+    {
+      "area": 27340.49,
+      "id": "march_d_p10",
+      "inside_wall": true,
+      "key": "p10",
+      "kind": "craft",
+      "label": "Craft Quarter 2",
+      "landmarks": [],
+      "polygon": [
+        [
+          346.2,
+          661.19
+        ],
+        [
+          608.7,
+          734.17
+        ],
+        [
+          624.28,
+          765.35
+        ],
+        [
+          592.2,
+          888.69
+        ],
+        [
+          557.41,
+          897.14
+        ]
+      ],
+      "waterfront": false
+    },
+    {
+      "area": 16931.96,
+      "id": "march_d_p12",
+      "inside_wall": true,
+      "key": "p12",
+      "kind": "craft",
+      "label": "Craft Quarter 3",
+      "landmarks": [],
+      "polygon": [
+        [
+          417.06,
+          1197.78
+        ],
+        [
+          391.93,
+          1046.56
+        ],
+        [
+          408.0,
+          1041.94
+        ],
+        [
+          522.49,
+          1087.57
+        ],
+        [
+          522.86,
+          1218.92
+        ]
+      ],
+      "waterfront": false
+    },
+    {
+      "area": 19218.58,
+      "id": "march_d_fort",
+      "inside_wall": true,
+      "key": "fort",
+      "kind": "citadel",
+      "label": "Fortress",
+      "landmarks": [
+        "march_fort"
+      ],
+      "polygon": [
+        [
+          958.83,
+          1131.36
+        ],
+        [
+          886.28,
+          1056.52
+        ],
+        [
+          975.59,
+          951.16
+        ],
+        [
+          1099.34,
+          1059.13
+        ]
+      ],
+      "waterfront": false
+    },
+    {
+      "area": 3943.85,
+      "id": "march_d_o1",
+      "inside_wall": false,
+      "key": "o1",
+      "kind": "citadel",
+      "label": "Outlying Fort 1",
+      "landmarks": [
+        "march_o1"
+      ],
+      "polygon": [
+        [
+          196.24,
+          613.83
+        ],
+        [
+          216.34,
+          606.68
+        ],
+        [
+          222.25,
+          586.17
+        ],
+        [
+          240.38,
+          597.43
+        ],
+        [
+          260.09,
+          589.26
+        ],
+        [
+          262.59,
+          610.46
+        ],
+        [
+          281.27,
+          620.78
+        ],
+        [
+          266.26,
+          635.95
+        ],
+        [
+          269.83,
+          656.98
+        ],
+        [
+          248.62,
+          654.71
+        ],
+        [
+          234.4,
+          670.62
+        ],
+        [
+          222.95,
+          652.61
+        ],
+        [
+          201.64,
+          651.42
+        ],
+        [
+          208.59,
+          631.24
+        ]
+      ],
+      "waterfront": false
+    },
+    {
+      "area": 3943.47,
+      "id": "march_d_o2",
+      "inside_wall": false,
+      "key": "o2",
+      "kind": "citadel",
+      "label": "Outlying Fort 2",
+      "landmarks": [
+        "march_o2"
+      ],
+      "polygon": [
+        [
+          743.9,
+          582.12
+        ],
+        [
+          761.02,
+          594.85
+        ],
+        [
+          781.35,
+          588.35
+        ],
+        [
+          782.08,
+          609.68
+        ],
+        [
+          799.83,
+          621.52
+        ],
+        [
+          783.6,
+          635.39
+        ],
+        [
+          785.41,
+          656.65
+        ],
+        [
+          764.46,
+          652.61
+        ],
+        [
+          748.96,
+          667.28
+        ],
+        [
+          739.06,
+          648.38
+        ],
+        [
+          717.93,
+          645.41
+        ],
+        [
+          726.53,
+          625.88
+        ],
+        [
+          715.67,
+          607.51
+        ],
+        [
+          736.3,
+          602.06
+        ]
+      ],
+      "waterfront": false
+    }
+  ],
+  "footprint": [
+    [
+      557.41,
+      897.14
+    ],
+    [
+      346.2,
+      661.19
+    ],
+    [
+      608.7,
+      734.17
+    ],
+    [
+      624.28,
+      765.35
+    ],
+    [
+      765.31,
+      799.22
+    ],
+    [
+      793.79,
+      753.16
+    ],
+    [
+      894.54,
+      761.5
+    ],
+    [
+      970.09,
+      871.17
+    ],
+    [
+      960.18,
+      905.66
+    ],
+    [
+      975.59,
+      951.16
+    ],
+    [
+      1099.34,
+      1059.13
+    ],
+    [
+      958.83,
+      1131.36
+    ],
+    [
+      948.63,
+      1168.34
+    ],
+    [
+      831.23,
+      1200.2
+    ],
+    [
+      766.64,
+      1177.65
+    ],
+    [
+      722.34,
+      1194.74
+    ],
+    [
+      705.76,
+      1307.87
+    ],
+    [
+      688.3,
+      1324.53
+    ],
+    [
+      549.13,
+      1313.63
+    ],
+    [
+      528.36,
+      1224.48
+    ],
+    [
+      522.86,
+      1218.92
+    ],
+    [
+      417.06,
+      1197.78
+    ],
+    [
+      391.93,
+      1046.56
+    ],
+    [
+      408.0,
+      1041.94
+    ],
+    [
+      471.45,
+      938.23
+    ],
+    [
+      550.27,
+      909.46
+    ]
+  ],
+  "format_version": 1,
+  "gates": [
+    {
+      "at": [
+        793.79,
+        753.16
+      ],
+      "id": "march_gate_0",
+      "kind": "gate",
+      "normal": [
+        -0.28,
+        -0.96
+      ],
+      "road": "march_artery_0",
+      "wall": "march_wall_outer"
+    },
+    {
+      "at": [
+        970.09,
+        871.17
+      ],
+      "id": "march_gate_1",
+      "kind": "gate",
+      "normal": [
+        0.91,
+        -0.41
+      ],
+      "road": "march_artery_1",
+      "wall": "march_wall_outer"
+    },
+    {
+      "at": [
+        522.86,
+        1218.92
+      ],
+      "id": "march_gate_2",
+      "kind": "gate",
+      "normal": [
+        -0.23,
+        0.97
+      ],
+      "road": "march_artery_10",
+      "wall": "march_wall_outer"
+    },
+    {
+      "at": [
+        346.2,
+        661.19
+      ],
+      "id": "march_gate_3",
+      "kind": "gate",
+      "normal": [
+        -0.95,
+        -0.3
+      ],
+      "road": "march_artery_3",
+      "wall": "march_wall_outer"
+    },
+    {
+      "at": [
+        886.28,
+        1056.52
+      ],
+      "id": "march_gate_fort_in",
+      "kind": "gate",
+      "normal": [
+        -1.0,
+        0.1
+      ],
+      "road": "march_fort_road",
+      "wall": "march_wall_fort"
+    },
+    {
+      "at": [
+        1099.34,
+        1059.13
+      ],
+      "id": "march_gate_fort_out",
+      "kind": "gate",
+      "normal": [
+        0.99,
+        0.11
+      ],
+      "road": "march_fort_road",
+      "wall": "march_wall_fort"
+    },
+    {
+      "at": [
+        281.27,
+        620.78
+      ],
+      "id": "march_gate_o1",
+      "kind": "gate",
+      "normal": [
+        0.99,
+        -0.14
+      ],
+      "road": "march_apr_o1",
+      "wall": "march_wall_o1"
+    },
+    {
+      "at": [
+        785.41,
+        656.65
+      ],
+      "id": "march_gate_o2",
+      "kind": "gate",
+      "normal": [
+        0.67,
+        0.74
+      ],
+      "road": "march_apr_o2",
+      "wall": "march_wall_o2"
+    }
+  ],
+  "generator": "voronoi",
+  "graph": {
+    "edges": [
+      {
+        "a": "march_gate_fort_in",
+        "b": "march_fort",
+        "class": "artery",
+        "id": "march_fort~march_gate_fort_in",
+        "length": 98.97,
+        "passable": true,
+        "road": "march_fort_road"
+      },
+      {
+        "a": "march_fort",
+        "b": "march_gate_fort_out",
+        "class": "artery",
+        "id": "march_fort~march_gate_fort_out",
+        "length": 115.21,
+        "passable": true,
+        "road": "march_fort_road"
+      },
+      {
+        "a": "march_gate_0",
+        "b": "march_gate_o2",
+        "class": "approach",
+        "id": "march_gate_0~march_gate_o2",
+        "length": 96.87,
+        "passable": true,
+        "road": "march_apr_o2"
+      },
+      {
+        "a": "march_gate_0",
+        "b": "march_j_p5p8",
+        "class": "artery",
+        "id": "march_gate_0~march_j_p5p8",
+        "length": 54.15,
+        "passable": true,
+        "road": "march_artery_0"
+      },
+      {
+        "a": "march_gate_1",
+        "b": "march_j_p3p8",
+        "class": "artery",
+        "id": "march_gate_1~march_j_p3p8",
+        "length": 35.89,
+        "passable": true,
+        "road": "march_artery_1"
+      },
+      {
+        "a": "march_j_p12",
+        "b": "march_gate_2",
+        "class": "artery",
+        "id": "march_gate_2~march_j_p12",
+        "length": 107.89,
+        "passable": true,
+        "road": "march_artery_10"
+      },
+      {
+        "a": "march_gate_2",
+        "b": "march_j_p4p9",
+        "class": "artery",
+        "id": "march_gate_2~march_j_p4p9",
+        "length": 7.82,
+        "passable": true,
+        "road": "march_artery_2"
+      },
+      {
+        "a": "march_gate_3",
+        "b": "march_gate_o1",
+        "class": "approach",
+        "id": "march_gate_3~march_gate_o1",
+        "length": 76.48,
+        "passable": true,
+        "road": "march_apr_o1"
+      },
+      {
+        "a": "march_gate_3",
+        "b": "march_j_p2p10",
+        "class": "artery",
+        "id": "march_gate_3~march_j_p2p10",
+        "length": 316.67,
+        "passable": true,
+        "road": "march_artery_3"
+      },
+      {
+        "a": "march_gate_fort_in",
+        "b": "march_j_p1p3p6",
+        "class": "artery",
+        "id": "march_gate_fort_in~march_j_p1p3p6",
+        "length": 33.12,
+        "passable": true,
+        "road": "march_fort_link_in"
+      },
+      {
+        "a": "march_gate_fort_out",
+        "b": "march_j_p3p11",
+        "class": "artery",
+        "id": "march_gate_fort_out~march_j_p3p11",
+        "length": 164.23,
+        "passable": true,
+        "road": "march_fort_link_out"
+      },
+      {
+        "a": "march_gate_o1",
+        "b": "march_o1",
+        "class": "approach",
+        "id": "march_gate_o1~march_o1",
+        "length": 43.76,
+        "passable": true,
+        "road": "march_apr_o1"
+      },
+      {
+        "a": "march_gate_o2",
+        "b": "march_o2",
+        "class": "approach",
+        "id": "march_gate_o2~march_o2",
+        "length": 43.75,
+        "passable": true,
+        "road": "march_apr_o2"
+      },
+      {
+        "a": "march_j_p1p2p4",
+        "b": "march_j_p0p1p2",
+        "class": "artery",
+        "id": "march_j_p0p1p2~march_j_p1p2p4",
+        "length": 28.8,
+        "passable": true,
+        "road": "march_artery_2"
+      },
+      {
+        "a": "march_j_p0p1p2",
+        "b": "march_plaza",
+        "class": "artery",
+        "id": "march_j_p0p1p2~march_plaza",
+        "length": 103.22,
+        "passable": true,
+        "road": "march_artery_2"
+      },
+      {
+        "a": "march_j_p1p3p6",
+        "b": "march_j_p0p1p3",
+        "class": "artery",
+        "id": "march_j_p0p1p3~march_j_p1p3p6",
+        "length": 69.32,
+        "passable": true,
+        "road": "march_artery_9"
+      },
+      {
+        "a": "march_j_p0p1p3",
+        "b": "march_plaza",
+        "class": "artery",
+        "id": "march_j_p0p1p3~march_plaza",
+        "length": 77.31,
+        "passable": true,
+        "road": "march_artery_9"
+      },
+      {
+        "a": "march_j_p2p5p10",
+        "b": "march_j_p0p2p5",
+        "class": "artery",
+        "id": "march_j_p0p2p5~march_j_p2p5p10",
+        "length": 99.29,
+        "passable": true,
+        "road": "march_artery_3"
+      },
+      {
+        "a": "march_j_p0p2p5",
+        "b": "march_plaza",
+        "class": "artery",
+        "id": "march_j_p0p2p5~march_plaza",
+        "length": 76.39,
+        "passable": true,
+        "road": "march_artery_3"
+      },
+      {
+        "a": "march_j_p3p8",
+        "b": "march_j_p0p3p8",
+        "class": "artery",
+        "id": "march_j_p0p3p8~march_j_p3p8",
+        "length": 134.05,
+        "passable": true,
+        "road": "march_artery_1"
+      },
+      {
+        "a": "march_j_p0p3p8",
+        "b": "march_plaza",
+        "class": "artery",
+        "id": "march_j_p0p3p8~march_plaza",
+        "length": 90.26,
+        "passable": true,
+        "road": "march_artery_1"
+      },
+      {
+        "a": "march_j_p5p8",
+        "b": "march_j_p0p5p8",
+        "class": "artery",
+        "id": "march_j_p0p5p8~march_j_p5p8",
+        "length": 70.61,
+        "passable": true,
+        "road": "march_artery_0"
+      },
+      {
+        "a": "march_j_p0p5p8",
+        "b": "march_plaza",
+        "class": "artery",
+        "id": "march_j_p0p5p8~march_plaza",
+        "length": 97.5,
+        "passable": true,
+        "road": "march_artery_0"
+      },
+      {
+        "a": "march_j_p1p4p9",
+        "b": "march_j_p1p2p4",
+        "class": "artery",
+        "id": "march_j_p1p2p4~march_j_p1p4p9",
+        "length": 104.68,
+        "passable": true,
+        "road": "march_artery_2"
+      },
+      {
+        "a": "march_j_p3p6p11",
+        "b": "march_j_p1p3p6",
+        "class": "artery",
+        "id": "march_j_p1p3p6~march_j_p3p6p11",
+        "length": 33.12,
+        "passable": true,
+        "road": "march_artery_9"
+      },
+      {
+        "a": "march_j_p1p9",
+        "b": "march_j_p1p4p9",
+        "class": "artery",
+        "id": "march_j_p1p4p9~march_j_p1p9",
+        "length": 58.49,
+        "passable": true,
+        "road": "march_artery_4"
+      },
+      {
+        "a": "march_j_p4p9",
+        "b": "march_j_p1p4p9",
+        "class": "artery",
+        "id": "march_j_p1p4p9~march_j_p4p9",
+        "length": 150.49,
+        "passable": true,
+        "road": "march_artery_2"
+      },
+      {
+        "a": "march_j_p1p6",
+        "b": "march_j_p1p9",
+        "class": "artery",
+        "id": "march_j_p1p6~march_j_p1p9",
+        "length": 47.48,
+        "passable": true,
+        "road": "march_artery_4"
+      },
+      {
+        "a": "march_j_p6",
+        "b": "march_j_p1p6",
+        "class": "artery",
+        "id": "march_j_p1p6~march_j_p6",
+        "length": 68.41,
+        "passable": true,
+        "road": "march_artery_5"
+      },
+      {
+        "a": "march_j_p2p10",
+        "b": "march_j_p2p5p10",
+        "class": "artery",
+        "id": "march_j_p2p10~march_j_p2p5p10",
+        "length": 35.8,
+        "passable": true,
+        "road": "march_artery_3"
+      },
+      {
+        "a": "march_j_p2p7",
+        "b": "march_j_p2p10",
+        "class": "artery",
+        "id": "march_j_p2p10~march_j_p2p7",
+        "length": 14.24,
+        "passable": true,
+        "road": "march_artery_6"
+      },
+      {
+        "a": "march_j_p7",
+        "b": "march_j_p2p7",
+        "class": "artery",
+        "id": "march_j_p2p7~march_j_p7",
+        "length": 83.91,
+        "passable": true,
+        "road": "march_artery_7"
+      },
+      {
+        "a": "march_j_p3p11",
+        "b": "march_j_p3p8",
+        "class": "artery",
+        "id": "march_j_p3p11~march_j_p3p8",
+        "length": 48.04,
+        "passable": true,
+        "road": "march_artery_8"
+      }
+    ],
+    "nodes": [
+      {
+        "at": [
+          984.78,
+          1046.89
+        ],
+        "districts": [
+          "march_d_fort"
+        ],
+        "id": "march_fort",
+        "kind": "zone"
+      },
+      {
+        "at": [
+          793.79,
+          753.16
+        ],
+        "districts": [
+          "march_d_p8"
+        ],
+        "id": "march_gate_0",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          970.09,
+          871.17
+        ],
+        "districts": [
+          "march_d_p8"
+        ],
+        "id": "march_gate_1",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          522.86,
+          1218.92
+        ],
+        "districts": [
+          "march_d_p12",
+          "march_d_p4"
+        ],
+        "id": "march_gate_2",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          346.2,
+          661.19
+        ],
+        "districts": [
+          "march_d_p10"
+        ],
+        "id": "march_gate_3",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          886.28,
+          1056.52
+        ],
+        "districts": [
+          "march_d_fort",
+          "march_d_p3",
+          "march_d_p6"
+        ],
+        "id": "march_gate_fort_in",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          1099.34,
+          1059.13
+        ],
+        "districts": [
+          "march_d_fort"
+        ],
+        "id": "march_gate_fort_out",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          281.27,
+          620.78
+        ],
+        "districts": [
+          "march_d_o1"
+        ],
+        "id": "march_gate_o1",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          785.41,
+          656.65
+        ],
+        "districts": [
+          "march_d_o2"
+        ],
+        "id": "march_gate_o2",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          692.36,
+          1047.98
+        ],
+        "districts": [
+          "march_d_p0",
+          "march_d_p1",
+          "march_d_p2"
+        ],
+        "id": "march_j_p0p1p2",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          793.57,
+          1026.47
+        ],
+        "districts": [
+          "march_d_p0",
+          "march_d_p1",
+          "march_d_p3"
+        ],
+        "id": "march_j_p0p1p3",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          677.15,
+          940.09
+        ],
+        "districts": [
+          "march_d_p0",
+          "march_d_p2",
+          "march_d_p5"
+        ],
+        "id": "march_j_p0p2p5",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          826.4,
+          914.12
+        ],
+        "districts": [
+          "march_d_p0",
+          "march_d_p3",
+          "march_d_p8"
+        ],
+        "id": "march_j_p0p3p8",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          777.25,
+          868.81
+        ],
+        "districts": [
+          "march_d_p0",
+          "march_d_p5",
+          "march_d_p8"
+        ],
+        "id": "march_j_p0p5p8",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          417.06,
+          1197.78
+        ],
+        "districts": [
+          "march_d_p12"
+        ],
+        "id": "march_j_p12",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          670.01,
+          1066.15
+        ],
+        "districts": [
+          "march_d_p1",
+          "march_d_p2",
+          "march_d_p4"
+        ],
+        "id": "march_j_p1p2p4",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          853.51,
+          1061.3
+        ],
+        "districts": [
+          "march_d_p1",
+          "march_d_p3",
+          "march_d_p6"
+        ],
+        "id": "march_j_p1p3p6",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          668.96,
+          1170.82
+        ],
+        "districts": [
+          "march_d_p1",
+          "march_d_p4",
+          "march_d_p9"
+        ],
+        "id": "march_j_p1p4p9",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          766.64,
+          1177.65
+        ],
+        "districts": [
+          "march_d_p1",
+          "march_d_p6"
+        ],
+        "id": "march_j_p1p6",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          722.34,
+          1194.74
+        ],
+        "districts": [
+          "march_d_p1",
+          "march_d_p9"
+        ],
+        "id": "march_j_p1p9",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          557.41,
+          897.14
+        ],
+        "districts": [
+          "march_d_p10",
+          "march_d_p2"
+        ],
+        "id": "march_j_p2p10",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          592.2,
+          888.69
+        ],
+        "districts": [
+          "march_d_p10",
+          "march_d_p2",
+          "march_d_p5"
+        ],
+        "id": "march_j_p2p5p10",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          550.27,
+          909.46
+        ],
+        "districts": [
+          "march_d_p2",
+          "march_d_p7"
+        ],
+        "id": "march_j_p2p7",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          975.59,
+          951.16
+        ],
+        "districts": [
+          "march_d_fort",
+          "march_d_p3"
+        ],
+        "id": "march_j_p3p11",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          886.28,
+          1056.52
+        ],
+        "districts": [
+          "march_d_fort",
+          "march_d_p3",
+          "march_d_p6"
+        ],
+        "id": "march_j_p3p6p11",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          960.18,
+          905.66
+        ],
+        "districts": [
+          "march_d_p3",
+          "march_d_p8"
+        ],
+        "id": "march_j_p3p8",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          528.36,
+          1224.48
+        ],
+        "districts": [
+          "march_d_p4",
+          "march_d_p9"
+        ],
+        "id": "march_j_p4p9",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          765.31,
+          799.22
+        ],
+        "districts": [
+          "march_d_p5",
+          "march_d_p8"
+        ],
+        "id": "march_j_p5p8",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          831.23,
+          1200.2
+        ],
+        "districts": [
+          "march_d_p6"
+        ],
+        "id": "march_j_p6",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          471.45,
+          938.23
+        ],
+        "districts": [
+          "march_d_p7"
+        ],
+        "id": "march_j_p7",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          237.96,
+          627.01
+        ],
+        "districts": [
+          "march_d_o1"
+        ],
+        "id": "march_o1",
+        "kind": "zone"
+      },
+      {
+        "at": [
+          756.15,
+          624.12
+        ],
+        "districts": [
+          "march_d_o2"
+        ],
+        "id": "march_o2",
+        "kind": "zone"
+      },
+      {
+        "at": [
+          750.19,
+          962.48
+        ],
+        "districts": [
+          "march_d_p0"
+        ],
+        "id": "march_plaza",
+        "kind": "zone"
+      }
+    ]
+  },
+  "id": "march",
+  "landmarks": [
+    {
+      "at": [
+        750.19,
+        962.48
+      ],
+      "district": "march_d_p0",
+      "id": "march_plaza",
+      "kind": "square",
+      "label": "Central Plaza",
+      "r": 41.17
+    },
+    {
+      "at": [
+        984.78,
+        1046.89
+      ],
+      "district": "march_d_fort",
+      "id": "march_fort",
+      "kind": "fortress",
+      "label": "Fortress",
+      "r": 44.46
+    },
+    {
+      "at": [
+        237.96,
+        627.01
+      ],
+      "district": "march_d_o1",
+      "id": "march_o1",
+      "kind": "fortress",
+      "label": "Outlying Fort 1",
+      "r": 20.14
+    },
+    {
+      "at": [
+        756.15,
+        624.12
+      ],
+      "district": "march_d_o2",
+      "id": "march_o2",
+      "kind": "fortress",
+      "label": "Outlying Fort 2",
+      "r": 20.14
+    }
+  ],
+  "params": {
+    "anisotropy": 1.0402,
+    "cell_warp": 0.0542,
+    "centre_bias": 0.9096,
+    "citadel": false,
+    "fort": "corner",
+    "fort_outposts": 2,
+    "fort_shape": "auto",
+    "fort_size": 0.22,
+    "gates": 4,
+    "jitter": 0.2757,
+    "lloyd": 2,
+    "merge_prob": 0.019,
+    "min_district_area": 1600.0,
+    "patches": 14,
+    "plaza_frac": 0.0416,
+    "radius_frac": 0.5,
+    "rotation": 288.18,
+    "spiral_tightness": 1.0102
+  },
+  "roads": [
+    {
+      "class": "approach",
+      "id": "march_apr_o1",
+      "nodes": [
+        "march_gate_3",
+        "march_gate_o1",
+        "march_o1"
+      ],
+      "polyline": [
+        [
+          346.2,
+          661.19
+        ],
+        [
+          281.27,
+          620.78
+        ],
+        [
+          237.96,
+          627.01
+        ]
+      ],
+      "width": 10.0
+    },
+    {
+      "class": "approach",
+      "id": "march_apr_o2",
+      "nodes": [
+        "march_gate_0",
+        "march_gate_o2",
+        "march_o2"
+      ],
+      "polyline": [
+        [
+          793.79,
+          753.16
+        ],
+        [
+          785.41,
+          656.65
+        ],
+        [
+          756.15,
+          624.12
+        ]
+      ],
+      "width": 10.0
+    },
+    {
+      "class": "artery",
+      "id": "march_artery_0",
+      "nodes": [
+        "march_gate_0",
+        "march_j_p5p8",
+        "march_j_p0p5p8",
+        "march_plaza"
+      ],
+      "polyline": [
+        [
+          793.79,
+          753.16
+        ],
+        [
+          765.31,
+          799.22
+        ],
+        [
+          777.25,
+          868.81
+        ],
+        [
+          750.19,
+          962.48
+        ]
+      ],
+      "width": 14.0
+    },
+    {
+      "class": "artery",
+      "id": "march_artery_1",
+      "nodes": [
+        "march_gate_1",
+        "march_j_p3p8",
+        "march_j_p0p3p8",
+        "march_plaza"
+      ],
+      "polyline": [
+        [
+          970.09,
+          871.17
+        ],
+        [
+          960.18,
+          905.66
+        ],
+        [
+          826.4,
+          914.12
+        ],
+        [
+          750.19,
+          962.48
+        ]
+      ],
+      "width": 14.0
+    },
+    {
+      "class": "artery",
+      "id": "march_artery_10",
+      "nodes": [
+        "march_j_p12",
+        "march_gate_2"
+      ],
+      "polyline": [
+        [
+          417.06,
+          1197.78
+        ],
+        [
+          522.86,
+          1218.92
+        ]
+      ],
+      "width": 10.0
+    },
+    {
+      "class": "artery",
+      "id": "march_artery_2",
+      "nodes": [
+        "march_gate_2",
+        "march_j_p4p9",
+        "march_j_p1p4p9",
+        "march_j_p1p2p4",
+        "march_j_p0p1p2",
+        "march_plaza"
+      ],
+      "polyline": [
+        [
+          522.86,
+          1218.92
+        ],
+        [
+          528.36,
+          1224.48
+        ],
+        [
+          668.96,
+          1170.82
+        ],
+        [
+          670.01,
+          1066.15
+        ],
+        [
+          692.36,
+          1047.98
+        ],
+        [
+          750.19,
+          962.48
+        ]
+      ],
+      "width": 14.0
+    },
+    {
+      "class": "artery",
+      "id": "march_artery_3",
+      "nodes": [
+        "march_gate_3",
+        "march_j_p2p10",
+        "march_j_p2p5p10",
+        "march_j_p0p2p5",
+        "march_plaza"
+      ],
+      "polyline": [
+        [
+          346.2,
+          661.19
+        ],
+        [
+          557.41,
+          897.14
+        ],
+        [
+          592.2,
+          888.69
+        ],
+        [
+          677.15,
+          940.09
+        ],
+        [
+          750.19,
+          962.48
+        ]
+      ],
+      "width": 14.0
+    },
+    {
+      "class": "artery",
+      "id": "march_artery_4",
+      "nodes": [
+        "march_j_p1p6",
+        "march_j_p1p9",
+        "march_j_p1p4p9"
+      ],
+      "polyline": [
+        [
+          766.64,
+          1177.65
+        ],
+        [
+          722.34,
+          1194.74
+        ],
+        [
+          668.96,
+          1170.82
+        ]
+      ],
+      "width": 10.0
+    },
+    {
+      "class": "artery",
+      "id": "march_artery_5",
+      "nodes": [
+        "march_j_p6",
+        "march_j_p1p6"
+      ],
+      "polyline": [
+        [
+          831.23,
+          1200.2
+        ],
+        [
+          766.64,
+          1177.65
+        ]
+      ],
+      "width": 10.0
+    },
+    {
+      "class": "artery",
+      "id": "march_artery_6",
+      "nodes": [
+        "march_j_p2p7",
+        "march_j_p2p10"
+      ],
+      "polyline": [
+        [
+          550.27,
+          909.46
+        ],
+        [
+          557.41,
+          897.14
+        ]
+      ],
+      "width": 10.0
+    },
+    {
+      "class": "artery",
+      "id": "march_artery_7",
+      "nodes": [
+        "march_j_p7",
+        "march_j_p2p7"
+      ],
+      "polyline": [
+        [
+          471.45,
+          938.23
+        ],
+        [
+          550.27,
+          909.46
+        ]
+      ],
+      "width": 10.0
+    },
+    {
+      "class": "artery",
+      "id": "march_artery_8",
+      "nodes": [
+        "march_j_p3p11",
+        "march_j_p3p8"
+      ],
+      "polyline": [
+        [
+          975.59,
+          951.16
+        ],
+        [
+          960.18,
+          905.66
+        ]
+      ],
+      "width": 10.0
+    },
+    {
+      "class": "artery",
+      "id": "march_artery_9",
+      "nodes": [
+        "march_j_p3p6p11",
+        "march_j_p1p3p6",
+        "march_j_p0p1p3",
+        "march_plaza"
+      ],
+      "polyline": [
+        [
+          886.28,
+          1056.52
+        ],
+        [
+          853.51,
+          1061.3
+        ],
+        [
+          793.57,
+          1026.47
+        ],
+        [
+          750.19,
+          962.48
+        ]
+      ],
+      "width": 10.0
+    },
+    {
+      "class": "artery",
+      "id": "march_fort_link_in",
+      "nodes": [
+        "march_gate_fort_in",
+        "march_j_p1p3p6"
+      ],
+      "polyline": [
+        [
+          886.28,
+          1056.52
+        ],
+        [
+          853.51,
+          1061.3
+        ]
+      ],
+      "width": 8.0
+    },
+    {
+      "class": "artery",
+      "id": "march_fort_link_out",
+      "nodes": [
+        "march_gate_fort_out",
+        "march_j_p3p11"
+      ],
+      "polyline": [
+        [
+          1099.34,
+          1059.13
+        ],
+        [
+          975.59,
+          951.16
+        ]
+      ],
+      "width": 8.0
+    },
+    {
+      "class": "artery",
+      "id": "march_fort_road",
+      "nodes": [
+        "march_gate_fort_in",
+        "march_fort",
+        "march_gate_fort_out"
+      ],
+      "polyline": [
+        [
+          886.28,
+          1056.52
+        ],
+        [
+          984.78,
+          1046.89
+        ],
+        [
+          1099.34,
+          1059.13
+        ]
+      ],
+      "width": 12.0
+    }
+  ],
+  "seed": 33,
+  "size": [
+    1500.0,
+    1500.0
+  ],
+  "walls": [
+    {
+      "id": "march_wall_outer",
+      "kind": "outer",
+      "open_shore": [],
+      "polyline": [
+        [
+          557.41,
+          897.14
+        ],
+        [
+          346.2,
+          661.19
+        ],
+        [
+          608.7,
+          734.17
+        ],
+        [
+          624.28,
+          765.35
+        ],
+        [
+          765.31,
+          799.22
+        ],
+        [
+          793.79,
+          753.16
+        ],
+        [
+          894.54,
+          761.5
+        ],
+        [
+          970.09,
+          871.17
+        ],
+        [
+          960.18,
+          905.66
+        ],
+        [
+          975.59,
+          951.16
+        ],
+        [
+          1099.34,
+          1059.13
+        ],
+        [
+          958.83,
+          1131.36
+        ],
+        [
+          948.63,
+          1168.34
+        ],
+        [
+          831.23,
+          1200.2
+        ],
+        [
+          766.64,
+          1177.65
+        ],
+        [
+          722.34,
+          1194.74
+        ],
+        [
+          705.76,
+          1307.87
+        ],
+        [
+          688.3,
+          1324.53
+        ],
+        [
+          549.13,
+          1313.63
+        ],
+        [
+          528.36,
+          1224.48
+        ],
+        [
+          522.86,
+          1218.92
+        ],
+        [
+          417.06,
+          1197.78
+        ],
+        [
+          391.93,
+          1046.56
+        ],
+        [
+          408.0,
+          1041.94
+        ],
+        [
+          471.45,
+          938.23
+        ],
+        [
+          550.27,
+          909.46
+        ],
+        [
+          557.41,
+          897.14
+        ]
+      ],
+      "thickness": 8.0
+    },
+    {
+      "id": "march_wall_fort",
+      "kind": "citadel",
+      "open_shore": [],
+      "polyline": [
+        [
+          958.83,
+          1131.36
+        ],
+        [
+          886.28,
+          1056.52
+        ],
+        [
+          975.59,
+          951.16
+        ],
+        [
+          1099.34,
+          1059.13
+        ],
+        [
+          958.83,
+          1131.36
+        ]
+      ],
+      "thickness": 7.0,
+      "towers": [
+        [
+          958.83,
+          1131.36
+        ],
+        [
+          886.28,
+          1056.52
+        ],
+        [
+          975.59,
+          951.16
+        ],
+        [
+          1099.34,
+          1059.13
+        ]
+      ]
+    },
+    {
+      "id": "march_wall_o1",
+      "kind": "citadel",
+      "open_shore": [],
+      "polyline": [
+        [
+          196.24,
+          613.83
+        ],
+        [
+          216.34,
+          606.68
+        ],
+        [
+          222.25,
+          586.17
+        ],
+        [
+          240.38,
+          597.43
+        ],
+        [
+          260.09,
+          589.26
+        ],
+        [
+          262.59,
+          610.46
+        ],
+        [
+          281.27,
+          620.78
+        ],
+        [
+          266.26,
+          635.95
+        ],
+        [
+          269.83,
+          656.98
+        ],
+        [
+          248.62,
+          654.71
+        ],
+        [
+          234.4,
+          670.62
+        ],
+        [
+          222.95,
+          652.61
+        ],
+        [
+          201.64,
+          651.42
+        ],
+        [
+          208.59,
+          631.24
+        ],
+        [
+          196.24,
+          613.83
+        ]
+      ],
+      "thickness": 7.0,
+      "towers": [
+        [
+          196.24,
+          613.83
+        ],
+        [
+          222.25,
+          586.17
+        ],
+        [
+          260.09,
+          589.26
+        ],
+        [
+          281.27,
+          620.78
+        ],
+        [
+          269.83,
+          656.98
+        ],
+        [
+          234.4,
+          670.62
+        ],
+        [
+          201.64,
+          651.42
+        ]
+      ]
+    },
+    {
+      "id": "march_wall_o2",
+      "kind": "citadel",
+      "open_shore": [],
+      "polyline": [
+        [
+          743.9,
+          582.12
+        ],
+        [
+          761.02,
+          594.85
+        ],
+        [
+          781.35,
+          588.35
+        ],
+        [
+          782.08,
+          609.68
+        ],
+        [
+          799.83,
+          621.52
+        ],
+        [
+          783.6,
+          635.39
+        ],
+        [
+          785.41,
+          656.65
+        ],
+        [
+          764.46,
+          652.61
+        ],
+        [
+          748.96,
+          667.28
+        ],
+        [
+          739.06,
+          648.38
+        ],
+        [
+          717.93,
+          645.41
+        ],
+        [
+          726.53,
+          625.88
+        ],
+        [
+          715.67,
+          607.51
+        ],
+        [
+          736.3,
+          602.06
+        ],
+        [
+          743.9,
+          582.12
+        ]
+      ],
+      "thickness": 7.0,
+      "towers": [
+        [
+          743.9,
+          582.12
+        ],
+        [
+          781.35,
+          588.35
+        ],
+        [
+          799.83,
+          621.52
+        ],
+        [
+          785.41,
+          656.65
+        ],
+        [
+          748.96,
+          667.28
+        ],
+        [
+          717.93,
+          645.41
+        ],
+        [
+          715.67,
+          607.51
+        ]
+      ]
+    }
+  ],
+  "water": {}
+}

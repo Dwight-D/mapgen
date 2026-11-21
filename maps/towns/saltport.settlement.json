@@ -1,0 +1,2232 @@
+{
+  "centre": [
+    500.0,
+    500.0
+  ],
+  "district_graph": {
+    "edges": [
+      {
+        "a": "salt_d_p0",
+        "b": "outside",
+        "gates": [],
+        "id": "salt_d_p0~outside",
+        "kind": "wall",
+        "length": 52.89,
+        "passable": false,
+        "roads": []
+      },
+      {
+        "a": "salt_d_p0",
+        "b": "salt_d_p1",
+        "gates": [],
+        "id": "salt_d_p0~salt_d_p1",
+        "kind": "adjacent",
+        "length": 156.99,
+        "passable": true,
+        "roads": []
+      },
+      {
+        "a": "salt_d_p0",
+        "b": "salt_d_p10",
+        "gates": [],
+        "id": "salt_d_p0~salt_d_p10",
+        "kind": "adjacent",
+        "length": 86.56,
+        "passable": true,
+        "roads": []
+      },
+      {
+        "a": "salt_d_p0",
+        "b": "salt_d_p3",
+        "gates": [],
+        "id": "salt_d_p0~salt_d_p3",
+        "kind": "adjacent",
+        "length": 130.11,
+        "passable": true,
+        "roads": []
+      },
+      {
+        "a": "salt_d_p0",
+        "b": "salt_d_p4",
+        "gates": [],
+        "id": "salt_d_p0~salt_d_p4",
+        "kind": "adjacent",
+        "length": 11.44,
+        "passable": true,
+        "roads": []
+      },
+      {
+        "a": "salt_d_p0",
+        "b": "salt_d_p5",
+        "gates": [],
+        "id": "salt_d_p0~salt_d_p5",
+        "kind": "adjacent",
+        "length": 118.69,
+        "passable": true,
+        "roads": []
+      },
+      {
+        "a": "salt_d_p0",
+        "b": "salt_d_p7",
+        "gates": [],
+        "id": "salt_d_p0~salt_d_p7",
+        "kind": "adjacent",
+        "length": 100.86,
+        "passable": true,
+        "roads": []
+      },
+      {
+        "a": "salt_d_p10",
+        "b": "outside",
+        "gates": [
+          "salt_gate_3"
+        ],
+        "id": "salt_d_p10~outside",
+        "kind": "wall",
+        "length": 285.09,
+        "passable": false,
+        "roads": [
+          "salt_artery_3"
+        ]
+      },
+      {
+        "a": "salt_d_p10",
+        "b": "salt_d_p5",
+        "gates": [],
+        "id": "salt_d_p10~salt_d_p5",
+        "kind": "adjacent",
+        "length": 78.97,
+        "passable": true,
+        "roads": []
+      },
+      {
+        "a": "salt_d_p11",
+        "b": "outside",
+        "gates": [
+          "salt_gate_1"
+        ],
+        "id": "salt_d_p11~outside",
+        "kind": "wall",
+        "length": 289.44,
+        "passable": false,
+        "roads": []
+      },
+      {
+        "a": "salt_d_p11",
+        "b": "salt_d_p3",
+        "gates": [],
+        "id": "salt_d_p11~salt_d_p3",
+        "kind": "adjacent",
+        "length": 124.81,
+        "passable": true,
+        "roads": []
+      },
+      {
+        "a": "salt_d_p11",
+        "b": "salt_d_p6",
+        "gates": [],
+        "id": "salt_d_p11~salt_d_p6",
+        "kind": "adjacent",
+        "length": 19.25,
+        "passable": true,
+        "roads": [
+          "salt_artery_1"
+        ]
+      },
+      {
+        "a": "salt_d_p13a",
+        "b": "outside",
+        "gates": [
+          "salt_gate_0"
+        ],
+        "id": "salt_d_p13a~outside",
+        "kind": "wall",
+        "length": 104.19,
+        "passable": false,
+        "roads": []
+      },
+      {
+        "a": "salt_d_p13a",
+        "b": "salt_d_p5",
+        "gates": [],
+        "id": "salt_d_p13a~salt_d_p5",
+        "kind": "adjacent",
+        "length": 74.59,
+        "passable": true,
+        "roads": []
+      },
+      {
+        "a": "salt_d_p13a",
+        "b": "salt_d_p8",
+        "gates": [],
+        "id": "salt_d_p13a~salt_d_p8",
+        "kind": "adjacent",
+        "length": 70.59,
+        "passable": true,
+        "roads": [
+          "salt_artery_0"
+        ]
+      },
+      {
+        "a": "salt_d_p1",
+        "b": "outside",
+        "gates": [],
+        "id": "salt_d_p1~outside",
+        "kind": "wall",
+        "length": 10.9,
+        "passable": false,
+        "roads": []
+      },
+      {
+        "a": "salt_d_p1",
+        "b": "salt_d_p4",
+        "gates": [],
+        "id": "salt_d_p1~salt_d_p4",
+        "kind": "adjacent",
+        "length": 130.17,
+        "passable": true,
+        "roads": []
+      },
+      {
+        "a": "salt_d_p1",
+        "b": "salt_d_p6",
+        "gates": [],
+        "id": "salt_d_p1~salt_d_p6",
+        "kind": "adjacent",
+        "length": 141.73,
+        "passable": true,
+        "roads": []
+      },
+      {
+        "a": "salt_d_p1",
+        "b": "salt_d_p9",
+        "gates": [],
+        "id": "salt_d_p1~salt_d_p9",
+        "kind": "adjacent",
+        "length": 37.23,
+        "passable": true,
+        "roads": []
+      },
+      {
+        "a": "salt_d_p3",
+        "b": "outside",
+        "gates": [],
+        "id": "salt_d_p3~outside",
+        "kind": "wall",
+        "length": 15.71,
+        "passable": false,
+        "roads": []
+      },
+      {
+        "a": "salt_d_p3",
+        "b": "salt_d_p5",
+        "gates": [],
+        "id": "salt_d_p3~salt_d_p5",
+        "kind": "adjacent",
+        "length": 9.47,
+        "passable": true,
+        "roads": [
+          "salt_artery_0"
+        ]
+      },
+      {
+        "a": "salt_d_p3",
+        "b": "salt_d_p6",
+        "gates": [],
+        "id": "salt_d_p3~salt_d_p6",
+        "kind": "adjacent",
+        "length": 79.23,
+        "passable": true,
+        "roads": [
+          "salt_artery_1"
+        ]
+      },
+      {
+        "a": "salt_d_p3",
+        "b": "salt_d_p8",
+        "gates": [],
+        "id": "salt_d_p3~salt_d_p8",
+        "kind": "adjacent",
+        "length": 114.61,
+        "passable": true,
+        "roads": []
+      },
+      {
+        "a": "salt_d_p4",
+        "b": "outside",
+        "gates": [
+          "salt_gate_2"
+        ],
+        "id": "salt_d_p4~outside",
+        "kind": "wall",
+        "length": 19.93,
+        "passable": false,
+        "roads": [
+          "salt_artery_6"
+        ]
+      },
+      {
+        "a": "salt_d_p4",
+        "b": "salt_d_p7",
+        "gates": [],
+        "id": "salt_d_p4~salt_d_p7",
+        "kind": "adjacent",
+        "length": 187.32,
+        "passable": true,
+        "roads": [
+          "salt_artery_2"
+        ]
+      },
+      {
+        "a": "salt_d_p4",
+        "b": "salt_d_p9",
+        "gates": [],
+        "id": "salt_d_p4~salt_d_p9",
+        "kind": "adjacent",
+        "length": 93.59,
+        "passable": true,
+        "roads": [
+          "salt_artery_7"
+        ]
+      },
+      {
+        "a": "salt_d_p5",
+        "b": "outside",
+        "gates": [],
+        "id": "salt_d_p5~outside",
+        "kind": "wall",
+        "length": 85.16,
+        "passable": false,
+        "roads": []
+      },
+      {
+        "a": "salt_d_p5",
+        "b": "salt_d_p8",
+        "gates": [],
+        "id": "salt_d_p5~salt_d_p8",
+        "kind": "adjacent",
+        "length": 84.29,
+        "passable": true,
+        "roads": [
+          "salt_artery_0"
+        ]
+      },
+      {
+        "a": "salt_d_p6",
+        "b": "outside",
+        "gates": [
+          "salt_gate_1"
+        ],
+        "id": "salt_d_p6~outside",
+        "kind": "wall",
+        "length": 300.86,
+        "passable": false,
+        "roads": []
+      },
+      {
+        "a": "salt_d_p7",
+        "b": "outside",
+        "gates": [
+          "salt_gate_2"
+        ],
+        "id": "salt_d_p7~outside",
+        "kind": "wall",
+        "length": 559.91,
+        "passable": false,
+        "roads": []
+      },
+      {
+        "a": "salt_d_p8",
+        "b": "outside",
+        "gates": [
+          "salt_gate_0"
+        ],
+        "id": "salt_d_p8~outside",
+        "kind": "wall",
+        "length": 226.5,
+        "passable": false,
+        "roads": []
+      },
+      {
+        "a": "salt_d_p9",
+        "b": "outside",
+        "gates": [],
+        "id": "salt_d_p9~outside",
+        "kind": "wall",
+        "length": 360.07,
+        "passable": false,
+        "roads": []
+      }
+    ],
+    "nodes": [
+      {
+        "id": "salt_d_p0",
+        "kind": "district"
+      },
+      {
+        "id": "salt_d_p1",
+        "kind": "district"
+      },
+      {
+        "id": "salt_d_p3",
+        "kind": "district"
+      },
+      {
+        "id": "salt_d_p4",
+        "kind": "district"
+      },
+      {
+        "id": "salt_d_p5",
+        "kind": "district"
+      },
+      {
+        "id": "salt_d_p6",
+        "kind": "district"
+      },
+      {
+        "id": "salt_d_p7",
+        "kind": "district"
+      },
+      {
+        "id": "salt_d_p8",
+        "kind": "district"
+      },
+      {
+        "id": "salt_d_p9",
+        "kind": "district"
+      },
+      {
+        "id": "salt_d_p10",
+        "kind": "district"
+      },
+      {
+        "id": "salt_d_p11",
+        "kind": "district"
+      },
+      {
+        "id": "salt_d_p13a",
+        "kind": "district"
+      },
+      {
+        "id": "outside",
+        "kind": "outside"
+      }
+    ]
+  },
+  "districts": [
+    {
+      "area": 25080.87,
+      "id": "salt_d_p0",
+      "inside_wall": true,
+      "key": "p0",
+      "kind": "core",
+      "label": "Central Plaza",
+      "landmarks": [
+        "salt_plaza"
+      ],
+      "polygon": [
+        [
+          590.89,
+          450.38
+        ],
+        [
+          589.7,
+          451.71
+        ],
+        [
+          587.92,
+          568.6
+        ],
+        [
+          458.56,
+          554.68
+        ],
+        [
+          458.36,
+          554.27
+        ],
+        [
+          476.13,
+          462.16
+        ],
+        [
+          441.53,
+          409.3
+        ],
+        [
+          442.98,
+          397.95
+        ],
+        [
+          528.13,
+          343.89
+        ],
+        [
+          576.62,
+          365.0
+        ]
+      ],
+      "waterfront": false
+    },
+    {
+      "area": 14325.65,
+      "id": "salt_d_p1",
+      "inside_wall": true,
+      "key": "p1",
+      "kind": "market",
+      "label": "Market Ward 1",
+      "landmarks": [],
+      "polygon": [
+        [
+          441.53,
+          409.3
+        ],
+        [
+          476.13,
+          462.16
+        ],
+        [
+          458.36,
+          554.27
+        ],
+        [
+          322.11,
+          515.25
+        ],
+        [
+          318.44,
+          504.99
+        ],
+        [
+          325.57,
+          468.45
+        ]
+      ],
+      "waterfront": false
+    },
+    {
+      "area": 14146.69,
+      "id": "salt_d_p3",
+      "inside_wall": true,
+      "key": "p3",
+      "kind": "residential",
+      "label": "Residential Ward 1",
+      "landmarks": [],
+      "polygon": [
+        [
+          458.56,
+          554.68
+        ],
+        [
+          587.92,
+          568.6
+        ],
+        [
+          593.96,
+          575.89
+        ],
+        [
+          571.16,
+          688.21
+        ],
+        [
+          557.73,
+          696.37
+        ],
+        [
+          449.95,
+          633.44
+        ]
+      ],
+      "waterfront": false
+    },
+    {
+      "area": 12615.46,
+      "id": "salt_d_p4",
+      "inside_wall": true,
+      "key": "p4",
+      "kind": "residential",
+      "label": "Residential Ward 2",
+      "landmarks": [],
+      "polygon": [
+        [
+          390.63,
+          329.74
+        ],
+        [
+          442.98,
+          397.95
+        ],
+        [
+          441.53,
+          409.3
+        ],
+        [
+          325.57,
+          468.45
+        ],
+        [
+          288.24,
+          382.63
+        ],
+        [
+          295.25,
+          363.97
+        ]
+      ],
+      "waterfront": false
+    },
+    {
+      "area": 13896.27,
+      "id": "salt_d_p5",
+      "inside_wall": true,
+      "key": "p5",
+      "kind": "market",
+      "label": "Market Ward 2",
+      "landmarks": [],
+      "polygon": [
+        [
+          589.7,
+          451.71
+        ],
+        [
+          590.89,
+          450.38
+        ],
+        [
+          669.81,
+          447.53
+        ],
+        [
+          718.27,
+          517.56
+        ],
+        [
+          678.13,
+          580.43
+        ],
+        [
+          593.96,
+          575.89
+        ],
+        [
+          587.92,
+          568.6
+        ]
+      ],
+      "waterfront": false
+    },
+    {
+      "area": 18661.28,
+      "id": "salt_d_p6",
+      "inside_wall": true,
+      "key": "p6",
+      "kind": "residential",
+      "label": "Residential Ward 3",
+      "landmarks": [],
+      "polygon": [
+        [
+          322.11,
+          515.25
+        ],
+        [
+          458.36,
+          554.27
+        ],
+        [
+          458.56,
+          554.68
+        ],
+        [
+          449.95,
+          633.44
+        ],
+        [
+          435.72,
+          646.4
+        ],
+        [
+          289.77,
+          659.89
+        ],
+        [
+          279.35,
+          639.22
+        ]
+      ],
+      "waterfront": false
+    },
+    {
+      "area": 25240.28,
+      "id": "salt_d_p7",
+      "inside_wall": true,
+      "key": "p7",
+      "kind": "residential",
+      "label": "Residential Ward 4",
+      "landmarks": [],
+      "polygon": [
+        [
+          307.62,
+          201.17
+        ],
+        [
+          397.58,
+          305.99
+        ],
+        [
+          497.35,
+          236.63
+        ],
+        [
+          528.13,
+          343.89
+        ],
+        [
+          442.98,
+          397.95
+        ],
+        [
+          390.63,
+          329.74
+        ],
+        [
+          295.25,
+          363.97
+        ],
+        [
+          253.78,
+          289.48
+        ]
+      ],
+      "waterfront": false
+    },
+    {
+      "area": 16153.16,
+      "id": "salt_d_p8",
+      "inside_wall": true,
+      "key": "p8",
+      "kind": "residential",
+      "label": "Residential Ward 5",
+      "landmarks": [],
+      "polygon": [
+        [
+          593.96,
+          575.89
+        ],
+        [
+          678.13,
+          580.43
+        ],
+        [
+          716.07,
+          639.96
+        ],
+        [
+          698.24,
+          730.72
+        ],
+        [
+          571.16,
+          688.21
+        ]
+      ],
+      "waterfront": false
+    },
+    {
+      "area": 13925.39,
+      "id": "salt_d_p9",
+      "inside_wall": true,
+      "key": "p9",
+      "kind": "craft",
+      "label": "Craft Quarter 1",
+      "landmarks": [],
+      "polygon": [
+        [
+          288.24,
+          382.63
+        ],
+        [
+          325.57,
+          468.45
+        ],
+        [
+          318.44,
+          504.99
+        ],
+        [
+          191.76,
+          484.29
+        ],
+        [
+          141.15,
+          423.61
+        ]
+      ],
+      "waterfront": false
+    },
+    {
+      "area": 13425.17,
+      "id": "salt_d_p10",
+      "inside_wall": true,
+      "key": "p10",
+      "kind": "residential",
+      "label": "Residential Ward 6",
+      "landmarks": [],
+      "polygon": [
+        [
+          634.62,
+          316.38
+        ],
+        [
+          725.64,
+          350.01
+        ],
+        [
+          669.81,
+          447.53
+        ],
+        [
+          590.89,
+          450.38
+        ],
+        [
+          576.62,
+          365.0
+        ]
+      ],
+      "waterfront": false
+    },
+    {
+      "area": 11718.52,
+      "id": "salt_d_p11",
+      "inside_wall": true,
+      "key": "p11",
+      "kind": "craft",
+      "label": "Craft Quarter 2",
+      "landmarks": [],
+      "polygon": [
+        [
+          435.72,
+          646.4
+        ],
+        [
+          449.95,
+          633.44
+        ],
+        [
+          557.73,
+          696.37
+        ],
+        [
+          533.55,
+          762.73
+        ],
+        [
+          435.06,
+          766.64
+        ]
+      ],
+      "waterfront": false
+    },
+    {
+      "area": 5719.94,
+      "id": "salt_d_p13a",
+      "inside_wall": true,
+      "key": "p13a",
+      "kind": "harbour",
+      "label": "Harbour",
+      "landmarks": [
+        "salt_docks"
+      ],
+      "polygon": [
+        [
+          718.27,
+          517.56
+        ],
+        [
+          775.32,
+          506.14
+        ],
+        [
+          769.12,
+          508.38
+        ],
+        [
+          757.93,
+          515.47
+        ],
+        [
+          748.63,
+          524.86
+        ],
+        [
+          741.67,
+          536.09
+        ],
+        [
+          737.27,
+          548.6
+        ],
+        [
+          735.47,
+          561.75
+        ],
+        [
+          736.1,
+          574.95
+        ],
+        [
+          738.8,
+          587.68
+        ],
+        [
+          743.09,
+          599.55
+        ],
+        [
+          748.45,
+          610.35
+        ],
+        [
+          754.34,
+          620.05
+        ],
+        [
+          760.29,
+          628.76
+        ],
+        [
+          760.9,
+          629.61
+        ],
+        [
+          716.07,
+          639.96
+        ],
+        [
+          678.13,
+          580.43
+        ]
+      ],
+      "waterfront": true
+    }
+  ],
+  "footprint": [
+    [
+      718.27,
+      517.56
+    ],
+    [
+      775.32,
+      506.14
+    ],
+    [
+      769.12,
+      508.38
+    ],
+    [
+      757.93,
+      515.47
+    ],
+    [
+      748.63,
+      524.86
+    ],
+    [
+      741.67,
+      536.09
+    ],
+    [
+      737.27,
+      548.6
+    ],
+    [
+      735.47,
+      561.75
+    ],
+    [
+      736.1,
+      574.95
+    ],
+    [
+      738.8,
+      587.68
+    ],
+    [
+      743.09,
+      599.55
+    ],
+    [
+      748.45,
+      610.35
+    ],
+    [
+      754.34,
+      620.05
+    ],
+    [
+      760.29,
+      628.76
+    ],
+    [
+      760.9,
+      629.61
+    ],
+    [
+      716.07,
+      639.96
+    ],
+    [
+      698.24,
+      730.72
+    ],
+    [
+      571.16,
+      688.21
+    ],
+    [
+      557.73,
+      696.37
+    ],
+    [
+      533.55,
+      762.73
+    ],
+    [
+      435.06,
+      766.64
+    ],
+    [
+      435.72,
+      646.4
+    ],
+    [
+      289.77,
+      659.89
+    ],
+    [
+      279.35,
+      639.22
+    ],
+    [
+      322.11,
+      515.25
+    ],
+    [
+      318.44,
+      504.99
+    ],
+    [
+      191.76,
+      484.29
+    ],
+    [
+      141.15,
+      423.61
+    ],
+    [
+      288.24,
+      382.63
+    ],
+    [
+      295.25,
+      363.97
+    ],
+    [
+      253.78,
+      289.48
+    ],
+    [
+      307.62,
+      201.17
+    ],
+    [
+      397.58,
+      305.99
+    ],
+    [
+      497.35,
+      236.63
+    ],
+    [
+      528.13,
+      343.89
+    ],
+    [
+      576.62,
+      365.0
+    ],
+    [
+      634.62,
+      316.38
+    ],
+    [
+      725.64,
+      350.01
+    ],
+    [
+      669.81,
+      447.53
+    ]
+  ],
+  "format_version": 1,
+  "gates": [
+    {
+      "at": [
+        716.07,
+        639.96
+      ],
+      "id": "salt_gate_0",
+      "kind": "gate",
+      "normal": [
+        0.64,
+        0.77
+      ],
+      "road": "salt_artery_0",
+      "wall": "salt_wall_outer"
+    },
+    {
+      "at": [
+        435.72,
+        646.4
+      ],
+      "id": "salt_gate_1",
+      "kind": "gate",
+      "normal": [
+        -0.59,
+        0.81
+      ],
+      "road": "salt_artery_1",
+      "wall": "salt_wall_outer"
+    },
+    {
+      "at": [
+        295.25,
+        363.97
+      ],
+      "id": "salt_gate_2",
+      "kind": "gate",
+      "normal": [
+        -0.94,
+        0.35
+      ],
+      "road": "salt_artery_2",
+      "wall": "salt_wall_outer"
+    },
+    {
+      "at": [
+        634.62,
+        316.38
+      ],
+      "id": "salt_gate_3",
+      "kind": "gate",
+      "normal": [
+        -0.1,
+        -0.99
+      ],
+      "road": "salt_artery_3",
+      "wall": "salt_wall_outer"
+    }
+  ],
+  "generator": "voronoi",
+  "graph": {
+    "edges": [
+      {
+        "a": "salt_gate_0",
+        "b": "salt_j_p5p8p13",
+        "class": "artery",
+        "id": "salt_gate_0~salt_j_p5p8p13",
+        "length": 70.59,
+        "passable": true,
+        "road": "salt_artery_0"
+      },
+      {
+        "a": "salt_gate_1",
+        "b": "salt_j_p3p6p11",
+        "class": "artery",
+        "id": "salt_gate_1~salt_j_p3p6p11",
+        "length": 19.25,
+        "passable": true,
+        "road": "salt_artery_1"
+      },
+      {
+        "a": "salt_gate_2",
+        "b": "salt_j_p4p7",
+        "class": "artery",
+        "id": "salt_gate_2~salt_j_p4p7",
+        "length": 101.34,
+        "passable": true,
+        "road": "salt_artery_2"
+      },
+      {
+        "a": "salt_j_p4p9",
+        "b": "salt_gate_2",
+        "class": "artery",
+        "id": "salt_gate_2~salt_j_p4p9",
+        "length": 19.93,
+        "passable": true,
+        "road": "salt_artery_6"
+      },
+      {
+        "a": "salt_gate_3",
+        "b": "salt_j_p0p10",
+        "class": "artery",
+        "id": "salt_gate_3~salt_j_p0p10",
+        "length": 75.68,
+        "passable": true,
+        "road": "salt_artery_3"
+      },
+      {
+        "a": "salt_j_p0p10",
+        "b": "salt_plaza",
+        "class": "artery",
+        "id": "salt_j_p0p10~salt_plaza",
+        "length": 108.32,
+        "passable": true,
+        "road": "salt_artery_3"
+      },
+      {
+        "a": "salt_j_p0p1p4",
+        "b": "salt_plaza",
+        "class": "artery",
+        "id": "salt_j_p0p1p4~salt_plaza",
+        "length": 98.58,
+        "passable": true,
+        "road": "salt_artery_5"
+      },
+      {
+        "a": "salt_j_p0p1p6",
+        "b": "salt_plaza",
+        "class": "artery",
+        "id": "salt_j_p0p1p6~salt_plaza",
+        "length": 115.36,
+        "passable": true,
+        "road": "salt_artery_4"
+      },
+      {
+        "a": "salt_j_p3p5p8",
+        "b": "salt_j_p0p3p5",
+        "class": "artery",
+        "id": "salt_j_p0p3p5~salt_j_p3p5p8",
+        "length": 9.47,
+        "passable": true,
+        "road": "salt_artery_0"
+      },
+      {
+        "a": "salt_j_p0p3p5",
+        "b": "salt_plaza",
+        "class": "artery",
+        "id": "salt_j_p0p3p5~salt_plaza",
+        "length": 124.63,
+        "passable": true,
+        "road": "salt_artery_0"
+      },
+      {
+        "a": "salt_j_p3p6p11",
+        "b": "salt_j_p0p3p6",
+        "class": "artery",
+        "id": "salt_j_p0p3p6~salt_j_p3p6p11",
+        "length": 79.23,
+        "passable": true,
+        "road": "salt_artery_1"
+      },
+      {
+        "a": "salt_j_p0p3p6",
+        "b": "salt_plaza",
+        "class": "artery",
+        "id": "salt_j_p0p3p6~salt_plaza",
+        "length": 115.58,
+        "passable": true,
+        "road": "salt_artery_1"
+      },
+      {
+        "a": "salt_j_p4p7",
+        "b": "salt_j_p0p4p7",
+        "class": "artery",
+        "id": "salt_j_p0p4p7~salt_j_p4p7",
+        "length": 85.98,
+        "passable": true,
+        "road": "salt_artery_2"
+      },
+      {
+        "a": "salt_j_p0p4p7",
+        "b": "salt_plaza",
+        "class": "artery",
+        "id": "salt_j_p0p4p7~salt_plaza",
+        "length": 103.78,
+        "passable": true,
+        "road": "salt_artery_2"
+      },
+      {
+        "a": "salt_j_p1p4p9",
+        "b": "salt_j_p4p9",
+        "class": "artery",
+        "id": "salt_j_p1p4p9~salt_j_p4p9",
+        "length": 93.59,
+        "passable": true,
+        "road": "salt_artery_7"
+      },
+      {
+        "a": "salt_j_p5p8p13",
+        "b": "salt_j_p3p5p8",
+        "class": "artery",
+        "id": "salt_j_p3p5p8~salt_j_p5p8p13",
+        "length": 84.29,
+        "passable": true,
+        "road": "salt_artery_0"
+      }
+    ],
+    "nodes": [
+      {
+        "at": [
+          716.07,
+          639.96
+        ],
+        "districts": [
+          "salt_d_p13a",
+          "salt_d_p8"
+        ],
+        "id": "salt_gate_0",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          435.72,
+          646.4
+        ],
+        "districts": [
+          "salt_d_p11",
+          "salt_d_p6"
+        ],
+        "id": "salt_gate_1",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          295.25,
+          363.97
+        ],
+        "districts": [
+          "salt_d_p4",
+          "salt_d_p7"
+        ],
+        "id": "salt_gate_2",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          634.62,
+          316.38
+        ],
+        "districts": [
+          "salt_d_p10"
+        ],
+        "id": "salt_gate_3",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          576.62,
+          365.0
+        ],
+        "districts": [
+          "salt_d_p0",
+          "salt_d_p10"
+        ],
+        "id": "salt_j_p0p10",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          441.53,
+          409.3
+        ],
+        "districts": [
+          "salt_d_p0",
+          "salt_d_p1",
+          "salt_d_p4"
+        ],
+        "id": "salt_j_p0p1p4",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          458.36,
+          554.27
+        ],
+        "districts": [
+          "salt_d_p0",
+          "salt_d_p1",
+          "salt_d_p3",
+          "salt_d_p6"
+        ],
+        "id": "salt_j_p0p1p6",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          587.92,
+          568.6
+        ],
+        "districts": [
+          "salt_d_p0",
+          "salt_d_p3",
+          "salt_d_p5"
+        ],
+        "id": "salt_j_p0p3p5",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          458.56,
+          554.68
+        ],
+        "districts": [
+          "salt_d_p0",
+          "salt_d_p1",
+          "salt_d_p3",
+          "salt_d_p6"
+        ],
+        "id": "salt_j_p0p3p6",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          442.98,
+          397.95
+        ],
+        "districts": [
+          "salt_d_p0",
+          "salt_d_p4",
+          "salt_d_p7"
+        ],
+        "id": "salt_j_p0p4p7",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          325.57,
+          468.45
+        ],
+        "districts": [
+          "salt_d_p1",
+          "salt_d_p4",
+          "salt_d_p9"
+        ],
+        "id": "salt_j_p1p4p9",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          593.96,
+          575.89
+        ],
+        "districts": [
+          "salt_d_p3",
+          "salt_d_p5",
+          "salt_d_p8"
+        ],
+        "id": "salt_j_p3p5p8",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          449.95,
+          633.44
+        ],
+        "districts": [
+          "salt_d_p11",
+          "salt_d_p3",
+          "salt_d_p6"
+        ],
+        "id": "salt_j_p3p6p11",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          390.63,
+          329.74
+        ],
+        "districts": [
+          "salt_d_p4",
+          "salt_d_p7"
+        ],
+        "id": "salt_j_p4p7",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          288.24,
+          382.63
+        ],
+        "districts": [
+          "salt_d_p4",
+          "salt_d_p9"
+        ],
+        "id": "salt_j_p4p9",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          678.13,
+          580.43
+        ],
+        "districts": [
+          "salt_d_p13a",
+          "salt_d_p5",
+          "salt_d_p8"
+        ],
+        "id": "salt_j_p5p8p13",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          525.71,
+          460.61
+        ],
+        "districts": [
+          "salt_d_p0"
+        ],
+        "id": "salt_plaza",
+        "kind": "zone"
+      }
+    ]
+  },
+  "id": "salt",
+  "landmarks": [
+    {
+      "at": [
+        720.8,
+        569.06
+      ],
+      "district": "salt_d_p13a",
+      "id": "salt_docks",
+      "kind": "docks",
+      "label": "Docks",
+      "r": 25.0
+    },
+    {
+      "at": [
+        525.71,
+        460.61
+      ],
+      "district": "salt_d_p0",
+      "id": "salt_plaza",
+      "kind": "square",
+      "label": "Central Plaza",
+      "r": 49.14
+    }
+  ],
+  "params": {
+    "anisotropy": 1.258,
+    "cell_warp": 0.0168,
+    "centre_bias": 1.197,
+    "citadel": false,
+    "gates": 4,
+    "jitter": 0.4837,
+    "lloyd": 2,
+    "merge_prob": 0.1491,
+    "min_district_area": 1600.0,
+    "patches": 14,
+    "plaza_frac": 0.0888,
+    "radius_frac": 0.5,
+    "rotation": 29.1678,
+    "spiral_tightness": 1.0001,
+    "water": "bay",
+    "water_island": true
+  },
+  "roads": [
+    {
+      "class": "artery",
+      "id": "salt_artery_0",
+      "nodes": [
+        "salt_gate_0",
+        "salt_j_p5p8p13",
+        "salt_j_p3p5p8",
+        "salt_j_p0p3p5",
+        "salt_plaza"
+      ],
+      "polyline": [
+        [
+          716.07,
+          639.96
+        ],
+        [
+          678.13,
+          580.43
+        ],
+        [
+          593.96,
+          575.89
+        ],
+        [
+          587.92,
+          568.6
+        ],
+        [
+          525.71,
+          460.61
+        ]
+      ],
+      "width": 14.0
+    },
+    {
+      "class": "artery",
+      "id": "salt_artery_1",
+      "nodes": [
+        "salt_gate_1",
+        "salt_j_p3p6p11",
+        "salt_j_p0p3p6",
+        "salt_plaza"
+      ],
+      "polyline": [
+        [
+          435.72,
+          646.4
+        ],
+        [
+          449.95,
+          633.44
+        ],
+        [
+          458.56,
+          554.68
+        ],
+        [
+          525.71,
+          460.61
+        ]
+      ],
+      "width": 14.0
+    },
+    {
+      "class": "artery",
+      "id": "salt_artery_2",
+      "nodes": [
+        "salt_gate_2",
+        "salt_j_p4p7",
+        "salt_j_p0p4p7",
+        "salt_plaza"
+      ],
+      "polyline": [
+        [
+          295.25,
+          363.97
+        ],
+        [
+          390.63,
+          329.74
+        ],
+        [
+          442.98,
+          397.95
+        ],
+        [
+          525.71,
+          460.61
+        ]
+      ],
+      "width": 14.0
+    },
+    {
+      "class": "artery",
+      "id": "salt_artery_3",
+      "nodes": [
+        "salt_gate_3",
+        "salt_j_p0p10",
+        "salt_plaza"
+      ],
+      "polyline": [
+        [
+          634.62,
+          316.38
+        ],
+        [
+          576.62,
+          365.0
+        ],
+        [
+          525.71,
+          460.61
+        ]
+      ],
+      "width": 14.0
+    },
+    {
+      "class": "artery",
+      "id": "salt_artery_4",
+      "nodes": [
+        "salt_j_p0p1p6",
+        "salt_plaza"
+      ],
+      "polyline": [
+        [
+          458.36,
+          554.27
+        ],
+        [
+          525.71,
+          460.61
+        ]
+      ],
+      "width": 10.0
+    },
+    {
+      "class": "artery",
+      "id": "salt_artery_5",
+      "nodes": [
+        "salt_j_p0p1p4",
+        "salt_plaza"
+      ],
+      "polyline": [
+        [
+          441.53,
+          409.3
+        ],
+        [
+          525.71,
+          460.61
+        ]
+      ],
+      "width": 10.0
+    },
+    {
+      "class": "artery",
+      "id": "salt_artery_6",
+      "nodes": [
+        "salt_j_p4p9",
+        "salt_gate_2"
+      ],
+      "polyline": [
+        [
+          288.24,
+          382.63
+        ],
+        [
+          295.25,
+          363.97
+        ]
+      ],
+      "width": 10.0
+    },
+    {
+      "class": "artery",
+      "id": "salt_artery_7",
+      "nodes": [
+        "salt_j_p1p4p9",
+        "salt_j_p4p9"
+      ],
+      "polyline": [
+        [
+          325.57,
+          468.45
+        ],
+        [
+          288.24,
+          382.63
+        ]
+      ],
+      "width": 10.0
+    }
+  ],
+  "seed": 7,
+  "size": [
+    1000.0,
+    1000.0
+  ],
+  "walls": [
+    {
+      "id": "salt_wall_outer",
+      "kind": "outer",
+      "open_shore": [
+        [
+          13,
+          33
+        ]
+      ],
+      "polyline": [
+        [
+          141.15,
+          423.61
+        ],
+        [
+          288.24,
+          382.63
+        ],
+        [
+          295.25,
+          363.97
+        ],
+        [
+          253.78,
+          289.48
+        ],
+        [
+          307.62,
+          201.17
+        ],
+        [
+          397.58,
+          305.99
+        ],
+        [
+          497.35,
+          236.63
+        ],
+        [
+          528.13,
+          343.89
+        ],
+        [
+          576.62,
+          365.0
+        ],
+        [
+          634.62,
+          316.38
+        ],
+        [
+          725.64,
+          350.01
+        ],
+        [
+          669.81,
+          447.53
+        ],
+        [
+          718.27,
+          517.56
+        ],
+        [
+          775.32,
+          506.14
+        ],
+        [
+          770.27,
+          507.96
+        ],
+        [
+          769.12,
+          508.38
+        ],
+        [
+          757.93,
+          515.47
+        ],
+        [
+          754.2,
+          519.23
+        ],
+        [
+          748.63,
+          524.86
+        ],
+        [
+          741.67,
+          536.09
+        ],
+        [
+          740.09,
+          540.59
+        ],
+        [
+          737.27,
+          548.6
+        ],
+        [
+          735.47,
+          561.75
+        ],
+        [
+          735.85,
+          569.65
+        ],
+        [
+          736.1,
+          574.95
+        ],
+        [
+          738.8,
+          587.68
+        ],
+        [
+          739.84,
+          590.55
+        ],
+        [
+          743.09,
+          599.55
+        ],
+        [
+          746.51,
+          606.45
+        ],
+        [
+          748.45,
+          610.35
+        ],
+        [
+          754.34,
+          620.05
+        ],
+        [
+          757.9,
+          625.27
+        ],
+        [
+          760.29,
+          628.76
+        ],
+        [
+          760.9,
+          629.61
+        ],
+        [
+          716.07,
+          639.96
+        ],
+        [
+          698.24,
+          730.72
+        ],
+        [
+          571.16,
+          688.21
+        ],
+        [
+          557.73,
+          696.37
+        ],
+        [
+          533.55,
+          762.73
+        ],
+        [
+          435.06,
+          766.64
+        ],
+        [
+          435.72,
+          646.4
+        ],
+        [
+          289.77,
+          659.89
+        ],
+        [
+          279.35,
+          639.22
+        ],
+        [
+          322.11,
+          515.25
+        ],
+        [
+          318.44,
+          504.99
+        ],
+        [
+          191.76,
+          484.29
+        ],
+        [
+          141.15,
+          423.61
+        ]
+      ],
+      "thickness": 8.0
+    }
+  ],
+  "water": {
+    "angle": 17.39,
+    "bays": [
+      {
+        "at": [
+          852.81,
+          610.35
+        ],
+        "id": "salt_bay",
+        "polygon": [
+          [
+            794.18,
+            681.79
+          ],
+          [
+            789.21,
+            673.95
+          ],
+          [
+            788.59,
+            672.89
+          ],
+          [
+            786.62,
+            671.24
+          ],
+          [
+            773.12,
+            652.03
+          ],
+          [
+            769.14,
+            641.19
+          ],
+          [
+            765.98,
+            636.69
+          ],
+          [
+            760.29,
+            628.76
+          ],
+          [
+            754.34,
+            620.05
+          ],
+          [
+            748.45,
+            610.35
+          ],
+          [
+            743.09,
+            599.55
+          ],
+          [
+            738.8,
+            587.68
+          ],
+          [
+            736.1,
+            574.95
+          ],
+          [
+            735.47,
+            561.75
+          ],
+          [
+            737.27,
+            548.6
+          ],
+          [
+            741.67,
+            536.09
+          ],
+          [
+            748.63,
+            524.86
+          ],
+          [
+            757.93,
+            515.47
+          ],
+          [
+            769.12,
+            508.38
+          ],
+          [
+            781.65,
+            503.86
+          ],
+          [
+            794.88,
+            501.97
+          ],
+          [
+            808.16,
+            502.57
+          ],
+          [
+            820.94,
+            505.29
+          ],
+          [
+            832.77,
+            509.62
+          ],
+          [
+            843.42,
+            514.97
+          ],
+          [
+            852.81,
+            520.7
+          ],
+          [
+            852.98,
+            520.82
+          ],
+          [
+            856.56,
+            520.5
+          ],
+          [
+            879.69,
+            524.53
+          ],
+          [
+            1000.0,
+            562.21
+          ],
+          [
+            1000.0,
+            750.7
+          ],
+          [
+            881.55,
+            713.6
+          ],
+          [
+            873.77,
+            715.71
+          ],
+          [
+            863.34,
+            717.29
+          ],
+          [
+            852.81,
+            717.5
+          ],
+          [
+            842.38,
+            716.22
+          ],
+          [
+            832.31,
+            713.39
+          ],
+          [
+            822.86,
+            709.1
+          ],
+          [
+            814.23,
+            703.51
+          ],
+          [
+            806.56,
+            696.88
+          ],
+          [
+            799.91,
+            689.53
+          ]
+        ],
+        "r": 105.81
+      }
+    ],
+    "bridge_nodes": [],
+    "bridges": [],
+    "islands": [
+      {
+        "at": [
+          890.41,
+          634.55
+        ],
+        "fort": false,
+        "id": "salt_island_1",
+        "link": "none",
+        "polygon": [
+          [
+            918.41,
+            634.55
+          ],
+          [
+            917.46,
+            641.79
+          ],
+          [
+            914.66,
+            648.55
+          ],
+          [
+            910.21,
+            654.34
+          ],
+          [
+            904.41,
+            658.79
+          ],
+          [
+            897.66,
+            661.59
+          ],
+          [
+            890.41,
+            662.55
+          ],
+          [
+            883.16,
+            661.59
+          ],
+          [
+            876.41,
+            658.79
+          ],
+          [
+            870.61,
+            654.34
+          ],
+          [
+            866.16,
+            648.55
+          ],
+          [
+            863.36,
+            641.79
+          ],
+          [
+            862.41,
+            634.55
+          ],
+          [
+            863.36,
+            627.3
+          ],
+          [
+            866.16,
+            620.55
+          ],
+          [
+            870.61,
+            614.75
+          ],
+          [
+            876.41,
+            610.3
+          ],
+          [
+            883.16,
+            607.5
+          ],
+          [
+            890.41,
+            606.55
+          ],
+          [
+            897.66,
+            607.5
+          ],
+          [
+            904.41,
+            610.3
+          ],
+          [
+            910.21,
+            614.75
+          ],
+          [
+            914.66,
+            620.55
+          ],
+          [
+            917.46,
+            627.3
+          ]
+        ],
+        "r": 28.0
+      }
+    ],
+    "kind": "bay"
+  }
+}

@@ -27,7 +27,7 @@ Map seeds (terrain) are 5701-5708 and 5709-5714 (the six layered organic maps) i
 From `tools/mapgen`:
 
 ```
-.venv/Scripts/python maps/towns/build.py [name ...]      # rewrites maps/towns/<name>.yaml, <name>.flow.yaml, preview/<name>_town.png
+.venv/Scripts/python maps/towns/build.py [name ...]      # rewrites maps/towns/<name>.yaml, <name>.settlement.json, <name>.flow.yaml, preview/<name>_town.png
 .venv/Scripts/python -m mapgen validate maps/towns/<name>.yaml
 .venv/Scripts/python -m mapgen build maps/towns/<name>.yaml                 # -> out/<name>/map.png
 .venv/Scripts/python -m mapgen flowgraph check maps/towns/<name>.flow.yaml maps/towns/<name>.yaml --strict
@@ -36,7 +36,7 @@ From `tools/mapgen`:
 `build.py` generates the settlement (`mapgen.town.generate`), merges its spec fragment into `src/<name>.base.yaml` with
 `mapgen/town/embed.py` (`python -m mapgen.town.embed BASE FRAGMENT... --out OUT` does the same for hand use), and adds
 `teams` with bases 120-200 m outside the two most opposed gates plus an `approach_a`/`approach_b` road (seeded side waypoints and `wobble`, so it curves) from each base ending on
-its gate point. The flowgraph is the movement-graph fragment plus spawn nodes `A`/`B` linked to those gates. Edit terrain
+its gate point. The flowgraph is the movement-graph fragment plus spawn nodes `A`/`B` linked to those gates. `<name>.settlement.json` is the generated settlement (the `settlement.json` that `mapgen.town generate` writes) stored next to the spec; `mapgen build` finds it at `<spec stem>.settlement.json` and writes `settlements.json` into the export bundle. Edit terrain
 in `src/*.base.yaml`; the generated `<name>.yaml` files are overwritten by `build.py`.
 
 Water maps: `twinbridge` (river, 8 bridge crossings), `saltport` (bay with harbour, docks and a reserved island site drawn as a

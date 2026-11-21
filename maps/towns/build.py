@@ -2,7 +2,7 @@
 
 For each map: generate the settlement (mapgen.town.generate), merge its spec fragment into src/<name>.base.yaml, add two
 team bases outside the two most opposed gates with approach roads ending on the gate points, and write
-maps/towns/<name>.yaml plus maps/towns/<name>.flow.yaml (flow fragment + two spawn nodes linked to those gates)."""
+maps/towns/<name>.yaml, <name>.settlement.json (sidecar) and <name>.flow.yaml (flow fragment + two spawn nodes linked to those gates)."""
 import math
 import os
 import random
@@ -131,6 +131,7 @@ def build(name, c):
     spec = merge(rd("src/%s.base.yaml" % name),
                  ["teams:\n" + "\n".join(teams) + "\n", "lines:\n" + "\n".join(lines) + "\n", emit_spec(s)])
     wr("%s.yaml" % name, spec)
+    wr("%s.settlement.json" % name, s.to_json())  # sidecar read by `mapgen build` (export_settlements.find_settlement)
     flow = ("format_version: 1\nname: %s\nbrief: |\n  Settlement movement graph of %s (generator %s, seed %d) with two spawns "
             "linked to gates %s and %s.\n\nnodes:\n%s\n\nedges:\n%s\n"
             % (name, name, c["gen"], c["seed"], best[0].id, best[1].id, "\n".join(nodes), "\n".join(edges)))
