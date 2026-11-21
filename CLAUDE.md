@@ -48,6 +48,11 @@ Run the regression suite: `.venv/Scripts/python -m pytest` (about 9 minutes with
 compares the SHA-256 of every output file with the committed baseline in `tests/baselines/<map>.json`.
 It also covers spec validation errors and command exit codes. Run one map with `-k <map name>`.
 
+Full-suite policy (owner rule): run the full suite once per merged batch, never concurrently with another
+full run. Parallel workers run only targeted tests for the files they touched, commit, and report; the
+coordinator merges, then runs one full suite. Known bugs found by it are fixed in a later pass; merging
+a bug or two is acceptable.
+
 A change that must not alter output passes the suite unchanged. A change that alters output fails it,
 naming each map and file. Show the owner the diff report for the change: build each affected map before
 and after the change (e.g. the previous commit from a `git worktree`), each into its own empty `--out`
