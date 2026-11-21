@@ -133,6 +133,14 @@ def cmd_list(args) -> int:
     return 0
 
 
+def cmd_shape(args) -> int:
+    from . import shape_sheet
+    argv = ["--seeds", str(args.seeds), "--size", str(args.size), "--edge", args.edge, "--out", args.out]
+    for it in args.param or []:
+        argv += ["--param", it]
+    return shape_sheet.main(argv)
+
+
 def add_parser(sub, positive_float) -> None:
     t = sub.add_parser("town", help="procedural settlement layouts: districts, roads, wall, gates, landmarks")
     ts = t.add_subparsers(dest="town_command")
@@ -153,5 +161,12 @@ def add_parser(sub, positive_float) -> None:
     p.add_argument("--out", required=True)
     p.add_argument("--force", action="store_true", help="overwrite an existing --out file")
     p.set_defaults(func=cmd_preview)
+    sh = ts.add_parser("shape", help="contact sheet of shape-field outlines (the organic generator's footprints)")
+    sh.add_argument("--seeds", type=int, default=30)
+    sh.add_argument("--size", type=positive_float, default=1000.0, help="map side in metres (default 1000)")
+    sh.add_argument("--edge", default="wall", choices=["wall", "open", "fade"])
+    sh.add_argument("--param", action="append", metavar="NAME=VALUE", help="shape parameter (irregularity, lobes, ribbons, ...)")
+    sh.add_argument("--out", default=os.path.join("out", "town_organic", "outlines.png"))
+    sh.set_defaults(func=cmd_shape)
     l = ts.add_parser("list", help="list generators and their parameters")
     l.set_defaults(func=cmd_list)

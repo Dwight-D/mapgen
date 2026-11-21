@@ -5,7 +5,7 @@ import re
 from dataclasses import dataclass
 from typing import Any, Callable, Dict, List, Optional, Sequence, Tuple
 
-from . import fort, gen_grid, gen_radial, gen_voronoi, layers, layers_params, warp, water
+from . import fort, gen_grid, gen_organic, gen_radial, gen_voronoi, layers, layers_params, warp, water
 from .model import Settlement
 from .params import ParamDef, ParamError, resolve
 
@@ -28,6 +28,8 @@ GENERATORS: Dict[str, Generator] = {
                         "ring roads, wedge districts, central plaza, irregular wall with gates on spokes"),
     "voronoi": Generator("voronoi", gen_voronoi.DEFS, gen_voronoi.generate,
                          "Voronoi-cell districts on a seed spiral, border arteries to a plaza, angular wall; organic=true for the chaotic regime"),
+    "organic": Generator("organic", gen_organic.DEFS, gen_organic.generate,
+                         "splotchy shape-field footprint, curved arteries and arcs, perturbed plaza; edge=%s" % gen_organic.EDGE_DOC),
     "grid": Generator("grid", gen_grid.DEFS, gen_grid.generate,
                       "rotated street lattice in a superellipse wall, market square with radial boulevards, optional inner wall"),
 }
@@ -57,7 +59,16 @@ def generate(generator: str, seed: int, size: Sequence[float] = DEFAULT_SIZE, pa
                    and not layers_params.is_layer_param(k) and not warp.is_warp_param(k)}
     wr = warp.resolve((params or {}).get("warp"))
     fp = fort.resolve({k: v for k, v in (params or {}).items() if fort.is_fort_param(k)})
+    edge = None
+    if generator == "organic":
+        edge = base_params.pop("edge", "wall")
+        if edge not in gen_organic.EDGES:
+            raise ParamError(["params.edge: %r is not one of %s" % (edge, ", ".join(gen_organic.EDGES))])
+        if edge == "open" and fort.active(fp):
+            raise ParamError(["params.fort: the fort add-on needs an outer wall (edge=wall)"])
     p = resolve(gen.defs, seed, sid, generator, base_params)
+    if edge is not None:
+        p["edge"] = edge
     s = gen.build(p, seed, sz, c, sid)
     if water.active(wp):
         s = water.apply(s, wp)

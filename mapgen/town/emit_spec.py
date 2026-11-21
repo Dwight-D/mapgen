@@ -212,7 +212,8 @@ def emit_spec(s: Settlement) -> str:
     w("")
     w("crossings:")
     for g in s.gates:
-        w("  - { id: %s_x, type: gate, at: %s }" % (g.id, g.id))
+        if g.kind != "entry":      # an entry is a point in an open edge: no wall to cross
+            w("  - { id: %s_x, type: gate, at: %s }" % (g.id, g.id))
     rw = {r["id"]: r["width"] for r in s.water.get("rivers", [])}
     half = max(rw.values()) / 2.0 if rw else 0.0
     for r in s.roads:

@@ -70,9 +70,18 @@ def _walls_gates(s: Settlement) -> List[str]:
     for w in outer:
         if sum(1 for g in s.gates if g.wall == w.id) < 2:
             errs.append("wall %s: fewer than 2 gates" % w.id)
+    entries = [g for g in s.gates if g.wall == ""]
+    if not outer and s.params.get("edge") in ("open", "fade") and len(entries) < 2:
+        errs.append("wall-less town: fewer than 2 entries")
+    ring = LineString(list(s.footprint) + [s.footprint[0]]) if s.footprint else None
     for g in s.gates:
         p = Point(g.at)
-        if g.wall not in wall_lines:
+        if g.wall == "":
+            if g.kind != "entry":
+                errs.append("gate %s: no wall, so its kind must be entry (got %s)" % (g.id, g.kind))
+            if ring is not None and ring.distance(p) > SNAP and s.params.get("edge") != "fade":
+                errs.append("entry %s: %.2f m from the footprint ring (limit %g)" % (g.id, ring.distance(p), SNAP))
+        elif g.wall not in wall_lines:
             errs.append("gate %s: unknown wall %s" % (g.id, g.wall))
         elif wall_lines[g.wall].distance(p) > SNAP:
             errs.append("gate %s: %.2f m from wall %s (limit %g)" % (g.id, wall_lines[g.wall].distance(p), g.wall, SNAP))
@@ -235,10 +244,61 @@ def _layers(s: Settlement) -> List[str]:
     return errs
 
 
+def _simple(line) -> bool:
+    return LineString(line).is_simple
+
+
+def _turn_ok(line, limit: float = 100.0) -> bool:
+    for i in range(1, len(line) - 1):
+        a = (line[i][0] - line[i - 1][0], line[i][1] - line[i - 1][1])
+        b = (line[i + 1][0] - line[i][0], line[i + 1][1] - line[i][1])
+        la, lb = math.hypot(*a), math.hypot(*b)
+        if la < 1e-6 or lb < 1e-6:
+            continue
+        if math.degrees(math.acos(max(-1.0, min(1.0, (a[0] * b[0] + a[1] * b[1]) / (la * lb))))) > limit:
+            return False
+    return True
+
+
+def _organic(s: Settlement) -> List[str]:
+    """Invariants of the `organic` generator and of its warped result (TOWN_ORGANIC_SPEC section 9.3)."""
+    if s.generator != "organic":
+        return []
+    from . import shape
+    errs: List[str] = []
+    warped = "warp" in s.params
+    foot = Polygon(s.footprint)
+    if foot.is_valid and foot.area > 0:
+        ms = s.params.get("min_solidity", 0.62)
+        if warped:
+            ms = min(ms, 0.5)
+        if shape.solidity(foot) < ms:
+            errs.append("footprint solidity %.2f below %.2f" % (shape.solidity(foot), ms))
+        if not shape.neck_ok(foot, 30.0 if warped else shape.NECK):
+            errs.append("footprint has a neck narrower than %g m" % (30.0 if warped else shape.NECK))
+    if not s.layers and len(s.districts) > 2:
+        areas = sorted(d.area for d in s.districts)
+        med = areas[len(areas) // 2]
+        for d in s.districts:
+            if d.area > 6.0 * med and d.kind not in ("core", "citadel"):
+                errs.append("district %s: area %g exceeds 6 times the median %g" % (d.id, d.area, med))
+    for r in s.roads:
+        if "_sr_" in r.id or "_bs_" in r.id:
+            continue
+        if not _simple(r.polyline):
+            errs.append("road %s: polyline crosses itself" % r.id)
+        elif not _turn_ok(r.polyline):
+            errs.append("road %s: turn of more than 100 degrees at a vertex" % r.id)
+    for d in s.districts:
+        if not (0.0 < d.density <= 1.0):
+            errs.append("district %s: density %g outside (0, 1]" % (d.id, d.density))
+    return errs
+
+
 def check(s: Settlement) -> List[str]:
-    """Geometry, walls and gates, reachability, identity, layers. (Determinism: `check_determinism`.)"""
+    """Geometry, walls and gates, reachability, identity, layers, organic. (Determinism: `check_determinism`.)"""
     from .water import check_water
-    return _geometry(s) + _walls_gates(s) + _reachability(s) + _identity(s) + check_water(s) + _layers(s)
+    return _geometry(s) + _walls_gates(s) + _reachability(s) + _identity(s) + check_water(s) + _layers(s) + _organic(s)
 
 
 def check_determinism(s: Settlement) -> List[str]:

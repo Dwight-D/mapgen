@@ -18,7 +18,7 @@ from .emit_spec import road_tokens
 def emit_flow(s: Settlement) -> str:
     names: Dict[str, str] = {l.id: l.label for l in s.landmarks}
     for g in s.gates:
-        names[g.id] = "Gate %s" % g.id.rsplit("_", 1)[1]
+        names[g.id] = "%s %s" % ("Entry" if g.kind == "entry" else "Gate", g.id.rsplit("_", 1)[1])
     out: List[str] = []
     w = out.append
     w("# Flowgraph fragment of settlement %s (generator %s, seed %d): the movement graph." % (s.id, s.generator, s.seed))

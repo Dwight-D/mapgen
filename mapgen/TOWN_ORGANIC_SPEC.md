@@ -1,6 +1,6 @@
 # Town organic shaping — warped outlines, open edges, mixed block fills
 
-Status: design; the warp stage (§6) is implemented (`mapgen/town/warp.py`, `tests/test_town_warp.py`), the shape field and outline (§4) are implemented (`mapgen/town/shape.py`, `tests/test_town_shape.py`, sheet `python -m mapgen.town.shape_sheet`), everything else is design. Self-contained apart from `TOWN_SPEC.md` (settlement model §3, params and seeds §4, graphs §5, checks §8,
+Status: design; the warp stage (§6) is implemented (`mapgen/town/warp.py`, `tests/test_town_warp.py`), the shape field and outline (§4) are implemented (`mapgen/town/shape.py`, `tests/test_town_shape.py`, sheet `python -m mapgen.town.shape_sheet` or `town shape`), the `organic` generator with `edge=wall|open` (§5.1, §5.2, §8, §9; `gen_organic.py`, `tests/test_town_organic.py`) is implemented, everything else (`edge=fade`, fringe, the `organic` layers preset) is design. Self-contained apart from `TOWN_SPEC.md` (settlement model §3, params and seeds §4, graphs §5, checks §8,
 emitters §9, preview §10, generators §7) and `TOWN_LAYERS_SPEC.md` (fill contract §4, `apply` §5, rules §6), which this file extends. Section 11
 lists every API assumption verified against the code. A settlement generated without any parameter introduced here is unchanged byte for byte.
 
@@ -282,7 +282,7 @@ A top-level generator (registry name `organic`) whose footprint is the shape fie
 | name | type | valid | drawn | meaning |
 |---|---|---|---|---|
 | `radius_frac` | float | 0.3-0.95 | 0.4-0.65 | base radius `R` / half the shorter side |
-| `edge` | str | wall, open, fade | default wall | §5 |
+| `edge` | str | wall, open (fade: §5.3, not yet accepted) | default wall | §5; split off in `registry.generate`, echoed in `params["edge"]` |
 | `irregularity` | float | 0-0.5 | 0.15-0.4 | noise weight of the field |
 | `lobes` | int | 0-6 | 0-3 | satellite lobes |
 | `ribbons` | int | 0-4 | 0-2 | arteries that grow a tongue |
@@ -291,10 +291,9 @@ A top-level generator (registry name `organic`) whose footprint is the shape fie
 | `arcs` | int | 0-3 | 0-2 | partial cross arcs between adjacent arteries |
 | `plaza_frac` | float | 0.05-0.2 | 0.07-0.12 | plaza radius / `R` (minimum 25 m) |
 | `hub_offset` | float | 0-0.3 | 0-0.15 | hub distance from the map centre / `R` |
-| `fade_len`, `hamlets` | float, int | 80-400, 0-8 | 120-300, 1-5 | §5.3 |
+| `fade_len`, `hamlets` | float, int | 80-400, 0-8 | 120-300, 1-5 | §5.3; added with `edge=fade` |
 | `min_solidity` | float | 0.4-0.9 | default 0.62 | §4.2 |
 | `min_district_area` | float | 100-20000 | default 1600 | m2 |
-| `gates` | int | 2-8 | 3-5 | entries or gates, at most `arteries` |
 | `citadel` | bool | | P(true) 0.3 | the macro district farthest from the entries becomes a citadel (as `radial`) |
 
 ### 8.2 Hub and plaza
@@ -303,18 +302,19 @@ The plaza is a noise-perturbed 24-gon of radius `rp` at the hub (district key `p
 
 ### 8.3 Arteries
 
-`arteries` angles from `theta_i = base + i * 2 pi / n + jitter` (jitter ±0.3 of spacing, at least 38 degrees apart, stage `arteries`), plus a 1-2 waypoint **Catmull-Rom** curve
-(`water._catmull(ctrl, per=10)`) from the plaza ring through waypoints displaced laterally by `curvature * L / 3 * rng.uniform(-1, 1)` to beyond the footprint. A `ribbon` artery
-lengthens the tongue term of the field (§4.1) so the footprint reaches further along it. Arteries are clipped to `P0` (and, for `fade`, extended `fade_len` beyond). Class `artery`, width 14; class `ring` for
-arcs (width 10): an arc at radius `R * rng.uniform(0.45, 0.7)` over a bend-noised polar curve between two adjacent arteries, ends on them.
+The `arteries` count includes the ribbon arteries. The first `ribbons` arteries are the shape's own axes (`Shape.axes`, hub-to-tip Catmull-Rom curves, extended along their tangent past the tip) so the footprint tongue and the road coincide. The rest take
+angles `theta_i = base + i * 2 pi / n + jitter` (jitter ±0.3 of spacing, stage `arteries`), skipping any angle less than 38 degrees from an accepted one, each a 1-2 waypoint **Catmull-Rom** curve
+(`water._catmull(ctrl, per=8)`) from the hub through waypoints displaced laterally by `curvature * L / 3 * rng.uniform(-1, 1)` to beyond the footprint. Every artery polyline starts at the hub (the plaza node), is clipped at its first exit from `P0`, and
+is dropped when shorter than 60 m; the plaza ring crossing and the footprint end are inserted as vertices. Class `artery`, width 14; class `ring` for arcs (width 10): an arc at radius `R * rng.uniform(0.45, 0.7)` between two adjacent arteries
+(angular gap at most 150 degrees) on a polar curve whose radius is interpolated between the two end radii plus a sine bend; it is kept only when simple, inside the footprint by 8 m, at least 3 m from every artery but its own two and every other arc, meeting each
+of its two arteries exactly once, with no turn above 60 degrees. `edge=fade` (§5.3) additionally extends arteries `fade_len` beyond the footprint.
 
 ### 8.4 Districts, kinds, nodes
 
-Faces: `polygonize(unary_union([P0.boundary] + arteries + arcs + plaza ring))`, face representative point inside `P0`; faces under `min_district_area` merge into the neighbour with the longest border
-(`layerfill._merge_small` promoted to public `merge_small`). Keys `a<first artery index>s<sector>` (like `radial`), plaza `plaza`. Kinds: `market` touching the plaza, `craft` touching the footprint with
+Faces: `polygonize(unary_union([P0 ring, plaza ring] + artery parts outside the plaza + arcs))`, face representative point inside `P0`; the faces must tile `P0` (0.5 %). A face under `min_district_area` is not merged (a merge would bury a road in a district interior): the layout drops arcs one at a time, then redraws the attempt. Keys `a<k>s<m>`: `k` the artery just clockwise of the face, `m` the rank of the face by distance from the hub within that sector; plaza `plaza`. Kinds: `market` touching the plaza, `craft` touching the footprint with
 the largest area share of `P0`'s boundary, else `residential`. Nodes: plaza, junctions `<sid>_j_<a>_<b>` (artery or arc keys), gates or entries, arc ends; every polyline vertex of an artery/arc at a
 junction is a node, so the spec fragment holds point references only at nodes (`graph.movement_edges` rule, `TOWN_SPEC.md` §5). Roads ids `<sid>_artery_<k>`, `<sid>_arc_<k>`. Walls and gates per §5.
-A layout failing any check redraws from the next attempt stream (up to 8), then `GenerationError`.
+A layout failing any check redraws from the next attempt stream (up to 8; the shape itself is drawn once by `shape.footprint`), then `GenerationError`. A gate is `<sid>_gate_a<k>` (`edge=wall`, wall `<sid>_wall_outer`, `Gate.kind` gate) or `<sid>_entry_a<k>` (`edge=open`); its graph node has the same id.
 
 ## 9. Model, checks, graphs
 
@@ -325,7 +325,7 @@ A layout failing any check redraws from the next attempt stream (up to 8), then 
 ### 9.2 Graphs (`graph.py`)
 
 `district_graph(districts, roads, walls, gates, footprint=None)`: when `walls` has no `outer` wall and `footprint` is given, every district whose boundary overlaps the footprint ring by more than
-`BORDER_MIN` is joined to `outside` by an `adjacent` passable edge (`roads` lists roads running along it, `gates` lists entries within `SNAP`). With an `outer` wall nothing changes. Callers in
+`BORDER_MIN` is joined to `outside` by an `adjacent` passable edge (`roads` lists roads running along it, `gates` lists entries within `SNAP`). With an `outer` wall nothing changes, and the open-edge branch runs only when some gate has `wall == ""` (so existing wall-less settlements are untouched). `footprint` defaults to the outline of the union of `inside_wall` districts, so callers that do not pass it (`layers._district_graph`, `water`, `warp._rebuild`) get the same result unless water carves the footprint. Callers in
 `layers._district_graph` and `warp.apply` pass `s.footprint`. Fringe districts: they lie outside the footprint, so they reach `outside` by an `adjacent` edge when they share more than `BORDER_MIN`
 with no other district (always), and to the core districts through the artery road only (movement graph).
 
@@ -334,9 +334,9 @@ with no other district (always), and to the core districts through the artery ro
 - `_walls_gates`: a gate with `wall == ""` must have `kind == "entry"`, lie within `SNAP` of its road and within 1 m of the footprint ring or (fade) within 1 m of the road end; a town with no `outer`
   wall has at least 2 entries; the "fewer than 2 gates" rule stays for walled towns.
 - `_reachability`: unchanged logic; it now holds for wall-less towns because of §9.2.
-- new `_organic` (runs when `params.get("generator") == organic` or `params["warp"]` present): footprint solidity at least the echoed `min_solidity` (default 0.5 when warped, 0.62 else);
-  neck width 40 m (§4.2); no district larger than 6 times the median district area unless kind `plaza`/`citadel`; every road polyline simple (no self-intersection), with turn angle at most 100 degrees per
-  vertex at `step` spacing (a fold detector); every fringe district `inside_wall` false, kind `outskirt`, with a road on its border; `density` in (0, 1].
+- new `_organic` (runs when the settlement's generator is `organic`): footprint solidity at least the echoed `min_solidity` (default 0.5 when warped, 0.62 else);
+  neck width 40 m (§4.2); no district larger than 6 times the median district area unless kind `plaza`/`citadel`; the district-area rule only without layers; every generator-made road polyline (layer sub-roads excluded) simple (no self-intersection), with turn angle at most 100 degrees per
+  vertex (a fold detector); neck width 30 m instead of 40 when warped; every fringe district `inside_wall` false, kind `outskirt`, with a road on its border; `density` in (0, 1].
 - `_geometry` minimum-area test: with `params["warp"]` present it compares against `min_district_area * 0.7` (the warp changes areas by up to about 25 %; §13 finding 2).
 - Existing checks (§8 of `TOWN_SPEC.md`, `_layers`) run unchanged on the warped result; that is the acceptance criterion of the warp.
 
@@ -384,6 +384,7 @@ Seeds are chosen by scanning (as the README records for twinbridge): the first s
 - Parameter names: the `voronoi` generator's smooth cell warp is the parameter `cell_warp`; `warp` is only the settlement-level parameter of §6 (a generator parameter of that name would be echoed into `params` and read as the settlement warp).
 - Dependencies: `scikit-image==0.21.0` (`find_contours`), `shapely==2.0.7` (`offset_curve`, `polygonize`, `voronoi_diagram`), numpy, scipy are pinned in `requirements.txt`; Python 3.8 rules apply.
 - `water._catmull(ctrl, per)` is a Catmull-Rom helper reusable for artery curves.
+- W2a (verified on real code): `shape.footprint` takes no hub argument (the hub is drawn inside it), so the generator reads `Shape.hub` and `Shape.axes` from a standalone call and adopts the axes as its ribbon arteries; `shape.footprint(..., generator="organic")` keeps the generator's stream names. `params.ParamDef` has no string type, so `edge` is split off in `registry.generate` and appended to the resolved params. Faces: polygonize of rounded, pre-noded lines gives exact shared vertices (the only inserted vertices are the plaza ring crossings, footprint ends and arc ends, each inserted into every line through it). Arteries run through the plaza (hub to ring) as `radial` spokes do; only the part outside the plaza is polygonized, else the plaza splits into wedges. `emit_spec` writes no `gate` crossing for an entry (a point only); `flowgraph check --strict` passes on `edge=open` with two spawns linked to entries (the full W3b emission work, team bases in `build.py`, remains).
 - Prototype (scratch script, not committed): see §13 (the warp is validated; shape field, generator and fills are not).
 
 ## 12. Implementation plan (waves; slices inside a wave are independent)
@@ -404,7 +405,7 @@ Each slice names its evidence. The full suite (`pytest -n 8`, about 9 minutes) r
 
 | slice | content | files | evidence |
 |---|---|---|---|
-| W2a generator | `gen_organic.py` (§8), registry entry, `edge=wall`, model fields, `check` gate relaxation and `_organic`, `graph.district_graph` open edges | `gen_organic.py`, `model.py`, `check.py`, `graph.py`, `registry.py`, `tests/test_town_organic.py` | 20-seed sweeps `edge=wall` and `open`: `check`, `check_determinism`, fragment round trip, `flowgraph check --strict` |
+| W2a generator (done) | `gen_organic.py` (§8), registry entry, `edge=wall`, model fields, `check` gate relaxation and `_organic`, `graph.district_graph` open edges | `gen_organic.py`, `model.py`, `check.py`, `graph.py`, `registry.py`, `tests/test_town_organic.py` | 20-seed sweeps `edge=wall` and `open`: `check`, `check_determinism`, fragment round trip, `flowgraph check --strict` |
 | W2b preset | `layers=organic` expansion, `params_random` | `layers_params.py`, tests | identity-stability and all-fills-occur tests |
 
 **Wave W3 (after W2a):**
@@ -440,12 +441,12 @@ A scratch script (a 40-line `densify + fbm2 displacement` of a finished Settleme
 
 Nothing existing changes unless a new parameter is given. Edits to existing files add defaulted fields and branches: `District.density` and `Gate.kind entry` (omitted/unused when absent), `fill_grid` params
 `shear`, `fan` (default 0, no extra draws), `align_jitter` range, `Unfit` fallback (a district that was a leaf because its only fill was `Unfit` stays a leaf when its `use` has one entry). The showcase
-rebuilds of `hearthmoor`, `swordmarch`, `wardring` change those maps' generated files by design; the regression suite does not cover them. The `voronoi` generator's own smooth cell warp parameter is `cell_warp`, so `warp` names only the settlement-level stage (§6). `voronoi organic=true` remains available and documented as the
+rebuilds of `hearthmoor`, `swordmarch`, `wardring` change those maps' generated files by design; the regression suite does not cover them. The `voronoi` generator's own smooth cell warp parameter is `cell_warp`, so `warp` names only the settlement-level stage (§6). `voronoi organic=true` remains available (not retired in W2a: `organic` covers the splotchy-outline need, the old mode has its own tests) and documented as the
 chaotic regime with large outer cells; `ashgrove` is rebuilt from `organic`. `TOWN_SPEC.md` §7, §12 and §14 gain pointers to this file in the slice that lands each part.
 
 ## 15. Open decisions for the owner
 
-1. Wall-less towns use `Gate.kind=entry` with no wall; `build.py` team bases attach to entries. Accept, or prefer a separate `portals` list.
-2. Fringe is `outskirt` districts (at least 1 600 m2 each) with a `density` value, not individual plots. Accept, or allow a smaller minimum area for outskirt districts (relaxes the area check for that kind).
+1. Wall-less towns use `Gate.kind=entry` with no wall; `build.py` team bases attach to entries. DECIDED (owner): accepted, no `portals` list.
+2. Fringe is `outskirt` districts with a `density` value, not individual plots. DECIDED (owner): outskirt districts have a minimum of 1 600 m2.
 3. Warp strength defaults (`0.6-0.8` in showcases): review the contact sheet in W4.
 4. Whether to retire `voronoi organic=true` and the `voronoi` generator for new towns, keeping it for compatibility.

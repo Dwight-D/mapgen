@@ -1,9 +1,10 @@
 """Graph derivation shared by every generator: the movement graph and the district graph (TOWN_SPEC.md section 5)."""
 from __future__ import annotations
 
-from typing import Dict, List, Tuple
+from typing import Dict, List, Optional, Tuple
 
 from shapely.geometry import LineString, Point, Polygon
+from shapely.ops import unary_union
 
 from .model import (District, DistrictEdge, DistrictNode, Gate, GraphEdge, GraphNode, Road, Wall,
                     polyline_length, r2)
@@ -54,10 +55,13 @@ def attach_districts(nodes: List[GraphNode], districts: List[District]) -> None:
 
 
 def district_graph(districts: List[District], roads: List[Road], walls: List[Wall],
-                   gates: List[Gate]) -> Tuple[List[DistrictNode], List[DistrictEdge]]:
+                   gates: List[Gate], footprint: Optional[List[List[float]]] = None) -> Tuple[List[DistrictNode], List[DistrictEdge]]:
     """Nodes: every district plus `outside`. Edge: two districts sharing >= BORDER_MIN m of boundary (kind
     `adjacent`, passable) or, where a wall polyline lies on that boundary, kind `wall` (passable only through the
-    listed gates); a district whose boundary lies on an `outer` wall is joined to `outside` the same way."""
+    listed gates); a district whose boundary lies on an `outer` wall is joined to `outside` the same way.
+    A wall-less town (some gate has `wall == ""`, an entry) has no outer wall: every district whose boundary lies on the
+    footprint ring (`footprint`, default the outline of the `inside_wall` districts) is joined to `outside` by an `adjacent`
+    passable edge listing the roads along the border and the entries within SNAP (TOWN_ORGANIC_SPEC section 9.2)."""
     polys = [(d.id, district_polygon(d)) for d in districts]
     road_lines = [(r.id, LineString(r.polyline)) for r in roads]
     wall_lines = [(w, LineString(w.polyline)) for w in walls]
@@ -95,4 +99,16 @@ def district_graph(districts: List[District], roads: List[Road], walls: List[Wal
                 edges.append(DistrictEdge(id="%s~%s" % (did, OUTSIDE), a=did, b=OUTSIDE, kind="wall",
                                           length=r2(border.length), passable=False, gates=gids, roads=rids))
                 break
+    if not outer and any(g.wall == "" for g in gates):
+        if footprint:
+            ring = LineString(list(footprint) + [footprint[0]])
+        else:
+            ring = unary_union([p for d, (_, p) in zip(districts, polys) if d.inside_wall]).boundary
+        for did, poly in polys:
+            border = poly.boundary.intersection(ring)
+            if border.length > BORDER_MIN:
+                rids = sorted(rid for rid, rl in road_lines if rl.intersection(border).length > BORDER_MIN)
+                gids = sorted(gid for gid, p in gate_pts if p.distance(border) <= SNAP)
+                edges.append(DistrictEdge(id="%s~%s" % (did, OUTSIDE), a=did, b=OUTSIDE, kind="adjacent",
+                                          length=r2(border.length), passable=True, gates=gids, roads=rids))
     return nodes, sorted(edges, key=lambda e: e.id)

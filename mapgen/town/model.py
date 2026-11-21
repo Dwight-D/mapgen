@@ -32,6 +32,7 @@ class District:
     landmarks: List[str] = field(default_factory=list)
     parent: str = ""                # id of the parent layer node ("" for depth 0); omitted from JSON while ""
     depth: int = 0                  # layer depth (0 = top level); omitted from JSON while 0
+    density: float = 1.0            # relative built density 0-1 (data for a downstream filler); omitted from JSON while 1.0
 
 
 @dataclass
@@ -73,7 +74,7 @@ class Gate:
     at: Point
     normal: Point                   # unit vector pointing out of the walled area
     road: str
-    kind: str = "gate"              # gate | postern | water_gate
+    kind: str = "gate"              # gate | postern | water_gate | entry (entry: wall == "", an opening in a wall-less town)
 
 
 @dataclass
@@ -158,6 +159,8 @@ class Settlement:
                         del d["parent"]
                     if not d["depth"]:
                         del d["depth"]
+                    if d["density"] == 1.0:
+                        del d["density"]
                 out.append(d)
             return out
         out = {
