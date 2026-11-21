@@ -144,6 +144,11 @@ def _subdivide(s: Settlement, spec: Dict[str, Any]) -> _State:
                 rot = math.radians(float(al.split(":")[1]))
             if rule["align_jitter"]:
                 rot += math.radians(rp.uniform(-1.0, 1.0) * rule["align_jitter"])
+            prand = None
+            if rule.get("params_random"):
+                prand = stage_rng(sid, "layers", s.seed, d.id + "/params")
+                if prand.random() < 0.5:
+                    rot = math.radians(prand.uniform(0.0, 90.0))
             cen = P.centroid if P.contains(P.centroid) else P.representative_point()
             frame = Frame((cen.x, cen.y), rot, road_geom)
             # the drawn fill first, then the other weighted fills by descending weight (ties by name) when it is Unfit
@@ -152,7 +157,12 @@ def _subdivide(s: Settlement, spec: Dict[str, Any]) -> _State:
             why = ""
             for use in order:
                 mod = FILLS[use]
-                p = resolve_params(mod.SUB_DEFS, s.seed, sid, "layers/%s/%s" % (d.id, use), dict(rule["params"]))
+                rparams = dict(rule["params"])
+                if prand is not None and use == "grid":
+                    for k, hi in (("shear", 30.0), ("fan", 6.0)):
+                        v = prand.uniform(0.0, hi)
+                        rparams.setdefault(k, round(v, 2))
+                p = resolve_params(mod.SUB_DEFS, s.seed, sid, "layers/%s/%s" % (d.id, use), rparams)
                 try:
                     fl = mod.fill(P, stage_rng(sid, "layers", s.seed, d.id + ("/geom" if use == order[0] else "/geom/" + use)), p, frame, spec["min_area"])
                     break

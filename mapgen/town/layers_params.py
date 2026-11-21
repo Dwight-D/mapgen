@@ -11,12 +11,32 @@ from .params import ParamError
 FILLS = {"grid": fill_grid, "radial": fill_radial, "voronoi": fill_voronoi, "bsp": fill_bsp, "wedge": fill_wedge, "follow": fill_follow}
 USES = tuple(sorted(FILLS)) + ("none",)
 SKIP_KINDS = ["core", "citadel", "harbour"]
-RULE_KEYS = ("depth", "kind", "area", "key", "p", "use", "params", "align", "kinds", "skip_kinds", "align_jitter")
+RULE_KEYS = ("depth", "kind", "area", "key", "p", "use", "params", "align", "kinds", "skip_kinds", "align_jitter", "params_random")
 GLOBAL_KEYS = ("max_depth", "min_area", "min_split_area", "boundary", "graph", "max_districts", "align")
 _ALIGN = re.compile(r"^(edge|parent|none|random|angle:-?\d+(\.\d+)?)$")
 DOC = {
-    "layers": "subdivide districts with another layout: JSON/YAML dict, or `[d:]use[@k=v,...];...;max_depth=2` (use = grid | radial | voronoi | bsp | wedge | follow | a/b*2 | none)",
+    "layers": "subdivide districts with another layout: JSON/YAML dict, or `[d:]use[@k=v,...];...;max_depth=2` (`organic` = the mixed-fill preset; use = grid | radial | voronoi | bsp | wedge | follow | a/b*2 | none)",
 }
+
+
+ORGANIC_PRESET: Dict[str, Any] = {
+    "max_depth": 3, "min_split_area": 3000, "align": "edge",
+    "rules": [
+        {"depth": 0, "kind": ["market"], "use": {"grid": 2, "bsp": 1}, "align_jitter": 10},
+        {"depth": 0, "kind": ["residential", "craft", "slum"], "use": {"bsp": 3, "grid": 2, "follow": 2, "wedge": 2, "voronoi": 1},
+         "params_random": True, "align_jitter": 25, "p": 0.97},
+        {"depth": [1, 2], "area": [6500, 1000000], "use": {"bsp": 3, "wedge": 1, "follow": 2, "grid": 1}, "params_random": True,
+         "align_jitter": 25},
+        {"depth": 1, "p": 0.35, "use": {"bsp": 2, "voronoi": 1, "wedge": 1}},
+    ],
+}
+
+
+def preset(name: str) -> Optional[Dict[str, Any]]:
+    """The canonical (unresolved) dict of a named preset, None when `name` is not one."""
+    if isinstance(name, str) and name.strip().lower() == "organic":
+        return json.loads(json.dumps(ORGANIC_PRESET))
+    return None
 
 
 def is_layer_param(name: str) -> bool:
@@ -135,6 +155,8 @@ def resolve(raw: Any, min_district_area: float) -> Optional[Dict[str, Any]]:
     if raw is None or raw is False or (isinstance(raw, str) and raw.strip().lower() in ("", "none", "false")):
         return None
     errs: List[str] = []
+    if isinstance(raw, str) and preset(raw) is not None:
+        raw = preset(raw)
     if isinstance(raw, str):
         try:
             raw = parse_string(raw)
@@ -197,12 +219,16 @@ def resolve(raw: Any, min_district_area: float) -> Optional[Dict[str, Any]]:
                 for k in sorted(rp):
                     if k not in known:
                         errs.append("layers.%s.params.%s: unknown for %s (known: %s)" % (w, k, name, ", ".join(sorted(known))))
+        pr = r.get("params_random", False)
+        if not isinstance(pr, bool):
+            errs.append("layers.%s.params_random: expected true or false, got %r" % (w, pr))
+            pr = False
         aj = _num(r.get("align_jitter", 0.0), w + ".align_jitter", errs, 0, 45)
         rules.append({
             "depth": dep or [0, 0], "kind": _list(r["kind"]) if r.get("kind") is not None else None, "area": area,
             "key": r.get("key"), "p": p if p is not None else 1.0, "use": use or {}, "params": rp, "align": ra,
             "kinds": kinds, "skip_kinds": _list(r["skip_kinds"]) if r.get("skip_kinds") is not None else list(SKIP_KINDS),
-            "align_jitter": aj or 0.0,
+            "align_jitter": aj or 0.0, "params_random": pr,
         })
     if errs:
         raise ParamError(errs)

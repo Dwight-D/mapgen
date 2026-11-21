@@ -1,6 +1,6 @@
 # Town organic shaping — warped outlines, open edges, mixed block fills
 
-Status: design; the warp stage (§6) is implemented (`mapgen/town/warp.py`, `tests/test_town_warp.py`), the shape field and outline (§4) are implemented (`mapgen/town/shape.py`, `tests/test_town_shape.py`, sheet `python -m mapgen.town.shape_sheet` or `town shape`), the `organic` generator with `edge=wall|open` (§5.1, §5.2, §8, §9; `gen_organic.py`, `tests/test_town_organic.py`) is implemented, everything else (`edge=fade`, fringe, the `organic` layers preset) is design. Self-contained apart from `TOWN_SPEC.md` (settlement model §3, params and seeds §4, graphs §5, checks §8,
+Status: design; the warp stage (§6) is implemented (`mapgen/town/warp.py`, `tests/test_town_warp.py`), the shape field and outline (§4) are implemented (`mapgen/town/shape.py`, `tests/test_town_shape.py`, sheet `python -m mapgen.town.shape_sheet` or `town shape`), the `organic` generator with `edge=wall|open` (§5.1, §5.2, §8, §9; `gen_organic.py`, `tests/test_town_organic.py`) is implemented, the `layers=organic` preset and `params_random` (§7.6, `tests/test_town_organic_preset.py`) are implemented, everything else (`edge=fade`, fringe) is design. Self-contained apart from `TOWN_SPEC.md` (settlement model §3, params and seeds §4, graphs §5, checks §8,
 emitters §9, preview §10, generators §7) and `TOWN_LAYERS_SPEC.md` (fill contract §4, `apply` §5, rules §6), which this file extends. Section 11
 lists every API assumption verified against the code. A settlement generated without any parameter introduced here is unchanged byte for byte.
 
@@ -261,17 +261,21 @@ because every district draws from its own `pick` stream.
 
 ```yaml
 layers:
-  max_depth: 2
+  max_depth: 3
   min_split_area: 3000
   align: edge
   rules:
     - {depth: 0, kind: [market],                      use: {grid: 2, bsp: 1},                      align_jitter: 10}
-    - {depth: 0, kind: [residential, craft, slum],    use: {bsp: 3, grid: 2, follow: 2, wedge: 1, voronoi: 1},
-       params_random: true, align_jitter: 25, p: 0.95}      # grid shear/fan drawn per district (below)
-    - {depth: 1, p: 0.3, use: {bsp: 2, voronoi: 1}}
+    - {depth: 0, kind: [residential, craft, slum],    use: {bsp: 3, grid: 2, follow: 2, wedge: 2, voronoi: 1},
+       params_random: true, align_jitter: 25, p: 0.97}      # grid shear/fan drawn per district (below)
+    - {depth: [1, 2], area: [6500, 1000000],          use: {bsp: 3, wedge: 1, follow: 2, grid: 1}, params_random: true, align_jitter: 25}
+    - {depth: 1, p: 0.35, use: {bsp: 2, voronoi: 1, wedge: 1}}
 ```
 
-`params_random: true` makes `shear` (drawn 0-30), `fan` (drawn 0-6) of a chosen `grid` and `align: random` with probability 0.5 per district draw from stage `params`. Skip kinds gain `outskirt`.
+The area rule (no `p`) is the size cap: any district still above 6500 m2 after a pass is subdivided again (depth 1-2), so over 20 seeds no district exceeds 3 times the median (acceptance: 6 times).
+`layers` as the string `organic` is expanded by `layers_params.preset`; the echoed `params["layers"]` is the resolved dict, which regenerates identically. `params_random` is a rule key (bool, default false).
+
+`params_random: true` makes `shear` (drawn 0-30), `fan` (drawn 0-6) of a chosen `grid` (unless the rule's `params` set them) and the rotation (uniform 0-90 degrees, with probability 0.5 per district, replacing the `align` result) draw from the per-district stream `<district id>/params`; a rule without the flag draws nothing from it. Skip kinds gain `outskirt`.
 
 ## 8. The `organic` generator (`gen_organic.py`)
 
@@ -286,9 +290,9 @@ A top-level generator (registry name `organic`) whose footprint is the shape fie
 | `irregularity` | float | 0-0.5 | 0.15-0.4 | noise weight of the field |
 | `lobes` | int | 0-6 | 0-3 | satellite lobes |
 | `ribbons` | int | 0-4 | 0-2 | arteries that grow a tongue |
-| `arteries` | int | 3-7 | 3-5 | curved arteries hub to footprint |
-| `curvature` | float | 0-1 | 0.3-0.8 | lateral bend of arteries (fraction of a third of the length) |
-| `arcs` | int | 0-3 | 0-2 | partial cross arcs between adjacent arteries |
+| `arteries` | int | 3-7 | 4-6 | curved arteries hub to footprint |
+| `curvature` | float | 0-1 | 0.55-1.0 | lateral bend of arteries (S-bends and sweeps; peak offset `curvature * L / 2.2 * U(0.35, 1)`) |
+| `arcs` | int | 0-3 | 1-3 | partial cross arcs between adjacent arteries |
 | `plaza_frac` | float | 0.05-0.2 | 0.07-0.12 | plaza radius / `R` (minimum 25 m) |
 | `hub_offset` | float | 0-0.3 | 0-0.15 | hub distance from the map centre / `R` |
 | `fade_len`, `hamlets` | float, int | 80-400, 0-8 | 120-300, 1-5 | §5.3; added with `edge=fade` |
@@ -346,7 +350,7 @@ with no other district (always), and to the core districts through the artery ro
 
 | map | generator and params | demonstrates |
 |---|---|---|
-| `thornwick` | `organic`, `edge=fade`, `lobes=3`, `ribbons=2`, `warp=0.7`, `layers=organic`, 1000 m | boundary-less sprawl: tapering fringe, hamlets, mixed fills, no wall |
+| `thornwick` | `organic`, `edge=fade` (built as `edge=open` until `fringe.py` lands), `lobes=3`, `ribbons=2`, `warp=0.7`, `layers=organic`, 1000 m | boundary-less sprawl: tapering fringe, hamlets, mixed fills, no wall |
 | `mistmoor` | `organic`, `edge=open`, `warp=0.8`, `layers=organic`, `water=river` | un-walled, curved footprint cut by a river |
 | `dusk` | `organic`, `edge=wall`, `lobes=2`, `ribbons=1`, `warp=0.6`, `layers=organic` | splotchy walled outline, blocks following roads |
 | `wardring` (revised) | existing radial + layers, plus `warp=0.5` | the layered favourite, curved |
@@ -406,21 +410,21 @@ Each slice names its evidence. The full suite (`pytest -n 8`, about 9 minutes) r
 | slice | content | files | evidence |
 |---|---|---|---|
 | W2a generator (done) | `gen_organic.py` (§8), registry entry, `edge=wall`, model fields, `check` gate relaxation and `_organic`, `graph.district_graph` open edges | `gen_organic.py`, `model.py`, `check.py`, `graph.py`, `registry.py`, `tests/test_town_organic.py` | 20-seed sweeps `edge=wall` and `open`: `check`, `check_determinism`, fragment round trip, `flowgraph check --strict` |
-| W2b preset | `layers=organic` expansion, `params_random` | `layers_params.py`, tests | identity-stability and all-fills-occur tests |
+| W2b preset (done) | `layers=organic` expansion, `params_random`, variety tuning (arteries 4-6, arcs 1-3, curvature 0.55-1, S-bend arteries, area-driven re-subdivision) | `layers_params.py`, `layers.py`, `gen_organic.py`, `tests/test_town_organic_preset.py` | identity-stability, all-fills-occur, variety-metric tests; contact sheet `out/town_organic/preset_sheet.png` |
 
 **Wave W3 (after W2a):**
 
 | slice | content | files | evidence |
 |---|---|---|---|
 | W3a fringe | `fringe.py`, `edge=fade`, `District.density`, hamlets, preview of density | `fringe.py`, `gen_organic.py`, `render.py`, tests | fade sweeps; density test; preview `thornwick_town.png` showing tapering fringe |
-| W3b emit and entries | `emit_spec`/`emit_flow` entries (points, no gate crossing), `build.py` team bases from `entry` gates | `emit_spec.py`, `emit_flow.py`, `maps/towns/build.py` | `flowgraph check --strict` on a wall-less map |
+| W3b emit and entries (done) | `emit_spec`/`emit_flow` entries (a `points` entry and a `choke` node named "Entry <k>"; no `gate` crossing, no wall), `build.py` team bases from `entry` gates (base at least 140 m out: a base's flowgraph reach is 120 m, nearer it binds the town's own road vertices; entries with no such room are not used), showcase `thornwick` (`edge=open`, warp 0.7, seed 3) | `emit_spec.py`, `emit_flow.py`, `maps/towns/build.py`, `maps/towns/src/thornwick.base.yaml`, `tests/test_town_entries_build.py` | `validate` and `flowgraph check --strict` on `thornwick` pass |
 
 **Wave W4 (showcase and owner review):** add and revise the maps of §10.1 in `maps/towns/build.py`, `src/*.base.yaml` terrain, README table; render `maps/towns/preview/*.png` and `out/<map>/map.png`;
 acceptance (§12.1); owner reviews the contact sheet. Nothing is baselined.
 
 ### 12.1 Acceptance (rendered)
 
-`thornwick`, `mistmoor`, `dusk` previews: no outline edge longer than 25 percent of the perimeter is straight; at least 3 distinct block shapes (quad, triangle, 5+-gon) and 2 lattice rotations at least
+Block shape classes are counted per district by corners (turning angle at least 35 degrees after `simplify(2.5)`): triangle 3, quad 4, 5+-gon; a class is present with at least 2 districts. Lattice rotation = a layer node's `rot` modulo 90. Over 20 `organic` seeds with `layers=organic warp=0.9` all 20 have 3 classes and 2 rotations 15 degrees apart. `thornwick`, `mistmoor`, `dusk` previews: no outline edge longer than 25 percent of the perimeter is straight; at least 3 distinct block shapes (quad, triangle, 5+-gon) and 2 lattice rotations at least
 15 degrees apart present; `thornwick` has no wall and at least 8 fringe clusters; no district larger than 6 times the median; every map passes `town check`, `validate`, `flowgraph check --strict`.
 
 ## 13. Prototype result (scratch, not committed)

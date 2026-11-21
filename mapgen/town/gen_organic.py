@@ -32,9 +32,9 @@ DEFS = [
     ParamDef("irregularity", "float", 0.0, 0.5, "noise weight of the shape field (splotchiness)", draw_lo=0.15, draw_hi=0.4),
     ParamDef("lobes", "int", 0, 6, "satellite lobes of the footprint", draw_lo=0, draw_hi=3),
     ParamDef("ribbons", "int", 0, 4, "arteries that grow a tongue of footprint along them", draw_lo=0, draw_hi=2),
-    ParamDef("arteries", "int", 3, 7, "curved arteries from the plaza to the footprint edge", draw_lo=3, draw_hi=5),
-    ParamDef("curvature", "float", 0.0, 1.0, "lateral bend of the arteries", draw_lo=0.3, draw_hi=0.8),
-    ParamDef("arcs", "int", 0, 3, "partial cross arcs between adjacent arteries", draw_lo=0, draw_hi=2),
+    ParamDef("arteries", "int", 3, 7, "curved arteries from the plaza to the footprint edge", draw_lo=4, draw_hi=6),
+    ParamDef("curvature", "float", 0.0, 1.0, "lateral bend of the arteries", draw_lo=0.55, draw_hi=1.0),
+    ParamDef("arcs", "int", 0, 3, "partial cross arcs between adjacent arteries", draw_lo=1, draw_hi=3),
     ParamDef("plaza_frac", "float", 0.05, 0.2, "plaza radius as a fraction of the base radius (at least 25 m)",
              draw_lo=0.07, draw_hi=0.12),
     ParamDef("hub_offset", "float", 0.0, 0.3, "hub distance from the map centre as a fraction of the base radius",
@@ -89,10 +89,11 @@ def _seg_hit(a: Pt, b: Pt, ring: List[Pt]) -> Optional[Pt]:
 
 def _artery(hub: Pt, th: float, L: float, curvature: float, rng) -> List[Pt]:
     u, nrm = (math.cos(th), math.sin(th)), (-math.sin(th), math.cos(th))
-    fr = [0.4, 0.75] if rng.random() < 0.5 else [0.55]
+    fr = [0.35, 0.7] if rng.random() < 0.65 else [0.55]
     ctrl: List[Pt] = [hub]
-    for f in fr:
-        lat = curvature * L / 3.0 * rng.uniform(-1, 1)
+    sgn = rng.choice((-1.0, 1.0))
+    for n_, f in enumerate(fr):
+        lat = curvature * L / 2.2 * rng.uniform(0.35, 1.0) * sgn * (1.0 if n_ % 2 == 0 else -0.8)   # S-bends and sweeps
         ctrl.append((hub[0] + u[0] * L * f + nrm[0] * lat, hub[1] + u[1] * L * f + nrm[1] * lat))
     ctrl.append((hub[0] + u[0] * L, hub[1] + u[1] * L))
     return _catmull(ctrl, per=8)
