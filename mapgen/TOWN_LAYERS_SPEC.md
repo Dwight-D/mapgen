@@ -144,6 +144,7 @@ node `<sid>_jm_<road id without sid>` at the midpoint vertex of its polyline.
 After the last pass, one registry of every vertex (district polygons, layer-node polygons, road polylines, junctions, wall and gate points) stitches T-junctions: every leaf and
 layer polygon and every road polyline receives each registry vertex lying within 0.02 m of one of its edges (the rule `gen_grid` already applies per polygon), inserted in order along the edge. Neighbour
 districts that were not subdivided get the vertices of their subdivided neighbour; this is what keeps `graph.district_graph` borders exact. Walls are not modified.
+After insertion each ring drops zero-width spikes (a vertex, then a neighbour vertex, then the first vertex again: `_despike`); a ring that is still self-intersecting falls back to the snapped ring without insertions, then to the unsnapped ring.
 
 ### 5.5 Rebuilding derived data
 

@@ -122,10 +122,14 @@ def _cut_by_roads(P: Polygon, parent_roads, min_area: float) -> Optional[Fill]:
     return Fill([("c%d" % i, g) for i, g in enumerate(parts)], [])
 
 
-RESPLIT_RATIO = 2.0   # a leaf above this multiple of the median leaf area is re-split by the final pass
-ORPHAN_RATIO = 2.5    # ... or above this multiple of the median leaf area under its split siblings
-RESPLIT_FILLS = ("bsp", "voronoi", "grid")
-EXEMPT_KINDS = ("core", "citadel", "harbour", "outskirt", "plaza", "park", "fort")
+RESPLIT_REF = 0.75     # reference leaf area as a share of min_split_area (the median leaf of the named presets is 0.65-0.8 of it)
+RESPLIT_RATIO = 1.5   # a leaf above this multiple of the median leaf area is re-split by the final pass
+ORPHAN_RATIO = 2.0    # ... or above this multiple of the median leaf area under its split siblings
+RESPLIT_EXTRA_DEPTH = 2   # the final pass may go this many levels below max_depth
+RESPLIT_FILLS = ("voronoi", "grid", "bsp")   # the first two in a seeded order, bsp the fallback (bsp must not dominate the leaves)
+EXEMPT_KINDS = ("core", "citadel", "outskirt", "plaza", "park", "fort")
+QUAY_REACH = 1.5   # m: a street of a harbour district ending this close to the water is not a dead end
+HARBOUR_FILLS = ("grid", "bsp", "voronoi")   # the final pass serves a harbour with shore-aligned blocks first
 
 
 def _commit(s: Settlement, st: _State, spec: Dict[str, Any], d: District, fl, use: str, rot: float, p: Dict[str, Any], ri: int,
@@ -158,6 +162,8 @@ def _commit(s: Settlement, st: _State, spec: Dict[str, Any], d: District, fl, us
     for c in children:
         st.leaves[c.id] = c
     for r in fl.roads:
+        if d.kind == "harbour":
+            st.quay.add("%s_sr_%s_%s" % (sid, pk, r.key))
         st.sub.append(Road(id="%s_sr_%s_%s" % (sid, pk, r.key), cls=r.cls, polyline=[[x, y] for x, y in r.polyline],
                            width=float(max(7, 10 - 2 * d.depth)) if r.cls == "artery" else 5.0))
 
@@ -188,20 +194,32 @@ def _median(v: List[float]) -> float:
     return v[len(v) // 2] if v else 0.0
 
 
+def _shore_rot(P: Polygon) -> float:
+    """Direction of the long side of P's minimum rotated rectangle: a harbour strip runs along the shore, so the first lattice axis
+    (blocks along the quay, streets running back from the water) follows it."""
+    c = list(P.minimum_rotated_rectangle.exterior.coords)[:4]
+    a, b, d = c[0], c[1], c[2]
+    e = (a, b) if math.hypot(b[0] - a[0], b[1] - a[1]) >= math.hypot(d[0] - b[0], d[1] - b[1]) else (b, d)
+    return math.atan2(e[1][1] - e[0][1], e[1][0] - e[0][0])
+
+
+def _ordered(rng) -> Tuple[str, ...]:
+    """Fills the pass tries: voronoi and grid in a seeded order, then bsp."""
+    return RESPLIT_FILLS if rng.random() < 0.5 else (RESPLIT_FILLS[1], RESPLIT_FILLS[0], RESPLIT_FILLS[2])
+
+
 def _resplit(s: Settlement, st: _State, spec: Dict[str, Any], rules: List[Dict[str, Any]], parent_roads, road_geom) -> None:
     """Final pass: a leaf far larger than its neighbours (above RESPLIT_RATIO times the median leaf area, or ORPHAN_RATIO times the
     median under its split siblings) is subdivided with a robust fill (bsp, then voronoi, then grid) whatever the rules said. The
     rules cap the area of depth 1-2 districts only when their draw succeeds; a rule that missed, an `Unfit` fill or a skipped
     district leaves big leaves that read as unsplit edge blobs."""
     sid = s.id
-    for _ in range(spec["max_depth"]):
-        med = _median([d.area for d in st.leaves.values() if d.kind not in EXEMPT_KINDS])
-        if med <= 0:
-            return
+    med = RESPLIT_REF * spec["min_split_area"]      # a function of the spec only: another district's rules cannot move the limit
+    for _ in range(spec["max_depth"] + RESPLIT_EXTRA_DEPTH):
         tgt = max(1.6 * spec["min_area"], 0.7 * spec["min_split_area"])     # cell area: a function of the spec, not of the other districts
         done = False
         for d in sorted(st.leaves.values(), key=lambda d: (-d.area, d.id)):
-            if d.id not in st.leaves or d.kind in EXEMPT_KINDS or d.depth >= spec["max_depth"] or d.area < spec["min_split_area"]:
+            if d.id not in st.leaves or d.kind in EXEMPT_KINDS or d.depth >= spec["max_depth"] + RESPLIT_EXTRA_DEPTH or d.area < spec["min_split_area"]:
                 continue
             sib = _sibling_leaf_areas(st, d)
             lim = RESPLIT_RATIO * med
@@ -219,21 +237,27 @@ def _resplit(s: Settlement, st: _State, spec: Dict[str, Any], rules: List[Dict[s
                         done = True
                     continue
                 # the cut would leave a piece below min_area: fill the whole polygon, its sub-streets may cross the parent road
-            rot = _ref_rot(P, road_geom)
+            harbour = d.kind == "harbour"
+            rot = _shore_rot(P) if harbour else _ref_rot(P, road_geom)
             cen = P.centroid if P.contains(P.centroid) else P.representative_point()
-            frame = Frame((cen.x, cen.y), rot, road_geom)
+            frame = Frame((cen.x, cen.y), rot, road_geom, True)
             fl = None
-            for use in RESPLIT_FILLS:
+            why = ""
+            for use in (HARBOUR_FILLS if harbour else _ordered(stage_rng(sid, "layers", s.seed, d.id + "/resplit/order"))):
                 mod = FILLS[use]
                 n = max(3, min(12, int(round(d.area / tgt)) + 1))
                 rp = {"cells": n} if use in ("bsp", "voronoi") else {}
+                if harbour and use == "grid":
+                    rp = {"block": round(math.sqrt(tgt), 1), "main_every": 0}
                 p = resolve_params(mod.SUB_DEFS, s.seed, sid, "layers/%s/resplit/%s" % (d.id, use), rp)
                 try:
                     fl = mod.fill(P, stage_rng(sid, "layers", s.seed, d.id + "/resplit/" + use), p, frame, spec["min_area"])
                     break
-                except Unfit:
+                except Unfit as e:
+                    why = why or "resplit unfit: %s" % e
                     continue
             if fl is None:
+                st.skipped[d.id] = why
                 continue
             pp = dict(p)
             if _commit(s, st, spec, d, fl, use, rot, pp, -1, None):
@@ -250,6 +274,7 @@ def _subdivide(s: Settlement, spec: Dict[str, Any]) -> _State:
     st.nodes = {}            # id -> LayerNode
     st.sub = []              # Road objects of sub-roads
     st.skipped = {}
+    st.quay = set()          # ids of the streets laid in harbour districts
     walls = [LineString(w.polyline) for w in s.walls]
     wallg = unary_union(walls).buffer(1.0) if walls else None
     st.wallg = wallg
@@ -418,6 +443,27 @@ def _dedupe(seq: List[Pt], closed: bool) -> List[Pt]:
     return out
 
 
+def _despike(seq: List[Pt], closed: bool) -> List[Pt]:
+    """Remove zero-width spikes (A, B, A) that stitching leaves where a vertex was inserted and its neighbour snapped back."""
+    out = list(seq)
+    changed = True
+    while changed and len(out) > 3:
+        changed = False
+        n = len(out)
+        for i in range(n):
+            if not closed and (i == 0 or i == n - 1):
+                continue
+            a, c = out[(i - 1) % n], out[(i + 1) % n]
+            if a == c or math.hypot(a[0] - c[0], a[1] - c[1]) <= 1e-9:
+                # drop the spike tip and the repeated point
+                j = (i + 1) % n
+                for k in sorted({i, j}, reverse=True):
+                    del out[k]
+                changed = True
+                break
+    return _dedupe(out, closed)
+
+
 def _stitch_all(s: Settlement, st: _State, roads: List[Road]) -> None:
     """Snap near-equal vertices together and insert every vertex lying on an edge into that edge (section 5.4)."""
     orig: List[Pt] = []
@@ -439,7 +485,14 @@ def _stitch_all(s: Settlement, st: _State, roads: List[Road]) -> None:
         seq = _dedupe([m[(p[0], p[1])] for p in pts], closed)
         if len(seq) < (3 if closed else 2):
             return [list(p) for p in pts]
-        return [[x, y] for x, y in _stitch_seq(seq, closed, g)]
+        out = [[x, y] for x, y in _despike(_stitch_seq(seq, closed, g), closed)]
+        if closed and not Polygon(out).is_valid:         # a stitched ring that self-intersects: keep the snapped ring without insertions
+            alt = [[x, y] for x, y in _despike(seq, True)]
+            if len(alt) >= 3 and Polygon(alt).is_valid:
+                return alt
+            if Polygon(pts).is_valid:
+                return [list(p) for p in pts]
+        return out
     for d in list(st.leaves.values()) + list(st.nodes.values()):
         d.polygon = fix(d.polygon, True)
     for d in st.leaves.values():
@@ -533,7 +586,7 @@ def _boundary_streets(s: Settlement, st: _State, roads: List[Road]) -> List[Road
 
 # --- pruning, nodes, graphs --------------------------------------------------------------------------------------
 
-def _prune(sub: List[Road], bs: List[Road], parents: List[Road]) -> Tuple[List[Road], List[Road]]:
+def _prune(sub: List[Road], bs: List[Road], parents: List[Road], water=None, quay=frozenset()) -> Tuple[List[Road], List[Road]]:
     others = parents + bs
     sub = list(sub)
     while True:
@@ -548,6 +601,8 @@ def _prune(sub: List[Road], bs: List[Road], parents: List[Road]) -> Tuple[List[R
                 continue
 
             def shared(i):
+                if r.id in quay and water is not None and water.distance(Point(pl[i])) <= 0.0:   # a quay street may end at the water or the wall
+                    return True
                 return len(cmap[(pl[i][0], pl[i][1])] - {r.id}) > 0
             if shared(0) and shared(-1):
                 continue
@@ -787,7 +842,8 @@ def _finish(s0: Settlement, spec: Dict[str, Any], st: _State, boundary: str) -> 
     if boundary == "streets":
         bs = _boundary_streets(s, st, parents + sub)
         # the streets' vertices are existing ring vertices, so they need no further stitching
-    sub, bs = _prune(sub, bs, parents)
+    edge = [g for g in (water_union(s).buffer(QUAY_REACH) if s.water else None, st.wallg) if g is not None and not g.is_empty]
+    sub, bs = _prune(sub, bs, parents, unary_union(edge) if edge else None, st.quay)
     roads = parents + sub + bs
     s.layers = sorted(st.nodes.values(), key=lambda n: (n.depth, n.id))
     spec = dict(spec)

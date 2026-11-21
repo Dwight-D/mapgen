@@ -185,7 +185,7 @@ def _layers(s: Settlement) -> List[str]:
             errs.append("layer node %s: depth %d is not parent depth + 1" % (n.id, n.depth))
         if n.parent and not n.id.startswith(n.parent + "_"):
             errs.append("layer node %s: id does not start with its parent id" % n.id)
-        if n.depth >= spec.get("max_depth", 99):
+        if n.depth >= spec.get("max_depth", 99) + _RESPLIT_EXTRA_DEPTH:
             errs.append("layer node %s: depth %d reaches max_depth" % (n.id, n.depth))
         P = Polygon(n.polygon)
         kids = []
@@ -214,7 +214,7 @@ def _layers(s: Settlement) -> List[str]:
     if lay:
         borders = unary_union([Polygon(d.polygon).boundary for d in s.districts]).buffer(0.5)
         walls = unary_union([LineString(w.polyline) for w in s.walls]) if s.walls else None
-        rivers = [Polygon(rv["polygon"]) for rv in s.water.get("rivers", [])] if s.water else []
+        rivers = [Polygon(rv["polygon"]) for k in ("rivers", "bays") for rv in s.water.get(k, [])] if s.water else []
         river = unary_union(rivers) if rivers else None    # a street may end BANK_TOL short of the river (water.trim_banks)
         cmap: Dict[tuple, Set[str]] = {}
         for r in s.roads:
@@ -241,7 +241,8 @@ def _layers(s: Settlement) -> List[str]:
                 errs.append("road %s is not connected to the parent road network" % r.id)
             if "_sr_" in r.id and r.polyline[0] != r.polyline[-1]:
                 for e in (r.polyline[0], r.polyline[-1]):
-                    if not (cmap[(e[0], e[1])] - {r.id}) and not (river is not None and river.distance(Point(e)) <= BANK_TOL):
+                    if not (cmap[(e[0], e[1])] - {r.id}) and not (river is not None and river.distance(Point(e)) <= BANK_TOL) \
+                            and not (walls is not None and walls.distance(Point(e)) <= 1.0):
                         errs.append("road %s: dangling end at %s" % (r.id, e))
     ids = [e.id for e in s.graph_edges]
     if len(ids) != len(set(ids)):
@@ -249,9 +250,10 @@ def _layers(s: Settlement) -> List[str]:
     return errs
 
 
-UNSPLIT_RATIO = 3.0     # a leaf district above this multiple of the median leaf area is an unsplit blob
-ORPHAN_LIMIT = 3.0      # ... or above this multiple of the median leaf area under its subdivided siblings (an orphan blob)
-_EXEMPT = ("core", "citadel", "harbour", "outskirt", "plaza", "park", "fort")
+_RESPLIT_EXTRA_DEPTH = 2   # = layers.RESPLIT_EXTRA_DEPTH: the final pass goes this far below max_depth
+UNSPLIT_RATIO = 2.2     # a leaf district above this multiple of the median leaf area is an unsplit blob
+ORPHAN_LIMIT = 2.5      # ... or above this multiple of the median leaf area under its subdivided siblings (an orphan blob)
+_EXEMPT = ("core", "citadel", "outskirt", "plaza", "park", "fort")
 
 
 def _leaf_balance(s: Settlement) -> List[str]:

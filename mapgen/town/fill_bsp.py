@@ -35,6 +35,23 @@ def _longest_side(face: Polygon) -> Tuple[Tuple[float, float], Tuple[float, floa
     return a, ((b[0] - a[0]) / ln, (b[1] - a[1]) / ln), ln
 
 
+SAFE = 1.005       # parts must beat min_area by this factor: rounding and stitching shave a little off
+
+
+def _candidates(face: Polygon, a, d, ln: float, drawn):
+    """The drawn cut first; then, when a part would fall under min_area, cuts square to the longest side at positions spreading from
+    its middle (+-5 %, +-10 % ... of it), then the same positions along it."""
+    yield drawn
+    cx, cy = face.centroid.x, face.centroid.y
+    for k in range(0, 9):
+        for sg in ((1.0,) if k == 0 else (1.0, -1.0)):
+            r = 0.5 + sg * 0.05 * k
+            yield (a[0] + d[0] * ln * r, a[1] + d[1] * ln * r, -d[1], d[0])
+    for k in range(0, 5):
+        for sg in ((1.0,) if k == 0 else (1.0, -1.0)):
+            yield (cx - d[1] * sg * 0.08 * ln * k, cy + d[0] * sg * 0.08 * ln * k, d[0], d[1])
+
+
 def fill(P: Polygon, rng: random.Random, p: Dict[str, Any], frame: Frame, min_area: float) -> Fill:
     P = orient(P, 1.0)
     target = max(min_area * 1.6, P.area / max(1, int(p["cells"])))
@@ -54,12 +71,16 @@ def fill(P: Polygon, rng: random.Random, p: Dict[str, Any], frame: Frame, min_ar
         ct, st = math.cos(tilt), math.sin(tilt)
         nx, ny = nx * ct - ny * st, nx * st + ny * ct
         L = far(face)
-        cut = LineString([(px - nx * L, py - ny * L), (px + nx * L, py + ny * L)])
-        try:
-            parts = [g for g in split(face, cut).geoms if g.geom_type == "Polygon" and g.area > 1e-6]
-        except Exception:
-            parts = []
-        if len(parts) < 2 or min(g.area for g in parts) < min_area:
+        parts: List[Polygon] = []
+        for qx, qy, mx, my in (_candidates(face, a, d, ln, (px, py, nx, ny)) if frame.rescue else [(px, py, nx, ny)]):
+            cut = LineString([(qx - mx * L, qy - my * L), (qx + mx * L, qy + my * L)])
+            try:
+                parts = [g for g in split(face, cut).geoms if g.geom_type == "Polygon" and g.area > 1e-6]
+            except Exception:
+                parts = []
+            if len(parts) >= 2 and min(g.area for g in parts) >= SAFE * min_area:
+                break
+        if len(parts) < 2 or min(g.area for g in parts) < SAFE * min_area:
             leaves.append((path, face))
             return
         seg = lines_of(cut.intersection(face))

@@ -42,6 +42,7 @@ class Frame:
     origin: Tuple[float, float]
     rot: float                                  # radians: direction of the first layout axis
     roads: Any = None                           # shapely geometry of the parent roads (None = unknown); read by `follow`
+    rescue: bool = False                        # the final balance pass: `bsp` tries other cut positions before refusing
 
 
 def lines_of(g) -> List[LineString]:

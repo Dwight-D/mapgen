@@ -13,6 +13,7 @@ CASES = [
     ("organic-grid", dict(edge="wall", fort="corner")),
     ("organic-mixed", dict(edge="wall", water="bay")),
     ("organic-voronoi", dict(edge="open")),
+    ("organic-cells", dict(edge="fade")),
 ]
 
 
@@ -35,7 +36,7 @@ def test_no_unsplit_or_orphan_leaf(preset, kw, seed):
         pytest.skip(str(e))
     assert _balance(s) == []
     ds = [d.area for d in s.districts if d.kind not in EXEMPT]
-    assert max(ds) <= 3.0 * statistics.median(ds)
+    assert max(ds) <= 2.2 * statistics.median(ds)
     assert town.check(s) == []
 
 
@@ -52,7 +53,7 @@ def test_final_pass_splits_coarse_blocks():
     s = town.generate("organic", 3, size=(1000, 1000), params={"layers": layers, "radius_frac": "0.55"})
     assert any(n.rule == -1 for n in s.layers)           # the pass committed splits (rule index -1)
     ds = [d.area for d in s.districts if d.kind not in EXEMPT]
-    assert max(ds) <= 3.0 * statistics.median(ds)
+    assert max(ds) <= 2.2 * statistics.median(ds)
 
 
 def test_deterministic():
@@ -93,3 +94,22 @@ def test_check_flags_orphan_leaf(monkeypatch):
                 assert any("orphan leaf" in e and kids[0] in e for e in errs)
                 return
     pytest.skip("no node with a leaf child and subdivided siblings at this seed")
+
+
+def test_harbour_is_subdivided_and_not_exempt():
+    assert "harbour" not in EXEMPT
+    for seed in (10, 14):
+        s = _gen("organic-mixed", seed, edge="wall", water="bay")
+        hs = [d for d in s.districts if d.kind == "harbour"]
+        assert len(hs) >= 3                                     # the quay strip is cut into blocks
+        ds = [d.area for d in s.districts if d.kind not in EXEMPT]
+        assert max(ds) <= 2.2 * statistics.median(ds)
+        assert any(d.waterfront for d in hs)                    # water-edge access kept
+        assert town.check(s) == []
+
+
+def test_stitching_leaves_no_invalid_or_spiked_district():
+    # organic-cells seed 16 (open edge) once left a zero-width spike at a ring crossing
+    s = town.generate("organic", 16, size=(1000, 1000), params={"layers": "organic-cells", "warp": "0.6", "edge": "open"})
+    assert town.check(s) == []
+

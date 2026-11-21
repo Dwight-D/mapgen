@@ -339,18 +339,33 @@ The layers key `balance` (bool, default false; true in every named preset and `o
   parent road running from side to side splits the district into its pieces (`_cut_by_roads`, layer use `cut`, no sub-roads, the road is the border, each piece at least
   `min_area`). When a piece would be under `min_area`, the final pass fills the whole polygon and its sub-streets may cross that road. Without `balance` the district stays a
   `road_inside` leaf.
-- **Final pass** (`layers._resplit`, after the depth loop, independent of the rules). Median `med` = median area of the leaves whose kind is not `core`, `citadel`, `harbour`,
-  `outskirt`, `plaza`, `park`, `fort`. A leaf of another kind with `area >= min_split_area` and depth < `max_depth` is re-split when `area > RESPLIT_RATIO * med` (2.0), or when
-  at least 3 leaves lie below its subdivided siblings and `area > ORPHAN_RATIO * median(those leaf areas)` (2.5); largest first, up to `max_depth` rounds, `med` recomputed per round.
-  The fill is the first that succeeds of `bsp`, `voronoi` (both with `cells = round(area / t) + 1`, 3-12, `t = max(1.6 * min_area, 0.7 * min_split_area)`, a function of the spec
-  only) and `grid`, default parameters, streams `<district id>/resplit/<use>`. The layer node records `rule = -1`. A leaf no fill serves stays a leaf.
-- **Check** (`check._leaf_balance`, run by `check` for layered settlements with `balance` on): an error for a leaf (kinds above exempt) over 3.0 times the median leaf area
-  ("unsplit leaf") and for a leaf over 3.0 times the median leaf area below its subdivided siblings ("orphan leaf", needs 3 sibling leaves).
+- **Final pass** (`layers._resplit`, after the depth loop, independent of the rules). Reference area `ref = RESPLIT_REF * min_split_area` (0.75; the median leaf of the named presets
+  is 0.65-0.8 of `min_split_area`); a function of the spec only, so a rule added for one district moves no other district. A leaf whose kind is not `core`, `citadel`, `outskirt`,
+  `plaza`, `park`, `fort` (a `harbour` leaf included) with `area >= min_split_area` and depth < `max_depth + 2` is re-split when `area > RESPLIT_RATIO * ref` (1.5), or when at
+  least 3 leaves lie below its subdivided siblings and `area > ORPHAN_RATIO * median(those leaf areas)` (2.0); largest first, up to `max_depth + 2` rounds. The fill is the
+  first that succeeds of `voronoi` and `grid` (in a seeded order per district), then `bsp` (`cells = round(area / t) + 1`, 3-12, `t = max(1.6 * min_area, 0.7 * min_split_area)`;
+  bsp is the last resort so that it stays under 35 % of the leaves). A `harbour` leaf takes `grid` (first lattice axis along the long side of the strip, i.e.
+  along the quay; `block = sqrt(t)`, no arteries), then `bsp`, then `voronoi`: blocks and piers with streets back from the water, every child keeps kind `harbour` and its
+  `waterfront` flag by distance to the water. The streets of a harbour district may end on the water or the wall without a junction (`QUAY_REACH` 1.5 m; the prune keeps them, `check` accepts a layer-street end within 1 m of a wall and, with bays, within `BANK_TOL` of the water). Streams `<district id>/resplit/<use>`, `<district id>/resplit/order`. The layer node records `rule = -1`. A leaf no fill serves
+  stays a leaf and `layers.skipped` records `resplit unfit: <reason>`. In the pass `bsp` tries (`Frame.rescue`), when its drawn cut would leave a part under `min_area`, cuts at other positions along and
+  across the longest side before refusing, so a leaf of 2 `min_area` or more is split whenever any straight cut allows it.
+- **Check** (`check._leaf_balance`, run by `check` for layered settlements with `balance` on): an error for a leaf (kinds above exempt, `harbour` is not) over 2.2 times
+  the median leaf area ("unsplit leaf") and for a leaf over 2.5 times the median leaf area below its subdivided siblings ("orphan leaf", needs 3 sibling leaves).
 
-Result (20 seeds, presets x variants): leaves over 3 times the median fall from 12/20 (river), 16/20 (fort), 1/20 (bay) per preset and 1/20 in `organic-mixed` (rim) to 0; the
-largest leaf over the median falls from 14-22 to about 2.0; orphan ratio worst case from 5.0 to below 2.7.
+Cause of the large rim districts left after the first balance pass (rivermere, greywatch, harrowmouth; 20 seeds x 5 presets x plain/river/bay/fort/fade): (1) `harbour` was an
+exempt kind and a `skip_kinds` default, so the quay district of a bay town stayed one block (harrowmouth: 23031 m2, 11 times the median); (2) the pass stopped at
+`max_depth`, so a depth-3 leaf above 2 times the median was never split (up to 3.7 times); (3) bsp refused a split when the drawn cut left a part under `min_area`, so
+wedge-shaped leaves of 4000-4800 m2 stayed whole (resplit recorded no reason); (4) the ratio 2.0 against the median let leaves of 1.8-2.0 times through, which beside
+their street-cut siblings read as blobs; (5) a zero-width spike left by stitching made some rim and hamlet districts invalid. Not a cause: the district kind of the
+rim faces (market/residential), outer faces between arteries and the wall (they are ordinary leaves of the tree).
 
-Tests: `tests/test_town_layers_balance.py` (4 preset/water/fort/edge combinations x 6 seeds, the rivermere spur district, coarse blocks re-split, determinism, the check on
+Result (20 seeds, `warp` default, every preset x plain/river/bay/fort/fade; largest non-exempt leaf over the median, harbour counted): before the harbour and
+depth changes the worst case per cell was 1.96-3.26 (bay with the harbour counted: 16-26); after, every cell is at most 1.76 and no leaf exceeds 2.2; `check` passes on
+every generated settlement (fort corner seed 5 is refused by the generator in every preset). Evaluated and not adopted: subdividing a larger shape and clipping to the
+footprint; the fills already clip their lattice to the polygon and merge faces under `min_area` into neighbours, and the remaining thin rim faces are the clipped
+cells; a larger shape adds no new split of leaves that cannot be cut.
+
+Tests: `tests/test_town_layers_balance.py` (5 preset/water/fort/edge combinations x 6 seeds, the rivermere spur district, coarse blocks re-split, harbour subdivision, the stitched spike case, determinism, the check on
 synthetic areas).
 
 ## 8. The `organic` generator (`gen_organic.py`)
