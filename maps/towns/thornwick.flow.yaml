@@ -15,91 +15,90 @@ nodes:
   thorn_j_a0s0_u0_0_a0s0_x0yn1_sr_0: { kind: choke }
   thorn_j_a0s0_u0_0_a0s0_xn1y0_sr_0: { kind: choke }
   thorn_j_a0s0_u0_0_a0s0_xn1yn1_sr_0: { kind: choke }
-  thorn_j_a0s0_un1_0_a0s0_v0_0: { kind: choke }
-  thorn_j_a0s0_un1_0_a0s0_xn1y0_sr_0: { kind: choke }
-  thorn_j_a0s0_un1_0_a0s0_xn1yn1_sr_0: { kind: choke }
-  thorn_j_a0s0_un1_0_a0s0_xn2yn1_sr_0: { kind: choke }
-  thorn_j_a0s0_un2_0_a0s0_xn2yn1_sr_0: { kind: choke }
+  thorn_j_a0s0_v0_0_a0s0_xn2yn1_b1_sr_0: { kind: choke }
+  thorn_j_a0s0_x0yn1_b0_b2_a0s0_x0yn1_sr_0: { kind: choke }
+  thorn_j_a0s0_xn2yn1_b1_sr_0_a0s0_xn2yn1_sr_0: { kind: choke }
   thorn_j_a2s0_un3_0_a2s0_v0_0: { kind: choke }
+  thorn_j_a2s0_un3_0_a2s0_xn3yn1_v0_0: { kind: choke }
   thorn_j_a3s0_u0_0_a3s0_v0_0: { kind: choke }
-  thorn_j_a3s0_un1_0_a3s0_v0_0: { kind: choke }
-  thorn_j_a3s0_un1_0_a3s0_xn2yn1_sr_0: { kind: choke }
-  thorn_j_a3s0_un2_0_a3s0_xn2yn1_sr_0: { kind: choke }
+  thorn_j_a3s0_u0_0_a3s0_xn1y0_b0: { kind: choke }
   thorn_j_a3s0_v0_0_a3s0_x0y0_sr_0: { kind: choke }
+  thorn_j_a3s0_xn1y0_b0_a3s0_xn1y0_b1: { kind: choke }
+  thorn_j_a3s0_xn2yn1_b0_a3s0_xn2yn1_b1: { kind: choke }
+  thorn_j_artery_0_a0s0_x1yn2a_sr_0: { kind: choke }
   thorn_j_artery_0_bs_a3s0_x_plaza: { kind: choke }
-  thorn_j_artery_1_a0s0_un1_0: { kind: choke }
+  thorn_j_artery_1_a1s0_b0_w0c0_sr_0: { kind: choke }
   thorn_j_artery_1_bs_a0s0_x_plaza: { kind: choke }
   thorn_j_artery_2_a1s0_sr_0: { kind: choke }
   thorn_j_artery_2_a2s0_u0_0: { kind: choke }
   thorn_j_artery_2_a2s0_un3_0: { kind: choke }
+  thorn_j_artery_2_a2s0_x3yn1_sr_0: { kind: choke }
+  thorn_j_artery_2_bs_a1s0_b1000_x_a1s0_b101: { kind: choke }
   thorn_j_artery_2_bs_a1s0_x_plaza: { kind: choke }
   thorn_j_artery_3_a2s0_v0_0: { kind: choke }
-  thorn_j_artery_3_a3s0_un1_0: { kind: choke }
   thorn_j_artery_3_bs_a2s0_x_plaza: { kind: choke }
   thorn_j_bs_a0s0_x_edge_2_a0s0_u0_0: { kind: choke }
-  thorn_j_bs_a0s0_x_edge_2_a0s0_un1_0: { kind: choke }
-  thorn_j_bs_a0s0_x_edge_2_a0s0_un2_0: { kind: choke }
   thorn_j_bs_a0s0_x_edge_2_a0s0_v0_0: { kind: choke }
   thorn_j_bs_a0s0_x_edge_2_a0s0_v0_0_2: { kind: choke }
   thorn_j_bs_a0s0_x_edge_a0s0_x1yn1a_sr_0: { kind: choke }
   thorn_j_bs_a0s0_x_plaza_a0s0_u0_0: { kind: choke }
+  thorn_j_bs_a1s0_b1000_x_a1s0_b101_bs_a1s0_b1001_x_a1s0_b101: { kind: choke }
+  thorn_j_bs_a1s0_b1001_x_a1s0_b101_a1s0_b101_sr_0: { kind: choke }
+  thorn_j_bs_a1s0_b1001_x_a1s0_b101_bs_a1s0_x_edge: { kind: choke }
   thorn_j_bs_a1s0_x_edge_a1s0_sr_0: { kind: choke }
   thorn_j_bs_a2s0_x_edge_a2s0_u0_0: { kind: choke }
+  thorn_j_bs_a2s0_x_edge_a2s0_x3yn1_sr_0: { kind: choke }
   thorn_j_bs_a3s0_x_edge_a3s0_u0_0: { kind: choke }
-  thorn_j_bs_a3s0_x_edge_a3s0_un1_0: { kind: choke }
-  thorn_j_bs_a3s0_x_edge_a3s0_un2_0: { kind: choke }
   thorn_j_bs_a3s0_x_edge_a3s0_v0_0: { kind: choke }
+  thorn_j_bs_a3s0_x_edge_a3s0_xn1y0_b1: { kind: choke }
+  thorn_j_bs_a3s0_x_edge_a3s0_xn2yn1_b1: { kind: choke }
   thorn_plaza: { kind: zone, name: "Central Plaza" }
 
 edges:
   - A - thorn_entry_a0
   - B - thorn_entry_a1
-  - { link: "thorn_entry_a0 - thorn_j_artery_0_bs_a3s0_x_plaza", name: thorn_artery_0 }
+  - { link: "thorn_entry_a0 - thorn_j_artery_0_a0s0_x1yn2a_sr_0", name: thorn_artery_0 }
   - { link: "thorn_entry_a0 - thorn_j_bs_a0s0_x_edge_a0s0_x1yn1a_sr_0", name: thorn_bs_a0s0_x_edge }
-  - { link: "thorn_entry_a0 - thorn_j_bs_a3s0_x_edge_a3s0_un2_0", name: thorn_bs_a3s0_x_edge }
-  - { link: "thorn_entry_a1 - thorn_j_artery_1_a0s0_un1_0", name: thorn_artery_1 }
-  - { link: "thorn_entry_a1 - thorn_j_bs_a0s0_x_edge_2_a0s0_un2_0", name: thorn_bs_a0s0_x_edge_2 }
+  - { link: "thorn_entry_a0 - thorn_j_bs_a3s0_x_edge_a3s0_xn2yn1_b1", name: thorn_bs_a3s0_x_edge }
+  - { link: "thorn_entry_a1 - thorn_j_artery_1_a1s0_b0_w0c0_sr_0", name: thorn_artery_1 }
+  - { link: "thorn_entry_a1 - thorn_j_bs_a0s0_x_edge_2_a0s0_v0_0_2", name: thorn_bs_a0s0_x_edge_2 }
   - { link: "thorn_entry_a1 - thorn_j_bs_a1s0_x_edge_a1s0_sr_0", name: thorn_bs_a1s0_x_edge }
-  - { link: "thorn_entry_a2 - thorn_j_artery_2_a2s0_u0_0", name: thorn_artery_2 }
-  - { link: "thorn_entry_a2 - thorn_j_bs_a1s0_x_edge_a1s0_sr_0", name: thorn_bs_a1s0_x_edge }
-  - { link: "thorn_entry_a2 - thorn_j_bs_a2s0_x_edge_a2s0_u0_0", name: thorn_bs_a2s0_x_edge }
+  - { link: "thorn_entry_a2 - thorn_j_artery_2_a2s0_x3yn1_sr_0", name: thorn_artery_2 }
+  - { link: "thorn_entry_a2 - thorn_j_bs_a1s0_b1001_x_a1s0_b101_bs_a1s0_x_edge", name: thorn_bs_a1s0_x_edge }
+  - { link: "thorn_entry_a2 - thorn_j_bs_a2s0_x_edge_a2s0_x3yn1_sr_0", name: thorn_bs_a2s0_x_edge }
   - { link: "thorn_entry_a3 - thorn_j_artery_3_a2s0_v0_0", name: thorn_artery_3 }
   - { link: "thorn_entry_a3 - thorn_j_bs_a2s0_x_edge_a2s0_u0_0", name: thorn_bs_a2s0_x_edge }
   - { link: "thorn_entry_a3 - thorn_j_bs_a3s0_x_edge_a3s0_v0_0", name: thorn_bs_a3s0_x_edge }
   - { link: "thorn_j_a0s0_u0_0_a0s0_v0_0 - thorn_j_a0s0_u0_0_a0s0_x0y0_sr_0", name: thorn_sr_a0s0_u0_0 }
   - { link: "thorn_j_a0s0_u0_0_a0s0_v0_0 - thorn_j_a0s0_u0_0_a0s0_x0yn1_sr_0", name: thorn_sr_a0s0_u0_0 }
-  - { link: "thorn_j_a0s0_u0_0_a0s0_v0_0 - thorn_j_a0s0_un1_0_a0s0_v0_0", name: thorn_sr_a0s0_v0_0 }
+  - { link: "thorn_j_a0s0_u0_0_a0s0_v0_0 - thorn_j_a0s0_v0_0_a0s0_xn2yn1_b1_sr_0", name: thorn_sr_a0s0_v0_0 }
   - { link: "thorn_j_a0s0_u0_0_a0s0_v0_0 - thorn_j_bs_a0s0_x_edge_2_a0s0_v0_0", name: thorn_sr_a0s0_v0_0 }
   - { link: "thorn_j_a0s0_u0_0_a0s0_x0y0_sr_0 - thorn_j_a0s0_u0_0_a0s0_xn1y0_sr_0", name: thorn_sr_a0s0_u0_0 }
   - { link: "thorn_j_a0s0_u0_0_a0s0_x0yn1_sr_0 - thorn_j_a0s0_u0_0_a0s0_xn1yn1_sr_0", name: thorn_sr_a0s0_u0_0 }
-  - { link: "thorn_j_a0s0_u0_0_a0s0_xn1y0_sr_0 - thorn_j_a0s0_un1_0_a0s0_xn1y0_sr_0", name: thorn_sr_a0s0_xn1y0_sr_0 }
+  - { link: "thorn_j_a0s0_u0_0_a0s0_x0yn1_sr_0 - thorn_j_a0s0_x0yn1_b0_b2_a0s0_x0yn1_sr_0", name: thorn_sr_a0s0_x0yn1_sr_0 }
   - { link: "thorn_j_a0s0_u0_0_a0s0_xn1y0_sr_0 - thorn_j_bs_a0s0_x_edge_2_a0s0_u0_0", name: thorn_sr_a0s0_u0_0 }
-  - { link: "thorn_j_a0s0_u0_0_a0s0_xn1yn1_sr_0 - thorn_j_a0s0_un1_0_a0s0_xn1yn1_sr_0", name: thorn_sr_a0s0_xn1yn1_sr_0 }
   - { link: "thorn_j_a0s0_u0_0_a0s0_xn1yn1_sr_0 - thorn_j_bs_a0s0_x_plaza_a0s0_u0_0", name: thorn_sr_a0s0_u0_0 }
-  - { link: "thorn_j_a0s0_un1_0_a0s0_v0_0 - thorn_j_a0s0_un1_0_a0s0_xn1y0_sr_0", name: thorn_sr_a0s0_un1_0 }
-  - { link: "thorn_j_a0s0_un1_0_a0s0_v0_0 - thorn_j_a0s0_un1_0_a0s0_xn1yn1_sr_0", name: thorn_sr_a0s0_un1_0 }
-  - { link: "thorn_j_a0s0_un1_0_a0s0_v0_0 - thorn_j_bs_a0s0_x_edge_2_a0s0_v0_0_2", name: thorn_sr_a0s0_v0_0 }
-  - { link: "thorn_j_a0s0_un1_0_a0s0_xn1y0_sr_0 - thorn_j_bs_a0s0_x_edge_2_a0s0_un1_0", name: thorn_sr_a0s0_un1_0 }
-  - { link: "thorn_j_a0s0_un1_0_a0s0_xn1yn1_sr_0 - thorn_j_a0s0_un1_0_a0s0_xn2yn1_sr_0", name: thorn_sr_a0s0_un1_0 }
-  - { link: "thorn_j_a0s0_un1_0_a0s0_xn2yn1_sr_0 - thorn_j_a0s0_un2_0_a0s0_xn2yn1_sr_0", name: thorn_sr_a0s0_xn2yn1_sr_0 }
-  - { link: "thorn_j_a0s0_un1_0_a0s0_xn2yn1_sr_0 - thorn_j_artery_1_a0s0_un1_0", name: thorn_sr_a0s0_un1_0 }
-  - { link: "thorn_j_a0s0_un2_0_a0s0_xn2yn1_sr_0 - thorn_j_bs_a0s0_x_edge_2_a0s0_un2_0", name: thorn_sr_a0s0_un2_0 }
-  - { link: "thorn_j_a2s0_un3_0_a2s0_v0_0 - thorn_j_artery_2_a2s0_un3_0", name: thorn_sr_a2s0_un3_0 }
+  - { link: "thorn_j_a0s0_v0_0_a0s0_xn2yn1_b1_sr_0 - thorn_j_a0s0_xn2yn1_b1_sr_0_a0s0_xn2yn1_sr_0", name: thorn_sr_a0s0_xn2yn1_b1_sr_0 }
+  - { link: "thorn_j_a0s0_v0_0_a0s0_xn2yn1_b1_sr_0 - thorn_j_bs_a0s0_x_edge_2_a0s0_v0_0_2", name: thorn_sr_a0s0_v0_0 }
+  - { link: "thorn_j_a0s0_x0yn1_b0_b2_a0s0_x0yn1_sr_0 - thorn_j_bs_a0s0_x_plaza_a0s0_u0_0", name: thorn_sr_a0s0_x0yn1_b0_b0 }
+  - { link: "thorn_j_a2s0_un3_0_a2s0_v0_0 - thorn_j_a2s0_un3_0_a2s0_xn3yn1_v0_0", name: thorn_sr_a2s0_un3_0 }
   - { link: "thorn_j_a2s0_un3_0_a2s0_v0_0 - thorn_j_artery_3_a2s0_v0_0", name: thorn_sr_a2s0_v0_0 }
-  - { link: "thorn_j_a3s0_u0_0_a3s0_v0_0 - thorn_j_a3s0_un1_0_a3s0_v0_0", name: thorn_sr_a3s0_v0_0 }
+  - { link: "thorn_j_a2s0_un3_0_a2s0_xn3yn1_v0_0 - thorn_j_artery_2_a2s0_un3_0", name: thorn_sr_a2s0_un3_0 }
+  - { link: "thorn_j_a2s0_un3_0_a2s0_xn3yn1_v0_0 - thorn_j_bs_a3s0_x_edge_a3s0_xn1y0_b1", name: thorn_sr_a3s0_un1_0 }
+  - { link: "thorn_j_a3s0_u0_0_a3s0_v0_0 - thorn_j_a3s0_u0_0_a3s0_xn1y0_b0", name: thorn_sr_a3s0_u0_0 }
   - { link: "thorn_j_a3s0_u0_0_a3s0_v0_0 - thorn_j_a3s0_v0_0_a3s0_x0y0_sr_0", name: thorn_sr_a3s0_v0_0 }
-  - { link: "thorn_j_a3s0_u0_0_a3s0_v0_0 - thorn_j_bs_a3s0_x_edge_a3s0_u0_0", name: thorn_sr_a3s0_u0_0 }
-  - { link: "thorn_j_a3s0_un1_0_a3s0_v0_0 - thorn_j_a3s0_un1_0_a3s0_xn2yn1_sr_0", name: thorn_sr_a3s0_un1_0 }
-  - { link: "thorn_j_a3s0_un1_0_a3s0_v0_0 - thorn_j_bs_a3s0_x_edge_a3s0_un1_0", name: thorn_sr_a3s0_un1_0 }
-  - { link: "thorn_j_a3s0_un1_0_a3s0_xn2yn1_sr_0 - thorn_j_a3s0_un2_0_a3s0_xn2yn1_sr_0", name: thorn_sr_a3s0_xn2yn1_sr_0 }
-  - { link: "thorn_j_a3s0_un1_0_a3s0_xn2yn1_sr_0 - thorn_j_artery_3_a3s0_un1_0", name: thorn_sr_a3s0_un1_0 }
-  - { link: "thorn_j_a3s0_un2_0_a3s0_xn2yn1_sr_0 - thorn_j_artery_0_bs_a3s0_x_plaza", name: thorn_sr_a3s0_un2_0 }
-  - { link: "thorn_j_a3s0_un2_0_a3s0_xn2yn1_sr_0 - thorn_j_bs_a3s0_x_edge_a3s0_un2_0", name: thorn_sr_a3s0_un2_0 }
+  - { link: "thorn_j_a3s0_u0_0_a3s0_v0_0 - thorn_j_a3s0_xn2yn1_b0_a3s0_xn2yn1_b1", name: thorn_sr_a3s0_v0_0 }
+  - { link: "thorn_j_a3s0_u0_0_a3s0_xn1y0_b0 - thorn_j_a3s0_xn1y0_b0_a3s0_xn1y0_b1", name: thorn_sr_a3s0_xn1y0_b0 }
+  - { link: "thorn_j_a3s0_u0_0_a3s0_xn1y0_b0 - thorn_j_bs_a3s0_x_edge_a3s0_u0_0", name: thorn_sr_a3s0_u0_0 }
   - { link: "thorn_j_a3s0_v0_0_a3s0_x0y0_sr_0 - thorn_j_bs_a3s0_x_edge_a3s0_v0_0", name: thorn_sr_a3s0_v0_0 }
+  - { link: "thorn_j_a3s0_xn1y0_b0_a3s0_xn1y0_b1 - thorn_j_bs_a3s0_x_edge_a3s0_xn1y0_b1", name: thorn_sr_a3s0_xn1y0_b1 }
+  - { link: "thorn_j_a3s0_xn2yn1_b0_a3s0_xn2yn1_b1 - thorn_j_bs_a3s0_x_edge_a3s0_xn2yn1_b1", name: thorn_sr_a3s0_xn2yn1_b1 }
+  - { link: "thorn_j_artery_0_a0s0_x1yn2a_sr_0 - thorn_j_artery_0_bs_a3s0_x_plaza", name: thorn_artery_0 }
   - { link: "thorn_j_artery_0_bs_a3s0_x_plaza - thorn_j_artery_3_bs_a2s0_x_plaza", name: thorn_bs_a3s0_x_plaza }
   - { link: "thorn_j_artery_0_bs_a3s0_x_plaza - thorn_j_bs_a0s0_x_plaza_a0s0_u0_0", name: thorn_bs_a0s0_x_plaza }
+  - { link: "thorn_j_artery_0_bs_a3s0_x_plaza - thorn_j_bs_a3s0_x_edge_a3s0_xn2yn1_b1", name: thorn_sr_a3s0_un2_0 }
   - { link: "thorn_j_artery_0_bs_a3s0_x_plaza - thorn_plaza", name: thorn_artery_0 }
-  - { link: "thorn_j_artery_1_a0s0_un1_0 - thorn_j_artery_1_bs_a0s0_x_plaza", name: thorn_artery_1 }
+  - { link: "thorn_j_artery_1_a1s0_b0_w0c0_sr_0 - thorn_j_artery_1_bs_a0s0_x_plaza", name: thorn_artery_1 }
   - { link: "thorn_j_artery_1_bs_a0s0_x_plaza - thorn_j_artery_2_a1s0_sr_0", name: thorn_sr_a1s0_b0_w0_0 }
   - { link: "thorn_j_artery_1_bs_a0s0_x_plaza - thorn_j_artery_2_bs_a1s0_x_plaza", name: thorn_bs_a1s0_x_plaza }
   - { link: "thorn_j_artery_1_bs_a0s0_x_plaza - thorn_j_bs_a0s0_x_plaza_a0s0_u0_0", name: thorn_bs_a0s0_x_plaza }
@@ -107,18 +106,23 @@ edges:
   - { link: "thorn_j_artery_2_a1s0_sr_0 - thorn_j_artery_2_a2s0_u0_0", name: thorn_artery_2 }
   - { link: "thorn_j_artery_2_a1s0_sr_0 - thorn_j_artery_2_a2s0_un3_0", name: thorn_artery_2 }
   - { link: "thorn_j_artery_2_a1s0_sr_0 - thorn_j_bs_a1s0_x_edge_a1s0_sr_0", name: thorn_sr_a1s0_sr_0 }
+  - { link: "thorn_j_artery_2_a2s0_u0_0 - thorn_j_artery_2_bs_a1s0_b1000_x_a1s0_b101", name: thorn_artery_2 }
   - { link: "thorn_j_artery_2_a2s0_u0_0 - thorn_j_bs_a2s0_x_edge_a2s0_u0_0", name: thorn_sr_a2s0_u0_0 }
   - { link: "thorn_j_artery_2_a2s0_un3_0 - thorn_j_artery_2_bs_a1s0_x_plaza", name: thorn_artery_2 }
+  - { link: "thorn_j_artery_2_a2s0_x3yn1_sr_0 - thorn_j_artery_2_bs_a1s0_b1000_x_a1s0_b101", name: thorn_artery_2 }
+  - { link: "thorn_j_artery_2_a2s0_x3yn1_sr_0 - thorn_j_bs_a2s0_x_edge_a2s0_x3yn1_sr_0", name: thorn_sr_a2s0_x3yn1_sr_0 }
+  - { link: "thorn_j_artery_2_bs_a1s0_b1000_x_a1s0_b101 - thorn_j_bs_a1s0_b1000_x_a1s0_b101_bs_a1s0_b1001_x_a1s0_b101", name: thorn_bs_a1s0_b1000_x_a1s0_b101 }
   - { link: "thorn_j_artery_2_bs_a1s0_x_plaza - thorn_j_artery_3_bs_a2s0_x_plaza", name: thorn_bs_a2s0_x_plaza }
   - { link: "thorn_j_artery_2_bs_a1s0_x_plaza - thorn_plaza", name: thorn_artery_2 }
-  - { link: "thorn_j_artery_3_a2s0_v0_0 - thorn_j_artery_3_a3s0_un1_0", name: thorn_artery_3 }
-  - { link: "thorn_j_artery_3_a3s0_un1_0 - thorn_j_artery_3_bs_a2s0_x_plaza", name: thorn_artery_3 }
+  - { link: "thorn_j_artery_3_a2s0_v0_0 - thorn_j_artery_3_bs_a2s0_x_plaza", name: thorn_artery_3 }
   - { link: "thorn_j_artery_3_bs_a2s0_x_plaza - thorn_plaza", name: thorn_artery_3 }
-  - { link: "thorn_j_bs_a0s0_x_edge_2_a0s0_u0_0 - thorn_j_bs_a0s0_x_edge_2_a0s0_un1_0", name: thorn_bs_a0s0_x_edge_2 }
   - { link: "thorn_j_bs_a0s0_x_edge_2_a0s0_u0_0 - thorn_j_bs_a0s0_x_edge_2_a0s0_v0_0", name: thorn_bs_a0s0_x_edge_2 }
-  - { link: "thorn_j_bs_a0s0_x_edge_2_a0s0_un1_0 - thorn_j_bs_a0s0_x_edge_2_a0s0_v0_0_2", name: thorn_bs_a0s0_x_edge_2 }
-  - { link: "thorn_j_bs_a0s0_x_edge_2_a0s0_un2_0 - thorn_j_bs_a0s0_x_edge_2_a0s0_v0_0_2", name: thorn_bs_a0s0_x_edge_2 }
+  - { link: "thorn_j_bs_a0s0_x_edge_2_a0s0_u0_0 - thorn_j_bs_a0s0_x_edge_2_a0s0_v0_0_2", name: thorn_bs_a0s0_x_edge_2 }
   - { link: "thorn_j_bs_a0s0_x_edge_2_a0s0_v0_0 - thorn_j_bs_a0s0_x_edge_a0s0_x1yn1a_sr_0", name: thorn_bs_a0s0_x_edge }
-  - { link: "thorn_j_bs_a3s0_x_edge_a3s0_u0_0 - thorn_j_bs_a3s0_x_edge_a3s0_un1_0", name: thorn_bs_a3s0_x_edge }
+  - { link: "thorn_j_bs_a1s0_b1000_x_a1s0_b101_bs_a1s0_b1001_x_a1s0_b101 - thorn_j_bs_a1s0_b1001_x_a1s0_b101_a1s0_b101_sr_0", name: thorn_bs_a1s0_b1001_x_a1s0_b101 }
+  - { link: "thorn_j_bs_a1s0_b1001_x_a1s0_b101_a1s0_b101_sr_0 - thorn_j_bs_a1s0_b1001_x_a1s0_b101_bs_a1s0_x_edge", name: thorn_bs_a1s0_b1001_x_a1s0_b101 }
+  - { link: "thorn_j_bs_a1s0_b1001_x_a1s0_b101_bs_a1s0_x_edge - thorn_j_bs_a1s0_x_edge_a1s0_sr_0", name: thorn_bs_a1s0_x_edge }
+  - { link: "thorn_j_bs_a2s0_x_edge_a2s0_u0_0 - thorn_j_bs_a2s0_x_edge_a2s0_x3yn1_sr_0", name: thorn_bs_a2s0_x_edge }
   - { link: "thorn_j_bs_a3s0_x_edge_a3s0_u0_0 - thorn_j_bs_a3s0_x_edge_a3s0_v0_0", name: thorn_bs_a3s0_x_edge }
-  - { link: "thorn_j_bs_a3s0_x_edge_a3s0_un1_0 - thorn_j_bs_a3s0_x_edge_a3s0_un2_0", name: thorn_bs_a3s0_x_edge }
+  - { link: "thorn_j_bs_a3s0_x_edge_a3s0_u0_0 - thorn_j_bs_a3s0_x_edge_a3s0_xn1y0_b1", name: thorn_bs_a3s0_x_edge }
+  - { link: "thorn_j_bs_a3s0_x_edge_a3s0_xn1y0_b1 - thorn_j_bs_a3s0_x_edge_a3s0_xn2yn1_b1", name: thorn_bs_a3s0_x_edge }

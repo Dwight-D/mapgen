@@ -6,46 +6,81 @@
   "district_graph": {
     "edges": [
       {
-        "a": "grey_d_a1s0_x0y0_b0",
-        "b": "grey_d_a1s0_x0y0_b1",
+        "a": "grey_d_a1s0_x0y0_p0",
+        "b": "grey_d_a1s0_x0y0_p1",
         "gates": [],
-        "id": "grey_d_a1s0_x0y0_b0~grey_d_a1s0_x0y0_b1",
+        "id": "grey_d_a1s0_x0y0_p0~grey_d_a1s0_x0y0_p1",
         "kind": "adjacent",
-        "length": 52.34,
+        "length": 60.72,
         "passable": true,
         "roads": [
-          "grey_sr_a1s0_x0y0_sr_0"
+          "grey_sr_a1s0_x0y0_b0",
+          "grey_sr_a1s0_x0y0_b1"
         ]
       },
       {
-        "a": "grey_d_a1s0_x0y0_b0",
-        "b": "grey_d_a1s0_x0yn1_b1",
+        "a": "grey_d_a1s0_x0y0_p0",
+        "b": "grey_d_a1s0_x0yn1_core",
         "gates": [],
-        "id": "grey_d_a1s0_x0y0_b0~grey_d_a1s0_x0yn1_b1",
+        "id": "grey_d_a1s0_x0y0_p0~grey_d_a1s0_x0yn1_core",
         "kind": "adjacent",
-        "length": 62.78,
+        "length": 14.37,
         "passable": true,
         "roads": [
           "grey_sr_a1s0_v0_0"
         ]
       },
       {
-        "a": "grey_d_a1s0_x0y0_b0",
+        "a": "grey_d_a1s0_x0y0_p0",
+        "b": "grey_d_a1s0_x0yn1_r1s2",
+        "gates": [],
+        "id": "grey_d_a1s0_x0y0_p0~grey_d_a1s0_x0yn1_r1s2",
+        "kind": "adjacent",
+        "length": 39.85,
+        "passable": true,
+        "roads": [
+          "grey_sr_a1s0_v0_0"
+        ]
+      },
+      {
+        "a": "grey_d_a1s0_x0y0_p0",
         "b": "grey_d_a1s0_x1y0",
         "gates": [],
-        "id": "grey_d_a1s0_x0y0_b0~grey_d_a1s0_x1y0",
+        "id": "grey_d_a1s0_x0y0_p0~grey_d_a1s0_x1y0",
         "kind": "adjacent",
-        "length": 59.12,
+        "length": 59.53,
         "passable": true,
         "roads": [
           "grey_sr_a1s0_u1_0"
         ]
       },
       {
-        "a": "grey_d_a1s0_x0y0_b0",
+        "a": "grey_d_a1s0_x0y0_p1",
+        "b": "grey_d_a1s0_x0yn1_r1s2",
+        "gates": [],
+        "id": "grey_d_a1s0_x0y0_p1~grey_d_a1s0_x0yn1_r1s2",
+        "kind": "adjacent",
+        "length": 8.55,
+        "passable": true,
+        "roads": [
+          "grey_sr_a1s0_v0_0"
+        ]
+      },
+      {
+        "a": "grey_d_a1s0_x0y0_p1",
+        "b": "grey_d_a1s0_x1y0",
+        "gates": [],
+        "id": "grey_d_a1s0_x0y0_p1~grey_d_a1s0_x1y0",
+        "kind": "adjacent",
+        "length": 23.02,
+        "passable": true,
+        "roads": []
+      },
+      {
+        "a": "grey_d_a1s0_x0y0_p1",
         "b": "grey_d_a1s0_xn1y0_p0",
         "gates": [],
-        "id": "grey_d_a1s0_x0y0_b0~grey_d_a1s0_xn1y0_p0",
+        "id": "grey_d_a1s0_x0y0_p1~grey_d_a1s0_xn1y0_p0",
         "kind": "adjacent",
         "length": 11.36,
         "passable": true,
@@ -54,76 +89,56 @@
         ]
       },
       {
-        "a": "grey_d_a1s0_x0y0_b0",
+        "a": "grey_d_a1s0_x0y0_p1",
         "b": "grey_d_a1s0_xn1y0_p1",
         "gates": [],
-        "id": "grey_d_a1s0_x0y0_b0~grey_d_a1s0_xn1y0_p1",
+        "id": "grey_d_a1s0_x0y0_p1~grey_d_a1s0_xn1y0_p1",
         "kind": "adjacent",
-        "length": 23.86,
-        "passable": true,
-        "roads": [
-          "grey_sr_a1s0_u0_0"
-        ]
-      },
-      {
-        "a": "grey_d_a1s0_x0y0_b1",
-        "b": "grey_d_a1s0_x1y0",
-        "gates": [],
-        "id": "grey_d_a1s0_x0y0_b1~grey_d_a1s0_x1y0",
-        "kind": "adjacent",
-        "length": 23.43,
+        "length": 70.89,
         "passable": true,
         "roads": []
       },
       {
-        "a": "grey_d_a1s0_x0y0_b1",
-        "b": "grey_d_a1s0_xn1y0_p1",
-        "gates": [],
-        "id": "grey_d_a1s0_x0y0_b1~grey_d_a1s0_xn1y0_p1",
-        "kind": "adjacent",
-        "length": 47.03,
-        "passable": true,
-        "roads": []
-      },
-      {
-        "a": "grey_d_a1s0_x0y0_b1",
+        "a": "grey_d_a1s0_x0y0_p1",
         "b": "outside",
         "gates": [],
-        "id": "grey_d_a1s0_x0y0_b1~outside",
+        "id": "grey_d_a1s0_x0y0_p1~outside",
         "kind": "wall",
         "length": 56.11,
         "passable": false,
         "roads": []
       },
       {
-        "a": "grey_d_a1s0_x0yn1_b0",
-        "b": "grey_d_a1s0_x0yn1_b1",
+        "a": "grey_d_a1s0_x0yn1_core",
+        "b": "grey_d_a1s0_x0yn1_r1s2",
         "gates": [],
-        "id": "grey_d_a1s0_x0yn1_b0~grey_d_a1s0_x0yn1_b1",
+        "id": "grey_d_a1s0_x0yn1_core~grey_d_a1s0_x0yn1_r1s2",
         "kind": "adjacent",
-        "length": 59.19,
+        "length": 78.31,
         "passable": true,
         "roads": [
-          "grey_sr_a1s0_x0yn1_sr_0"
+          "grey_sr_a1s0_x0yn1_ring1_0",
+          "grey_sr_a1s0_x0yn1_spoke0_0",
+          "grey_sr_a1s0_x0yn1_spoke2_0"
         ]
       },
       {
-        "a": "grey_d_a1s0_x0yn1_b0",
+        "a": "grey_d_a1s0_x0yn1_core",
         "b": "grey_d_a1s0_x1yn1_r1s1",
         "gates": [],
-        "id": "grey_d_a1s0_x0yn1_b0~grey_d_a1s0_x1yn1_r1s1",
+        "id": "grey_d_a1s0_x0yn1_core~grey_d_a1s0_x1yn1_r1s1",
         "kind": "adjacent",
-        "length": 58.52,
+        "length": 74.93,
         "passable": true,
         "roads": [
           "grey_sr_a1s0_u1_0"
         ]
       },
       {
-        "a": "grey_d_a1s0_x0yn1_b0",
-        "b": "grey_d_a1s0_x1yn1_r1s2",
+        "a": "grey_d_a1s0_x0yn1_core",
+        "b": "grey_d_a1s0_x1yn1_r1s2_b1",
         "gates": [],
-        "id": "grey_d_a1s0_x0yn1_b0~grey_d_a1s0_x1yn1_r1s2",
+        "id": "grey_d_a1s0_x0yn1_core~grey_d_a1s0_x1yn1_r1s2_b1",
         "kind": "adjacent",
         "length": 5.19,
         "passable": true,
@@ -132,32 +147,22 @@
         ]
       },
       {
-        "a": "grey_d_a1s0_x0yn1_b0",
-        "b": "grey_d_a1s0_xn1yn1",
+        "a": "grey_d_a1s0_x0yn1_core",
+        "b": "grey_d_a1s0_xn1yn2",
         "gates": [],
-        "id": "grey_d_a1s0_x0yn1_b0~grey_d_a1s0_xn1yn1",
+        "id": "grey_d_a1s0_x0yn1_core~grey_d_a1s0_xn1yn2",
         "kind": "adjacent",
-        "length": 22.0,
+        "length": 17.05,
         "passable": true,
         "roads": [
           "grey_sr_a1s0_u0_0"
         ]
       },
       {
-        "a": "grey_d_a1s0_x0yn1_b0",
-        "b": "grey_d_a1s0_xn1yn2",
-        "gates": [],
-        "id": "grey_d_a1s0_x0yn1_b0~grey_d_a1s0_xn1yn2",
-        "kind": "adjacent",
-        "length": 24.84,
-        "passable": true,
-        "roads": []
-      },
-      {
-        "a": "grey_d_a1s0_x0yn1_b0",
+        "a": "grey_d_a1s0_x0yn1_core",
         "b": "grey_d_a3s1_x0yn1",
         "gates": [],
-        "id": "grey_d_a1s0_x0yn1_b0~grey_d_a3s1_x0yn1",
+        "id": "grey_d_a1s0_x0yn1_core~grey_d_a3s1_x0yn1",
         "kind": "adjacent",
         "length": 58.52,
         "passable": true,
@@ -166,10 +171,10 @@
         ]
       },
       {
-        "a": "grey_d_a1s0_x0yn1_b0",
+        "a": "grey_d_a1s0_x0yn1_core",
         "b": "grey_d_a3s1_xn1yn1",
         "gates": [],
-        "id": "grey_d_a1s0_x0yn1_b0~grey_d_a3s1_xn1yn1",
+        "id": "grey_d_a1s0_x0yn1_core~grey_d_a3s1_xn1yn1",
         "kind": "adjacent",
         "length": 9.08,
         "passable": true,
@@ -178,28 +183,26 @@
         ]
       },
       {
-        "a": "grey_d_a1s0_x0yn1_b1",
-        "b": "grey_d_a1s0_x1yn1_r1s1",
+        "a": "grey_d_a1s0_x0yn1_r1s2",
+        "b": "grey_d_a1s0_xn1yn1_b0",
         "gates": [],
-        "id": "grey_d_a1s0_x0yn1_b1~grey_d_a1s0_x1yn1_r1s1",
+        "id": "grey_d_a1s0_x0yn1_r1s2~grey_d_a1s0_xn1yn1_b0",
         "kind": "adjacent",
-        "length": 16.41,
-        "passable": true,
-        "roads": [
-          "grey_sr_a1s0_u1_0"
-        ]
-      },
-      {
-        "a": "grey_d_a1s0_x0yn1_b1",
-        "b": "grey_d_a1s0_xn1yn1",
-        "gates": [],
-        "id": "grey_d_a1s0_x0yn1_b1~grey_d_a1s0_xn1yn1",
-        "kind": "adjacent",
-        "length": 38.86,
+        "length": 60.86,
         "passable": true,
         "roads": [
           "grey_sr_a1s0_u0_0"
         ]
+      },
+      {
+        "a": "grey_d_a1s0_x0yn1_r1s2",
+        "b": "grey_d_a1s0_xn1yn2",
+        "gates": [],
+        "id": "grey_d_a1s0_x0yn1_r1s2~grey_d_a1s0_xn1yn2",
+        "kind": "adjacent",
+        "length": 7.79,
+        "passable": true,
+        "roads": []
       },
       {
         "a": "grey_d_a1s0_x1y0",
@@ -215,9 +218,9 @@
       },
       {
         "a": "grey_d_a1s0_x1y0",
-        "b": "grey_d_a1s0_x1yn1_r1s2",
+        "b": "grey_d_a1s0_x1yn1_r1s2_b1",
         "gates": [],
-        "id": "grey_d_a1s0_x1y0~grey_d_a1s0_x1yn1_r1s2",
+        "id": "grey_d_a1s0_x1y0~grey_d_a1s0_x1yn1_r1s2_b1",
         "kind": "adjacent",
         "length": 23.71,
         "passable": true,
@@ -235,9 +238,9 @@
       },
       {
         "a": "grey_d_a1s0_x1yn1_r1s1",
-        "b": "grey_d_a1s0_x1yn1_r1s2",
+        "b": "grey_d_a1s0_x1yn1_r1s2_b1",
         "gates": [],
-        "id": "grey_d_a1s0_x1yn1_r1s1~grey_d_a1s0_x1yn1_r1s2",
+        "id": "grey_d_a1s0_x1yn1_r1s1~grey_d_a1s0_x1yn1_r1s2_b1",
         "kind": "adjacent",
         "length": 77.61,
         "passable": true,
@@ -248,32 +251,42 @@
         ]
       },
       {
-        "a": "grey_d_a1s0_x1yn1_r1s2",
+        "a": "grey_d_a1s0_x1yn1_r1s2_b0",
+        "b": "grey_d_a1s0_x1yn1_r1s2_b1",
+        "gates": [],
+        "id": "grey_d_a1s0_x1yn1_r1s2_b0~grey_d_a1s0_x1yn1_r1s2_b1",
+        "kind": "adjacent",
+        "length": 66.67,
+        "passable": true,
+        "roads": []
+      },
+      {
+        "a": "grey_d_a1s0_x1yn1_r1s2_b0",
         "b": "grey_d_a1s0_x2yn1",
         "gates": [],
-        "id": "grey_d_a1s0_x1yn1_r1s2~grey_d_a1s0_x2yn1",
+        "id": "grey_d_a1s0_x1yn1_r1s2_b0~grey_d_a1s0_x2yn1",
         "kind": "adjacent",
         "length": 72.81,
         "passable": true,
         "roads": []
       },
       {
-        "a": "grey_d_a1s0_x1yn1_r1s2",
+        "a": "grey_d_a1s0_x1yn1_r1s2_b0",
         "b": "grey_d_a3s1_xn1yn1",
         "gates": [],
-        "id": "grey_d_a1s0_x1yn1_r1s2~grey_d_a3s1_xn1yn1",
+        "id": "grey_d_a1s0_x1yn1_r1s2_b0~grey_d_a3s1_xn1yn1",
         "kind": "adjacent",
-        "length": 40.89,
+        "length": 6.4,
         "passable": true,
         "roads": [
           "grey_artery_1"
         ]
       },
       {
-        "a": "grey_d_a1s0_x1yn1_r1s2",
+        "a": "grey_d_a1s0_x1yn1_r1s2_b0",
         "b": "grey_d_a3s1_xn2yn1_w1c0",
         "gates": [],
-        "id": "grey_d_a1s0_x1yn1_r1s2~grey_d_a3s1_xn2yn1_w1c0",
+        "id": "grey_d_a1s0_x1yn1_r1s2_b0~grey_d_a3s1_xn2yn1_w1c0",
         "kind": "adjacent",
         "length": 37.39,
         "passable": true,
@@ -282,12 +295,34 @@
         ]
       },
       {
-        "a": "grey_d_a1s0_x1yn1_r1s2",
+        "a": "grey_d_a1s0_x1yn1_r1s2_b0",
         "b": "outside",
         "gates": [],
-        "id": "grey_d_a1s0_x1yn1_r1s2~outside",
+        "id": "grey_d_a1s0_x1yn1_r1s2_b0~outside",
         "kind": "wall",
-        "length": 15.0,
+        "length": 11.81,
+        "passable": false,
+        "roads": []
+      },
+      {
+        "a": "grey_d_a1s0_x1yn1_r1s2_b1",
+        "b": "grey_d_a3s1_xn1yn1",
+        "gates": [],
+        "id": "grey_d_a1s0_x1yn1_r1s2_b1~grey_d_a3s1_xn1yn1",
+        "kind": "adjacent",
+        "length": 34.49,
+        "passable": true,
+        "roads": [
+          "grey_artery_1"
+        ]
+      },
+      {
+        "a": "grey_d_a1s0_x1yn1_r1s2_b1",
+        "b": "outside",
+        "gates": [],
+        "id": "grey_d_a1s0_x1yn1_r1s2_b1~outside",
+        "kind": "wall",
+        "length": 3.19,
         "passable": false,
         "roads": []
       },
@@ -342,11 +377,23 @@
       },
       {
         "a": "grey_d_a1s0_xn1y0_p0",
-        "b": "grey_d_a1s0_xn1yn1",
+        "b": "grey_d_a1s0_xn1yn1_b0",
         "gates": [],
-        "id": "grey_d_a1s0_xn1y0_p0~grey_d_a1s0_xn1yn1",
+        "id": "grey_d_a1s0_xn1y0_p0~grey_d_a1s0_xn1yn1_b0",
         "kind": "adjacent",
-        "length": 62.47,
+        "length": 19.2,
+        "passable": true,
+        "roads": [
+          "grey_sr_a1s0_v0_0"
+        ]
+      },
+      {
+        "a": "grey_d_a1s0_xn1y0_p0",
+        "b": "grey_d_a1s0_xn1yn1_b1",
+        "gates": [],
+        "id": "grey_d_a1s0_xn1y0_p0~grey_d_a1s0_xn1yn1_b1",
+        "kind": "adjacent",
+        "length": 43.27,
         "passable": true,
         "roads": [
           "grey_sr_a1s0_v0_0"
@@ -397,30 +444,52 @@
         "roads": []
       },
       {
-        "a": "grey_d_a1s0_xn1yn1",
+        "a": "grey_d_a1s0_xn1yn1_b0",
+        "b": "grey_d_a1s0_xn1yn1_b1",
+        "gates": [],
+        "id": "grey_d_a1s0_xn1yn1_b0~grey_d_a1s0_xn1yn1_b1",
+        "kind": "adjacent",
+        "length": 55.9,
+        "passable": true,
+        "roads": [
+          "grey_sr_a1s0_xn1yn1_sr_0"
+        ]
+      },
+      {
+        "a": "grey_d_a1s0_xn1yn1_b0",
         "b": "grey_d_a1s0_xn1yn2",
         "gates": [],
-        "id": "grey_d_a1s0_xn1yn1~grey_d_a1s0_xn1yn2",
+        "id": "grey_d_a1s0_xn1yn1_b0~grey_d_a1s0_xn1yn2",
         "kind": "adjacent",
-        "length": 67.18,
+        "length": 43.27,
         "passable": true,
         "roads": []
       },
       {
-        "a": "grey_d_a1s0_xn1yn1",
+        "a": "grey_d_a1s0_xn1yn1_b1",
+        "b": "grey_d_a1s0_xn1yn2",
+        "gates": [],
+        "id": "grey_d_a1s0_xn1yn1_b1~grey_d_a1s0_xn1yn2",
+        "kind": "adjacent",
+        "length": 23.91,
+        "passable": true,
+        "roads": []
+      },
+      {
+        "a": "grey_d_a1s0_xn1yn1_b1",
         "b": "grey_d_a1s0_xn2yn1_p0",
         "gates": [],
-        "id": "grey_d_a1s0_xn1yn1~grey_d_a1s0_xn2yn1_p0",
+        "id": "grey_d_a1s0_xn1yn1_b1~grey_d_a1s0_xn2yn1_p0",
         "kind": "adjacent",
         "length": 12.73,
         "passable": true,
         "roads": []
       },
       {
-        "a": "grey_d_a1s0_xn1yn1",
+        "a": "grey_d_a1s0_xn1yn1_b1",
         "b": "grey_d_a1s0_xn2yn1_p1",
         "gates": [],
-        "id": "grey_d_a1s0_xn1yn1~grey_d_a1s0_xn2yn1_p1",
+        "id": "grey_d_a1s0_xn1yn1_b1~grey_d_a1s0_xn2yn1_p1",
         "kind": "adjacent",
         "length": 46.42,
         "passable": true,
@@ -520,9 +589,9 @@
       },
       {
         "a": "grey_d_a1s0_xn2yn1_p0",
-        "b": "grey_d_a1s0_xn3yn1",
+        "b": "grey_d_a1s0_xn3yn1_p0",
         "gates": [],
-        "id": "grey_d_a1s0_xn2yn1_p0~grey_d_a1s0_xn3yn1",
+        "id": "grey_d_a1s0_xn2yn1_p0~grey_d_a1s0_xn3yn1_p0",
         "kind": "adjacent",
         "length": 26.74,
         "passable": true,
@@ -580,11 +649,23 @@
       },
       {
         "a": "grey_d_a1s0_xn2yn1_p1",
-        "b": "grey_d_a1s0_xn3yn1",
+        "b": "grey_d_a1s0_xn3yn1_p0",
         "gates": [],
-        "id": "grey_d_a1s0_xn2yn1_p1~grey_d_a1s0_xn3yn1",
+        "id": "grey_d_a1s0_xn2yn1_p1~grey_d_a1s0_xn3yn1_p0",
         "kind": "adjacent",
-        "length": 56.73,
+        "length": 12.31,
+        "passable": true,
+        "roads": [
+          "grey_sr_a1s0_un2_0"
+        ]
+      },
+      {
+        "a": "grey_d_a1s0_xn2yn1_p1",
+        "b": "grey_d_a1s0_xn3yn1_p2",
+        "gates": [],
+        "id": "grey_d_a1s0_xn2yn1_p1~grey_d_a1s0_xn3yn1_p2",
+        "kind": "adjacent",
+        "length": 44.43,
         "passable": true,
         "roads": [
           "grey_sr_a1s0_un2_0"
@@ -592,9 +673,9 @@
       },
       {
         "a": "grey_d_a1s0_xn3y0a",
-        "b": "grey_d_a1s0_xn3yn1",
+        "b": "grey_d_a1s0_xn3yn1_p2",
         "gates": [],
-        "id": "grey_d_a1s0_xn3y0a~grey_d_a1s0_xn3yn1",
+        "id": "grey_d_a1s0_xn3y0a~grey_d_a1s0_xn3yn1_p2",
         "kind": "adjacent",
         "length": 48.18,
         "passable": true,
@@ -639,22 +720,35 @@
         "roads": []
       },
       {
-        "a": "grey_d_a1s0_xn3yn1",
+        "a": "grey_d_a1s0_xn3yn1_p0",
+        "b": "grey_d_a1s0_xn3yn1_p2",
+        "gates": [],
+        "id": "grey_d_a1s0_xn3yn1_p0~grey_d_a1s0_xn3yn1_p2",
+        "kind": "adjacent",
+        "length": 53.68,
+        "passable": true,
+        "roads": [
+          "grey_sr_a1s0_xn3yn1_b0",
+          "grey_sr_a1s0_xn3yn1_b1"
+        ]
+      },
+      {
+        "a": "grey_d_a1s0_xn3yn1_p0",
         "b": "grey_d_a1s0_xn4yn1",
         "gates": [],
-        "id": "grey_d_a1s0_xn3yn1~grey_d_a1s0_xn4yn1",
+        "id": "grey_d_a1s0_xn3yn1_p0~grey_d_a1s0_xn4yn1",
         "kind": "adjacent",
-        "length": 64.36,
+        "length": 16.24,
         "passable": true,
         "roads": [
           "grey_sr_a1s0_un3_0"
         ]
       },
       {
-        "a": "grey_d_a1s0_xn3yn1",
+        "a": "grey_d_a1s0_xn3yn1_p0",
         "b": "grey_d_a2s0_p2_b1",
         "gates": [],
-        "id": "grey_d_a1s0_xn3yn1~grey_d_a2s0_p2_b1",
+        "id": "grey_d_a1s0_xn3yn1_p0~grey_d_a2s0_p2_b1",
         "kind": "adjacent",
         "length": 15.44,
         "passable": true,
@@ -663,15 +757,27 @@
         ]
       },
       {
-        "a": "grey_d_a1s0_xn3yn1",
+        "a": "grey_d_a1s0_xn3yn1_p0",
         "b": "grey_d_a2s0_p3",
         "gates": [],
-        "id": "grey_d_a1s0_xn3yn1~grey_d_a2s0_p3",
+        "id": "grey_d_a1s0_xn3yn1_p0~grey_d_a2s0_p3",
         "kind": "adjacent",
         "length": 44.56,
         "passable": true,
         "roads": [
           "grey_artery_2"
+        ]
+      },
+      {
+        "a": "grey_d_a1s0_xn3yn1_p2",
+        "b": "grey_d_a1s0_xn4yn1",
+        "gates": [],
+        "id": "grey_d_a1s0_xn3yn1_p2~grey_d_a1s0_xn4yn1",
+        "kind": "adjacent",
+        "length": 48.12,
+        "passable": true,
+        "roads": [
+          "grey_sr_a1s0_un3_0"
         ]
       },
       {
@@ -1123,9 +1229,9 @@
       },
       {
         "a": "grey_d_a3s0_x0yn2_p1",
-        "b": "grey_d_a3s0_xn1yn2",
+        "b": "grey_d_a3s0_xn1yn2_p1",
         "gates": [],
-        "id": "grey_d_a3s0_x0yn2_p1~grey_d_a3s0_xn1yn2",
+        "id": "grey_d_a3s0_x0yn2_p1~grey_d_a3s0_xn1yn2_p1",
         "kind": "adjacent",
         "length": 4.25,
         "passable": true,
@@ -1183,9 +1289,9 @@
       },
       {
         "a": "grey_d_a3s0_x0yn2_p2",
-        "b": "grey_d_a3s0_xn1yn2",
+        "b": "grey_d_a3s0_xn1yn2_p1",
         "gates": [],
-        "id": "grey_d_a3s0_x0yn2_p2~grey_d_a3s0_xn1yn2",
+        "id": "grey_d_a3s0_x0yn2_p2~grey_d_a3s0_xn1yn2_p1",
         "kind": "adjacent",
         "length": 39.53,
         "passable": true,
@@ -1315,11 +1421,23 @@
       },
       {
         "a": "grey_d_a3s0_xn1yn1",
-        "b": "grey_d_a3s0_xn1yn2",
+        "b": "grey_d_a3s0_xn1yn2_p0",
         "gates": [],
-        "id": "grey_d_a3s0_xn1yn1~grey_d_a3s0_xn1yn2",
+        "id": "grey_d_a3s0_xn1yn1~grey_d_a3s0_xn1yn2_p0",
         "kind": "adjacent",
-        "length": 50.0,
+        "length": 9.28,
+        "passable": true,
+        "roads": [
+          "grey_sr_a3s0_vn1_0"
+        ]
+      },
+      {
+        "a": "grey_d_a3s0_xn1yn1",
+        "b": "grey_d_a3s0_xn1yn2_p1",
+        "gates": [],
+        "id": "grey_d_a3s0_xn1yn1~grey_d_a3s0_xn1yn2_p1",
+        "kind": "adjacent",
+        "length": 40.72,
         "passable": true,
         "roads": [
           "grey_sr_a3s0_vn1_0"
@@ -1338,34 +1456,59 @@
         ]
       },
       {
-        "a": "grey_d_a3s0_xn1yn2",
+        "a": "grey_d_a3s0_xn1yn2_p0",
+        "b": "grey_d_a3s0_xn1yn2_p1",
+        "gates": [],
+        "id": "grey_d_a3s0_xn1yn2_p0~grey_d_a3s0_xn1yn2_p1",
+        "kind": "adjacent",
+        "length": 43.73,
+        "passable": true,
+        "roads": [
+          "grey_sr_a3s0_xn1yn2_b0",
+          "grey_sr_a3s0_xn1yn2_b1"
+        ]
+      },
+      {
+        "a": "grey_d_a3s0_xn1yn2_p0",
         "b": "grey_d_a3s0_xn1yn3",
         "gates": [],
-        "id": "grey_d_a3s0_xn1yn2~grey_d_a3s0_xn1yn3",
+        "id": "grey_d_a3s0_xn1yn2_p0~grey_d_a3s0_xn1yn3",
         "kind": "adjacent",
-        "length": 75.54,
+        "length": 28.18,
         "passable": true,
         "roads": []
       },
       {
-        "a": "grey_d_a3s0_xn1yn2",
+        "a": "grey_d_a3s0_xn1yn2_p0",
         "b": "grey_d_a3s0_xn2yn1",
         "gates": [],
-        "id": "grey_d_a3s0_xn1yn2~grey_d_a3s0_xn2yn1",
+        "id": "grey_d_a3s0_xn1yn2_p0~grey_d_a3s0_xn2yn1",
         "kind": "adjacent",
         "length": 35.45,
         "passable": true,
         "roads": []
       },
       {
-        "a": "grey_d_a3s0_xn1yn2",
+        "a": "grey_d_a3s0_xn1yn2_p0",
         "b": "outside",
         "gates": [],
-        "id": "grey_d_a3s0_xn1yn2~outside",
+        "id": "grey_d_a3s0_xn1yn2_p0~outside",
         "kind": "wall",
         "length": 47.36,
         "passable": false,
         "roads": []
+      },
+      {
+        "a": "grey_d_a3s0_xn1yn2_p1",
+        "b": "grey_d_a3s0_xn1yn3",
+        "gates": [],
+        "id": "grey_d_a3s0_xn1yn2_p1~grey_d_a3s0_xn1yn3",
+        "kind": "adjacent",
+        "length": 47.35,
+        "passable": true,
+        "roads": [
+          "grey_sr_a3s0_vn2_0"
+        ]
       },
       {
         "a": "grey_d_a3s0_xn1yn3",
@@ -1600,19 +1743,19 @@
     ],
     "nodes": [
       {
-        "id": "grey_d_a1s0_x0y0_b0",
+        "id": "grey_d_a1s0_x0y0_p0",
         "kind": "district"
       },
       {
-        "id": "grey_d_a1s0_x0y0_b1",
+        "id": "grey_d_a1s0_x0y0_p1",
         "kind": "district"
       },
       {
-        "id": "grey_d_a1s0_x0yn1_b0",
+        "id": "grey_d_a1s0_x0yn1_core",
         "kind": "district"
       },
       {
-        "id": "grey_d_a1s0_x0yn1_b1",
+        "id": "grey_d_a1s0_x0yn1_r1s2",
         "kind": "district"
       },
       {
@@ -1624,7 +1767,11 @@
         "kind": "district"
       },
       {
-        "id": "grey_d_a1s0_x1yn1_r1s2",
+        "id": "grey_d_a1s0_x1yn1_r1s2_b0",
+        "kind": "district"
+      },
+      {
+        "id": "grey_d_a1s0_x1yn1_r1s2_b1",
         "kind": "district"
       },
       {
@@ -1640,7 +1787,11 @@
         "kind": "district"
       },
       {
-        "id": "grey_d_a1s0_xn1yn1",
+        "id": "grey_d_a1s0_xn1yn1_b0",
+        "kind": "district"
+      },
+      {
+        "id": "grey_d_a1s0_xn1yn1_b1",
         "kind": "district"
       },
       {
@@ -1668,7 +1819,11 @@
         "kind": "district"
       },
       {
-        "id": "grey_d_a1s0_xn3yn1",
+        "id": "grey_d_a1s0_xn3yn1_p0",
+        "kind": "district"
+      },
+      {
+        "id": "grey_d_a1s0_xn3yn1_p2",
         "kind": "district"
       },
       {
@@ -1748,7 +1903,11 @@
         "kind": "district"
       },
       {
-        "id": "grey_d_a3s0_xn1yn2",
+        "id": "grey_d_a3s0_xn1yn2_p0",
+        "kind": "district"
+      },
+      {
+        "id": "grey_d_a3s0_xn1yn2_p1",
         "kind": "district"
       },
       {
@@ -1811,31 +1970,31 @@
   },
   "districts": [
     {
-      "area": 2552.48,
+      "area": 1659.13,
       "depth": 2,
-      "id": "grey_d_a1s0_x0y0_b0",
+      "id": "grey_d_a1s0_x0y0_p0",
       "inside_wall": true,
-      "key": "b0",
+      "key": "p0",
       "kind": "market",
       "label": "Market Ward 1 1 1",
       "landmarks": [],
       "parent": "grey_d_a1s0_x0y0",
       "polygon": [
         [
-          665.49,
-          406.44
+          665.89,
+          406.52
         ],
         [
-          661.45,
-          458.62
+          646.63,
+          436.47
         ],
         [
-          637.71,
-          456.25
+          623.82,
+          446.97
         ],
         [
-          626.41,
-          455.12
+          611.78,
+          408.98
         ],
         [
           607.43,
@@ -1849,31 +2008,23 @@
       "waterfront": false
     },
     {
-      "area": 1824.36,
+      "area": 2717.67,
       "depth": 2,
-      "id": "grey_d_a1s0_x0y0_b1",
+      "id": "grey_d_a1s0_x0y0_p1",
       "inside_wall": true,
-      "key": "b1",
+      "key": "p1",
       "kind": "market",
       "label": "Market Ward 1 1 2",
       "landmarks": [],
       "parent": "grey_d_a1s0_x0y0",
       "polygon": [
         [
-          661.45,
-          458.62
-        ],
-        [
-          665.49,
-          406.44
-        ],
-        [
-          688.5,
-          410.87
-        ],
-        [
           691.36,
           416.02
+        ],
+        [
+          700.42,
+          440.62
         ],
         [
           705.8,
@@ -1886,32 +2037,236 @@
         [
           682.45,
           460.72
+        ],
+        [
+          637.71,
+          456.25
+        ],
+        [
+          626.41,
+          455.12
+        ],
+        [
+          623.82,
+          446.97
+        ],
+        [
+          646.63,
+          436.47
+        ],
+        [
+          665.89,
+          406.52
+        ],
+        [
+          688.5,
+          410.87
         ]
       ],
       "waterfront": false
     },
     {
-      "area": 3373.07,
+      "area": 3273.08,
       "depth": 2,
-      "id": "grey_d_a1s0_x0yn1_b0",
+      "id": "grey_d_a1s0_x0yn1_core",
       "inside_wall": true,
-      "key": "b0",
+      "key": "core",
       "kind": "market",
       "label": "Market Ward 1 2 1",
       "landmarks": [],
       "parent": "grey_d_a1s0_x0yn1",
       "polygon": [
         [
-          591.32,
-          392.18
+          607.43,
+          395.28
+        ],
+        [
+          611.78,
+          408.98
+        ],
+        [
+          587.25,
+          414.41
+        ],
+        [
+          587.35,
+          414.84
+        ],
+        [
+          587.52,
+          415.82
+        ],
+        [
+          587.64,
+          416.81
+        ],
+        [
+          587.71,
+          417.81
         ],
         [
           587.74,
-          451.26
+          418.81
         ],
         [
-          565.85,
-          449.07
+          587.71,
+          419.8
+        ],
+        [
+          587.64,
+          420.8
+        ],
+        [
+          587.52,
+          421.79
+        ],
+        [
+          587.35,
+          422.77
+        ],
+        [
+          587.13,
+          423.75
+        ],
+        [
+          586.86,
+          424.71
+        ],
+        [
+          586.55,
+          425.66
+        ],
+        [
+          586.19,
+          426.59
+        ],
+        [
+          585.79,
+          427.5
+        ],
+        [
+          585.34,
+          428.39
+        ],
+        [
+          584.85,
+          429.26
+        ],
+        [
+          584.31,
+          430.1
+        ],
+        [
+          583.74,
+          430.92
+        ],
+        [
+          583.12,
+          431.7
+        ],
+        [
+          582.47,
+          432.46
+        ],
+        [
+          581.78,
+          433.18
+        ],
+        [
+          581.06,
+          433.87
+        ],
+        [
+          580.3,
+          434.52
+        ],
+        [
+          579.52,
+          435.14
+        ],
+        [
+          578.7,
+          435.71
+        ],
+        [
+          577.86,
+          436.25
+        ],
+        [
+          576.99,
+          436.74
+        ],
+        [
+          576.1,
+          437.19
+        ],
+        [
+          575.19,
+          437.59
+        ],
+        [
+          574.26,
+          437.95
+        ],
+        [
+          573.31,
+          438.26
+        ],
+        [
+          572.35,
+          438.53
+        ],
+        [
+          571.37,
+          438.75
+        ],
+        [
+          570.39,
+          438.92
+        ],
+        [
+          569.4,
+          439.04
+        ],
+        [
+          568.4,
+          439.11
+        ],
+        [
+          567.41,
+          439.14
+        ],
+        [
+          566.41,
+          439.11
+        ],
+        [
+          565.41,
+          439.04
+        ],
+        [
+          564.42,
+          438.92
+        ],
+        [
+          563.44,
+          438.75
+        ],
+        [
+          562.47,
+          438.53
+        ],
+        [
+          561.5,
+          438.26
+        ],
+        [
+          561.29,
+          438.19
+        ],
+        [
+          558.1,
+          448.3
         ],
         [
           541.13,
@@ -1938,6 +2293,10 @@
           380.15
         ],
         [
+          532.7,
+          380.91
+        ],
+        [
           533.85,
           381.13
         ],
@@ -1949,37 +2308,221 @@
       "waterfront": false
     },
     {
-      "area": 1601.81,
+      "area": 1701.7,
       "depth": 2,
-      "id": "grey_d_a1s0_x0yn1_b1",
+      "id": "grey_d_a1s0_x0yn1_r1s2",
       "inside_wall": true,
-      "key": "b1",
+      "key": "r1s2",
       "kind": "market",
       "label": "Market Ward 1 2 2",
       "landmarks": [],
       "parent": "grey_d_a1s0_x0yn1",
       "polygon": [
         [
+          558.1,
+          448.3
+        ],
+        [
+          561.29,
+          438.19
+        ],
+        [
+          561.5,
+          438.26
+        ],
+        [
+          562.47,
+          438.53
+        ],
+        [
+          563.44,
+          438.75
+        ],
+        [
+          564.42,
+          438.92
+        ],
+        [
+          565.41,
+          439.04
+        ],
+        [
+          566.41,
+          439.11
+        ],
+        [
+          567.41,
+          439.14
+        ],
+        [
+          568.4,
+          439.11
+        ],
+        [
+          569.4,
+          439.04
+        ],
+        [
+          570.39,
+          438.92
+        ],
+        [
+          571.37,
+          438.75
+        ],
+        [
+          572.35,
+          438.53
+        ],
+        [
+          573.31,
+          438.26
+        ],
+        [
+          574.26,
+          437.95
+        ],
+        [
+          575.19,
+          437.59
+        ],
+        [
+          576.1,
+          437.19
+        ],
+        [
+          576.99,
+          436.74
+        ],
+        [
+          577.86,
+          436.25
+        ],
+        [
+          578.7,
+          435.71
+        ],
+        [
+          579.52,
+          435.14
+        ],
+        [
+          580.3,
+          434.52
+        ],
+        [
+          581.06,
+          433.87
+        ],
+        [
+          581.78,
+          433.18
+        ],
+        [
+          582.47,
+          432.46
+        ],
+        [
+          583.12,
+          431.7
+        ],
+        [
+          583.74,
+          430.92
+        ],
+        [
+          584.31,
+          430.1
+        ],
+        [
+          584.85,
+          429.26
+        ],
+        [
+          585.34,
+          428.39
+        ],
+        [
+          585.79,
+          427.5
+        ],
+        [
+          586.19,
+          426.59
+        ],
+        [
+          586.55,
+          425.66
+        ],
+        [
+          586.86,
+          424.71
+        ],
+        [
+          587.13,
+          423.75
+        ],
+        [
+          587.35,
+          422.77
+        ],
+        [
+          587.52,
+          421.79
+        ],
+        [
+          587.64,
+          420.8
+        ],
+        [
+          587.71,
+          419.8
+        ],
+        [
           587.74,
-          451.26
+          418.81
         ],
         [
-          591.32,
-          392.18
+          587.71,
+          417.81
         ],
         [
-          607.43,
-          395.28
+          587.64,
+          416.81
+        ],
+        [
+          587.52,
+          415.82
+        ],
+        [
+          587.35,
+          414.84
+        ],
+        [
+          587.25,
+          414.41
+        ],
+        [
+          611.78,
+          408.98
+        ],
+        [
+          623.82,
+          446.97
         ],
         [
           626.41,
           455.12
+        ],
+        [
+          565.85,
+          449.07
         ]
       ],
       "waterfront": false
     },
     {
-      "area": 2361.66,
+      "area": 2361.7,
       "depth": 1,
       "id": "grey_d_a1s0_x1y0",
       "inside_wall": true,
@@ -2014,8 +2557,8 @@
           410.87
         ],
         [
-          665.49,
-          406.44
+          665.89,
+          406.52
         ],
         [
           665.22,
@@ -2041,7 +2584,7 @@
       "waterfront": false
     },
     {
-      "area": 1621.55,
+      "area": 1621.6,
       "depth": 2,
       "id": "grey_d_a1s0_x1yn1_r1s1",
       "inside_wall": true,
@@ -2244,10 +2787,6 @@
           395.28
         ],
         [
-          591.32,
-          392.18
-        ],
-        [
           544.98,
           383.27
         ]
@@ -2255,16 +2794,74 @@
       "waterfront": false
     },
     {
-      "area": 3462.48,
-      "depth": 2,
-      "id": "grey_d_a1s0_x1yn1_r1s2",
+      "area": 1631.9,
+      "depth": 3,
+      "id": "grey_d_a1s0_x1yn1_r1s2_b0",
       "inside_wall": true,
-      "key": "r1s2",
+      "key": "b0",
       "kind": "market",
-      "label": "Market Ward 1 4 2",
+      "label": "Market Ward 1 4 2 1",
       "landmarks": [],
-      "parent": "grey_d_a1s0_x1yn1",
+      "parent": "grey_d_a1s0_x1yn1_r1s2",
       "polygon": [
+        [
+          586.34,
+          333.79
+        ],
+        [
+          520.91,
+          346.57
+        ],
+        [
+          519.87,
+          342.23
+        ],
+        [
+          519.32,
+          340.37
+        ],
+        [
+          511.17,
+          312.94
+        ],
+        [
+          508.07,
+          304.73
+        ],
+        [
+          521.34,
+          308.7
+        ],
+        [
+          540.93,
+          314.56
+        ],
+        [
+          577.83,
+          325.6
+        ]
+      ],
+      "waterfront": false
+    },
+    {
+      "area": 1830.59,
+      "depth": 3,
+      "id": "grey_d_a1s0_x1yn1_r1s2_b1",
+      "inside_wall": true,
+      "key": "b1",
+      "kind": "market",
+      "label": "Market Ward 1 4 2 2",
+      "landmarks": [],
+      "parent": "grey_d_a1s0_x1yn1_r1s2",
+      "polygon": [
+        [
+          520.91,
+          346.57
+        ],
+        [
+          586.34,
+          333.79
+        ],
         [
           588.64,
           336.0
@@ -2458,6 +3055,10 @@
           381.13
         ],
         [
+          532.7,
+          380.91
+        ],
+        [
           528.75,
           380.15
         ],
@@ -2468,34 +3069,6 @@
         [
           521.14,
           347.5
-        ],
-        [
-          519.87,
-          342.23
-        ],
-        [
-          519.32,
-          340.37
-        ],
-        [
-          511.17,
-          312.94
-        ],
-        [
-          508.07,
-          304.73
-        ],
-        [
-          521.34,
-          308.7
-        ],
-        [
-          540.93,
-          314.56
-        ],
-        [
-          577.83,
-          325.6
         ]
       ],
       "waterfront": false
@@ -2575,7 +3148,7 @@
       "waterfront": false
     },
     {
-      "area": 1751.0,
+      "area": 1751.06,
       "depth": 2,
       "id": "grey_d_a1s0_xn1y0_p0",
       "inside_wall": true,
@@ -2602,6 +3175,10 @@
           514.67
         ],
         [
+          632.21,
+          473.42
+        ],
+        [
           626.41,
           455.12
         ]
@@ -2609,7 +3186,7 @@
       "waterfront": false
     },
     {
-      "area": 2746.0,
+      "area": 2745.95,
       "depth": 2,
       "id": "grey_d_a1s0_xn1y0_p1",
       "inside_wall": true,
@@ -2656,10 +3233,6 @@
           456.25
         ],
         [
-          661.45,
-          458.62
-        ],
-        [
           682.45,
           460.72
         ]
@@ -2667,31 +3240,53 @@
       "waterfront": false
     },
     {
-      "area": 3623.59,
-      "depth": 1,
-      "id": "grey_d_a1s0_xn1yn1",
+      "area": 1746.01,
+      "depth": 2,
+      "id": "grey_d_a1s0_xn1yn1_b0",
       "inside_wall": true,
-      "key": "xn1yn1",
+      "key": "b0",
       "kind": "market",
-      "label": "Market Ward 1 7",
+      "label": "Market Ward 1 7 1",
       "landmarks": [],
-      "parent": "grey_d_a1s0",
+      "parent": "grey_d_a1s0_xn1yn1",
       "polygon": [
         [
-          586.16,
-          513.11
+          632.21,
+          473.42
+        ],
+        [
+          578.93,
+          490.32
         ],
         [
           565.85,
           449.07
         ],
         [
-          587.74,
-          451.26
-        ],
-        [
           626.41,
           455.12
+        ]
+      ],
+      "waterfront": false
+    },
+    {
+      "area": 1877.7,
+      "depth": 2,
+      "id": "grey_d_a1s0_xn1yn1_b1",
+      "inside_wall": true,
+      "key": "b1",
+      "kind": "market",
+      "label": "Market Ward 1 7 2",
+      "landmarks": [],
+      "parent": "grey_d_a1s0_xn1yn1",
+      "polygon": [
+        [
+          578.93,
+          490.32
+        ],
+        [
+          632.21,
+          473.42
         ],
         [
           645.29,
@@ -2700,12 +3295,16 @@
         [
           598.89,
           513.45
+        ],
+        [
+          586.16,
+          513.11
         ]
       ],
       "waterfront": false
     },
     {
-      "area": 1897.72,
+      "area": 1897.59,
       "depth": 1,
       "id": "grey_d_a1s0_xn1yn2",
       "inside_wall": true,
@@ -2720,8 +3319,16 @@
           446.6
         ],
         [
+          558.1,
+          448.3
+        ],
+        [
           565.85,
           449.07
+        ],
+        [
+          578.93,
+          490.32
         ],
         [
           586.16,
@@ -2933,7 +3540,7 @@
       "waterfront": false
     },
     {
-      "area": 3067.99,
+      "area": 3068.13,
       "depth": 2,
       "id": "grey_d_a1s0_xn2yn1_p1",
       "inside_wall": true,
@@ -2956,6 +3563,10 @@
           571.55
         ],
         [
+          619.07,
+          575.4
+        ],
+        [
           606.81,
           576.46
         ],
@@ -2971,7 +3582,7 @@
       "waterfront": false
     },
     {
-      "area": 3078.44,
+      "area": 3078.46,
       "depth": 1,
       "id": "grey_d_a1s0_xn3y0a",
       "inside_wall": true,
@@ -3018,6 +3629,10 @@
           617.48
         ],
         [
+          667.51,
+          584.74
+        ],
+        [
           663.33,
           571.55
         ],
@@ -3029,19 +3644,27 @@
       "waterfront": false
     },
     {
-      "area": 3742.76,
-      "depth": 1,
-      "id": "grey_d_a1s0_xn3yn1",
+      "area": 1667.79,
+      "depth": 2,
+      "id": "grey_d_a1s0_xn3yn1_p0",
       "inside_wall": true,
-      "key": "xn3yn1",
+      "key": "p0",
       "kind": "market",
-      "label": "Market Ward 1 12",
+      "label": "Market Ward 1 12 1",
       "landmarks": [],
-      "parent": "grey_d_a1s0",
+      "parent": "grey_d_a1s0_xn3yn1",
       "polygon": [
         [
-          677.89,
-          617.48
+          619.07,
+          575.4
+        ],
+        [
+          633.79,
+          604.98
+        ],
+        [
+          630.42,
+          625.34
         ],
         [
           622.18,
@@ -3078,16 +3701,50 @@
         [
           606.81,
           576.46
-        ],
-        [
-          663.33,
-          571.55
         ]
       ],
       "waterfront": false
     },
     {
-      "area": 1795.31,
+      "area": 2074.67,
+      "depth": 2,
+      "id": "grey_d_a1s0_xn3yn1_p2",
+      "inside_wall": true,
+      "key": "p2",
+      "kind": "market",
+      "label": "Market Ward 1 12 2",
+      "landmarks": [],
+      "parent": "grey_d_a1s0_xn3yn1",
+      "polygon": [
+        [
+          663.33,
+          571.55
+        ],
+        [
+          667.51,
+          584.74
+        ],
+        [
+          677.89,
+          617.48
+        ],
+        [
+          630.42,
+          625.34
+        ],
+        [
+          633.79,
+          604.98
+        ],
+        [
+          619.07,
+          575.4
+        ]
+      ],
+      "waterfront": false
+    },
+    {
+      "area": 1795.44,
       "depth": 1,
       "id": "grey_d_a1s0_xn4yn1",
       "inside_wall": true,
@@ -3108,6 +3765,10 @@
         [
           622.18,
           626.71
+        ],
+        [
+          630.42,
+          625.34
         ],
         [
           677.89,
@@ -4179,7 +4840,7 @@
       "waterfront": false
     },
     {
-      "area": 1630.84,
+      "area": 1630.86,
       "depth": 2,
       "id": "grey_d_a3s0_x0yn2_p2",
       "inside_wall": true,
@@ -4208,6 +4869,10 @@
         [
           440.6,
           511.22
+        ],
+        [
+          435.03,
+          498.61
         ]
       ],
       "waterfront": false
@@ -4477,7 +5142,7 @@
       "waterfront": false
     },
     {
-      "area": 2084.57,
+      "area": 2084.56,
       "depth": 1,
       "id": "grey_d_a3s0_xn1yn1",
       "inside_wall": true,
@@ -4490,6 +5155,10 @@
         [
           401.32,
           542.15
+        ],
+        [
+          408.61,
+          536.41
         ],
         [
           440.6,
@@ -4507,19 +5176,27 @@
       "waterfront": false
     },
     {
-      "area": 3414.08,
-      "depth": 1,
-      "id": "grey_d_a3s0_xn1yn2",
+      "area": 1641.54,
+      "depth": 2,
+      "id": "grey_d_a3s0_xn1yn2_p0",
       "inside_wall": true,
-      "key": "xn1yn2",
+      "key": "p0",
       "kind": "market",
-      "label": "Market Ward 3 9",
+      "label": "Market Ward 3 9 1",
       "landmarks": [],
-      "parent": "grey_d_a3s0",
+      "parent": "grey_d_a3s0_xn1yn2",
       "polygon": [
         [
-          440.6,
-          511.22
+          385.71,
+          500.47
+        ],
+        [
+          395.98,
+          508.31
+        ],
+        [
+          408.61,
+          536.41
         ],
         [
           401.32,
@@ -4544,7 +5221,21 @@
         [
           383.1,
           502.53
-        ],
+        ]
+      ],
+      "waterfront": false
+    },
+    {
+      "area": 1772.61,
+      "depth": 2,
+      "id": "grey_d_a3s0_xn1yn2_p1",
+      "inside_wall": true,
+      "key": "p1",
+      "kind": "market",
+      "label": "Market Ward 3 9 2",
+      "landmarks": [],
+      "parent": "grey_d_a3s0_xn1yn2",
+      "polygon": [
         [
           422.91,
           471.17
@@ -4552,12 +5243,32 @@
         [
           424.63,
           475.06
+        ],
+        [
+          435.03,
+          498.61
+        ],
+        [
+          440.6,
+          511.22
+        ],
+        [
+          408.61,
+          536.41
+        ],
+        [
+          395.98,
+          508.31
+        ],
+        [
+          385.71,
+          500.47
         ]
       ],
       "waterfront": false
     },
     {
-      "area": 2440.41,
+      "area": 2440.33,
       "depth": 1,
       "id": "grey_d_a3s0_xn1yn3",
       "inside_wall": true,
@@ -4578,6 +5289,10 @@
         [
           422.91,
           471.17
+        ],
+        [
+          385.71,
+          500.47
         ],
         [
           383.1,
@@ -5097,7 +5812,7 @@
       "waterfront": false
     },
     {
-      "area": 3197.87,
+      "area": 3197.86,
       "depth": 1,
       "id": "grey_d_a3s1_xn1yn1",
       "inside_wall": true,
@@ -5110,6 +5825,10 @@
         [
           519.87,
           342.23
+        ],
+        [
+          520.91,
+          346.57
         ],
         [
           521.14,
@@ -5884,11 +6603,11 @@
         "road": "grey_arc_0_b"
       },
       {
-        "a": "grey_j_a1s0_u0_0_a1s0_x0yn1_sr_0",
+        "a": "grey_j_a1s0_u0_0_a1s0_x0yn1_spoke0_0",
         "b": "grey_j_a1s0_u0_0_a1s0_v0_0",
         "class": "artery",
-        "id": "grey_j_a1s0_u0_0_a1s0_v0_0~grey_j_a1s0_u0_0_a1s0_x0yn1_sr_0",
-        "length": 38.86,
+        "id": "grey_j_a1s0_u0_0_a1s0_v0_0~grey_j_a1s0_u0_0_a1s0_x0yn1_spoke0_0",
+        "length": 68.65,
         "passable": true,
         "road": "grey_sr_a1s0_u0_0"
       },
@@ -5903,55 +6622,28 @@
       },
       {
         "a": "grey_j_a1s0_u0_0_a1s0_v0_0",
-        "b": "grey_j_a1s0_u1_0_a1s0_v0_0",
+        "b": "grey_j_a1s0_v0_0_a1s0_x0y0_b0",
         "class": "artery",
-        "id": "grey_j_a1s0_u0_0_a1s0_v0_0~grey_j_a1s0_u1_0_a1s0_v0_0",
-        "length": 62.78,
+        "id": "grey_j_a1s0_u0_0_a1s0_v0_0~grey_j_a1s0_v0_0_a1s0_x0y0_b0",
+        "length": 8.55,
         "passable": true,
         "road": "grey_sr_a1s0_v0_0"
       },
       {
-        "a": "grey_j_a1s0_un1_0_a1s0_v0_0",
+        "a": "grey_j_a1s0_v0_0_a1s0_xn1yn1_sr_0",
         "b": "grey_j_a1s0_u0_0_a1s0_v0_0",
         "class": "artery",
-        "id": "grey_j_a1s0_u0_0_a1s0_v0_0~grey_j_a1s0_un1_0_a1s0_v0_0",
-        "length": 62.47,
+        "id": "grey_j_a1s0_u0_0_a1s0_v0_0~grey_j_a1s0_v0_0_a1s0_xn1yn1_sr_0",
+        "length": 19.2,
         "passable": true,
         "road": "grey_sr_a1s0_v0_0"
-      },
-      {
-        "a": "grey_j_a1s0_u0_0_a1s0_xn1y0_b1",
-        "b": "grey_j_a1s0_u0_0_a1s0_x0y0_sr_0",
-        "class": "artery",
-        "id": "grey_j_a1s0_u0_0_a1s0_x0y0_sr_0~grey_j_a1s0_u0_0_a1s0_xn1y0_b1",
-        "length": 23.86,
-        "passable": true,
-        "road": "grey_sr_a1s0_u0_0"
-      },
-      {
-        "a": "grey_j_a1s0_u0_0_a1s0_x0y0_sr_0",
-        "b": "grey_j_a1s0_u1_0_a1s0_x0y0_sr_0",
-        "class": "artery",
-        "id": "grey_j_a1s0_u0_0_a1s0_x0y0_sr_0~grey_j_a1s0_u1_0_a1s0_x0y0_sr_0",
-        "length": 52.34,
-        "passable": true,
-        "road": "grey_sr_a1s0_x0y0_sr_0"
-      },
-      {
-        "a": "grey_j_a1s0_u1_0_a1s0_x0yn1_sr_0",
-        "b": "grey_j_a1s0_u0_0_a1s0_x0yn1_sr_0",
-        "class": "artery",
-        "id": "grey_j_a1s0_u0_0_a1s0_x0yn1_sr_0~grey_j_a1s0_u1_0_a1s0_x0yn1_sr_0",
-        "length": 59.19,
-        "passable": true,
-        "road": "grey_sr_a1s0_x0yn1_sr_0"
       },
       {
         "a": "grey_j_artery_1_a1s0_u0_0",
-        "b": "grey_j_a1s0_u0_0_a1s0_x0yn1_sr_0",
+        "b": "grey_j_a1s0_u0_0_a1s0_x0yn1_spoke0_0",
         "class": "artery",
-        "id": "grey_j_a1s0_u0_0_a1s0_x0yn1_sr_0~grey_j_artery_1_a1s0_u0_0",
-        "length": 46.84,
+        "id": "grey_j_a1s0_u0_0_a1s0_x0yn1_spoke0_0~grey_j_artery_1_a1s0_u0_0",
+        "length": 17.05,
         "passable": true,
         "road": "grey_sr_a1s0_u0_0"
       },
@@ -5965,22 +6657,22 @@
         "road": "grey_sr_a1s0_xn1y0_b1"
       },
       {
-        "a": "grey_j_a1s0_u1_0_a1s0_v0_0",
-        "b": "grey_j_a1s0_u1_0_a1s0_x0y0_sr_0",
+        "a": "grey_j_a1s0_u1_0_a1s0_x1yn1_spoke2_0",
+        "b": "grey_j_a1s0_u1_0_a1s0_v0_0",
         "class": "street",
-        "id": "grey_j_a1s0_u1_0_a1s0_v0_0~grey_j_a1s0_u1_0_a1s0_x0y0_sr_0",
-        "length": 59.12,
+        "id": "grey_j_a1s0_u1_0_a1s0_v0_0~grey_j_a1s0_u1_0_a1s0_x1yn1_spoke2_0",
+        "length": 74.93,
         "passable": true,
         "road": "grey_sr_a1s0_u1_0"
       },
       {
-        "a": "grey_j_a1s0_u1_0_a1s0_x0yn1_sr_0",
+        "a": "grey_j_a1s0_v0_0_a1s0_x0yn1_spoke2_0",
         "b": "grey_j_a1s0_u1_0_a1s0_v0_0",
-        "class": "street",
-        "id": "grey_j_a1s0_u1_0_a1s0_v0_0~grey_j_a1s0_u1_0_a1s0_x0yn1_sr_0",
-        "length": 16.41,
+        "class": "artery",
+        "id": "grey_j_a1s0_u1_0_a1s0_v0_0~grey_j_a1s0_v0_0_a1s0_x0yn1_spoke2_0",
+        "length": 14.37,
         "passable": true,
-        "road": "grey_sr_a1s0_u1_0"
+        "road": "grey_sr_a1s0_v0_0"
       },
       {
         "a": "grey_j_a1s0_u1_0_a1s0_v0_0",
@@ -5990,15 +6682,6 @@
         "length": 38.48,
         "passable": true,
         "road": "grey_sr_a1s0_v0_0"
-      },
-      {
-        "a": "grey_j_a1s0_u1_0_a1s0_x1yn1_spoke2_0",
-        "b": "grey_j_a1s0_u1_0_a1s0_x0yn1_sr_0",
-        "class": "street",
-        "id": "grey_j_a1s0_u1_0_a1s0_x0yn1_sr_0~grey_j_a1s0_u1_0_a1s0_x1yn1_spoke2_0",
-        "length": 58.52,
-        "passable": true,
-        "road": "grey_sr_a1s0_u1_0"
       },
       {
         "a": "grey_j_a1s0_x1yn1_ring1_0_a1s0_x1yn1_spoke2_0",
@@ -6033,6 +6716,15 @@
         "class": "artery",
         "id": "grey_j_a1s0_un1_0_a1s0_v0_0~grey_j_a1s0_un2_0_a1s0_v0_0",
         "length": 59.67,
+        "passable": true,
+        "road": "grey_sr_a1s0_v0_0"
+      },
+      {
+        "a": "grey_j_a1s0_un1_0_a1s0_v0_0",
+        "b": "grey_j_a1s0_v0_0_a1s0_xn1yn1_sr_0",
+        "class": "artery",
+        "id": "grey_j_a1s0_un1_0_a1s0_v0_0~grey_j_a1s0_v0_0_a1s0_xn1yn1_sr_0",
+        "length": 43.27,
         "passable": true,
         "road": "grey_sr_a1s0_v0_0"
       },
@@ -6100,11 +6792,11 @@
         "road": "grey_sr_a1s0_un2_0"
       },
       {
-        "a": "grey_j_artery_2_a1s0_un3_0",
+        "a": "grey_j_a1s0_un3_0_a1s0_xn3yn1_b0",
         "b": "grey_j_a1s0_un3_0_a1s0_v0_0",
         "class": "artery",
-        "id": "grey_j_a1s0_un3_0_a1s0_v0_0~grey_j_artery_2_a1s0_un3_0",
-        "length": 64.36,
+        "id": "grey_j_a1s0_un3_0_a1s0_v0_0~grey_j_a1s0_un3_0_a1s0_xn3yn1_b0",
+        "length": 48.12,
         "passable": true,
         "road": "grey_sr_a1s0_un3_0"
       },
@@ -6114,6 +6806,24 @@
         "class": "artery",
         "id": "grey_j_a1s0_un3_0_a1s0_v0_0~grey_j_artery_2_a1s0_v0_0",
         "length": 27.32,
+        "passable": true,
+        "road": "grey_sr_a1s0_v0_0"
+      },
+      {
+        "a": "grey_j_artery_2_a1s0_un3_0",
+        "b": "grey_j_a1s0_un3_0_a1s0_xn3yn1_b0",
+        "class": "artery",
+        "id": "grey_j_a1s0_un3_0_a1s0_xn3yn1_b0~grey_j_artery_2_a1s0_un3_0",
+        "length": 16.24,
+        "passable": true,
+        "road": "grey_sr_a1s0_un3_0"
+      },
+      {
+        "a": "grey_j_a1s0_v0_0_a1s0_x0y0_b0",
+        "b": "grey_j_a1s0_v0_0_a1s0_x0yn1_spoke2_0",
+        "class": "artery",
+        "id": "grey_j_a1s0_v0_0_a1s0_x0y0_b0~grey_j_a1s0_v0_0_a1s0_x0yn1_spoke2_0",
+        "length": 39.85,
         "passable": true,
         "road": "grey_sr_a1s0_v0_0"
       },
@@ -6208,13 +6918,40 @@
         "road": "grey_sr_a3s0_u0_0"
       },
       {
-        "a": "grey_j_artery_0_a3s0_u0_0",
+        "a": "grey_j_a3s0_u0_0_a3s0_vn2_0",
         "b": "grey_j_a3s0_u0_0_a3s0_x0yn2_b0",
         "class": "artery",
-        "id": "grey_j_a3s0_u0_0_a3s0_x0yn2_b0~grey_j_artery_0_a3s0_u0_0",
-        "length": 36.86,
+        "id": "grey_j_a3s0_u0_0_a3s0_vn2_0~grey_j_a3s0_u0_0_a3s0_x0yn2_b0",
+        "length": 4.25,
         "passable": true,
         "road": "grey_sr_a3s0_u0_0"
+      },
+      {
+        "a": "grey_j_a3s0_vn2_0_a3s0_xn1yn2_b0",
+        "b": "grey_j_a3s0_u0_0_a3s0_vn2_0",
+        "class": "street",
+        "id": "grey_j_a3s0_u0_0_a3s0_vn2_0~grey_j_a3s0_vn2_0_a3s0_xn1yn2_b0",
+        "length": 47.35,
+        "passable": true,
+        "road": "grey_sr_a3s0_vn2_0"
+      },
+      {
+        "a": "grey_j_artery_0_a3s0_u0_0",
+        "b": "grey_j_a3s0_u0_0_a3s0_vn2_0",
+        "class": "artery",
+        "id": "grey_j_a3s0_u0_0_a3s0_vn2_0~grey_j_artery_0_a3s0_u0_0",
+        "length": 32.6,
+        "passable": true,
+        "road": "grey_sr_a3s0_u0_0"
+      },
+      {
+        "a": "grey_j_a3s0_xn1yn2_b0_a3s0_xn1yn2_b1",
+        "b": "grey_j_a3s0_vn2_0_a3s0_xn1yn2_b0",
+        "class": "artery",
+        "id": "grey_j_a3s0_vn2_0_a3s0_xn1yn2_b0~grey_j_a3s0_xn1yn2_b0_a3s0_xn1yn2_b1",
+        "length": 12.92,
+        "passable": true,
+        "road": "grey_sr_a3s0_xn1yn2_b0"
       },
       {
         "a": "grey_j_artery_0_a3s0_v0_0",
@@ -6472,38 +7209,25 @@
           455.12
         ],
         "districts": [
-          "grey_d_a1s0_x0y0_b0",
-          "grey_d_a1s0_x0yn1_b1",
+          "grey_d_a1s0_x0y0_p1",
+          "grey_d_a1s0_x0yn1_r1s2",
           "grey_d_a1s0_xn1y0_p0",
-          "grey_d_a1s0_xn1yn1"
+          "grey_d_a1s0_xn1yn1_b0"
         ],
         "id": "grey_j_a1s0_u0_0_a1s0_v0_0",
         "kind": "choke"
       },
       {
         "at": [
-          661.45,
-          458.62
+          558.1,
+          448.3
         ],
         "districts": [
-          "grey_d_a1s0_x0y0_b0",
-          "grey_d_a1s0_x0y0_b1",
-          "grey_d_a1s0_xn1y0_p1"
+          "grey_d_a1s0_x0yn1_core",
+          "grey_d_a1s0_x0yn1_r1s2",
+          "grey_d_a1s0_xn1yn2"
         ],
-        "id": "grey_j_a1s0_u0_0_a1s0_x0y0_sr_0",
-        "kind": "choke"
-      },
-      {
-        "at": [
-          587.74,
-          451.26
-        ],
-        "districts": [
-          "grey_d_a1s0_x0yn1_b0",
-          "grey_d_a1s0_x0yn1_b1",
-          "grey_d_a1s0_xn1yn1"
-        ],
-        "id": "grey_j_a1s0_u0_0_a1s0_x0yn1_sr_0",
+        "id": "grey_j_a1s0_u0_0_a1s0_x0yn1_spoke0_0",
         "kind": "choke"
       },
       {
@@ -6512,7 +7236,7 @@
           456.25
         ],
         "districts": [
-          "grey_d_a1s0_x0y0_b0",
+          "grey_d_a1s0_x0y0_p1",
           "grey_d_a1s0_xn1y0_p0",
           "grey_d_a1s0_xn1y0_p1"
         ],
@@ -6525,8 +7249,8 @@
           395.28
         ],
         "districts": [
-          "grey_d_a1s0_x0y0_b0",
-          "grey_d_a1s0_x0yn1_b1",
+          "grey_d_a1s0_x0y0_p0",
+          "grey_d_a1s0_x0yn1_core",
           "grey_d_a1s0_x1y0",
           "grey_d_a1s0_x1yn1_r1s1"
         ],
@@ -6535,39 +7259,13 @@
       },
       {
         "at": [
-          665.49,
-          406.44
-        ],
-        "districts": [
-          "grey_d_a1s0_x0y0_b0",
-          "grey_d_a1s0_x0y0_b1",
-          "grey_d_a1s0_x1y0"
-        ],
-        "id": "grey_j_a1s0_u1_0_a1s0_x0y0_sr_0",
-        "kind": "choke"
-      },
-      {
-        "at": [
-          591.32,
-          392.18
-        ],
-        "districts": [
-          "grey_d_a1s0_x0yn1_b0",
-          "grey_d_a1s0_x0yn1_b1",
-          "grey_d_a1s0_x1yn1_r1s1"
-        ],
-        "id": "grey_j_a1s0_u1_0_a1s0_x0yn1_sr_0",
-        "kind": "choke"
-      },
-      {
-        "at": [
           533.85,
           381.13
         ],
         "districts": [
-          "grey_d_a1s0_x0yn1_b0",
+          "grey_d_a1s0_x0yn1_core",
           "grey_d_a1s0_x1yn1_r1s1",
-          "grey_d_a1s0_x1yn1_r1s2"
+          "grey_d_a1s0_x1yn1_r1s2_b1"
         ],
         "id": "grey_j_a1s0_u1_0_a1s0_x1yn1_spoke2_0",
         "kind": "choke"
@@ -6579,7 +7277,7 @@
         ],
         "districts": [
           "grey_d_a1s0_xn1y0_p0",
-          "grey_d_a1s0_xn1yn1",
+          "grey_d_a1s0_xn1yn1_b1",
           "grey_d_a1s0_xn2y0_b0",
           "grey_d_a1s0_xn2yn1_p1"
         ],
@@ -6621,7 +7319,7 @@
           "grey_d_a1s0_xn2y0_b0",
           "grey_d_a1s0_xn2yn1_p1",
           "grey_d_a1s0_xn3y0a",
-          "grey_d_a1s0_xn3yn1"
+          "grey_d_a1s0_xn3yn1_p2"
         ],
         "id": "grey_j_a1s0_un2_0_a1s0_v0_0",
         "kind": "choke"
@@ -6646,10 +7344,49 @@
         ],
         "districts": [
           "grey_d_a1s0_xn3y0a",
-          "grey_d_a1s0_xn3yn1",
+          "grey_d_a1s0_xn3yn1_p2",
           "grey_d_a1s0_xn4yn1"
         ],
         "id": "grey_j_a1s0_un3_0_a1s0_v0_0",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          630.42,
+          625.34
+        ],
+        "districts": [
+          "grey_d_a1s0_xn3yn1_p0",
+          "grey_d_a1s0_xn3yn1_p2",
+          "grey_d_a1s0_xn4yn1"
+        ],
+        "id": "grey_j_a1s0_un3_0_a1s0_xn3yn1_b0",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          623.82,
+          446.97
+        ],
+        "districts": [
+          "grey_d_a1s0_x0y0_p0",
+          "grey_d_a1s0_x0y0_p1",
+          "grey_d_a1s0_x0yn1_r1s2"
+        ],
+        "id": "grey_j_a1s0_v0_0_a1s0_x0y0_b0",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          611.78,
+          408.98
+        ],
+        "districts": [
+          "grey_d_a1s0_x0y0_p0",
+          "grey_d_a1s0_x0yn1_core",
+          "grey_d_a1s0_x0yn1_r1s2"
+        ],
+        "id": "grey_j_a1s0_v0_0_a1s0_x0yn1_spoke2_0",
         "kind": "choke"
       },
       {
@@ -6660,9 +7397,22 @@
         "districts": [
           "grey_d_a1s0_x1y0",
           "grey_d_a1s0_x1yn1_r1s1",
-          "grey_d_a1s0_x1yn1_r1s2"
+          "grey_d_a1s0_x1yn1_r1s2_b1"
         ],
         "id": "grey_j_a1s0_v0_0_a1s0_x1yn1_spoke1_0",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          632.21,
+          473.42
+        ],
+        "districts": [
+          "grey_d_a1s0_xn1y0_p0",
+          "grey_d_a1s0_xn1yn1_b0",
+          "grey_d_a1s0_xn1yn1_b1"
+        ],
+        "id": "grey_j_a1s0_v0_0_a1s0_xn1yn1_sr_0",
         "kind": "choke"
       },
       {
@@ -6672,7 +7422,7 @@
         ],
         "districts": [
           "grey_d_a1s0_x1yn1_r1s1",
-          "grey_d_a1s0_x1yn1_r1s2"
+          "grey_d_a1s0_x1yn1_r1s2_b1"
         ],
         "id": "grey_j_a1s0_x1yn1_ring1_0_a1s0_x1yn1_spoke1_0",
         "kind": "choke"
@@ -6684,7 +7434,7 @@
         ],
         "districts": [
           "grey_d_a1s0_x1yn1_r1s1",
-          "grey_d_a1s0_x1yn1_r1s2"
+          "grey_d_a1s0_x1yn1_r1s2_b1"
         ],
         "id": "grey_j_a1s0_x1yn1_ring1_0_a1s0_x1yn1_spoke2_0",
         "kind": "choke"
@@ -6757,15 +7507,53 @@
       },
       {
         "at": [
+          422.91,
+          471.17
+        ],
+        "districts": [
+          "grey_d_a3s0_x0yn2_p1",
+          "grey_d_a3s0_xn1yn2_p1",
+          "grey_d_a3s0_xn1yn3"
+        ],
+        "id": "grey_j_a3s0_u0_0_a3s0_vn2_0",
+        "kind": "choke"
+      },
+      {
+        "at": [
           424.63,
           475.06
         ],
         "districts": [
           "grey_d_a3s0_x0yn2_p1",
           "grey_d_a3s0_x0yn2_p2",
-          "grey_d_a3s0_xn1yn2"
+          "grey_d_a3s0_xn1yn2_p1"
         ],
         "id": "grey_j_a3s0_u0_0_a3s0_x0yn2_b0",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          385.71,
+          500.47
+        ],
+        "districts": [
+          "grey_d_a3s0_xn1yn2_p0",
+          "grey_d_a3s0_xn1yn2_p1",
+          "grey_d_a3s0_xn1yn3"
+        ],
+        "id": "grey_j_a3s0_vn2_0_a3s0_xn1yn2_b0",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          395.98,
+          508.31
+        ],
+        "districts": [
+          "grey_d_a3s0_xn1yn2_p0",
+          "grey_d_a3s0_xn1yn2_p1"
+        ],
+        "id": "grey_j_a3s0_xn1yn2_b0_a3s0_xn1yn2_b1",
         "kind": "choke"
       },
       {
@@ -6813,7 +7601,7 @@
           446.6
         ],
         "districts": [
-          "grey_d_a1s0_x0yn1_b0",
+          "grey_d_a1s0_x0yn1_core",
           "grey_d_a1s0_xn1yn2",
           "grey_d_a3s1_x0yn1"
         ],
@@ -6826,8 +7614,8 @@
           380.15
         ],
         "districts": [
-          "grey_d_a1s0_x0yn1_b0",
-          "grey_d_a1s0_x1yn1_r1s2",
+          "grey_d_a1s0_x0yn1_core",
+          "grey_d_a1s0_x1yn1_r1s2_b1",
           "grey_d_a3s1_xn1yn1"
         ],
         "id": "grey_j_artery_1_a1s0_u1_0",
@@ -6866,7 +7654,7 @@
         ],
         "districts": [
           "grey_d_a1s0_xn2yn1_p0",
-          "grey_d_a1s0_xn3yn1",
+          "grey_d_a1s0_xn3yn1_p0",
           "grey_d_a2s0_p2_b1"
         ],
         "id": "grey_j_artery_2_a1s0_un2_0",
@@ -6878,7 +7666,7 @@
           628.0
         ],
         "districts": [
-          "grey_d_a1s0_xn3yn1",
+          "grey_d_a1s0_xn3yn1_p0",
           "grey_d_a1s0_xn4yn1",
           "grey_d_a2s0_p3"
         ],
@@ -7217,6 +8005,10 @@
           347.5
         ],
         [
+          520.91,
+          346.57
+        ],
+        [
           519.87,
           342.23
         ],
@@ -7281,6 +8073,10 @@
           325.6
         ],
         [
+          586.34,
+          333.79
+        ],
+        [
           588.64,
           336.0
         ],
@@ -7315,6 +8111,10 @@
         [
           691.36,
           416.02
+        ],
+        [
+          700.42,
+          440.62
         ],
         [
           705.8,
@@ -8114,6 +8914,10 @@
           342.23
         ],
         [
+          520.91,
+          346.57
+        ],
+        [
           521.14,
           347.5
         ],
@@ -8387,28 +9191,21 @@
     },
     {
       "children": [
-        "grey_d_a1s0_x0y0_b0",
-        "grey_d_a1s0_x0y0_b1"
+        "grey_d_a1s0_x0y0_p0",
+        "grey_d_a1s0_x0y0_p1"
       ],
       "depth": 1,
       "id": "grey_d_a1s0_x0y0",
       "params": {
         "cells": 3,
-        "main_road": true,
-        "ratio_jitter": 0.15,
-        "road_depth": 1,
-        "rot": 252.4021,
-        "skew": 12.176
+        "lloyd": 0,
+        "rot": 252.4021
       },
       "parent": "grey_d_a1s0",
       "polygon": [
         [
           682.45,
           460.72
-        ],
-        [
-          661.45,
-          458.62
         ],
         [
           637.71,
@@ -8419,6 +9216,14 @@
           455.12
         ],
         [
+          623.82,
+          446.97
+        ],
+        [
+          611.78,
+          408.98
+        ],
+        [
           607.43,
           395.28
         ],
@@ -8427,8 +9232,8 @@
           406.39
         ],
         [
-          665.49,
-          406.44
+          665.89,
+          406.52
         ],
         [
           688.5,
@@ -8437,6 +9242,10 @@
         [
           691.36,
           416.02
+        ],
+        [
+          700.42,
+          440.62
         ],
         [
           705.8,
@@ -8448,22 +9257,21 @@
         ]
       ],
       "rule": -1,
-      "use": "bsp"
+      "use": "voronoi"
     },
     {
       "children": [
-        "grey_d_a1s0_x0yn1_b0",
-        "grey_d_a1s0_x0yn1_b1"
+        "grey_d_a1s0_x0yn1_core",
+        "grey_d_a1s0_x0yn1_r1s2"
       ],
       "depth": 1,
       "id": "grey_d_a1s0_x0yn1",
       "params": {
-        "cells": 6,
-        "main_road": true,
-        "ratio_jitter": 0.15,
-        "road_depth": 1,
+        "phase": 19.2424,
+        "ring_frac": 0.7484,
+        "rings": 0,
         "rot": 88.2721,
-        "skew": 4.0584
+        "spokes": 0
       },
       "parent": "grey_d_a1s0",
       "polygon": [
@@ -8480,6 +9288,10 @@
           380.15
         ],
         [
+          532.7,
+          380.91
+        ],
+        [
           533.85,
           381.13
         ],
@@ -8488,24 +9300,28 @@
           383.27
         ],
         [
-          591.32,
-          392.18
-        ],
-        [
           607.43,
           395.28
+        ],
+        [
+          611.78,
+          408.98
+        ],
+        [
+          623.82,
+          446.97
         ],
         [
           626.41,
           455.12
         ],
         [
-          587.74,
-          451.26
-        ],
-        [
           565.85,
           449.07
+        ],
+        [
+          558.1,
+          448.3
         ],
         [
           541.13,
@@ -8521,7 +9337,7 @@
         ]
       ],
       "rule": 2,
-      "use": "bsp"
+      "use": "radial"
     },
     {
       "children": [
@@ -8560,6 +9376,10 @@
           325.6
         ],
         [
+          586.34,
+          333.79
+        ],
+        [
           588.64,
           336.0
         ],
@@ -8572,16 +9392,16 @@
           395.28
         ],
         [
-          591.32,
-          392.18
-        ],
-        [
           544.98,
           383.27
         ],
         [
           533.85,
           381.13
+        ],
+        [
+          532.7,
+          380.91
         ],
         [
           528.75,
@@ -8594,6 +9414,10 @@
         [
           521.14,
           347.5
+        ],
+        [
+          520.91,
+          346.57
         ],
         [
           519.87,
@@ -8638,16 +9462,16 @@
           514.67
         ],
         [
+          632.21,
+          473.42
+        ],
+        [
           626.41,
           455.12
         ],
         [
           637.71,
           456.25
-        ],
-        [
-          661.45,
-          458.62
         ],
         [
           682.45,
@@ -8672,6 +9496,55 @@
       ],
       "rule": 2,
       "use": "voronoi"
+    },
+    {
+      "children": [
+        "grey_d_a1s0_xn1yn1_b0",
+        "grey_d_a1s0_xn1yn1_b1"
+      ],
+      "depth": 1,
+      "id": "grey_d_a1s0_xn1yn1",
+      "params": {
+        "cells": 3,
+        "main_road": true,
+        "ratio_jitter": 0.15,
+        "road_depth": 1,
+        "rot": 252.4038,
+        "skew": 6.8323
+      },
+      "parent": "grey_d_a1s0",
+      "polygon": [
+        [
+          586.16,
+          513.11
+        ],
+        [
+          578.93,
+          490.32
+        ],
+        [
+          565.85,
+          449.07
+        ],
+        [
+          626.41,
+          455.12
+        ],
+        [
+          632.21,
+          473.42
+        ],
+        [
+          645.29,
+          514.67
+        ],
+        [
+          598.89,
+          513.45
+        ]
+      ],
+      "rule": -1,
+      "use": "bsp"
     },
     {
       "children": [
@@ -8765,6 +9638,10 @@
           571.55
         ],
         [
+          619.07,
+          575.4
+        ],
+        [
           606.81,
           576.46
         ],
@@ -8854,6 +9731,80 @@
         ]
       ],
       "rule": 2,
+      "use": "voronoi"
+    },
+    {
+      "children": [
+        "grey_d_a1s0_xn3yn1_p0",
+        "grey_d_a1s0_xn3yn1_p2"
+      ],
+      "depth": 1,
+      "id": "grey_d_a1s0_xn3yn1",
+      "params": {
+        "cells": 3,
+        "lloyd": 2,
+        "rot": 236.4151
+      },
+      "parent": "grey_d_a1s0",
+      "polygon": [
+        [
+          677.89,
+          617.48
+        ],
+        [
+          630.42,
+          625.34
+        ],
+        [
+          622.18,
+          626.71
+        ],
+        [
+          614.4,
+          628.0
+        ],
+        [
+          614.0,
+          627.59
+        ],
+        [
+          599.49,
+          608.48
+        ],
+        [
+          588.43,
+          591.82
+        ],
+        [
+          586.11,
+          588.33
+        ],
+        [
+          580.17,
+          578.78
+        ],
+        [
+          606.26,
+          576.51
+        ],
+        [
+          606.81,
+          576.46
+        ],
+        [
+          619.07,
+          575.4
+        ],
+        [
+          663.33,
+          571.55
+        ],
+        [
+          667.51,
+          584.74
+        ]
+      ],
+      "rule": -1,
       "use": "voronoi"
     },
     {
@@ -9126,6 +10077,10 @@
           511.22
         ],
         [
+          435.03,
+          498.61
+        ],
+        [
           424.63,
           475.06
         ],
@@ -9155,6 +10110,72 @@
         ]
       ],
       "rule": 2,
+      "use": "voronoi"
+    },
+    {
+      "children": [
+        "grey_d_a3s0_xn1yn2_p0",
+        "grey_d_a3s0_xn1yn2_p1"
+      ],
+      "depth": 1,
+      "id": "grey_d_a3s0_xn1yn2",
+      "params": {
+        "cells": 3,
+        "lloyd": 2,
+        "rot": 321.7799
+      },
+      "parent": "grey_d_a3s0",
+      "polygon": [
+        [
+          440.6,
+          511.22
+        ],
+        [
+          408.61,
+          536.41
+        ],
+        [
+          401.32,
+          542.15
+        ],
+        [
+          373.47,
+          564.08
+        ],
+        [
+          370.37,
+          553.59
+        ],
+        [
+          365.82,
+          524.26
+        ],
+        [
+          363.57,
+          517.91
+        ],
+        [
+          383.1,
+          502.53
+        ],
+        [
+          385.71,
+          500.47
+        ],
+        [
+          422.91,
+          471.17
+        ],
+        [
+          424.63,
+          475.06
+        ],
+        [
+          435.03,
+          498.61
+        ]
+      ],
+      "rule": -1,
       "use": "voronoi"
     },
     {
@@ -9477,6 +10498,271 @@
       ],
       "rule": 2,
       "use": "wedge"
+    },
+    {
+      "children": [
+        "grey_d_a1s0_x1yn1_r1s2_b0",
+        "grey_d_a1s0_x1yn1_r1s2_b1"
+      ],
+      "depth": 2,
+      "id": "grey_d_a1s0_x1yn1_r1s2",
+      "params": {
+        "cells": 3,
+        "main_road": true,
+        "ratio_jitter": 0.15,
+        "road_depth": 1,
+        "rot": 256.4989,
+        "skew": 5.6406
+      },
+      "parent": "grey_d_a1s0_x1yn1",
+      "polygon": [
+        [
+          588.64,
+          336.0
+        ],
+        [
+          595.8,
+          358.6
+        ],
+        [
+          572.08,
+          355.15
+        ],
+        [
+          572.08,
+          355.19
+        ],
+        [
+          571.94,
+          355.97
+        ],
+        [
+          571.77,
+          356.74
+        ],
+        [
+          571.56,
+          357.5
+        ],
+        [
+          571.31,
+          358.25
+        ],
+        [
+          571.03,
+          358.99
+        ],
+        [
+          570.71,
+          359.71
+        ],
+        [
+          570.35,
+          360.41
+        ],
+        [
+          569.96,
+          361.1
+        ],
+        [
+          569.54,
+          361.77
+        ],
+        [
+          569.09,
+          362.41
+        ],
+        [
+          568.6,
+          363.03
+        ],
+        [
+          568.09,
+          363.63
+        ],
+        [
+          567.54,
+          364.2
+        ],
+        [
+          566.97,
+          364.75
+        ],
+        [
+          566.37,
+          365.26
+        ],
+        [
+          565.75,
+          365.75
+        ],
+        [
+          565.11,
+          366.2
+        ],
+        [
+          564.44,
+          366.62
+        ],
+        [
+          563.75,
+          367.01
+        ],
+        [
+          563.05,
+          367.37
+        ],
+        [
+          562.33,
+          367.69
+        ],
+        [
+          561.59,
+          367.97
+        ],
+        [
+          560.84,
+          368.22
+        ],
+        [
+          560.08,
+          368.43
+        ],
+        [
+          559.31,
+          368.6
+        ],
+        [
+          558.53,
+          368.74
+        ],
+        [
+          557.75,
+          368.83
+        ],
+        [
+          556.96,
+          368.89
+        ],
+        [
+          556.17,
+          368.91
+        ],
+        [
+          555.39,
+          368.89
+        ],
+        [
+          554.6,
+          368.83
+        ],
+        [
+          553.82,
+          368.74
+        ],
+        [
+          553.04,
+          368.6
+        ],
+        [
+          552.27,
+          368.43
+        ],
+        [
+          551.51,
+          368.22
+        ],
+        [
+          550.76,
+          367.97
+        ],
+        [
+          550.02,
+          367.69
+        ],
+        [
+          549.3,
+          367.37
+        ],
+        [
+          548.6,
+          367.01
+        ],
+        [
+          547.91,
+          366.62
+        ],
+        [
+          547.24,
+          366.2
+        ],
+        [
+          546.6,
+          365.75
+        ],
+        [
+          546.22,
+          365.45
+        ],
+        [
+          533.85,
+          381.13
+        ],
+        [
+          532.7,
+          380.91
+        ],
+        [
+          528.75,
+          380.15
+        ],
+        [
+          527.57,
+          374.3
+        ],
+        [
+          521.14,
+          347.5
+        ],
+        [
+          520.91,
+          346.57
+        ],
+        [
+          519.87,
+          342.23
+        ],
+        [
+          519.32,
+          340.37
+        ],
+        [
+          511.17,
+          312.94
+        ],
+        [
+          508.07,
+          304.73
+        ],
+        [
+          521.34,
+          308.7
+        ],
+        [
+          540.93,
+          314.56
+        ],
+        [
+          577.83,
+          325.6
+        ],
+        [
+          586.34,
+          333.79
+        ]
+      ],
+      "rule": -1,
+      "use": "bsp"
     }
   ],
   "params": {
@@ -9755,8 +11041,7 @@
         }
       ],
       "skipped": {
-        "grey_d_a1s0_xn3y0a": "unfit: fewer than 2 faces after merging",
-        "grey_d_a3s0_xn1yn2": "unfit: fewer than 2 faces after merging"
+        "grey_d_a1s0_xn3y0a": "unfit: fewer than 2 faces after merging"
       }
     },
     "lobes": 1,
@@ -10052,6 +11337,10 @@
         [
           521.14,
           347.5
+        ],
+        [
+          520.91,
+          346.57
         ],
         [
           519.87,
@@ -10497,15 +11786,18 @@
       "id": "grey_sr_a1s0_u0_0",
       "nodes": [
         "grey_j_artery_1_a1s0_u0_0",
-        "grey_j_a1s0_u0_0_a1s0_x0yn1_sr_0",
+        "grey_j_a1s0_u0_0_a1s0_x0yn1_spoke0_0",
         "grey_j_a1s0_u0_0_a1s0_v0_0",
-        "grey_j_a1s0_u0_0_a1s0_xn1y0_b1",
-        "grey_j_a1s0_u0_0_a1s0_x0y0_sr_0"
+        "grey_j_a1s0_u0_0_a1s0_xn1y0_b1"
       ],
       "polyline": [
         [
           541.13,
           446.6
+        ],
+        [
+          558.1,
+          448.3
         ],
         [
           565.83,
@@ -10516,20 +11808,12 @@
           449.07
         ],
         [
-          587.74,
-          451.26
-        ],
-        [
           626.41,
           455.12
         ],
         [
           637.71,
           456.25
-        ],
-        [
-          661.45,
-          458.62
         ]
       ],
       "width": 10.0
@@ -10540,14 +11824,16 @@
       "nodes": [
         "grey_j_artery_1_a1s0_u1_0",
         "grey_j_a1s0_u1_0_a1s0_x1yn1_spoke2_0",
-        "grey_j_a1s0_u1_0_a1s0_x0yn1_sr_0",
-        "grey_j_a1s0_u1_0_a1s0_v0_0",
-        "grey_j_a1s0_u1_0_a1s0_x0y0_sr_0"
+        "grey_j_a1s0_u1_0_a1s0_v0_0"
       ],
       "polyline": [
         [
           528.75,
           380.15
+        ],
+        [
+          532.7,
+          380.91
         ],
         [
           533.85,
@@ -10558,10 +11844,6 @@
           383.27
         ],
         [
-          591.32,
-          392.18
-        ],
-        [
           607.43,
           395.28
         ],
@@ -10570,8 +11852,8 @@
           406.39
         ],
         [
-          665.49,
-          406.44
+          665.89,
+          406.52
         ]
       ],
       "width": 5.0
@@ -10639,6 +11921,10 @@
           576.46
         ],
         [
+          619.07,
+          575.4
+        ],
+        [
           663.33,
           571.55
         ],
@@ -10654,6 +11940,7 @@
       "id": "grey_sr_a1s0_un3_0",
       "nodes": [
         "grey_j_artery_2_a1s0_un3_0",
+        "grey_j_a1s0_un3_0_a1s0_xn3yn1_b0",
         "grey_j_a1s0_un3_0_a1s0_v0_0"
       ],
       "polyline": [
@@ -10664,6 +11951,10 @@
         [
           622.18,
           626.71
+        ],
+        [
+          630.42,
+          625.34
         ],
         [
           677.89,
@@ -10680,7 +11971,10 @@
         "grey_j_a1s0_un3_0_a1s0_v0_0",
         "grey_j_a1s0_un2_0_a1s0_v0_0",
         "grey_j_a1s0_un1_0_a1s0_v0_0",
+        "grey_j_a1s0_v0_0_a1s0_xn1yn1_sr_0",
         "grey_j_a1s0_u0_0_a1s0_v0_0",
+        "grey_j_a1s0_v0_0_a1s0_x0y0_b0",
+        "grey_j_a1s0_v0_0_a1s0_x0yn1_spoke2_0",
         "grey_j_a1s0_u1_0_a1s0_v0_0",
         "grey_j_a1s0_v0_0_a1s0_x1yn1_spoke1_0"
       ],
@@ -10692,6 +11986,10 @@
         [
           677.89,
           617.48
+        ],
+        [
+          667.51,
+          584.74
         ],
         [
           663.33,
@@ -10706,8 +12004,20 @@
           514.67
         ],
         [
+          632.21,
+          473.42
+        ],
+        [
           626.41,
           455.12
+        ],
+        [
+          623.82,
+          446.97
+        ],
+        [
+          611.78,
+          408.98
         ],
         [
           607.43,
@@ -10730,6 +12040,10 @@
           513.11
         ],
         [
+          578.93,
+          490.32
+        ],
+        [
           565.83,
           449.07
         ]
@@ -10738,38 +12052,258 @@
     },
     {
       "class": "artery",
-      "id": "grey_sr_a1s0_x0y0_sr_0",
+      "id": "grey_sr_a1s0_x0y0_b0",
       "nodes": [
-        "grey_j_a1s0_u0_0_a1s0_x0y0_sr_0",
-        "grey_j_a1s0_u1_0_a1s0_x0y0_sr_0"
+        "grey_j_a1s0_v0_0_a1s0_x0y0_b0"
       ],
       "polyline": [
         [
-          661.45,
-          458.62
+          623.82,
+          446.97
         ],
         [
-          665.49,
-          406.44
+          646.63,
+          436.47
+        ]
+      ],
+      "width": 8.0
+    },
+    {
+      "class": "street",
+      "id": "grey_sr_a1s0_x0y0_b1",
+      "nodes": [],
+      "polyline": [
+        [
+          646.63,
+          436.47
+        ],
+        [
+          665.89,
+          406.52
+        ]
+      ],
+      "width": 5.0
+    },
+    {
+      "class": "street",
+      "id": "grey_sr_a1s0_x0yn1_ring1_0",
+      "nodes": [],
+      "polyline": [
+        [
+          561.29,
+          438.19
+        ],
+        [
+          561.5,
+          438.26
+        ],
+        [
+          562.47,
+          438.53
+        ],
+        [
+          563.44,
+          438.75
+        ],
+        [
+          564.42,
+          438.92
+        ],
+        [
+          565.41,
+          439.04
+        ],
+        [
+          566.41,
+          439.11
+        ],
+        [
+          567.41,
+          439.14
+        ],
+        [
+          568.4,
+          439.11
+        ],
+        [
+          569.4,
+          439.04
+        ],
+        [
+          570.39,
+          438.92
+        ],
+        [
+          571.37,
+          438.75
+        ],
+        [
+          572.35,
+          438.53
+        ],
+        [
+          573.31,
+          438.26
+        ],
+        [
+          574.26,
+          437.95
+        ],
+        [
+          575.19,
+          437.59
+        ],
+        [
+          576.1,
+          437.19
+        ],
+        [
+          576.99,
+          436.74
+        ],
+        [
+          577.86,
+          436.25
+        ],
+        [
+          578.7,
+          435.71
+        ],
+        [
+          579.52,
+          435.14
+        ],
+        [
+          580.3,
+          434.52
+        ],
+        [
+          581.06,
+          433.87
+        ],
+        [
+          581.78,
+          433.18
+        ],
+        [
+          582.47,
+          432.46
+        ],
+        [
+          583.12,
+          431.7
+        ],
+        [
+          583.74,
+          430.92
+        ],
+        [
+          584.31,
+          430.1
+        ],
+        [
+          584.85,
+          429.26
+        ],
+        [
+          585.34,
+          428.39
+        ],
+        [
+          585.79,
+          427.5
+        ],
+        [
+          586.19,
+          426.59
+        ],
+        [
+          586.55,
+          425.66
+        ],
+        [
+          586.86,
+          424.71
+        ],
+        [
+          587.13,
+          423.75
+        ],
+        [
+          587.35,
+          422.77
+        ],
+        [
+          587.52,
+          421.79
+        ],
+        [
+          587.64,
+          420.8
+        ],
+        [
+          587.71,
+          419.8
+        ],
+        [
+          587.74,
+          418.81
+        ],
+        [
+          587.71,
+          417.81
+        ],
+        [
+          587.64,
+          416.81
+        ],
+        [
+          587.52,
+          415.82
+        ],
+        [
+          587.35,
+          414.84
+        ],
+        [
+          587.25,
+          414.41
+        ]
+      ],
+      "width": 5.0
+    },
+    {
+      "class": "artery",
+      "id": "grey_sr_a1s0_x0yn1_spoke0_0",
+      "nodes": [
+        "grey_j_a1s0_u0_0_a1s0_x0yn1_spoke0_0"
+      ],
+      "polyline": [
+        [
+          561.29,
+          438.19
+        ],
+        [
+          558.1,
+          448.3
         ]
       ],
       "width": 8.0
     },
     {
       "class": "artery",
-      "id": "grey_sr_a1s0_x0yn1_sr_0",
+      "id": "grey_sr_a1s0_x0yn1_spoke2_0",
       "nodes": [
-        "grey_j_a1s0_u1_0_a1s0_x0yn1_sr_0",
-        "grey_j_a1s0_u0_0_a1s0_x0yn1_sr_0"
+        "grey_j_a1s0_v0_0_a1s0_x0yn1_spoke2_0"
       ],
       "polyline": [
         [
-          591.32,
-          392.18
+          587.25,
+          414.41
         ],
         [
-          587.74,
-          451.26
+          611.78,
+          408.98
         ]
       ],
       "width": 8.0
@@ -11043,6 +12577,24 @@
     },
     {
       "class": "artery",
+      "id": "grey_sr_a1s0_xn1yn1_sr_0",
+      "nodes": [
+        "grey_j_a1s0_v0_0_a1s0_xn1yn1_sr_0"
+      ],
+      "polyline": [
+        [
+          578.93,
+          490.32
+        ],
+        [
+          632.21,
+          473.42
+        ]
+      ],
+      "width": 8.0
+    },
+    {
+      "class": "artery",
       "id": "grey_sr_a1s0_xn2y0_sr_0",
       "nodes": [
         "grey_j_a1s0_un1_0_a1s0_xn2y0_sr_0",
@@ -11059,6 +12611,40 @@
         ]
       ],
       "width": 8.0
+    },
+    {
+      "class": "artery",
+      "id": "grey_sr_a1s0_xn3yn1_b0",
+      "nodes": [
+        "grey_j_a1s0_un3_0_a1s0_xn3yn1_b0"
+      ],
+      "polyline": [
+        [
+          630.42,
+          625.34
+        ],
+        [
+          633.79,
+          604.98
+        ]
+      ],
+      "width": 8.0
+    },
+    {
+      "class": "street",
+      "id": "grey_sr_a1s0_xn3yn1_b1",
+      "nodes": [],
+      "polyline": [
+        [
+          633.79,
+          604.98
+        ],
+        [
+          619.07,
+          575.4
+        ]
+      ],
+      "width": 5.0
     },
     {
       "class": "street",
@@ -11185,6 +12771,7 @@
       "id": "grey_sr_a3s0_u0_0",
       "nodes": [
         "grey_j_artery_0_a3s0_u0_0",
+        "grey_j_a3s0_u0_0_a3s0_vn2_0",
         "grey_j_a3s0_u0_0_a3s0_x0yn2_b0",
         "grey_j_a3s0_u0_0_a3s0_v0_0",
         "grey_j_artery_3_a3s0_u0_0"
@@ -11201,6 +12788,10 @@
         [
           424.63,
           475.06
+        ],
+        [
+          435.03,
+          498.61
         ],
         [
           440.6,
@@ -11334,6 +12925,10 @@
           542.15
         ],
         [
+          408.61,
+          536.41
+        ],
+        [
           440.6,
           511.22
         ],
@@ -11348,6 +12943,25 @@
         [
           523.52,
           445.93
+        ]
+      ],
+      "width": 5.0
+    },
+    {
+      "class": "street",
+      "id": "grey_sr_a3s0_vn2_0",
+      "nodes": [
+        "grey_j_a3s0_vn2_0_a3s0_xn1yn2_b0",
+        "grey_j_a3s0_u0_0_a3s0_vn2_0"
+      ],
+      "polyline": [
+        [
+          385.71,
+          500.47
+        ],
+        [
+          422.91,
+          471.17
         ]
       ],
       "width": 5.0
@@ -11382,6 +12996,43 @@
         [
           435.34,
           466.62
+        ]
+      ],
+      "width": 5.0
+    },
+    {
+      "class": "artery",
+      "id": "grey_sr_a3s0_xn1yn2_b0",
+      "nodes": [
+        "grey_j_a3s0_xn1yn2_b0_a3s0_xn1yn2_b1",
+        "grey_j_a3s0_vn2_0_a3s0_xn1yn2_b0"
+      ],
+      "polyline": [
+        [
+          395.98,
+          508.31
+        ],
+        [
+          385.71,
+          500.47
+        ]
+      ],
+      "width": 8.0
+    },
+    {
+      "class": "street",
+      "id": "grey_sr_a3s0_xn1yn2_b1",
+      "nodes": [
+        "grey_j_a3s0_xn1yn2_b0_a3s0_xn1yn2_b1"
+      ],
+      "polyline": [
+        [
+          408.61,
+          536.41
+        ],
+        [
+          395.98,
+          508.31
         ]
       ],
       "width": 5.0

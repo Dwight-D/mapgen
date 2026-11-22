@@ -10,33 +10,54 @@ nodes:
   ash_gate_a1: { kind: choke, name: "Gate a1" }
   ash_gate_a2: { kind: choke, name: "Gate a2" }
   ash_gate_a3: { kind: choke, name: "Gate a3" }
+  ash_j_a0s0_s1_0_a0s0_sr_0: { kind: choke }
   ash_j_a1s0_u0_0_a1s0_v0_0: { kind: choke }
+  ash_j_a1s0_u0_0_a1s0_x0yn2_sr_0: { kind: choke }
   ash_j_a2s0_u0_0_a2s0_v0_0: { kind: choke }
+  ash_j_a2s0_u0_0_a2s0_xn1yn1_sr_0: { kind: choke }
+  ash_j_a2s0_un1_0_a2s0_v0_0: { kind: choke }
+  ash_j_a2s0_un1_0_a2s0_xn1yn1_sr_0: { kind: choke }
+  ash_j_a2s0_un1_0_a2s0_xn2yn1a_sr_0: { kind: choke }
+  ash_j_a2s0_un2_0_a2s0_xn2yn1a_sr_0: { kind: choke }
   ash_j_a3s0_u0_0_a3s0_v0_0: { kind: choke }
+  ash_j_a3s0_u0_0_a3s0_x0yn1_sr_0: { kind: choke }
   ash_j_a3s0_u1_0_a3s0_v0_0: { kind: choke }
-  ash_j_a3s0_u1_0_a3s0_x1y0_sr_0: { kind: choke }
-  ash_j_a3s0_u2_0_a3s0_x1y0_sr_0: { kind: choke }
+  ash_j_a3s0_u1_0_a3s0_x0yn1_sr_0: { kind: choke }
+  ash_j_a3s0_u1_0_a3s0_x1y0_b1: { kind: choke }
+  ash_j_a3s0_u1_0_a3s0_x1y0_p1_sr_0: { kind: choke }
+  ash_j_a3s0_u2_0_a3s0_x1y0_p1_sr_0: { kind: choke }
   ash_j_a3s0_un1_0_a3s0_v0_0: { kind: choke }
   ash_j_a3s0_un1_0_a3s0_xn2yn1_b1: { kind: choke }
   ash_j_a3s0_un2_0_a3s0_xn2yn1_b2: { kind: choke }
+  ash_j_a3s0_v0_0_a3s0_xn1yn1_b0: { kind: choke }
+  ash_j_a3s0_x1y0_b1_a3s0_x1y0_b2: { kind: choke }
+  ash_j_a3s0_xn1yn1_b0_a3s0_xn1yn1_b1: { kind: choke }
   ash_j_a3s0_xn2yn1_b1_a3s0_xn2yn1_b2: { kind: choke }
   ash_j_artery_0_a0s0_sr_0: { kind: choke }
   ash_j_artery_0_a3s0_un1_0: { kind: choke }
   ash_j_artery_0_a3s0_un2_0: { kind: choke }
   ash_j_artery_0_a3s0_un3_0: { kind: choke }
   ash_j_artery_0_bs_a0s0_x_plaza: { kind: choke }
+  ash_j_artery_1_a0s0_s1_0: { kind: choke }
   ash_j_artery_1_a1s0_u0_0: { kind: choke }
+  ash_j_artery_1_a1s0_xn1yn2_u0_0: { kind: choke }
   ash_j_artery_1_bs_a0s0_x_plaza: { kind: choke }
   ash_j_artery_2_a2s0_v0_0: { kind: choke }
   ash_j_artery_2_bs_a1s0_x_plaza: { kind: choke }
   ash_j_artery_3_a2s0_u0_0: { kind: choke }
+  ash_j_artery_3_a2s0_un1_0: { kind: choke }
+  ash_j_artery_3_a2s0_un2_0: { kind: choke }
+  ash_j_artery_3_a2s0_x0yn1_p0_sr_0: { kind: choke }
   ash_j_artery_3_a3s0_u1_0: { kind: choke }
   ash_j_artery_3_a3s0_u2_0: { kind: choke }
+  ash_j_artery_3_a3s0_x1y0_b2: { kind: choke }
   ash_j_artery_3_bs_a3s0_x_plaza: { kind: choke }
   ash_j_bs_a0s0_b010_x_a0s0_b011_a0s0_sr_0: { kind: choke }
   ash_j_bs_a0s0_b1000_x_a0s0_b1001_a0s0_sr_0: { kind: choke }
   ash_j_bs_a0s0_b1000_x_a0s0_b1001_bs_a0s0_b1001_x_a0s0_b1010: { kind: choke }
   ash_j_bs_a0s0_b1001_x_a0s0_b1010_bs_a0s0_b1001_x_a0s0_b1011: { kind: choke }
+  ash_j_bs_a0s0_b1001_x_a0s0_b1011_a0s0_s1_0: { kind: choke }
+  ash_j_bs_a0s0_b110_x_a0s0_b111_a0s0_s1_0: { kind: choke }
   ash_j_bs_a3s0_x_plaza_a3s0_u0_0: { kind: choke }
   ash_plaza: { kind: zone, name: "Central Plaza" }
 
@@ -44,24 +65,44 @@ edges:
   - A - ash_gate_a0
   - B - ash_gate_a3
   - { link: "ash_gate_a0 - ash_j_artery_0_a3s0_un3_0", name: ash_artery_0 }
-  - { link: "ash_gate_a1 - ash_j_artery_1_a1s0_u0_0", name: ash_artery_1 }
+  - { link: "ash_gate_a1 - ash_j_artery_1_a0s0_s1_0", name: ash_artery_1 }
   - { link: "ash_gate_a2 - ash_j_artery_2_a2s0_v0_0", name: ash_artery_2 }
-  - { link: "ash_gate_a3 - ash_j_artery_3_a3s0_u2_0", name: ash_artery_3 }
-  - { link: "ash_j_a1s0_u0_0_a1s0_v0_0 - ash_j_artery_1_a1s0_u0_0", name: ash_sr_a1s0_u0_0 }
+  - { link: "ash_gate_a3 - ash_j_artery_3_a2s0_un2_0", name: ash_artery_3 }
+  - { link: "ash_j_a0s0_s1_0_a0s0_sr_0 - ash_j_bs_a0s0_b010_x_a0s0_b011_a0s0_sr_0", name: ash_sr_a0s0_sr_0 }
+  - { link: "ash_j_a0s0_s1_0_a0s0_sr_0 - ash_j_bs_a0s0_b1001_x_a0s0_b1011_a0s0_s1_0", name: ash_sr_a0s0_s1_0 }
+  - { link: "ash_j_a1s0_u0_0_a1s0_v0_0 - ash_j_a1s0_u0_0_a1s0_x0yn2_sr_0", name: ash_sr_a1s0_u0_0 }
+  - { link: "ash_j_a1s0_u0_0_a1s0_x0yn2_sr_0 - ash_j_artery_1_a1s0_u0_0", name: ash_sr_a1s0_u0_0 }
+  - { link: "ash_j_a2s0_u0_0_a2s0_v0_0 - ash_j_a2s0_u0_0_a2s0_xn1yn1_sr_0", name: ash_sr_a2s0_u0_0 }
+  - { link: "ash_j_a2s0_u0_0_a2s0_v0_0 - ash_j_a2s0_un1_0_a2s0_v0_0", name: ash_sr_a2s0_v0_0 }
   - { link: "ash_j_a2s0_u0_0_a2s0_v0_0 - ash_j_artery_2_a2s0_v0_0", name: ash_sr_a2s0_v0_0 }
-  - { link: "ash_j_a2s0_u0_0_a2s0_v0_0 - ash_j_artery_3_a2s0_u0_0", name: ash_sr_a2s0_u0_0 }
+  - { link: "ash_j_a2s0_u0_0_a2s0_xn1yn1_sr_0 - ash_j_a2s0_un1_0_a2s0_xn1yn1_sr_0", name: ash_sr_a2s0_xn1yn1_sr_0 }
+  - { link: "ash_j_a2s0_u0_0_a2s0_xn1yn1_sr_0 - ash_j_artery_2_a2s0_v0_0", name: ash_sr_a2s0_x0yn1_b0 }
+  - { link: "ash_j_a2s0_u0_0_a2s0_xn1yn1_sr_0 - ash_j_artery_3_a2s0_u0_0", name: ash_sr_a2s0_u0_0 }
+  - { link: "ash_j_a2s0_un1_0_a2s0_v0_0 - ash_j_a2s0_un1_0_a2s0_xn2yn1a_sr_0", name: ash_sr_a2s0_un1_0 }
+  - { link: "ash_j_a2s0_un1_0_a2s0_xn1yn1_sr_0 - ash_j_a2s0_un1_0_a2s0_xn2yn1a_sr_0", name: ash_sr_a2s0_un1_0 }
+  - { link: "ash_j_a2s0_un1_0_a2s0_xn1yn1_sr_0 - ash_j_artery_3_a2s0_un1_0", name: ash_sr_a2s0_un1_0 }
+  - { link: "ash_j_a2s0_un1_0_a2s0_xn2yn1a_sr_0 - ash_j_a2s0_un2_0_a2s0_xn2yn1a_sr_0", name: ash_sr_a2s0_xn2yn1a_sr_0 }
+  - { link: "ash_j_a2s0_un2_0_a2s0_xn2yn1a_sr_0 - ash_j_artery_3_a2s0_un2_0", name: ash_sr_a2s0_un2_0 }
+  - { link: "ash_j_a3s0_u0_0_a3s0_v0_0 - ash_j_a3s0_u0_0_a3s0_x0yn1_sr_0", name: ash_sr_a3s0_u0_0 }
   - { link: "ash_j_a3s0_u0_0_a3s0_v0_0 - ash_j_a3s0_u1_0_a3s0_v0_0", name: ash_sr_a3s0_v0_0 }
-  - { link: "ash_j_a3s0_u0_0_a3s0_v0_0 - ash_j_a3s0_un1_0_a3s0_v0_0", name: ash_sr_a3s0_v0_0 }
-  - { link: "ash_j_a3s0_u0_0_a3s0_v0_0 - ash_j_bs_a3s0_x_plaza_a3s0_u0_0", name: ash_sr_a3s0_u0_0 }
-  - { link: "ash_j_a3s0_u1_0_a3s0_v0_0 - ash_j_a3s0_u1_0_a3s0_x1y0_sr_0", name: ash_sr_a3s0_u1_0 }
-  - { link: "ash_j_a3s0_u1_0_a3s0_v0_0 - ash_j_artery_3_a3s0_u1_0", name: ash_sr_a3s0_u1_0 }
-  - { link: "ash_j_a3s0_u1_0_a3s0_x1y0_sr_0 - ash_j_a3s0_u2_0_a3s0_x1y0_sr_0", name: ash_sr_a3s0_x1y0_sr_0 }
-  - { link: "ash_j_a3s0_u2_0_a3s0_x1y0_sr_0 - ash_j_artery_3_a3s0_u2_0", name: ash_sr_a3s0_u2_0 }
+  - { link: "ash_j_a3s0_u0_0_a3s0_v0_0 - ash_j_a3s0_v0_0_a3s0_xn1yn1_b0", name: ash_sr_a3s0_v0_0 }
+  - { link: "ash_j_a3s0_u0_0_a3s0_x0yn1_sr_0 - ash_j_a3s0_u1_0_a3s0_x0yn1_sr_0", name: ash_sr_a3s0_x0yn1_sr_0 }
+  - { link: "ash_j_a3s0_u0_0_a3s0_x0yn1_sr_0 - ash_j_bs_a3s0_x_plaza_a3s0_u0_0", name: ash_sr_a3s0_u0_0 }
+  - { link: "ash_j_a3s0_u1_0_a3s0_v0_0 - ash_j_a3s0_u1_0_a3s0_x0yn1_sr_0", name: ash_sr_a3s0_u1_0 }
+  - { link: "ash_j_a3s0_u1_0_a3s0_v0_0 - ash_j_a3s0_u1_0_a3s0_x1y0_b1", name: ash_sr_a3s0_u1_0 }
+  - { link: "ash_j_a3s0_u1_0_a3s0_x0yn1_sr_0 - ash_j_artery_3_a3s0_u1_0", name: ash_sr_a3s0_u1_0 }
+  - { link: "ash_j_a3s0_u1_0_a3s0_x1y0_b1 - ash_j_a3s0_u1_0_a3s0_x1y0_p1_sr_0", name: ash_sr_a3s0_u1_0 }
+  - { link: "ash_j_a3s0_u1_0_a3s0_x1y0_b1 - ash_j_a3s0_x1y0_b1_a3s0_x1y0_b2", name: ash_sr_a3s0_x1y0_b1 }
+  - { link: "ash_j_a3s0_u1_0_a3s0_x1y0_p1_sr_0 - ash_j_a3s0_u2_0_a3s0_x1y0_p1_sr_0", name: ash_sr_a3s0_x1y0_p1_sr_0 }
+  - { link: "ash_j_a3s0_u2_0_a3s0_x1y0_p1_sr_0 - ash_j_artery_3_a3s0_u2_0", name: ash_sr_a3s0_u2_0 }
   - { link: "ash_j_a3s0_un1_0_a3s0_v0_0 - ash_j_a3s0_un1_0_a3s0_xn2yn1_b1", name: ash_sr_a3s0_un1_0 }
+  - { link: "ash_j_a3s0_un1_0_a3s0_v0_0 - ash_j_a3s0_v0_0_a3s0_xn1yn1_b0", name: ash_sr_a3s0_v0_0 }
   - { link: "ash_j_a3s0_un1_0_a3s0_xn2yn1_b1 - ash_j_a3s0_xn2yn1_b1_a3s0_xn2yn1_b2", name: ash_sr_a3s0_xn2yn1_b1 }
   - { link: "ash_j_a3s0_un1_0_a3s0_xn2yn1_b1 - ash_j_artery_0_a3s0_un1_0", name: ash_sr_a3s0_un1_0 }
   - { link: "ash_j_a3s0_un2_0_a3s0_xn2yn1_b2 - ash_j_a3s0_xn2yn1_b1_a3s0_xn2yn1_b2", name: ash_sr_a3s0_xn2yn1_b2 }
   - { link: "ash_j_a3s0_un2_0_a3s0_xn2yn1_b2 - ash_j_artery_0_a3s0_un2_0", name: ash_sr_a3s0_un2_0 }
+  - { link: "ash_j_a3s0_v0_0_a3s0_xn1yn1_b0 - ash_j_a3s0_xn1yn1_b0_a3s0_xn1yn1_b1", name: ash_sr_a3s0_xn1yn1_b0 }
+  - { link: "ash_j_a3s0_x1y0_b1_a3s0_x1y0_b2 - ash_j_artery_3_a3s0_x1y0_b2", name: ash_sr_a3s0_x1y0_b2 }
   - { link: "ash_j_artery_0_a0s0_sr_0 - ash_j_artery_0_a3s0_un1_0", name: ash_artery_0 }
   - { link: "ash_j_artery_0_a0s0_sr_0 - ash_j_artery_0_a3s0_un2_0", name: ash_artery_0 }
   - { link: "ash_j_artery_0_a0s0_sr_0 - ash_j_bs_a0s0_b1000_x_a0s0_b1001_a0s0_sr_0", name: ash_sr_a0s0_sr_0 }
@@ -70,18 +111,28 @@ edges:
   - { link: "ash_j_artery_0_bs_a0s0_x_plaza - ash_j_artery_1_bs_a0s0_x_plaza", name: ash_bs_a0s0_x_plaza }
   - { link: "ash_j_artery_0_bs_a0s0_x_plaza - ash_j_bs_a3s0_x_plaza_a3s0_u0_0", name: ash_bs_a3s0_x_plaza }
   - { link: "ash_j_artery_0_bs_a0s0_x_plaza - ash_plaza", name: ash_artery_0 }
-  - { link: "ash_j_artery_1_a1s0_u0_0 - ash_j_artery_1_bs_a0s0_x_plaza", name: ash_artery_1 }
+  - { link: "ash_j_artery_1_a0s0_s1_0 - ash_j_artery_1_a1s0_u0_0", name: ash_artery_1 }
+  - { link: "ash_j_artery_1_a0s0_s1_0 - ash_j_bs_a0s0_b110_x_a0s0_b111_a0s0_s1_0", name: ash_sr_a0s0_s1_0 }
+  - { link: "ash_j_artery_1_a1s0_u0_0 - ash_j_artery_1_a1s0_xn1yn2_u0_0", name: ash_artery_1 }
+  - { link: "ash_j_artery_1_a1s0_xn1yn2_u0_0 - ash_j_artery_1_bs_a0s0_x_plaza", name: ash_artery_1 }
   - { link: "ash_j_artery_1_bs_a0s0_x_plaza - ash_j_artery_2_bs_a1s0_x_plaza", name: ash_bs_a1s0_x_plaza }
   - { link: "ash_j_artery_1_bs_a0s0_x_plaza - ash_plaza", name: ash_artery_1 }
   - { link: "ash_j_artery_2_a2s0_v0_0 - ash_j_artery_2_bs_a1s0_x_plaza", name: ash_artery_2 }
-  - { link: "ash_j_artery_2_a2s0_v0_0 - ash_j_artery_3_a2s0_u0_0", name: ash_sr_a2s0_x0yn1_b0 }
+  - { link: "ash_j_artery_2_a2s0_v0_0 - ash_j_artery_3_a2s0_x0yn1_p0_sr_0", name: ash_sr_a2s0_x0yn1_p0_sr_0 }
   - { link: "ash_j_artery_2_bs_a1s0_x_plaza - ash_j_artery_3_bs_a3s0_x_plaza", name: ash_bs_a2s0_x_plaza }
   - { link: "ash_j_artery_2_bs_a1s0_x_plaza - ash_plaza", name: ash_artery_2 }
-  - { link: "ash_j_artery_3_a2s0_u0_0 - ash_j_artery_3_a3s0_u1_0", name: ash_artery_3 }
-  - { link: "ash_j_artery_3_a2s0_u0_0 - ash_j_artery_3_a3s0_u2_0", name: ash_artery_3 }
+  - { link: "ash_j_artery_3_a2s0_u0_0 - ash_j_artery_3_a2s0_x0yn1_p0_sr_0", name: ash_artery_3 }
+  - { link: "ash_j_artery_3_a2s0_u0_0 - ash_j_artery_3_a3s0_x1y0_b2", name: ash_artery_3 }
+  - { link: "ash_j_artery_3_a2s0_un1_0 - ash_j_artery_3_a2s0_un2_0", name: ash_artery_3 }
+  - { link: "ash_j_artery_3_a2s0_un1_0 - ash_j_artery_3_a3s0_u2_0", name: ash_artery_3 }
+  - { link: "ash_j_artery_3_a2s0_x0yn1_p0_sr_0 - ash_j_artery_3_a3s0_u1_0", name: ash_artery_3 }
   - { link: "ash_j_artery_3_a3s0_u1_0 - ash_j_artery_3_bs_a3s0_x_plaza", name: ash_artery_3 }
+  - { link: "ash_j_artery_3_a3s0_u2_0 - ash_j_artery_3_a3s0_x1y0_b2", name: ash_artery_3 }
   - { link: "ash_j_artery_3_bs_a3s0_x_plaza - ash_j_bs_a3s0_x_plaza_a3s0_u0_0", name: ash_bs_a3s0_x_plaza }
   - { link: "ash_j_artery_3_bs_a3s0_x_plaza - ash_plaza", name: ash_artery_3 }
   - { link: "ash_j_bs_a0s0_b010_x_a0s0_b011_a0s0_sr_0 - ash_j_bs_a0s0_b1000_x_a0s0_b1001_a0s0_sr_0", name: ash_sr_a0s0_sr_0 }
   - { link: "ash_j_bs_a0s0_b1000_x_a0s0_b1001_a0s0_sr_0 - ash_j_bs_a0s0_b1000_x_a0s0_b1001_bs_a0s0_b1001_x_a0s0_b1010", name: ash_bs_a0s0_b1000_x_a0s0_b1001 }
+  - { link: "ash_j_bs_a0s0_b1000_x_a0s0_b1001_a0s0_sr_0 - ash_j_bs_a0s0_b1001_x_a0s0_b1011_a0s0_s1_0", name: ash_sr_a0s0_b1001_w0_0 }
   - { link: "ash_j_bs_a0s0_b1000_x_a0s0_b1001_bs_a0s0_b1001_x_a0s0_b1010 - ash_j_bs_a0s0_b1001_x_a0s0_b1010_bs_a0s0_b1001_x_a0s0_b1011", name: ash_bs_a0s0_b1001_x_a0s0_b1010 }
+  - { link: "ash_j_bs_a0s0_b1001_x_a0s0_b1010_bs_a0s0_b1001_x_a0s0_b1011 - ash_j_bs_a0s0_b1001_x_a0s0_b1011_a0s0_s1_0", name: ash_bs_a0s0_b1001_x_a0s0_b1011 }
+  - { link: "ash_j_bs_a0s0_b1001_x_a0s0_b1011_a0s0_s1_0 - ash_j_bs_a0s0_b110_x_a0s0_b111_a0s0_s1_0", name: ash_sr_a0s0_s1_0 }

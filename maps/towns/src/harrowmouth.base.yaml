@@ -15,10 +15,20 @@ terrain:
   detail_scale: 100
 
 regions:
-  - { id: hm_r0, seed: 0, type: field, shape: blob, at: [170, 880], r: 180, rough: 0.45, warp: 50 }
+  - { id: hm_r0, seed: 0, type: field, shape: blob, at: [330, 930], r: 150, rough: 0.45, warp: 50 }
   - { id: hm_r1, seed: 1, type: hills, shape: blob, at: [900, 150], r: 130, rough: 0.45, warp: 50, height: 25 }
   - { id: hm_r2, seed: 2, type: forest, shape: blob, at: [120, 140], r: 110, rough: 0.45, warp: 50, fragment: 0.4, fragment_scale: 60 }
   - { id: hm_r3, seed: 3, type: marsh, shape: blob, at: [500, 60], r: 90, rough: 0.45, warp: 50 }
 
+  - { id: hm_r4, seed: 4, type: forest, shape: blob, at: [830, 760], r: 130, rough: 0.45, warp: 50, fragment: 0.3, fragment_scale: 60 }
+  - { id: hm_r5, seed: 5, type: forest, shape: blob, at: [880, 420], r: 120, rough: 0.45, warp: 50, fragment: 0.3, fragment_scale: 60 }
+  - { id: hm_r6, seed: 6, type: forest, shape: blob, at: [260, 160], r: 120, rough: 0.45, warp: 50, fragment: 0.3, fragment_scale: 60 }
+  - { id: hm_r7, seed: 7, type: forest, shape: blob, at: [700, 960], r: 100, rough: 0.45, warp: 50, fragment: 0.3, fragment_scale: 60 }
+  - { id: hm_r8, seed: 8, type: forest, shape: blob, at: [250, 780], r: 70, rough: 0.45, warp: 40, fragment: 0.3, fragment_scale: 60 }
+  - { id: hm_coast, seed: 9, type: lake, shape: poly, points: [[0, 470], [0, 880], [60, 900], [120, 850], [160, 770], [190, 690], [205, 620], [215, 560], [150, 500]], rough: 0.2, warp: 25 }
+
+lines:
+  - { id: hm_east_road, type: road, path: [harrow_gate_a1, [790, 540], [880, 560], [960, 520], [1050, 545], [1099, 540]], width: 10, smooth: true, wobble: 10, wobble_scale: 140 }
+
 scatter:
-  - { id: scatter_hm, seed: 0, type: forest, coverage: 0.1, scale: 110, clump: 0.5, avoid: 12 }
+  - { id: scatter_hm, seed: 0, type: forest, coverage: 0.25, scale: 110, clump: 0.5, avoid: 12 }

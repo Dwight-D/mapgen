@@ -517,15 +517,27 @@
       },
       {
         "a": "harrow_d_a1s0_x0y0_r1s0",
-        "b": "harrow_d_a1s0_x0y0_r1s1",
+        "b": "harrow_d_a1s0_x0y0_r1s1_b0",
         "gates": [],
-        "id": "harrow_d_a1s0_x0y0_r1s0~harrow_d_a1s0_x0y0_r1s1",
+        "id": "harrow_d_a1s0_x0y0_r1s0~harrow_d_a1s0_x0y0_r1s1_b0",
         "kind": "adjacent",
-        "length": 79.03,
+        "length": 39.73,
         "passable": true,
         "roads": [
           "harrow_sr_a1s0_x0y0_ring1_0",
-          "harrow_sr_a1s0_x0y0_spoke0_0",
+          "harrow_sr_a1s0_x0y0_spoke0_0"
+        ]
+      },
+      {
+        "a": "harrow_d_a1s0_x0y0_r1s0",
+        "b": "harrow_d_a1s0_x0y0_r1s1_b1",
+        "gates": [],
+        "id": "harrow_d_a1s0_x0y0_r1s0~harrow_d_a1s0_x0y0_r1s1_b1",
+        "kind": "adjacent",
+        "length": 39.3,
+        "passable": true,
+        "roads": [
+          "harrow_sr_a1s0_x0y0_ring1_0",
           "harrow_sr_a1s0_x0y0_spoke1_0"
         ]
       },
@@ -578,34 +590,22 @@
         ]
       },
       {
-        "a": "harrow_d_a1s0_x0y0_r1s1",
-        "b": "harrow_d_a1s0_x1y0",
+        "a": "harrow_d_a1s0_x0y0_r1s1_b0",
+        "b": "harrow_d_a1s0_x0y0_r1s1_b1",
         "gates": [],
-        "id": "harrow_d_a1s0_x0y0_r1s1~harrow_d_a1s0_x1y0",
+        "id": "harrow_d_a1s0_x0y0_r1s1_b0~harrow_d_a1s0_x0y0_r1s1_b1",
         "kind": "adjacent",
-        "length": 40.27,
+        "length": 55.21,
         "passable": true,
         "roads": [
-          "harrow_sr_a1s0_u1_0"
+          "harrow_sr_a1s0_x0y0_r1s1_sr_0"
         ]
       },
       {
-        "a": "harrow_d_a1s0_x0y0_r1s1",
-        "b": "harrow_d_a1s0_x1y1_w0c0",
-        "gates": [],
-        "id": "harrow_d_a1s0_x0y0_r1s1~harrow_d_a1s0_x1y1_w0c0",
-        "kind": "adjacent",
-        "length": 25.75,
-        "passable": true,
-        "roads": [
-          "harrow_sr_a1s0_u1_0"
-        ]
-      },
-      {
-        "a": "harrow_d_a1s0_x0y0_r1s1",
+        "a": "harrow_d_a1s0_x0y0_r1s1_b0",
         "b": "harrow_d_a1s0_xn1y0",
         "gates": [],
-        "id": "harrow_d_a1s0_x0y0_r1s1~harrow_d_a1s0_xn1y0",
+        "id": "harrow_d_a1s0_x0y0_r1s1_b0~harrow_d_a1s0_xn1y0",
         "kind": "adjacent",
         "length": 52.49,
         "passable": true,
@@ -614,10 +614,10 @@
         ]
       },
       {
-        "a": "harrow_d_a1s0_x0y0_r1s1",
+        "a": "harrow_d_a1s0_x0y0_r1s1_b0",
         "b": "harrow_d_a2s0_p1",
         "gates": [],
-        "id": "harrow_d_a1s0_x0y0_r1s1~harrow_d_a2s0_p1",
+        "id": "harrow_d_a1s0_x0y0_r1s1_b0~harrow_d_a2s0_p1",
         "kind": "adjacent",
         "length": 1.34,
         "passable": true,
@@ -626,12 +626,60 @@
         ]
       },
       {
-        "a": "harrow_d_a1s0_x0y0_r1s1",
-        "b": "harrow_d_a3s1",
+        "a": "harrow_d_a1s0_x0y0_r1s1_b0",
+        "b": "harrow_d_a3s1_xn3y0",
         "gates": [],
-        "id": "harrow_d_a1s0_x0y0_r1s1~harrow_d_a3s1",
+        "id": "harrow_d_a1s0_x0y0_r1s1_b0~harrow_d_a3s1_xn3y0",
         "kind": "adjacent",
-        "length": 62.37,
+        "length": 24.13,
+        "passable": true,
+        "roads": [
+          "harrow_artery_2"
+        ]
+      },
+      {
+        "a": "harrow_d_a1s0_x0y0_r1s1_b0",
+        "b": "harrow_d_a3s1_xn4y0_b0",
+        "gates": [],
+        "id": "harrow_d_a1s0_x0y0_r1s1_b0~harrow_d_a3s1_xn4y0_b0",
+        "kind": "adjacent",
+        "length": 5.16,
+        "passable": true,
+        "roads": [
+          "harrow_artery_2"
+        ]
+      },
+      {
+        "a": "harrow_d_a1s0_x0y0_r1s1_b1",
+        "b": "harrow_d_a1s0_x1y0",
+        "gates": [],
+        "id": "harrow_d_a1s0_x0y0_r1s1_b1~harrow_d_a1s0_x1y0",
+        "kind": "adjacent",
+        "length": 40.27,
+        "passable": true,
+        "roads": [
+          "harrow_sr_a1s0_u1_0"
+        ]
+      },
+      {
+        "a": "harrow_d_a1s0_x0y0_r1s1_b1",
+        "b": "harrow_d_a1s0_x1y1_w0c0",
+        "gates": [],
+        "id": "harrow_d_a1s0_x0y0_r1s1_b1~harrow_d_a1s0_x1y1_w0c0",
+        "kind": "adjacent",
+        "length": 25.75,
+        "passable": true,
+        "roads": [
+          "harrow_sr_a1s0_u1_0"
+        ]
+      },
+      {
+        "a": "harrow_d_a1s0_x0y0_r1s1_b1",
+        "b": "harrow_d_a3s1_xn4y0_b0",
+        "gates": [],
+        "id": "harrow_d_a1s0_x0y0_r1s1_b1~harrow_d_a3s1_xn4y0_b0",
+        "kind": "adjacent",
+        "length": 33.08,
         "passable": true,
         "roads": [
           "harrow_artery_2"
@@ -661,9 +709,9 @@
       },
       {
         "a": "harrow_d_a1s0_x0yn1a_p1",
-        "b": "harrow_d_a1s0_xn1yn2_core",
+        "b": "harrow_d_a1s0_xn1yn2_core_b1",
         "gates": [],
-        "id": "harrow_d_a1s0_x0yn1a_p1~harrow_d_a1s0_xn1yn2_core",
+        "id": "harrow_d_a1s0_x0yn1a_p1~harrow_d_a1s0_xn1yn2_core_b1",
         "kind": "adjacent",
         "length": 49.64,
         "passable": true,
@@ -745,11 +793,23 @@
       },
       {
         "a": "harrow_d_a1s0_x1y1_w0c0",
-        "b": "harrow_d_a3s1",
+        "b": "harrow_d_a3s1_xn4y0_b0",
         "gates": [],
-        "id": "harrow_d_a1s0_x1y1_w0c0~harrow_d_a3s1",
+        "id": "harrow_d_a1s0_x1y1_w0c0~harrow_d_a3s1_xn4y0_b0",
         "kind": "adjacent",
-        "length": 105.94,
+        "length": 26.55,
+        "passable": true,
+        "roads": [
+          "harrow_artery_2"
+        ]
+      },
+      {
+        "a": "harrow_d_a1s0_x1y1_w0c0",
+        "b": "harrow_d_a3s1_xn4y0_b1",
+        "gates": [],
+        "id": "harrow_d_a1s0_x1y1_w0c0~harrow_d_a3s1_xn4y0_b1",
+        "kind": "adjacent",
+        "length": 79.39,
         "passable": true,
         "roads": [
           "harrow_artery_2"
@@ -829,11 +889,23 @@
       },
       {
         "a": "harrow_d_a1s0_xn1yn1_w1c0",
-        "b": "harrow_d_a1s0_xn1yn2_core",
+        "b": "harrow_d_a1s0_xn1yn2_core_b0",
         "gates": [],
-        "id": "harrow_d_a1s0_xn1yn1_w1c0~harrow_d_a1s0_xn1yn2_core",
+        "id": "harrow_d_a1s0_xn1yn1_w1c0~harrow_d_a1s0_xn1yn2_core_b0",
         "kind": "adjacent",
-        "length": 71.95,
+        "length": 47.12,
+        "passable": true,
+        "roads": [
+          "harrow_sr_a1s0_vn1_0"
+        ]
+      },
+      {
+        "a": "harrow_d_a1s0_xn1yn1_w1c0",
+        "b": "harrow_d_a1s0_xn1yn2_core_b1",
+        "gates": [],
+        "id": "harrow_d_a1s0_xn1yn1_w1c0~harrow_d_a1s0_xn1yn2_core_b1",
+        "kind": "adjacent",
+        "length": 24.82,
         "passable": true,
         "roads": [
           "harrow_sr_a1s0_vn1_0"
@@ -852,20 +924,35 @@
         ]
       },
       {
-        "a": "harrow_d_a1s0_xn1yn2_core",
-        "b": "harrow_d_a1s0_xn1yn2_r1s2",
+        "a": "harrow_d_a1s0_xn1yn2_core_b0",
+        "b": "harrow_d_a1s0_xn1yn2_core_b1",
         "gates": [],
-        "id": "harrow_d_a1s0_xn1yn2_core~harrow_d_a1s0_xn1yn2_r1s2",
+        "id": "harrow_d_a1s0_xn1yn2_core_b0~harrow_d_a1s0_xn1yn2_core_b1",
         "kind": "adjacent",
-        "length": 71.4,
+        "length": 54.1,
         "passable": true,
-        "roads": []
+        "roads": [
+          "harrow_sr_a1s0_xn1yn2_core_sr_0"
+        ]
       },
       {
-        "a": "harrow_d_a1s0_xn1yn2_core",
+        "a": "harrow_d_a1s0_xn1yn2_core_b0",
+        "b": "harrow_d_a1s0_xn1yn2_r1s2",
+        "gates": [],
+        "id": "harrow_d_a1s0_xn1yn2_core_b0~harrow_d_a1s0_xn1yn2_r1s2",
+        "kind": "adjacent",
+        "length": 46.83,
+        "passable": true,
+        "roads": [
+          "harrow_sr_a1s0_xn1yn2_ring1_0",
+          "harrow_sr_a1s0_xn1yn2_spoke2_0"
+        ]
+      },
+      {
+        "a": "harrow_d_a1s0_xn1yn2_core_b0",
         "b": "harrow_d_a1s0_xn2yn2_r1s2_b1",
         "gates": [],
-        "id": "harrow_d_a1s0_xn1yn2_core~harrow_d_a1s0_xn2yn2_r1s2_b1",
+        "id": "harrow_d_a1s0_xn1yn2_core_b0~harrow_d_a1s0_xn2yn2_r1s2_b1",
         "kind": "adjacent",
         "length": 36.43,
         "passable": true,
@@ -874,10 +961,20 @@
         ]
       },
       {
-        "a": "harrow_d_a1s0_xn1yn2_core",
+        "a": "harrow_d_a1s0_xn1yn2_core_b1",
+        "b": "harrow_d_a1s0_xn1yn2_r1s2",
+        "gates": [],
+        "id": "harrow_d_a1s0_xn1yn2_core_b1~harrow_d_a1s0_xn1yn2_r1s2",
+        "kind": "adjacent",
+        "length": 24.58,
+        "passable": true,
+        "roads": []
+      },
+      {
+        "a": "harrow_d_a1s0_xn1yn2_core_b1",
         "b": "outside",
         "gates": [],
-        "id": "harrow_d_a1s0_xn1yn2_core~outside",
+        "id": "harrow_d_a1s0_xn1yn2_core_b1~outside",
         "kind": "wall",
         "length": 27.72,
         "passable": false,
@@ -1124,11 +1221,23 @@
       },
       {
         "a": "harrow_d_a2s0_p0",
-        "b": "harrow_d_a3s1",
+        "b": "harrow_d_a3s1_xn1yn1",
         "gates": [],
-        "id": "harrow_d_a2s0_p0~harrow_d_a3s1",
+        "id": "harrow_d_a2s0_p0~harrow_d_a3s1_xn1yn1",
         "kind": "adjacent",
-        "length": 71.62,
+        "length": 40.77,
+        "passable": true,
+        "roads": [
+          "harrow_arc_0"
+        ]
+      },
+      {
+        "a": "harrow_d_a2s0_p0",
+        "b": "harrow_d_a3s1_xn2y0",
+        "gates": [],
+        "id": "harrow_d_a2s0_p0~harrow_d_a3s1_xn2y0",
+        "kind": "adjacent",
+        "length": 30.85,
         "passable": true,
         "roads": [
           "harrow_arc_0"
@@ -1148,11 +1257,23 @@
       },
       {
         "a": "harrow_d_a2s0_p1",
-        "b": "harrow_d_a3s1",
+        "b": "harrow_d_a3s1_xn2y0",
         "gates": [],
-        "id": "harrow_d_a2s0_p1~harrow_d_a3s1",
+        "id": "harrow_d_a2s0_p1~harrow_d_a3s1_xn2y0",
         "kind": "adjacent",
-        "length": 64.38,
+        "length": 26.19,
+        "passable": true,
+        "roads": [
+          "harrow_arc_0"
+        ]
+      },
+      {
+        "a": "harrow_d_a2s0_p1",
+        "b": "harrow_d_a3s1_xn3y0",
+        "gates": [],
+        "id": "harrow_d_a2s0_p1~harrow_d_a3s1_xn3y0",
+        "kind": "adjacent",
+        "length": 38.18,
         "passable": true,
         "roads": [
           "harrow_arc_0"
@@ -1218,11 +1339,23 @@
       },
       {
         "a": "harrow_d_a3s0_p0_xn1y0",
-        "b": "harrow_d_a3s1",
+        "b": "harrow_d_a3s1_x2yn1_b1",
         "gates": [],
-        "id": "harrow_d_a3s0_p0_xn1y0~harrow_d_a3s1",
+        "id": "harrow_d_a3s0_p0_xn1y0~harrow_d_a3s1_x2yn1_b1",
         "kind": "adjacent",
-        "length": 80.13,
+        "length": 19.11,
+        "passable": true,
+        "roads": [
+          "harrow_artery_3"
+        ]
+      },
+      {
+        "a": "harrow_d_a3s0_p0_xn1y0",
+        "b": "harrow_d_a3s1_x3y0",
+        "gates": [],
+        "id": "harrow_d_a3s0_p0_xn1y0~harrow_d_a3s1_x3y0",
+        "kind": "adjacent",
+        "length": 61.03,
         "passable": true,
         "roads": [
           "harrow_artery_3"
@@ -1254,23 +1387,11 @@
       },
       {
         "a": "harrow_d_a3s0_p0_xn1yn1",
-        "b": "harrow_d_a3s0_p3_b0",
+        "b": "harrow_d_a3s0_p3_xn1y0",
         "gates": [],
-        "id": "harrow_d_a3s0_p0_xn1yn1~harrow_d_a3s0_p3_b0",
+        "id": "harrow_d_a3s0_p0_xn1yn1~harrow_d_a3s0_p3_xn1y0",
         "kind": "adjacent",
-        "length": 14.18,
-        "passable": true,
-        "roads": [
-          "harrow_sr_a3s0_b1"
-        ]
-      },
-      {
-        "a": "harrow_d_a3s0_p0_xn1yn1",
-        "b": "harrow_d_a3s0_p3_b1",
-        "gates": [],
-        "id": "harrow_d_a3s0_p0_xn1yn1~harrow_d_a3s0_p3_b1",
-        "kind": "adjacent",
-        "length": 40.48,
+        "length": 54.67,
         "passable": true,
         "roads": [
           "harrow_sr_a3s0_b1"
@@ -1322,11 +1443,23 @@
       },
       {
         "a": "harrow_d_a3s0_p1_x0y0",
-        "b": "harrow_d_a3s1",
+        "b": "harrow_d_a3s1_x0yn2",
         "gates": [],
-        "id": "harrow_d_a3s0_p1_x0y0~harrow_d_a3s1",
+        "id": "harrow_d_a3s0_p1_x0y0~harrow_d_a3s1_x0yn2",
         "kind": "adjacent",
-        "length": 62.7,
+        "length": 50.2,
+        "passable": true,
+        "roads": [
+          "harrow_artery_3"
+        ]
+      },
+      {
+        "a": "harrow_d_a3s0_p1_x0y0",
+        "b": "harrow_d_a3s1_xn1yn1",
+        "gates": [],
+        "id": "harrow_d_a3s0_p1_x0y0~harrow_d_a3s1_xn1yn1",
+        "kind": "adjacent",
+        "length": 12.49,
         "passable": true,
         "roads": [
           "harrow_artery_3"
@@ -1382,11 +1515,23 @@
       },
       {
         "a": "harrow_d_a3s0_p1_xn1yn1",
-        "b": "harrow_d_a3s1",
+        "b": "harrow_d_a3s1_x0yn2",
         "gates": [],
-        "id": "harrow_d_a3s0_p1_xn1yn1~harrow_d_a3s1",
+        "id": "harrow_d_a3s0_p1_xn1yn1~harrow_d_a3s1_x0yn2",
         "kind": "adjacent",
-        "length": 42.15,
+        "length": 2.71,
+        "passable": true,
+        "roads": [
+          "harrow_artery_3"
+        ]
+      },
+      {
+        "a": "harrow_d_a3s0_p1_xn1yn1",
+        "b": "harrow_d_a3s1_x1yn1",
+        "gates": [],
+        "id": "harrow_d_a3s0_p1_xn1yn1~harrow_d_a3s1_x1yn1",
+        "kind": "adjacent",
+        "length": 39.44,
         "passable": true,
         "roads": [
           "harrow_artery_3"
@@ -1408,11 +1553,23 @@
       },
       {
         "a": "harrow_d_a3s0_p2_r1s0",
-        "b": "harrow_d_a3s0_p3_b0",
+        "b": "harrow_d_a3s0_p3_xn1y0",
         "gates": [],
-        "id": "harrow_d_a3s0_p2_r1s0~harrow_d_a3s0_p3_b0",
+        "id": "harrow_d_a3s0_p2_r1s0~harrow_d_a3s0_p3_xn1y0",
         "kind": "adjacent",
-        "length": 60.61,
+        "length": 45.11,
+        "passable": true,
+        "roads": [
+          "harrow_sr_a3s0_b6"
+        ]
+      },
+      {
+        "a": "harrow_d_a3s0_p2_r1s0",
+        "b": "harrow_d_a3s0_p3_xn1yn1",
+        "gates": [],
+        "id": "harrow_d_a3s0_p2_r1s0~harrow_d_a3s0_p3_xn1yn1",
+        "kind": "adjacent",
+        "length": 15.51,
         "passable": true,
         "roads": [
           "harrow_sr_a3s0_b6"
@@ -1432,9 +1589,9 @@
       },
       {
         "a": "harrow_d_a3s0_p2_r1s2",
-        "b": "harrow_d_a3s0_p3_b0",
+        "b": "harrow_d_a3s0_p3_xn1y0",
         "gates": [],
-        "id": "harrow_d_a3s0_p2_r1s2~harrow_d_a3s0_p3_b0",
+        "id": "harrow_d_a3s0_p2_r1s2~harrow_d_a3s0_p3_xn1y0",
         "kind": "adjacent",
         "length": 1.71,
         "passable": true,
@@ -1444,74 +1601,86 @@
       },
       {
         "a": "harrow_d_a3s0_p2_r1s2",
-        "b": "harrow_d_a3s1",
+        "b": "harrow_d_a3s1_x1yn1",
         "gates": [],
-        "id": "harrow_d_a3s0_p2_r1s2~harrow_d_a3s1",
+        "id": "harrow_d_a3s0_p2_r1s2~harrow_d_a3s1_x1yn1",
         "kind": "adjacent",
-        "length": 55.94,
+        "length": 12.05,
         "passable": true,
         "roads": [
           "harrow_artery_3"
         ]
       },
       {
-        "a": "harrow_d_a3s0_p3_b0",
-        "b": "harrow_d_a3s0_p3_b1",
+        "a": "harrow_d_a3s0_p2_r1s2",
+        "b": "harrow_d_a3s1_x2yn1_b1",
         "gates": [],
-        "id": "harrow_d_a3s0_p3_b0~harrow_d_a3s0_p3_b1",
+        "id": "harrow_d_a3s0_p2_r1s2~harrow_d_a3s1_x2yn1_b1",
         "kind": "adjacent",
-        "length": 63.12,
+        "length": 43.88,
         "passable": true,
         "roads": [
-          "harrow_sr_a3s0_p3_sr_0"
+          "harrow_artery_3"
         ]
       },
       {
-        "a": "harrow_d_a3s0_p3_b0",
-        "b": "harrow_d_a3s0_p7",
+        "a": "harrow_d_a3s0_p3_xn1y0",
+        "b": "harrow_d_a3s0_p3_xn1yn1",
         "gates": [],
-        "id": "harrow_d_a3s0_p3_b0~harrow_d_a3s0_p7",
+        "id": "harrow_d_a3s0_p3_xn1y0~harrow_d_a3s0_p3_xn1yn1",
         "kind": "adjacent",
-        "length": 32.39,
+        "length": 76.5,
         "passable": true,
         "roads": [
-          "harrow_sr_a3s0_b10"
+          "harrow_sr_a3s0_p3_v0_0"
         ]
       },
       {
-        "a": "harrow_d_a3s0_p3_b0",
-        "b": "harrow_d_a3s0_p8_xn1yn1a",
-        "gates": [],
-        "id": "harrow_d_a3s0_p3_b0~harrow_d_a3s0_p8_xn1yn1a",
-        "kind": "adjacent",
-        "length": 23.3,
-        "passable": true,
-        "roads": [
-          "harrow_sr_a3s0_b9"
-        ]
-      },
-      {
-        "a": "harrow_d_a3s0_p3_b1",
+        "a": "harrow_d_a3s0_p3_xn1y0",
         "b": "harrow_d_a3s0_p5_w1c0",
         "gates": [],
-        "id": "harrow_d_a3s0_p3_b1~harrow_d_a3s0_p5_w1c0",
+        "id": "harrow_d_a3s0_p3_xn1y0~harrow_d_a3s0_p5_w1c0",
         "kind": "adjacent",
-        "length": 53.74,
+        "length": 23.93,
         "passable": true,
         "roads": [
           "harrow_sr_a3s0_b12"
         ]
       },
       {
-        "a": "harrow_d_a3s0_p3_b1",
+        "a": "harrow_d_a3s0_p3_xn1yn1",
+        "b": "harrow_d_a3s0_p5_w1c0",
+        "gates": [],
+        "id": "harrow_d_a3s0_p3_xn1yn1~harrow_d_a3s0_p5_w1c0",
+        "kind": "adjacent",
+        "length": 29.8,
+        "passable": true,
+        "roads": [
+          "harrow_sr_a3s0_b12"
+        ]
+      },
+      {
+        "a": "harrow_d_a3s0_p3_xn1yn1",
         "b": "harrow_d_a3s0_p7",
         "gates": [],
-        "id": "harrow_d_a3s0_p3_b1~harrow_d_a3s0_p7",
+        "id": "harrow_d_a3s0_p3_xn1yn1~harrow_d_a3s0_p7",
         "kind": "adjacent",
-        "length": 33.99,
+        "length": 66.38,
         "passable": true,
         "roads": [
           "harrow_sr_a3s0_b10"
+        ]
+      },
+      {
+        "a": "harrow_d_a3s0_p3_xn1yn1",
+        "b": "harrow_d_a3s0_p8_xn1yn1a",
+        "gates": [],
+        "id": "harrow_d_a3s0_p3_xn1yn1~harrow_d_a3s0_p8_xn1yn1a",
+        "kind": "adjacent",
+        "length": 23.3,
+        "passable": true,
+        "roads": [
+          "harrow_sr_a3s0_b9"
         ]
       },
       {
@@ -1553,9 +1722,9 @@
       },
       {
         "a": "harrow_d_a3s0_p4_x0yn1",
-        "b": "harrow_d_a3s1",
+        "b": "harrow_d_a3s1_xn1yn1",
         "gates": [],
-        "id": "harrow_d_a3s0_p4_x0yn1~harrow_d_a3s1",
+        "id": "harrow_d_a3s0_p4_x0yn1~harrow_d_a3s1_xn1yn1",
         "kind": "adjacent",
         "length": 11.32,
         "passable": true,
@@ -1746,15 +1915,218 @@
         "roads": []
       },
       {
-        "a": "harrow_d_a3s1",
+        "a": "harrow_d_a3s1_x0yn2",
+        "b": "harrow_d_a3s1_x1yn1",
+        "gates": [],
+        "id": "harrow_d_a3s1_x0yn2~harrow_d_a3s1_x1yn1",
+        "kind": "adjacent",
+        "length": 48.62,
+        "passable": true,
+        "roads": [
+          "harrow_sr_a3s1_u1_0"
+        ]
+      },
+      {
+        "a": "harrow_d_a3s1_x0yn2",
+        "b": "harrow_d_a3s1_xn1yn1",
+        "gates": [],
+        "id": "harrow_d_a3s1_x0yn2~harrow_d_a3s1_xn1yn1",
+        "kind": "adjacent",
+        "length": 56.05,
+        "passable": true,
+        "roads": [
+          "harrow_sr_a3s1_u0_0",
+          "harrow_sr_a3s1_vn1_0"
+        ]
+      },
+      {
+        "a": "harrow_d_a3s1_x0yn2",
+        "b": "outside",
+        "gates": [],
+        "id": "harrow_d_a3s1_x0yn2~outside",
+        "kind": "wall",
+        "length": 77.28,
+        "passable": false,
+        "roads": []
+      },
+      {
+        "a": "harrow_d_a3s1_x1yn1",
+        "b": "harrow_d_a3s1_x2yn1_b0",
+        "gates": [],
+        "id": "harrow_d_a3s1_x1yn1~harrow_d_a3s1_x2yn1_b0",
+        "kind": "adjacent",
+        "length": 46.64,
+        "passable": true,
+        "roads": [
+          "harrow_sr_a3s1_u2_0"
+        ]
+      },
+      {
+        "a": "harrow_d_a3s1_x1yn1",
+        "b": "harrow_d_a3s1_x2yn1_b1",
+        "gates": [],
+        "id": "harrow_d_a3s1_x1yn1~harrow_d_a3s1_x2yn1_b1",
+        "kind": "adjacent",
+        "length": 13.24,
+        "passable": true,
+        "roads": [
+          "harrow_sr_a3s1_u2_0"
+        ]
+      },
+      {
+        "a": "harrow_d_a3s1_x1yn1",
+        "b": "outside",
+        "gates": [],
+        "id": "harrow_d_a3s1_x1yn1~outside",
+        "kind": "wall",
+        "length": 49.66,
+        "passable": false,
+        "roads": []
+      },
+      {
+        "a": "harrow_d_a3s1_x2yn1_b0",
+        "b": "harrow_d_a3s1_x2yn1_b1",
+        "gates": [],
+        "id": "harrow_d_a3s1_x2yn1_b0~harrow_d_a3s1_x2yn1_b1",
+        "kind": "adjacent",
+        "length": 74.06,
+        "passable": true,
+        "roads": [
+          "harrow_sr_a3s1_x2yn1_sr_0"
+        ]
+      },
+      {
+        "a": "harrow_d_a3s1_x2yn1_b0",
+        "b": "outside",
+        "gates": [],
+        "id": "harrow_d_a3s1_x2yn1_b0~outside",
+        "kind": "wall",
+        "length": 76.57,
+        "passable": false,
+        "roads": []
+      },
+      {
+        "a": "harrow_d_a3s1_x2yn1_b1",
+        "b": "harrow_d_a3s1_x3y0",
+        "gates": [],
+        "id": "harrow_d_a3s1_x2yn1_b1~harrow_d_a3s1_x3y0",
+        "kind": "adjacent",
+        "length": 55.19,
+        "passable": true,
+        "roads": [
+          "harrow_sr_a3s1_u3_0",
+          "harrow_sr_a3s1_v0_1"
+        ]
+      },
+      {
+        "a": "harrow_d_a3s1_x3y0",
         "b": "outside",
         "gates": [
-          "harrow_gate_a2",
           "harrow_gate_a3"
         ],
-        "id": "harrow_d_a3s1~outside",
+        "id": "harrow_d_a3s1_x3y0~outside",
         "kind": "wall",
-        "length": 511.73,
+        "length": 34.78,
+        "passable": false,
+        "roads": []
+      },
+      {
+        "a": "harrow_d_a3s1_xn1yn1",
+        "b": "harrow_d_a3s1_xn2y0",
+        "gates": [],
+        "id": "harrow_d_a3s1_xn1yn1~harrow_d_a3s1_xn2y0",
+        "kind": "adjacent",
+        "length": 24.73,
+        "passable": true,
+        "roads": [
+          "harrow_sr_a3s1_un1_0"
+        ]
+      },
+      {
+        "a": "harrow_d_a3s1_xn1yn1",
+        "b": "outside",
+        "gates": [],
+        "id": "harrow_d_a3s1_xn1yn1~outside",
+        "kind": "wall",
+        "length": 45.98,
+        "passable": false,
+        "roads": []
+      },
+      {
+        "a": "harrow_d_a3s1_xn2y0",
+        "b": "harrow_d_a3s1_xn3y0",
+        "gates": [],
+        "id": "harrow_d_a3s1_xn2y0~harrow_d_a3s1_xn3y0",
+        "kind": "adjacent",
+        "length": 48.35,
+        "passable": true,
+        "roads": [
+          "harrow_sr_a3s1_un2_0"
+        ]
+      },
+      {
+        "a": "harrow_d_a3s1_xn2y0",
+        "b": "outside",
+        "gates": [],
+        "id": "harrow_d_a3s1_xn2y0~outside",
+        "kind": "wall",
+        "length": 53.62,
+        "passable": false,
+        "roads": []
+      },
+      {
+        "a": "harrow_d_a3s1_xn3y0",
+        "b": "harrow_d_a3s1_xn4y0_b0",
+        "gates": [],
+        "id": "harrow_d_a3s1_xn3y0~harrow_d_a3s1_xn4y0_b0",
+        "kind": "adjacent",
+        "length": 60.39,
+        "passable": true,
+        "roads": [
+          "harrow_sr_a3s1_un3_0"
+        ]
+      },
+      {
+        "a": "harrow_d_a3s1_xn3y0",
+        "b": "outside",
+        "gates": [],
+        "id": "harrow_d_a3s1_xn3y0~outside",
+        "kind": "wall",
+        "length": 48.6,
+        "passable": false,
+        "roads": []
+      },
+      {
+        "a": "harrow_d_a3s1_xn4y0_b0",
+        "b": "harrow_d_a3s1_xn4y0_b1",
+        "gates": [],
+        "id": "harrow_d_a3s1_xn4y0_b0~harrow_d_a3s1_xn4y0_b1",
+        "kind": "adjacent",
+        "length": 35.3,
+        "passable": true,
+        "roads": [
+          "harrow_sr_a3s1_xn4y0_sr_0"
+        ]
+      },
+      {
+        "a": "harrow_d_a3s1_xn4y0_b0",
+        "b": "outside",
+        "gates": [],
+        "id": "harrow_d_a3s1_xn4y0_b0~outside",
+        "kind": "wall",
+        "length": 30.81,
+        "passable": false,
+        "roads": []
+      },
+      {
+        "a": "harrow_d_a3s1_xn4y0_b1",
+        "b": "outside",
+        "gates": [
+          "harrow_gate_a2"
+        ],
+        "id": "harrow_d_a3s1_xn4y0_b1~outside",
+        "kind": "wall",
+        "length": 94.43,
         "passable": false,
         "roads": []
       }
@@ -1817,7 +2189,11 @@
         "kind": "district"
       },
       {
-        "id": "harrow_d_a1s0_x0y0_r1s1",
+        "id": "harrow_d_a1s0_x0y0_r1s1_b0",
+        "kind": "district"
+      },
+      {
+        "id": "harrow_d_a1s0_x0y0_r1s1_b1",
         "kind": "district"
       },
       {
@@ -1853,7 +2229,11 @@
         "kind": "district"
       },
       {
-        "id": "harrow_d_a1s0_xn1yn2_core",
+        "id": "harrow_d_a1s0_xn1yn2_core_b0",
+        "kind": "district"
+      },
+      {
+        "id": "harrow_d_a1s0_xn1yn2_core_b1",
         "kind": "district"
       },
       {
@@ -1921,11 +2301,11 @@
         "kind": "district"
       },
       {
-        "id": "harrow_d_a3s0_p3_b0",
+        "id": "harrow_d_a3s0_p3_xn1y0",
         "kind": "district"
       },
       {
-        "id": "harrow_d_a3s0_p3_b1",
+        "id": "harrow_d_a3s0_p3_xn1yn1",
         "kind": "district"
       },
       {
@@ -1969,7 +2349,43 @@
         "kind": "district"
       },
       {
-        "id": "harrow_d_a3s1",
+        "id": "harrow_d_a3s1_x0yn2",
+        "kind": "district"
+      },
+      {
+        "id": "harrow_d_a3s1_x1yn1",
+        "kind": "district"
+      },
+      {
+        "id": "harrow_d_a3s1_x2yn1_b0",
+        "kind": "district"
+      },
+      {
+        "id": "harrow_d_a3s1_x2yn1_b1",
+        "kind": "district"
+      },
+      {
+        "id": "harrow_d_a3s1_x3y0",
+        "kind": "district"
+      },
+      {
+        "id": "harrow_d_a3s1_xn1yn1",
+        "kind": "district"
+      },
+      {
+        "id": "harrow_d_a3s1_xn2y0",
+        "kind": "district"
+      },
+      {
+        "id": "harrow_d_a3s1_xn3y0",
+        "kind": "district"
+      },
+      {
+        "id": "harrow_d_a3s1_xn4y0_b0",
+        "kind": "district"
+      },
+      {
+        "id": "harrow_d_a3s1_xn4y0_b1",
         "kind": "district"
       },
       {
@@ -3969,6 +4385,10 @@
           725.35
         ],
         [
+          596.97,
+          724.82
+        ],
+        [
           596.93,
           724.67
         ],
@@ -4116,16 +4536,72 @@
       "waterfront": false
     },
     {
-      "area": 3499.74,
-      "depth": 2,
-      "id": "harrow_d_a1s0_x0y0_r1s1",
+      "area": 1577.7,
+      "depth": 3,
+      "id": "harrow_d_a1s0_x0y0_r1s1_b0",
       "inside_wall": true,
-      "key": "r1s1",
+      "key": "b0",
       "kind": "market",
-      "label": "Market Ward 2 1 2",
+      "label": "Market Ward 2 1 2 1",
       "landmarks": [],
-      "parent": "harrow_d_a1s0_x0y0",
+      "parent": "harrow_d_a1s0_x0y0_r1s1",
       "polygon": [
+        [
+          596.97,
+          724.82
+        ],
+        [
+          588.01,
+          725.73
+        ],
+        [
+          579.06,
+          726.88
+        ],
+        [
+          569.99,
+          728.08
+        ],
+        [
+          560.8,
+          729.36
+        ],
+        [
+          551.51,
+          730.78
+        ],
+        [
+          542.26,
+          732.18
+        ],
+        [
+          542.08,
+          727.47
+        ],
+        [
+          542.08,
+          727.02
+        ],
+        [
+          542.14,
+          721.14
+        ],
+        [
+          542.2,
+          715.23
+        ],
+        [
+          542.19,
+          714.43
+        ],
+        [
+          542.03,
+          708.59
+        ],
+        [
+          541.81,
+          702.9
+        ],
         [
           541.77,
           701.56
@@ -4249,6 +4725,48 @@
         [
           596.93,
           724.67
+        ]
+      ],
+      "waterfront": false
+    },
+    {
+      "area": 1922.05,
+      "depth": 3,
+      "id": "harrow_d_a1s0_x0y0_r1s1_b1",
+      "inside_wall": true,
+      "key": "b1",
+      "kind": "market",
+      "label": "Market Ward 2 1 2 2",
+      "landmarks": [],
+      "parent": "harrow_d_a1s0_x0y0_r1s1",
+      "polygon": [
+        [
+          542.26,
+          732.18
+        ],
+        [
+          551.51,
+          730.78
+        ],
+        [
+          560.8,
+          729.36
+        ],
+        [
+          569.99,
+          728.08
+        ],
+        [
+          579.06,
+          726.88
+        ],
+        [
+          588.01,
+          725.73
+        ],
+        [
+          596.97,
+          724.82
         ],
         [
           597.12,
@@ -4393,26 +4911,6 @@
         [
           542.27,
           732.4
-        ],
-        [
-          542.08,
-          727.47
-        ],
-        [
-          542.15,
-          720.96
-        ],
-        [
-          542.19,
-          714.43
-        ],
-        [
-          542.03,
-          708.59
-        ],
-        [
-          541.81,
-          702.9
         ]
       ],
       "waterfront": false
@@ -4796,7 +5294,7 @@
       "waterfront": false
     },
     {
-      "area": 1870.48,
+      "area": 1870.81,
       "depth": 2,
       "id": "harrow_d_a1s0_x1y1_w0c0",
       "inside_wall": true,
@@ -4851,8 +5349,12 @@
           870.75
         ],
         [
-          549.42,
-          861.44
+          549.96,
+          864.92
+        ],
+        [
+          549.06,
+          859.05
         ],
         [
           548.14,
@@ -4879,20 +5381,20 @@
           812.62
         ],
         [
-          543.91,
-          804.61
+          543.88,
+          803.84
         ],
         [
-          543.67,
-          796.6
+          543.68,
+          796.93
         ],
         [
-          543.51,
-          788.6
+          543.58,
+          791.79
         ],
         [
-          543.17,
-          779.9
+          543.24,
+          781.68
         ],
         [
           542.95,
@@ -5268,7 +5770,7 @@
       "waterfront": false
     },
     {
-      "area": 2106.05,
+      "area": 2106.16,
       "depth": 2,
       "id": "harrow_d_a1s0_xn1yn1_w1c0",
       "inside_wall": true,
@@ -5359,24 +5861,28 @@
           614.76
         ],
         [
-          630.36,
-          623.51
+          629.97,
+          622.69
         ],
         [
-          634.73,
-          632.7
+          633.87,
+          630.91
         ],
         [
-          639.43,
-          642.54
+          638.12,
+          639.77
         ],
         [
-          644.12,
-          652.06
+          642.32,
+          648.51
         ],
         [
-          648.97,
-          661.42
+          646.73,
+          657.09
+        ],
+        [
+          650.19,
+          663.82
         ],
         [
           653.45,
@@ -5386,16 +5892,60 @@
       "waterfront": false
     },
     {
-      "area": 3552.12,
-      "depth": 2,
-      "id": "harrow_d_a1s0_xn1yn2_core",
+      "area": 1750.42,
+      "depth": 3,
+      "id": "harrow_d_a1s0_xn1yn2_core_b0",
       "inside_wall": true,
-      "key": "core",
+      "key": "b0",
       "kind": "market",
-      "label": "Market Ward 2 7 1",
+      "label": "Market Ward 2 7 1 1",
       "landmarks": [],
-      "parent": "harrow_d_a1s0_xn1yn2",
+      "parent": "harrow_d_a1s0_xn1yn2_core",
       "polygon": [
+        [
+          694.11,
+          631.03
+        ],
+        [
+          686.06,
+          635.69
+        ],
+        [
+          677.82,
+          639.93
+        ],
+        [
+          670.11,
+          644.11
+        ],
+        [
+          662.66,
+          648.59
+        ],
+        [
+          654.71,
+          653.13
+        ],
+        [
+          646.73,
+          657.09
+        ],
+        [
+          642.32,
+          648.51
+        ],
+        [
+          638.12,
+          639.77
+        ],
+        [
+          633.87,
+          630.91
+        ],
+        [
+          629.97,
+          622.69
+        ],
         [
           626.03,
           614.76
@@ -5555,6 +6105,48 @@
         [
           693.94,
           630.69
+        ]
+      ],
+      "waterfront": false
+    },
+    {
+      "area": 1801.59,
+      "depth": 3,
+      "id": "harrow_d_a1s0_xn1yn2_core_b1",
+      "inside_wall": true,
+      "key": "b1",
+      "kind": "market",
+      "label": "Market Ward 2 7 1 2",
+      "landmarks": [],
+      "parent": "harrow_d_a1s0_xn1yn2_core",
+      "polygon": [
+        [
+          646.73,
+          657.09
+        ],
+        [
+          654.71,
+          653.13
+        ],
+        [
+          662.66,
+          648.59
+        ],
+        [
+          670.11,
+          644.11
+        ],
+        [
+          677.82,
+          639.93
+        ],
+        [
+          686.06,
+          635.69
+        ],
+        [
+          694.11,
+          631.03
         ],
         [
           694.34,
@@ -5645,24 +6237,8 @@
           670.4
         ],
         [
-          648.97,
-          661.42
-        ],
-        [
-          644.12,
-          652.06
-        ],
-        [
-          639.43,
-          642.54
-        ],
-        [
-          634.73,
-          632.7
-        ],
-        [
-          630.36,
-          623.51
+          650.19,
+          663.82
         ]
       ],
       "waterfront": false
@@ -5725,6 +6301,10 @@
         [
           694.34,
           631.48
+        ],
+        [
+          694.11,
+          631.03
         ],
         [
           693.94,
@@ -6966,7 +7546,7 @@
       "waterfront": false
     },
     {
-      "area": 3109.9,
+      "area": 3109.88,
       "depth": 1,
       "id": "harrow_d_a2s0_p0",
       "inside_wall": true,
@@ -7033,8 +7613,8 @@
           671.07
         ],
         [
-          455.19,
-          665.89
+          455.17,
+          665.87
         ],
         [
           449.09,
@@ -7088,7 +7668,7 @@
       "waterfront": false
     },
     {
-      "area": 3216.24,
+      "area": 3216.45,
       "depth": 1,
       "id": "harrow_d_a2s0_p1",
       "inside_wall": true,
@@ -7187,8 +7767,12 @@
           702.9
         ],
         [
-          533.22,
-          701.59
+          536.25,
+          702.05
+        ],
+        [
+          530.5,
+          701.21
         ],
         [
           524.35,
@@ -7203,8 +7787,12 @@
           694.06
         ],
         [
-          499.94,
-          690.31
+          505.21,
+          692.92
+        ],
+        [
+          498.74,
+          689.72
         ],
         [
           492.13,
@@ -7344,7 +7932,7 @@
       "waterfront": false
     },
     {
-      "area": 2219.46,
+      "area": 2219.32,
       "depth": 2,
       "id": "harrow_d_a3s0_p0_xn1y0",
       "inside_wall": true,
@@ -7423,12 +8011,12 @@
           503.66
         ],
         [
-          353.84,
-          495.13
+          353.54,
+          493.77
         ],
         [
-          351.89,
-          486.91
+          351.72,
+          486.25
         ],
         [
           349.73,
@@ -7443,12 +8031,16 @@
           459.97
         ],
         [
-          345.53,
-          452.65
+          345.4,
+          451.47
         ],
         [
-          344.76,
-          445.08
+          344.77,
+          445.19
+        ],
+        [
+          344.17,
+          439.03
         ],
         [
           344.03,
@@ -7458,7 +8050,7 @@
       "waterfront": false
     },
     {
-      "area": 2094.73,
+      "area": 2095.1,
       "depth": 2,
       "id": "harrow_d_a3s0_p0_xn1yn1",
       "inside_wall": true,
@@ -7473,28 +8065,32 @@
           445.68
         ],
         [
-          417.16,
-          454.24
+          417.92,
+          450.87
         ],
         [
-          414.85,
-          462.85
+          416.72,
+          456.04
         ],
         [
-          412.22,
-          471.26
+          414.5,
+          464.05
+        ],
+        [
+          412.04,
+          471.82
         ],
         [
           409.52,
           479.25
         ],
         [
-          407.66,
-          484.51
+          407.32,
+          485.46
         ],
         [
-          405.39,
-          491.2
+          405.23,
+          491.69
         ],
         [
           403.25,
@@ -7568,7 +8164,7 @@
       "waterfront": false
     },
     {
-      "area": 1546.03,
+      "area": 1546.0,
       "depth": 2,
       "id": "harrow_d_a3s0_p1_x0y0",
       "inside_wall": true,
@@ -7611,8 +8207,12 @@
           636.09
         ],
         [
-          411.93,
-          636.97
+          415.38,
+          636.64
+        ],
+        [
+          410.02,
+          637.17
         ],
         [
           403.2,
@@ -7666,7 +8266,7 @@
       "waterfront": false
     },
     {
-      "area": 2246.79,
+      "area": 2246.64,
       "depth": 2,
       "id": "harrow_d_a3s0_p1_xn1yn1",
       "inside_wall": true,
@@ -7705,12 +8305,16 @@
           608.5
         ],
         [
-          373.1,
-          600.96
+          374.78,
+          605.93
         ],
         [
-          370.92,
-          593.54
+          372.59,
+          599.28
+        ],
+        [
+          370.69,
+          592.7
         ],
         [
           368.88,
@@ -7780,7 +8384,7 @@
       "waterfront": false
     },
     {
-      "area": 1542.03,
+      "area": 1542.06,
       "depth": 2,
       "id": "harrow_d_a3s0_p2_r1s0",
       "inside_wall": true,
@@ -7991,28 +8595,28 @@
           499.04
         ],
         [
-          411.87,
-          504.87
+          410.05,
+          503.37
         ],
         [
-          418.8,
-          510.77
+          417.87,
+          509.98
         ],
         [
-          425.35,
-          516.09
+          425.19,
+          515.97
         ],
         [
-          431.84,
-          520.92
+          432.43,
+          521.36
         ],
         [
-          438.32,
-          526.24
+          439.63,
+          527.44
         ],
         [
-          444.68,
-          532.26
+          445.31,
+          532.89
         ],
         [
           450.54,
@@ -8038,7 +8642,7 @@
       "waterfront": false
     },
     {
-      "area": 2750.02,
+      "area": 2750.1,
       "depth": 2,
       "id": "harrow_d_a3s0_p2_r1s2",
       "inside_wall": true,
@@ -8301,8 +8905,12 @@
           567.53
         ],
         [
-          364.93,
-          558.28
+          365.09,
+          559.36
+        ],
+        [
+          364.58,
+          555.6
         ],
         [
           363.75,
@@ -8324,59 +8932,177 @@
       "waterfront": false
     },
     {
-      "area": 2165.02,
+      "area": 2094.71,
       "depth": 2,
-      "id": "harrow_d_a3s0_p3_b0",
+      "id": "harrow_d_a3s0_p3_xn1y0",
       "inside_wall": true,
-      "key": "b0",
+      "key": "xn1y0",
       "kind": "market",
       "label": "Market Ward 4 4 1",
       "landmarks": [],
       "parent": "harrow_d_a3s0_p3",
       "polygon": [
         [
-          407.66,
-          484.51
+          416.72,
+          456.04
         ],
         [
-          417.17,
-          485.78
+          417.92,
+          450.87
         ],
         [
-          426.39,
-          487.12
+          418.94,
+          445.68
         ],
         [
-          435.52,
-          488.17
+          426.95,
+          447.54
         ],
         [
-          444.0,
-          489.0
+          434.62,
+          449.38
         ],
         [
-          452.43,
-          489.39
+          442.27,
+          451.02
         ],
         [
-          461.6,
-          489.55
+          442.2,
+          456.83
         ],
         [
-          470.48,
-          489.92
+          442.24,
+          466.61
         ],
         [
-          469.93,
+          442.17,
+          476.9
+        ],
+        [
+          442.06,
+          486.86
+        ],
+        [
+          441.71,
+          496.43
+        ],
+        [
+          441.23,
+          505.37
+        ],
+        [
+          440.66,
+          512.77
+        ],
+        [
+          440.11,
+          520.1
+        ],
+        [
+          439.63,
+          527.44
+        ],
+        [
+          432.43,
+          521.36
+        ],
+        [
+          425.19,
+          515.97
+        ],
+        [
+          417.87,
+          509.98
+        ],
+        [
+          410.05,
+          503.37
+        ],
+        [
+          404.6,
+          499.04
+        ],
+        [
+          403.25,
           497.99
         ],
         [
-          469.4,
-          506.08
+          405.23,
+          491.69
         ],
         [
-          468.71,
-          514.16
+          407.32,
+          485.46
+        ],
+        [
+          409.52,
+          479.25
+        ],
+        [
+          412.04,
+          471.82
+        ],
+        [
+          414.5,
+          464.05
+        ]
+      ],
+      "waterfront": false
+    },
+    {
+      "area": 2228.94,
+      "depth": 2,
+      "id": "harrow_d_a3s0_p3_xn1yn1",
+      "inside_wall": true,
+      "key": "xn1yn1",
+      "kind": "market",
+      "label": "Market Ward 4 4 2",
+      "landmarks": [],
+      "parent": "harrow_d_a3s0_p3",
+      "polygon": [
+        [
+          442.2,
+          456.83
+        ],
+        [
+          442.27,
+          451.02
+        ],
+        [
+          452.11,
+          452.67
+        ],
+        [
+          461.82,
+          454.16
+        ],
+        [
+          471.66,
+          455.95
+        ],
+        [
+          471.31,
+          465.59
+        ],
+        [
+          471.04,
+          476.0
+        ],
+        [
+          470.71,
+          486.19
+        ],
+        [
+          470.06,
+          496.03
+        ],
+        [
+          469.41,
+          505.87
+        ],
+        [
+          468.72,
+          514.06
         ],
         [
           467.81,
@@ -8399,142 +9125,40 @@
           538.45
         ],
         [
-          444.68,
-          532.26
+          445.31,
+          532.89
         ],
         [
-          438.32,
-          526.24
+          439.63,
+          527.44
         ],
         [
-          431.84,
-          520.92
+          440.11,
+          520.1
         ],
         [
-          425.35,
-          516.09
+          440.66,
+          512.77
         ],
         [
-          418.8,
-          510.77
+          441.23,
+          505.37
         ],
         [
-          411.87,
-          504.87
+          441.71,
+          496.43
         ],
         [
-          404.6,
-          499.04
+          442.06,
+          486.86
         ],
         [
-          403.25,
-          497.99
+          442.17,
+          476.9
         ],
         [
-          405.39,
-          491.2
-        ]
-      ],
-      "waterfront": false
-    },
-    {
-      "area": 2159.29,
-      "depth": 2,
-      "id": "harrow_d_a3s0_p3_b1",
-      "inside_wall": true,
-      "key": "b1",
-      "kind": "market",
-      "label": "Market Ward 4 4 2",
-      "landmarks": [],
-      "parent": "harrow_d_a3s0_p3",
-      "polygon": [
-        [
-          470.48,
-          489.92
-        ],
-        [
-          461.6,
-          489.55
-        ],
-        [
-          452.43,
-          489.39
-        ],
-        [
-          444.0,
-          489.0
-        ],
-        [
-          435.52,
-          488.17
-        ],
-        [
-          426.39,
-          487.12
-        ],
-        [
-          417.17,
-          485.78
-        ],
-        [
-          407.66,
-          484.51
-        ],
-        [
-          409.52,
-          479.25
-        ],
-        [
-          412.22,
-          471.26
-        ],
-        [
-          414.85,
-          462.85
-        ],
-        [
-          417.16,
-          454.24
-        ],
-        [
-          418.94,
-          445.68
-        ],
-        [
-          428.07,
-          447.8
-        ],
-        [
-          436.78,
-          449.89
-        ],
-        [
-          445.58,
-          451.6
-        ],
-        [
-          454.27,
-          453.01
-        ],
-        [
-          462.9,
-          454.32
-        ],
-        [
-          471.66,
-          455.95
-        ],
-        [
-          471.36,
-          464.03
-        ],
-        [
-          471.09,
-          472.72
-        ],
-        [
-          470.92,
-          481.49
+          442.24,
+          466.61
         ]
       ],
       "waterfront": false
@@ -8930,7 +9554,7 @@
       "waterfront": false
     },
     {
-      "area": 1970.42,
+      "area": 1970.67,
       "depth": 2,
       "id": "harrow_d_a3s0_p5_w1c0",
       "inside_wall": true,
@@ -8981,24 +9605,24 @@
           455.95
         ],
         [
-          462.9,
-          454.32
+          461.82,
+          454.16
         ],
         [
-          454.27,
-          453.01
+          452.11,
+          452.67
         ],
         [
-          445.58,
-          451.6
+          442.27,
+          451.02
         ],
         [
-          436.78,
-          449.89
+          434.62,
+          449.38
         ],
         [
-          428.07,
-          447.8
+          426.95,
+          447.54
         ],
         [
           418.94,
@@ -9248,7 +9872,7 @@
       "waterfront": false
     },
     {
-      "area": 2868.11,
+      "area": 2868.12,
       "depth": 1,
       "id": "harrow_d_a3s0_p7",
       "inside_wall": true,
@@ -9299,32 +9923,28 @@
           522.19
         ],
         [
-          468.71,
-          514.16
+          468.72,
+          514.06
         ],
         [
-          469.4,
-          506.08
+          469.41,
+          505.87
         ],
         [
-          469.93,
-          497.99
+          470.06,
+          496.03
         ],
         [
-          470.48,
-          489.92
+          470.71,
+          486.19
         ],
         [
-          470.92,
-          481.49
+          471.04,
+          476.0
         ],
         [
-          471.09,
-          472.72
-        ],
-        [
-          471.36,
-          464.03
+          471.31,
+          465.59
         ],
         [
           471.66,
@@ -9764,16 +10384,364 @@
       "waterfront": false
     },
     {
-      "area": 23030.87,
-      "id": "harrow_d_a3s1",
+      "area": 2596.9,
+      "depth": 1,
+      "id": "harrow_d_a3s1_x0yn2",
       "inside_wall": true,
-      "key": "a3s1",
+      "key": "x0yn2",
       "kind": "harbour",
-      "label": "Harbour",
-      "landmarks": [
-        "harrow_docks"
-      ],
+      "label": "Harbour 1",
+      "landmarks": [],
+      "parent": "harrow_d_a3s1",
       "polygon": [
+        [
+          403.2,
+          637.99
+        ],
+        [
+          410.02,
+          637.17
+        ],
+        [
+          402.39,
+          642.47
+        ],
+        [
+          394.77,
+          648.05
+        ],
+        [
+          386.95,
+          653.83
+        ],
+        [
+          379.34,
+          659.81
+        ],
+        [
+          384.99,
+          666.71
+        ],
+        [
+          390.74,
+          673.63
+        ],
+        [
+          383.98,
+          674.34
+        ],
+        [
+          377.16,
+          675.15
+        ],
+        [
+          370.18,
+          675.52
+        ],
+        [
+          361.44,
+          673.78
+        ],
+        [
+          361.42,
+          673.77
+        ],
+        [
+          353.61,
+          669.68
+        ],
+        [
+          348.29,
+          662.43
+        ],
+        [
+          342.99,
+          655.3
+        ],
+        [
+          340.21,
+          648.79
+        ],
+        [
+          338.11,
+          642.08
+        ],
+        [
+          336.18,
+          635.47
+        ],
+        [
+          341.74,
+          631.07
+        ],
+        [
+          347.41,
+          626.58
+        ],
+        [
+          353.13,
+          622.01
+        ],
+        [
+          360.49,
+          616.23
+        ],
+        [
+          367.74,
+          610.86
+        ],
+        [
+          374.78,
+          605.93
+        ],
+        [
+          375.63,
+          608.5
+        ],
+        [
+          377.1,
+          613.69
+        ],
+        [
+          380.52,
+          619.3
+        ],
+        [
+          383.83,
+          625.44
+        ],
+        [
+          387.1,
+          631.79
+        ],
+        [
+          394.71,
+          634.71
+        ]
+      ],
+      "waterfront": false
+    },
+    {
+      "area": 2555.43,
+      "depth": 1,
+      "id": "harrow_d_a3s1_x1yn1",
+      "inside_wall": true,
+      "key": "x1yn1",
+      "kind": "harbour",
+      "label": "Harbour 2",
+      "landmarks": [],
+      "parent": "harrow_d_a3s1",
+      "polygon": [
+        [
+          363.25,
+          556.68
+        ],
+        [
+          364.58,
+          555.6
+        ],
+        [
+          365.09,
+          559.36
+        ],
+        [
+          366.29,
+          567.53
+        ],
+        [
+          367.32,
+          573.85
+        ],
+        [
+          368.18,
+          580.22
+        ],
+        [
+          368.88,
+          585.88
+        ],
+        [
+          370.69,
+          592.7
+        ],
+        [
+          372.59,
+          599.28
+        ],
+        [
+          374.78,
+          605.93
+        ],
+        [
+          367.74,
+          610.86
+        ],
+        [
+          360.49,
+          616.23
+        ],
+        [
+          353.13,
+          622.01
+        ],
+        [
+          347.41,
+          626.58
+        ],
+        [
+          341.74,
+          631.07
+        ],
+        [
+          336.18,
+          635.47
+        ],
+        [
+          334.03,
+          629.55
+        ],
+        [
+          331.6,
+          623.43
+        ],
+        [
+          326.59,
+          616.26
+        ],
+        [
+          321.59,
+          608.78
+        ],
+        [
+          318.77,
+          599.87
+        ],
+        [
+          316.03,
+          590.58
+        ],
+        [
+          323.12,
+          585.1
+        ],
+        [
+          330.56,
+          579.17
+        ],
+        [
+          338.62,
+          573.59
+        ],
+        [
+          346.35,
+          568.19
+        ],
+        [
+          353.76,
+          563.21
+        ],
+        [
+          358.57,
+          560.15
+        ]
+      ],
+      "waterfront": false
+    },
+    {
+      "area": 2864.73,
+      "depth": 2,
+      "id": "harrow_d_a3s1_x2yn1_b0",
+      "inside_wall": true,
+      "key": "b0",
+      "kind": "harbour",
+      "label": "Harbour 3 1",
+      "landmarks": [],
+      "parent": "harrow_d_a3s1_x2yn1",
+      "polygon": [
+        [
+          305.71,
+          507.05
+        ],
+        [
+          313.11,
+          514.43
+        ],
+        [
+          320.18,
+          522.14
+        ],
+        [
+          327.64,
+          529.97
+        ],
+        [
+          335.22,
+          538.07
+        ],
+        [
+          341.62,
+          546.64
+        ],
+        [
+          347.56,
+          555.21
+        ],
+        [
+          353.76,
+          563.21
+        ],
+        [
+          346.35,
+          568.19
+        ],
+        [
+          338.62,
+          573.59
+        ],
+        [
+          330.56,
+          579.17
+        ],
+        [
+          323.12,
+          585.1
+        ],
+        [
+          316.03,
+          590.58
+        ],
+        [
+          314.24,
+          584.47
+        ],
+        [
+          312.26,
+          578.28
+        ],
+        [
+          308.51,
+          570.91
+        ],
+        [
+          304.83,
+          563.33
+        ],
+        [
+          301.11,
+          556.01
+        ],
+        [
+          296.46,
+          550.62
+        ],
+        [
+          291.75,
+          545.16
+        ],
+        [
+          287.58,
+          542.22
+        ],
         [
           278.57,
           536.24
@@ -9789,6 +10757,10 @@
         [
           275.32,
           530.36
+        ],
+        [
+          280.23,
+          527.61
         ],
         [
           281.55,
@@ -9821,6 +10793,52 @@
         [
           305.07,
           507.95
+        ]
+      ],
+      "waterfront": true
+    },
+    {
+      "area": 1856.23,
+      "depth": 2,
+      "id": "harrow_d_a3s1_x2yn1_b1",
+      "inside_wall": true,
+      "key": "b1",
+      "kind": "harbour",
+      "label": "Harbour 3 2",
+      "landmarks": [],
+      "parent": "harrow_d_a3s1_x2yn1",
+      "polygon": [
+        [
+          353.76,
+          563.21
+        ],
+        [
+          347.56,
+          555.21
+        ],
+        [
+          341.62,
+          546.64
+        ],
+        [
+          335.22,
+          538.07
+        ],
+        [
+          327.64,
+          529.97
+        ],
+        [
+          320.18,
+          522.14
+        ],
+        [
+          313.11,
+          514.43
+        ],
+        [
+          305.71,
+          507.05
         ],
         [
           308.79,
@@ -9833,6 +10851,166 @@
         [
           312.97,
           496.04
+        ],
+        [
+          313.03,
+          495.88
+        ],
+        [
+          318.13,
+          501.74
+        ],
+        [
+          323.4,
+          507.66
+        ],
+        [
+          328.99,
+          513.42
+        ],
+        [
+          335.5,
+          508.86
+        ],
+        [
+          341.61,
+          503.9
+        ],
+        [
+          347.4,
+          498.78
+        ],
+        [
+          353.54,
+          493.77
+        ],
+        [
+          355.69,
+          503.66
+        ],
+        [
+          358.05,
+          512.33
+        ],
+        [
+          360.9,
+          522.75
+        ],
+        [
+          362.58,
+          533.05
+        ],
+        [
+          363.44,
+          543.16
+        ],
+        [
+          363.75,
+          548.61
+        ],
+        [
+          364.58,
+          555.6
+        ],
+        [
+          363.25,
+          556.68
+        ],
+        [
+          358.57,
+          560.15
+        ]
+      ],
+      "waterfront": true
+    },
+    {
+      "area": 2315.5,
+      "depth": 1,
+      "id": "harrow_d_a3s1_x3y0",
+      "inside_wall": true,
+      "key": "x3y0",
+      "kind": "harbour",
+      "label": "Harbour 4",
+      "landmarks": [
+        "harrow_docks"
+      ],
+      "parent": "harrow_d_a3s1",
+      "polygon": [
+        [
+          333.06,
+          433.16
+        ],
+        [
+          338.37,
+          433.43
+        ],
+        [
+          343.63,
+          433.66
+        ],
+        [
+          344.03,
+          437.66
+        ],
+        [
+          344.17,
+          439.03
+        ],
+        [
+          344.77,
+          445.19
+        ],
+        [
+          345.4,
+          451.47
+        ],
+        [
+          346.52,
+          459.97
+        ],
+        [
+          347.84,
+          469.31
+        ],
+        [
+          349.73,
+          478.7
+        ],
+        [
+          351.72,
+          486.25
+        ],
+        [
+          353.54,
+          493.77
+        ],
+        [
+          347.4,
+          498.78
+        ],
+        [
+          341.61,
+          503.9
+        ],
+        [
+          335.5,
+          508.86
+        ],
+        [
+          328.99,
+          513.42
+        ],
+        [
+          323.4,
+          507.66
+        ],
+        [
+          318.13,
+          501.74
+        ],
+        [
+          313.03,
+          495.88
         ],
         [
           313.07,
@@ -9863,6 +11041,10 @@
           462.05
         ],
         [
+          318.15,
+          460.22
+        ],
+        [
           317.49,
           456.43
         ],
@@ -9887,132 +11069,98 @@
           433.74
         ],
         [
-          325.51,
-          433.25
+          324.73,
+          433.28
+        ]
+      ],
+      "waterfront": true
+    },
+    {
+      "area": 2120.7,
+      "depth": 1,
+      "id": "harrow_d_a3s1_xn1yn1",
+      "inside_wall": true,
+      "key": "xn1yn1",
+      "kind": "harbour",
+      "label": "Harbour 5",
+      "landmarks": [],
+      "parent": "harrow_d_a3s1",
+      "polygon": [
+        [
+          449.09,
+          660.55
         ],
         [
-          334.63,
-          433.23
+          455.17,
+          665.87
         ],
         [
-          343.63,
-          433.66
+          450.38,
+          669.88
         ],
         [
-          344.03,
-          437.66
+          445.3,
+          673.77
         ],
         [
-          344.76,
-          445.08
+          440.3,
+          677.44
         ],
         [
-          345.53,
-          452.65
+          435.53,
+          680.89
         ],
         [
-          346.52,
-          459.97
+          429.43,
+          678.25
         ],
         [
-          347.84,
-          469.31
+          423.12,
+          675.71
         ],
         [
-          349.73,
-          478.7
+          415.19,
+          674.61
         ],
         [
-          351.89,
-          486.91
+          407.56,
+          673.52
         ],
         [
-          353.84,
-          495.13
+          399.41,
+          673.47
         ],
         [
-          355.69,
-          503.66
+          390.74,
+          673.63
         ],
         [
-          358.05,
-          512.33
+          384.99,
+          666.71
         ],
         [
-          360.9,
-          522.75
+          379.34,
+          659.81
         ],
         [
-          362.58,
-          533.05
+          386.95,
+          653.83
         ],
         [
-          363.44,
-          543.16
+          394.77,
+          648.05
         ],
         [
-          363.75,
-          548.61
+          402.39,
+          642.47
         ],
         [
-          364.93,
-          558.28
+          410.02,
+          637.17
         ],
         [
-          366.29,
-          567.53
-        ],
-        [
-          367.32,
-          573.85
-        ],
-        [
-          368.18,
-          580.22
-        ],
-        [
-          368.88,
-          585.88
-        ],
-        [
-          370.92,
-          593.54
-        ],
-        [
-          373.1,
-          600.96
-        ],
-        [
-          375.63,
-          608.5
-        ],
-        [
-          377.1,
-          613.69
-        ],
-        [
-          380.52,
-          619.3
-        ],
-        [
-          383.83,
-          625.44
-        ],
-        [
-          387.1,
-          631.79
-        ],
-        [
-          394.71,
-          634.71
-        ],
-        [
-          403.2,
-          637.99
-        ],
-        [
-          411.93,
-          636.97
+          415.38,
+          636.64
         ],
         [
           420.88,
@@ -10041,14 +11189,100 @@
         [
           444.34,
           653.77
+        ]
+      ],
+      "waterfront": false
+    },
+    {
+      "area": 1822.2,
+      "depth": 1,
+      "id": "harrow_d_a3s1_xn2y0",
+      "inside_wall": true,
+      "key": "xn2y0",
+      "kind": "harbour",
+      "label": "Harbour 6",
+      "landmarks": [],
+      "parent": "harrow_d_a3s1",
+      "polygon": [
+        [
+          492.13,
+          686.42
         ],
         [
-          449.09,
-          660.55
+          498.74,
+          689.72
         ],
         [
-          455.19,
-          665.89
+          505.21,
+          692.92
+        ],
+        [
+          498.32,
+          698.9
+        ],
+        [
+          491.9,
+          704.46
+        ],
+        [
+          485.35,
+          709.93
+        ],
+        [
+          478.23,
+          715.56
+        ],
+        [
+          473.03,
+          719.43
+        ],
+        [
+          467.57,
+          723.21
+        ],
+        [
+          461.76,
+          714.58
+        ],
+        [
+          455.98,
+          706.09
+        ],
+        [
+          450.63,
+          697.83
+        ],
+        [
+          445.61,
+          689.26
+        ],
+        [
+          441.1,
+          685.34
+        ],
+        [
+          436.79,
+          681.42
+        ],
+        [
+          435.53,
+          680.89
+        ],
+        [
+          440.3,
+          677.44
+        ],
+        [
+          445.3,
+          673.77
+        ],
+        [
+          450.38,
+          669.88
+        ],
+        [
+          455.17,
+          665.87
         ],
         [
           461.77,
@@ -10069,30 +11303,28 @@
         [
           486.78,
           683.99
+        ]
+      ],
+      "waterfront": false
+    },
+    {
+      "area": 3055.4,
+      "depth": 1,
+      "id": "harrow_d_a3s1_xn3y0",
+      "inside_wall": true,
+      "key": "xn3y0",
+      "kind": "harbour",
+      "label": "Harbour 7",
+      "landmarks": [],
+      "parent": "harrow_d_a3s1",
+      "polygon": [
+        [
+          530.5,
+          701.21
         ],
         [
-          492.13,
-          686.42
-        ],
-        [
-          499.94,
-          690.31
-        ],
-        [
-          507.59,
-          694.06
-        ],
-        [
-          515.97,
-          697.04
-        ],
-        [
-          524.35,
-          700.33
-        ],
-        [
-          533.22,
-          701.59
+          536.25,
+          702.05
         ],
         [
           541.81,
@@ -10107,12 +11339,190 @@
           714.43
         ],
         [
-          542.15,
-          720.96
+          542.2,
+          715.23
+        ],
+        [
+          542.14,
+          721.14
+        ],
+        [
+          542.08,
+          727.02
+        ],
+        [
+          535.37,
+          732.33
+        ],
+        [
+          528.64,
+          737.53
+        ],
+        [
+          521.75,
+          742.74
+        ],
+        [
+          514.92,
+          748.17
+        ],
+        [
+          508.1,
+          753.67
+        ],
+        [
+          501.21,
+          758.78
+        ],
+        [
+          494.22,
+          763.84
+        ],
+        [
+          489.46,
+          756.5
+        ],
+        [
+          484.59,
+          749.03
+        ],
+        [
+          479.55,
+          741.89
+        ],
+        [
+          474.58,
+          734.46
+        ],
+        [
+          471.2,
+          728.83
+        ],
+        [
+          467.57,
+          723.21
+        ],
+        [
+          473.03,
+          719.43
+        ],
+        [
+          478.23,
+          715.56
+        ],
+        [
+          485.35,
+          709.93
+        ],
+        [
+          491.9,
+          704.46
+        ],
+        [
+          498.32,
+          698.9
+        ],
+        [
+          505.21,
+          692.92
+        ],
+        [
+          507.59,
+          694.06
+        ],
+        [
+          515.97,
+          697.04
+        ],
+        [
+          524.35,
+          700.33
+        ]
+      ],
+      "waterfront": false
+    },
+    {
+      "area": 2040.87,
+      "depth": 2,
+      "id": "harrow_d_a3s1_xn4y0_b0",
+      "inside_wall": true,
+      "key": "b0",
+      "kind": "harbour",
+      "label": "Harbour 8 1",
+      "landmarks": [],
+      "parent": "harrow_d_a3s1_xn4y0",
+      "polygon": [
+        [
+          543.58,
+          791.79
+        ],
+        [
+          534.8,
+          791.44
+        ],
+        [
+          525.62,
+          791.39
+        ],
+        [
+          516.95,
+          791.47
+        ],
+        [
+          508.29,
+          791.2
+        ],
+        [
+          504.66,
+          784.06
+        ],
+        [
+          500.95,
+          776.69
+        ],
+        [
+          497.78,
+          769.41
+        ],
+        [
+          494.22,
+          763.84
+        ],
+        [
+          501.21,
+          758.78
+        ],
+        [
+          508.1,
+          753.67
+        ],
+        [
+          514.92,
+          748.17
+        ],
+        [
+          521.75,
+          742.74
+        ],
+        [
+          528.64,
+          737.53
+        ],
+        [
+          535.37,
+          732.33
+        ],
+        [
+          542.08,
+          727.02
         ],
         [
           542.08,
           727.47
+        ],
+        [
+          542.26,
+          732.18
         ],
         [
           542.27,
@@ -10139,20 +11549,50 @@
           770.82
         ],
         [
-          543.17,
-          779.9
+          543.24,
+          781.68
+        ]
+      ],
+      "waterfront": false
+    },
+    {
+      "area": 1802.71,
+      "depth": 2,
+      "id": "harrow_d_a3s1_xn4y0_b1",
+      "inside_wall": true,
+      "key": "b1",
+      "kind": "harbour",
+      "label": "Harbour 8 2",
+      "landmarks": [],
+      "parent": "harrow_d_a3s1_xn4y0",
+      "polygon": [
+        [
+          508.29,
+          791.2
         ],
         [
-          543.51,
-          788.6
+          516.95,
+          791.47
         ],
         [
-          543.67,
-          796.6
+          525.62,
+          791.39
         ],
         [
-          543.91,
-          804.61
+          534.8,
+          791.44
+        ],
+        [
+          543.58,
+          791.79
+        ],
+        [
+          543.68,
+          796.93
+        ],
+        [
+          543.88,
+          803.84
         ],
         [
           544.2,
@@ -10179,8 +11619,12 @@
           852.18
         ],
         [
-          549.42,
-          861.44
+          549.06,
+          859.05
+        ],
+        [
+          549.96,
+          864.92
         ],
         [
           550.95,
@@ -10195,8 +11639,12 @@
           867.96
         ],
         [
-          535.73,
-          860.17
+          539.9,
+          865.52
+        ],
+        [
+          534.75,
+          858.88
         ],
         [
           529.45,
@@ -10223,191 +11671,19 @@
           815.06
         ],
         [
-          514.77,
-          805.63
+          518.2,
+          814.56
         ],
         [
-          510.65,
-          796.33
+          515.19,
+          806.63
         ],
         [
-          506.46,
-          787.47
-        ],
-        [
-          501.78,
-          778.44
-        ],
-        [
-          497.78,
-          769.41
-        ],
-        [
-          493.35,
-          762.51
-        ],
-        [
-          488.81,
-          755.45
-        ],
-        [
-          484.13,
-          748.36
-        ],
-        [
-          479.32,
-          741.55
-        ],
-        [
-          474.58,
-          734.46
-        ],
-        [
-          469.94,
-          726.86
-        ],
-        [
-          464.91,
-          719.26
-        ],
-        [
-          459.74,
-          711.6
-        ],
-        [
-          454.69,
-          704.19
-        ],
-        [
-          450.06,
-          696.86
-        ],
-        [
-          445.61,
-          689.26
-        ],
-        [
-          441.1,
-          685.34
-        ],
-        [
-          436.79,
-          681.42
-        ],
-        [
-          430.05,
-          678.52
-        ],
-        [
-          423.12,
-          675.71
-        ],
-        [
-          415.19,
-          674.61
-        ],
-        [
-          407.56,
-          673.52
-        ],
-        [
-          398.63,
-          673.47
-        ],
-        [
-          389.18,
-          673.75
-        ],
-        [
-          379.84,
-          674.88
-        ],
-        [
-          370.18,
-          675.52
-        ],
-        [
-          361.42,
-          673.77
-        ],
-        [
-          353.61,
-          669.68
-        ],
-        [
-          348.29,
-          662.43
-        ],
-        [
-          342.99,
-          655.3
-        ],
-        [
-          339.72,
-          647.42
-        ],
-        [
-          337.34,
-          639.31
-        ],
-        [
-          334.76,
-          631.46
-        ],
-        [
-          331.6,
-          623.43
-        ],
-        [
-          326.59,
-          616.26
-        ],
-        [
-          321.59,
-          608.78
-        ],
-        [
-          319.25,
-          601.41
-        ],
-        [
-          316.94,
-          593.71
-        ],
-        [
-          314.72,
-          586.02
-        ],
-        [
-          312.26,
-          578.28
-        ],
-        [
-          308.51,
-          570.91
-        ],
-        [
-          304.83,
-          563.33
-        ],
-        [
-          301.11,
-          556.01
-        ],
-        [
-          296.46,
-          550.62
-        ],
-        [
-          291.75,
-          545.16
-        ],
-        [
-          285.25,
-          540.62
+          511.73,
+          798.74
         ]
       ],
-      "waterfront": true
+      "waterfront": false
     },
     {
       "area": 1903.02,
@@ -10566,6 +11842,10 @@
       530.36
     ],
     [
+      280.23,
+      527.61
+    ],
+    [
       281.55,
       526.85
     ],
@@ -10598,6 +11878,10 @@
       507.95
     ],
     [
+      305.71,
+      507.05
+    ],
+    [
       308.79,
       502.95
     ],
@@ -10608,6 +11892,10 @@
     [
       312.97,
       496.04
+    ],
+    [
+      313.03,
+      495.88
     ],
     [
       313.07,
@@ -10638,6 +11926,10 @@
       462.05
     ],
     [
+      318.15,
+      460.22
+    ],
+    [
       317.49,
       456.43
     ],
@@ -10662,12 +11954,16 @@
       433.74
     ],
     [
-      325.51,
-      433.25
+      324.73,
+      433.28
     ],
     [
-      334.63,
-      433.23
+      333.06,
+      433.16
+    ],
+    [
+      338.37,
+      433.43
     ],
     [
       343.63,
@@ -11222,8 +12518,12 @@
       867.96
     ],
     [
-      535.73,
-      860.17
+      539.9,
+      865.52
+    ],
+    [
+      534.75,
+      858.88
     ],
     [
       529.45,
@@ -11250,64 +12550,72 @@
       815.06
     ],
     [
-      514.77,
-      805.63
+      518.2,
+      814.56
     ],
     [
-      510.65,
-      796.33
+      515.19,
+      806.63
     ],
     [
-      506.46,
-      787.47
+      511.73,
+      798.74
     ],
     [
-      501.78,
-      778.44
+      508.29,
+      791.2
+    ],
+    [
+      504.66,
+      784.06
+    ],
+    [
+      500.95,
+      776.69
     ],
     [
       497.78,
       769.41
     ],
     [
-      493.35,
-      762.51
+      494.22,
+      763.84
     ],
     [
-      488.81,
-      755.45
+      489.46,
+      756.5
     ],
     [
-      484.13,
-      748.36
+      484.59,
+      749.03
     ],
     [
-      479.32,
-      741.55
+      479.55,
+      741.89
     ],
     [
       474.58,
       734.46
     ],
     [
-      469.94,
-      726.86
+      471.2,
+      728.83
     ],
     [
-      464.91,
-      719.26
+      467.57,
+      723.21
     ],
     [
-      459.74,
-      711.6
+      461.76,
+      714.58
     ],
     [
-      454.69,
-      704.19
+      455.98,
+      706.09
     ],
     [
-      450.06,
-      696.86
+      450.63,
+      697.83
     ],
     [
       445.61,
@@ -11322,8 +12630,12 @@
       681.42
     ],
     [
-      430.05,
-      678.52
+      435.53,
+      680.89
+    ],
+    [
+      429.43,
+      678.25
     ],
     [
       423.12,
@@ -11338,20 +12650,28 @@
       673.52
     ],
     [
-      398.63,
+      399.41,
       673.47
     ],
     [
-      389.18,
-      673.75
+      390.74,
+      673.63
     ],
     [
-      379.84,
-      674.88
+      383.98,
+      674.34
+    ],
+    [
+      377.16,
+      675.15
     ],
     [
       370.18,
       675.52
+    ],
+    [
+      361.44,
+      673.78
     ],
     [
       361.42,
@@ -11370,16 +12690,20 @@
       655.3
     ],
     [
-      339.72,
-      647.42
+      340.21,
+      648.79
     ],
     [
-      337.34,
-      639.31
+      338.11,
+      642.08
     ],
     [
-      334.76,
-      631.46
+      336.18,
+      635.47
+    ],
+    [
+      334.03,
+      629.55
     ],
     [
       331.6,
@@ -11394,16 +12718,16 @@
       608.78
     ],
     [
-      319.25,
-      601.41
+      318.77,
+      599.87
     ],
     [
-      316.94,
-      593.71
+      316.03,
+      590.58
     ],
     [
-      314.72,
-      586.02
+      314.24,
+      584.47
     ],
     [
       312.26,
@@ -11430,8 +12754,8 @@
       545.16
     ],
     [
-      285.25,
-      540.62
+      287.58,
+      542.22
     ]
   ],
   "format_version": 1,
@@ -11515,20 +12839,20 @@
         "road": "harrow_artery_1"
       },
       {
-        "a": "harrow_j_artery_2_a1s0_u1_0",
+        "a": "harrow_j_artery_2_a3s1_xn4y0_sr_0",
         "b": "harrow_gate_a2",
         "class": "artery",
-        "id": "harrow_gate_a2~harrow_j_artery_2_a1s0_u1_0",
-        "length": 105.94,
+        "id": "harrow_gate_a2~harrow_j_artery_2_a3s1_xn4y0_sr_0",
+        "length": 79.39,
         "passable": true,
         "road": "harrow_artery_2"
       },
       {
-        "a": "harrow_j_artery_3_a3s0_b3",
+        "a": "harrow_j_artery_3_a3s1_u2_0",
         "b": "harrow_gate_a3",
         "class": "artery",
-        "id": "harrow_gate_a3~harrow_j_artery_3_a3s0_b3",
-        "length": 136.07,
+        "id": "harrow_gate_a3~harrow_j_artery_3_a3s1_u2_0",
+        "length": 124.02,
         "passable": true,
         "road": "harrow_artery_3"
       },
@@ -11596,11 +12920,20 @@
         "road": "harrow_sr_a1s0_v0_0"
       },
       {
-        "a": "harrow_j_a1s0_vn1_0_a1s0_xn2yn2_spoke1_0",
+        "a": "harrow_j_a1s0_un1_0_a1s0_v0_0",
+        "b": "harrow_j_a1s0_u0_0_a1s0_v0_0",
+        "class": "artery",
+        "id": "harrow_j_a1s0_u0_0_a1s0_v0_0~harrow_j_a1s0_un1_0_a1s0_v0_0",
+        "length": 63.18,
+        "passable": true,
+        "road": "harrow_sr_a1s0_v0_0"
+      },
+      {
+        "a": "harrow_j_a1s0_vn1_0_a1s0_xn1yn2_core_sr_0",
         "b": "harrow_j_a1s0_u0_0_a1s0_vn1_0",
         "class": "street",
-        "id": "harrow_j_a1s0_u0_0_a1s0_vn1_0~harrow_j_a1s0_vn1_0_a1s0_xn2yn2_spoke1_0",
-        "length": 78.9,
+        "id": "harrow_j_a1s0_u0_0_a1s0_vn1_0~harrow_j_a1s0_vn1_0_a1s0_xn1yn2_core_sr_0",
+        "length": 24.82,
         "passable": true,
         "road": "harrow_sr_a1s0_vn1_0"
       },
@@ -11648,6 +12981,87 @@
         "length": 66.03,
         "passable": true,
         "road": "harrow_sr_a1s0_u1_0"
+      },
+      {
+        "a": "harrow_j_a1s0_un1_0_a1s0_vn1_0",
+        "b": "harrow_j_a1s0_un1_0_a1s0_v0_0",
+        "class": "street",
+        "id": "harrow_j_a1s0_un1_0_a1s0_v0_0~harrow_j_a1s0_un1_0_a1s0_vn1_0",
+        "length": 58.6,
+        "passable": true,
+        "road": "harrow_sr_a1s0_un1_0"
+      },
+      {
+        "a": "harrow_j_a1s0_un1_0_a1s0_v0_0",
+        "b": "harrow_j_artery_2_a1s0_un1_0",
+        "class": "street",
+        "id": "harrow_j_a1s0_un1_0_a1s0_v0_0~harrow_j_artery_2_a1s0_un1_0",
+        "length": 23.54,
+        "passable": true,
+        "road": "harrow_sr_a1s0_un1_0"
+      },
+      {
+        "a": "harrow_j_a1s0_un1_0_a1s0_xn1yn2_spoke2_0",
+        "b": "harrow_j_a1s0_un1_0_a1s0_vn1_0",
+        "class": "street",
+        "id": "harrow_j_a1s0_un1_0_a1s0_vn1_0~harrow_j_a1s0_un1_0_a1s0_xn1yn2_spoke2_0",
+        "length": 36.43,
+        "passable": true,
+        "road": "harrow_sr_a1s0_un1_0"
+      },
+      {
+        "a": "harrow_j_a1s0_un1_0_a1s0_vn1_0",
+        "b": "harrow_j_a1s0_vn1_0_a1s0_xn1yn2_core_sr_0",
+        "class": "street",
+        "id": "harrow_j_a1s0_un1_0_a1s0_vn1_0~harrow_j_a1s0_vn1_0_a1s0_xn1yn2_core_sr_0",
+        "length": 47.12,
+        "passable": true,
+        "road": "harrow_sr_a1s0_vn1_0"
+      },
+      {
+        "a": "harrow_j_a1s0_vn1_0_a1s0_xn2yn2_spoke1_0",
+        "b": "harrow_j_a1s0_un1_0_a1s0_vn1_0",
+        "class": "street",
+        "id": "harrow_j_a1s0_un1_0_a1s0_vn1_0~harrow_j_a1s0_vn1_0_a1s0_xn2yn2_spoke1_0",
+        "length": 6.95,
+        "passable": true,
+        "road": "harrow_sr_a1s0_vn1_0"
+      },
+      {
+        "a": "harrow_j_a1s0_un1_0_a1s0_vn2_0",
+        "b": "harrow_j_a1s0_un1_0_a1s0_xn1yn2_spoke2_0",
+        "class": "street",
+        "id": "harrow_j_a1s0_un1_0_a1s0_vn2_0~harrow_j_a1s0_un1_0_a1s0_xn1yn2_spoke2_0",
+        "length": 35.51,
+        "passable": true,
+        "road": "harrow_sr_a1s0_un1_0"
+      },
+      {
+        "a": "harrow_j_a1s0_vn2_0_a1s0_xn2yn2_r1s2_sr_0",
+        "b": "harrow_j_a1s0_un1_0_a1s0_vn2_0",
+        "class": "street",
+        "id": "harrow_j_a1s0_un1_0_a1s0_vn2_0~harrow_j_a1s0_vn2_0_a1s0_xn2yn2_r1s2_sr_0",
+        "length": 41.73,
+        "passable": true,
+        "road": "harrow_sr_a1s0_vn2_0"
+      },
+      {
+        "a": "harrow_j_a1s0_xn1yn2_ring1_0_a1s0_xn1yn2_spoke2_0",
+        "b": "harrow_j_a1s0_un1_0_a1s0_xn1yn2_spoke2_0",
+        "class": "artery",
+        "id": "harrow_j_a1s0_un1_0_a1s0_xn1yn2_spoke2_0~harrow_j_a1s0_xn1yn2_ring1_0_a1s0_xn1yn2_spoke2_0",
+        "length": 16.52,
+        "passable": true,
+        "road": "harrow_sr_a1s0_xn1yn2_spoke2_0"
+      },
+      {
+        "a": "harrow_j_a1s0_xn1yn2_core_sr_0_a1s0_xn1yn2_ring1_0",
+        "b": "harrow_j_a1s0_vn1_0_a1s0_xn1yn2_core_sr_0",
+        "class": "artery",
+        "id": "harrow_j_a1s0_vn1_0_a1s0_xn1yn2_core_sr_0~harrow_j_a1s0_xn1yn2_core_sr_0_a1s0_xn1yn2_ring1_0",
+        "length": 54.1,
+        "passable": true,
+        "road": "harrow_sr_a1s0_xn1yn2_core_sr_0"
       },
       {
         "a": "harrow_j_a1s0_vn1_0_a1s0_xn2yn1_b2",
@@ -11704,13 +13118,40 @@
         "road": "harrow_sr_a1s0_vn2_0"
       },
       {
-        "a": "harrow_j_a1s0_x0y0_ring1_0_a1s0_x0y0_spoke1_0",
+        "a": "harrow_j_a1s0_x0y0_r1s1_sr_0_a1s0_x0y0_ring1_0",
         "b": "harrow_j_a1s0_x0y0_ring1_0_a1s0_x0y0_spoke0_0",
         "class": "street",
-        "id": "harrow_j_a1s0_x0y0_ring1_0_a1s0_x0y0_spoke0_0~harrow_j_a1s0_x0y0_ring1_0_a1s0_x0y0_spoke1_0",
-        "length": 30.09,
+        "id": "harrow_j_a1s0_x0y0_r1s1_sr_0_a1s0_x0y0_ring1_0~harrow_j_a1s0_x0y0_ring1_0_a1s0_x0y0_spoke0_0",
+        "length": 15.69,
         "passable": true,
         "road": "harrow_sr_a1s0_x0y0_ring1_0"
+      },
+      {
+        "a": "harrow_j_a1s0_x0y0_ring1_0_a1s0_x0y0_spoke1_0",
+        "b": "harrow_j_a1s0_x0y0_r1s1_sr_0_a1s0_x0y0_ring1_0",
+        "class": "street",
+        "id": "harrow_j_a1s0_x0y0_r1s1_sr_0_a1s0_x0y0_ring1_0~harrow_j_a1s0_x0y0_ring1_0_a1s0_x0y0_spoke1_0",
+        "length": 14.4,
+        "passable": true,
+        "road": "harrow_sr_a1s0_x0y0_ring1_0"
+      },
+      {
+        "a": "harrow_j_artery_2_a1s0_x0y0_r1s1_sr_0",
+        "b": "harrow_j_a1s0_x0y0_r1s1_sr_0_a1s0_x0y0_ring1_0",
+        "class": "artery",
+        "id": "harrow_j_a1s0_x0y0_r1s1_sr_0_a1s0_x0y0_ring1_0~harrow_j_artery_2_a1s0_x0y0_r1s1_sr_0",
+        "length": 55.21,
+        "passable": true,
+        "road": "harrow_sr_a1s0_x0y0_r1s1_sr_0"
+      },
+      {
+        "a": "harrow_j_a1s0_xn1yn2_core_sr_0_a1s0_xn1yn2_ring1_0",
+        "b": "harrow_j_a1s0_xn1yn2_ring1_0_a1s0_xn1yn2_spoke2_0",
+        "class": "street",
+        "id": "harrow_j_a1s0_xn1yn2_core_sr_0_a1s0_xn1yn2_ring1_0~harrow_j_a1s0_xn1yn2_ring1_0_a1s0_xn1yn2_spoke2_0",
+        "length": 30.3,
+        "passable": true,
+        "road": "harrow_sr_a1s0_xn1yn2_ring1_0"
       },
       {
         "a": "harrow_j_artery_2_a1s0_xn2yn1_b0",
@@ -11768,10 +13209,10 @@
       },
       {
         "a": "harrow_j_a2_c0",
-        "b": "harrow_j_artery_2_a1s0_u1_0",
+        "b": "harrow_j_artery_2_a1s0_x0y0_r1s1_sr_0",
         "class": "artery",
-        "id": "harrow_j_a2_c0~harrow_j_artery_2_a1s0_u1_0",
-        "length": 62.37,
+        "id": "harrow_j_a2_c0~harrow_j_artery_2_a1s0_x0y0_r1s1_sr_0",
+        "length": 29.29,
         "passable": true,
         "road": "harrow_artery_2"
       },
@@ -11830,33 +13271,6 @@
         "road": "harrow_artery_3"
       },
       {
-        "a": "harrow_j_a3s0_b10_a3s0_b11",
-        "b": "harrow_j_a3s0_b10_a3s0_p3_sr_0",
-        "class": "street",
-        "id": "harrow_j_a3s0_b10_a3s0_b11~harrow_j_a3s0_b10_a3s0_p3_sr_0",
-        "length": 32.39,
-        "passable": true,
-        "road": "harrow_sr_a3s0_b10"
-      },
-      {
-        "a": "harrow_j_a3s0_b10_a3s0_b11",
-        "b": "harrow_j_a3s0_b11_a3s0_p8_u0_0",
-        "class": "artery",
-        "id": "harrow_j_a3s0_b10_a3s0_b11~harrow_j_a3s0_b11_a3s0_p8_u0_0",
-        "length": 49.76,
-        "passable": true,
-        "road": "harrow_sr_a3s0_b11"
-      },
-      {
-        "a": "harrow_j_a3s0_b1_a3s0_p3_sr_0",
-        "b": "harrow_j_a3s0_b10_a3s0_p3_sr_0",
-        "class": "artery",
-        "id": "harrow_j_a3s0_b10_a3s0_p3_sr_0~harrow_j_a3s0_b1_a3s0_p3_sr_0",
-        "length": 63.12,
-        "passable": true,
-        "road": "harrow_sr_a3s0_p3_sr_0"
-      },
-      {
         "a": "harrow_j_a3s0_b11_a3s0_p8_u0_0",
         "b": "harrow_j_a3s0_b15_a3s0_p8_u0_0",
         "class": "artery",
@@ -11873,6 +13287,15 @@
         "length": 13.14,
         "passable": true,
         "road": "harrow_sr_a3s0_b11"
+      },
+      {
+        "a": "harrow_j_a3s0_b12_a3s0_p3_v0_0",
+        "b": "harrow_j_a3s0_b6_a3s0_p3_v0_0",
+        "class": "artery",
+        "id": "harrow_j_a3s0_b12_a3s0_p3_v0_0~harrow_j_a3s0_b6_a3s0_p3_v0_0",
+        "length": 76.5,
+        "passable": true,
+        "road": "harrow_sr_a3s0_p3_v0_0"
       },
       {
         "a": "harrow_j_a3s0_b15_a3s0_p8_u0_0",
@@ -11900,24 +13323,6 @@
         "length": 16.79,
         "passable": true,
         "road": "harrow_sr_a3s0_b15"
-      },
-      {
-        "a": "harrow_j_a3s0_b1_a3s0_b6",
-        "b": "harrow_j_a3s0_b1_a3s0_p3_sr_0",
-        "class": "street",
-        "id": "harrow_j_a3s0_b1_a3s0_b6~harrow_j_a3s0_b1_a3s0_p3_sr_0",
-        "length": 14.18,
-        "passable": true,
-        "road": "harrow_sr_a3s0_b1"
-      },
-      {
-        "a": "harrow_j_a3s0_b6_a3s0_p2_spoke0_0",
-        "b": "harrow_j_a3s0_b1_a3s0_b6",
-        "class": "street",
-        "id": "harrow_j_a3s0_b1_a3s0_b6~harrow_j_a3s0_b6_a3s0_p2_spoke0_0",
-        "length": 1.71,
-        "passable": true,
-        "road": "harrow_sr_a3s0_b6"
       },
       {
         "a": "harrow_j_a3s0_b3_a3s0_b4",
@@ -11992,6 +13397,15 @@
         "road": "harrow_sr_a3s0_p4_v0_0"
       },
       {
+        "a": "harrow_j_a3s0_b6_a3s0_p3_v0_0",
+        "b": "harrow_j_a3s0_b6_a3s0_p2_spoke0_0",
+        "class": "street",
+        "id": "harrow_j_a3s0_b6_a3s0_p2_spoke0_0~harrow_j_a3s0_b6_a3s0_p3_v0_0",
+        "length": 45.11,
+        "passable": true,
+        "road": "harrow_sr_a3s0_b6"
+      },
+      {
         "a": "harrow_j_a3s0_p2_ring1_0_a3s0_p2_spoke0_0",
         "b": "harrow_j_a3s0_b6_a3s0_p2_spoke0_0",
         "class": "artery",
@@ -12008,6 +13422,15 @@
         "length": 27.12,
         "passable": true,
         "road": "harrow_sr_a3s0_p2_ring1_0"
+      },
+      {
+        "a": "harrow_j_a3s1_u2_0_a3s1_x2yn1_sr_0",
+        "b": "harrow_j_artery_3_a3s1_u2_0",
+        "class": "street",
+        "id": "harrow_j_a3s1_u2_0_a3s1_x2yn1_sr_0~harrow_j_artery_3_a3s1_u2_0",
+        "length": 13.24,
+        "passable": true,
+        "road": "harrow_sr_a3s1_u2_0"
       },
       {
         "a": "harrow_j_artery_0_a0s0_b0",
@@ -12136,11 +13559,38 @@
         "road": "harrow_artery_1"
       },
       {
-        "a": "harrow_j_artery_2_a2s0_b2",
+        "a": "harrow_j_artery_2_a1s0_un1_0",
         "b": "harrow_j_artery_2_a1s0_u0_0",
         "class": "artery",
-        "id": "harrow_j_artery_2_a1s0_u0_0~harrow_j_artery_2_a2s0_b2",
-        "length": 65.59,
+        "id": "harrow_j_artery_2_a1s0_u0_0~harrow_j_artery_2_a1s0_un1_0",
+        "length": 63.58,
+        "passable": true,
+        "road": "harrow_artery_2"
+      },
+      {
+        "a": "harrow_j_artery_2_a1s0_x0y0_r1s1_sr_0",
+        "b": "harrow_j_artery_2_a1s0_u1_0",
+        "class": "artery",
+        "id": "harrow_j_artery_2_a1s0_u1_0~harrow_j_artery_2_a1s0_x0y0_r1s1_sr_0",
+        "length": 33.08,
+        "passable": true,
+        "road": "harrow_artery_2"
+      },
+      {
+        "a": "harrow_j_artery_2_a1s0_u1_0",
+        "b": "harrow_j_artery_2_a3s1_xn4y0_sr_0",
+        "class": "artery",
+        "id": "harrow_j_artery_2_a1s0_u1_0~harrow_j_artery_2_a3s1_xn4y0_sr_0",
+        "length": 26.55,
+        "passable": true,
+        "road": "harrow_artery_2"
+      },
+      {
+        "a": "harrow_j_artery_2_a2s0_b2",
+        "b": "harrow_j_artery_2_a1s0_un1_0",
+        "class": "artery",
+        "id": "harrow_j_artery_2_a1s0_un1_0~harrow_j_artery_2_a2s0_b2",
+        "length": 2.01,
         "passable": true,
         "road": "harrow_artery_2"
       },
@@ -12204,6 +13654,15 @@
         "class": "artery",
         "id": "harrow_j_artery_3_a3s0_b3~harrow_j_artery_3_a3s0_p1_u0_0",
         "length": 42.15,
+        "passable": true,
+        "road": "harrow_artery_3"
+      },
+      {
+        "a": "harrow_j_artery_3_a3s0_b3",
+        "b": "harrow_j_artery_3_a3s1_u2_0",
+        "class": "artery",
+        "id": "harrow_j_artery_3_a3s0_b3~harrow_j_artery_3_a3s1_u2_0",
+        "length": 12.05,
         "passable": true,
         "road": "harrow_artery_3"
       },
@@ -12295,7 +13754,7 @@
         "districts": [
           "harrow_d_a1s0_x1y1_w0c0",
           "harrow_d_a1s0_x1y1_w1c0",
-          "harrow_d_a3s1"
+          "harrow_d_a3s1_xn4y0_b1"
         ],
         "id": "harrow_gate_a2",
         "kind": "choke"
@@ -12307,7 +13766,7 @@
         ],
         "districts": [
           "harrow_d_a3s0_p0_xn1y0",
-          "harrow_d_a3s1"
+          "harrow_d_a3s1_x3y0"
         ],
         "id": "harrow_gate_a3",
         "kind": "choke"
@@ -12373,7 +13832,7 @@
           "harrow_d_a1s0_x0yn1a_p1",
           "harrow_d_a1s0_xn1yn1_w0c0",
           "harrow_d_a1s0_xn1yn1_w1c0",
-          "harrow_d_a1s0_xn1yn2_core"
+          "harrow_d_a1s0_xn1yn2_core_b1"
         ],
         "id": "harrow_j_a1s0_u0_0_a1s0_vn1_0",
         "kind": "choke"
@@ -12385,7 +13844,7 @@
         ],
         "districts": [
           "harrow_d_a1s0_x0y0_r1s0",
-          "harrow_d_a1s0_x0y0_r1s1",
+          "harrow_d_a1s0_x0y0_r1s1_b0",
           "harrow_d_a1s0_xn1y0"
         ],
         "id": "harrow_j_a1s0_u0_0_a1s0_x0y0_spoke0_0",
@@ -12411,10 +13870,76 @@
         ],
         "districts": [
           "harrow_d_a1s0_x0y0_r1s0",
-          "harrow_d_a1s0_x0y0_r1s1",
+          "harrow_d_a1s0_x0y0_r1s1_b1",
           "harrow_d_a1s0_x1y0"
         ],
         "id": "harrow_j_a1s0_u1_0_a1s0_x0y0_spoke1_0",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          570.09,
+          631.88
+        ],
+        "districts": [
+          "harrow_d_a1s0_xn1y0",
+          "harrow_d_a1s0_xn1yn1_w1c0",
+          "harrow_d_a1s0_xn2yn1_p1"
+        ],
+        "id": "harrow_j_a1s0_un1_0_a1s0_v0_0",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          626.03,
+          614.76
+        ],
+        "districts": [
+          "harrow_d_a1s0_xn1yn1_w1c0",
+          "harrow_d_a1s0_xn1yn2_core_b0",
+          "harrow_d_a1s0_xn2yn1_p1",
+          "harrow_d_a1s0_xn2yn2_r1s2_b1"
+        ],
+        "id": "harrow_j_a1s0_un1_0_a1s0_vn1_0",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          694.91,
+          594.84
+        ],
+        "districts": [
+          "harrow_d_a1s0_xn1yn2_r1s2",
+          "harrow_d_a1s0_xn2yn2_r1s2_b1",
+          "harrow_d_a1s0_xn2yn3"
+        ],
+        "id": "harrow_j_a1s0_un1_0_a1s0_vn2_0",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          661.68,
+          607.33
+        ],
+        "districts": [
+          "harrow_d_a1s0_xn1yn2_core_b0",
+          "harrow_d_a1s0_xn1yn2_r1s2",
+          "harrow_d_a1s0_xn2yn2_r1s2_b1"
+        ],
+        "id": "harrow_j_a1s0_un1_0_a1s0_xn1yn2_spoke2_0",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          646.73,
+          657.09
+        ],
+        "districts": [
+          "harrow_d_a1s0_xn1yn1_w1c0",
+          "harrow_d_a1s0_xn1yn2_core_b0",
+          "harrow_d_a1s0_xn1yn2_core_b1"
+        ],
+        "id": "harrow_j_a1s0_vn1_0_a1s0_xn1yn2_core_sr_0",
         "kind": "choke"
       },
       {
@@ -12458,12 +13983,25 @@
       },
       {
         "at": [
+          596.97,
+          724.82
+        ],
+        "districts": [
+          "harrow_d_a1s0_x0y0_r1s0",
+          "harrow_d_a1s0_x0y0_r1s1_b0",
+          "harrow_d_a1s0_x0y0_r1s1_b1"
+        ],
+        "id": "harrow_j_a1s0_x0y0_r1s1_sr_0_a1s0_x0y0_ring1_0",
+        "kind": "choke"
+      },
+      {
+        "at": [
           586.98,
           713.32
         ],
         "districts": [
           "harrow_d_a1s0_x0y0_r1s0",
-          "harrow_d_a1s0_x0y0_r1s1"
+          "harrow_d_a1s0_x0y0_r1s1_b0"
         ],
         "id": "harrow_j_a1s0_x0y0_ring1_0_a1s0_x0y0_spoke0_0",
         "kind": "choke"
@@ -12475,9 +14013,34 @@
         ],
         "districts": [
           "harrow_d_a1s0_x0y0_r1s0",
-          "harrow_d_a1s0_x0y0_r1s1"
+          "harrow_d_a1s0_x0y0_r1s1_b1"
         ],
         "id": "harrow_j_a1s0_x0y0_ring1_0_a1s0_x0y0_spoke1_0",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          694.11,
+          631.03
+        ],
+        "districts": [
+          "harrow_d_a1s0_xn1yn2_core_b0",
+          "harrow_d_a1s0_xn1yn2_core_b1",
+          "harrow_d_a1s0_xn1yn2_r1s2"
+        ],
+        "id": "harrow_j_a1s0_xn1yn2_core_sr_0_a1s0_xn1yn2_ring1_0",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          668.07,
+          622.56
+        ],
+        "districts": [
+          "harrow_d_a1s0_xn1yn2_core_b0",
+          "harrow_d_a1s0_xn1yn2_r1s2"
+        ],
+        "id": "harrow_j_a1s0_xn1yn2_ring1_0_a1s0_xn1yn2_spoke2_0",
         "kind": "choke"
       },
       {
@@ -12535,9 +14098,9 @@
           702.9
         ],
         "districts": [
-          "harrow_d_a1s0_x0y0_r1s1",
+          "harrow_d_a1s0_x0y0_r1s1_b0",
           "harrow_d_a2s0_p1",
-          "harrow_d_a3s1"
+          "harrow_d_a3s1_xn3y0"
         ],
         "id": "harrow_j_a2_c0",
         "kind": "choke"
@@ -12563,35 +14126,9 @@
         "districts": [
           "harrow_d_a2s0_p0",
           "harrow_d_a3s0_p4_x0yn1",
-          "harrow_d_a3s1"
+          "harrow_d_a3s1_xn1yn1"
         ],
         "id": "harrow_j_a3_c0",
-        "kind": "choke"
-      },
-      {
-        "at": [
-          467.81,
-          522.19
-        ],
-        "districts": [
-          "harrow_d_a3s0_p3_b0",
-          "harrow_d_a3s0_p7",
-          "harrow_d_a3s0_p8_xn1yn1a"
-        ],
-        "id": "harrow_j_a3s0_b10_a3s0_b11",
-        "kind": "choke"
-      },
-      {
-        "at": [
-          470.48,
-          489.92
-        ],
-        "districts": [
-          "harrow_d_a3s0_p3_b0",
-          "harrow_d_a3s0_p3_b1",
-          "harrow_d_a3s0_p7"
-        ],
-        "id": "harrow_j_a3s0_b10_a3s0_p3_sr_0",
         "kind": "choke"
       },
       {
@@ -12605,6 +14142,19 @@
           "harrow_d_a3s0_p8_xn1yn1a"
         ],
         "id": "harrow_j_a3s0_b11_a3s0_p8_u0_0",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          442.27,
+          451.02
+        ],
+        "districts": [
+          "harrow_d_a3s0_p3_xn1y0",
+          "harrow_d_a3s0_p3_xn1yn1",
+          "harrow_d_a3s0_p5_w1c0"
+        ],
+        "id": "harrow_j_a3s0_b12_a3s0_p3_v0_0",
         "kind": "choke"
       },
       {
@@ -12631,32 +14181,6 @@
           "harrow_d_a3s0_p8_xn1yn1a"
         ],
         "id": "harrow_j_a3s0_b15_a3s0_p8_u0_0",
-        "kind": "choke"
-      },
-      {
-        "at": [
-          403.25,
-          497.99
-        ],
-        "districts": [
-          "harrow_d_a3s0_p0_xn1yn1",
-          "harrow_d_a3s0_p2_r1s2",
-          "harrow_d_a3s0_p3_b0"
-        ],
-        "id": "harrow_j_a3s0_b1_a3s0_b6",
-        "kind": "choke"
-      },
-      {
-        "at": [
-          407.66,
-          484.51
-        ],
-        "districts": [
-          "harrow_d_a3s0_p0_xn1yn1",
-          "harrow_d_a3s0_p3_b0",
-          "harrow_d_a3s0_p3_b1"
-        ],
-        "id": "harrow_j_a3s0_b1_a3s0_p3_sr_0",
         "kind": "choke"
       },
       {
@@ -12719,9 +14243,22 @@
         "districts": [
           "harrow_d_a3s0_p2_r1s0",
           "harrow_d_a3s0_p2_r1s2",
-          "harrow_d_a3s0_p3_b0"
+          "harrow_d_a3s0_p3_xn1y0"
         ],
         "id": "harrow_j_a3s0_b6_a3s0_p2_spoke0_0",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          439.63,
+          527.44
+        ],
+        "districts": [
+          "harrow_d_a3s0_p2_r1s0",
+          "harrow_d_a3s0_p3_xn1y0",
+          "harrow_d_a3s0_p3_xn1yn1"
+        ],
+        "id": "harrow_j_a3s0_b6_a3s0_p3_v0_0",
         "kind": "choke"
       },
       {
@@ -12762,13 +14299,26 @@
       },
       {
         "at": [
+          353.76,
+          563.21
+        ],
+        "districts": [
+          "harrow_d_a3s1_x1yn1",
+          "harrow_d_a3s1_x2yn1_b0",
+          "harrow_d_a3s1_x2yn1_b1"
+        ],
+        "id": "harrow_j_a3s1_u2_0_a3s1_x2yn1_sr_0",
+        "kind": "choke"
+      },
+      {
+        "at": [
           481.62,
           681.54
         ],
         "districts": [
           "harrow_d_a2s0_p0",
           "harrow_d_a2s0_p1",
-          "harrow_d_a3s1"
+          "harrow_d_a3s1_xn2y0"
         ],
         "id": "harrow_j_arc_0_a2s0_b0",
         "kind": "choke"
@@ -12910,7 +14460,7 @@
           701.56
         ],
         "districts": [
-          "harrow_d_a1s0_x0y0_r1s1",
+          "harrow_d_a1s0_x0y0_r1s1_b0",
           "harrow_d_a1s0_xn1y0",
           "harrow_d_a2s0_p1"
         ],
@@ -12923,11 +14473,37 @@
           765.25
         ],
         "districts": [
-          "harrow_d_a1s0_x0y0_r1s1",
+          "harrow_d_a1s0_x0y0_r1s1_b1",
           "harrow_d_a1s0_x1y1_w0c0",
-          "harrow_d_a3s1"
+          "harrow_d_a3s1_xn4y0_b0"
         ],
         "id": "harrow_j_artery_2_a1s0_u1_0",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          547.49,
+          638.44
+        ],
+        "districts": [
+          "harrow_d_a1s0_xn1y0",
+          "harrow_d_a1s0_xn2yn1_p1",
+          "harrow_d_a2s0_p1"
+        ],
+        "id": "harrow_j_artery_2_a1s0_un1_0",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          542.26,
+          732.18
+        ],
+        "districts": [
+          "harrow_d_a1s0_x0y0_r1s1_b0",
+          "harrow_d_a1s0_x0y0_r1s1_b1",
+          "harrow_d_a3s1_xn4y0_b0"
+        ],
+        "id": "harrow_j_artery_2_a1s0_x0y0_r1s1_sr_0",
         "kind": "choke"
       },
       {
@@ -12954,6 +14530,19 @@
           "harrow_d_a2s0_p2"
         ],
         "id": "harrow_j_artery_2_a2s0_b2",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          543.58,
+          791.79
+        ],
+        "districts": [
+          "harrow_d_a1s0_x1y1_w0c0",
+          "harrow_d_a3s1_xn4y0_b0",
+          "harrow_d_a3s1_xn4y0_b1"
+        ],
+        "id": "harrow_j_artery_2_a3s1_xn4y0_sr_0",
         "kind": "choke"
       },
       {
@@ -13003,7 +14592,7 @@
         "districts": [
           "harrow_d_a3s0_p1_xn1yn1",
           "harrow_d_a3s0_p2_r1s2",
-          "harrow_d_a3s1"
+          "harrow_d_a3s1_x1yn1"
         ],
         "id": "harrow_j_artery_3_a3s0_b3",
         "kind": "choke"
@@ -13016,7 +14605,7 @@
         "districts": [
           "harrow_d_a3s0_p1_x0y0",
           "harrow_d_a3s0_p4_x0yn1",
-          "harrow_d_a3s1"
+          "harrow_d_a3s1_xn1yn1"
         ],
         "id": "harrow_j_artery_3_a3s0_b4",
         "kind": "choke"
@@ -13029,9 +14618,22 @@
         "districts": [
           "harrow_d_a3s0_p1_x0y0",
           "harrow_d_a3s0_p1_xn1yn1",
-          "harrow_d_a3s1"
+          "harrow_d_a3s1_x0yn2"
         ],
         "id": "harrow_j_artery_3_a3s0_p1_u0_0",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          364.58,
+          555.6
+        ],
+        "districts": [
+          "harrow_d_a3s0_p2_r1s2",
+          "harrow_d_a3s1_x1yn1",
+          "harrow_d_a3s1_x2yn1_b1"
+        ],
+        "id": "harrow_j_artery_3_a3s1_u2_0",
         "kind": "choke"
       },
       {
@@ -13135,7 +14737,7 @@
         330.8,
         492.4
       ],
-      "district": "harrow_d_a3s1",
+      "district": "harrow_d_a3s1_x3y0",
       "id": "harrow_docks",
       "kind": "docks",
       "label": "Docks",
@@ -13620,8 +15222,12 @@
           870.75
         ],
         [
-          549.42,
-          861.44
+          549.96,
+          864.92
+        ],
+        [
+          549.06,
+          859.05
         ],
         [
           548.14,
@@ -13648,20 +15254,20 @@
           812.62
         ],
         [
-          543.91,
-          804.61
+          543.88,
+          803.84
         ],
         [
-          543.67,
-          796.6
+          543.68,
+          796.93
         ],
         [
-          543.51,
-          788.6
+          543.58,
+          791.79
         ],
         [
-          543.17,
-          779.9
+          543.24,
+          781.68
         ],
         [
           542.95,
@@ -13688,12 +15294,24 @@
           732.4
         ],
         [
+          542.26,
+          732.18
+        ],
+        [
           542.08,
           727.47
         ],
         [
-          542.15,
-          720.96
+          542.08,
+          727.02
+        ],
+        [
+          542.14,
+          721.14
+        ],
+        [
+          542.2,
+          715.23
         ],
         [
           542.19,
@@ -14207,8 +15825,12 @@
           702.9
         ],
         [
-          533.22,
-          701.59
+          536.25,
+          702.05
+        ],
+        [
+          530.5,
+          701.21
         ],
         [
           524.35,
@@ -14223,8 +15845,12 @@
           694.06
         ],
         [
-          499.94,
-          690.31
+          505.21,
+          692.92
+        ],
+        [
+          498.74,
+          689.72
         ],
         [
           492.13,
@@ -14251,8 +15877,8 @@
           671.07
         ],
         [
-          455.19,
-          665.89
+          455.17,
+          665.87
         ],
         [
           449.09,
@@ -14625,8 +16251,12 @@
           636.09
         ],
         [
-          411.93,
-          636.97
+          415.38,
+          636.64
+        ],
+        [
+          410.02,
+          637.17
         ],
         [
           403.2,
@@ -14657,12 +16287,16 @@
           608.5
         ],
         [
-          373.1,
-          600.96
+          374.78,
+          605.93
         ],
         [
-          370.92,
-          593.54
+          372.59,
+          599.28
+        ],
+        [
+          370.69,
+          592.7
         ],
         [
           368.88,
@@ -14681,8 +16315,12 @@
           567.53
         ],
         [
-          364.93,
-          558.28
+          365.09,
+          559.36
+        ],
+        [
+          364.58,
+          555.6
         ],
         [
           363.75,
@@ -14709,12 +16347,12 @@
           503.66
         ],
         [
-          353.84,
-          495.13
+          353.54,
+          493.77
         ],
         [
-          351.89,
-          486.91
+          351.72,
+          486.25
         ],
         [
           349.73,
@@ -14729,12 +16367,16 @@
           459.97
         ],
         [
-          345.53,
-          452.65
+          345.4,
+          451.47
         ],
         [
-          344.76,
-          445.08
+          344.77,
+          445.19
+        ],
+        [
+          344.17,
+          439.03
         ],
         [
           344.03,
@@ -14915,6 +16557,754 @@
       ],
       "rule": 0,
       "use": "voronoi"
+    },
+    {
+      "children": [
+        "harrow_d_a3s1_x0yn2",
+        "harrow_d_a3s1_x1yn1",
+        "harrow_d_a3s1_x2yn1",
+        "harrow_d_a3s1_x3y0",
+        "harrow_d_a3s1_xn1yn1",
+        "harrow_d_a3s1_xn2y0",
+        "harrow_d_a3s1_xn3y0",
+        "harrow_d_a3s1_xn4y0"
+      ],
+      "depth": 0,
+      "id": "harrow_d_a3s1",
+      "params": {
+        "block": 50.6,
+        "block_ratio": 0.9697,
+        "fan": 0.0,
+        "jitter": 0.0746,
+        "main_every": 0,
+        "rot": 232.8973,
+        "shear": 0.0
+      },
+      "parent": "",
+      "polygon": [
+        [
+          278.57,
+          536.24
+        ],
+        [
+          270.7,
+          532.88
+        ],
+        [
+          274.09,
+          531.02
+        ],
+        [
+          275.32,
+          530.36
+        ],
+        [
+          280.23,
+          527.61
+        ],
+        [
+          281.55,
+          526.85
+        ],
+        [
+          287.57,
+          523.05
+        ],
+        [
+          293.28,
+          519.11
+        ],
+        [
+          293.58,
+          518.91
+        ],
+        [
+          299.26,
+          514.37
+        ],
+        [
+          302.24,
+          511.27
+        ],
+        [
+          304.24,
+          509.08
+        ],
+        [
+          305.07,
+          507.95
+        ],
+        [
+          305.71,
+          507.05
+        ],
+        [
+          308.79,
+          502.95
+        ],
+        [
+          312.56,
+          496.67
+        ],
+        [
+          312.97,
+          496.04
+        ],
+        [
+          313.03,
+          495.88
+        ],
+        [
+          313.07,
+          495.81
+        ],
+        [
+          316.21,
+          488.69
+        ],
+        [
+          316.65,
+          486.49
+        ],
+        [
+          317.88,
+          480.41
+        ],
+        [
+          318.75,
+          471.49
+        ],
+        [
+          318.63,
+          468.0
+        ],
+        [
+          318.48,
+          462.05
+        ],
+        [
+          318.15,
+          460.22
+        ],
+        [
+          317.49,
+          456.43
+        ],
+        [
+          316.79,
+          452.38
+        ],
+        [
+          313.67,
+          443.41
+        ],
+        [
+          310.69,
+          438.25
+        ],
+        [
+          309.12,
+          435.66
+        ],
+        [
+          316.52,
+          433.74
+        ],
+        [
+          324.73,
+          433.28
+        ],
+        [
+          333.06,
+          433.16
+        ],
+        [
+          338.37,
+          433.43
+        ],
+        [
+          343.63,
+          433.66
+        ],
+        [
+          344.03,
+          437.66
+        ],
+        [
+          344.17,
+          439.03
+        ],
+        [
+          344.77,
+          445.19
+        ],
+        [
+          345.4,
+          451.47
+        ],
+        [
+          346.52,
+          459.97
+        ],
+        [
+          347.84,
+          469.31
+        ],
+        [
+          349.73,
+          478.7
+        ],
+        [
+          351.72,
+          486.25
+        ],
+        [
+          353.54,
+          493.77
+        ],
+        [
+          355.69,
+          503.66
+        ],
+        [
+          358.05,
+          512.33
+        ],
+        [
+          360.9,
+          522.75
+        ],
+        [
+          362.58,
+          533.05
+        ],
+        [
+          363.44,
+          543.16
+        ],
+        [
+          363.75,
+          548.61
+        ],
+        [
+          364.58,
+          555.6
+        ],
+        [
+          365.09,
+          559.36
+        ],
+        [
+          366.29,
+          567.53
+        ],
+        [
+          367.32,
+          573.85
+        ],
+        [
+          368.18,
+          580.22
+        ],
+        [
+          368.88,
+          585.88
+        ],
+        [
+          370.69,
+          592.7
+        ],
+        [
+          372.59,
+          599.28
+        ],
+        [
+          374.78,
+          605.93
+        ],
+        [
+          375.63,
+          608.5
+        ],
+        [
+          377.1,
+          613.69
+        ],
+        [
+          380.52,
+          619.3
+        ],
+        [
+          383.83,
+          625.44
+        ],
+        [
+          387.1,
+          631.79
+        ],
+        [
+          394.71,
+          634.71
+        ],
+        [
+          403.2,
+          637.99
+        ],
+        [
+          410.02,
+          637.17
+        ],
+        [
+          415.38,
+          636.64
+        ],
+        [
+          420.88,
+          636.09
+        ],
+        [
+          422.45,
+          635.91
+        ],
+        [
+          423.88,
+          635.75
+        ],
+        [
+          433.13,
+          632.28
+        ],
+        [
+          436.21,
+          639.73
+        ],
+        [
+          439.38,
+          647.24
+        ],
+        [
+          444.34,
+          653.77
+        ],
+        [
+          449.09,
+          660.55
+        ],
+        [
+          455.17,
+          665.87
+        ],
+        [
+          461.77,
+          671.07
+        ],
+        [
+          469.22,
+          674.98
+        ],
+        [
+          476.83,
+          679.12
+        ],
+        [
+          481.62,
+          681.54
+        ],
+        [
+          486.78,
+          683.99
+        ],
+        [
+          492.13,
+          686.42
+        ],
+        [
+          498.74,
+          689.72
+        ],
+        [
+          505.21,
+          692.92
+        ],
+        [
+          507.59,
+          694.06
+        ],
+        [
+          515.97,
+          697.04
+        ],
+        [
+          524.35,
+          700.33
+        ],
+        [
+          530.5,
+          701.21
+        ],
+        [
+          536.25,
+          702.05
+        ],
+        [
+          541.81,
+          702.9
+        ],
+        [
+          542.03,
+          708.59
+        ],
+        [
+          542.19,
+          714.43
+        ],
+        [
+          542.2,
+          715.23
+        ],
+        [
+          542.14,
+          721.14
+        ],
+        [
+          542.08,
+          727.02
+        ],
+        [
+          542.08,
+          727.47
+        ],
+        [
+          542.26,
+          732.18
+        ],
+        [
+          542.27,
+          732.4
+        ],
+        [
+          542.53,
+          740.42
+        ],
+        [
+          542.71,
+          748.52
+        ],
+        [
+          542.94,
+          756.78
+        ],
+        [
+          543.02,
+          765.25
+        ],
+        [
+          542.95,
+          770.82
+        ],
+        [
+          543.24,
+          781.68
+        ],
+        [
+          543.58,
+          791.79
+        ],
+        [
+          543.68,
+          796.93
+        ],
+        [
+          543.88,
+          803.84
+        ],
+        [
+          544.2,
+          812.62
+        ],
+        [
+          545.09,
+          822.19
+        ],
+        [
+          546.37,
+          832.07
+        ],
+        [
+          547.51,
+          841.55
+        ],
+        [
+          547.89,
+          846.8
+        ],
+        [
+          548.14,
+          852.18
+        ],
+        [
+          549.06,
+          859.05
+        ],
+        [
+          549.96,
+          864.92
+        ],
+        [
+          550.95,
+          870.75
+        ],
+        [
+          548.34,
+          870.73
+        ],
+        [
+          541.86,
+          867.96
+        ],
+        [
+          539.9,
+          865.52
+        ],
+        [
+          534.75,
+          858.88
+        ],
+        [
+          529.45,
+          852.1
+        ],
+        [
+          527.49,
+          846.92
+        ],
+        [
+          525.5,
+          841.97
+        ],
+        [
+          523.07,
+          833.09
+        ],
+        [
+          520.38,
+          824.1
+        ],
+        [
+          518.38,
+          815.06
+        ],
+        [
+          518.2,
+          814.56
+        ],
+        [
+          515.19,
+          806.63
+        ],
+        [
+          511.73,
+          798.74
+        ],
+        [
+          508.29,
+          791.2
+        ],
+        [
+          504.66,
+          784.06
+        ],
+        [
+          500.95,
+          776.69
+        ],
+        [
+          497.78,
+          769.41
+        ],
+        [
+          494.22,
+          763.84
+        ],
+        [
+          489.46,
+          756.5
+        ],
+        [
+          484.59,
+          749.03
+        ],
+        [
+          479.55,
+          741.89
+        ],
+        [
+          474.58,
+          734.46
+        ],
+        [
+          471.2,
+          728.83
+        ],
+        [
+          467.57,
+          723.21
+        ],
+        [
+          461.76,
+          714.58
+        ],
+        [
+          455.98,
+          706.09
+        ],
+        [
+          450.63,
+          697.83
+        ],
+        [
+          445.61,
+          689.26
+        ],
+        [
+          441.1,
+          685.34
+        ],
+        [
+          436.79,
+          681.42
+        ],
+        [
+          435.53,
+          680.89
+        ],
+        [
+          429.43,
+          678.25
+        ],
+        [
+          423.12,
+          675.71
+        ],
+        [
+          415.19,
+          674.61
+        ],
+        [
+          407.56,
+          673.52
+        ],
+        [
+          399.41,
+          673.47
+        ],
+        [
+          390.74,
+          673.63
+        ],
+        [
+          383.98,
+          674.34
+        ],
+        [
+          377.16,
+          675.15
+        ],
+        [
+          370.18,
+          675.52
+        ],
+        [
+          361.44,
+          673.78
+        ],
+        [
+          361.42,
+          673.77
+        ],
+        [
+          353.61,
+          669.68
+        ],
+        [
+          348.29,
+          662.43
+        ],
+        [
+          342.99,
+          655.3
+        ],
+        [
+          340.21,
+          648.79
+        ],
+        [
+          338.11,
+          642.08
+        ],
+        [
+          336.18,
+          635.47
+        ],
+        [
+          334.03,
+          629.55
+        ],
+        [
+          331.6,
+          623.43
+        ],
+        [
+          326.59,
+          616.26
+        ],
+        [
+          321.59,
+          608.78
+        ],
+        [
+          318.77,
+          599.87
+        ],
+        [
+          316.03,
+          590.58
+        ],
+        [
+          314.24,
+          584.47
+        ],
+        [
+          312.26,
+          578.28
+        ],
+        [
+          308.51,
+          570.91
+        ],
+        [
+          304.83,
+          563.33
+        ],
+        [
+          301.11,
+          556.01
+        ],
+        [
+          296.46,
+          550.62
+        ],
+        [
+          291.75,
+          545.16
+        ],
+        [
+          287.58,
+          542.22
+        ]
+      ],
+      "rule": -1,
+      "use": "grid"
     },
     {
       "children": [
@@ -16069,12 +18459,24 @@
           732.4
         ],
         [
+          542.26,
+          732.18
+        ],
+        [
           542.08,
           727.47
         ],
         [
-          542.15,
-          720.96
+          542.08,
+          727.02
+        ],
+        [
+          542.14,
+          721.14
+        ],
+        [
+          542.2,
+          715.23
         ],
         [
           542.19,
@@ -16362,8 +18764,12 @@
           870.75
         ],
         [
-          549.42,
-          861.44
+          549.96,
+          864.92
+        ],
+        [
+          549.06,
+          859.05
         ],
         [
           548.14,
@@ -16390,20 +18796,20 @@
           812.62
         ],
         [
-          543.91,
-          804.61
+          543.88,
+          803.84
         ],
         [
-          543.67,
-          796.6
+          543.68,
+          796.93
         ],
         [
-          543.51,
-          788.6
+          543.58,
+          791.79
         ],
         [
-          543.17,
-          779.9
+          543.24,
+          781.68
         ]
       ],
       "rule": 6,
@@ -16429,24 +18835,28 @@
           614.76
         ],
         [
-          630.36,
-          623.51
+          629.97,
+          622.69
         ],
         [
-          634.73,
-          632.7
+          633.87,
+          630.91
         ],
         [
-          639.43,
-          642.54
+          638.12,
+          639.77
         ],
         [
-          644.12,
-          652.06
+          642.32,
+          648.51
         ],
         [
-          648.97,
-          661.42
+          646.73,
+          657.09
+        ],
+        [
+          650.19,
+          663.82
         ],
         [
           653.45,
@@ -16613,24 +19023,28 @@
           670.4
         ],
         [
-          648.97,
-          661.42
+          650.19,
+          663.82
         ],
         [
-          644.12,
-          652.06
+          646.73,
+          657.09
         ],
         [
-          639.43,
-          642.54
+          642.32,
+          648.51
         ],
         [
-          634.73,
-          632.7
+          638.12,
+          639.77
         ],
         [
-          630.36,
-          623.51
+          633.87,
+          630.91
+        ],
+        [
+          629.97,
+          622.69
         ],
         [
           626.03,
@@ -17085,28 +19499,32 @@
           445.68
         ],
         [
-          417.16,
-          454.24
+          417.92,
+          450.87
         ],
         [
-          414.85,
-          462.85
+          416.72,
+          456.04
         ],
         [
-          412.22,
-          471.26
+          414.5,
+          464.05
+        ],
+        [
+          412.04,
+          471.82
         ],
         [
           409.52,
           479.25
         ],
         [
-          407.66,
-          484.51
+          407.32,
+          485.46
         ],
         [
-          405.39,
-          491.2
+          405.23,
+          491.69
         ],
         [
           403.25,
@@ -17137,12 +19555,12 @@
           503.66
         ],
         [
-          353.84,
-          495.13
+          353.54,
+          493.77
         ],
         [
-          351.89,
-          486.91
+          351.72,
+          486.25
         ],
         [
           349.73,
@@ -17157,12 +19575,16 @@
           459.97
         ],
         [
-          345.53,
-          452.65
+          345.4,
+          451.47
         ],
         [
-          344.76,
-          445.08
+          344.77,
+          445.19
+        ],
+        [
+          344.17,
+          439.03
         ],
         [
           344.03,
@@ -17311,8 +19733,12 @@
           636.09
         ],
         [
-          411.93,
-          636.97
+          415.38,
+          636.64
+        ],
+        [
+          410.02,
+          637.17
         ],
         [
           403.2,
@@ -17343,12 +19769,16 @@
           608.5
         ],
         [
-          373.1,
-          600.96
+          374.78,
+          605.93
         ],
         [
-          370.92,
-          593.54
+          372.59,
+          599.28
+        ],
+        [
+          370.69,
+          592.7
         ],
         [
           368.88,
@@ -17411,28 +19841,28 @@
           499.04
         ],
         [
-          411.87,
-          504.87
+          410.05,
+          503.37
         ],
         [
-          418.8,
-          510.77
+          417.87,
+          509.98
         ],
         [
-          425.35,
-          516.09
+          425.19,
+          515.97
         ],
         [
-          431.84,
-          520.92
+          432.43,
+          521.36
         ],
         [
-          438.32,
-          526.24
+          439.63,
+          527.44
         ],
         [
-          444.68,
-          532.26
+          445.31,
+          532.89
         ],
         [
           450.54,
@@ -17487,8 +19917,12 @@
           567.53
         ],
         [
-          364.93,
-          558.28
+          365.09,
+          559.36
+        ],
+        [
+          364.58,
+          555.6
         ],
         [
           363.75,
@@ -17512,18 +19946,19 @@
     },
     {
       "children": [
-        "harrow_d_a3s0_p3_b0",
-        "harrow_d_a3s0_p3_b1"
+        "harrow_d_a3s0_p3_xn1y0",
+        "harrow_d_a3s0_p3_xn1yn1"
       ],
       "depth": 1,
       "id": "harrow_d_a3s0_p3",
       "params": {
-        "cells": 3,
-        "main_road": true,
-        "ratio_jitter": 0.15,
-        "road_depth": 1,
+        "block": 0.0,
+        "block_ratio": 1.1469,
+        "fan": 0.0,
+        "jitter": 0.071,
+        "main_every": 3,
         "rot": 93.6486,
-        "skew": 11.8408
+        "shear": 0.0
       },
       "parent": "harrow_d_a3s0",
       "polygon": [
@@ -17532,56 +19967,52 @@
           445.68
         ],
         [
-          428.07,
-          447.8
+          426.95,
+          447.54
         ],
         [
-          436.78,
-          449.89
+          434.62,
+          449.38
         ],
         [
-          445.58,
-          451.6
+          442.27,
+          451.02
         ],
         [
-          454.27,
-          453.01
+          452.11,
+          452.67
         ],
         [
-          462.9,
-          454.32
+          461.82,
+          454.16
         ],
         [
           471.66,
           455.95
         ],
         [
-          471.36,
-          464.03
+          471.31,
+          465.59
         ],
         [
-          471.09,
-          472.72
+          471.04,
+          476.0
         ],
         [
-          470.92,
-          481.49
+          470.71,
+          486.19
         ],
         [
-          470.48,
-          489.92
+          470.06,
+          496.03
         ],
         [
-          469.93,
-          497.99
+          469.41,
+          505.87
         ],
         [
-          469.4,
-          506.08
-        ],
-        [
-          468.71,
-          514.16
+          468.72,
+          514.06
         ],
         [
           467.81,
@@ -17604,28 +20035,28 @@
           538.45
         ],
         [
-          444.68,
-          532.26
+          445.31,
+          532.89
         ],
         [
-          438.32,
-          526.24
+          439.63,
+          527.44
         ],
         [
-          431.84,
-          520.92
+          432.43,
+          521.36
         ],
         [
-          425.35,
-          516.09
+          425.19,
+          515.97
         ],
         [
-          418.8,
-          510.77
+          417.87,
+          509.98
         ],
         [
-          411.87,
-          504.87
+          410.05,
+          503.37
         ],
         [
           404.6,
@@ -17636,32 +20067,36 @@
           497.99
         ],
         [
-          405.39,
-          491.2
+          405.23,
+          491.69
         ],
         [
-          407.66,
-          484.51
+          407.32,
+          485.46
         ],
         [
           409.52,
           479.25
         ],
         [
-          412.22,
-          471.26
+          412.04,
+          471.82
         ],
         [
-          414.85,
-          462.85
+          414.5,
+          464.05
         ],
         [
-          417.16,
-          454.24
+          416.72,
+          456.04
+        ],
+        [
+          417.92,
+          450.87
         ]
       ],
       "rule": -1,
-      "use": "bsp"
+      "use": "grid"
     },
     {
       "children": [
@@ -17877,24 +20312,24 @@
           455.95
         ],
         [
-          462.9,
-          454.32
+          461.82,
+          454.16
         ],
         [
-          454.27,
-          453.01
+          452.11,
+          452.67
         ],
         [
-          445.58,
-          451.6
+          442.27,
+          451.02
         ],
         [
-          436.78,
-          449.89
+          434.62,
+          449.38
         ],
         [
-          428.07,
-          447.8
+          426.95,
+          447.54
         ],
         [
           418.94,
@@ -18332,6 +20767,1046 @@
       ],
       "rule": 4,
       "use": "grid"
+    },
+    {
+      "children": [
+        "harrow_d_a3s1_x2yn1_b0",
+        "harrow_d_a3s1_x2yn1_b1"
+      ],
+      "depth": 1,
+      "id": "harrow_d_a3s1_x2yn1",
+      "params": {
+        "cells": 3,
+        "main_road": true,
+        "ratio_jitter": 0.15,
+        "road_depth": 1,
+        "rot": 141.6623,
+        "skew": 3.2009
+      },
+      "parent": "harrow_d_a3s1",
+      "polygon": [
+        [
+          308.79,
+          502.95
+        ],
+        [
+          312.56,
+          496.67
+        ],
+        [
+          312.97,
+          496.04
+        ],
+        [
+          313.03,
+          495.88
+        ],
+        [
+          318.13,
+          501.74
+        ],
+        [
+          323.4,
+          507.66
+        ],
+        [
+          328.99,
+          513.42
+        ],
+        [
+          335.5,
+          508.86
+        ],
+        [
+          341.61,
+          503.9
+        ],
+        [
+          347.4,
+          498.78
+        ],
+        [
+          353.54,
+          493.77
+        ],
+        [
+          355.69,
+          503.66
+        ],
+        [
+          358.05,
+          512.33
+        ],
+        [
+          360.9,
+          522.75
+        ],
+        [
+          362.58,
+          533.05
+        ],
+        [
+          363.44,
+          543.16
+        ],
+        [
+          363.75,
+          548.61
+        ],
+        [
+          364.58,
+          555.6
+        ],
+        [
+          363.25,
+          556.68
+        ],
+        [
+          358.57,
+          560.15
+        ],
+        [
+          353.76,
+          563.21
+        ],
+        [
+          346.35,
+          568.19
+        ],
+        [
+          338.62,
+          573.59
+        ],
+        [
+          330.56,
+          579.17
+        ],
+        [
+          323.12,
+          585.1
+        ],
+        [
+          316.03,
+          590.58
+        ],
+        [
+          314.24,
+          584.47
+        ],
+        [
+          312.26,
+          578.28
+        ],
+        [
+          308.51,
+          570.91
+        ],
+        [
+          304.83,
+          563.33
+        ],
+        [
+          301.11,
+          556.01
+        ],
+        [
+          296.46,
+          550.62
+        ],
+        [
+          291.75,
+          545.16
+        ],
+        [
+          287.58,
+          542.22
+        ],
+        [
+          278.57,
+          536.24
+        ],
+        [
+          270.7,
+          532.88
+        ],
+        [
+          274.09,
+          531.02
+        ],
+        [
+          275.32,
+          530.36
+        ],
+        [
+          280.23,
+          527.61
+        ],
+        [
+          281.55,
+          526.85
+        ],
+        [
+          287.57,
+          523.05
+        ],
+        [
+          293.28,
+          519.11
+        ],
+        [
+          293.58,
+          518.91
+        ],
+        [
+          299.26,
+          514.37
+        ],
+        [
+          302.24,
+          511.27
+        ],
+        [
+          304.24,
+          509.08
+        ],
+        [
+          305.07,
+          507.95
+        ],
+        [
+          305.71,
+          507.05
+        ]
+      ],
+      "rule": -1,
+      "use": "bsp"
+    },
+    {
+      "children": [
+        "harrow_d_a3s1_xn4y0_b0",
+        "harrow_d_a3s1_xn4y0_b1"
+      ],
+      "depth": 1,
+      "id": "harrow_d_a3s1_xn4y0",
+      "params": {
+        "cells": 3,
+        "main_road": true,
+        "ratio_jitter": 0.15,
+        "road_depth": 1,
+        "rot": 266.47,
+        "skew": 7.8734
+      },
+      "parent": "harrow_d_a3s1",
+      "polygon": [
+        [
+          542.08,
+          727.47
+        ],
+        [
+          542.26,
+          732.18
+        ],
+        [
+          542.27,
+          732.4
+        ],
+        [
+          542.53,
+          740.42
+        ],
+        [
+          542.71,
+          748.52
+        ],
+        [
+          542.94,
+          756.78
+        ],
+        [
+          543.02,
+          765.25
+        ],
+        [
+          542.95,
+          770.82
+        ],
+        [
+          543.24,
+          781.68
+        ],
+        [
+          543.58,
+          791.79
+        ],
+        [
+          543.68,
+          796.93
+        ],
+        [
+          543.88,
+          803.84
+        ],
+        [
+          544.2,
+          812.62
+        ],
+        [
+          545.09,
+          822.19
+        ],
+        [
+          546.37,
+          832.07
+        ],
+        [
+          547.51,
+          841.55
+        ],
+        [
+          547.89,
+          846.8
+        ],
+        [
+          548.14,
+          852.18
+        ],
+        [
+          549.06,
+          859.05
+        ],
+        [
+          549.96,
+          864.92
+        ],
+        [
+          550.95,
+          870.75
+        ],
+        [
+          548.34,
+          870.73
+        ],
+        [
+          541.86,
+          867.96
+        ],
+        [
+          539.9,
+          865.52
+        ],
+        [
+          534.75,
+          858.88
+        ],
+        [
+          529.45,
+          852.1
+        ],
+        [
+          527.49,
+          846.92
+        ],
+        [
+          525.5,
+          841.97
+        ],
+        [
+          523.07,
+          833.09
+        ],
+        [
+          520.38,
+          824.1
+        ],
+        [
+          518.38,
+          815.06
+        ],
+        [
+          518.2,
+          814.56
+        ],
+        [
+          515.19,
+          806.63
+        ],
+        [
+          511.73,
+          798.74
+        ],
+        [
+          508.29,
+          791.2
+        ],
+        [
+          504.66,
+          784.06
+        ],
+        [
+          500.95,
+          776.69
+        ],
+        [
+          497.78,
+          769.41
+        ],
+        [
+          494.22,
+          763.84
+        ],
+        [
+          501.21,
+          758.78
+        ],
+        [
+          508.1,
+          753.67
+        ],
+        [
+          514.92,
+          748.17
+        ],
+        [
+          521.75,
+          742.74
+        ],
+        [
+          528.64,
+          737.53
+        ],
+        [
+          535.37,
+          732.33
+        ],
+        [
+          542.08,
+          727.02
+        ]
+      ],
+      "rule": -1,
+      "use": "bsp"
+    },
+    {
+      "children": [
+        "harrow_d_a1s0_x0y0_r1s1_b0",
+        "harrow_d_a1s0_x0y0_r1s1_b1"
+      ],
+      "depth": 2,
+      "id": "harrow_d_a1s0_x0y0_r1s1",
+      "params": {
+        "cells": 3,
+        "main_road": true,
+        "ratio_jitter": 0.15,
+        "road_depth": 1,
+        "rot": 270.41,
+        "skew": 7.5268
+      },
+      "parent": "harrow_d_a1s0_x0y0",
+      "polygon": [
+        [
+          541.77,
+          701.56
+        ],
+        [
+          550.05,
+          700.0
+        ],
+        [
+          558.87,
+          698.41
+        ],
+        [
+          567.79,
+          696.56
+        ],
+        [
+          575.99,
+          694.36
+        ],
+        [
+          584.33,
+          692.32
+        ],
+        [
+          592.95,
+          690.04
+        ],
+        [
+          590.8,
+          697.78
+        ],
+        [
+          588.91,
+          705.42
+        ],
+        [
+          586.98,
+          713.32
+        ],
+        [
+          587.59,
+          713.58
+        ],
+        [
+          588.22,
+          713.9
+        ],
+        [
+          588.85,
+          714.26
+        ],
+        [
+          589.46,
+          714.64
+        ],
+        [
+          590.06,
+          715.06
+        ],
+        [
+          590.63,
+          715.51
+        ],
+        [
+          591.2,
+          715.99
+        ],
+        [
+          591.75,
+          716.5
+        ],
+        [
+          592.29,
+          717.04
+        ],
+        [
+          592.8,
+          717.59
+        ],
+        [
+          593.3,
+          718.18
+        ],
+        [
+          593.78,
+          718.78
+        ],
+        [
+          594.23,
+          719.4
+        ],
+        [
+          594.67,
+          720.02
+        ],
+        [
+          595.08,
+          720.67
+        ],
+        [
+          595.47,
+          721.31
+        ],
+        [
+          595.82,
+          721.97
+        ],
+        [
+          596.15,
+          722.63
+        ],
+        [
+          596.45,
+          723.31
+        ],
+        [
+          596.7,
+          723.99
+        ],
+        [
+          596.93,
+          724.67
+        ],
+        [
+          596.97,
+          724.82
+        ],
+        [
+          597.12,
+          725.35
+        ],
+        [
+          597.28,
+          726.04
+        ],
+        [
+          597.39,
+          726.72
+        ],
+        [
+          597.46,
+          727.41
+        ],
+        [
+          597.49,
+          728.08
+        ],
+        [
+          597.49,
+          728.76
+        ],
+        [
+          597.44,
+          729.43
+        ],
+        [
+          597.36,
+          730.09
+        ],
+        [
+          597.25,
+          730.75
+        ],
+        [
+          597.1,
+          731.4
+        ],
+        [
+          596.92,
+          732.03
+        ],
+        [
+          596.7,
+          732.65
+        ],
+        [
+          596.44,
+          733.26
+        ],
+        [
+          596.16,
+          733.85
+        ],
+        [
+          595.84,
+          734.43
+        ],
+        [
+          595.49,
+          734.98
+        ],
+        [
+          595.11,
+          735.53
+        ],
+        [
+          594.71,
+          736.05
+        ],
+        [
+          594.28,
+          736.56
+        ],
+        [
+          593.82,
+          737.03
+        ],
+        [
+          593.34,
+          737.49
+        ],
+        [
+          592.98,
+          737.8
+        ],
+        [
+          598.33,
+          744.36
+        ],
+        [
+          603.46,
+          750.8
+        ],
+        [
+          608.55,
+          757.23
+        ],
+        [
+          598.39,
+          758.73
+        ],
+        [
+          588.32,
+          760.01
+        ],
+        [
+          578.37,
+          761.22
+        ],
+        [
+          568.61,
+          762.36
+        ],
+        [
+          559.9,
+          763.44
+        ],
+        [
+          551.41,
+          764.43
+        ],
+        [
+          543.02,
+          765.25
+        ],
+        [
+          542.94,
+          756.78
+        ],
+        [
+          542.71,
+          748.52
+        ],
+        [
+          542.53,
+          740.42
+        ],
+        [
+          542.27,
+          732.4
+        ],
+        [
+          542.26,
+          732.18
+        ],
+        [
+          542.08,
+          727.47
+        ],
+        [
+          542.08,
+          727.02
+        ],
+        [
+          542.14,
+          721.14
+        ],
+        [
+          542.2,
+          715.23
+        ],
+        [
+          542.19,
+          714.43
+        ],
+        [
+          542.03,
+          708.59
+        ],
+        [
+          541.81,
+          702.9
+        ]
+      ],
+      "rule": -1,
+      "use": "bsp"
+    },
+    {
+      "children": [
+        "harrow_d_a1s0_xn1yn2_core_b0",
+        "harrow_d_a1s0_xn1yn2_core_b1"
+      ],
+      "depth": 2,
+      "id": "harrow_d_a1s0_xn1yn2_core",
+      "params": {
+        "cells": 3,
+        "main_road": true,
+        "ratio_jitter": 0.15,
+        "road_depth": 1,
+        "rot": 241.7005,
+        "skew": 4.7969
+      },
+      "parent": "harrow_d_a1s0_xn1yn2",
+      "polygon": [
+        [
+          626.03,
+          614.76
+        ],
+        [
+          634.59,
+          612.93
+        ],
+        [
+          643.21,
+          611.39
+        ],
+        [
+          652.25,
+          609.77
+        ],
+        [
+          661.68,
+          607.33
+        ],
+        [
+          664.75,
+          615.16
+        ],
+        [
+          668.07,
+          622.56
+        ],
+        [
+          668.68,
+          622.29
+        ],
+        [
+          669.56,
+          621.96
+        ],
+        [
+          670.45,
+          621.66
+        ],
+        [
+          671.35,
+          621.41
+        ],
+        [
+          672.26,
+          621.18
+        ],
+        [
+          673.18,
+          620.98
+        ],
+        [
+          674.1,
+          620.82
+        ],
+        [
+          675.02,
+          620.7
+        ],
+        [
+          675.95,
+          620.62
+        ],
+        [
+          676.88,
+          620.57
+        ],
+        [
+          677.79,
+          620.57
+        ],
+        [
+          678.7,
+          620.61
+        ],
+        [
+          679.6,
+          620.7
+        ],
+        [
+          680.48,
+          620.82
+        ],
+        [
+          681.35,
+          620.99
+        ],
+        [
+          682.22,
+          621.22
+        ],
+        [
+          683.06,
+          621.48
+        ],
+        [
+          683.89,
+          621.79
+        ],
+        [
+          684.71,
+          622.14
+        ],
+        [
+          685.51,
+          622.54
+        ],
+        [
+          686.29,
+          622.98
+        ],
+        [
+          687.07,
+          623.45
+        ],
+        [
+          687.82,
+          623.97
+        ],
+        [
+          688.56,
+          624.51
+        ],
+        [
+          689.27,
+          625.09
+        ],
+        [
+          689.97,
+          625.69
+        ],
+        [
+          690.63,
+          626.34
+        ],
+        [
+          691.28,
+          627.0
+        ],
+        [
+          691.89,
+          627.69
+        ],
+        [
+          692.47,
+          628.42
+        ],
+        [
+          693.0,
+          629.15
+        ],
+        [
+          693.49,
+          629.91
+        ],
+        [
+          693.94,
+          630.69
+        ],
+        [
+          694.11,
+          631.03
+        ],
+        [
+          694.34,
+          631.48
+        ],
+        [
+          694.7,
+          632.29
+        ],
+        [
+          695.01,
+          633.11
+        ],
+        [
+          695.26,
+          633.96
+        ],
+        [
+          695.45,
+          634.8
+        ],
+        [
+          695.6,
+          635.66
+        ],
+        [
+          695.68,
+          636.54
+        ],
+        [
+          695.72,
+          637.41
+        ],
+        [
+          695.69,
+          638.29
+        ],
+        [
+          695.63,
+          639.14
+        ],
+        [
+          703.86,
+          639.15
+        ],
+        [
+          711.83,
+          639.08
+        ],
+        [
+          710.36,
+          644.0
+        ],
+        [
+          709.02,
+          651.64
+        ],
+        [
+          707.49,
+          659.04
+        ],
+        [
+          705.9,
+          666.14
+        ],
+        [
+          696.5,
+          669.09
+        ],
+        [
+          686.78,
+          672.12
+        ],
+        [
+          676.93,
+          674.67
+        ],
+        [
+          667.19,
+          677.03
+        ],
+        [
+          658.03,
+          679.19
+        ],
+        [
+          653.45,
+          670.4
+        ],
+        [
+          650.19,
+          663.82
+        ],
+        [
+          646.73,
+          657.09
+        ],
+        [
+          642.32,
+          648.51
+        ],
+        [
+          638.12,
+          639.77
+        ],
+        [
+          633.87,
+          630.91
+        ],
+        [
+          629.97,
+          622.69
+        ]
+      ],
+      "rule": -1,
+      "use": "bsp"
     },
     {
       "children": [
@@ -19177,8 +22652,12 @@
           702.9
         ],
         [
-          533.22,
-          701.59
+          536.25,
+          702.05
+        ],
+        [
+          530.5,
+          701.21
         ],
         [
           524.35,
@@ -19193,8 +22672,12 @@
           694.06
         ],
         [
-          499.94,
-          690.31
+          505.21,
+          692.92
+        ],
+        [
+          498.74,
+          689.72
         ],
         [
           492.13,
@@ -19221,8 +22704,8 @@
           671.07
         ],
         [
-          455.19,
-          665.89
+          455.17,
+          665.87
         ],
         [
           449.09,
@@ -19543,9 +23026,12 @@
         "harrow_j_artery_2_bs_a1s0_x_plaza",
         "harrow_j_artery_2_a1s0_xn2yn1_b0",
         "harrow_j_artery_2_a2s0_b2",
+        "harrow_j_artery_2_a1s0_un1_0",
         "harrow_j_artery_2_a1s0_u0_0",
         "harrow_j_a2_c0",
+        "harrow_j_artery_2_a1s0_x0y0_r1s1_sr_0",
         "harrow_j_artery_2_a1s0_u1_0",
+        "harrow_j_artery_2_a3s1_xn4y0_sr_0",
         "harrow_gate_a2"
       ],
       "polyline": [
@@ -19642,12 +23128,24 @@
           714.43
         ],
         [
-          542.15,
-          720.96
+          542.2,
+          715.23
+        ],
+        [
+          542.14,
+          721.14
+        ],
+        [
+          542.08,
+          727.02
         ],
         [
           542.08,
           727.47
+        ],
+        [
+          542.26,
+          732.18
         ],
         [
           542.27,
@@ -19674,20 +23172,20 @@
           770.82
         ],
         [
-          543.17,
-          779.9
+          543.24,
+          781.68
         ],
         [
-          543.51,
-          788.6
+          543.58,
+          791.79
         ],
         [
-          543.67,
-          796.6
+          543.68,
+          796.93
         ],
         [
-          543.91,
-          804.61
+          543.88,
+          803.84
         ],
         [
           544.2,
@@ -19714,8 +23212,12 @@
           852.18
         ],
         [
-          549.42,
-          861.44
+          549.06,
+          859.05
+        ],
+        [
+          549.96,
+          864.92
         ],
         [
           550.95,
@@ -19736,6 +23238,7 @@
         "harrow_j_artery_3_a3s0_b4",
         "harrow_j_artery_3_a3s0_p1_u0_0",
         "harrow_j_artery_3_a3s0_b3",
+        "harrow_j_artery_3_a3s1_u2_0",
         "harrow_gate_a3"
       ],
       "polyline": [
@@ -19832,8 +23335,12 @@
           636.09
         ],
         [
-          411.93,
-          636.97
+          415.38,
+          636.64
+        ],
+        [
+          410.02,
+          637.17
         ],
         [
           403.2,
@@ -19864,12 +23371,16 @@
           608.5
         ],
         [
-          373.1,
-          600.96
+          374.78,
+          605.93
         ],
         [
-          370.92,
-          593.54
+          372.59,
+          599.28
+        ],
+        [
+          370.69,
+          592.7
         ],
         [
           368.88,
@@ -19888,8 +23399,12 @@
           567.53
         ],
         [
-          364.93,
-          558.28
+          365.09,
+          559.36
+        ],
+        [
+          364.58,
+          555.6
         ],
         [
           363.75,
@@ -19916,12 +23431,12 @@
           503.66
         ],
         [
-          353.84,
-          495.13
+          353.54,
+          493.77
         ],
         [
-          351.89,
-          486.91
+          351.72,
+          486.25
         ],
         [
           349.73,
@@ -19936,12 +23451,16 @@
           459.97
         ],
         [
-          345.53,
-          452.65
+          345.4,
+          451.47
         ],
         [
-          344.76,
-          445.08
+          344.77,
+          445.19
+        ],
+        [
+          344.17,
+          439.03
         ],
         [
           344.03,
@@ -21145,7 +24664,13 @@
     {
       "class": "street",
       "id": "harrow_sr_a1s0_un1_0",
-      "nodes": [],
+      "nodes": [
+        "harrow_j_a1s0_un1_0_a1s0_vn2_0",
+        "harrow_j_a1s0_un1_0_a1s0_xn1yn2_spoke2_0",
+        "harrow_j_a1s0_un1_0_a1s0_vn1_0",
+        "harrow_j_a1s0_un1_0_a1s0_v0_0",
+        "harrow_j_artery_2_a1s0_un1_0"
+      ],
       "polyline": [
         [
           694.91,
@@ -21230,6 +24755,7 @@
       "class": "artery",
       "id": "harrow_sr_a1s0_v0_0",
       "nodes": [
+        "harrow_j_a1s0_un1_0_a1s0_v0_0",
         "harrow_j_a1s0_u0_0_a1s0_v0_0",
         "harrow_j_a1s0_u1_0_a1s0_v0_0"
       ],
@@ -21332,6 +24858,8 @@
         "harrow_j_artery_1_a1s0_vn1_0",
         "harrow_j_a1s0_vn1_0_a1s0_xn2yn1_b2",
         "harrow_j_a1s0_vn1_0_a1s0_xn2yn2_spoke1_0",
+        "harrow_j_a1s0_un1_0_a1s0_vn1_0",
+        "harrow_j_a1s0_vn1_0_a1s0_xn1yn2_core_sr_0",
         "harrow_j_a1s0_u0_0_a1s0_vn1_0"
       ],
       "polyline": [
@@ -21384,24 +24912,28 @@
           614.76
         ],
         [
-          630.36,
-          623.51
+          629.97,
+          622.69
         ],
         [
-          634.73,
-          632.7
+          633.87,
+          630.91
         ],
         [
-          639.43,
-          642.54
+          638.12,
+          639.77
         ],
         [
-          644.12,
-          652.06
+          642.32,
+          648.51
         ],
         [
-          648.97,
-          661.42
+          646.73,
+          657.09
+        ],
+        [
+          650.19,
+          663.82
         ],
         [
           653.45,
@@ -21419,7 +24951,8 @@
       "id": "harrow_sr_a1s0_vn2_0",
       "nodes": [
         "harrow_j_artery_1_a1s0_vn2_0",
-        "harrow_j_a1s0_vn2_0_a1s0_xn2yn2_r1s2_sr_0"
+        "harrow_j_a1s0_vn2_0_a1s0_xn2yn2_r1s2_sr_0",
+        "harrow_j_a1s0_un1_0_a1s0_vn2_0"
       ],
       "polyline": [
         [
@@ -21470,10 +25003,50 @@
       "width": 5.0
     },
     {
+      "class": "artery",
+      "id": "harrow_sr_a1s0_x0y0_r1s1_sr_0",
+      "nodes": [
+        "harrow_j_artery_2_a1s0_x0y0_r1s1_sr_0",
+        "harrow_j_a1s0_x0y0_r1s1_sr_0_a1s0_x0y0_ring1_0"
+      ],
+      "polyline": [
+        [
+          542.26,
+          732.18
+        ],
+        [
+          551.51,
+          730.78
+        ],
+        [
+          560.8,
+          729.36
+        ],
+        [
+          569.99,
+          728.08
+        ],
+        [
+          579.06,
+          726.88
+        ],
+        [
+          588.01,
+          725.73
+        ],
+        [
+          596.97,
+          724.82
+        ]
+      ],
+      "width": 7.0
+    },
+    {
       "class": "street",
       "id": "harrow_sr_a1s0_x0y0_ring1_0",
       "nodes": [
         "harrow_j_a1s0_x0y0_ring1_0_a1s0_x0y0_spoke1_0",
+        "harrow_j_a1s0_x0y0_r1s1_sr_0_a1s0_x0y0_ring1_0",
         "harrow_j_a1s0_x0y0_ring1_0_a1s0_x0y0_spoke0_0"
       ],
       "polyline": [
@@ -21564,6 +25137,10 @@
         [
           597.12,
           725.35
+        ],
+        [
+          596.97,
+          724.82
         ],
         [
           596.93,
@@ -21825,6 +25402,219 @@
         ]
       ],
       "width": 5.0
+    },
+    {
+      "class": "artery",
+      "id": "harrow_sr_a1s0_xn1yn2_core_sr_0",
+      "nodes": [
+        "harrow_j_a1s0_xn1yn2_core_sr_0_a1s0_xn1yn2_ring1_0",
+        "harrow_j_a1s0_vn1_0_a1s0_xn1yn2_core_sr_0"
+      ],
+      "polyline": [
+        [
+          694.11,
+          631.03
+        ],
+        [
+          686.06,
+          635.69
+        ],
+        [
+          677.82,
+          639.93
+        ],
+        [
+          670.11,
+          644.11
+        ],
+        [
+          662.66,
+          648.59
+        ],
+        [
+          654.71,
+          653.13
+        ],
+        [
+          646.73,
+          657.09
+        ]
+      ],
+      "width": 7.0
+    },
+    {
+      "class": "street",
+      "id": "harrow_sr_a1s0_xn1yn2_ring1_0",
+      "nodes": [
+        "harrow_j_a1s0_xn1yn2_core_sr_0_a1s0_xn1yn2_ring1_0",
+        "harrow_j_a1s0_xn1yn2_ring1_0_a1s0_xn1yn2_spoke2_0"
+      ],
+      "polyline": [
+        [
+          694.11,
+          631.03
+        ],
+        [
+          693.94,
+          630.69
+        ],
+        [
+          693.49,
+          629.91
+        ],
+        [
+          693.0,
+          629.15
+        ],
+        [
+          692.47,
+          628.42
+        ],
+        [
+          691.89,
+          627.69
+        ],
+        [
+          691.28,
+          627.0
+        ],
+        [
+          690.63,
+          626.34
+        ],
+        [
+          689.97,
+          625.69
+        ],
+        [
+          689.27,
+          625.09
+        ],
+        [
+          688.56,
+          624.51
+        ],
+        [
+          687.82,
+          623.97
+        ],
+        [
+          687.07,
+          623.45
+        ],
+        [
+          686.29,
+          622.98
+        ],
+        [
+          685.51,
+          622.54
+        ],
+        [
+          684.71,
+          622.14
+        ],
+        [
+          683.89,
+          621.79
+        ],
+        [
+          683.06,
+          621.48
+        ],
+        [
+          682.22,
+          621.22
+        ],
+        [
+          681.35,
+          620.99
+        ],
+        [
+          680.48,
+          620.82
+        ],
+        [
+          679.6,
+          620.7
+        ],
+        [
+          678.7,
+          620.61
+        ],
+        [
+          677.79,
+          620.57
+        ],
+        [
+          676.88,
+          620.57
+        ],
+        [
+          675.95,
+          620.62
+        ],
+        [
+          675.02,
+          620.7
+        ],
+        [
+          674.1,
+          620.82
+        ],
+        [
+          673.18,
+          620.98
+        ],
+        [
+          672.26,
+          621.18
+        ],
+        [
+          671.35,
+          621.41
+        ],
+        [
+          670.45,
+          621.66
+        ],
+        [
+          669.56,
+          621.96
+        ],
+        [
+          668.68,
+          622.29
+        ],
+        [
+          668.07,
+          622.56
+        ]
+      ],
+      "width": 5.0
+    },
+    {
+      "class": "artery",
+      "id": "harrow_sr_a1s0_xn1yn2_spoke2_0",
+      "nodes": [
+        "harrow_j_a1s0_xn1yn2_ring1_0_a1s0_xn1yn2_spoke2_0",
+        "harrow_j_a1s0_un1_0_a1s0_xn1yn2_spoke2_0"
+      ],
+      "polyline": [
+        [
+          668.07,
+          622.56
+        ],
+        [
+          664.75,
+          615.16
+        ],
+        [
+          661.68,
+          607.33
+        ]
+      ],
+      "width": 8.0
     },
     {
       "class": "artery",
@@ -22317,38 +26107,39 @@
     {
       "class": "street",
       "id": "harrow_sr_a3s0_b1",
-      "nodes": [
-        "harrow_j_a3s0_b1_a3s0_b6",
-        "harrow_j_a3s0_b1_a3s0_p3_sr_0"
-      ],
+      "nodes": [],
       "polyline": [
         [
           403.25,
           497.99
         ],
         [
-          405.39,
-          491.2
+          405.23,
+          491.69
         ],
         [
-          407.66,
-          484.51
+          407.32,
+          485.46
         ],
         [
           409.52,
           479.25
         ],
         [
-          412.22,
-          471.26
+          412.04,
+          471.82
         ],
         [
-          414.85,
-          462.85
+          414.5,
+          464.05
         ],
         [
-          417.16,
-          454.24
+          416.72,
+          456.04
+        ],
+        [
+          417.92,
+          450.87
         ],
         [
           418.94,
@@ -22360,42 +26151,35 @@
     {
       "class": "street",
       "id": "harrow_sr_a3s0_b10",
-      "nodes": [
-        "harrow_j_a3s0_b10_a3s0_b11",
-        "harrow_j_a3s0_b10_a3s0_p3_sr_0"
-      ],
+      "nodes": [],
       "polyline": [
         [
           467.81,
           522.19
         ],
         [
-          468.71,
-          514.16
+          468.72,
+          514.06
         ],
         [
-          469.4,
-          506.08
+          469.41,
+          505.87
         ],
         [
-          469.93,
-          497.99
+          470.06,
+          496.03
         ],
         [
-          470.48,
-          489.92
+          470.71,
+          486.19
         ],
         [
-          470.92,
-          481.49
+          471.04,
+          476.0
         ],
         [
-          471.09,
-          472.72
-        ],
-        [
-          471.36,
-          464.03
+          471.31,
+          465.59
         ],
         [
           471.66,
@@ -22408,7 +26192,6 @@
       "class": "artery",
       "id": "harrow_sr_a3s0_b11",
       "nodes": [
-        "harrow_j_a3s0_b10_a3s0_b11",
         "harrow_j_a3s0_b11_a3s0_p8_u0_0",
         "harrow_j_artery_0_a3s0_b11"
       ],
@@ -22459,31 +26242,33 @@
     {
       "class": "street",
       "id": "harrow_sr_a3s0_b12",
-      "nodes": [],
+      "nodes": [
+        "harrow_j_a3s0_b12_a3s0_p3_v0_0"
+      ],
       "polyline": [
         [
           471.66,
           455.95
         ],
         [
-          462.9,
-          454.32
+          461.82,
+          454.16
         ],
         [
-          454.27,
-          453.01
+          452.11,
+          452.67
         ],
         [
-          445.58,
-          451.6
+          442.27,
+          451.02
         ],
         [
-          436.78,
-          449.89
+          434.62,
+          449.38
         ],
         [
-          428.07,
-          447.8
+          426.95,
+          447.54
         ],
         [
           418.94,
@@ -22761,8 +26546,8 @@
       "class": "street",
       "id": "harrow_sr_a3s0_b6",
       "nodes": [
-        "harrow_j_a3s0_b6_a3s0_p2_spoke0_0",
-        "harrow_j_a3s0_b1_a3s0_b6"
+        "harrow_j_a3s0_b6_a3s0_p3_v0_0",
+        "harrow_j_a3s0_b6_a3s0_p2_spoke0_0"
       ],
       "polyline": [
         [
@@ -22770,28 +26555,28 @@
           538.45
         ],
         [
-          444.68,
-          532.26
+          445.31,
+          532.89
         ],
         [
-          438.32,
-          526.24
+          439.63,
+          527.44
         ],
         [
-          431.84,
-          520.92
+          432.43,
+          521.36
         ],
         [
-          425.35,
-          516.09
+          425.19,
+          515.97
         ],
         [
-          418.8,
-          510.77
+          417.87,
+          509.98
         ],
         [
-          411.87,
-          504.87
+          410.05,
+          503.37
         ],
         [
           404.6,
@@ -23138,43 +26923,51 @@
     },
     {
       "class": "artery",
-      "id": "harrow_sr_a3s0_p3_sr_0",
+      "id": "harrow_sr_a3s0_p3_v0_0",
       "nodes": [
-        "harrow_j_a3s0_b1_a3s0_p3_sr_0",
-        "harrow_j_a3s0_b10_a3s0_p3_sr_0"
+        "harrow_j_a3s0_b12_a3s0_p3_v0_0",
+        "harrow_j_a3s0_b6_a3s0_p3_v0_0"
       ],
       "polyline": [
         [
-          407.66,
-          484.51
+          442.27,
+          451.02
         ],
         [
-          417.17,
-          485.78
+          442.2,
+          456.83
         ],
         [
-          426.39,
-          487.12
+          442.24,
+          466.61
         ],
         [
-          435.52,
-          488.17
+          442.17,
+          476.9
         ],
         [
-          444.0,
-          489.0
+          442.06,
+          486.86
         ],
         [
-          452.43,
-          489.39
+          441.71,
+          496.43
         ],
         [
-          461.6,
-          489.55
+          441.23,
+          505.37
         ],
         [
-          470.48,
-          489.92
+          440.66,
+          512.77
+        ],
+        [
+          440.11,
+          520.1
+        ],
+        [
+          439.63,
+          527.44
         ]
       ],
       "width": 8.0
@@ -23335,6 +27128,365 @@
         ]
       ],
       "width": 8.0
+    },
+    {
+      "class": "street",
+      "id": "harrow_sr_a3s1_u0_0",
+      "nodes": [],
+      "polyline": [
+        [
+          379.34,
+          659.81
+        ],
+        [
+          386.95,
+          653.83
+        ],
+        [
+          394.77,
+          648.05
+        ],
+        [
+          402.39,
+          642.47
+        ],
+        [
+          410.02,
+          637.17
+        ]
+      ],
+      "width": 5.0
+    },
+    {
+      "class": "street",
+      "id": "harrow_sr_a3s1_u1_0",
+      "nodes": [],
+      "polyline": [
+        [
+          336.18,
+          635.47
+        ],
+        [
+          341.74,
+          631.07
+        ],
+        [
+          347.41,
+          626.58
+        ],
+        [
+          353.13,
+          622.01
+        ],
+        [
+          360.49,
+          616.23
+        ],
+        [
+          367.74,
+          610.86
+        ],
+        [
+          374.78,
+          605.93
+        ]
+      ],
+      "width": 5.0
+    },
+    {
+      "class": "street",
+      "id": "harrow_sr_a3s1_u2_0",
+      "nodes": [
+        "harrow_j_a3s1_u2_0_a3s1_x2yn1_sr_0",
+        "harrow_j_artery_3_a3s1_u2_0"
+      ],
+      "polyline": [
+        [
+          316.03,
+          590.58
+        ],
+        [
+          323.12,
+          585.1
+        ],
+        [
+          330.56,
+          579.17
+        ],
+        [
+          338.62,
+          573.59
+        ],
+        [
+          346.35,
+          568.19
+        ],
+        [
+          353.76,
+          563.21
+        ],
+        [
+          358.57,
+          560.15
+        ],
+        [
+          363.25,
+          556.68
+        ],
+        [
+          364.58,
+          555.6
+        ]
+      ],
+      "width": 5.0
+    },
+    {
+      "class": "street",
+      "id": "harrow_sr_a3s1_u3_0",
+      "nodes": [],
+      "polyline": [
+        [
+          328.99,
+          513.42
+        ],
+        [
+          335.5,
+          508.86
+        ],
+        [
+          341.61,
+          503.9
+        ],
+        [
+          347.4,
+          498.78
+        ],
+        [
+          353.54,
+          493.77
+        ]
+      ],
+      "width": 5.0
+    },
+    {
+      "class": "street",
+      "id": "harrow_sr_a3s1_un1_0",
+      "nodes": [],
+      "polyline": [
+        [
+          435.53,
+          680.89
+        ],
+        [
+          440.3,
+          677.44
+        ],
+        [
+          445.3,
+          673.77
+        ],
+        [
+          450.38,
+          669.88
+        ],
+        [
+          455.17,
+          665.87
+        ]
+      ],
+      "width": 5.0
+    },
+    {
+      "class": "street",
+      "id": "harrow_sr_a3s1_un2_0",
+      "nodes": [],
+      "polyline": [
+        [
+          467.57,
+          723.21
+        ],
+        [
+          473.03,
+          719.43
+        ],
+        [
+          478.23,
+          715.56
+        ],
+        [
+          485.35,
+          709.93
+        ],
+        [
+          491.9,
+          704.46
+        ],
+        [
+          498.32,
+          698.9
+        ],
+        [
+          505.21,
+          692.92
+        ]
+      ],
+      "width": 5.0
+    },
+    {
+      "class": "street",
+      "id": "harrow_sr_a3s1_un3_0",
+      "nodes": [],
+      "polyline": [
+        [
+          494.22,
+          763.84
+        ],
+        [
+          501.21,
+          758.78
+        ],
+        [
+          508.1,
+          753.67
+        ],
+        [
+          514.92,
+          748.17
+        ],
+        [
+          521.75,
+          742.74
+        ],
+        [
+          528.64,
+          737.53
+        ],
+        [
+          535.37,
+          732.33
+        ],
+        [
+          542.08,
+          727.02
+        ]
+      ],
+      "width": 5.0
+    },
+    {
+      "class": "street",
+      "id": "harrow_sr_a3s1_v0_1",
+      "nodes": [],
+      "polyline": [
+        [
+          328.99,
+          513.42
+        ],
+        [
+          323.4,
+          507.66
+        ],
+        [
+          318.13,
+          501.74
+        ],
+        [
+          313.03,
+          495.88
+        ]
+      ],
+      "width": 5.0
+    },
+    {
+      "class": "street",
+      "id": "harrow_sr_a3s1_vn1_0",
+      "nodes": [],
+      "polyline": [
+        [
+          390.74,
+          673.63
+        ],
+        [
+          384.99,
+          666.71
+        ],
+        [
+          379.34,
+          659.81
+        ]
+      ],
+      "width": 5.0
+    },
+    {
+      "class": "artery",
+      "id": "harrow_sr_a3s1_x2yn1_sr_0",
+      "nodes": [
+        "harrow_j_a3s1_u2_0_a3s1_x2yn1_sr_0"
+      ],
+      "polyline": [
+        [
+          353.76,
+          563.21
+        ],
+        [
+          347.56,
+          555.21
+        ],
+        [
+          341.62,
+          546.64
+        ],
+        [
+          335.22,
+          538.07
+        ],
+        [
+          327.64,
+          529.97
+        ],
+        [
+          320.18,
+          522.14
+        ],
+        [
+          313.11,
+          514.43
+        ],
+        [
+          305.71,
+          507.05
+        ]
+      ],
+      "width": 8.0
+    },
+    {
+      "class": "artery",
+      "id": "harrow_sr_a3s1_xn4y0_sr_0",
+      "nodes": [
+        "harrow_j_artery_2_a3s1_xn4y0_sr_0"
+      ],
+      "polyline": [
+        [
+          508.29,
+          791.2
+        ],
+        [
+          516.95,
+          791.47
+        ],
+        [
+          525.62,
+          791.39
+        ],
+        [
+          534.8,
+          791.44
+        ],
+        [
+          543.58,
+          791.79
+        ]
+      ],
+      "width": 8.0
     }
   ],
   "seed": 14,
@@ -23349,7 +27501,7 @@
       "open_shore": [
         [
           1,
-          26
+          30
         ]
       ],
       "polyline": [
@@ -23368,6 +27520,10 @@
         [
           275.32,
           530.36
+        ],
+        [
+          280.23,
+          527.61
         ],
         [
           281.55,
@@ -23402,6 +27558,10 @@
           507.95
         ],
         [
+          305.71,
+          507.05
+        ],
+        [
           308.79,
           502.95
         ],
@@ -23412,6 +27572,10 @@
         [
           312.97,
           496.04
+        ],
+        [
+          313.03,
+          495.88
         ],
         [
           313.07,
@@ -23442,6 +27606,10 @@
           462.05
         ],
         [
+          318.15,
+          460.22
+        ],
+        [
           317.49,
           456.43
         ],
@@ -23466,12 +27634,16 @@
           433.74
         ],
         [
-          325.51,
-          433.25
+          324.73,
+          433.28
         ],
         [
-          334.63,
-          433.23
+          333.06,
+          433.16
+        ],
+        [
+          338.37,
+          433.43
         ],
         [
           343.63,
@@ -24026,8 +28198,12 @@
           867.96
         ],
         [
-          535.73,
-          860.17
+          539.9,
+          865.52
+        ],
+        [
+          534.75,
+          858.88
         ],
         [
           529.45,
@@ -24054,64 +28230,72 @@
           815.06
         ],
         [
-          514.77,
-          805.63
+          518.2,
+          814.56
         ],
         [
-          510.65,
-          796.33
+          515.19,
+          806.63
         ],
         [
-          506.46,
-          787.47
+          511.73,
+          798.74
         ],
         [
-          501.78,
-          778.44
+          508.29,
+          791.2
+        ],
+        [
+          504.66,
+          784.06
+        ],
+        [
+          500.95,
+          776.69
         ],
         [
           497.78,
           769.41
         ],
         [
-          493.35,
-          762.51
+          494.22,
+          763.84
         ],
         [
-          488.81,
-          755.45
+          489.46,
+          756.5
         ],
         [
-          484.13,
-          748.36
+          484.59,
+          749.03
         ],
         [
-          479.32,
-          741.55
+          479.55,
+          741.89
         ],
         [
           474.58,
           734.46
         ],
         [
-          469.94,
-          726.86
+          471.2,
+          728.83
         ],
         [
-          464.91,
-          719.26
+          467.57,
+          723.21
         ],
         [
-          459.74,
-          711.6
+          461.76,
+          714.58
         ],
         [
-          454.69,
-          704.19
+          455.98,
+          706.09
         ],
         [
-          450.06,
-          696.86
+          450.63,
+          697.83
         ],
         [
           445.61,
@@ -24126,8 +28310,12 @@
           681.42
         ],
         [
-          430.05,
-          678.52
+          435.53,
+          680.89
+        ],
+        [
+          429.43,
+          678.25
         ],
         [
           423.12,
@@ -24142,20 +28330,28 @@
           673.52
         ],
         [
-          398.63,
+          399.41,
           673.47
         ],
         [
-          389.18,
-          673.75
+          390.74,
+          673.63
         ],
         [
-          379.84,
-          674.88
+          383.98,
+          674.34
+        ],
+        [
+          377.16,
+          675.15
         ],
         [
           370.18,
           675.52
+        ],
+        [
+          361.44,
+          673.78
         ],
         [
           361.42,
@@ -24174,16 +28370,20 @@
           655.3
         ],
         [
-          339.72,
-          647.42
+          340.21,
+          648.79
         ],
         [
-          337.34,
-          639.31
+          338.11,
+          642.08
         ],
         [
-          334.76,
-          631.46
+          336.18,
+          635.47
+        ],
+        [
+          334.03,
+          629.55
         ],
         [
           331.6,
@@ -24198,16 +28398,16 @@
           608.78
         ],
         [
-          319.25,
-          601.41
+          318.77,
+          599.87
         ],
         [
-          316.94,
-          593.71
+          316.03,
+          590.58
         ],
         [
-          314.72,
-          586.02
+          314.24,
+          584.47
         ],
         [
           312.26,
@@ -24234,8 +28434,8 @@
           545.16
         ],
         [
-          285.25,
-          540.62
+          287.58,
+          542.22
         ],
         [
           278.57,
@@ -24552,6 +28752,10 @@
             456.43
           ],
           [
+            318.15,
+            460.22
+          ],
+          [
             318.48,
             462.05
           ],
@@ -24580,6 +28784,10 @@
             495.81
           ],
           [
+            313.03,
+            495.88
+          ],
+          [
             312.97,
             496.04
           ],
@@ -24590,6 +28798,10 @@
           [
             308.79,
             502.95
+          ],
+          [
+            305.71,
+            507.05
           ],
           [
             305.07,
@@ -24622,6 +28834,10 @@
           [
             281.55,
             526.85
+          ],
+          [
+            280.23,
+            527.61
           ],
           [
             275.32,

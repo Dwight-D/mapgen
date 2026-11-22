@@ -14,12 +14,9 @@ nodes:
   grey_gate_fort_in: { kind: choke, name: "Gate in" }
   grey_gate_fort_out: { kind: choke, name: "Gate out" }
   grey_j_a1s0_u0_0_a1s0_v0_0: { kind: choke }
-  grey_j_a1s0_u0_0_a1s0_x0y0_sr_0: { kind: choke }
-  grey_j_a1s0_u0_0_a1s0_x0yn1_sr_0: { kind: choke }
+  grey_j_a1s0_u0_0_a1s0_x0yn1_spoke0_0: { kind: choke }
   grey_j_a1s0_u0_0_a1s0_xn1y0_b1: { kind: choke }
   grey_j_a1s0_u1_0_a1s0_v0_0: { kind: choke }
-  grey_j_a1s0_u1_0_a1s0_x0y0_sr_0: { kind: choke }
-  grey_j_a1s0_u1_0_a1s0_x0yn1_sr_0: { kind: choke }
   grey_j_a1s0_u1_0_a1s0_x1yn1_spoke2_0: { kind: choke }
   grey_j_a1s0_un1_0_a1s0_v0_0: { kind: choke }
   grey_j_a1s0_un1_0_a1s0_xn1y0_b0: { kind: choke }
@@ -27,7 +24,11 @@ nodes:
   grey_j_a1s0_un2_0_a1s0_v0_0: { kind: choke }
   grey_j_a1s0_un2_0_a1s0_xn2y0_sr_0: { kind: choke }
   grey_j_a1s0_un3_0_a1s0_v0_0: { kind: choke }
+  grey_j_a1s0_un3_0_a1s0_xn3yn1_b0: { kind: choke }
+  grey_j_a1s0_v0_0_a1s0_x0y0_b0: { kind: choke }
+  grey_j_a1s0_v0_0_a1s0_x0yn1_spoke2_0: { kind: choke }
   grey_j_a1s0_v0_0_a1s0_x1yn1_spoke1_0: { kind: choke }
+  grey_j_a1s0_v0_0_a1s0_xn1yn1_sr_0: { kind: choke }
   grey_j_a1s0_x1yn1_ring1_0_a1s0_x1yn1_spoke1_0: { kind: choke }
   grey_j_a1s0_x1yn1_ring1_0_a1s0_x1yn1_spoke2_0: { kind: choke }
   grey_j_a1s0_xn1y0_b0_a1s0_xn1y0_b1: { kind: choke }
@@ -35,7 +36,10 @@ nodes:
   grey_j_a2s0_b2_a2s0_p2_sr_0: { kind: choke }
   grey_j_a3_c0: { kind: choke }
   grey_j_a3s0_u0_0_a3s0_v0_0: { kind: choke }
+  grey_j_a3s0_u0_0_a3s0_vn2_0: { kind: choke }
   grey_j_a3s0_u0_0_a3s0_x0yn2_b0: { kind: choke }
+  grey_j_a3s0_vn2_0_a3s0_xn1yn2_b0: { kind: choke }
+  grey_j_a3s0_xn1yn2_b0_a3s0_xn1yn2_b1: { kind: choke }
   grey_j_artery_0_a3s0_u0_0: { kind: choke }
   grey_j_artery_0_a3s0_v0_0: { kind: choke }
   grey_j_artery_0_bs_a3s0_x_plaza: { kind: choke }
@@ -65,23 +69,22 @@ edges:
   - { link: "grey_gate_a3 - grey_j_a3_c0", name: grey_artery_3 }
   - { link: "grey_gate_fort_in - grey_j_a2_c0", name: grey_arc_0 }
   - { link: "grey_gate_fort_out - grey_j_a3_c0", name: grey_arc_0_b }
-  - { link: "grey_j_a1s0_u0_0_a1s0_v0_0 - grey_j_a1s0_u0_0_a1s0_x0yn1_sr_0", name: grey_sr_a1s0_u0_0 }
+  - { link: "grey_j_a1s0_u0_0_a1s0_v0_0 - grey_j_a1s0_u0_0_a1s0_x0yn1_spoke0_0", name: grey_sr_a1s0_u0_0 }
   - { link: "grey_j_a1s0_u0_0_a1s0_v0_0 - grey_j_a1s0_u0_0_a1s0_xn1y0_b1", name: grey_sr_a1s0_u0_0 }
-  - { link: "grey_j_a1s0_u0_0_a1s0_v0_0 - grey_j_a1s0_u1_0_a1s0_v0_0", name: grey_sr_a1s0_v0_0 }
-  - { link: "grey_j_a1s0_u0_0_a1s0_v0_0 - grey_j_a1s0_un1_0_a1s0_v0_0", name: grey_sr_a1s0_v0_0 }
-  - { link: "grey_j_a1s0_u0_0_a1s0_x0y0_sr_0 - grey_j_a1s0_u0_0_a1s0_xn1y0_b1", name: grey_sr_a1s0_u0_0 }
-  - { link: "grey_j_a1s0_u0_0_a1s0_x0y0_sr_0 - grey_j_a1s0_u1_0_a1s0_x0y0_sr_0", name: grey_sr_a1s0_x0y0_sr_0 }
-  - { link: "grey_j_a1s0_u0_0_a1s0_x0yn1_sr_0 - grey_j_a1s0_u1_0_a1s0_x0yn1_sr_0", name: grey_sr_a1s0_x0yn1_sr_0 }
-  - { link: "grey_j_a1s0_u0_0_a1s0_x0yn1_sr_0 - grey_j_artery_1_a1s0_u0_0", name: grey_sr_a1s0_u0_0 }
+  - { link: "grey_j_a1s0_u0_0_a1s0_v0_0 - grey_j_a1s0_v0_0_a1s0_x0y0_b0", name: grey_sr_a1s0_v0_0 }
+  - { link: "grey_j_a1s0_u0_0_a1s0_v0_0 - grey_j_a1s0_v0_0_a1s0_xn1yn1_sr_0", name: grey_sr_a1s0_v0_0 }
+  - { link: "grey_j_a1s0_u0_0_a1s0_x0yn1_spoke0_0 - grey_j_a1s0_v0_0_a1s0_x0yn1_spoke2_0", name: grey_sr_a1s0_x0yn1_ring1_0 }
+  - { link: "grey_j_a1s0_u0_0_a1s0_x0yn1_spoke0_0 - grey_j_artery_1_a1s0_u0_0", name: grey_sr_a1s0_u0_0 }
+  - { link: "grey_j_a1s0_u0_0_a1s0_xn1y0_b1 - grey_j_a1s0_v0_0_a1s0_x0y0_b0", name: grey_sr_a1s0_x0y0_b0 }
   - { link: "grey_j_a1s0_u0_0_a1s0_xn1y0_b1 - grey_j_a1s0_xn1y0_b0_a1s0_xn1y0_b1", name: grey_sr_a1s0_xn1y0_b1 }
-  - { link: "grey_j_a1s0_u1_0_a1s0_v0_0 - grey_j_a1s0_u1_0_a1s0_x0y0_sr_0", name: grey_sr_a1s0_u1_0 }
-  - { link: "grey_j_a1s0_u1_0_a1s0_v0_0 - grey_j_a1s0_u1_0_a1s0_x0yn1_sr_0", name: grey_sr_a1s0_u1_0 }
+  - { link: "grey_j_a1s0_u1_0_a1s0_v0_0 - grey_j_a1s0_u1_0_a1s0_x1yn1_spoke2_0", name: grey_sr_a1s0_u1_0 }
+  - { link: "grey_j_a1s0_u1_0_a1s0_v0_0 - grey_j_a1s0_v0_0_a1s0_x0yn1_spoke2_0", name: grey_sr_a1s0_v0_0 }
   - { link: "grey_j_a1s0_u1_0_a1s0_v0_0 - grey_j_a1s0_v0_0_a1s0_x1yn1_spoke1_0", name: grey_sr_a1s0_v0_0 }
-  - { link: "grey_j_a1s0_u1_0_a1s0_x0yn1_sr_0 - grey_j_a1s0_u1_0_a1s0_x1yn1_spoke2_0", name: grey_sr_a1s0_u1_0 }
   - { link: "grey_j_a1s0_u1_0_a1s0_x1yn1_spoke2_0 - grey_j_a1s0_x1yn1_ring1_0_a1s0_x1yn1_spoke2_0", name: grey_sr_a1s0_x1yn1_spoke2_0 }
   - { link: "grey_j_a1s0_u1_0_a1s0_x1yn1_spoke2_0 - grey_j_artery_1_a1s0_u1_0", name: grey_sr_a1s0_u1_0 }
   - { link: "grey_j_a1s0_un1_0_a1s0_v0_0 - grey_j_a1s0_un1_0_a1s0_xn1y0_b0", name: grey_sr_a1s0_un1_0 }
   - { link: "grey_j_a1s0_un1_0_a1s0_v0_0 - grey_j_a1s0_un2_0_a1s0_v0_0", name: grey_sr_a1s0_v0_0 }
+  - { link: "grey_j_a1s0_un1_0_a1s0_v0_0 - grey_j_a1s0_v0_0_a1s0_xn1yn1_sr_0", name: grey_sr_a1s0_v0_0 }
   - { link: "grey_j_a1s0_un1_0_a1s0_v0_0 - grey_j_artery_1_a1s0_un1_0", name: grey_sr_a1s0_un1_0 }
   - { link: "grey_j_a1s0_un1_0_a1s0_xn1y0_b0 - grey_j_a1s0_un1_0_a1s0_xn2y0_sr_0", name: grey_sr_a1s0_un1_0 }
   - { link: "grey_j_a1s0_un1_0_a1s0_xn1y0_b0 - grey_j_a1s0_xn1y0_b0_a1s0_xn1y0_b1", name: grey_sr_a1s0_xn1y0_b0 }
@@ -89,8 +92,10 @@ edges:
   - { link: "grey_j_a1s0_un2_0_a1s0_v0_0 - grey_j_a1s0_un2_0_a1s0_xn2y0_sr_0", name: grey_sr_a1s0_un2_0 }
   - { link: "grey_j_a1s0_un2_0_a1s0_v0_0 - grey_j_a1s0_un3_0_a1s0_v0_0", name: grey_sr_a1s0_v0_0 }
   - { link: "grey_j_a1s0_un2_0_a1s0_v0_0 - grey_j_artery_2_a1s0_un2_0", name: grey_sr_a1s0_un2_0 }
-  - { link: "grey_j_a1s0_un3_0_a1s0_v0_0 - grey_j_artery_2_a1s0_un3_0", name: grey_sr_a1s0_un3_0 }
+  - { link: "grey_j_a1s0_un3_0_a1s0_v0_0 - grey_j_a1s0_un3_0_a1s0_xn3yn1_b0", name: grey_sr_a1s0_un3_0 }
   - { link: "grey_j_a1s0_un3_0_a1s0_v0_0 - grey_j_artery_2_a1s0_v0_0", name: grey_sr_a1s0_v0_0 }
+  - { link: "grey_j_a1s0_un3_0_a1s0_xn3yn1_b0 - grey_j_artery_2_a1s0_un3_0", name: grey_sr_a1s0_un3_0 }
+  - { link: "grey_j_a1s0_v0_0_a1s0_x0y0_b0 - grey_j_a1s0_v0_0_a1s0_x0yn1_spoke2_0", name: grey_sr_a1s0_v0_0 }
   - { link: "grey_j_a1s0_v0_0_a1s0_x1yn1_spoke1_0 - grey_j_a1s0_x1yn1_ring1_0_a1s0_x1yn1_spoke1_0", name: grey_sr_a1s0_x1yn1_spoke1_0 }
   - { link: "grey_j_a1s0_x1yn1_ring1_0_a1s0_x1yn1_spoke1_0 - grey_j_a1s0_x1yn1_ring1_0_a1s0_x1yn1_spoke2_0", name: grey_sr_a1s0_x1yn1_ring1_0 }
   - { link: "grey_j_a2_c0 - grey_j_artery_2_a1s0_un3_0", name: grey_artery_2 }
@@ -101,7 +106,10 @@ edges:
   - { link: "grey_j_a3s0_u0_0_a3s0_v0_0 - grey_j_a3s0_u0_0_a3s0_x0yn2_b0", name: grey_sr_a3s0_u0_0 }
   - { link: "grey_j_a3s0_u0_0_a3s0_v0_0 - grey_j_artery_0_a3s0_v0_0", name: grey_sr_a3s0_v0_0 }
   - { link: "grey_j_a3s0_u0_0_a3s0_v0_0 - grey_j_artery_3_a3s0_u0_0", name: grey_sr_a3s0_u0_0 }
-  - { link: "grey_j_a3s0_u0_0_a3s0_x0yn2_b0 - grey_j_artery_0_a3s0_u0_0", name: grey_sr_a3s0_u0_0 }
+  - { link: "grey_j_a3s0_u0_0_a3s0_vn2_0 - grey_j_a3s0_u0_0_a3s0_x0yn2_b0", name: grey_sr_a3s0_u0_0 }
+  - { link: "grey_j_a3s0_u0_0_a3s0_vn2_0 - grey_j_a3s0_vn2_0_a3s0_xn1yn2_b0", name: grey_sr_a3s0_vn2_0 }
+  - { link: "grey_j_a3s0_u0_0_a3s0_vn2_0 - grey_j_artery_0_a3s0_u0_0", name: grey_sr_a3s0_u0_0 }
+  - { link: "grey_j_a3s0_vn2_0_a3s0_xn1yn2_b0 - grey_j_a3s0_xn1yn2_b0_a3s0_xn1yn2_b1", name: grey_sr_a3s0_xn1yn2_b0 }
   - { link: "grey_j_artery_0_a3s0_u0_0 - grey_j_artery_0_a3s0_v0_0", name: grey_artery_0 }
   - { link: "grey_j_artery_0_a3s0_v0_0 - grey_j_artery_0_bs_a3s0_x_plaza", name: grey_artery_0 }
   - { link: "grey_j_artery_0_bs_a3s0_x_plaza - grey_j_artery_1_bs_a1s0_x_plaza", name: grey_bs_a3s1_x_plaza }

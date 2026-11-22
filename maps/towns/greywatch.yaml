@@ -19,24 +19,27 @@ regions:
   - { id: gw_r1, seed: 1, type: hills, shape: blob, at: [900, 200], r: 140, rough: 0.45, warp: 50, height: 30 }
   - { id: gw_r2, seed: 2, type: forest, shape: blob, at: [160, 900], r: 130, rough: 0.45, warp: 50, fragment: 0.4, fragment_scale: 60 }
   - { id: gw_r3, seed: 3, type: field, shape: blob, at: [900, 900], r: 170, rough: 0.45, warp: 50 }
-  - { id: grey_d_a1s0_x0y0_b0, seed: 2433658146, type: town, shape: poly, points: [[665.49, 406.44], [661.45, 458.62], [626.41, 455.12], [607.43, 395.28]], rough: 0 }
-  - { id: grey_d_a1s0_x0y0_b1, seed: 486156536, type: town, shape: poly, points: [[665.49, 406.44], [661.45, 458.62], [708.14, 463.29], [697.68, 433.17], [688.32, 410.84]], rough: 0 }
-  - { id: grey_d_a1s0_x0yn1_b0, seed: 3756953813, type: town, shape: poly, points: [[591.32, 392.18], [587.74, 451.26], [541.13, 446.6], [528.75, 380.15]], rough: 0 }
-  - { id: grey_d_a1s0_x0yn1_b1, seed: 2421886921, type: town, shape: poly, points: [[587.74, 451.26], [591.32, 392.18], [607.43, 395.28], [626.41, 455.12]], rough: 0 }
+  - { id: grey_d_a1s0_x0y0_p0, seed: 723113994, type: town, shape: poly, points: [[665.89, 406.52], [646.63, 436.47], [623.82, 446.97], [607.43, 395.28]], rough: 0 }
+  - { id: grey_d_a1s0_x0y0_p1, seed: 2845856116, type: town, shape: poly, points: [[697.64, 433.07], [688.32, 410.84], [665.89, 406.52], [646.63, 436.47], [623.82, 446.97], [626.41, 455.12], [708.14, 463.29]], rough: 0 }
+  - { id: grey_d_a1s0_x0yn1_core, seed: 3681605803, type: town, shape: poly, points: [[607.43, 395.28], [611.78, 408.98], [587.25, 414.41], [587.71, 419.8], [586.55, 425.66], [583.74, 430.92], [579.52, 435.14], [575.19, 437.59], [570.39, 438.92], [565.41, 439.04], [561.29, 438.19], [558.1, 448.3], [541.13, 446.6], [528.75, 380.15]], rough: 0, label: "Guildhall Quarter" }
+  - { id: grey_d_a1s0_x0yn1_r1s2, seed: 717062767, type: town, shape: poly, points: [[558.1, 448.3], [561.29, 438.19], [566.41, 439.11], [572.35, 438.53], [577.86, 436.25], [582.47, 432.46], [585.34, 428.39], [587.13, 423.75], [587.74, 418.81], [587.25, 414.41], [611.78, 408.98], [626.41, 455.12]], rough: 0 }
   - { id: grey_d_a1s0_x1y0, seed: 519875088, type: town, shape: poly, points: [[630.91, 371.65], [617.73, 364.01], [588.64, 336.01], [607.43, 395.28], [688.32, 410.84], [679.23, 395.74], [670.14, 387.61], [659.94, 382.59]], rough: 0 }
   - { id: grey_d_a1s0_x1yn1_r1s1, seed: 3138011624, type: town, shape: poly, points: [[533.85, 381.13], [546.22, 365.45], [550.02, 367.69], [553.82, 368.74], [558.53, 368.74], [562.33, 367.69], [565.75, 365.75], [569.09, 362.41], [572.08, 355.15], [595.8, 358.6], [607.43, 395.28]], rough: 0 }
-  - { id: grey_d_a1s0_x1yn1_r1s2, seed: 957911106, type: town, shape: poly, points: [[577.83, 325.6], [508.07, 304.73], [519.87, 342.23], [528.75, 380.15], [533.85, 381.13], [546.22, 365.45], [550.76, 367.97], [555.39, 368.89], [560.08, 368.43], [564.44, 366.62], [569.54, 361.77], [572.08, 355.15], [595.8, 358.6], [588.64, 336.01]], rough: 0 }
+  - { id: grey_d_a1s0_x1yn1_r1s2_b0, seed: 280647294, type: town, shape: poly, points: [[586.34, 333.79], [520.91, 346.57], [511.17, 312.94], [508.07, 304.73], [577.83, 325.6]], rough: 0 }
+  - { id: grey_d_a1s0_x1yn1_r1s2_b1, seed: 2694801871, type: town, shape: poly, points: [[520.91, 346.57], [586.34, 333.79], [588.64, 336], [595.8, 358.6], [572.08, 355.15], [569.09, 362.41], [565.75, 365.75], [562.33, 367.69], [558.53, 368.74], [553.82, 368.74], [550.02, 367.69], [546.22, 365.45], [533.85, 381.13], [528.75, 380.15]], rough: 0 }
   - { id: grey_d_a1s0_x2yn1, seed: 1272064204, type: town, shape: poly, points: [[518.98, 275.03], [503.38, 268.55], [497.24, 267.14], [492.77, 267.12], [500.4, 284.43], [508.07, 304.73], [577.83, 325.6], [551.58, 300.33], [542.58, 290.4], [530.64, 281.88]], rough: 0 }
   - { id: grey_d_a1s0_xn1y0_p0, seed: 3055015274, type: town, shape: poly, points: [[637.71, 456.25], [687.46, 507.47], [685.23, 515.73], [645.29, 514.67], [626.41, 455.12]], rough: 0 }
   - { id: grey_d_a1s0_xn1y0_p1, seed: 2410504661, type: town, shape: poly, points: [[718.11, 495.75], [708.14, 463.29], [637.71, 456.25], [687.46, 507.47], [685.23, 515.73], [728.02, 516.86]], rough: 0 }
-  - { id: grey_d_a1s0_xn1yn1, seed: 120355090, type: town, shape: poly, points: [[586.16, 513.11], [565.85, 449.07], [626.41, 455.12], [645.29, 514.67]], rough: 0 }
+  - { id: grey_d_a1s0_xn1yn1_b0, seed: 2448430409, type: town, shape: poly, points: [[632.21, 473.42], [578.93, 490.32], [565.85, 449.07], [626.41, 455.12]], rough: 0 }
+  - { id: grey_d_a1s0_xn1yn1_b1, seed: 2402160103, type: town, shape: poly, points: [[578.93, 490.32], [632.21, 473.42], [645.29, 514.67], [586.16, 513.11]], rough: 0 }
   - { id: grey_d_a1s0_xn1yn2, seed: 3269484859, type: town, shape: poly, points: [[541.13, 446.6], [565.85, 449.07], [586.16, 513.11], [551.49, 512.2]], rough: 0 }
   - { id: grey_d_a1s0_xn2y0_b0, seed: 4005587629, type: town, shape: poly, points: [[689.27, 515.84], [691.96, 569.07], [663.33, 571.55], [645.29, 514.67]], rough: 0 }
   - { id: grey_d_a1s0_xn2y0_b1, seed: 1821244790, type: town, shape: poly, points: [[700.02, 516.12], [689.27, 515.84], [691.96, 569.07], [733, 565.5], [737.03, 550.73], [737.06, 541.74], [735.09, 533.42], [728.02, 516.86]], rough: 0 }
   - { id: grey_d_a1s0_xn2yn1_p0, seed: 1666292514, type: town, shape: poly, points: [[598.89, 513.45], [607.69, 573.17], [606.81, 576.46], [580.17, 578.78], [570.24, 563.3], [574.12, 560.49], [578.33, 555.46], [581.08, 549.44], [582.05, 542.85], [581.21, 536.22], [578.72, 530.01], [574.74, 524.59], [569.5, 520.29], [563.31, 517.38], [556.48, 516.1], [552.19, 516.48], [551.49, 512.2]], rough: 0 }
   - { id: grey_d_a1s0_xn2yn1_p1, seed: 2489336763, type: town, shape: poly, points: [[645.29, 514.67], [663.33, 571.55], [606.81, 576.46], [607.69, 573.17], [598.89, 513.45]], rough: 0 }
   - { id: grey_d_a1s0_xn3y0a, seed: 2214527320, type: town, shape: poly, points: [[716.14, 566.97], [663.33, 571.55], [686.15, 643.52], [694.92, 636.36], [716.67, 612.63], [733, 565.5]], rough: 0 }
-  - { id: grey_d_a1s0_xn3yn1, seed: 2325093774, type: town, shape: poly, points: [[677.89, 617.48], [614.4, 628], [599.49, 608.48], [580.17, 578.78], [663.33, 571.55]], rough: 0, label: "Guildhall Quarter" }
+  - { id: grey_d_a1s0_xn3yn1_p0, seed: 1768107111, type: town, shape: poly, points: [[619.07, 575.4], [633.79, 604.98], [630.42, 625.34], [614.4, 628], [599.49, 608.48], [580.17, 578.78]], rough: 0 }
+  - { id: grey_d_a1s0_xn3yn1_p2, seed: 273242276, type: town, shape: poly, points: [[663.33, 571.55], [677.89, 617.48], [630.42, 625.34], [633.79, 604.98], [619.07, 575.4]], rough: 0 }
   - { id: grey_d_a1s0_xn4yn1, seed: 3406302427, type: town, shape: poly, points: [[626.65, 640.8], [614.4, 628], [677.89, 617.48], [686.15, 643.52], [676.96, 651.02], [660.52, 657.33], [644.88, 654.14], [629.25, 643.52]], rough: 0 }
   - { id: grey_d_a2s0_p0_xn1y0, seed: 2775194364, type: town, shape: poly, points: [[449.8, 638.93], [451.4, 625.14], [502.69, 634.79], [495.14, 651.78], [491.18, 651.65], [490.13, 684.41], [478.2, 676.31], [451.54, 651.3]], rough: 0 }
   - { id: grey_d_a2s0_p0_xn1yn1, seed: 546716985, type: town, shape: poly, points: [[490.18, 580.74], [497.42, 576.07], [513.41, 610.68], [502.69, 634.79], [451.4, 625.14], [451.7, 622.51], [459.09, 608.38], [470.92, 595.39]], rough: 0 }
@@ -53,10 +56,11 @@ regions:
   - { id: grey_d_a3s0_x0yn2_p2, seed: 4252936975, type: town, shape: poly, points: [[424.63, 475.06], [435.34, 466.62], [473.35, 460.55], [481.29, 479.18], [440.6, 511.22]], rough: 0 }
   - { id: grey_d_a3s0_x1y0, seed: 3249993817, type: town, shape: poly, points: [[530.87, 542.85], [532.1, 549.38], [534.83, 555.21], [517.61, 564.31], [498.35, 519.16], [538.72, 487.37], [547.92, 517.33], [542.89, 519.31], [537.38, 523.75], [533.45, 529.56], [531.3, 536.1]], rough: 0 }
   - { id: grey_d_a3s0_x1yn1, seed: 2472659597, type: town, shape: poly, points: [[532.26, 467.73], [538.72, 487.37], [498.35, 519.16], [481.29, 479.18], [523.52, 445.93]], rough: 0 }
-  - { id: grey_d_a3s0_x1yn2, seed: 3673590287, type: town, shape: poly, points: [[486.13, 404.48], [500.42, 411.56], [512.74, 425.91], [523.52, 445.93], [481.29, 479.18], [453.29, 413.54], [468.51, 406.51]], rough: 0 }
+  - { id: grey_d_a3s0_x1yn2, seed: 3673590287, type: town, shape: poly, points: [[486.13, 404.48], [500.42, 411.56], [512.74, 425.91], [523.52, 445.93], [481.29, 479.18], [453.29, 413.54], [468.51, 406.51]], rough: 0, label: "Traders' Reach" }
   - { id: grey_d_a3s0_xn1y0, seed: 1028562320, type: town, shape: poly, points: [[437.08, 619.98], [419.34, 581.38], [458.11, 550.84], [476.01, 591.34], [470.92, 595.39], [459.09, 608.38], [451.7, 622.51], [449.8, 638.93], [451.57, 651.52]], rough: 0 }
   - { id: grey_d_a3s0_xn1yn1, seed: 1554639527, type: town, shape: poly, points: [[401.32, 542.15], [440.6, 511.22], [458.11, 550.84], [419.34, 581.38]], rough: 0 }
-  - { id: grey_d_a3s0_xn1yn2, seed: 1634735132, type: town, shape: poly, points: [[401.32, 542.15], [440.6, 511.22], [422.91, 471.17], [363.57, 517.91], [365.82, 524.26], [369.67, 547.96], [373.49, 564.07]], rough: 0, label: "Traders' Reach" }
+  - { id: grey_d_a3s0_xn1yn2_p0, seed: 1133985339, type: town, shape: poly, points: [[401.32, 542.15], [408.61, 536.41], [395.98, 508.31], [385.71, 500.47], [363.57, 517.91], [365.82, 524.26], [369.67, 547.96], [373.49, 564.07]], rough: 0 }
+  - { id: grey_d_a3s0_xn1yn2_p1, seed: 2977833015, type: town, shape: poly, points: [[422.91, 471.17], [440.6, 511.22], [408.61, 536.41], [395.98, 508.31], [385.71, 500.47]], rough: 0 }
   - { id: grey_d_a3s0_xn1yn3, seed: 1582837014, type: town, shape: poly, points: [[363.57, 517.91], [422.91, 471.17], [409.73, 441.35], [373.43, 467.76], [353.39, 481.34], [356.36, 496.29]], rough: 0 }
   - { id: grey_d_a3s0_xn2y0a, seed: 1319966280, type: town, shape: poly, points: [[393.58, 654.24], [437.08, 619.98], [419.34, 581.38], [381.56, 611.13], [386.57, 634.72]], rough: 0 }
   - { id: grey_d_a3s0_xn2y1a_w0c0, seed: 4049794099, type: town, shape: poly, points: [[472.28, 720.15], [411.98, 639.75], [393.58, 654.24], [402.78, 668.1], [412.03, 677.42], [427.79, 689.3], [451.23, 709.65], [459.61, 714.57]], rough: 0 }
@@ -92,35 +96,44 @@ lines:
   - { id: grey_bs_a3s0_x_plaza, seed: 4260978957, type: road, path: [grey_j_artery_0_bs_a3s0_x_plaza, [542.89, 519.31], [537.38, 523.75], [533.45, 529.56], [531.3, 536.1], [530.87, 542.85], [532.1, 549.38], grey_j_artery_3_bs_a3s0_x_plaza], width: 5, smooth: true }
   - { id: grey_bs_a3s1_x_plaza, seed: 1684301995, type: road, path: [grey_j_artery_1_bs_a1s0_x_plaza, grey_j_artery_0_bs_a3s0_x_plaza], width: 5, smooth: true }
   - { id: grey_fort_road, seed: 1899503335, type: road, path: [grey_gate_fort_in, grey_fort, grey_gate_fort_out], width: 12, smooth: true }
-  - { id: grey_sr_a1s0_u0_0, seed: 1443815605, type: road, path: [grey_j_artery_1_a1s0_u0_0, grey_j_a1s0_u0_0_a1s0_x0yn1_sr_0, grey_j_a1s0_u0_0_a1s0_v0_0, grey_j_a1s0_u0_0_a1s0_xn1y0_b1, grey_j_a1s0_u0_0_a1s0_x0y0_sr_0], width: 10, smooth: true }
-  - { id: grey_sr_a1s0_u1_0, seed: 955532851, type: road, path: [grey_j_artery_1_a1s0_u1_0, grey_j_a1s0_u1_0_a1s0_x1yn1_spoke2_0, grey_j_a1s0_u1_0_a1s0_x0yn1_sr_0, grey_j_a1s0_u1_0_a1s0_v0_0, grey_j_a1s0_u1_0_a1s0_x0y0_sr_0], width: 5, smooth: true }
+  - { id: grey_sr_a1s0_u0_0, seed: 1443815605, type: road, path: [grey_j_artery_1_a1s0_u0_0, grey_j_a1s0_u0_0_a1s0_x0yn1_spoke0_0, grey_j_a1s0_u0_0_a1s0_v0_0, grey_j_a1s0_u0_0_a1s0_xn1y0_b1], width: 10, smooth: true }
+  - { id: grey_sr_a1s0_u1_0, seed: 955532851, type: road, path: [grey_j_artery_1_a1s0_u1_0, grey_j_a1s0_u1_0_a1s0_x1yn1_spoke2_0, grey_j_a1s0_u1_0_a1s0_v0_0, [665.89, 406.52]], width: 5, smooth: true }
   - { id: grey_sr_a1s0_un1_0, seed: 2350222871, type: road, path: [grey_j_artery_1_a1s0_un1_0, grey_j_a1s0_un1_0_a1s0_v0_0, grey_j_a1s0_un1_0_a1s0_xn1y0_b0, grey_j_a1s0_un1_0_a1s0_xn2y0_sr_0], width: 5, smooth: true }
   - { id: grey_sr_a1s0_un2_0, seed: 2982739548, type: road, path: [grey_j_artery_2_a1s0_un2_0, grey_j_a1s0_un2_0_a1s0_v0_0, grey_j_a1s0_un2_0_a1s0_xn2y0_sr_0], width: 5, smooth: true }
-  - { id: grey_sr_a1s0_un3_0, seed: 3301330987, type: road, path: [grey_j_artery_2_a1s0_un3_0, grey_j_a1s0_un3_0_a1s0_v0_0], width: 10, smooth: true }
-  - { id: grey_sr_a1s0_v0_0, seed: 3308455574, type: road, path: [grey_j_artery_2_a1s0_v0_0, grey_j_a1s0_un3_0_a1s0_v0_0, grey_j_a1s0_un2_0_a1s0_v0_0, grey_j_a1s0_un1_0_a1s0_v0_0, grey_j_a1s0_u0_0_a1s0_v0_0, grey_j_a1s0_u1_0_a1s0_v0_0, grey_j_a1s0_v0_0_a1s0_x1yn1_spoke1_0], width: 10, smooth: true }
+  - { id: grey_sr_a1s0_un3_0, seed: 3301330987, type: road, path: [grey_j_artery_2_a1s0_un3_0, grey_j_a1s0_un3_0_a1s0_xn3yn1_b0, grey_j_a1s0_un3_0_a1s0_v0_0], width: 10, smooth: true }
+  - { id: grey_sr_a1s0_v0_0, seed: 3308455574, type: road, path: [grey_j_artery_2_a1s0_v0_0, grey_j_a1s0_un3_0_a1s0_v0_0, grey_j_a1s0_un2_0_a1s0_v0_0, grey_j_a1s0_un1_0_a1s0_v0_0, grey_j_a1s0_v0_0_a1s0_xn1yn1_sr_0, grey_j_a1s0_u0_0_a1s0_v0_0, grey_j_a1s0_v0_0_a1s0_x0y0_b0, grey_j_a1s0_v0_0_a1s0_x0yn1_spoke2_0, grey_j_a1s0_u1_0_a1s0_v0_0, grey_j_a1s0_v0_0_a1s0_x1yn1_spoke1_0], width: 10, smooth: true }
   - { id: grey_sr_a1s0_vn1_0, seed: 1779840529, type: road, path: [[586.18, 513.11], [565.83, 449.07]], width: 5, smooth: true }
-  - { id: grey_sr_a1s0_x0y0_sr_0, seed: 1116471311, type: road, path: [grey_j_a1s0_u0_0_a1s0_x0y0_sr_0, grey_j_a1s0_u1_0_a1s0_x0y0_sr_0], width: 8, smooth: true }
-  - { id: grey_sr_a1s0_x0yn1_sr_0, seed: 2109740829, type: road, path: [grey_j_a1s0_u1_0_a1s0_x0yn1_sr_0, grey_j_a1s0_u0_0_a1s0_x0yn1_sr_0], width: 8, smooth: true }
+  - { id: grey_sr_a1s0_x0y0_b0, seed: 1321052052, type: road, path: [grey_j_a1s0_v0_0_a1s0_x0y0_b0, [646.63, 436.47]], width: 8, smooth: true }
+  - { id: grey_sr_a1s0_x0y0_b1, seed: 2837868034, type: road, path: [[646.63, 436.47], [665.89, 406.52]], width: 5, smooth: true }
+  - { id: grey_sr_a1s0_x0yn1_ring1_0, seed: 3816396025, type: road, path: [[561.29, 438.19], [581.06, 433.87], [587.25, 414.41]], width: 5, smooth: true }
+  - { id: grey_sr_a1s0_x0yn1_spoke0_0, seed: 546215746, type: road, path: [[561.29, 438.19], grey_j_a1s0_u0_0_a1s0_x0yn1_spoke0_0], width: 8, smooth: true }
+  - { id: grey_sr_a1s0_x0yn1_spoke2_0, seed: 3705522530, type: road, path: [[587.25, 414.41], grey_j_a1s0_v0_0_a1s0_x0yn1_spoke2_0], width: 8, smooth: true }
   - { id: grey_sr_a1s0_x1yn1_ring1_0, seed: 559192876, type: road, path: [grey_j_a1s0_x1yn1_ring1_0_a1s0_x1yn1_spoke2_0, [553.82, 368.74], [562.33, 367.69], [569.09, 362.41], grey_j_a1s0_x1yn1_ring1_0_a1s0_x1yn1_spoke1_0], width: 5, smooth: true }
   - { id: grey_sr_a1s0_x1yn1_spoke1_0, seed: 2168937231, type: road, path: [grey_j_a1s0_x1yn1_ring1_0_a1s0_x1yn1_spoke1_0, grey_j_a1s0_v0_0_a1s0_x1yn1_spoke1_0], width: 8, smooth: true }
   - { id: grey_sr_a1s0_x1yn1_spoke2_0, seed: 2454940491, type: road, path: [grey_j_a1s0_x1yn1_ring1_0_a1s0_x1yn1_spoke2_0, grey_j_a1s0_u1_0_a1s0_x1yn1_spoke2_0], width: 8, smooth: true }
   - { id: grey_sr_a1s0_xn1y0_b0, seed: 2177873092, type: road, path: [grey_j_a1s0_un1_0_a1s0_xn1y0_b0, grey_j_a1s0_xn1y0_b0_a1s0_xn1y0_b1], width: 8, smooth: true }
   - { id: grey_sr_a1s0_xn1y0_b1, seed: 3500190950, type: road, path: [grey_j_a1s0_xn1y0_b0_a1s0_xn1y0_b1, grey_j_a1s0_u0_0_a1s0_xn1y0_b1], width: 8, smooth: true }
+  - { id: grey_sr_a1s0_xn1yn1_sr_0, seed: 826366757, type: road, path: [[578.93, 490.32], grey_j_a1s0_v0_0_a1s0_xn1yn1_sr_0], width: 8, smooth: true }
   - { id: grey_sr_a1s0_xn2y0_sr_0, seed: 1418297630, type: road, path: [grey_j_a1s0_un1_0_a1s0_xn2y0_sr_0, grey_j_a1s0_un2_0_a1s0_xn2y0_sr_0], width: 8, smooth: true }
+  - { id: grey_sr_a1s0_xn3yn1_b0, seed: 3146032176, type: road, path: [grey_j_a1s0_un3_0_a1s0_xn3yn1_b0, [633.79, 604.98]], width: 8, smooth: true }
+  - { id: grey_sr_a1s0_xn3yn1_b1, seed: 2769690131, type: road, path: [[633.79, 604.98], [619.07, 575.4]], width: 5, smooth: true }
   - { id: grey_sr_a2s0_b1, seed: 3994800046, type: road, path: [[502.69, 634.79], [513.41, 610.68]], width: 5, smooth: true }
   - { id: grey_sr_a2s0_b2, seed: 3613649806, type: road, path: [[513.41, 610.68], grey_j_a2s0_b2_a2s0_p2_sr_0, grey_j_artery_3_a2s0_b2], width: 10, smooth: true }
   - { id: grey_sr_a2s0_b3, seed: 212928598, type: road, path: [[513.41, 610.68], [560.72, 626.7]], width: 5, smooth: true }
   - { id: grey_sr_a2s0_b4, seed: 1263842837, type: road, path: [[560.72, 626.7], [588.43, 591.82]], width: 5, smooth: true }
   - { id: grey_sr_a2s0_p0_v0_0, seed: 3356825383, type: road, path: [grey_j_artery_3_a2s0_p0_v0_0, [502.69, 634.79]], width: 8, smooth: true }
   - { id: grey_sr_a2s0_p2_sr_0, seed: 3733819807, type: road, path: [grey_j_a2s0_b2_a2s0_p2_sr_0, grey_j_artery_2_a2s0_p2_sr_0], width: 8, smooth: true }
-  - { id: grey_sr_a3s0_u0_0, seed: 1166135171, type: road, path: [grey_j_artery_0_a3s0_u0_0, grey_j_a3s0_u0_0_a3s0_x0yn2_b0, grey_j_a3s0_u0_0_a3s0_v0_0, grey_j_artery_3_a3s0_u0_0], width: 10, smooth: true }
+  - { id: grey_sr_a3s0_u0_0, seed: 1166135171, type: road, path: [grey_j_artery_0_a3s0_u0_0, grey_j_a3s0_u0_0_a3s0_vn2_0, grey_j_a3s0_u0_0_a3s0_x0yn2_b0, grey_j_a3s0_u0_0_a3s0_v0_0, grey_j_artery_3_a3s0_u0_0], width: 10, smooth: true }
   - { id: grey_sr_a3s0_u1_0, seed: 4294039354, type: road, path: [[453.29, 413.54], [517.61, 564.31]], width: 5, smooth: true }
   - { id: grey_sr_a3s0_un1_0, seed: 3910654786, type: road, path: [[401.32, 542.15], [451.57, 651.52]], width: 5, smooth: true }
   - { id: grey_sr_a3s0_v0_0, seed: 2558474253, type: road, path: [[419.34, 581.38], grey_j_a3s0_u0_0_a3s0_v0_0, grey_j_artery_0_a3s0_v0_0], width: 10, smooth: true }
   - { id: grey_sr_a3s0_v1_0, seed: 2777137803, type: road, path: [[411.98, 639.75], [437.08, 619.98]], width: 5, smooth: true }
   - { id: grey_sr_a3s0_vn1_0, seed: 3810916859, type: road, path: [[401.32, 542.15], [523.52, 445.93]], width: 5, smooth: true }
+  - { id: grey_sr_a3s0_vn2_0, seed: 2692562328, type: road, path: [grey_j_a3s0_vn2_0_a3s0_xn1yn2_b0, grey_j_a3s0_u0_0_a3s0_vn2_0], width: 5, smooth: true }
   - { id: grey_sr_a3s0_x0yn2_b0, seed: 2711848320, type: road, path: [grey_j_a3s0_u0_0_a3s0_x0yn2_b0, [435.34, 466.62]], width: 8, smooth: true }
   - { id: grey_sr_a3s0_x0yn2_b2, seed: 2845823866, type: road, path: [[473.35, 460.55], [435.34, 466.62]], width: 5, smooth: true }
+  - { id: grey_sr_a3s0_xn1yn2_b0, seed: 2025015052, type: road, path: [grey_j_a3s0_xn1yn2_b0_a3s0_xn1yn2_b1, grey_j_a3s0_vn2_0_a3s0_xn1yn2_b0], width: 8, smooth: true }
+  - { id: grey_sr_a3s0_xn1yn2_b1, seed: 2449980603, type: road, path: [[408.61, 536.41], grey_j_a3s0_xn1yn2_b0_a3s0_xn1yn2_b1], width: 5, smooth: true }
   - { id: grey_sr_a3s0_xn2y1a_w0_0, seed: 1851148563, type: road, path: [[472.28, 720.15], [411.98, 639.75]], width: 5, smooth: true }
   - { id: grey_sr_a3s1_un1_0, seed: 3308788432, type: road, path: [[519.32, 340.37], [449.9, 356.57]], width: 5, smooth: true }
   - { id: grey_sr_a3s1_xn2yn1_w0_0, seed: 3743758748, type: road, path: [[449.9, 356.57], [503.74, 293.28]], width: 5, smooth: true }
@@ -135,12 +148,9 @@ points:
   grey_gate_fort_in: [584.78, 671.98]
   grey_gate_fort_out: [490.13, 684.41]
   grey_j_a1s0_u0_0_a1s0_v0_0: [626.41, 455.12]
-  grey_j_a1s0_u0_0_a1s0_x0y0_sr_0: [661.45, 458.62]
-  grey_j_a1s0_u0_0_a1s0_x0yn1_sr_0: [587.74, 451.26]
+  grey_j_a1s0_u0_0_a1s0_x0yn1_spoke0_0: [558.1, 448.3]
   grey_j_a1s0_u0_0_a1s0_xn1y0_b1: [637.71, 456.25]
   grey_j_a1s0_u1_0_a1s0_v0_0: [607.43, 395.28]
-  grey_j_a1s0_u1_0_a1s0_x0y0_sr_0: [665.49, 406.44]
-  grey_j_a1s0_u1_0_a1s0_x0yn1_sr_0: [591.32, 392.18]
   grey_j_a1s0_u1_0_a1s0_x1yn1_spoke2_0: [533.85, 381.13]
   grey_j_a1s0_un1_0_a1s0_v0_0: [645.29, 514.67]
   grey_j_a1s0_un1_0_a1s0_xn1y0_b0: [685.23, 515.73]
@@ -148,7 +158,11 @@ points:
   grey_j_a1s0_un2_0_a1s0_v0_0: [663.33, 571.55]
   grey_j_a1s0_un2_0_a1s0_xn2y0_sr_0: [691.96, 569.07]
   grey_j_a1s0_un3_0_a1s0_v0_0: [677.89, 617.48]
+  grey_j_a1s0_un3_0_a1s0_xn3yn1_b0: [630.42, 625.34]
+  grey_j_a1s0_v0_0_a1s0_x0y0_b0: [623.82, 446.97]
+  grey_j_a1s0_v0_0_a1s0_x0yn1_spoke2_0: [611.78, 408.98]
   grey_j_a1s0_v0_0_a1s0_x1yn1_spoke1_0: [595.8, 358.6]
+  grey_j_a1s0_v0_0_a1s0_xn1yn1_sr_0: [632.21, 473.42]
   grey_j_a1s0_x1yn1_ring1_0_a1s0_x1yn1_spoke1_0: [572.08, 355.15]
   grey_j_a1s0_x1yn1_ring1_0_a1s0_x1yn1_spoke2_0: [546.22, 365.45]
   grey_j_a1s0_xn1y0_b0_a1s0_xn1y0_b1: [687.46, 507.47]
@@ -156,7 +170,10 @@ points:
   grey_j_a2s0_b2_a2s0_p2_sr_0: [511.15, 605.79]
   grey_j_a3_c0: [451.54, 651.3]
   grey_j_a3s0_u0_0_a3s0_v0_0: [458.11, 550.84]
+  grey_j_a3s0_u0_0_a3s0_vn2_0: [422.91, 471.17]
   grey_j_a3s0_u0_0_a3s0_x0yn2_b0: [424.63, 475.06]
+  grey_j_a3s0_vn2_0_a3s0_xn1yn2_b0: [385.71, 500.47]
+  grey_j_a3s0_xn1yn2_b0_a3s0_xn1yn2_b1: [395.98, 508.31]
   grey_j_artery_0_a3s0_u0_0: [409.73, 441.35]
   grey_j_artery_0_a3s0_v0_0: [538.72, 487.37]
   grey_j_artery_0_bs_a3s0_x_plaza: [547.92, 517.33]

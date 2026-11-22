@@ -68,11 +68,11 @@
       },
       {
         "a": "wynd_d_a0s0_core_p1",
-        "b": "wynd_d_a0s0_core_p3_b0",
+        "b": "wynd_d_a0s0_core_p3_xn1y0",
         "gates": [],
-        "id": "wynd_d_a0s0_core_p1~wynd_d_a0s0_core_p3_b0",
+        "id": "wynd_d_a0s0_core_p1~wynd_d_a0s0_core_p3_xn1y0",
         "kind": "adjacent",
-        "length": 41.01,
+        "length": 40.83,
         "passable": true,
         "roads": [
           "wynd_sr_a0s0_core_b4"
@@ -80,11 +80,11 @@
       },
       {
         "a": "wynd_d_a0s0_core_p1",
-        "b": "wynd_d_a0s0_core_p3_b1",
+        "b": "wynd_d_a0s0_core_p3_xn1yn1",
         "gates": [],
-        "id": "wynd_d_a0s0_core_p1~wynd_d_a0s0_core_p3_b1",
+        "id": "wynd_d_a0s0_core_p1~wynd_d_a0s0_core_p3_xn1yn1",
         "kind": "adjacent",
-        "length": 33.85,
+        "length": 34.02,
         "passable": true,
         "roads": [
           "wynd_sr_a0s0_core_b4"
@@ -153,9 +153,9 @@
       },
       {
         "a": "wynd_d_a0s0_core_p2",
-        "b": "wynd_d_a0s0_core_p3_b0",
+        "b": "wynd_d_a0s0_core_p3_xn1y0",
         "gates": [],
-        "id": "wynd_d_a0s0_core_p2~wynd_d_a0s0_core_p3_b0",
+        "id": "wynd_d_a0s0_core_p2~wynd_d_a0s0_core_p3_xn1y0",
         "kind": "adjacent",
         "length": 60.18,
         "passable": true,
@@ -189,35 +189,35 @@
         ]
       },
       {
-        "a": "wynd_d_a0s0_core_p3_b0",
-        "b": "wynd_d_a0s0_core_p3_b1",
+        "a": "wynd_d_a0s0_core_p3_xn1y0",
+        "b": "wynd_d_a0s0_core_p3_xn1yn1",
         "gates": [],
-        "id": "wynd_d_a0s0_core_p3_b0~wynd_d_a0s0_core_p3_b1",
+        "id": "wynd_d_a0s0_core_p3_xn1y0~wynd_d_a0s0_core_p3_xn1yn1",
         "kind": "adjacent",
-        "length": 40.37,
+        "length": 60.56,
         "passable": true,
         "roads": [
-          "wynd_sr_a0s0_core_p3_sr_0"
+          "wynd_sr_a0s0_core_p3_un1_0",
+          "wynd_sr_a0s0_core_p3_v0_0"
         ]
       },
       {
-        "a": "wynd_d_a0s0_core_p3_b0",
+        "a": "wynd_d_a0s0_core_p3_xn1y0",
         "b": "wynd_d_a0s0_r1s5",
         "gates": [],
-        "id": "wynd_d_a0s0_core_p3_b0~wynd_d_a0s0_r1s5",
+        "id": "wynd_d_a0s0_core_p3_xn1y0~wynd_d_a0s0_r1s5",
         "kind": "adjacent",
-        "length": 45.1,
+        "length": 28.54,
         "passable": true,
         "roads": [
-          "wynd_sr_a0s0_ring1_0_1",
-          "wynd_sr_a0s0_spoke6_0"
+          "wynd_sr_a0s0_ring1_0_1"
         ]
       },
       {
-        "a": "wynd_d_a0s0_core_p3_b0",
+        "a": "wynd_d_a0s0_core_p3_xn1y0",
         "b": "wynd_d_a0s0_r2s4_p0",
         "gates": [],
-        "id": "wynd_d_a0s0_core_p3_b0~wynd_d_a0s0_r2s4_p0",
+        "id": "wynd_d_a0s0_core_p3_xn1y0~wynd_d_a0s0_r2s4_p0",
         "kind": "adjacent",
         "length": 20.24,
         "passable": true,
@@ -226,22 +226,23 @@
         ]
       },
       {
-        "a": "wynd_d_a0s0_core_p3_b1",
+        "a": "wynd_d_a0s0_core_p3_xn1yn1",
         "b": "wynd_d_a0s0_r1s5",
         "gates": [],
-        "id": "wynd_d_a0s0_core_p3_b1~wynd_d_a0s0_r1s5",
+        "id": "wynd_d_a0s0_core_p3_xn1yn1~wynd_d_a0s0_r1s5",
         "kind": "adjacent",
-        "length": 21.17,
+        "length": 37.73,
         "passable": true,
         "roads": [
+          "wynd_sr_a0s0_ring1_0_1",
           "wynd_sr_a0s0_spoke6_0"
         ]
       },
       {
-        "a": "wynd_d_a0s0_core_p3_b1",
+        "a": "wynd_d_a0s0_core_p3_xn1yn1",
         "b": "wynd_d_a1s0_p0",
         "gates": [],
-        "id": "wynd_d_a0s0_core_p3_b1~wynd_d_a1s0_p0",
+        "id": "wynd_d_a0s0_core_p3_xn1yn1~wynd_d_a1s0_p0",
         "kind": "adjacent",
         "length": 50.37,
         "passable": true,
@@ -250,10 +251,10 @@
         ]
       },
       {
-        "a": "wynd_d_a0s0_core_p3_b1",
+        "a": "wynd_d_a0s0_core_p3_xn1yn1",
         "b": "wynd_d_plaza",
         "gates": [],
-        "id": "wynd_d_a0s0_core_p3_b1~wynd_d_plaza",
+        "id": "wynd_d_a0s0_core_p3_xn1yn1~wynd_d_plaza",
         "kind": "adjacent",
         "length": 16.81,
         "passable": true,
@@ -613,11 +614,23 @@
       },
       {
         "a": "wynd_d_a0s0_r2s4_p2",
-        "b": "wynd_d_a1s0_p6",
+        "b": "wynd_d_a1s0_p6_b0",
         "gates": [],
-        "id": "wynd_d_a0s0_r2s4_p2~wynd_d_a1s0_p6",
+        "id": "wynd_d_a0s0_r2s4_p2~wynd_d_a1s0_p6_b0",
         "kind": "adjacent",
-        "length": 91.97,
+        "length": 60.35,
+        "passable": true,
+        "roads": [
+          "wynd_artery_1"
+        ]
+      },
+      {
+        "a": "wynd_d_a0s0_r2s4_p2",
+        "b": "wynd_d_a1s0_p6_b1",
+        "gates": [],
+        "id": "wynd_d_a0s0_r2s4_p2~wynd_d_a1s0_p6_b1",
+        "kind": "adjacent",
+        "length": 31.62,
         "passable": true,
         "roads": [
           "wynd_artery_1"
@@ -709,9 +722,9 @@
       },
       {
         "a": "wynd_d_a1s0_p10_w0c0",
-        "b": "wynd_d_a1s0_p6",
+        "b": "wynd_d_a1s0_p6_b1",
         "gates": [],
-        "id": "wynd_d_a1s0_p10_w0c0~wynd_d_a1s0_p6",
+        "id": "wynd_d_a1s0_p10_w0c0~wynd_d_a1s0_p6_b1",
         "kind": "adjacent",
         "length": 10.59,
         "passable": true,
@@ -805,11 +818,23 @@
       },
       {
         "a": "wynd_d_a1s0_p11",
-        "b": "wynd_d_a1s0_p6",
+        "b": "wynd_d_a1s0_p6_b0",
         "gates": [],
-        "id": "wynd_d_a1s0_p11~wynd_d_a1s0_p6",
+        "id": "wynd_d_a1s0_p11~wynd_d_a1s0_p6_b0",
         "kind": "adjacent",
-        "length": 40.83,
+        "length": 9.98,
+        "passable": true,
+        "roads": [
+          "wynd_sr_a1s0_b19"
+        ]
+      },
+      {
+        "a": "wynd_d_a1s0_p11",
+        "b": "wynd_d_a1s0_p6_b1",
+        "gates": [],
+        "id": "wynd_d_a1s0_p11~wynd_d_a1s0_p6_b1",
+        "kind": "adjacent",
+        "length": 30.85,
         "passable": true,
         "roads": [
           "wynd_sr_a1s0_b19"
@@ -1119,9 +1144,9 @@
       },
       {
         "a": "wynd_d_a1s0_p5_w0c0",
-        "b": "wynd_d_a1s0_p6",
+        "b": "wynd_d_a1s0_p6_b1",
         "gates": [],
-        "id": "wynd_d_a1s0_p5_w0c0~wynd_d_a1s0_p6",
+        "id": "wynd_d_a1s0_p5_w0c0~wynd_d_a1s0_p6_b1",
         "kind": "adjacent",
         "length": 61.77,
         "passable": true,
@@ -1154,17 +1179,29 @@
         ]
       },
       {
-        "a": "wynd_d_a1s0_p6",
+        "a": "wynd_d_a1s0_p6_b0",
         "b": "outside",
         "gates": [
           "wynd_entry_a1"
         ],
-        "id": "wynd_d_a1s0_p6~outside",
+        "id": "wynd_d_a1s0_p6_b0~outside",
         "kind": "adjacent",
         "length": 99.77,
         "passable": true,
         "roads": [
           "wynd_bs_a1s0_x_edge"
+        ]
+      },
+      {
+        "a": "wynd_d_a1s0_p6_b0",
+        "b": "wynd_d_a1s0_p6_b1",
+        "gates": [],
+        "id": "wynd_d_a1s0_p6_b0~wynd_d_a1s0_p6_b1",
+        "kind": "adjacent",
+        "length": 63.41,
+        "passable": true,
+        "roads": [
+          "wynd_sr_a1s0_p6_sr_0"
         ]
       },
       {
@@ -1555,11 +1592,23 @@
       },
       {
         "a": "wynd_d_a2s0_p1_w0c0",
-        "b": "wynd_d_a2s0_p2",
+        "b": "wynd_d_a2s0_p2_b0",
         "gates": [],
-        "id": "wynd_d_a2s0_p1_w0c0~wynd_d_a2s0_p2",
+        "id": "wynd_d_a2s0_p1_w0c0~wynd_d_a2s0_p2_b0",
         "kind": "adjacent",
-        "length": 52.64,
+        "length": 31.16,
+        "passable": true,
+        "roads": [
+          "wynd_sr_a2s0_b1"
+        ]
+      },
+      {
+        "a": "wynd_d_a2s0_p1_w0c0",
+        "b": "wynd_d_a2s0_p2_b1",
+        "gates": [],
+        "id": "wynd_d_a2s0_p1_w0c0~wynd_d_a2s0_p2_b1",
+        "kind": "adjacent",
+        "length": 21.48,
         "passable": true,
         "roads": [
           "wynd_sr_a2s0_b1"
@@ -1602,46 +1651,34 @@
         ]
       },
       {
-        "a": "wynd_d_a2s0_p2",
-        "b": "wynd_d_a2s0_p3_core",
+        "a": "wynd_d_a2s0_p2_b0",
+        "b": "wynd_d_a2s0_p2_b1",
         "gates": [],
-        "id": "wynd_d_a2s0_p2~wynd_d_a2s0_p3_core",
+        "id": "wynd_d_a2s0_p2_b0~wynd_d_a2s0_p2_b1",
         "kind": "adjacent",
-        "length": 25.6,
+        "length": 56.7,
         "passable": true,
         "roads": [
-          "wynd_sr_a2s0_b3"
+          "wynd_sr_a2s0_p2_sr_0"
         ]
       },
       {
-        "a": "wynd_d_a2s0_p2",
+        "a": "wynd_d_a2s0_p2_b0",
         "b": "wynd_d_a2s0_p4",
         "gates": [],
-        "id": "wynd_d_a2s0_p2~wynd_d_a2s0_p4",
+        "id": "wynd_d_a2s0_p2_b0~wynd_d_a2s0_p4",
         "kind": "adjacent",
-        "length": 43.33,
+        "length": 31.49,
         "passable": true,
         "roads": [
           "wynd_sr_a2s0_b6"
         ]
       },
       {
-        "a": "wynd_d_a2s0_p2",
-        "b": "wynd_d_a2s0_p5",
-        "gates": [],
-        "id": "wynd_d_a2s0_p2~wynd_d_a2s0_p5",
-        "kind": "adjacent",
-        "length": 50.14,
-        "passable": true,
-        "roads": [
-          "wynd_sr_a2s0_b5"
-        ]
-      },
-      {
-        "a": "wynd_d_a2s0_p2",
+        "a": "wynd_d_a2s0_p2_b0",
         "b": "wynd_d_a3s0_p2",
         "gates": [],
-        "id": "wynd_d_a2s0_p2~wynd_d_a3s0_p2",
+        "id": "wynd_d_a2s0_p2_b0~wynd_d_a3s0_p2",
         "kind": "adjacent",
         "length": 8.31,
         "passable": true,
@@ -1650,10 +1687,10 @@
         ]
       },
       {
-        "a": "wynd_d_a2s0_p2",
+        "a": "wynd_d_a2s0_p2_b0",
         "b": "wynd_d_a3s0_p4_w1c0",
         "gates": [],
-        "id": "wynd_d_a2s0_p2~wynd_d_a3s0_p4_w1c0",
+        "id": "wynd_d_a2s0_p2_b0~wynd_d_a3s0_p4_w1c0",
         "kind": "adjacent",
         "length": 37.22,
         "passable": true,
@@ -1662,15 +1699,51 @@
         ]
       },
       {
-        "a": "wynd_d_a2s0_p2",
+        "a": "wynd_d_a2s0_p2_b0",
         "b": "wynd_d_a3s0_p6_w1c0",
         "gates": [],
-        "id": "wynd_d_a2s0_p2~wynd_d_a3s0_p6_w1c0",
+        "id": "wynd_d_a2s0_p2_b0~wynd_d_a3s0_p6_w1c0",
         "kind": "adjacent",
         "length": 5.8,
         "passable": true,
         "roads": [
           "wynd_artery_3"
+        ]
+      },
+      {
+        "a": "wynd_d_a2s0_p2_b1",
+        "b": "wynd_d_a2s0_p3_core",
+        "gates": [],
+        "id": "wynd_d_a2s0_p2_b1~wynd_d_a2s0_p3_core",
+        "kind": "adjacent",
+        "length": 25.6,
+        "passable": true,
+        "roads": [
+          "wynd_sr_a2s0_b3"
+        ]
+      },
+      {
+        "a": "wynd_d_a2s0_p2_b1",
+        "b": "wynd_d_a2s0_p4",
+        "gates": [],
+        "id": "wynd_d_a2s0_p2_b1~wynd_d_a2s0_p4",
+        "kind": "adjacent",
+        "length": 11.84,
+        "passable": true,
+        "roads": [
+          "wynd_sr_a2s0_b6"
+        ]
+      },
+      {
+        "a": "wynd_d_a2s0_p2_b1",
+        "b": "wynd_d_a2s0_p5",
+        "gates": [],
+        "id": "wynd_d_a2s0_p2_b1~wynd_d_a2s0_p5",
+        "kind": "adjacent",
+        "length": 50.14,
+        "passable": true,
+        "roads": [
+          "wynd_sr_a2s0_b5"
         ]
       },
       {
@@ -1733,9 +1806,9 @@
       },
       {
         "a": "wynd_d_a2s0_p3_r1s0",
-        "b": "wynd_d_a2s0_p6_b0",
+        "b": "wynd_d_a2s0_p6_xn1yn1",
         "gates": [],
-        "id": "wynd_d_a2s0_p3_r1s0~wynd_d_a2s0_p6_b0",
+        "id": "wynd_d_a2s0_p3_r1s0~wynd_d_a2s0_p6_xn1yn1",
         "kind": "adjacent",
         "length": 45.99,
         "passable": true,
@@ -1840,72 +1913,60 @@
         ]
       },
       {
-        "a": "wynd_d_a2s0_p6_b0",
+        "a": "wynd_d_a2s0_p6_x0yn1",
         "b": "outside",
         "gates": [],
-        "id": "wynd_d_a2s0_p6_b0~outside",
+        "id": "wynd_d_a2s0_p6_x0yn1~outside",
         "kind": "adjacent",
-        "length": 53.43,
+        "length": 85.57,
         "passable": true,
         "roads": [
           "wynd_bs_a2s0_x_edge"
         ]
       },
       {
-        "a": "wynd_d_a2s0_p6_b0",
-        "b": "wynd_d_a2s0_p6_b1",
+        "a": "wynd_d_a2s0_p6_x0yn1",
+        "b": "wynd_d_a2s0_p6_xn1yn1",
         "gates": [],
-        "id": "wynd_d_a2s0_p6_b0~wynd_d_a2s0_p6_b1",
+        "id": "wynd_d_a2s0_p6_x0yn1~wynd_d_a2s0_p6_xn1yn1",
         "kind": "adjacent",
-        "length": 64.36,
+        "length": 69.7,
         "passable": true,
         "roads": [
-          "wynd_sr_a2s0_p6_sr_0"
+          "wynd_sr_a2s0_p6_u0_0"
         ]
       },
       {
-        "a": "wynd_d_a2s0_p6_b0",
-        "b": "wynd_d_a2s0_p7_w1c0",
-        "gates": [],
-        "id": "wynd_d_a2s0_p6_b0~wynd_d_a2s0_p7_w1c0",
-        "kind": "adjacent",
-        "length": 18.25,
-        "passable": true,
-        "roads": [
-          "wynd_sr_a2s0_b15"
-        ]
-      },
-      {
-        "a": "wynd_d_a2s0_p6_b1",
-        "b": "outside",
-        "gates": [],
-        "id": "wynd_d_a2s0_p6_b1~outside",
-        "kind": "adjacent",
-        "length": 111.27,
-        "passable": true,
-        "roads": [
-          "wynd_bs_a2s0_x_edge"
-        ]
-      },
-      {
-        "a": "wynd_d_a2s0_p6_b1",
+        "a": "wynd_d_a2s0_p6_x0yn1",
         "b": "wynd_d_a2s0_p7_w0c0",
         "gates": [],
-        "id": "wynd_d_a2s0_p6_b1~wynd_d_a2s0_p7_w0c0",
+        "id": "wynd_d_a2s0_p6_x0yn1~wynd_d_a2s0_p7_w0c0",
         "kind": "adjacent",
-        "length": 39.96,
+        "length": 39.32,
         "passable": true,
         "roads": [
           "wynd_sr_a2s0_b15"
         ]
       },
       {
-        "a": "wynd_d_a2s0_p6_b1",
+        "a": "wynd_d_a2s0_p6_xn1yn1",
+        "b": "outside",
+        "gates": [],
+        "id": "wynd_d_a2s0_p6_xn1yn1~outside",
+        "kind": "adjacent",
+        "length": 79.14,
+        "passable": true,
+        "roads": [
+          "wynd_bs_a2s0_x_edge"
+        ]
+      },
+      {
+        "a": "wynd_d_a2s0_p6_xn1yn1",
         "b": "wynd_d_a2s0_p7_w1c0",
         "gates": [],
-        "id": "wynd_d_a2s0_p6_b1~wynd_d_a2s0_p7_w1c0",
+        "id": "wynd_d_a2s0_p6_xn1yn1~wynd_d_a2s0_p7_w1c0",
         "kind": "adjacent",
-        "length": 10.98,
+        "length": 29.23,
         "passable": true,
         "roads": [
           "wynd_sr_a2s0_b15"
@@ -2385,11 +2446,11 @@
         "kind": "district"
       },
       {
-        "id": "wynd_d_a0s0_core_p3_b0",
+        "id": "wynd_d_a0s0_core_p3_xn1y0",
         "kind": "district"
       },
       {
-        "id": "wynd_d_a0s0_core_p3_b1",
+        "id": "wynd_d_a0s0_core_p3_xn1yn1",
         "kind": "district"
       },
       {
@@ -2485,7 +2546,11 @@
         "kind": "district"
       },
       {
-        "id": "wynd_d_a1s0_p6",
+        "id": "wynd_d_a1s0_p6_b0",
+        "kind": "district"
+      },
+      {
+        "id": "wynd_d_a1s0_p6_b1",
         "kind": "district"
       },
       {
@@ -2549,7 +2614,11 @@
         "kind": "district"
       },
       {
-        "id": "wynd_d_a2s0_p2",
+        "id": "wynd_d_a2s0_p2_b0",
+        "kind": "district"
+      },
+      {
+        "id": "wynd_d_a2s0_p2_b1",
         "kind": "district"
       },
       {
@@ -2569,11 +2638,11 @@
         "kind": "district"
       },
       {
-        "id": "wynd_d_a2s0_p6_b0",
+        "id": "wynd_d_a2s0_p6_x0yn1",
         "kind": "district"
       },
       {
-        "id": "wynd_d_a2s0_p6_b1",
+        "id": "wynd_d_a2s0_p6_xn1yn1",
         "kind": "district"
       },
       {
@@ -2830,7 +2899,7 @@
       "waterfront": false
     },
     {
-      "area": 2771.15,
+      "area": 2771.63,
       "depth": 2,
       "id": "wynd_d_a0s0_core_p1",
       "inside_wall": true,
@@ -2869,36 +2938,40 @@
           394.04
         ],
         [
-          473.86,
-          401.62
+          471.75,
+          397.69
         ],
         [
-          477.4,
-          409.13
+          475.18,
+          404.25
         ],
         [
-          480.18,
-          416.76
+          478.06,
+          410.76
         ],
         [
-          482.6,
-          424.58
+          480.41,
+          417.44
         ],
         [
-          484.81,
-          432.01
+          482.67,
+          424.82
         ],
         [
-          487.16,
-          439.59
+          484.76,
+          431.84
         ],
         [
-          489.53,
-          447.6
+          487.12,
+          439.45
         ],
         [
-          492.16,
-          455.71
+          489.51,
+          447.51
+        ],
+        [
+          492.14,
+          455.65
         ],
         [
           495.16,
@@ -3080,7 +3153,7 @@
       "waterfront": false
     },
     {
-      "area": 2692.23,
+      "area": 2692.31,
       "depth": 2,
       "id": "wynd_d_a0s0_core_p2",
       "inside_wall": true,
@@ -3095,24 +3168,28 @@
           361.04
         ],
         [
-          511.7,
-          367.03
+          512.02,
+          366.81
         ],
         [
-          503.21,
-          372.94
+          503.84,
+          372.52
         ],
         [
-          494.37,
-          378.44
+          495.36,
+          377.86
         ],
         [
-          485.58,
-          383.7
+          486.85,
+          382.91
         ],
         [
-          477.4,
-          389.12
+          482.16,
+          385.94
+        ],
+        [
+          477.68,
+          388.94
         ],
         [
           469.7,
@@ -3278,104 +3355,16 @@
       "waterfront": false
     },
     {
-      "area": 2651.5,
+      "area": 2064.51,
       "depth": 3,
-      "id": "wynd_d_a0s0_core_p3_b0",
+      "id": "wynd_d_a0s0_core_p3_xn1y0",
       "inside_wall": true,
-      "key": "b0",
+      "key": "xn1y0",
       "kind": "market",
       "label": "Market Ward 1 1 4 1",
       "landmarks": [],
       "parent": "wynd_d_a0s0_core_p3",
       "polygon": [
-        [
-          523.34,
-          419.99
-        ],
-        [
-          515.03,
-          422.55
-        ],
-        [
-          507.01,
-          424.86
-        ],
-        [
-          499.23,
-          427.21
-        ],
-        [
-          491.83,
-          429.58
-        ],
-        [
-          484.81,
-          432.01
-        ],
-        [
-          482.6,
-          424.58
-        ],
-        [
-          480.18,
-          416.76
-        ],
-        [
-          477.4,
-          409.13
-        ],
-        [
-          473.86,
-          401.62
-        ],
-        [
-          469.7,
-          394.04
-        ],
-        [
-          477.4,
-          389.12
-        ],
-        [
-          485.58,
-          383.7
-        ],
-        [
-          494.37,
-          378.44
-        ],
-        [
-          503.21,
-          372.94
-        ],
-        [
-          511.7,
-          367.03
-        ],
-        [
-          519.99,
-          361.04
-        ],
-        [
-          520.52,
-          361.66
-        ],
-        [
-          522.32,
-          363.96
-        ],
-        [
-          523.93,
-          366.27
-        ],
-        [
-          525.34,
-          368.55
-        ],
-        [
-          526.55,
-          370.82
-        ],
         [
           527.56,
           373.13
@@ -3383,6 +3372,10 @@
         [
           528.42,
           375.53
+        ],
+        [
+          528.95,
+          377.37
         ],
         [
           529.14,
@@ -3437,21 +3430,127 @@
           406.34
         ],
         [
-          527.32,
-          408.84
+          528.2,
+          406.74
         ],
         [
-          526.14,
-          411.33
+          520.57,
+          402.73
         ],
         [
-          524.8,
-          413.78
+          513.47,
+          398.78
         ],
         [
-          523.31,
-          416.17
+          507.26,
+          405.5
         ],
+        [
+          501.24,
+          411.71
+        ],
+        [
+          495.8,
+          418.18
+        ],
+        [
+          490.67,
+          424.64
+        ],
+        [
+          487.66,
+          428.15
+        ],
+        [
+          484.76,
+          431.84
+        ],
+        [
+          482.67,
+          424.82
+        ],
+        [
+          480.41,
+          417.44
+        ],
+        [
+          478.06,
+          410.76
+        ],
+        [
+          475.18,
+          404.25
+        ],
+        [
+          471.75,
+          397.69
+        ],
+        [
+          469.7,
+          394.04
+        ],
+        [
+          477.68,
+          388.94
+        ],
+        [
+          482.16,
+          385.94
+        ],
+        [
+          486.85,
+          382.91
+        ],
+        [
+          495.36,
+          377.86
+        ],
+        [
+          503.84,
+          372.52
+        ],
+        [
+          512.02,
+          366.81
+        ],
+        [
+          519.99,
+          361.04
+        ],
+        [
+          520.52,
+          361.66
+        ],
+        [
+          522.32,
+          363.96
+        ],
+        [
+          523.93,
+          366.27
+        ],
+        [
+          525.34,
+          368.55
+        ],
+        [
+          526.55,
+          370.82
+        ]
+      ],
+      "waterfront": false
+    },
+    {
+      "area": 2138.15,
+      "depth": 3,
+      "id": "wynd_d_a0s0_core_p3_xn1yn1",
+      "inside_wall": true,
+      "key": "xn1yn1",
+      "kind": "market",
+      "label": "Market Ward 1 1 4 2",
+      "landmarks": [],
+      "parent": "wynd_d_a0s0_core_p3",
+      "polygon": [
         [
           521.71,
           418.49
@@ -3459,64 +3558,34 @@
         [
           521.22,
           419.14
-        ]
-      ],
-      "waterfront": false
-    },
-    {
-      "area": 1551.78,
-      "depth": 3,
-      "id": "wynd_d_a0s0_core_p3_b1",
-      "inside_wall": true,
-      "key": "b1",
-      "kind": "market",
-      "label": "Market Ward 1 1 4 2",
-      "landmarks": [],
-      "parent": "wynd_d_a0s0_core_p3",
-      "polygon": [
-        [
-          484.81,
-          432.01
         ],
         [
-          491.83,
-          429.58
+          527.08,
+          421.52
         ],
         [
-          499.23,
-          427.21
+          533.13,
+          424.13
         ],
         [
-          507.01,
-          424.86
-        ],
-        [
-          515.03,
-          422.55
-        ],
-        [
-          523.34,
-          419.99
-        ],
-        [
-          529.47,
-          422.54
-        ],
-        [
-          536.0,
-          425.36
+          537.93,
+          426.15
         ],
         [
           542.9,
           428.08
         ],
         [
-          537.11,
-          434.37
+          537.16,
+          434.31
         ],
         [
-          531.61,
-          440.79
+          531.71,
+          440.68
+        ],
+        [
+          526.25,
+          446.98
         ],
         [
           526.1,
@@ -3543,6 +3612,10 @@
           464.81
         ],
         [
+          501.6,
+          464.06
+        ],
+        [
           500.0,
           463.79
         ],
@@ -3555,22 +3628,74 @@
           464.23
         ],
         [
-          492.16,
-          455.71
+          492.14,
+          455.65
         ],
         [
-          489.53,
-          447.6
+          489.51,
+          447.51
         ],
         [
-          487.16,
-          439.59
+          487.12,
+          439.45
+        ],
+        [
+          484.76,
+          431.84
+        ],
+        [
+          487.66,
+          428.15
+        ],
+        [
+          490.67,
+          424.64
+        ],
+        [
+          495.8,
+          418.18
+        ],
+        [
+          501.24,
+          411.71
+        ],
+        [
+          507.26,
+          405.5
+        ],
+        [
+          513.47,
+          398.78
+        ],
+        [
+          520.57,
+          402.73
+        ],
+        [
+          528.2,
+          406.74
+        ],
+        [
+          527.32,
+          408.84
+        ],
+        [
+          526.14,
+          411.33
+        ],
+        [
+          524.8,
+          413.78
+        ],
+        [
+          523.31,
+          416.17
         ]
       ],
       "waterfront": false
     },
     {
-      "area": 2186.48,
+      "area": 2186.54,
       "depth": 1,
       "id": "wynd_d_a0s0_r1s5",
       "inside_wall": true,
@@ -3609,16 +3734,16 @@
           428.08
         ],
         [
-          536.0,
-          425.36
+          537.93,
+          426.15
         ],
         [
-          529.47,
-          422.54
+          533.13,
+          424.13
         ],
         [
-          523.34,
-          419.99
+          527.08,
+          421.52
         ],
         [
           521.22,
@@ -3643,6 +3768,10 @@
         [
           527.32,
           408.84
+        ],
+        [
+          528.2,
+          406.74
         ],
         [
           528.36,
@@ -4743,6 +4872,10 @@
           378.02
         ],
         [
+          528.95,
+          377.37
+        ],
+        [
           528.42,
           375.53
         ],
@@ -4936,7 +5069,7 @@
       "waterfront": false
     },
     {
-      "area": 2800.85,
+      "area": 2800.69,
       "depth": 2,
       "id": "wynd_d_a0s0_r2s4_p2",
       "inside_wall": true,
@@ -5055,16 +5188,16 @@
           294.62
         ],
         [
-          615.81,
-          302.54
+          617.61,
+          298.48
         ],
         [
-          612.18,
-          310.44
+          613.42,
+          307.69
         ],
         [
-          608.43,
-          318.77
+          609.09,
+          317.32
         ],
         [
           604.28,
@@ -5078,7 +5211,7 @@
       "waterfront": false
     },
     {
-      "area": 2919.55,
+      "area": 2919.53,
       "depth": 1,
       "id": "wynd_d_a1s0_p0",
       "inside_wall": true,
@@ -5181,12 +5314,16 @@
           447.15
         ],
         [
-          531.61,
-          440.79
+          526.25,
+          446.98
         ],
         [
-          537.11,
-          434.37
+          531.71,
+          440.68
+        ],
+        [
+          537.16,
+          434.31
         ],
         [
           542.9,
@@ -5432,7 +5569,7 @@
       "waterfront": false
     },
     {
-      "area": 2138.71,
+      "area": 2138.6,
       "depth": 1,
       "id": "wynd_d_a1s0_p11",
       "inside_wall": true,
@@ -5487,20 +5624,24 @@
           349.38
         ],
         [
-          670.83,
-          341.52
+          670.68,
+          341.99
         ],
         [
-          673.22,
-          333.57
+          672.97,
+          334.5
         ],
         [
-          675.37,
-          325.74
+          674.99,
+          327.1
         ],
         [
-          677.64,
-          318.1
+          677.09,
+          319.89
+        ],
+        [
+          678.59,
+          315.18
         ],
         [
           680.19,
@@ -6560,87 +6701,47 @@
       "waterfront": false
     },
     {
-      "area": 4251.81,
-      "depth": 1,
-      "id": "wynd_d_a1s0_p6",
+      "area": 1855.41,
+      "depth": 2,
+      "id": "wynd_d_a1s0_p6_b0",
       "inside_wall": true,
-      "key": "p6",
+      "key": "b0",
       "kind": "market",
-      "label": "Market Ward 2 10",
+      "label": "Market Ward 2 10 1",
       "landmarks": [],
-      "parent": "wynd_d_a1s0",
+      "parent": "wynd_d_a1s0_p6",
       "polygon": [
         [
-          680.19,
-          310.4
+          677.09,
+          319.89
         ],
         [
-          677.64,
-          318.1
+          669.11,
+          315.95
         ],
         [
-          675.37,
-          325.74
+          661.43,
+          312.34
         ],
         [
-          673.22,
-          333.57
+          653.45,
+          309.05
         ],
         [
-          670.83,
-          341.52
+          645.01,
+          306.0
         ],
         [
-          668.08,
-          349.38
+          635.99,
+          303.19
         ],
         [
-          663.62,
-          352.23
+          626.5,
+          300.76
         ],
         [
-          659.25,
-          355.23
-        ],
-        [
-          651.61,
-          351.29
-        ],
-        [
-          643.93,
-          347.52
-        ],
-        [
-          636.67,
-          343.78
-        ],
-        [
-          629.56,
-          339.57
-        ],
-        [
-          621.52,
-          334.99
-        ],
-        [
-          612.74,
-          330.91
-        ],
-        [
-          604.28,
-          327.15
-        ],
-        [
-          608.43,
-          318.77
-        ],
-        [
-          612.18,
-          310.44
-        ],
-        [
-          615.81,
-          302.54
+          617.61,
+          298.48
         ],
         [
           619.15,
@@ -6725,6 +6826,120 @@
         [
           673.67,
           310.18
+        ],
+        [
+          680.19,
+          310.4
+        ],
+        [
+          678.59,
+          315.18
+        ]
+      ],
+      "waterfront": false
+    },
+    {
+      "area": 2396.67,
+      "depth": 2,
+      "id": "wynd_d_a1s0_p6_b1",
+      "inside_wall": true,
+      "key": "b1",
+      "kind": "market",
+      "label": "Market Ward 2 10 2",
+      "landmarks": [],
+      "parent": "wynd_d_a1s0_p6",
+      "polygon": [
+        [
+          617.61,
+          298.48
+        ],
+        [
+          626.5,
+          300.76
+        ],
+        [
+          635.99,
+          303.19
+        ],
+        [
+          645.01,
+          306.0
+        ],
+        [
+          653.45,
+          309.05
+        ],
+        [
+          661.43,
+          312.34
+        ],
+        [
+          669.11,
+          315.95
+        ],
+        [
+          677.09,
+          319.89
+        ],
+        [
+          674.99,
+          327.1
+        ],
+        [
+          672.97,
+          334.5
+        ],
+        [
+          670.68,
+          341.99
+        ],
+        [
+          668.08,
+          349.38
+        ],
+        [
+          663.62,
+          352.23
+        ],
+        [
+          659.25,
+          355.23
+        ],
+        [
+          651.61,
+          351.29
+        ],
+        [
+          643.93,
+          347.52
+        ],
+        [
+          636.67,
+          343.78
+        ],
+        [
+          629.56,
+          339.57
+        ],
+        [
+          621.52,
+          334.99
+        ],
+        [
+          612.74,
+          330.91
+        ],
+        [
+          604.28,
+          327.15
+        ],
+        [
+          609.09,
+          317.32
+        ],
+        [
+          613.42,
+          307.69
         ]
       ],
       "waterfront": false
@@ -8564,7 +8779,7 @@
       "waterfront": false
     },
     {
-      "area": 1562.65,
+      "area": 1562.8,
       "depth": 2,
       "id": "wynd_d_a2s0_p1_w0c0",
       "inside_wall": true,
@@ -8611,24 +8826,28 @@
           674.74
         ],
         [
-          339.59,
-          681.26
+          338.9,
+          680.53
         ],
         [
-          345.56,
-          687.72
+          344.25,
+          686.27
         ],
         [
-          351.18,
-          694.33
+          349.29,
+          692.04
         ],
         [
-          356.78,
-          701.24
+          354.27,
+          698.09
         ],
         [
-          361.92,
-          708.31
+          358.72,
+          703.82
+        ],
+        [
+          362.83,
+          709.62
         ],
         [
           366.92,
@@ -8764,35 +8983,141 @@
       "waterfront": false
     },
     {
-      "area": 3211.46,
-      "depth": 1,
-      "id": "wynd_d_a2s0_p2",
+      "area": 1655.81,
+      "depth": 2,
+      "id": "wynd_d_a2s0_p2_b0",
       "inside_wall": true,
-      "key": "p2",
+      "key": "b0",
       "kind": "market",
-      "label": "Market Ward 3 7",
+      "label": "Market Ward 3 7 1",
       "landmarks": [],
-      "parent": "wynd_d_a2s0",
+      "parent": "wynd_d_a2s0_p2",
       "polygon": [
+        [
+          391.5,
+          655.35
+        ],
+        [
+          385.36,
+          662.74
+        ],
+        [
+          379.2,
+          670.38
+        ],
+        [
+          372.78,
+          677.48
+        ],
+        [
+          366.84,
+          684.49
+        ],
+        [
+          360.63,
+          691.27
+        ],
+        [
+          354.27,
+          698.09
+        ],
+        [
+          349.29,
+          692.04
+        ],
+        [
+          344.25,
+          686.27
+        ],
+        [
+          338.9,
+          680.53
+        ],
+        [
+          333.65,
+          674.74
+        ],
+        [
+          339.26,
+          668.61
+        ],
+        [
+          345.49,
+          661.92
+        ],
+        [
+          352.0,
+          655.34
+        ],
+        [
+          358.15,
+          648.15
+        ],
+        [
+          363.73,
+          640.63
+        ],
         [
           366.86,
           635.75
         ],
         [
-          373.59,
-          641.23
+          373.01,
+          640.76
         ],
         [
-          380.45,
-          646.43
+          379.29,
+          645.54
         ],
         [
-          387.16,
-          651.67
+          385.44,
+          650.29
+        ]
+      ],
+      "waterfront": false
+    },
+    {
+      "area": 1555.65,
+      "depth": 2,
+      "id": "wynd_d_a2s0_p2_b1",
+      "inside_wall": true,
+      "key": "b1",
+      "kind": "market",
+      "label": "Market Ward 3 7 2",
+      "landmarks": [],
+      "parent": "wynd_d_a2s0_p2",
+      "polygon": [
+        [
+          354.27,
+          698.09
         ],
         [
-          393.76,
-          657.34
+          360.63,
+          691.27
+        ],
+        [
+          366.84,
+          684.49
+        ],
+        [
+          372.78,
+          677.48
+        ],
+        [
+          379.2,
+          670.38
+        ],
+        [
+          385.36,
+          662.74
+        ],
+        [
+          391.5,
+          655.35
+        ],
+        [
+          395.92,
+          659.26
         ],
         [
           400.38,
@@ -8835,48 +9160,12 @@
           715.44
         ],
         [
-          361.92,
-          708.31
+          362.83,
+          709.62
         ],
         [
-          356.78,
-          701.24
-        ],
-        [
-          351.18,
-          694.33
-        ],
-        [
-          345.56,
-          687.72
-        ],
-        [
-          339.59,
-          681.26
-        ],
-        [
-          333.65,
-          674.74
-        ],
-        [
-          339.26,
-          668.61
-        ],
-        [
-          345.49,
-          661.92
-        ],
-        [
-          352.0,
-          655.34
-        ],
-        [
-          358.15,
-          648.15
-        ],
-        [
-          363.73,
-          640.63
+          358.72,
+          703.82
         ]
       ],
       "waterfront": false
@@ -9152,7 +9441,7 @@
       "waterfront": false
     },
     {
-      "area": 1751.2,
+      "area": 1751.13,
       "depth": 2,
       "id": "wynd_d_a2s0_p3_r1s0",
       "inside_wall": true,
@@ -9363,20 +9652,24 @@
           779.63
         ],
         [
-          403.13,
-          786.05
+          403.4,
+          785.8
         ],
         [
-          396.25,
-          791.96
+          399.32,
+          789.34
         ],
         [
-          389.0,
-          797.73
+          393.31,
+          794.37
         ],
         [
-          381.47,
-          803.34
+          386.9,
+          799.3
+        ],
+        [
+          380.47,
+          804.12
         ],
         [
           374.59,
@@ -9414,7 +9707,7 @@
       "waterfront": false
     },
     {
-      "area": 2935.54,
+      "area": 2935.39,
       "depth": 1,
       "id": "wynd_d_a2s0_p4",
       "inside_wall": true,
@@ -9481,20 +9774,24 @@
           663.18
         ],
         [
-          393.76,
-          657.34
+          395.92,
+          659.26
         ],
         [
-          387.16,
-          651.67
+          391.5,
+          655.35
         ],
         [
-          380.45,
-          646.43
+          385.44,
+          650.29
         ],
         [
-          373.59,
-          641.23
+          379.29,
+          645.54
+        ],
+        [
+          373.01,
+          640.76
         ],
         [
           366.86,
@@ -9650,197 +9947,75 @@
       "waterfront": false
     },
     {
-      "area": 1924.69,
+      "area": 2167.84,
       "depth": 2,
-      "id": "wynd_d_a2s0_p6_b0",
+      "id": "wynd_d_a2s0_p6_x0yn1",
       "inside_wall": true,
-      "key": "b0",
+      "key": "x0yn1",
       "kind": "market",
       "label": "Market Ward 3 11 1",
       "landmarks": [],
       "parent": "wynd_d_a2s0_p6",
       "polygon": [
         [
-          428.06,
-          780.65
+          440.28,
+          793.36
         ],
         [
-          426.53,
-          790.38
+          439.75,
+          787.79
         ],
         [
-          424.94,
-          799.58
+          439.57,
+          782.24
         ],
         [
-          422.81,
-          808.39
+          448.46,
+          783.5
         ],
         [
-          420.58,
-          817.11
+          458.53,
+          785.07
         ],
         [
-          418.81,
-          825.82
-        ],
-        [
-          416.9,
-          834.6
-        ],
-        [
-          414.25,
-          843.45
-        ],
-        [
-          412.18,
-          842.52
-        ],
-        [
-          405.5,
-          837.78
-        ],
-        [
-          398.76,
-          833.43
-        ],
-        [
-          392.5,
-          829.11
-        ],
-        [
-          386.35,
-          824.78
-        ],
-        [
-          381.03,
-          819.26
-        ],
-        [
-          376.35,
-          813.42
-        ],
-        [
-          374.59,
-          809.09
-        ],
-        [
-          381.47,
-          803.34
-        ],
-        [
-          389.0,
-          797.73
-        ],
-        [
-          396.25,
-          791.96
-        ],
-        [
-          403.13,
-          786.05
-        ],
-        [
-          409.86,
-          779.63
-        ],
-        [
-          419.04,
-          779.75
-        ]
-      ],
-      "waterfront": false
-    },
-    {
-      "area": 3448.99,
-      "depth": 2,
-      "id": "wynd_d_a2s0_p6_b1",
-      "inside_wall": true,
-      "key": "b1",
-      "kind": "market",
-      "label": "Market Ward 3 11 2",
-      "landmarks": [],
-      "parent": "wynd_d_a2s0_p6",
-      "polygon": [
-        [
-          414.25,
-          843.45
-        ],
-        [
-          416.9,
-          834.6
-        ],
-        [
-          418.81,
-          825.82
-        ],
-        [
-          420.58,
-          817.11
-        ],
-        [
-          422.81,
-          808.39
-        ],
-        [
-          424.94,
-          799.58
-        ],
-        [
-          426.53,
-          790.38
-        ],
-        [
-          428.06,
-          780.65
-        ],
-        [
-          433.53,
-          781.35
-        ],
-        [
-          438.94,
-          782.14
-        ],
-        [
-          447.9,
-          783.42
-        ],
-        [
-          458.14,
-          784.99
-        ],
-        [
-          468.26,
-          787.18
+          468.45,
+          787.22
         ],
         [
           478.25,
           789.2
         ],
         [
-          477.98,
-          798.27
+          478.24,
+          790.78
+        ],
+        [
+          477.9,
+          800.4
         ],
         [
           477.7,
-          808.08
+          809.19
         ],
         [
           477.72,
           817.87
         ],
         [
-          475.83,
-          824.76
+          475.21,
+          827.1
         ],
         [
           474.02,
           831.54
         ],
         [
-          469.65,
-          836.76
+          472.74,
+          833.1
+        ],
+        [
+          469.0,
+          837.51
         ],
         [
           465.19,
@@ -9859,8 +10034,130 @@
           850.48
         ],
         [
-          442.37,
-          851.18
+          438.08,
+          851.74
+        ],
+        [
+          439.36,
+          842.9
+        ],
+        [
+          440.14,
+          834.06
+        ],
+        [
+          440.19,
+          825.2
+        ],
+        [
+          440.2,
+          817.4
+        ],
+        [
+          440.7,
+          809.55
+        ],
+        [
+          440.91,
+          801.43
+        ]
+      ],
+      "waterfront": false
+    },
+    {
+      "area": 3206.82,
+      "depth": 2,
+      "id": "wynd_d_a2s0_p6_xn1yn1",
+      "inside_wall": true,
+      "key": "xn1yn1",
+      "kind": "market",
+      "label": "Market Ward 3 11 2",
+      "landmarks": [],
+      "parent": "wynd_d_a2s0_p6",
+      "polygon": [
+        [
+          374.59,
+          809.09
+        ],
+        [
+          380.47,
+          804.12
+        ],
+        [
+          386.9,
+          799.3
+        ],
+        [
+          393.31,
+          794.37
+        ],
+        [
+          399.32,
+          789.34
+        ],
+        [
+          403.4,
+          785.8
+        ],
+        [
+          409.86,
+          779.63
+        ],
+        [
+          417.38,
+          779.7
+        ],
+        [
+          424.9,
+          780.27
+        ],
+        [
+          432.04,
+          781.16
+        ],
+        [
+          438.94,
+          782.14
+        ],
+        [
+          439.57,
+          782.24
+        ],
+        [
+          439.75,
+          787.79
+        ],
+        [
+          440.28,
+          793.36
+        ],
+        [
+          440.91,
+          801.43
+        ],
+        [
+          440.7,
+          809.55
+        ],
+        [
+          440.2,
+          817.4
+        ],
+        [
+          440.19,
+          825.2
+        ],
+        [
+          440.14,
+          834.06
+        ],
+        [
+          439.36,
+          842.9
+        ],
+        [
+          438.08,
+          851.74
         ],
         [
           437.23,
@@ -9871,14 +10168,46 @@
           850.98
         ],
         [
-          421.8,
-          847.31
+          420.87,
+          846.82
+        ],
+        [
+          412.18,
+          842.52
+        ],
+        [
+          405.62,
+          837.87
+        ],
+        [
+          399.02,
+          833.6
+        ],
+        [
+          392.62,
+          829.19
+        ],
+        [
+          386.35,
+          824.78
+        ],
+        [
+          382.62,
+          820.98
+        ],
+        [
+          379.13,
+          817.03
+        ],
+        [
+          376.35,
+          813.42
         ]
       ],
       "waterfront": false
     },
     {
-      "area": 1860.62,
+      "area": 1860.72,
       "depth": 2,
       "id": "wynd_d_a2s0_p7_w0c0",
       "inside_wall": true,
@@ -9973,22 +10302,26 @@
           789.2
         ],
         [
-          468.26,
-          787.18
+          468.45,
+          787.22
         ],
         [
-          458.14,
-          784.99
+          458.53,
+          785.07
         ],
         [
-          447.9,
-          783.42
+          448.46,
+          783.5
+        ],
+        [
+          439.57,
+          782.24
         ]
       ],
       "waterfront": false
     },
     {
-      "area": 1699.92,
+      "area": 1699.91,
       "depth": 2,
       "id": "wynd_d_a2s0_p7_w1c0",
       "inside_wall": true,
@@ -10031,16 +10364,16 @@
           782.14
         ],
         [
-          433.53,
-          781.35
+          432.04,
+          781.16
         ],
         [
-          428.06,
-          780.65
+          424.9,
+          780.27
         ],
         [
-          419.04,
-          779.75
+          417.38,
+          779.7
         ],
         [
           409.86,
@@ -12696,7 +13029,7 @@
       "waterfront": false
     },
     {
-      "area": 1770.94,
+      "area": 1770.97,
       "id": "wynd_d_plaza",
       "inside_wall": true,
       "key": "plaza",
@@ -12797,6 +13130,10 @@
         [
           500.0,
           463.79
+        ],
+        [
+          501.6,
+          464.06
         ],
         [
           505.86,
@@ -13744,28 +14081,36 @@
       789.2
     ],
     [
-      477.98,
-      798.27
+      478.24,
+      790.78
+    ],
+    [
+      477.9,
+      800.4
     ],
     [
       477.7,
-      808.08
+      809.19
     ],
     [
       477.72,
       817.87
     ],
     [
-      475.83,
-      824.76
+      475.21,
+      827.1
     ],
     [
       474.02,
       831.54
     ],
     [
-      469.65,
-      836.76
+      472.74,
+      833.1
+    ],
+    [
+      469.0,
+      837.51
     ],
     [
       465.19,
@@ -13784,8 +14129,8 @@
       850.48
     ],
     [
-      442.37,
-      851.18
+      438.08,
+      851.74
     ],
     [
       437.23,
@@ -13796,36 +14141,36 @@
       850.98
     ],
     [
-      421.8,
-      847.31
-    ],
-    [
-      414.25,
-      843.45
+      420.87,
+      846.82
     ],
     [
       412.18,
       842.52
     ],
     [
-      405.5,
-      837.78
+      405.62,
+      837.87
     ],
     [
-      398.76,
-      833.43
+      399.02,
+      833.6
     ],
     [
-      392.5,
-      829.11
+      392.62,
+      829.19
     ],
     [
       386.35,
       824.78
     ],
     [
-      381.03,
-      819.26
+      382.62,
+      820.98
+    ],
+    [
+      379.13,
+      817.03
     ],
     [
       376.35,
@@ -14054,11 +14399,11 @@
         "road": "wynd_bs_a3s0_x_edge"
       },
       {
-        "a": "wynd_j_artery_1_a0s0_spoke5_0",
+        "a": "wynd_j_artery_1_a1s0_p6_sr_0",
         "b": "wynd_entry_a1",
         "class": "artery",
-        "id": "wynd_entry_a1~wynd_j_artery_1_a0s0_spoke5_0",
-        "length": 118.15,
+        "id": "wynd_entry_a1~wynd_j_artery_1_a1s0_p6_sr_0",
+        "length": 60.35,
         "passable": true,
         "road": "wynd_artery_1"
       },
@@ -14099,20 +14444,20 @@
         "road": "wynd_bs_a2s0_x_edge"
       },
       {
-        "a": "wynd_j_artery_3_bs_a2s0_x_plaza",
+        "a": "wynd_j_artery_3_a2s0_b1",
         "b": "wynd_entry_a3",
         "class": "artery",
-        "id": "wynd_entry_a3~wynd_j_artery_3_bs_a2s0_x_plaza",
-        "length": 384.47,
+        "id": "wynd_entry_a3~wynd_j_artery_3_a2s0_b1",
+        "length": 157.98,
         "passable": true,
         "road": "wynd_artery_3"
       },
       {
-        "a": "wynd_j_bs_a2s0_x_edge_a2s0_p6_sr_0",
+        "a": "wynd_j_bs_a2s0_x_edge_a2s0_p6_u0_0",
         "b": "wynd_entry_a3",
         "class": "street",
-        "id": "wynd_entry_a3~wynd_j_bs_a2s0_x_edge_a2s0_p6_sr_0",
-        "length": 290.17,
+        "id": "wynd_entry_a3~wynd_j_bs_a2s0_x_edge_a2s0_p6_u0_0",
+        "length": 315.87,
         "passable": true,
         "road": "wynd_bs_a2s0_x_edge"
       },
@@ -14144,40 +14489,22 @@
         "road": "wynd_sr_a0s0_core_b1"
       },
       {
-        "a": "wynd_j_a0s0_core_b4_a0s0_core_p3_sr_0",
+        "a": "wynd_j_a0s0_core_b4_a0s0_core_p3_v0_0",
         "b": "wynd_j_a0s0_core_b2_a0s0_core_b3",
         "class": "artery",
-        "id": "wynd_j_a0s0_core_b2_a0s0_core_b3~wynd_j_a0s0_core_b4_a0s0_core_p3_sr_0",
-        "length": 41.01,
+        "id": "wynd_j_a0s0_core_b2_a0s0_core_b3~wynd_j_a0s0_core_b4_a0s0_core_p3_v0_0",
+        "length": 40.83,
         "passable": true,
         "road": "wynd_sr_a0s0_core_b4"
-      },
-      {
-        "a": "wynd_j_a0s0_core_p3_sr_0_a0s0_spoke6_0",
-        "b": "wynd_j_a0s0_core_b4_a0s0_core_p3_sr_0",
-        "class": "artery",
-        "id": "wynd_j_a0s0_core_b4_a0s0_core_p3_sr_0~wynd_j_a0s0_core_p3_sr_0_a0s0_spoke6_0",
-        "length": 40.37,
-        "passable": true,
-        "road": "wynd_sr_a0s0_core_p3_sr_0"
       },
       {
         "a": "wynd_j_bs_a0s0_x_plaza_a0s0_core_b4",
-        "b": "wynd_j_a0s0_core_b4_a0s0_core_p3_sr_0",
+        "b": "wynd_j_a0s0_core_b4_a0s0_core_p3_v0_0",
         "class": "artery",
-        "id": "wynd_j_a0s0_core_b4_a0s0_core_p3_sr_0~wynd_j_bs_a0s0_x_plaza_a0s0_core_b4",
-        "length": 33.85,
+        "id": "wynd_j_a0s0_core_b4_a0s0_core_p3_v0_0~wynd_j_bs_a0s0_x_plaza_a0s0_core_b4",
+        "length": 34.02,
         "passable": true,
         "road": "wynd_sr_a0s0_core_b4"
-      },
-      {
-        "a": "wynd_j_a0s0_core_p3_sr_0_a0s0_spoke6_0",
-        "b": "wynd_j_artery_1_a0s0_spoke6_0",
-        "class": "artery",
-        "id": "wynd_j_a0s0_core_p3_sr_0_a0s0_spoke6_0~wynd_j_artery_1_a0s0_spoke6_0",
-        "length": 21.17,
-        "passable": true,
-        "road": "wynd_sr_a0s0_spoke6_0"
       },
       {
         "a": "wynd_j_a0s0_r2s0_sr_0_a0s0_spoke1_0",
@@ -14343,10 +14670,28 @@
       },
       {
         "a": "wynd_j_a1s0_b18_a1s0_b19",
+        "b": "wynd_j_a1s0_b19_a1s0_p6_sr_0",
+        "class": "artery",
+        "id": "wynd_j_a1s0_b18_a1s0_b19~wynd_j_a1s0_b19_a1s0_p6_sr_0",
+        "length": 30.85,
+        "passable": true,
+        "road": "wynd_sr_a1s0_b19"
+      },
+      {
+        "a": "wynd_j_a1s0_b19_a1s0_p6_sr_0",
+        "b": "wynd_j_artery_1_a1s0_p6_sr_0",
+        "class": "artery",
+        "id": "wynd_j_a1s0_b19_a1s0_p6_sr_0~wynd_j_artery_1_a1s0_p6_sr_0",
+        "length": 63.41,
+        "passable": true,
+        "road": "wynd_sr_a1s0_p6_sr_0"
+      },
+      {
+        "a": "wynd_j_a1s0_b19_a1s0_p6_sr_0",
         "b": "wynd_j_bs_a1s0_x_edge_a1s0_b19",
         "class": "artery",
-        "id": "wynd_j_a1s0_b18_a1s0_b19~wynd_j_bs_a1s0_x_edge_a1s0_b19",
-        "length": 40.83,
+        "id": "wynd_j_a1s0_b19_a1s0_p6_sr_0~wynd_j_bs_a1s0_x_edge_a1s0_b19",
+        "length": 9.98,
         "passable": true,
         "road": "wynd_sr_a1s0_b19"
       },
@@ -14403,6 +14748,33 @@
         "length": 27.35,
         "passable": true,
         "road": "wynd_sr_a1s0_b6"
+      },
+      {
+        "a": "wynd_j_a2s0_b1_a2s0_p2_sr_0",
+        "b": "wynd_j_a2s0_b6_a2s0_p2_sr_0",
+        "class": "artery",
+        "id": "wynd_j_a2s0_b1_a2s0_p2_sr_0~wynd_j_a2s0_b6_a2s0_p2_sr_0",
+        "length": 56.7,
+        "passable": true,
+        "road": "wynd_sr_a2s0_p2_sr_0"
+      },
+      {
+        "a": "wynd_j_artery_3_a2s0_b1",
+        "b": "wynd_j_a2s0_b1_a2s0_p2_sr_0",
+        "class": "street",
+        "id": "wynd_j_a2s0_b1_a2s0_p2_sr_0~wynd_j_artery_3_a2s0_b1",
+        "length": 31.16,
+        "passable": true,
+        "road": "wynd_sr_a2s0_b1"
+      },
+      {
+        "a": "wynd_j_a2s0_b6_a2s0_p2_sr_0",
+        "b": "wynd_j_artery_3_a2s0_b6",
+        "class": "street",
+        "id": "wynd_j_a2s0_b6_a2s0_p2_sr_0~wynd_j_artery_3_a2s0_b6",
+        "length": 31.49,
+        "passable": true,
+        "road": "wynd_sr_a2s0_b6"
       },
       {
         "a": "wynd_j_a3s0_p5_b0_a3s0_p5_b2",
@@ -14477,6 +14849,15 @@
         "road": "wynd_artery_1"
       },
       {
+        "a": "wynd_j_artery_1_a0s0_spoke5_0",
+        "b": "wynd_j_artery_1_a1s0_p6_sr_0",
+        "class": "artery",
+        "id": "wynd_j_artery_1_a0s0_spoke5_0~wynd_j_artery_1_a1s0_p6_sr_0",
+        "length": 57.81,
+        "passable": true,
+        "road": "wynd_artery_1"
+      },
+      {
         "a": "wynd_j_artery_1_a0s0_spoke6_0",
         "b": "wynd_j_artery_1_a1s0_b6",
         "class": "artery",
@@ -14529,6 +14910,24 @@
         "length": 24.82,
         "passable": true,
         "road": "wynd_artery_2"
+      },
+      {
+        "a": "wynd_j_artery_3_a2s0_b6",
+        "b": "wynd_j_artery_3_a2s0_b1",
+        "class": "artery",
+        "id": "wynd_j_artery_3_a2s0_b1~wynd_j_artery_3_a2s0_b6",
+        "length": 51.33,
+        "passable": true,
+        "road": "wynd_artery_3"
+      },
+      {
+        "a": "wynd_j_artery_3_bs_a2s0_x_plaza",
+        "b": "wynd_j_artery_3_a2s0_b6",
+        "class": "artery",
+        "id": "wynd_j_artery_3_a2s0_b6~wynd_j_artery_3_bs_a2s0_x_plaza",
+        "length": 175.16,
+        "passable": true,
+        "road": "wynd_artery_3"
       },
       {
         "a": "wynd_plaza",
@@ -14604,10 +15003,10 @@
       },
       {
         "a": "wynd_j_bs_a2s0_x_edge_a2s0_b14",
-        "b": "wynd_j_bs_a2s0_x_edge_a2s0_p6_sr_0",
+        "b": "wynd_j_bs_a2s0_x_edge_a2s0_p6_u0_0",
         "class": "street",
-        "id": "wynd_j_bs_a2s0_x_edge_a2s0_b14~wynd_j_bs_a2s0_x_edge_a2s0_p6_sr_0",
-        "length": 244.99,
+        "id": "wynd_j_bs_a2s0_x_edge_a2s0_b14~wynd_j_bs_a2s0_x_edge_a2s0_p6_u0_0",
+        "length": 219.29,
         "passable": true,
         "road": "wynd_bs_a2s0_x_edge"
       },
@@ -14641,7 +15040,7 @@
         ],
         "districts": [
           "wynd_d_a0s0_r2s4_p2",
-          "wynd_d_a1s0_p6"
+          "wynd_d_a1s0_p6_b0"
         ],
         "id": "wynd_entry_a1",
         "kind": "choke"
@@ -14691,35 +15090,22 @@
         "districts": [
           "wynd_d_a0s0_core_p1",
           "wynd_d_a0s0_core_p2",
-          "wynd_d_a0s0_core_p3_b0"
+          "wynd_d_a0s0_core_p3_xn1y0"
         ],
         "id": "wynd_j_a0s0_core_b2_a0s0_core_b3",
         "kind": "choke"
       },
       {
         "at": [
-          484.81,
-          432.01
+          484.76,
+          431.84
         ],
         "districts": [
           "wynd_d_a0s0_core_p1",
-          "wynd_d_a0s0_core_p3_b0",
-          "wynd_d_a0s0_core_p3_b1"
+          "wynd_d_a0s0_core_p3_xn1y0",
+          "wynd_d_a0s0_core_p3_xn1yn1"
         ],
-        "id": "wynd_j_a0s0_core_b4_a0s0_core_p3_sr_0",
-        "kind": "choke"
-      },
-      {
-        "at": [
-          523.34,
-          419.99
-        ],
-        "districts": [
-          "wynd_d_a0s0_core_p3_b0",
-          "wynd_d_a0s0_core_p3_b1",
-          "wynd_d_a0s0_r1s5"
-        ],
-        "id": "wynd_j_a0s0_core_p3_sr_0_a0s0_spoke6_0",
+        "id": "wynd_j_a0s0_core_b4_a0s0_core_p3_v0_0",
         "kind": "choke"
       },
       {
@@ -14847,7 +15233,7 @@
         "districts": [
           "wynd_d_a1s0_p10_w0c0",
           "wynd_d_a1s0_p5_w0c0",
-          "wynd_d_a1s0_p6"
+          "wynd_d_a1s0_p6_b1"
         ],
         "id": "wynd_j_a1s0_b16_a1s0_b18",
         "kind": "choke"
@@ -14873,9 +15259,22 @@
         "districts": [
           "wynd_d_a1s0_p10_w0c0",
           "wynd_d_a1s0_p11",
-          "wynd_d_a1s0_p6"
+          "wynd_d_a1s0_p6_b1"
         ],
         "id": "wynd_j_a1s0_b18_a1s0_b19",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          677.09,
+          319.89
+        ],
+        "districts": [
+          "wynd_d_a1s0_p11",
+          "wynd_d_a1s0_p6_b0",
+          "wynd_d_a1s0_p6_b1"
+        ],
+        "id": "wynd_j_a1s0_b19_a1s0_p6_sr_0",
         "kind": "choke"
       },
       {
@@ -14929,6 +15328,32 @@
           "wynd_d_a1s0_p5_w1c0"
         ],
         "id": "wynd_j_a1s0_b2_a1s0_b6",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          354.27,
+          698.09
+        ],
+        "districts": [
+          "wynd_d_a2s0_p1_w0c0",
+          "wynd_d_a2s0_p2_b0",
+          "wynd_d_a2s0_p2_b1"
+        ],
+        "id": "wynd_j_a2s0_b1_a2s0_p2_sr_0",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          391.5,
+          655.35
+        ],
+        "districts": [
+          "wynd_d_a2s0_p2_b0",
+          "wynd_d_a2s0_p2_b1",
+          "wynd_d_a2s0_p4"
+        ],
+        "id": "wynd_j_a2s0_b6_a2s0_p2_sr_0",
         "kind": "choke"
       },
       {
@@ -15014,7 +15439,7 @@
           428.08
         ],
         "districts": [
-          "wynd_d_a0s0_core_p3_b1",
+          "wynd_d_a0s0_core_p3_xn1yn1",
           "wynd_d_a0s0_r1s5",
           "wynd_d_a1s0_p0"
         ],
@@ -15036,11 +15461,24 @@
       },
       {
         "at": [
+          617.61,
+          298.48
+        ],
+        "districts": [
+          "wynd_d_a0s0_r2s4_p2",
+          "wynd_d_a1s0_p6_b0",
+          "wynd_d_a1s0_p6_b1"
+        ],
+        "id": "wynd_j_artery_1_a1s0_p6_sr_0",
+        "kind": "choke"
+      },
+      {
+        "at": [
           511.34,
           467.24
         ],
         "districts": [
-          "wynd_d_a0s0_core_p3_b1",
+          "wynd_d_a0s0_core_p3_xn1yn1",
           "wynd_d_a1s0_p0",
           "wynd_d_plaza"
         ],
@@ -15071,6 +15509,33 @@
           "wynd_d_plaza"
         ],
         "id": "wynd_j_artery_2_bs_a1s0_x_plaza",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          333.65,
+          674.74
+        ],
+        "districts": [
+          "wynd_d_a2s0_p1_w0c0",
+          "wynd_d_a2s0_p1_w1c0",
+          "wynd_d_a2s0_p2_b0",
+          "wynd_d_a3s0_p2"
+        ],
+        "id": "wynd_j_artery_3_a2s0_b1",
+        "kind": "choke"
+      },
+      {
+        "at": [
+          366.86,
+          635.75
+        ],
+        "districts": [
+          "wynd_d_a2s0_p2_b0",
+          "wynd_d_a2s0_p4",
+          "wynd_d_a3s0_p6_w1c0"
+        ],
+        "id": "wynd_j_artery_3_a2s0_b6",
         "kind": "choke"
       },
       {
@@ -15153,7 +15618,7 @@
         ],
         "districts": [
           "wynd_d_a0s0_core_p1",
-          "wynd_d_a0s0_core_p3_b1",
+          "wynd_d_a0s0_core_p3_xn1yn1",
           "wynd_d_plaza"
         ],
         "id": "wynd_j_bs_a0s0_x_plaza_a0s0_core_b4",
@@ -15191,7 +15656,7 @@
         ],
         "districts": [
           "wynd_d_a1s0_p11",
-          "wynd_d_a1s0_p6"
+          "wynd_d_a1s0_p6_b0"
         ],
         "id": "wynd_j_bs_a1s0_x_edge_a1s0_b19",
         "kind": "choke"
@@ -15250,14 +15715,14 @@
       },
       {
         "at": [
-          414.25,
-          843.45
+          438.08,
+          851.74
         ],
         "districts": [
-          "wynd_d_a2s0_p6_b0",
-          "wynd_d_a2s0_p6_b1"
+          "wynd_d_a2s0_p6_x0yn1",
+          "wynd_d_a2s0_p6_xn1yn1"
         ],
-        "id": "wynd_j_bs_a2s0_x_edge_a2s0_p6_sr_0",
+        "id": "wynd_j_bs_a2s0_x_edge_a2s0_p6_u0_0",
         "kind": "choke"
       },
       {
@@ -15366,16 +15831,16 @@
           294.62
         ],
         [
-          615.81,
-          302.54
+          617.61,
+          298.48
         ],
         [
-          612.18,
-          310.44
+          613.42,
+          307.69
         ],
         [
-          608.43,
-          318.77
+          609.09,
+          317.32
         ],
         [
           604.28,
@@ -15450,12 +15915,16 @@
           428.08
         ],
         [
-          537.11,
-          434.37
+          537.16,
+          434.31
         ],
         [
-          531.61,
-          440.79
+          531.71,
+          440.68
+        ],
+        [
+          526.25,
+          446.98
         ],
         [
           526.1,
@@ -15480,6 +15949,10 @@
         [
           505.86,
           464.81
+        ],
+        [
+          501.6,
+          464.06
         ],
         [
           500.0,
@@ -16007,12 +16480,16 @@
           447.15
         ],
         [
-          531.61,
-          440.79
+          526.25,
+          446.98
         ],
         [
-          537.11,
-          434.37
+          531.71,
+          440.68
+        ],
+        [
+          537.16,
+          434.31
         ],
         [
           542.9,
@@ -16087,16 +16564,16 @@
           327.15
         ],
         [
-          608.43,
-          318.77
+          609.09,
+          317.32
         ],
         [
-          612.18,
-          310.44
+          613.42,
+          307.69
         ],
         [
-          615.81,
-          302.54
+          617.61,
+          298.48
         ],
         [
           619.15,
@@ -16897,28 +17374,36 @@
           789.2
         ],
         [
-          477.98,
-          798.27
+          478.24,
+          790.78
+        ],
+        [
+          477.9,
+          800.4
         ],
         [
           477.7,
-          808.08
+          809.19
         ],
         [
           477.72,
           817.87
         ],
         [
-          475.83,
-          824.76
+          475.21,
+          827.1
         ],
         [
           474.02,
           831.54
         ],
         [
-          469.65,
-          836.76
+          472.74,
+          833.1
+        ],
+        [
+          469.0,
+          837.51
         ],
         [
           465.19,
@@ -16937,8 +17422,8 @@
           850.48
         ],
         [
-          442.37,
-          851.18
+          438.08,
+          851.74
         ],
         [
           437.23,
@@ -16949,36 +17434,36 @@
           850.98
         ],
         [
-          421.8,
-          847.31
-        ],
-        [
-          414.25,
-          843.45
+          420.87,
+          846.82
         ],
         [
           412.18,
           842.52
         ],
         [
-          405.5,
-          837.78
+          405.62,
+          837.87
         ],
         [
-          398.76,
-          833.43
+          399.02,
+          833.6
         ],
         [
-          392.5,
-          829.11
+          392.62,
+          829.19
         ],
         [
           386.35,
           824.78
         ],
         [
-          381.03,
-          819.26
+          382.62,
+          820.98
+        ],
+        [
+          379.13,
+          817.03
         ],
         [
           376.35,
@@ -17869,6 +18354,10 @@
           375.53
         ],
         [
+          528.95,
+          377.37
+        ],
+        [
           529.14,
           378.02
         ],
@@ -17921,6 +18410,10 @@
           406.34
         ],
         [
+          528.2,
+          406.74
+        ],
+        [
           527.32,
           408.84
         ],
@@ -17945,28 +18438,32 @@
           419.14
         ],
         [
-          523.34,
-          419.99
+          527.08,
+          421.52
         ],
         [
-          529.47,
-          422.54
+          533.13,
+          424.13
         ],
         [
-          536.0,
-          425.36
+          537.93,
+          426.15
         ],
         [
           542.9,
           428.08
         ],
         [
-          537.11,
-          434.37
+          537.16,
+          434.31
         ],
         [
-          531.61,
-          440.79
+          531.71,
+          440.68
+        ],
+        [
+          526.25,
+          446.98
         ],
         [
           526.1,
@@ -17991,6 +18488,10 @@
         [
           505.86,
           464.81
+        ],
+        [
+          501.6,
+          464.06
         ],
         [
           500.0,
@@ -18790,6 +19291,10 @@
           378.02
         ],
         [
+          528.95,
+          377.37
+        ],
+        [
           528.42,
           375.53
         ],
@@ -18982,16 +19487,16 @@
           294.62
         ],
         [
-          615.81,
-          302.54
+          617.61,
+          298.48
         ],
         [
-          612.18,
-          310.44
+          613.42,
+          307.69
         ],
         [
-          608.43,
-          318.77
+          609.09,
+          317.32
         ],
         [
           604.28,
@@ -19571,6 +20076,187 @@
     },
     {
       "children": [
+        "wynd_d_a1s0_p6_b0",
+        "wynd_d_a1s0_p6_b1"
+      ],
+      "depth": 1,
+      "id": "wynd_d_a1s0_p6",
+      "params": {
+        "cells": 3,
+        "main_road": true,
+        "ratio_jitter": 0.15,
+        "road_depth": 1,
+        "rot": 293.3377,
+        "skew": 9.63
+      },
+      "parent": "wynd_d_a1s0",
+      "polygon": [
+        [
+          680.19,
+          310.4
+        ],
+        [
+          678.59,
+          315.18
+        ],
+        [
+          677.09,
+          319.89
+        ],
+        [
+          674.99,
+          327.1
+        ],
+        [
+          672.97,
+          334.5
+        ],
+        [
+          670.68,
+          341.99
+        ],
+        [
+          668.08,
+          349.38
+        ],
+        [
+          663.62,
+          352.23
+        ],
+        [
+          659.25,
+          355.23
+        ],
+        [
+          651.61,
+          351.29
+        ],
+        [
+          643.93,
+          347.52
+        ],
+        [
+          636.67,
+          343.78
+        ],
+        [
+          629.56,
+          339.57
+        ],
+        [
+          621.52,
+          334.99
+        ],
+        [
+          612.74,
+          330.91
+        ],
+        [
+          604.28,
+          327.15
+        ],
+        [
+          609.09,
+          317.32
+        ],
+        [
+          613.42,
+          307.69
+        ],
+        [
+          617.61,
+          298.48
+        ],
+        [
+          619.15,
+          294.62
+        ],
+        [
+          621.44,
+          286.73
+        ],
+        [
+          624.07,
+          278.69
+        ],
+        [
+          626.66,
+          270.3
+        ],
+        [
+          628.81,
+          262.08
+        ],
+        [
+          630.15,
+          254.74
+        ],
+        [
+          631.55,
+          247.46
+        ],
+        [
+          632.86,
+          240.21
+        ],
+        [
+          641.39,
+          242.89
+        ],
+        [
+          645.9,
+          246.65
+        ],
+        [
+          648.78,
+          250.99
+        ],
+        [
+          651.69,
+          255.33
+        ],
+        [
+          653.23,
+          261.05
+        ],
+        [
+          654.74,
+          266.81
+        ],
+        [
+          654.96,
+          276.65
+        ],
+        [
+          654.85,
+          286.9
+        ],
+        [
+          654.97,
+          297.19
+        ],
+        [
+          657.13,
+          303.84
+        ],
+        [
+          660.52,
+          307.89
+        ],
+        [
+          667.56,
+          310.0
+        ],
+        [
+          673.67,
+          310.18
+        ]
+      ],
+      "rule": -1,
+      "use": "bsp"
+    },
+    {
+      "children": [
         "wynd_d_a1s0_p8_x0y0",
         "wynd_d_a1s0_p8_xn1yn1"
       ],
@@ -19890,24 +20576,28 @@
           674.74
         ],
         [
-          339.59,
-          681.26
+          338.9,
+          680.53
         ],
         [
-          345.56,
-          687.72
+          344.25,
+          686.27
         ],
         [
-          351.18,
-          694.33
+          349.29,
+          692.04
         ],
         [
-          356.78,
-          701.24
+          354.27,
+          698.09
         ],
         [
-          361.92,
-          708.31
+          358.72,
+          703.82
+        ],
+        [
+          362.83,
+          709.62
         ],
         [
           366.92,
@@ -20437,6 +21127,139 @@
     },
     {
       "children": [
+        "wynd_d_a2s0_p2_b0",
+        "wynd_d_a2s0_p2_b1"
+      ],
+      "depth": 1,
+      "id": "wynd_d_a2s0_p2",
+      "params": {
+        "cells": 3,
+        "main_road": true,
+        "ratio_jitter": 0.15,
+        "road_depth": 1,
+        "rot": 318.1071,
+        "skew": 9.6191
+      },
+      "parent": "wynd_d_a2s0",
+      "polygon": [
+        [
+          366.86,
+          635.75
+        ],
+        [
+          373.01,
+          640.76
+        ],
+        [
+          379.29,
+          645.54
+        ],
+        [
+          385.44,
+          650.29
+        ],
+        [
+          391.5,
+          655.35
+        ],
+        [
+          395.92,
+          659.26
+        ],
+        [
+          400.38,
+          663.18
+        ],
+        [
+          398.67,
+          673.12
+        ],
+        [
+          397.21,
+          682.36
+        ],
+        [
+          395.75,
+          691.98
+        ],
+        [
+          394.13,
+          702.39
+        ],
+        [
+          392.36,
+          712.67
+        ],
+        [
+          390.12,
+          713.02
+        ],
+        [
+          382.71,
+          713.97
+        ],
+        [
+          374.92,
+          714.69
+        ],
+        [
+          366.92,
+          715.44
+        ],
+        [
+          362.83,
+          709.62
+        ],
+        [
+          358.72,
+          703.82
+        ],
+        [
+          354.27,
+          698.09
+        ],
+        [
+          349.29,
+          692.04
+        ],
+        [
+          344.25,
+          686.27
+        ],
+        [
+          338.9,
+          680.53
+        ],
+        [
+          333.65,
+          674.74
+        ],
+        [
+          339.26,
+          668.61
+        ],
+        [
+          345.49,
+          661.92
+        ],
+        [
+          352.0,
+          655.34
+        ],
+        [
+          358.15,
+          648.15
+        ],
+        [
+          363.73,
+          640.63
+        ]
+      ],
+      "rule": -1,
+      "use": "bsp"
+    },
+    {
+      "children": [
         "wynd_d_a2s0_p3_core",
         "wynd_d_a2s0_p3_r1s0"
       ],
@@ -20520,20 +21343,24 @@
           779.63
         ],
         [
-          403.13,
-          786.05
+          403.4,
+          785.8
         ],
         [
-          396.25,
-          791.96
+          399.32,
+          789.34
         ],
         [
-          389.0,
-          797.73
+          393.31,
+          794.37
         ],
         [
-          381.47,
-          803.34
+          386.9,
+          799.3
+        ],
+        [
+          380.47,
+          804.12
         ],
         [
           374.59,
@@ -20585,18 +21412,19 @@
     },
     {
       "children": [
-        "wynd_d_a2s0_p6_b0",
-        "wynd_d_a2s0_p6_b1"
+        "wynd_d_a2s0_p6_x0yn1",
+        "wynd_d_a2s0_p6_xn1yn1"
       ],
       "depth": 1,
       "id": "wynd_d_a2s0_p6",
       "params": {
-        "cells": 3,
-        "main_road": true,
-        "ratio_jitter": 0.15,
-        "road_depth": 1,
+        "block": 0.0,
+        "block_ratio": 0.88,
+        "fan": 0.0,
+        "jitter": 0.0974,
+        "main_every": 3,
         "rot": 5.868,
-        "skew": 13.2712
+        "shear": 0.0
       },
       "parent": "wynd_d_a2s0",
       "polygon": [
@@ -20605,80 +21433,96 @@
           809.09
         ],
         [
-          381.47,
-          803.34
+          380.47,
+          804.12
         ],
         [
-          389.0,
-          797.73
+          386.9,
+          799.3
         ],
         [
-          396.25,
-          791.96
+          393.31,
+          794.37
         ],
         [
-          403.13,
-          786.05
+          399.32,
+          789.34
+        ],
+        [
+          403.4,
+          785.8
         ],
         [
           409.86,
           779.63
         ],
         [
-          419.04,
-          779.75
+          417.38,
+          779.7
         ],
         [
-          428.06,
-          780.65
+          424.9,
+          780.27
         ],
         [
-          433.53,
-          781.35
+          432.04,
+          781.16
         ],
         [
           438.94,
           782.14
         ],
         [
-          447.9,
-          783.42
+          439.57,
+          782.24
         ],
         [
-          458.14,
-          784.99
+          448.46,
+          783.5
         ],
         [
-          468.26,
-          787.18
+          458.53,
+          785.07
+        ],
+        [
+          468.45,
+          787.22
         ],
         [
           478.25,
           789.2
         ],
         [
-          477.98,
-          798.27
+          478.24,
+          790.78
+        ],
+        [
+          477.9,
+          800.4
         ],
         [
           477.7,
-          808.08
+          809.19
         ],
         [
           477.72,
           817.87
         ],
         [
-          475.83,
-          824.76
+          475.21,
+          827.1
         ],
         [
           474.02,
           831.54
         ],
         [
-          469.65,
-          836.76
+          472.74,
+          833.1
+        ],
+        [
+          469.0,
+          837.51
         ],
         [
           465.19,
@@ -20697,8 +21541,8 @@
           850.48
         ],
         [
-          442.37,
-          851.18
+          438.08,
+          851.74
         ],
         [
           437.23,
@@ -20709,36 +21553,36 @@
           850.98
         ],
         [
-          421.8,
-          847.31
-        ],
-        [
-          414.25,
-          843.45
+          420.87,
+          846.82
         ],
         [
           412.18,
           842.52
         ],
         [
-          405.5,
-          837.78
+          405.62,
+          837.87
         ],
         [
-          398.76,
-          833.43
+          399.02,
+          833.6
         ],
         [
-          392.5,
-          829.11
+          392.62,
+          829.19
         ],
         [
           386.35,
           824.78
         ],
         [
-          381.03,
-          819.26
+          382.62,
+          820.98
+        ],
+        [
+          379.13,
+          817.03
         ],
         [
           376.35,
@@ -20746,7 +21590,7 @@
         ]
       ],
       "rule": -1,
-      "use": "bsp"
+      "use": "grid"
     },
     {
       "children": [
@@ -20768,32 +21612,36 @@
           789.2
         ],
         [
-          468.26,
-          787.18
+          468.45,
+          787.22
         ],
         [
-          458.14,
-          784.99
+          458.53,
+          785.07
         ],
         [
-          447.9,
-          783.42
+          448.46,
+          783.5
+        ],
+        [
+          439.57,
+          782.24
         ],
         [
           438.94,
           782.14
         ],
         [
-          433.53,
-          781.35
+          432.04,
+          781.16
         ],
         [
-          428.06,
-          780.65
+          424.9,
+          780.27
         ],
         [
-          419.04,
-          779.75
+          417.38,
+          779.7
         ],
         [
           409.86,
@@ -21954,18 +22802,19 @@
     },
     {
       "children": [
-        "wynd_d_a0s0_core_p3_b0",
-        "wynd_d_a0s0_core_p3_b1"
+        "wynd_d_a0s0_core_p3_xn1y0",
+        "wynd_d_a0s0_core_p3_xn1yn1"
       ],
       "depth": 2,
       "id": "wynd_d_a0s0_core_p3",
       "params": {
-        "cells": 3,
-        "main_road": true,
-        "ratio_jitter": 0.15,
-        "road_depth": 1,
+        "block": 0.0,
+        "block_ratio": 1.0106,
+        "fan": 0.0,
+        "jitter": 0.0251,
+        "main_every": 3,
         "rot": 120.6313,
-        "skew": 8.674
+        "shear": 0.0
       },
       "parent": "wynd_d_a0s0_core",
       "polygon": [
@@ -21974,60 +22823,68 @@
           464.23
         ],
         [
-          492.16,
-          455.71
+          492.14,
+          455.65
         ],
         [
-          489.53,
-          447.6
+          489.51,
+          447.51
         ],
         [
-          487.16,
-          439.59
+          487.12,
+          439.45
         ],
         [
-          484.81,
-          432.01
+          484.76,
+          431.84
         ],
         [
-          482.6,
-          424.58
+          482.67,
+          424.82
         ],
         [
-          480.18,
-          416.76
+          480.41,
+          417.44
         ],
         [
-          477.4,
-          409.13
+          478.06,
+          410.76
         ],
         [
-          473.86,
-          401.62
+          475.18,
+          404.25
+        ],
+        [
+          471.75,
+          397.69
         ],
         [
           469.7,
           394.04
         ],
         [
-          477.4,
-          389.12
+          477.68,
+          388.94
         ],
         [
-          485.58,
-          383.7
+          482.16,
+          385.94
         ],
         [
-          494.37,
-          378.44
+          486.85,
+          382.91
         ],
         [
-          503.21,
-          372.94
+          495.36,
+          377.86
         ],
         [
-          511.7,
-          367.03
+          503.84,
+          372.52
+        ],
+        [
+          512.02,
+          366.81
         ],
         [
           519.99,
@@ -22060,6 +22917,10 @@
         [
           528.42,
           375.53
+        ],
+        [
+          528.95,
+          377.37
         ],
         [
           529.14,
@@ -22114,6 +22975,10 @@
           406.34
         ],
         [
+          528.2,
+          406.74
+        ],
+        [
           527.32,
           408.84
         ],
@@ -22138,28 +23003,32 @@
           419.14
         ],
         [
-          523.34,
-          419.99
+          527.08,
+          421.52
         ],
         [
-          529.47,
-          422.54
+          533.13,
+          424.13
         ],
         [
-          536.0,
-          425.36
+          537.93,
+          426.15
         ],
         [
           542.9,
           428.08
         ],
         [
-          537.11,
-          434.37
+          537.16,
+          434.31
         ],
         [
-          531.61,
-          440.79
+          531.71,
+          440.68
+        ],
+        [
+          526.25,
+          446.98
         ],
         [
           526.1,
@@ -22186,6 +23055,10 @@
           464.81
         ],
         [
+          501.6,
+          464.06
+        ],
+        [
           500.0,
           463.79
         ],
@@ -22195,7 +23068,7 @@
         ]
       ],
       "rule": -1,
-      "use": "bsp"
+      "use": "grid"
     }
   ],
   "params": {
@@ -22639,6 +23512,7 @@
         "wynd_j_artery_1_a0s0_spoke6_0",
         "wynd_j_artery_1_a1s0_b6",
         "wynd_j_artery_1_a0s0_spoke5_0",
+        "wynd_j_artery_1_a1s0_p6_sr_0",
         "wynd_entry_a1"
       ],
       "polyline": [
@@ -22675,12 +23549,16 @@
           447.15
         ],
         [
-          531.61,
-          440.79
+          526.25,
+          446.98
         ],
         [
-          537.11,
-          434.37
+          531.71,
+          440.68
+        ],
+        [
+          537.16,
+          434.31
         ],
         [
           542.9,
@@ -22755,16 +23633,16 @@
           327.15
         ],
         [
-          608.43,
-          318.77
+          609.09,
+          317.32
         ],
         [
-          612.18,
-          310.44
+          613.42,
+          307.69
         ],
         [
-          615.81,
-          302.54
+          617.61,
+          298.48
         ],
         [
           619.15,
@@ -22904,6 +23782,8 @@
       "nodes": [
         "wynd_plaza",
         "wynd_j_artery_3_bs_a2s0_x_plaza",
+        "wynd_j_artery_3_a2s0_b6",
+        "wynd_j_artery_3_a2s0_b1",
         "wynd_entry_a3"
       ],
       "polyline": [
@@ -23376,6 +24256,10 @@
           464.81
         ],
         [
+          501.6,
+          464.06
+        ],
+        [
           500.0,
           463.79
         ],
@@ -23800,7 +24684,7 @@
       "nodes": [
         "wynd_entry_a2",
         "wynd_j_bs_a2s0_x_edge_a2s0_b14",
-        "wynd_j_bs_a2s0_x_edge_a2s0_p6_sr_0",
+        "wynd_j_bs_a2s0_x_edge_a2s0_p6_u0_0",
         "wynd_entry_a3"
       ],
       "polyline": [
@@ -23973,28 +24857,36 @@
           789.2
         ],
         [
-          477.98,
-          798.27
+          478.24,
+          790.78
+        ],
+        [
+          477.9,
+          800.4
         ],
         [
           477.7,
-          808.08
+          809.19
         ],
         [
           477.72,
           817.87
         ],
         [
-          475.83,
-          824.76
+          475.21,
+          827.1
         ],
         [
           474.02,
           831.54
         ],
         [
-          469.65,
-          836.76
+          472.74,
+          833.1
+        ],
+        [
+          469.0,
+          837.51
         ],
         [
           465.19,
@@ -24013,8 +24905,8 @@
           850.48
         ],
         [
-          442.37,
-          851.18
+          438.08,
+          851.74
         ],
         [
           437.23,
@@ -24025,36 +24917,36 @@
           850.98
         ],
         [
-          421.8,
-          847.31
-        ],
-        [
-          414.25,
-          843.45
+          420.87,
+          846.82
         ],
         [
           412.18,
           842.52
         ],
         [
-          405.5,
-          837.78
+          405.62,
+          837.87
         ],
         [
-          398.76,
-          833.43
+          399.02,
+          833.6
         ],
         [
-          392.5,
-          829.11
+          392.62,
+          829.19
         ],
         [
           386.35,
           824.78
         ],
         [
-          381.03,
-          819.26
+          382.62,
+          820.98
+        ],
+        [
+          379.13,
+          817.03
         ],
         [
           376.35,
@@ -24629,24 +25521,28 @@
           394.04
         ],
         [
-          477.4,
-          389.12
+          477.68,
+          388.94
         ],
         [
-          485.58,
-          383.7
+          482.16,
+          385.94
         ],
         [
-          494.37,
-          378.44
+          486.85,
+          382.91
         ],
         [
-          503.21,
-          372.94
+          495.36,
+          377.86
         ],
         [
-          511.7,
-          367.03
+          503.84,
+          372.52
+        ],
+        [
+          512.02,
+          366.81
         ],
         [
           519.99,
@@ -24660,7 +25556,7 @@
       "id": "wynd_sr_a0s0_core_b4",
       "nodes": [
         "wynd_j_bs_a0s0_x_plaza_a0s0_core_b4",
-        "wynd_j_a0s0_core_b4_a0s0_core_p3_sr_0",
+        "wynd_j_a0s0_core_b4_a0s0_core_p3_v0_0",
         "wynd_j_a0s0_core_b2_a0s0_core_b3"
       ],
       "polyline": [
@@ -24669,36 +25565,40 @@
           464.23
         ],
         [
-          492.16,
-          455.71
+          492.14,
+          455.65
         ],
         [
-          489.53,
-          447.6
+          489.51,
+          447.51
         ],
         [
-          487.16,
-          439.59
+          487.12,
+          439.45
         ],
         [
-          484.81,
-          432.01
+          484.76,
+          431.84
         ],
         [
-          482.6,
-          424.58
+          482.67,
+          424.82
         ],
         [
-          480.18,
-          416.76
+          480.41,
+          417.44
         ],
         [
-          477.4,
-          409.13
+          478.06,
+          410.76
         ],
         [
-          473.86,
-          401.62
+          475.18,
+          404.25
+        ],
+        [
+          471.75,
+          397.69
         ],
         [
           469.7,
@@ -24708,36 +25608,59 @@
       "width": 8.0
     },
     {
+      "class": "street",
+      "id": "wynd_sr_a0s0_core_p3_un1_0",
+      "nodes": [],
+      "polyline": [
+        [
+          528.2,
+          406.74
+        ],
+        [
+          520.57,
+          402.73
+        ],
+        [
+          513.47,
+          398.78
+        ]
+      ],
+      "width": 5.0
+    },
+    {
       "class": "artery",
-      "id": "wynd_sr_a0s0_core_p3_sr_0",
+      "id": "wynd_sr_a0s0_core_p3_v0_0",
       "nodes": [
-        "wynd_j_a0s0_core_p3_sr_0_a0s0_spoke6_0",
-        "wynd_j_a0s0_core_b4_a0s0_core_p3_sr_0"
+        "wynd_j_a0s0_core_b4_a0s0_core_p3_v0_0"
       ],
       "polyline": [
         [
-          523.34,
-          419.99
+          513.47,
+          398.78
         ],
         [
-          515.03,
-          422.55
+          507.26,
+          405.5
         ],
         [
-          507.01,
-          424.86
+          501.24,
+          411.71
         ],
         [
-          499.23,
-          427.21
+          495.8,
+          418.18
         ],
         [
-          491.83,
-          429.58
+          490.67,
+          424.64
         ],
         [
-          484.81,
-          432.01
+          487.66,
+          428.15
+        ],
+        [
+          484.76,
+          431.84
         ]
       ],
       "width": 7.0
@@ -25160,6 +26083,10 @@
           408.84
         ],
         [
+          528.2,
+          406.74
+        ],
+        [
           528.36,
           406.34
         ],
@@ -25210,6 +26137,10 @@
         [
           529.14,
           378.02
+        ],
+        [
+          528.95,
+          377.37
         ],
         [
           528.42,
@@ -25593,7 +26524,6 @@
       "class": "artery",
       "id": "wynd_sr_a0s0_spoke6_0",
       "nodes": [
-        "wynd_j_a0s0_core_p3_sr_0_a0s0_spoke6_0",
         "wynd_j_artery_1_a0s0_spoke6_0"
       ],
       "polyline": [
@@ -25602,16 +26532,16 @@
           419.14
         ],
         [
-          523.34,
-          419.99
+          527.08,
+          421.52
         ],
         [
-          529.47,
-          422.54
+          533.13,
+          424.13
         ],
         [
-          536.0,
-          425.36
+          537.93,
+          426.15
         ],
         [
           542.9,
@@ -26018,6 +26948,7 @@
       "id": "wynd_sr_a1s0_b19",
       "nodes": [
         "wynd_j_a1s0_b18_a1s0_b19",
+        "wynd_j_a1s0_b19_a1s0_p6_sr_0",
         "wynd_j_bs_a1s0_x_edge_a1s0_b19"
       ],
       "polyline": [
@@ -26026,20 +26957,24 @@
           349.38
         ],
         [
-          670.83,
-          341.52
+          670.68,
+          341.99
         ],
         [
-          673.22,
-          333.57
+          672.97,
+          334.5
         ],
         [
-          675.37,
-          325.74
+          674.99,
+          327.1
         ],
         [
-          677.64,
-          318.1
+          677.09,
+          319.89
+        ],
+        [
+          678.59,
+          315.18
         ],
         [
           680.19,
@@ -26695,6 +27630,49 @@
     },
     {
       "class": "artery",
+      "id": "wynd_sr_a1s0_p6_sr_0",
+      "nodes": [
+        "wynd_j_a1s0_b19_a1s0_p6_sr_0",
+        "wynd_j_artery_1_a1s0_p6_sr_0"
+      ],
+      "polyline": [
+        [
+          677.09,
+          319.89
+        ],
+        [
+          669.11,
+          315.95
+        ],
+        [
+          661.43,
+          312.34
+        ],
+        [
+          653.45,
+          309.05
+        ],
+        [
+          645.01,
+          306.0
+        ],
+        [
+          635.99,
+          303.19
+        ],
+        [
+          626.5,
+          300.76
+        ],
+        [
+          617.61,
+          298.48
+        ]
+      ],
+      "width": 8.0
+    },
+    {
+      "class": "artery",
       "id": "wynd_sr_a1s0_p8_u0_0",
       "nodes": [
         "wynd_j_a1s0_b22_a1s0_p8_u0_0",
@@ -26823,31 +27801,38 @@
     {
       "class": "street",
       "id": "wynd_sr_a2s0_b1",
-      "nodes": [],
+      "nodes": [
+        "wynd_j_artery_3_a2s0_b1",
+        "wynd_j_a2s0_b1_a2s0_p2_sr_0"
+      ],
       "polyline": [
         [
           333.65,
           674.74
         ],
         [
-          339.59,
-          681.26
+          338.9,
+          680.53
         ],
         [
-          345.56,
-          687.72
+          344.25,
+          686.27
         ],
         [
-          351.18,
-          694.33
+          349.29,
+          692.04
         ],
         [
-          356.78,
-          701.24
+          354.27,
+          698.09
         ],
         [
-          361.92,
-          708.31
+          358.72,
+          703.82
+        ],
+        [
+          362.83,
+          709.62
         ],
         [
           366.92,
@@ -27036,32 +28021,36 @@
           789.2
         ],
         [
-          468.26,
-          787.18
+          468.45,
+          787.22
         ],
         [
-          458.14,
-          784.99
+          458.53,
+          785.07
         ],
         [
-          447.9,
-          783.42
+          448.46,
+          783.5
+        ],
+        [
+          439.57,
+          782.24
         ],
         [
           438.94,
           782.14
         ],
         [
-          433.53,
-          781.35
+          432.04,
+          781.16
         ],
         [
-          428.06,
-          780.65
+          424.9,
+          780.27
         ],
         [
-          419.04,
-          779.75
+          417.38,
+          779.7
         ],
         [
           409.86,
@@ -27416,20 +28405,24 @@
           809.09
         ],
         [
-          381.47,
-          803.34
+          380.47,
+          804.12
         ],
         [
-          389.0,
-          797.73
+          386.9,
+          799.3
         ],
         [
-          396.25,
-          791.96
+          393.31,
+          794.37
         ],
         [
-          403.13,
-          786.05
+          399.32,
+          789.34
+        ],
+        [
+          403.4,
+          785.8
         ],
         [
           409.86,
@@ -27473,27 +28466,34 @@
     {
       "class": "street",
       "id": "wynd_sr_a2s0_b6",
-      "nodes": [],
+      "nodes": [
+        "wynd_j_a2s0_b6_a2s0_p2_sr_0",
+        "wynd_j_artery_3_a2s0_b6"
+      ],
       "polyline": [
         [
           400.38,
           663.18
         ],
         [
-          393.76,
-          657.34
+          395.92,
+          659.26
         ],
         [
-          387.16,
-          651.67
+          391.5,
+          655.35
         ],
         [
-          380.45,
-          646.43
+          385.44,
+          650.29
         ],
         [
-          373.59,
-          641.23
+          379.29,
+          645.54
+        ],
+        [
+          373.01,
+          640.76
         ],
         [
           366.86,
@@ -27728,42 +28728,89 @@
     },
     {
       "class": "artery",
-      "id": "wynd_sr_a2s0_p6_sr_0",
+      "id": "wynd_sr_a2s0_p2_sr_0",
       "nodes": [
-        "wynd_j_bs_a2s0_x_edge_a2s0_p6_sr_0"
+        "wynd_j_a2s0_b1_a2s0_p2_sr_0",
+        "wynd_j_a2s0_b6_a2s0_p2_sr_0"
       ],
       "polyline": [
         [
-          414.25,
-          843.45
+          354.27,
+          698.09
         ],
         [
-          416.9,
-          834.6
+          360.63,
+          691.27
         ],
         [
-          418.81,
-          825.82
+          366.84,
+          684.49
         ],
         [
-          420.58,
-          817.11
+          372.78,
+          677.48
         ],
         [
-          422.81,
-          808.39
+          379.2,
+          670.38
         ],
         [
-          424.94,
-          799.58
+          385.36,
+          662.74
         ],
         [
-          426.53,
-          790.38
+          391.5,
+          655.35
+        ]
+      ],
+      "width": 8.0
+    },
+    {
+      "class": "artery",
+      "id": "wynd_sr_a2s0_p6_u0_0",
+      "nodes": [
+        "wynd_j_bs_a2s0_x_edge_a2s0_p6_u0_0"
+      ],
+      "polyline": [
+        [
+          439.57,
+          782.24
         ],
         [
-          428.06,
-          780.65
+          439.75,
+          787.79
+        ],
+        [
+          440.28,
+          793.36
+        ],
+        [
+          440.91,
+          801.43
+        ],
+        [
+          440.7,
+          809.55
+        ],
+        [
+          440.2,
+          817.4
+        ],
+        [
+          440.19,
+          825.2
+        ],
+        [
+          440.14,
+          834.06
+        ],
+        [
+          439.36,
+          842.9
+        ],
+        [
+          438.08,
+          851.74
         ]
       ],
       "width": 8.0
