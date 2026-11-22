@@ -290,7 +290,7 @@ A nodachi layout (`<name>.nlayout.json`) for house placement is derived from thi
 
 ### 3.11 Derived nodachi layouts
 
-Two optional files are derived from a built bundle and written into `export/` beside it on request; `mapgen build`
+Three optional files are derived from a built bundle and written into `export/` beside it on request; `mapgen build`
 does not write them. Both use nodachi's layout interchange format (`nodachi-layout` version 1) in the bundle's
 frame (export `(x, z)`, y = 0).
 
@@ -298,6 +298,7 @@ frame (export `(x, z)`, y = 0).
 |---|---|---|---|---|
 | `<name>.nlayout.json` | `mapgen export-nlayout` | `settlements.json` (town maps) | one cell per block, one spline per road, gates and landmarks as points | `docs/nlayout.md` |
 | `<name>.landcover.nlayout.json` | `mapgen export-landcover` | `regions.json`, `lines.json`, `pois.json` (every map) | one cell per land-cover polygon (`landCover` = region type), one per polygon hole (`landCover: hole`), keep-out cells around roads, trails, rivers, cliffs, walls, lakes, the town and POIs (`landCover: keepout`, `source`); road/trail/river splines; POI points | `docs/landcover.md` |
+| `<name>.wall.nlayout.json` | `mapgen export-wall` | `settlements.json` (town maps) | one linear spline per solid wall run (`kind: wall`, `wallId`, `wallKind`, `wallWidth` = thickness, `runIndex`; `closed` for a ring with no open shore), one point per gate in a wall (`gateId` = the id after `_gate_`, `gateRef`, `kind`, `wallId`, `roadId`, `roadWidth`, `width`, `rotationY` = out of town); no cells | `docs/wall.md` |
 
 ## 4. What the bundle does not contain
 
