@@ -7,6 +7,8 @@ brief: |
 size: [900, 900]
 seed: 5714
 
+output: {splat_blend: true}
+
 terrain:
   base_height: 50
   relief: 10
@@ -103,86 +105,86 @@ teams:
 lines:
   - { id: approach_a, type: road, path: [base_A, [301, 216], [357, 204], cinder_gate_a1], width: 10, smooth: true, wobble: 14, wobble_scale: 140 }
   - { id: approach_b, type: road, path: [base_B, [799, 541], cinder_gate_a3], width: 10, smooth: true, wobble: 14, wobble_scale: 140 }
-  - { id: cinder_artery_0, seed: 879022041, type: road, path: [cinder_plaza, cinder_j_artery_0_bs_a0s0_x_plaza, cinder_j_artery_0_a5s0_v0_0, [361.46, 373.04], cinder_j_artery_0_a0s0_b4, [342.57, 356.81], [324.39, 347.4], [306.92, 345.96], cinder_j_artery_0_a5s0_u0_0, [273.84, 374.65], [257.31, 400.6], cinder_gate_a0], width: 14, smooth: true }
-  - { id: cinder_artery_1, seed: 1459638161, type: road, path: [cinder_plaza, cinder_j_artery_1_bs_a0s0_x_plaza, [478.16, 395.91], [490.49, 376.75], cinder_j_artery_1_a0s0_b25, [503.8, 339.72], [502.57, 323.39], cinder_j_artery_1_a0s0_p13_u0_0, [491.95, 308.95], [473.77, 294.13], cinder_gate_a1], width: 14, smooth: true }
-  - { id: cinder_artery_2, seed: 1167526118, type: road, path: [cinder_plaza, cinder_j_artery_2_bs_a2s0_x_plaza, [494.42, 453.43], [535.74, 451.64], cinder_j_artery_2_a1s0_b9, [576.31, 440.87], [589.26, 429.56], [595.67, 412.85], [596.05, 390.66], cinder_gate_a2], width: 14, smooth: true }
-  - { id: cinder_artery_3, seed: 1858474452, type: road, path: [cinder_plaza, cinder_j_artery_3_bs_a4s1_x_plaza, [602.28, 494.1], [652.3, 509.13], cinder_gate_a3], width: 14, smooth: true }
-  - { id: cinder_artery_4, seed: 2084020532, type: road, path: [cinder_plaza, cinder_j_artery_4_bs_a4s0_x_plaza, [482.79, 498.58], cinder_j_artery_4_a4s0_b27, cinder_j_artery_4_a4s0_p13_v0_0, [518.87, 547.97], [522.51, 564.26], [518.87, 581.83], [508.51, 602.28], cinder_j_artery_4_a4s0_b25, [482.35, 636.81], [437.66, 682.65], [424.79, 701.69], cinder_j_artery_4_a4s0_b20, [418.06, 718.41], [418.76, 734.15], cinder_gate_a4], width: 14, smooth: true }
-  - { id: cinder_artery_5, seed: 4126550273, type: road, path: [cinder_plaza, cinder_j_artery_5_bs_a4s0_x_plaza, cinder_j_artery_5_a4s0_b14, [379.66, 479.27], cinder_j_artery_5_a5s0_u0_0, [306.73, 513.85], cinder_gate_a5], width: 14, smooth: true }
-  - { id: cinder_bs_a0s0_x_plaza, seed: 2189595533, type: road, path: [cinder_j_artery_1_bs_a0s0_x_plaza, [441.26, 428.17], [434.41, 427.12], [427.32, 427.67], cinder_j_artery_0_bs_a0s0_x_plaza], width: 5, smooth: true }
-  - { id: cinder_bs_a1s0_x_plaza, seed: 2058600288, type: road, path: [[461.84, 451.95], [457.76, 439.16], cinder_j_artery_1_bs_a0s0_x_plaza], width: 5, smooth: true }
-  - { id: cinder_bs_a2s0_x_plaza, seed: 3943422454, type: road, path: [[460.89, 459.07], cinder_j_artery_2_bs_a2s0_x_plaza], width: 5, smooth: true }
-  - { id: cinder_bs_a4s0_p2_x_a4s0_p4, seed: 994407175, type: road, path: [cinder_j_bs_a4s0_p2_x_a4s0_p4_a4s0_b8, cinder_j_bs_a4s0_p2_x_a4s0_p4_a4s0_b6], width: 5, smooth: true }
-  - { id: cinder_bs_a4s0_x_plaza, seed: 3498282466, type: road, path: [cinder_j_artery_5_bs_a4s0_x_plaza, [415.27, 470.25], [433.99, 479.22], [441.39, 478.61], [448.35, 475.98], cinder_j_artery_4_bs_a4s0_x_plaza], width: 5, smooth: true }
-  - { id: cinder_bs_a4s1_x_plaza, seed: 1795549810, type: road, path: [cinder_j_artery_4_bs_a4s0_x_plaza, [458.13, 465.73], cinder_j_artery_3_bs_a4s1_x_plaza], width: 5, smooth: true }
-  - { id: cinder_bs_a5s0_x_plaza, seed: 2730440380, type: road, path: [cinder_j_artery_0_bs_a0s0_x_plaza, [411.54, 439.16], [409.29, 445.15], [408.38, 451.55], cinder_j_artery_5_bs_a4s0_x_plaza], width: 5, smooth: true }
-  - { id: cinder_sr_a0s0_b10, seed: 595945002, type: road, path: [[367.51, 349.24], [358.62, 318.71]], width: 5, smooth: true }
-  - { id: cinder_sr_a0s0_b12, seed: 1672748296, type: road, path: [[389.38, 403.95], [401.7, 369.15]], width: 5, smooth: true }
-  - { id: cinder_sr_a0s0_b13, seed: 3147959663, type: road, path: [[394.91, 355.4], [367.51, 349.24]], width: 5, smooth: true }
-  - { id: cinder_sr_a0s0_b14, seed: 2218152965, type: road, path: [[394.91, 355.4], [418.07, 318.67]], width: 5, smooth: true }
-  - { id: cinder_sr_a0s0_b15, seed: 742631263, type: road, path: [[401.7, 369.15], [394.91, 355.4]], width: 5, smooth: true }
-  - { id: cinder_sr_a0s0_b16, seed: 1779468785, type: road, path: [[401.7, 369.15], cinder_j_a0s0_b16_a0s0_p10_spoke0_0, [462.1, 374.93]], width: 5, smooth: true }
-  - { id: cinder_sr_a0s0_b18, seed: 274298676, type: road, path: [[409.58, 279.13], [423.18, 260.44]], width: 5, smooth: true }
-  - { id: cinder_sr_a0s0_b19, seed: 3336861266, type: road, path: [[411.65, 311.32], [409.58, 279.13]], width: 5, smooth: true }
-  - { id: cinder_sr_a0s0_b2, seed: 1298192049, type: road, path: [[307.47, 346], [304.67, 331.98]], width: 5, smooth: true }
-  - { id: cinder_sr_a0s0_b20, seed: 64173954, type: road, path: [[418.07, 318.67], [411.65, 311.32]], width: 5, smooth: true }
-  - { id: cinder_sr_a0s0_b21, seed: 1052512853, type: road, path: [[418.07, 318.67], [431.22, 320.3]], width: 5, smooth: true }
-  - { id: cinder_sr_a0s0_b22, seed: 3433694423, type: road, path: [[431.22, 320.3], [453.04, 280.51]], width: 5, smooth: true }
-  - { id: cinder_sr_a0s0_b23, seed: 365351083, type: road, path: [[462.1, 374.93], [407.83, 423.34]], width: 5, smooth: true }
-  - { id: cinder_sr_a0s0_b24, seed: 1300509452, type: road, path: [[497.06, 362.76], [462.1, 374.93]], width: 5, smooth: true }
-  - { id: cinder_sr_a0s0_b25, seed: 2941052083, type: road, path: [cinder_j_artery_1_a0s0_b25, cinder_j_a0s0_b25_a0s0_p10_spoke2_0, cinder_j_a0s0_b25_a0s0_p13_u0_0, [431.22, 320.3]], width: 5, smooth: true }
-  - { id: cinder_sr_a0s0_b4, seed: 334503413, type: road, path: [cinder_j_artery_0_a0s0_b4, [367.51, 349.24]], width: 10, smooth: true }
-  - { id: cinder_sr_a0s0_b6, seed: 544933049, type: road, path: [[358.62, 318.71], [304.67, 331.98]], width: 5, smooth: true }
-  - { id: cinder_sr_a0s0_b7, seed: 3342188902, type: road, path: [[358.62, 318.71], [362.46, 309.84]], width: 5, smooth: true }
-  - { id: cinder_sr_a0s0_b9, seed: 1502310151, type: road, path: [[362.46, 309.84], [411.65, 311.32]], width: 5, smooth: true }
-  - { id: cinder_sr_a0s0_p10_ring1_0, seed: 3033829798, type: road, path: [cinder_j_a0s0_p10_ring1_0_a0s0_p10_spoke0_0, [427.48, 365.47], [437.18, 363], [444.39, 356.16], cinder_j_a0s0_p10_ring1_0_a0s0_p10_spoke2_0], width: 5, smooth: true }
-  - { id: cinder_sr_a0s0_p10_spoke0_0, seed: 804369369, type: road, path: [cinder_j_a0s0_p10_ring1_0_a0s0_p10_spoke0_0, cinder_j_a0s0_b16_a0s0_p10_spoke0_0], width: 8, smooth: true }
-  - { id: cinder_sr_a0s0_p10_spoke2_0, seed: 1565182553, type: road, path: [cinder_j_a0s0_p10_ring1_0_a0s0_p10_spoke2_0, cinder_j_a0s0_b25_a0s0_p10_spoke2_0], width: 8, smooth: true }
-  - { id: cinder_sr_a0s0_p13_u0_0, seed: 1220313610, type: road, path: [cinder_j_artery_1_a0s0_p13_u0_0, cinder_j_a0s0_b25_a0s0_p13_u0_0], width: 8, smooth: true }
-  - { id: cinder_sr_a1s0_b2, seed: 3431414561, type: road, path: [[499.81, 453.12], [506.59, 404.79]], width: 5, smooth: true }
-  - { id: cinder_sr_a1s0_b3, seed: 1759291061, type: road, path: [[506.59, 404.79], [483.77, 387.35]], width: 5, smooth: true }
-  - { id: cinder_sr_a1s0_b4, seed: 62614487, type: road, path: [[532.31, 353.15], [501.31, 351.94]], width: 5, smooth: true }
-  - { id: cinder_sr_a1s0_b5, seed: 1831234176, type: road, path: [[541.86, 402.79], [506.59, 404.79]], width: 5, smooth: true }
-  - { id: cinder_sr_a1s0_b6, seed: 1101009783, type: road, path: [[541.86, 402.79], [553.3, 389.22]], width: 5, smooth: true }
-  - { id: cinder_sr_a1s0_b7, seed: 1296971708, type: road, path: [[553.3, 389.22], [532.31, 353.15]], width: 5, smooth: true }
-  - { id: cinder_sr_a1s0_b8, seed: 2427873801, type: road, path: [[553.3, 389.22], [595.09, 385.4]], width: 5, smooth: true }
-  - { id: cinder_sr_a1s0_b9, seed: 1013490444, type: road, path: [cinder_j_artery_2_a1s0_b9, [541.86, 402.79]], width: 10, smooth: true }
-  - { id: cinder_sr_a2s0_s0_0, seed: 2337751940, type: road, path: [[535.25, 451.67], [523.92, 474.86]], width: 5, smooth: true }
-  - { id: cinder_sr_a4s0_b1, seed: 2011014521, type: road, path: [[345.47, 508.91], [343.91, 495.7]], width: 5, smooth: true }
-  - { id: cinder_sr_a4s0_b10, seed: 701566505, type: road, path: [cinder_j_a4s0_b10_a4s0_b4, [402.51, 608.21], cinder_j_a4s0_b10_a4s0_b22], width: 10, smooth: true }
-  - { id: cinder_sr_a4s0_b11, seed: 3851898320, type: road, path: [cinder_j_a4s0_b11_a4s0_b20, cinder_j_a4s0_b11_a4s0_b13], width: 10, smooth: true }
-  - { id: cinder_sr_a4s0_b12, seed: 1232871562, type: road, path: [[397.93, 660.69], [366.49, 619.95]], width: 5, smooth: true }
-  - { id: cinder_sr_a4s0_b13, seed: 1041242889, type: road, path: [cinder_j_a4s0_b11_a4s0_b13, cinder_j_a4s0_b13_a4s0_b22], width: 10, smooth: true }
-  - { id: cinder_sr_a4s0_b14, seed: 3282738681, type: road, path: [cinder_j_artery_5_a4s0_b14, cinder_j_a4s0_b14_a4s0_p4_sr_0, cinder_j_a4s0_b14_a4s0_b15], width: 10, smooth: true }
-  - { id: cinder_sr_a4s0_b15, seed: 3044188390, type: road, path: [cinder_j_a4s0_b15_a4s0_b8, cinder_j_a4s0_b14_a4s0_b15], width: 10, smooth: true }
-  - { id: cinder_sr_a4s0_b17, seed: 1197897963, type: road, path: [cinder_j_a4s0_b17_a4s0_b21, cinder_j_a4s0_b17_a4s0_b26], width: 5, smooth: true }
-  - { id: cinder_sr_a4s0_b18, seed: 1565165213, type: road, path: [[417.31, 508.79], [497.32, 513.68]], width: 5, smooth: true }
-  - { id: cinder_sr_a4s0_b20, seed: 4164030151, type: road, path: [cinder_j_artery_4_a4s0_b20, cinder_j_a4s0_b11_a4s0_b20], width: 10, smooth: true }
-  - { id: cinder_sr_a4s0_b21, seed: 2262522854, type: road, path: [cinder_j_a4s0_b21_a4s0_b24, cinder_j_a4s0_b17_a4s0_b21], width: 10, smooth: true }
-  - { id: cinder_sr_a4s0_b22, seed: 2370606539, type: road, path: [cinder_j_a4s0_b13_a4s0_b22, cinder_j_a4s0_b10_a4s0_b22], width: 10, smooth: true }
-  - { id: cinder_sr_a4s0_b23, seed: 1068277589, type: road, path: [[435.59, 644.91], [461.83, 657.38]], width: 5, smooth: true }
-  - { id: cinder_sr_a4s0_b24, seed: 2233885601, type: road, path: [cinder_j_a4s0_b24_a4s0_b25, cinder_j_a4s0_b21_a4s0_b24], width: 5, smooth: true }
-  - { id: cinder_sr_a4s0_b25, seed: 3577806386, type: road, path: [cinder_j_a4s0_b24_a4s0_b25, cinder_j_a4s0_b25_a4s0_p13_v0_0, cinder_j_artery_4_a4s0_b25], width: 5, smooth: true }
-  - { id: cinder_sr_a4s0_b26, seed: 565616061, type: road, path: [cinder_j_a4s0_b17_a4s0_b26, cinder_j_a4s0_b24_a4s0_b25], width: 5, smooth: true }
-  - { id: cinder_sr_a4s0_b27, seed: 1194441355, type: road, path: [cinder_j_artery_4_a4s0_b27, cinder_j_a4s0_b17_a4s0_b26], width: 5, smooth: true }
-  - { id: cinder_sr_a4s0_b4, seed: 2341780134, type: road, path: [[366.49, 619.95], cinder_j_a4s0_b10_a4s0_b4], width: 10, smooth: true }
-  - { id: cinder_sr_a4s0_b6, seed: 1693666017, type: road, path: [cinder_j_bs_a4s0_p2_x_a4s0_p4_a4s0_b6, cinder_j_a4s0_b6_a4s0_p4_sr_0, [345.47, 508.91]], width: 5, smooth: true }
-  - { id: cinder_sr_a4s0_b8, seed: 3218233763, type: road, path: [cinder_j_bs_a4s0_p2_x_a4s0_p4_a4s0_b8, cinder_j_a4s0_b15_a4s0_b8], width: 5, smooth: true }
-  - { id: cinder_sr_a4s0_b9, seed: 2319542584, type: road, path: [cinder_j_a4s0_b10_a4s0_b4, [379.23, 579.51], cinder_j_bs_a4s0_p2_x_a4s0_p4_a4s0_b8], width: 5, smooth: true }
-  - { id: cinder_sr_a4s0_p13_v0_0, seed: 4005649031, type: road, path: [cinder_j_artery_4_a4s0_p13_v0_0, cinder_j_a4s0_b25_a4s0_p13_v0_0], width: 8, smooth: true }
-  - { id: cinder_sr_a4s0_p4_s1_0, seed: 1683419670, type: road, path: [[406.97, 541.99], [390.36, 493]], width: 5, smooth: true }
-  - { id: cinder_sr_a4s0_p4_sr_0, seed: 3345660236, type: road, path: [cinder_j_a4s0_b6_a4s0_p4_sr_0, cinder_j_a4s0_b14_a4s0_p4_sr_0], width: 8, smooth: true }
-  - { id: cinder_sr_a4s1_b0, seed: 4102765600, type: road, path: [[420.11, 737.46], [464.48, 698.28]], width: 5, smooth: true }
-  - { id: cinder_sr_a4s1_b1, seed: 2951282618, type: road, path: [[464.48, 698.28], [447.25, 672.47]], width: 5, smooth: true }
-  - { id: cinder_sr_a4s1_b4, seed: 562306350, type: road, path: [[491.5, 507.61], [510.86, 471.81]], width: 5, smooth: true }
-  - { id: cinder_sr_a4s1_b6, seed: 2848137756, type: road, path: [[554.38, 516.8], [511.49, 533.3]], width: 5, smooth: true }
-  - { id: cinder_sr_a4s1_b7, seed: 4240806644, type: road, path: [[563.86, 484.03], [554.38, 516.8]], width: 5, smooth: true }
-  - { id: cinder_sr_a5s0_u0_0, seed: 1054622349, type: road, path: [cinder_j_artery_5_a5s0_u0_0, cinder_j_a5s0_u0_0_a5s0_v0_0, cinder_j_artery_0_a5s0_u0_0], width: 10, smooth: true }
-  - { id: cinder_sr_a5s0_u1_0, seed: 3299773495, type: road, path: [[294.28, 521.23], [287.29, 463.76], [268.15, 383.48]], width: 5, smooth: true }
-  - { id: cinder_sr_a5s0_un1_0, seed: 1817518556, type: road, path: [[379.66, 479.27], [356.89, 438.68], [332.45, 385.37]], width: 5, smooth: true }
-  - { id: cinder_sr_a5s0_v0_0, seed: 1715058017, type: road, path: [cinder_j_artery_0_a5s0_v0_0, cinder_j_a5s0_u0_0_a5s0_v0_0, [281.62, 439.46]], width: 10, smooth: true }
-  - { id: cinder_sr_a5s0_v1_0, seed: 1199445312, type: road, path: [[363.04, 374.82], [272.86, 405.54]], width: 5, smooth: true }
-  - { id: cinder_sr_a5s0_vn1_0, seed: 80879132, type: road, path: [[409.86, 425.42], [352.32, 448.8], [288.51, 471.64]], width: 5, smooth: true }
+  - { id: cinder_artery_0, seed: 879022041, type: road, path: [cinder_plaza, cinder_j_artery_0_bs_a0s0_x_plaza, cinder_j_artery_0_a5s0_v0_0, [361.46, 373.04], cinder_j_artery_0_a0s0_b4, [342.57, 356.81], [324.39, 347.4], [306.92, 345.96], cinder_j_artery_0_a5s0_u0_0, [273.84, 374.65], [257.31, 400.6], cinder_gate_a0], width: 9.5, smooth: true }
+  - { id: cinder_artery_1, seed: 1459638161, type: road, path: [cinder_plaza, cinder_j_artery_1_bs_a0s0_x_plaza, [478.16, 395.91], [490.49, 376.75], cinder_j_artery_1_a0s0_b25, [503.8, 339.72], [502.57, 323.39], cinder_j_artery_1_a0s0_p13_u0_0, [491.95, 308.95], [473.77, 294.13], cinder_gate_a1], width: 9.5, smooth: true }
+  - { id: cinder_artery_2, seed: 1167526118, type: road, path: [cinder_plaza, cinder_j_artery_2_bs_a2s0_x_plaza, [494.42, 453.43], [535.74, 451.64], cinder_j_artery_2_a1s0_b9, [576.31, 440.87], [589.26, 429.56], [595.67, 412.85], [596.05, 390.66], cinder_gate_a2], width: 9.5, smooth: true }
+  - { id: cinder_artery_3, seed: 1858474452, type: road, path: [cinder_plaza, cinder_j_artery_3_bs_a4s1_x_plaza, [602.28, 494.1], [652.3, 509.13], cinder_gate_a3], width: 9.5, smooth: true }
+  - { id: cinder_artery_4, seed: 2084020532, type: road, path: [cinder_plaza, cinder_j_artery_4_bs_a4s0_x_plaza, [482.79, 498.58], cinder_j_artery_4_a4s0_b27, cinder_j_artery_4_a4s0_p13_v0_0, [518.87, 547.97], [522.51, 564.26], [518.87, 581.83], [508.51, 602.28], cinder_j_artery_4_a4s0_b25, [482.35, 636.81], [437.66, 682.65], [424.79, 701.69], cinder_j_artery_4_a4s0_b20, [418.06, 718.41], [418.76, 734.15], cinder_gate_a4], width: 9.5, smooth: true }
+  - { id: cinder_artery_5, seed: 4126550273, type: road, path: [cinder_plaza, cinder_j_artery_5_bs_a4s0_x_plaza, cinder_j_artery_5_a4s0_b14, [379.66, 479.27], cinder_j_artery_5_a5s0_u0_0, [306.73, 513.85], cinder_gate_a5], width: 9.5, smooth: true }
+  - { id: cinder_bs_a0s0_x_plaza, seed: 2189595533, type: road, path: [cinder_j_artery_1_bs_a0s0_x_plaza, [441.26, 428.17], [434.41, 427.12], [427.32, 427.67], cinder_j_artery_0_bs_a0s0_x_plaza], width: 3.5, smooth: true }
+  - { id: cinder_bs_a1s0_x_plaza, seed: 2058600288, type: road, path: [[461.84, 451.95], [457.76, 439.16], cinder_j_artery_1_bs_a0s0_x_plaza], width: 3.5, smooth: true }
+  - { id: cinder_bs_a2s0_x_plaza, seed: 3943422454, type: road, path: [[460.89, 459.07], cinder_j_artery_2_bs_a2s0_x_plaza], width: 3.5, smooth: true }
+  - { id: cinder_bs_a4s0_p2_x_a4s0_p4, seed: 994407175, type: road, path: [cinder_j_bs_a4s0_p2_x_a4s0_p4_a4s0_b8, cinder_j_bs_a4s0_p2_x_a4s0_p4_a4s0_b6], width: 3.5, smooth: true }
+  - { id: cinder_bs_a4s0_x_plaza, seed: 3498282466, type: road, path: [cinder_j_artery_5_bs_a4s0_x_plaza, [415.27, 470.25], [433.99, 479.22], [441.39, 478.61], [448.35, 475.98], cinder_j_artery_4_bs_a4s0_x_plaza], width: 3.5, smooth: true }
+  - { id: cinder_bs_a4s1_x_plaza, seed: 1795549810, type: road, path: [cinder_j_artery_4_bs_a4s0_x_plaza, [458.13, 465.73], cinder_j_artery_3_bs_a4s1_x_plaza], width: 3.5, smooth: true }
+  - { id: cinder_bs_a5s0_x_plaza, seed: 2730440380, type: road, path: [cinder_j_artery_0_bs_a0s0_x_plaza, [411.54, 439.16], [409.29, 445.15], [408.38, 451.55], cinder_j_artery_5_bs_a4s0_x_plaza], width: 3.5, smooth: true }
+  - { id: cinder_sr_a0s0_b10, seed: 595945002, type: road, path: [[367.51, 349.24], [358.62, 318.71]], width: 3.5, smooth: true }
+  - { id: cinder_sr_a0s0_b12, seed: 1672748296, type: road, path: [[389.38, 403.95], [401.7, 369.15]], width: 3.5, smooth: true }
+  - { id: cinder_sr_a0s0_b13, seed: 3147959663, type: road, path: [[394.91, 355.4], [367.51, 349.24]], width: 3.5, smooth: true }
+  - { id: cinder_sr_a0s0_b14, seed: 2218152965, type: road, path: [[394.91, 355.4], [418.07, 318.67]], width: 3.5, smooth: true }
+  - { id: cinder_sr_a0s0_b15, seed: 742631263, type: road, path: [[401.7, 369.15], [394.91, 355.4]], width: 3.5, smooth: true }
+  - { id: cinder_sr_a0s0_b16, seed: 1779468785, type: road, path: [[401.7, 369.15], cinder_j_a0s0_b16_a0s0_p10_spoke0_0, [462.1, 374.93]], width: 3.5, smooth: true }
+  - { id: cinder_sr_a0s0_b18, seed: 274298676, type: road, path: [[409.58, 279.13], [423.18, 260.44]], width: 3.5, smooth: true }
+  - { id: cinder_sr_a0s0_b19, seed: 3336861266, type: road, path: [[411.65, 311.32], [409.58, 279.13]], width: 3.5, smooth: true }
+  - { id: cinder_sr_a0s0_b2, seed: 1298192049, type: road, path: [[307.47, 346], [304.67, 331.98]], width: 3.5, smooth: true }
+  - { id: cinder_sr_a0s0_b20, seed: 64173954, type: road, path: [[418.07, 318.67], [411.65, 311.32]], width: 3.5, smooth: true }
+  - { id: cinder_sr_a0s0_b21, seed: 1052512853, type: road, path: [[418.07, 318.67], [431.22, 320.3]], width: 3.5, smooth: true }
+  - { id: cinder_sr_a0s0_b22, seed: 3433694423, type: road, path: [[431.22, 320.3], [453.04, 280.51]], width: 3.5, smooth: true }
+  - { id: cinder_sr_a0s0_b23, seed: 365351083, type: road, path: [[462.1, 374.93], [407.83, 423.34]], width: 3.5, smooth: true }
+  - { id: cinder_sr_a0s0_b24, seed: 1300509452, type: road, path: [[497.06, 362.76], [462.1, 374.93]], width: 3.5, smooth: true }
+  - { id: cinder_sr_a0s0_b25, seed: 2941052083, type: road, path: [cinder_j_artery_1_a0s0_b25, cinder_j_a0s0_b25_a0s0_p10_spoke2_0, cinder_j_a0s0_b25_a0s0_p13_u0_0, [431.22, 320.3]], width: 3.5, smooth: true }
+  - { id: cinder_sr_a0s0_b4, seed: 334503413, type: road, path: [cinder_j_artery_0_a0s0_b4, [367.51, 349.24]], width: 6.5, smooth: true }
+  - { id: cinder_sr_a0s0_b6, seed: 544933049, type: road, path: [[358.62, 318.71], [304.67, 331.98]], width: 3.5, smooth: true }
+  - { id: cinder_sr_a0s0_b7, seed: 3342188902, type: road, path: [[358.62, 318.71], [362.46, 309.84]], width: 3.5, smooth: true }
+  - { id: cinder_sr_a0s0_b9, seed: 1502310151, type: road, path: [[362.46, 309.84], [411.65, 311.32]], width: 3.5, smooth: true }
+  - { id: cinder_sr_a0s0_p10_ring1_0, seed: 3033829798, type: road, path: [cinder_j_a0s0_p10_ring1_0_a0s0_p10_spoke0_0, [427.48, 365.47], [437.18, 363], [444.39, 356.16], cinder_j_a0s0_p10_ring1_0_a0s0_p10_spoke2_0], width: 3.5, smooth: true }
+  - { id: cinder_sr_a0s0_p10_spoke0_0, seed: 804369369, type: road, path: [cinder_j_a0s0_p10_ring1_0_a0s0_p10_spoke0_0, cinder_j_a0s0_b16_a0s0_p10_spoke0_0], width: 5.5, smooth: true }
+  - { id: cinder_sr_a0s0_p10_spoke2_0, seed: 1565182553, type: road, path: [cinder_j_a0s0_p10_ring1_0_a0s0_p10_spoke2_0, cinder_j_a0s0_b25_a0s0_p10_spoke2_0], width: 5.5, smooth: true }
+  - { id: cinder_sr_a0s0_p13_u0_0, seed: 1220313610, type: road, path: [cinder_j_artery_1_a0s0_p13_u0_0, cinder_j_a0s0_b25_a0s0_p13_u0_0], width: 5.5, smooth: true }
+  - { id: cinder_sr_a1s0_b2, seed: 3431414561, type: road, path: [[499.81, 453.12], [506.59, 404.79]], width: 3.5, smooth: true }
+  - { id: cinder_sr_a1s0_b3, seed: 1759291061, type: road, path: [[506.59, 404.79], [483.77, 387.35]], width: 3.5, smooth: true }
+  - { id: cinder_sr_a1s0_b4, seed: 62614487, type: road, path: [[532.31, 353.15], [501.31, 351.94]], width: 3.5, smooth: true }
+  - { id: cinder_sr_a1s0_b5, seed: 1831234176, type: road, path: [[541.86, 402.79], [506.59, 404.79]], width: 3.5, smooth: true }
+  - { id: cinder_sr_a1s0_b6, seed: 1101009783, type: road, path: [[541.86, 402.79], [553.3, 389.22]], width: 3.5, smooth: true }
+  - { id: cinder_sr_a1s0_b7, seed: 1296971708, type: road, path: [[553.3, 389.22], [532.31, 353.15]], width: 3.5, smooth: true }
+  - { id: cinder_sr_a1s0_b8, seed: 2427873801, type: road, path: [[553.3, 389.22], [595.09, 385.4]], width: 3.5, smooth: true }
+  - { id: cinder_sr_a1s0_b9, seed: 1013490444, type: road, path: [cinder_j_artery_2_a1s0_b9, [541.86, 402.79]], width: 6.5, smooth: true }
+  - { id: cinder_sr_a2s0_s0_0, seed: 2337751940, type: road, path: [[535.25, 451.67], [523.92, 474.86]], width: 3.5, smooth: true }
+  - { id: cinder_sr_a4s0_b1, seed: 2011014521, type: road, path: [[345.47, 508.91], [343.91, 495.7]], width: 3.5, smooth: true }
+  - { id: cinder_sr_a4s0_b10, seed: 701566505, type: road, path: [cinder_j_a4s0_b10_a4s0_b4, [402.51, 608.21], cinder_j_a4s0_b10_a4s0_b22], width: 6.5, smooth: true }
+  - { id: cinder_sr_a4s0_b11, seed: 3851898320, type: road, path: [cinder_j_a4s0_b11_a4s0_b20, cinder_j_a4s0_b11_a4s0_b13], width: 6.5, smooth: true }
+  - { id: cinder_sr_a4s0_b12, seed: 1232871562, type: road, path: [[397.93, 660.69], [366.49, 619.95]], width: 3.5, smooth: true }
+  - { id: cinder_sr_a4s0_b13, seed: 1041242889, type: road, path: [cinder_j_a4s0_b11_a4s0_b13, cinder_j_a4s0_b13_a4s0_b22], width: 6.5, smooth: true }
+  - { id: cinder_sr_a4s0_b14, seed: 3282738681, type: road, path: [cinder_j_artery_5_a4s0_b14, cinder_j_a4s0_b14_a4s0_p4_sr_0, cinder_j_a4s0_b14_a4s0_b15], width: 6.5, smooth: true }
+  - { id: cinder_sr_a4s0_b15, seed: 3044188390, type: road, path: [cinder_j_a4s0_b15_a4s0_b8, cinder_j_a4s0_b14_a4s0_b15], width: 6.5, smooth: true }
+  - { id: cinder_sr_a4s0_b17, seed: 1197897963, type: road, path: [cinder_j_a4s0_b17_a4s0_b21, cinder_j_a4s0_b17_a4s0_b26], width: 3.5, smooth: true }
+  - { id: cinder_sr_a4s0_b18, seed: 1565165213, type: road, path: [[417.31, 508.79], [497.32, 513.68]], width: 3.5, smooth: true }
+  - { id: cinder_sr_a4s0_b20, seed: 4164030151, type: road, path: [cinder_j_artery_4_a4s0_b20, cinder_j_a4s0_b11_a4s0_b20], width: 6.5, smooth: true }
+  - { id: cinder_sr_a4s0_b21, seed: 2262522854, type: road, path: [cinder_j_a4s0_b21_a4s0_b24, cinder_j_a4s0_b17_a4s0_b21], width: 6.5, smooth: true }
+  - { id: cinder_sr_a4s0_b22, seed: 2370606539, type: road, path: [cinder_j_a4s0_b13_a4s0_b22, cinder_j_a4s0_b10_a4s0_b22], width: 6.5, smooth: true }
+  - { id: cinder_sr_a4s0_b23, seed: 1068277589, type: road, path: [[435.59, 644.91], [461.83, 657.38]], width: 3.5, smooth: true }
+  - { id: cinder_sr_a4s0_b24, seed: 2233885601, type: road, path: [cinder_j_a4s0_b24_a4s0_b25, cinder_j_a4s0_b21_a4s0_b24], width: 3.5, smooth: true }
+  - { id: cinder_sr_a4s0_b25, seed: 3577806386, type: road, path: [cinder_j_a4s0_b24_a4s0_b25, cinder_j_a4s0_b25_a4s0_p13_v0_0, cinder_j_artery_4_a4s0_b25], width: 3.5, smooth: true }
+  - { id: cinder_sr_a4s0_b26, seed: 565616061, type: road, path: [cinder_j_a4s0_b17_a4s0_b26, cinder_j_a4s0_b24_a4s0_b25], width: 3.5, smooth: true }
+  - { id: cinder_sr_a4s0_b27, seed: 1194441355, type: road, path: [cinder_j_artery_4_a4s0_b27, cinder_j_a4s0_b17_a4s0_b26], width: 3.5, smooth: true }
+  - { id: cinder_sr_a4s0_b4, seed: 2341780134, type: road, path: [[366.49, 619.95], cinder_j_a4s0_b10_a4s0_b4], width: 6.5, smooth: true }
+  - { id: cinder_sr_a4s0_b6, seed: 1693666017, type: road, path: [cinder_j_bs_a4s0_p2_x_a4s0_p4_a4s0_b6, cinder_j_a4s0_b6_a4s0_p4_sr_0, [345.47, 508.91]], width: 3.5, smooth: true }
+  - { id: cinder_sr_a4s0_b8, seed: 3218233763, type: road, path: [cinder_j_bs_a4s0_p2_x_a4s0_p4_a4s0_b8, cinder_j_a4s0_b15_a4s0_b8], width: 3.5, smooth: true }
+  - { id: cinder_sr_a4s0_b9, seed: 2319542584, type: road, path: [cinder_j_a4s0_b10_a4s0_b4, [379.23, 579.51], cinder_j_bs_a4s0_p2_x_a4s0_p4_a4s0_b8], width: 3.5, smooth: true }
+  - { id: cinder_sr_a4s0_p13_v0_0, seed: 4005649031, type: road, path: [cinder_j_artery_4_a4s0_p13_v0_0, cinder_j_a4s0_b25_a4s0_p13_v0_0], width: 5.5, smooth: true }
+  - { id: cinder_sr_a4s0_p4_s1_0, seed: 1683419670, type: road, path: [[406.97, 541.99], [390.36, 493]], width: 3.5, smooth: true }
+  - { id: cinder_sr_a4s0_p4_sr_0, seed: 3345660236, type: road, path: [cinder_j_a4s0_b6_a4s0_p4_sr_0, cinder_j_a4s0_b14_a4s0_p4_sr_0], width: 5.5, smooth: true }
+  - { id: cinder_sr_a4s1_b0, seed: 4102765600, type: road, path: [[420.11, 737.46], [464.48, 698.28]], width: 3.5, smooth: true }
+  - { id: cinder_sr_a4s1_b1, seed: 2951282618, type: road, path: [[464.48, 698.28], [447.25, 672.47]], width: 3.5, smooth: true }
+  - { id: cinder_sr_a4s1_b4, seed: 562306350, type: road, path: [[491.5, 507.61], [510.86, 471.81]], width: 3.5, smooth: true }
+  - { id: cinder_sr_a4s1_b6, seed: 2848137756, type: road, path: [[554.38, 516.8], [511.49, 533.3]], width: 3.5, smooth: true }
+  - { id: cinder_sr_a4s1_b7, seed: 4240806644, type: road, path: [[563.86, 484.03], [554.38, 516.8]], width: 3.5, smooth: true }
+  - { id: cinder_sr_a5s0_u0_0, seed: 1054622349, type: road, path: [cinder_j_artery_5_a5s0_u0_0, cinder_j_a5s0_u0_0_a5s0_v0_0, cinder_j_artery_0_a5s0_u0_0], width: 6.5, smooth: true }
+  - { id: cinder_sr_a5s0_u1_0, seed: 3299773495, type: road, path: [[294.28, 521.23], [287.29, 463.76], [268.15, 383.48]], width: 3.5, smooth: true }
+  - { id: cinder_sr_a5s0_un1_0, seed: 1817518556, type: road, path: [[379.66, 479.27], [356.89, 438.68], [332.45, 385.37]], width: 3.5, smooth: true }
+  - { id: cinder_sr_a5s0_v0_0, seed: 1715058017, type: road, path: [cinder_j_artery_0_a5s0_v0_0, cinder_j_a5s0_u0_0_a5s0_v0_0, [281.62, 439.46]], width: 6.5, smooth: true }
+  - { id: cinder_sr_a5s0_v1_0, seed: 1199445312, type: road, path: [[363.04, 374.82], [272.86, 405.54]], width: 3.5, smooth: true }
+  - { id: cinder_sr_a5s0_vn1_0, seed: 80879132, type: road, path: [[409.86, 425.42], [352.32, 448.8], [288.51, 471.64]], width: 3.5, smooth: true }
   - { id: cinder_wall_outer, seed: 1878928322, type: wall, path: [[234.43, 331.33], [236.5, 326.88], [239.32, 320.81], [242.05, 314.83], [248.16, 308.38], [254.4, 302.37], [261.39, 299.56], [270.52, 298], [279.83, 296.4], [284.02, 295.7], [293.51, 292.62], [300.63, 289.44], [307.74, 286.31], [314.99, 283.08], [321.47, 279.48], [328.45, 275.54], [335.62, 271.18], [342.79, 266.79], [350.13, 262.36], [357.53, 257.77], [365.08, 254.84], [372.5, 251.51], [373.14, 251.2], [382.48, 249.87], [388.14, 250.54], [393.79, 251.2], [402.58, 253.36], [411.09, 255.66], [419.12, 258.04], [420.66, 258.7], [427.27, 261.69], [433.74, 264.67], [440.37, 267.44], [447.3, 270.08], [456.12, 271.04], [465.03, 272.03], [474.73, 272.87], [484.41, 273.52], [488.26, 274.5], [496.02, 276.52], [503.7, 278.63], [509.93, 282.55], [516.32, 286.4], [522.53, 290.11], [526.19, 294.34], [529.83, 298.66], [535.26, 304.99], [540.76, 311.14], [545.95, 317.22], [551.79, 322.58], [557.77, 327.97], [562.44, 332.01], [567.02, 336], [571.07, 342.91], [573.81, 350.45], [576.18, 358.04], [578.48, 365.55], [584.02, 372.15], [589.52, 378.62], [595.02, 385.01], [599.38, 390.12], [603.52, 394.8], [606.06, 400.86], [608.49, 407.18], [611.01, 413.75], [613.37, 420.24], [615.73, 424.28], [618.15, 428.37], [623.47, 433.23], [628.63, 438.35], [633.8, 443.58], [639.96, 448.85], [646.51, 454.35], [652.97, 460.45], [660.66, 466.48], [667.76, 470.69], [676.41, 476.58], [684.7, 482.91], [690.12, 489.01], [695.31, 494.94], [700.36, 500.88], [705.9, 506.35], [711.78, 511.93], [717.57, 517.51], [721.93, 526.31], [721.47, 534.44], [721.4, 535.91], [716.96, 542.1], [710.26, 544.42], [702.78, 544.29], [695.42, 544.18], [688.43, 544.38], [680.18, 544.71], [671.58, 545.02], [663.31, 545.38], [655.22, 544.81], [646.75, 544.27], [638.21, 543.98], [629.39, 543.54], [620.53, 542.85], [611.75, 542.42], [611.05, 542.54], [603.65, 543.92], [596.14, 545.7], [588.92, 547.65], [580.29, 551.37], [575.05, 553.49], [569.83, 555.71], [565.14, 561.28], [560.53, 566.69], [555.8, 572.36], [551, 578.26], [544.31, 585.1], [537.87, 591.92], [532.98, 597.08], [527.66, 605.32], [525.95, 611.21], [524.2, 617.17], [522.62, 626.01], [520.67, 634.61], [518.4, 643.42], [515.71, 652.11], [513.1, 660.35], [510.68, 667.54], [508.16, 674.56], [505.53, 681.6], [502.78, 688.76], [498.6, 695.24], [494.35, 701.72], [490.16, 708.18], [489.47, 709.29], [483.8, 715.85], [477.75, 722.39], [471.41, 729.18], [465.24, 733.73], [459.24, 738.28], [453.54, 742.84], [447, 745.5], [440.48, 748.13], [433.81, 750.53], [425.95, 750.54], [415.74, 750.72], [405.95, 750.7], [395.93, 750.32], [387.81, 749.96], [381, 748.44], [374.01, 747.14], [364.62, 741.87], [361.21, 737.65], [357.89, 733.34], [355.55, 727.96], [352.21, 720.7], [350.85, 714.31], [349.6, 707.82], [349.42, 699.34], [349.38, 693.06], [349.43, 686.78], [350.96, 678], [352.65, 669.46], [354.42, 660.53], [355.77, 651.61], [356.79, 642.86], [357.64, 633.83], [358.47, 624.55], [358.13, 620.61], [357.42, 611.27], [355.6, 605.24], [353.73, 599.16], [350.11, 594.48], [346.43, 589.93], [338.22, 584.71], [330.01, 579.76], [321.57, 575.22], [318.68, 573.64], [312.26, 567.77], [305.95, 561.8], [299.98, 555.87], [293.41, 549.55], [285.38, 545.36], [277.7, 540.84], [270.09, 536.16], [262.45, 531.47], [259.34, 527.01], [256.39, 522.7], [256.22, 514.75], [256.13, 507.34], [256.08, 499.61], [255.84, 491.86], [255.51, 484.03], [255.2, 481.78], [253.84, 473.47], [252.75, 465.17], [251.73, 456.88], [250.39, 448.58], [249.21, 442.24], [247.84, 435.99], [247.24, 428.07], [246.7, 419.9], [246, 410.13], [245.2, 400.11], [244.38, 390], [243.41, 380.12], [242.22, 371.86], [241.05, 363.73], [239.21, 357.57], [237.21, 351.3], [234.38, 341.76], [234.35, 336.54], [234.43, 331.33]], width: 8 }
 
 points:
