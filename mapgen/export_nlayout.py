@@ -21,7 +21,8 @@ ROAD_CLASS = {"artery": "main", "boulevard": "main", "ring": "main", "bridge": "
 DISTRICT_TYPE = {"market": "market", "residential": "residential", "slum": "residential", "craft": "industrial",
                  "harbour": "industrial", "core": "civic", "temple": "civic", "citadel": "civic", "outskirt": "rural"}
 LANDMARK_TYPE = {"square": "plaza"}         # other landmark kinds keep their mapgen name
-OPEN_LANDMARKS = ("square",)                # a district holding one of these is open ground: no frontage on its edges
+OPEN_LANDMARKS = ("square", "market")       # plaza landmark kinds: the holding district is open ground (no frontage)
+PLAZA_KINDS = ("plaza",)                    # district kinds that are a plaza without a landmark
 
 
 def _c(v: float) -> float:
@@ -35,6 +36,11 @@ def _v3(p) -> List[float]:
 def _area2(ring) -> float:
     return sum(ring[i][0] * ring[(i + 1) % len(ring)][1] - ring[(i + 1) % len(ring)][0] * ring[i][1]
                for i in range(len(ring)))
+
+
+def is_plaza_landmark(lm: Dict[str, Any], generator: str) -> bool:
+    """A town square: `square` from any generator, or the grid generator's central `market` ("Market Square")."""
+    return lm["kind"] == "square" or (lm["kind"] == "market" and generator == "grid")
 
 
 def nlayout_doc(sdoc: Dict[str, Any]) -> Dict[str, Any]:
@@ -53,7 +59,11 @@ def nlayout_doc(sdoc: Dict[str, Any]) -> Dict[str, Any]:
                 sp["closed"] = True
             spline_of[r["id"]] = sp["id"]
             splines.append(sp)
-        open_d = {l["district"] for l in st["landmarks"] if l["kind"] in OPEN_LANDMARKS}
+        plaza_of: Dict[str, Dict[str, Any]] = {}      # district id -> its first plaza landmark
+        for l in st["landmarks"]:
+            if l["kind"] in OPEN_LANDMARKS and is_plaza_landmark(l, st["generator"]):
+                plaza_of.setdefault(l["district"], l)
+        open_d = set(plaza_of) | {d["id"] for d in st["districts"] if d["kind"] in PLAZA_KINDS}
         first = len(cells)
         for d in st["districts"]:
             ring = [list(p) for p in d["polygon"]]
@@ -76,6 +86,11 @@ def nlayout_doc(sdoc: Dict[str, Any]) -> Dict[str, Any]:
             attrs = {"districtType": DISTRICT_TYPE.get(d["kind"], "residential"), "mapgenKind": d["kind"],
                      "districtId": d["id"], "density": float(d["density"]), "depth": int(d["depth"]),
                      "settlement": st["id"]}
+            if d["id"] in open_d:
+                attrs["districtType"] = "plaza"
+                if d["id"] in plaza_of:
+                    attrs["plazaRadius"] = float(plaza_of[d["id"]]["r"])
+                    attrs["landmarkId"] = plaza_of[d["id"]]["id"]
             if d["top_label"]:
                 attrs["districtName"] = d["top_label"]
             cells.append({"id": len(cells), "outer": [_v3(p) for p in ring], "attrs": attrs, "edges": edges})
@@ -90,7 +105,8 @@ def nlayout_doc(sdoc: Dict[str, Any]) -> Dict[str, Any]:
                 attrs["roadId"] = g["road"]
             points.append({"id": len(points), "position": _v3((g["x"], g["z"])), "rotationY": _c(yaw), "attrs": attrs})
         for l in st["landmarks"]:
-            attrs = {"landmarkType": LANDMARK_TYPE.get(l["kind"], l["kind"]), "landmarkId": l["id"], "mapgenKind": l["kind"],
+            ltype = "plaza" if is_plaza_landmark(l, st["generator"]) else LANDMARK_TYPE.get(l["kind"], l["kind"])
+            attrs = {"landmarkType": ltype, "landmarkId": l["id"], "mapgenKind": l["kind"],
                      "radius": float(l["r"]), "settlement": st["id"]}
             if l["label"]:
                 attrs["label"] = l["label"]

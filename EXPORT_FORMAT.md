@@ -278,7 +278,20 @@ opening in a wall-less town; `wall: null`, no crossing). `normal` = unit `[x, z]
 `temple` or `docks`. The same ids appear as `landmark` POIs in `pois.json`.
 
 A nodachi layout (`<name>.nlayout.json`) for house placement is derived from this file by
-`mapgen export-nlayout`; mapping in `docs/nlayout.md`.
+`mapgen export-nlayout`; mapping in `docs/nlayout.md`. A town square is a landmark of kind `square`, or of kind
+`market` from the `grid` generator; the district holding one (or a district of kind `plaza`) becomes a cell with
+`districtType: plaza`, `plazaRadius`, `landmarkId` and no frontage, and its point gets `landmarkType: plaza`.
+
+### 3.11 Derived nodachi layouts
+
+Two optional files are derived from a built bundle and written into `export/` beside it on request; `mapgen build`
+does not write them. Both use nodachi's layout interchange format (`nodachi-layout` version 1) in the bundle's
+frame (export `(x, z)`, y = 0).
+
+| file | command | from | content | mapping |
+|---|---|---|---|---|
+| `<name>.nlayout.json` | `mapgen export-nlayout` | `settlements.json` (town maps) | one cell per block, one spline per road, gates and landmarks as points | `docs/nlayout.md` |
+| `<name>.landcover.nlayout.json` | `mapgen export-landcover` | `regions.json`, `lines.json`, `pois.json` (every map) | one cell per land-cover polygon (`landCover` = region type), one per polygon hole (`landCover: hole`), keep-out cells around roads, trails, rivers, cliffs, walls, lakes, the town and POIs (`landCover: keepout`, `source`); road/trail/river splines; POI points | `docs/landcover.md` |
 
 ## 4. What the bundle does not contain
 

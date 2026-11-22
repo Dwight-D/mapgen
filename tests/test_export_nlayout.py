@@ -114,6 +114,71 @@ def test_plaza_has_no_frontage(doc, sdoc):
         assert all(e["attrs"]["frontage"] is False for e in c["edges"])
 
 
+def _plaza_cells(doc):
+    return [c for c in doc["cells"] if c["attrs"]["districtType"] == "plaza"]
+
+
+def test_square_district_is_plaza(doc, sdoc):
+    st = sdoc["settlements"][0]
+    sq = [l for l in st["landmarks"] if l["kind"] == "square"]
+    assert sq
+    cells = _plaza_cells(doc)
+    assert {c["attrs"]["districtId"] for c in cells} == {l["district"] for l in sq}
+    for c in cells:
+        lm = next(l for l in sq if l["district"] == c["attrs"]["districtId"])
+        assert c["attrs"]["landmarkId"] == lm["id"] and c["attrs"]["plazaRadius"] == float(lm["r"])
+        assert c["attrs"]["mapgenKind"] == "core"
+    pts = {p["attrs"]["landmarkId"]: p for p in doc["points"] if "landmarkId" in p["attrs"]}
+    assert all(pts[l["id"]]["attrs"]["landmarkType"] == "plaza" for l in sq)
+
+
+@pytest.fixture(scope="module")
+def grid_doc():
+    s = town.generate("grid", 2, (1200, 1200), None, "gridt")
+    sd = es.settlements_doc(schema.load_spec_text(town_spec(s, "gridtest")), [s])
+    return sd, nl.nlayout_doc(sd)
+
+
+def test_grid_market_square_is_plaza(grid_doc):
+    sd, doc = grid_doc
+    st = sd["settlements"][0]
+    assert st["generator"] == "grid"
+    mk = [l for l in st["landmarks"] if l["kind"] == "market"]
+    assert len(mk) == 1
+    cells = _plaza_cells(doc)
+    assert [c["attrs"]["districtId"] for c in cells] == [mk[0]["district"]]
+    c = cells[0]
+    assert c["attrs"]["landmarkId"] == mk[0]["id"] and c["attrs"]["plazaRadius"] == float(mk[0]["r"])
+    assert all(e["attrs"]["frontage"] is False for e in c["edges"])
+    pt = next(p for p in doc["points"] if p["attrs"].get("landmarkId") == mk[0]["id"])
+    assert pt["attrs"]["landmarkType"] == "plaza" and pt["attrs"]["mapgenKind"] == "market"
+    others = [x for x in doc["cells"] if x is not c]
+    assert not any(e.get("attrs", {}).get("frontage") is False for x in others for e in x["edges"])
+
+
+def test_market_landmark_of_other_generator_is_not_plaza(sdoc):
+    d = json.loads(json.dumps(sdoc))
+    st = d["settlements"][0]
+    target = next(x for x in st["districts"] if x["kind"] == "residential")
+    st["landmarks"].append({"id": "twin_hall", "kind": "market", "x": 1.0, "z": 1.0, "r": 10.0,
+                            "district": target["id"], "label": None})
+    doc = nl.nlayout_doc(d)
+    c = next(x for x in doc["cells"] if x["attrs"]["districtId"] == target["id"])
+    assert c["attrs"]["districtType"] == "residential"
+    assert doc["points"][-1]["attrs"]["landmarkType"] == "market"
+
+
+def test_plaza_kind_district(sdoc):
+    d = json.loads(json.dumps(sdoc))
+    target = next(x for x in d["settlements"][0]["districts"] if x["kind"] == "residential")
+    target["kind"] = "plaza"
+    doc = nl.nlayout_doc(d)
+    c = next(x for x in doc["cells"] if x["attrs"]["districtId"] == target["id"])
+    assert c["attrs"]["districtType"] == "plaza" and c["attrs"]["mapgenKind"] == "plaza"
+    assert "plazaRadius" not in c["attrs"] and "landmarkId" not in c["attrs"]
+    assert all(e["attrs"]["frontage"] is False for e in c["edges"])
+
+
 def test_clockwise_input_is_reversed(sdoc):
     d = json.loads(json.dumps(sdoc))
     dist = d["settlements"][0]["districts"][0]

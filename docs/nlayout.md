@@ -25,7 +25,9 @@ Ids are integers in file order: cells in district order, splines in road order, 
 
 | attribute | type | value | consumer |
 |---|---|---|---|
-| `districtType` | string | `market`, `residential` (also `slum`), `industrial` (`craft`, `harbour`), `civic` (`core`, `temple`, `citadel`), `rural` (`outskirt`) | District Frontage (optional filter, copied onto lots) |
+| `districtType` | string | `plaza` (see below), `market`, `residential` (also `slum`), `industrial` (`craft`, `harbour`), `civic` (`core`, `temple`, `citadel`), `rural` (`outskirt`) | District Frontage (optional filter, copied onto lots); a plaza graph selects `plaza` |
+| `plazaRadius` | float | plaza cells holding a plaza landmark: that landmark's footprint radius `r` in metres | plaza graph (ring / layout size) |
+| `landmarkId` | string | plaza cells holding a plaza landmark: that landmark's id (its point below) | plaza graph (centre) |
 | `mapgenKind` | string | the mapgen district kind | none (passed through to lots) |
 | `districtId` | string | the `town` region id in `regions.json` | none (provenance) |
 | `density` | float | relative built density 0–1 | none yet |
@@ -35,6 +37,12 @@ Ids are integers in file order: cells in district order, splines in road order, 
 
 `lotSetback`, floors and building styles are not written, so the nodes' own defaults apply.
 
+**Plazas.** A plaza landmark is a landmark of kind `square` (any generator) or of kind `market` from the `grid`
+generator (its central "Market Square"). A district is a plaza when it holds a plaza landmark or its kind is `plaza`.
+A plaza cell has `districtType: plaza` (whatever its `mapgenKind`, usually `core`), `frontage: false` on every edge,
+and, when it holds a plaza landmark, `plazaRadius` and `landmarkId` of the first one in landmark order. A `plaza`-kind
+district without a landmark has neither key. A `market` landmark from another generator is not a plaza.
+
 **Edges** — one record per polygon edge (`edges[i]` = `outer[i] → outer[i+1]`):
 
 - `splineRef`: the spline of the road the edge runs along, when the edge lies within 1 mm of that road's polyline
@@ -42,7 +50,7 @@ Ids are integers in file order: cells in district order, splines in road order, 
   `roadMaterial` and `sidewalkWidth` onto the edge; District Frontage builds only on edges with a `roadWidth`.
 - `neighbour`: the cell sharing exactly this edge in the opposite direction (across the road centreline), else -1.
 - `attrs.frontagePriority` (int): 1 on `main` roads, 0 on others (corner ownership in District Frontage).
-- `attrs.frontage: false` on every edge of a district holding a `square` landmark (the plaza stays open).
+- `attrs.frontage: false` on every edge of a plaza cell (the plaza stays open).
 
 Wall, river and open-edge sides have `splineRef: -1` and get no frontage.
 
@@ -64,7 +72,7 @@ Alleys are not exported: nodachi's Alleys node carves them from blocks deeper th
 
 | attribute | type | value |
 |---|---|---|
-| `landmarkType` | string | gate kind (`gate`, `postern`, `water_gate`, `entry`); landmark kind, `square` → `plaza` |
+| `landmarkType` | string | gate kind (`gate`, `postern`, `water_gate`, `entry`); landmark kind, `plaza` for a plaza landmark (`square`, grid `market`) |
 | `gateId`, `wallId`, `roadId` | string | gate, its wall and its road (gates) |
 | `landmarkId`, `mapgenKind`, `label` | string | landmarks |
 | `radius` | float | landmark footprint radius (landmarks) |

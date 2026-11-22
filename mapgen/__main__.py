@@ -1,4 +1,4 @@
-"""mapgen command line: build | validate | probe | diff | spec | spec-edit | flowgraph | town | export-nlayout | types | palette."""
+"""mapgen command line: build | validate | probe | diff | spec | spec-edit | flowgraph | town | export-nlayout | export-landcover | types | palette."""
 from __future__ import annotations
 
 import argparse
@@ -541,6 +541,8 @@ def main(argv: Optional[List[str]] = None) -> int:
     town_cli.add_parser(sub, _positive_float)
     from . import export_nlayout
     export_nlayout.add_parser(sub)
+    from . import export_landcover
+    export_landcover.add_parser(sub)
 
     t = sub.add_parser("types", help="print the type table")
     t.set_defaults(func=cmd_types)
