@@ -403,7 +403,7 @@ def cmd_build(args) -> int:
     rc = 0
     for path in specs:
         try:
-            buildmod.build(path, args.out, args.only, palette_path=args.palette)
+            buildmod.build(path, args.out, args.only, palette_path=args.palette, splat_blend=args.splat_blend)
         except FileNotFoundError:
             print("error: file not found: %s" % path)
             rc = 1
@@ -428,6 +428,8 @@ def main(argv: Optional[List[str]] = None) -> int:
     b.add_argument("--out", default="out")
     b.add_argument("--only", choices=["render", "analyze", "export"])
     b.add_argument("--palette", help="palette file; keys it omits fall back to mapgen/palette.yaml")
+    b.add_argument("--splat-blend", action="store_true",
+                   help="soft splat edges + grass/dirt noise with default settings when the spec has no output.splat_blend")
     b.set_defaults(func=cmd_build)
 
     v = sub.add_parser("validate", help="validate a spec and report every error")

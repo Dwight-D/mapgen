@@ -314,11 +314,27 @@ class Analysis:
 
 
 @dataclass
+class SplatBlend:
+    """Opt-in soft splat edges plus seeded grass/dirt noise (output.splat_blend). Distances in metres."""
+    edge: float = 3.0           # feather width of every region/line splat edge (gaussian sigma = edge / 2)
+    road_edge: float = 4.0      # dirt shoulder beside road lines, fading to 0 at this distance
+    noise_scale: float = 24.0   # feature size of the grass/dirt noise
+    patches: float = 0.6        # max dirt share of a dirt patch in grass (0 = off)
+    patch_reach: float = 45.0   # patches fade out over this distance from town/road ground
+    tufts: float = 0.5          # max grass share of a grass tuft in town dirt (0 = off)
+    seed: Optional[int] = None  # noise seed; None = derived from the map seed
+
+
+SPLAT_BLEND_KEYS = ["edge", "road_edge", "noise_scale", "patches", "patch_reach", "tufts", "seed"]
+
+
+@dataclass
 class Output:
     render_px: int = 1536
     heightmap_res: int = 1025
     splat_res: int = 1024
     grid_step: float = 500.0
+    splat_blend: Optional[SplatBlend] = None    # None = hard splat edges, no noise
 
 
 @dataclass
@@ -361,6 +377,33 @@ class MapSpec:
 
 REF_TARGETS = "a point reference names a POI, a spawn base or a `points` entry"
 REF_PLACES = "point references are accepted only in region at/points/path, line path and crossing at/path"
+
+
+def _splat_blend(v: "_V", raw: Any) -> Optional[SplatBlend]:
+    """output.splat_blend: absent/false = off, true = defaults, a mapping = defaults overridden per key."""
+    if raw is None or raw is False:
+        return None
+    if raw is True:
+        return SplatBlend()
+    p = "output.splat_blend"
+    if not v.keys(raw, p, SPLAT_BLEND_KEYS, []):
+        return None
+    d = SplatBlend()
+    seed = None
+    if "seed" in raw:
+        if isinstance(raw["seed"], int) and not isinstance(raw["seed"], bool) and raw["seed"] >= 0:
+            seed = raw["seed"]
+        else:
+            v.err(p + ".seed", "expected an integer >= 0, got %r" % (raw["seed"],))
+    return SplatBlend(
+        edge=v.num(raw, "edge", p, d.edge, nonneg=True),
+        road_edge=v.num(raw, "road_edge", p, d.road_edge, nonneg=True),
+        noise_scale=v.num(raw, "noise_scale", p, d.noise_scale, positive=True),
+        patches=v.num(raw, "patches", p, d.patches, lo=0.0, hi=1.0),
+        patch_reach=v.num(raw, "patch_reach", p, d.patch_reach, positive=True),
+        tufts=v.num(raw, "tufts", p, d.tufts, lo=0.0, hi=1.0),
+        seed=seed,
+    )
 
 
 class _V:
@@ -955,7 +998,7 @@ def _validate(raw: Any, types: TypeTable, palette: Palette) -> Tuple[Optional[Ma
         )
     output = Output()
     o = raw.get("output")
-    if o is not None and v.keys(o, "output", ["render_px", "heightmap_res", "splat_res", "grid_step"], []):
+    if o is not None and v.keys(o, "output", ["render_px", "heightmap_res", "splat_res", "grid_step", "splat_blend"], []):
         hres = v.integer(o, "heightmap_res", "output", 1025, 3)
         if "heightmap_res" in o and isinstance(o["heightmap_res"], int) and not isinstance(o["heightmap_res"], bool):
             n = o["heightmap_res"] - 1
@@ -966,6 +1009,7 @@ def _validate(raw: Any, types: TypeTable, palette: Palette) -> Tuple[Optional[Ma
             heightmap_res=hres,
             splat_res=v.integer(o, "splat_res", "output", 1024, 2),
             grid_step=v.num(o, "grid_step", "output", 500.0, positive=True),
+            splat_blend=_splat_blend(v, o.get("splat_blend")),
         )
 
     if v.errors:

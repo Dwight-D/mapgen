@@ -43,6 +43,7 @@ python -m mapgen flowgraph check <graph> <spec> [--strict]       # spec vs graph
 python -m mapgen flowgraph check <graph> <spec> --terrain [--strict]   # also: walkable terrain must connect exactly the graph's nodes (terrain-missing / terrain-extra edges; ~7 s on town_square)
 python -m mapgen types                                         # print the type table (types.yaml)
 python -m mapgen build    <spec> --palette my_palette.yaml     # other render colours (omitted keys use palette.yaml)
+python -m mapgen build    <spec> --splat-blend                 # soft splat edges + grass/dirt noise (defaults) when the spec has no output.splat_blend
 python -m mapgen palette                                       # L* lightness matrix + greyscale legibility check
 ```
 

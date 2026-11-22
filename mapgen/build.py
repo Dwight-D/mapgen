@@ -167,9 +167,12 @@ def prepare(spec_path: str, palette_path: Optional[str] = None):
 
 
 def build(spec_path: str, out_root: str = "out", only: Optional[str] = None,
-          log: Callable[[str], None] = print, palette_path: Optional[str] = None) -> str:
-    """Build one spec. Raises schema.SpecError on invalid specs (before writing anything). Returns the out dir."""
+          log: Callable[[str], None] = print, palette_path: Optional[str] = None, splat_blend: bool = False) -> str:
+    """Build one spec. Raises schema.SpecError on invalid specs (before writing anything). Returns the out dir.
+    splat_blend=True turns on output.splat_blend with its defaults when the spec leaves it off."""
     spec = schema.load_spec(spec_path, palette_path)
+    if splat_blend and spec.output.splat_blend is None:
+        spec.output.splat_blend = schema.SplatBlend()
     out_dir = os.path.join(out_root, spec.name)
     os.makedirs(out_dir, exist_ok=True)
     t_all = time.time()

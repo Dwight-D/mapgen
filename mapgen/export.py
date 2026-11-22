@@ -7,15 +7,17 @@ from typing import Dict, List
 
 import numpy as np
 from PIL import Image
+from scipy import ndimage
 from shapely.geometry import MultiPolygon, Polygon
 
 from . import __version__, export_settlements, raster
+from . import noise as noisemod
 from . import height as heightmod
 from .analysis import AnalysisResult
 from .geometry import MapGeometry, _resample, chaikin
 from .height import Heightmap
 from .raster import Grid
-from .schema import MapSpec
+from .schema import MapSpec, SplatBlend
 
 AXIS_TEXT = ("World units are metres. Origin is the south-west corner. Horizontal axes are x (east) and z (north); "
              "y is height in metres. heightmap.png is north-up (row 0 = north); heightmap.r16 is raw little-endian "
@@ -95,6 +97,8 @@ def splat_weights(spec: MapSpec, geoms: MapGeometry, hm: Heightmap, grid: Grid) 
         if geoms.lines[i].area.is_empty or types.lines[ln.type].get("height_mode") != "water":
             continue
         paint(types.lines[ln.type]["splat"], raster.mask(geoms.lines[i].area.buffer(8.0), grid))
+    if spec.output.splat_blend is not None:
+        blend_splats(w, idx, spec.output.splat_blend, blend_seed(spec), grid)
     # slope toward rock
     if "rock" in idx:
         slope = heightmod.slope_grid(hm.h, hm.grid)
@@ -104,6 +108,62 @@ def splat_weights(spec: MapSpec, geoms: MapGeometry, hm: Heightmap, grid: Grid) 
         w *= (1.0 - t)[None]
         w[k] += t
     return w
+
+
+def blend_seed(spec: MapSpec) -> int:
+    """Noise seed of output.splat_blend: its explicit seed, else derived from the map seed."""
+    b = spec.output.splat_blend
+    if b is not None and b.seed is not None:
+        return int(b.seed)
+    return (int(spec.seed) * 1000003 + 0x5B1E) & 0x7FFFFFFF
+
+
+def _move(w: np.ndarray, src: int, dst: int, frac: np.ndarray) -> None:
+    """Move the share `frac` of layer src's weight to layer dst (per pixel; the weight sum is unchanged)."""
+    m = w[src] * frac
+    w[src] -= m
+    w[dst] += m
+
+
+def blend_splats(w: np.ndarray, idx: Dict[str, int], b: SplatBlend, seed: int, grid: Grid) -> None:
+    """In place: road shoulders to dirt, noise dirt patches in grass near town/road ground, noise grass tufts in
+    dirt, then feather every layer edge. Runs on the hard-painted weights before the slope-to-rock pass."""
+    cell = (grid.cell_size_y, grid.cell_size_x)
+    has = lambda n: n in idx    # noqa: E731
+    halo = np.zeros(grid.shape, dtype=np.float32)
+    if has("road") and has("dirt") and b.road_edge > 0:
+        road = w[idx["road"]] >= 0.5
+        if road.any():
+            d = ndimage.distance_transform_edt(~road, sampling=cell).astype(np.float32)
+            halo = np.where(road, 0.0, 1.0 - _smoothstep(0.0, b.road_edge, d)).astype(np.float32)
+            for n in ("grass", "field", "forest"):
+                if has(n):
+                    _move(w, idx[n], idx["dirt"], halo)
+    if has("grass") and has("dirt") and (b.patches > 0 or b.tufts > 0):
+        xs = (np.arange(grid.cols) + 0.5) * grid.cell_size_x
+        ys = grid.size_y - (np.arange(grid.rows) + 0.5) * grid.cell_size_y
+        g, dk = idx["grass"], idx["dirt"]
+        if b.patches > 0:
+            ground = w[dk] + (w[idx["road"]] if has("road") else 0.0) >= 0.5
+            if ground.any():
+                d = ndimage.distance_transform_edt(~ground, sampling=cell).astype(np.float32)
+                near = 1.0 - _smoothstep(0.0, b.patch_reach, d)
+                n1 = noisemod.fbm2_grid(xs / b.noise_scale, ys / b.noise_scale, seed, octaves=3)
+                _move(w, g, dk, (b.patches * _smoothstep(0.05, 0.35, n1) * near).astype(np.float32))
+        if b.tufts > 0:
+            s2 = b.noise_scale * 0.6
+            n2 = noisemod.fbm2_grid(xs / s2, ys / s2, seed + 7919, octaves=3)
+            _move(w, dk, g, (b.tufts * _smoothstep(0.15, 0.45, n2) * (1.0 - halo)).astype(np.float32))
+    if b.edge > 0:
+        sigma = (b.edge / 2.0 / grid.cell_size_y, b.edge / 2.0 / grid.cell_size_x)
+        for k in range(w.shape[0]):
+            w[k] = ndimage.gaussian_filter(w[k], sigma=sigma, mode="nearest")
+    np.clip(w, 0.0, None, out=w)
+
+
+def _blend_echo(b: SplatBlend) -> dict:
+    return {"edge": b.edge, "road_edge": b.road_edge, "noise_scale": b.noise_scale, "patches": b.patches,
+            "patch_reach": b.patch_reach, "tufts": b.tufts, "seed": b.seed}
 
 
 def write_heightmap(spec: MapSpec, hm: Heightmap, out: str) -> List[str]:
@@ -287,8 +347,10 @@ def write_resolved(spec: MapSpec, out: str) -> List[str]:
                  for p in spec.all_pois()],
         "analysis": {"cell": spec.analysis.cell, "speed": spec.analysis.speed,
                      "balance_tolerance": spec.analysis.balance_tolerance},
-        "output": {"render_px": spec.output.render_px, "heightmap_res": spec.output.heightmap_res,
-                   "splat_res": spec.output.splat_res, "grid_step": spec.output.grid_step},
+        "output": dict({"render_px": spec.output.render_px, "heightmap_res": spec.output.heightmap_res,
+                        "splat_res": spec.output.splat_res, "grid_step": spec.output.grid_step},
+                       **({"splat_blend": _blend_echo(spec.output.splat_blend)}
+                          if spec.output.splat_blend is not None else {})),   # key present only when on
         "auto_crossings": spec.auto_crossings,
         "types": {
             "regions": {k: {kk: _inf(vv) for kk, vv in e.items()} for k, e in spec.types.regions.items()},

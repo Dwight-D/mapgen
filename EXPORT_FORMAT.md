@@ -93,6 +93,12 @@ index is z). Channels follow `terrain_layers`; default layers in order:
 Per pixel the weights sum to exactly 255 across both images, so they load directly as normalized
 alphamap weights.
 
+Edges are hard (about one pixel of anti-aliasing) by default. A map that sets `output.splat_blend`
+exports soft edges (a few metres of feathering), dirt shoulders beside roads, noise dirt patches in
+the grass near town and road ground, and grass tufts in the dirt; the layers, channels and the
+255-sum are the same. `spec.resolved.json` `output.splat_blend` holds the settings when it is on
+(MAPGEN_SPEC.md §6.5).
+
 ### 3.4 Masks — `masks/*.png`
 
 8-bit greyscale coverage (0–255), `splat_res²`, row 0 = north. One file per region type, line
@@ -204,7 +210,7 @@ The spec with every default applied, scatter regions and automatic crossings exp
 order, so an importer never needs the YAML or mapgen's defaults. Keys: `format_version` (the spec format
 version), `name`, `brief`, `size`,
 `seed`, `terrain`, `teams` (`[{id, name, color, base}]`), `regions`, `lines`, `crossings`,
-`pois` (bases included), `analysis`, `output`, `auto_crossings`, `types` (the type table:
+`pois` (bases included), `analysis`, `output` (with `splat_blend` only when the splat blend is on), `auto_crossings`, `types` (the type table:
 costs, line-of-sight, splat layer, default widths/footprints per type). Coordinates here use spec
 naming (`[x, y]` ground plane = export `[x, z]`). Geometry in this file is the authored input
 (control points, radii), not the final shapes — use `regions.json` / `lines.json` /

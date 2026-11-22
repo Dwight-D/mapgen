@@ -150,6 +150,10 @@ output:                         # all optional; defaults shown
   heightmap_res: 1025           # square, 2^n+1
   splat_res: 1024               # square
   grid_step: 500                # metres between labelled grid lines on the render
+  splat_blend: false            # soft splat edges + grass/dirt noise (§6.5): false/absent = off, true = the
+                                # defaults below, or a mapping overriding any of them:
+                                # {edge: 3, road_edge: 4, noise_scale: 24, patches: 0.6, patch_reach: 45,
+                                #  tufts: 0.5, seed: <derived from the map seed>}
 ```
 
 The natural-shape keys (`warp`, `fragment`, `width_var`, `scatter`) are shown in `maps/example_natural.yaml`; the
@@ -792,6 +796,20 @@ sits `0.75 · water_depth` above the bed, leaving freeboard below the banks.
 scale the other layers by `1 − coverage`; then lines (roads/trails/rivers' banks: river and lake masks dilated by 8 m
 write `sand`); then slope: where slope > 0.6 blend toward `rock` by `smoothstep(0.6, 1.0, slope)`. Finally normalize
 so channels sum to 1 and quantize so they sum to exactly 255 (put the rounding remainder in the largest channel).
+
+**Splat blend** (`output.splat_blend`, opt-in; `build --splat-blend` turns it on with the defaults for a spec that
+leaves it off). It runs on the painted weights after the water banks and before the slope step; every step moves weight
+between layers, so the per-pixel sum is unchanged. Distances are metres; `smoothstep` as above.
+1. Road shoulders: `d` = distance to the nearest pixel with `road ≥ 0.5`; outside the road, the share
+   `1 − smoothstep(0, road_edge, d)` (the halo `h`) of `grass`, `field` and `forest` moves to `dirt`.
+2. Dirt patches: `near = 1 − smoothstep(0, patch_reach, d_g)` with `d_g` the distance to ground where
+   `dirt + road ≥ 0.5`; noise `n1 = fbm2(x / noise_scale, y / noise_scale, seed, 3 octaves)`; the share
+   `patches · smoothstep(0.05, 0.35, n1) · near` of `grass` moves to `dirt`.
+3. Grass tufts: `n2` = the same fbm at scale `0.6 · noise_scale` with seed `seed + 7919`; the share
+   `tufts · smoothstep(0.15, 0.45, n2) · (1 − h)` of `dirt` moves to `grass`.
+4. Feather: every layer is gaussian-blurred with sigma `edge / 2` (edge-clamped), softening all region and line edges.
+`seed` defaults to `(map seed · 1000003 + 0x5B1E) mod 2^31`. `patches: 0`, `tufts: 0`, `road_edge: 0` or `edge: 0`
+switch the single step off. `spec.resolved.json` echoes the settings as `output.splat_blend` when on.
 
 ### 6.6 Report
 
