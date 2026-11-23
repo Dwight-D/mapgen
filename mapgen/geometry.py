@@ -10,7 +10,7 @@ import shapely
 from shapely import affinity
 from shapely.geometry import GeometryCollection, LineString, MultiPolygon, Point, Polygon, box
 from shapely.geometry.base import BaseGeometry
-from shapely.ops import unary_union
+from shapely.ops import substring, unary_union
 from shapely.validation import make_valid
 from skimage import measure
 
@@ -27,6 +27,7 @@ WOBBLE_SEED = 9500         # noise-seed offset of line wobble
 WARP_SEGMENT = 10.0       # metres, outline densification before domain warp
 WIDTH_VAR_STEP = 10.0     # metres, segment length of variable-width lines
 WIDTH_VAR_WAVELENGTH = 250.0
+RIVER_LAKE_OVERLAP = 1.0  # metres a water line's centreline reaches past the shore into the lake it ends in
 FRAGMENT_CELL = 5.0       # metres, raster cell of fragmentation fields
 FRAGMENT_MIN_AREA = 2500.0
 SCATTER_MIN_AREA = 1500.0
@@ -616,10 +617,30 @@ def scatter_geometry(sc: Scatter, spec: MapSpec, bounds: BaseGeometry, blockers:
     return drop_small_parts(g, 0.0, SCATTER_MIN_AREA)
 
 
+def trim_in_lakes(cl: LineString, lakes: BaseGeometry) -> LineString:
+    """A water line's centreline with each end that lies inside a lake cut back to the shore plus
+    RIVER_LAKE_OVERLAP m into the lake. Pieces inside a lake between two dry stretches are kept; a line wholly
+    inside a lake is returned unchanged."""
+    if cl.is_empty or lakes.is_empty or not cl.intersects(lakes):
+        return cl
+    dry = cl.difference(lakes)
+    pieces = [g for g in getattr(dry, "geoms", [dry]) if isinstance(g, LineString) and not g.is_empty]
+    if not pieces:
+        return cl
+    ends = [cl.project(Point(c)) for g in pieces for c in (g.coords[0], g.coords[-1])]
+    a, b, total = min(ends), max(ends), cl.length
+    a = 0.0 if a <= 1e-6 else max(0.0, a - RIVER_LAKE_OVERLAP)
+    b = total if b >= total - 1e-6 else min(total, b + RIVER_LAKE_OVERLAP)
+    if a <= 0.0 and b >= total:
+        return cl
+    out = substring(cl, a, b)
+    return out if isinstance(out, LineString) and out.length > 0 else cl
+
+
 def build_geometries(spec: MapSpec) -> MapGeometry:
     """Build every region polygon, line (centreline, area) and crossing of a spec, clipped and valid.
     Order: regions; lines, parents before tributaries (a tributary end is snapped onto its parent's centreline);
-    water lines clipped to lie outside lakes; crossings; automatic crossings (appended to `spec.crossings`);
+    water lines clipped to lie outside lakes (areas; centreline ends inside a lake trimmed to the shore); crossings; automatic crossings (appended to `spec.crossings`);
     scatter entries, one region each: entries without `on` are inserted before the explicit regions, entries with
     `on` after them, in `spec.regions` (once)."""
     bounds = box(0.0, 0.0, spec.size[0], spec.size[1])
@@ -639,6 +660,7 @@ def build_geometries(spec: MapSpec) -> MapGeometry:
         for k, ln in enumerate(spec.lines):
             if types.lines[ln.type].get("height_mode") == "water" and not lines[k].area.is_empty:
                 lines[k].area = drop_small_parts(clean_polygon(lines[k].area.difference(lakes), bounds), 0.0, 1.0)
+                lines[k].centreline = trim_in_lakes(lines[k].centreline, lakes)
     crossings = [crossing_geometry(c, bounds) for c in spec.crossings]
     if spec.auto_crossings and not spec.auto_applied:
         for c, g in auto_crossings(spec, regions, lines, crossings, bounds):

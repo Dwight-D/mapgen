@@ -23,7 +23,21 @@ WATER_FILL = 0.75
 WATER_LOCAL_SIGMA = 4.0
 WATER_BANK_PROBE = 2.0
 WATER_FREEBOARD = 0.8
-# Carving eases the banks toward the bed but keeps ground outside the water at least this far above the surface.
+# Shore shaping. Under water the bed shelves from WATER_EDGE_DEPTH at the shoreline to the full depth along a
+# smoothstep over the shelf width: LAKE_SHELF m for a lake, RIVER_SHELF x the half width for a river (widening to
+# LAKE_SHELF within RIVER_POOL m of a lake, so a river mouth shoals into the lake's margin). Above water every bank
+# (lake shore, island, river bank) is capped by the shore profile `shore_cap`: it rises SHORE_SLOPE per metre from the
+# waterline up to SHORE_RISE m above the water, then steepens smoothly to SHORE_STEEP per metre; the cap meets the
+# untouched ground through a smooth minimum of width SHORE_BLEND m.
+LAKE_SHELF = 8.0
+RIVER_SHELF = 0.7
+SHORE_SLOPE = 0.35
+SHORE_STEEP = 1.0
+SHORE_RISE = 3.0
+SHORE_BLEND = 0.5
+# The signed shoreline distances behind the shelf and the shore cap are blurred with this sigma (m).
+SHORE_SMOOTH = 1.5
+# Bank ground never drops below the surface + min(WATER_BANK_LIP, shore_cap) (unless the ground was already lower).
 WATER_BANK_LIP = 0.3
 # The final blur never leaves a water cell's ground less than this far below its surface.
 WATER_EDGE_DEPTH = 0.1
@@ -48,6 +62,24 @@ class Heightmap:
 def smoothstep(e0: float, e1: float, x):
     t = np.clip((np.asarray(x, dtype=np.float64) - e0) / (e1 - e0), 0.0, 1.0)
     return t * t * (3.0 - 2.0 * t)
+
+
+def shore_cap(d):
+    """Height (m) above the water that the shore profile allows at distance `d` (m) from the waterline: slope
+    SHORE_SLOPE up to SHORE_RISE (at d0 = SHORE_RISE / SHORE_SLOPE), then the slope blends (smoothstep) to
+    SHORE_STEEP over d0..1.6 d0."""
+    d = np.maximum(np.asarray(d, dtype=np.float64), 0.0)
+    d0 = SHORE_RISE / SHORE_SLOPE
+    a, b = d0, 1.6 * d0
+    t = np.clip((d - a) / (b - a), 0.0, 1.0)
+    extra = np.where(d > b, 0.5 * (b - a) + (d - b), (b - a) * (t ** 3 - 0.5 * t ** 4))
+    return SHORE_SLOPE * d + (SHORE_STEEP - SHORE_SLOPE) * extra
+
+
+def _smin(a, b, k: float):
+    """Polynomial smooth minimum of width k (equals min(a, b) where |a - b| >= k)."""
+    t = np.clip(0.5 + 0.5 * (b - a) / k, 0.0, 1.0)
+    return b + (a - b) * t - k * t * (1.0 - t)
 
 
 def sample(hm: Heightmap, x, y) -> np.ndarray:
@@ -235,7 +267,8 @@ def synthesize(spec: MapSpec, geoms: MapGeometry) -> Heightmap:
             col, row = grid.to_pixel(pts[:, 0], pts[:, 1])
             ci = np.clip(np.floor(col).astype(int), 0, grid.cols - 1)
             ri = np.clip(np.floor(row).astype(int), 0, grid.rows - 1)
-            inside = {li: lh[ri, ci] for li, lh in lake_hard.items() if lh[ri, ci].any()}
+            # a sample within the bank probe of a lake is at the lake (a centreline ends just past the shore)
+            inside = {li: lg[ri, ci] for li, lg in grown.items() if lg[ri, ci].any()}
             samples[ln.index] = [pts, s, ws, inside]
         # river mouths: a lake whose shore is higher than an entering river's water near the mouth drops to it
         for ln in rivers:
@@ -269,49 +302,75 @@ def synthesize(spec: MapSpec, geoms: MapGeometry) -> Heightmap:
             samples[ln.index][2] = _lower_to(ws, level, dt)
             samples[parent.index][2] = _lower_to(pws, level, dp)
 
+        cs = (grid.cell_size_y, grid.cell_size_x)
         wet = np.zeros(h.shape, dtype=bool)
-        water_top = np.full(h.shape, np.inf, dtype=np.float64)  # water surface over each carved water cell
-        bank_floor = np.full(h.shape, -np.inf, dtype=np.float64)  # lowest allowed ground beside the water
-
-        def carve(h, sel, hard, water, w):
-            # the banks ease toward the bed but ground outside the water never drops below the surface + a lip;
-            # water already carved is never raised
-            bed = water - WATER_FILL * depth
-            floor = np.minimum(h, water + WATER_BANK_LIP)
-            out = np.maximum(h + (bed - h) * w, floor)
-            out = np.where(hard, np.minimum(out, bed), out)
-            out = np.where(wet, np.minimum(h, out), out)
-            bank = sel & ~hard & ~wet
-            return np.where(sel, out, h), np.where(bank, np.maximum(bank_floor, floor), bank_floor)
-
-        for r in water_regions:
-            if r.index not in lake_hard:
-                continue
-            m = rmask(r.index)
-            hard = lake_hard[r.index]
-            w = raster.soft(m, 20.0, grid)
-            # islands keep their shape: only a narrow shore eases toward the bed
-            holes = ndimage.binary_fill_holes(hard) & ~hard
-            if holes.any():
-                w = np.where(holes, raster.soft(m, 2.0 * WATER_BANK_PROBE, grid), w)
-            h, bank_floor = carve(h, w > 1e-3, hard, np.full(h.shape, lake_surface[r.index]), w)
+        water_top = np.full(h.shape, np.inf, dtype=np.float64)  # water surface over each water cell
+        shelf = np.full(h.shape, np.inf, dtype=np.float64)      # shelf width (m) of each water cell
+        bodies = []  # (hard mask, surface over it) per lake and per river
+        for li in lake_ids:
+            hard = lake_hard[li]
+            water_top = np.where(hard, np.minimum(water_top, lake_surface[li]), water_top)
+            shelf = np.where(hard, np.minimum(shelf, LAKE_SHELF), shelf)
             wet |= hard
-            water_top = np.where(hard, np.minimum(water_top, lake_surface[r.index]), water_top)
+            bodies.append((hard, np.where(hard, lake_surface[li], np.inf)))
+        if wet.any():
+            near_lake = 1.0 - smoothstep(0.0, RIVER_POOL, ndimage.distance_transform_edt(~wet, sampling=cs))
+        else:
+            near_lake = np.zeros(h.shape)
         for ln in rivers:
             pts, s, ws, _ = samples[ln.index]
             river_surface[ln.index] = ws.astype(np.float32)
-            m = raster.mask(geoms.lines[ln.index].area, grid)
-            w = raster.soft(m, ln.width / 2.0 + 10.0, grid)
+            hard = raster.hard(raster.mask(geoms.lines[ln.index].area, grid))
+            if not hard.any():
+                continue
             fpts, fs = _resample(np.asarray(geoms.lines[ln.index].centreline.coords), RIVER_CARVE_STEP)
             fws = np.interp(fs, s, ws)
-            sel = w > 1e-3
-            water = np.zeros_like(h)
-            _, idx = cKDTree(fpts).query(np.column_stack([X[sel], Y[sel]]))
-            water[sel] = fws[idx]
-            hard = raster.hard(m)
-            h, bank_floor = carve(h, sel, hard, water, w)
+            _, idx = cKDTree(fpts).query(np.column_stack([X[hard], Y[hard]]))
+            water = np.full(h.shape, np.inf, dtype=np.float64)
+            water[hard] = fws[idx]
+            water_top = np.minimum(water_top, water)
+            rs = RIVER_SHELF * ln.width / 2.0
+            rs = rs + (max(LAKE_SHELF, rs) - rs) * near_lake
+            shelf = np.where(hard, np.minimum(shelf, rs), shelf)
             wet |= hard
-            water_top = np.where(hard, np.minimum(water_top, water), water_top)
+            bodies.append((hard, water))
+
+        bank_floor = np.full(h.shape, -np.inf, dtype=np.float64)  # lowest allowed ground beside the water
+        if wet.any():
+            def signed(hard):
+                # signed distance (m) to the shoreline of a water mask, negative under water; away from the shoreline
+                # it blends (smoothstep over 0..2 SHORE_SMOOTH) to its blur with sigma SHORE_SMOOTH, so the raster
+                # staircase leaves no facets while the waterline itself stays exact
+                half_cell = 0.5 * grid.cell_size_x
+                sd = np.where(hard, half_cell - ndimage.distance_transform_edt(hard, sampling=cs),
+                              ndimage.distance_transform_edt(~hard, sampling=cs) - half_cell)
+                blur = ndimage.gaussian_filter(sd, sigma=_sigma(SHORE_SMOOTH, grid))
+                w = smoothstep(0.0, 2.0 * SHORE_SMOOTH, np.abs(sd))
+                return sd + (blur - sd) * w
+
+            # under water: the bed shelves from the shoreline to the full depth; nothing is raised
+            sd_wet = signed(wet)
+            d_in = np.maximum(-sd_wet, 0.0)
+            d_out = np.maximum(sd_wet, 0.0)
+            ramp = smoothstep(0.0, 1.0, d_in / np.where(wet, shelf, 1.0))
+            dep = np.maximum(WATER_EDGE_DEPTH, WATER_FILL * depth * ramp)
+            # above water: each dry cell is capped by the lowest shore profile over all water bodies, each measured
+            # from the body's nearest water cell (a min of continuous caps, so no step where two bodies' reaches meet);
+            # every body's own banks (within the bank probe) keep the ground at least at its surface + the lip, the lip
+            # following the shore profile from the nearest water of any body
+            lip = np.minimum(WATER_BANK_LIP, shore_cap(d_out))
+            top_cap = np.full(h.shape, np.inf, dtype=np.float64)
+            top_lip = np.full(h.shape, -np.inf, dtype=np.float64)
+            for hard, top in bodies:
+                _, (ir, ic) = ndimage.distance_transform_edt(~hard, return_indices=True)
+                d_k = np.maximum(signed(hard), 0.0)
+                top_cap = np.minimum(top_cap, top[ir, ic] + shore_cap(d_k))
+                top_lip = np.maximum(top_lip, np.where(d_k <= probe_m, top[ir, ic] + lip, -np.inf))
+            floor = np.minimum(h, top_lip)
+            dry = np.maximum(_smin(h, top_cap, SHORE_BLEND), floor)
+            h = np.where(wet, np.minimum(h, water_top - dep), dry)
+            # the finishing blur holds banks next to the water at their floor
+            bank_floor = np.where(~wet & (d_out <= 4.0 * grid.cell_size_x), floor, -np.inf)
 
     # 9. finish
     h = ndimage.gaussian_filter(h, sigma=1.0)

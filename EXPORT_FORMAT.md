@@ -72,7 +72,10 @@ Same data in two encodings; height in metres = `value / 65535 · height_max`.
 
 The heightmap already contains every gameplay-relevant shape: mountains (impassable by slope),
 passes cut through them, plateaus and town pads flattened, roads and trails flattened into the
-terrain, ramps relaxed to walkable slopes, river and lake beds carved.
+terrain, ramps relaxed to walkable slopes, river and lake beds carved. Water shores are graded: every bank rises
+from the waterline at about 19° up to 3 m above the water before it steepens, and under water the bed shelves from
+about 0.1 m deep at the shoreline to the full depth over 8 m for a lake (about a third of the width for a river),
+so a lake has a shallow margin and an island rises from the water as a beach.
 
 ### 3.3 Splatmaps — `splat_0.png`, `splat_1.png`
 
@@ -169,12 +172,14 @@ Movement cost and line-of-sight per type are also in `spec.resolved.json.types.r
 ### 3.7 `lines.json` — rivers, roads, trails, cliffs
 
 `[{id, type, width, points: [[x, z, y], ...], water_surface}]`. `points` is the final
-(smoothed, meandered) centreline resampled every 10 m; `y` is terrain height on the centreline;
+(smoothed, meandered) centreline resampled every 10 m; a river end that runs into a lake stops 1 m past the
+shoreline, so the river strip meets the lake plane at the shore (a river passing through a lake keeps its points
+across the lake); `y` is terrain height on the centreline;
 `width` is the nominal width in metres (rivers with `width_var` vary around it).
 `water_surface` is, for rivers, the water-plane height at each point (same length as `points`);
 `null` for other types. The surface follows the terrain: it sits below both banks at every point and may rise
-downstream where the ground rises. A tributary's joined end meets its parent's surface, and a river's points inside a
-lake carry the lake's `water_surface`.
+downstream where the ground rises. A tributary's joined end meets its parent's surface, and a river's points inside or
+within the bank probe of a lake (2 m, at least 2 heightmap cells) carry the lake's `water_surface`.
 
 | type | meaning | graybox suggestion |
 |---|---|---|

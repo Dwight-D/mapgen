@@ -266,8 +266,10 @@ and `smooth` (below).
   (`s` = arc length in metres). The area is the union of the centreline's 10 m segments, each buffered (round caps)
   by half the local width.
 - **Water union.** The area of every water line (type with `height_mode: water`, i.e. rivers) is clipped to lie
-  outside every lake region, so a line whose end runs into a lake leaves no stub inside it. The centreline is not
-  clipped.
+  outside every lake region, so a line whose end runs into a lake leaves no stub inside it. Each end of the
+  centreline that lies inside a lake is cut back to the shore plus 1 m into the lake, so the line (and its
+  `lines.json` points) ends at the shoreline; a stretch inside a lake between two dry stretches stays in the
+  centreline.
 
 ### 4.4 Crossings
 
@@ -651,20 +653,35 @@ All heights in metres; steps applied in order:
      levels.
    - **River:** sampled along the centreline every 10 m (the `lines.json` points); at each sample the surface =
      min of `ground` at the centreline and at `p` beyond each bank edge (the widest edge, `width/2 · (1 + 0.6 ·
-     width_var)`) − freeboard. A sample inside a lake carries the lake's surface.
+     width_var)`) − freeboard. A sample within `p` of a lake (or inside it) carries the lake's surface.
    - **Junctions** (a river entering a lake, a tributary joining its parent): both water bodies meet at the lower of
      the two levels. A lake drops to the lowest surface of an entering river within 10 m of its shore; a tributary's
      joined end and the parent samples within 10 m of the junction take the lower of the two. Around a junction a
      river surface is lowered to the junction level within 10 m and blends back to its own level over the next
      30 m; surfaces are only ever lowered.
-   - **Carving:** the bed lies `0.75 · water_depth` below the surface. Lakes, then rivers in spec order:
-     `h = max(lerp(h, bed, soft(mask, R)), min(h, surface + 0.3 m))` with `R` = 20 m for a lake (4 m inside an
-     island) and `width/2 + 10 m` for a river, then `h ≤ bed` on the hard mask; ground already carved as water is
-     never raised. Each river cell takes the surface of the nearest point of its centreline resampled every 0.5 m
-     (linear interpolation between the 10 m samples). The banks ease toward the bed but never drop below
-     the surface + 0.3 m (unless the ground was already lower).
+   - **Water cells and surfaces:** the water cells are the hard masks of the lakes and of the river areas. A lake
+     cell's surface is the lake level; a river cell takes the surface of the nearest point of its centreline
+     resampled every 0.5 m (linear interpolation between the 10 m samples); where water bodies overlap, the lower
+     surface wins.
+   - **Shelving bed:** the full depth is `D = 0.75 · water_depth`. A water cell at distance `d` from the nearest dry
+     cell (minus half a cell) gets `h = min(h, surface − max(0.1 m, D · smoothstep(0, S, d)))`: a shallow margin at
+     the shoreline that deepens smoothly to the full depth at the shelf width `S` = 8 m for a lake and
+     `0.7 · width/2` for a river; within 10 m of a lake a river's shelf widens toward 8 m
+     (`S + (8 − S) · (1 − smoothstep(0, 10 m, distance to the lake))`), so a river mouth shoals into the lake
+     margin. Ground already below the shelf profile stays.
+   - **Shore profile:** above water every bank (lake shore, island, river bank) is capped by the profile
+     `cap(d)`, `d` = distance from the body's nearest water cell: it rises 0.35 m per metre (19°) up to 3 m above
+     the water, then its slope blends (smoothstep) to 1.0 per metre (45°) over the next 0.6 × that distance.
+     Each dry cell is capped at `min` over all water bodies (each lake, each river) of `surface + cap(d)`, joined
+     to the ground through a smooth minimum of width 0.5 m; ground below the cap is untouched. So a lake shore
+     shelves from the surrounding ground down to the waterline and on under the water, and an island rises from
+     the water as a beach.
+   - **Bank floor:** within `p` of a water body, the ground never drops below that body's surface
+     `+ min(0.3 m, cap(d))` (`d` from the nearest water of any body), unless it was already lower; this keeps
+     the land between two channels at different levels above the higher water.
 10. **Finish:** gaussian blur sigma 1 pixel; then every water cell's ground is held at least 0.1 m below its
-    surface and every carved bank cell at its step 9 floor (`min(h, surface + 0.3 m)`); clamp to `[0, height_max]`.
+    surface and every bank cell within 4 cells of the water at its step 9 bank floor; clamp to
+    `[0, height_max]`.
 
 Noise (`noise.py`): 2D value noise on an integer lattice with smoothstep interpolation, hashed from
 `(ix, iy, seed)` with a fixed integer hash (no global RNG state); fbm sums octaves with lacunarity 2, gain 0.5,
