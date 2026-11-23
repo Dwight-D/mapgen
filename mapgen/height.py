@@ -17,6 +17,11 @@ from .schema import MapSpec
 # Water planes sit this fraction of water_depth above the carved bed (bed = bank - water_depth),
 # leaving a small freeboard below the banks.
 WATER_FILL = 0.75
+# River banks: the bed profile is capped by the local ground (blurred RIVER_LOCAL_SIGMA m) sampled at the centreline
+# and RIVER_BANK_PROBE m outside each bank edge.
+RIVER_LOCAL_SIGMA = 4.0
+RIVER_BANK_PROBE = 2.0
+RIVER_FREEBOARD = 0.8  # extra metres the bank cap sits below that local ground
 
 
 @dataclass
@@ -58,6 +63,21 @@ def _coords(grid: Grid):
     cols = (np.arange(grid.cols) + 0.5) * grid.cell_size_x
     ys = grid.size_y - (np.arange(grid.rows) + 0.5) * grid.cell_size_y
     return np.meshgrid(cols, ys)
+
+
+def _local_bank(h_local: np.ndarray, grid: Grid, pts: np.ndarray, reach: float) -> np.ndarray:
+    """Per centreline point: the lowest of h_local at the point and `reach` m to either side across the line."""
+    tx = np.gradient(pts[:, 0])
+    ty = np.gradient(pts[:, 1])
+    n = np.hypot(tx, ty)
+    n[n == 0] = 1.0
+    nx, ny = -ty / n, tx / n
+    out = None
+    for s in (-reach, 0.0, reach):
+        col, row = grid.to_pixel(pts[:, 0] + nx * s, pts[:, 1] + ny * s)
+        v = ndimage.map_coordinates(h_local, [row - 0.5, col - 0.5], order=1, mode="nearest")
+        out = v if out is None else np.minimum(out, v)
+    return out
 
 
 def synthesize(spec: MapSpec, geoms: MapGeometry) -> Heightmap:
@@ -156,6 +176,7 @@ def synthesize(spec: MapSpec, geoms: MapGeometry) -> Heightmap:
     river_surface: Dict[int, np.ndarray] = {}
     if water_regions or rivers:
         bank = ndimage.gaussian_filter(h, sigma=_sigma(80.0, grid))
+        h_local = ndimage.gaussian_filter(h, sigma=_sigma(RIVER_LOCAL_SIGMA, grid))
         depth = t.water_depth
         for r in water_regions:
             m = rmask(r.index)
@@ -175,6 +196,10 @@ def synthesize(spec: MapSpec, geoms: MapGeometry) -> Heightmap:
             pts, _ = _resample(np.asarray(geoms.lines[ln.index].centreline.coords), 10.0)
             col, row = grid.to_pixel(pts[:, 0], pts[:, 1])
             b = ndimage.map_coordinates(bank, [row - 0.5, col - 0.5], order=1, mode="nearest")
+            # the broad bank blur sits above the real ground in valleys and on downhill runs: cap it by the lower of
+            # the local ground at the centreline and just outside both banks (less a freeboard), so the surface stays
+            # below the banks
+            b = np.minimum(b, _local_bank(h_local, grid, pts, ln.width / 2.0 + RIVER_BANK_PROBE) - RIVER_FREEBOARD)
             if b[0] < b[-1]:
                 prof = np.minimum.accumulate(b[::-1])[::-1]
             else:
