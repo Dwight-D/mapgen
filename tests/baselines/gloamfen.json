@@ -1,9 +1,9 @@
 {
  "files": {
-  "export/crossings.json": "7d1db10e1c90c5fe813de46356bd570dfe2b36a5545609a931105f983fba0742",
-  "export/heightmap.png": "9f3c847c4e782f459751e79ae5ee84668204a091cf44c7ddb00c8bee57d3fe9f",
-  "export/heightmap.r16": "2974890d881ec46d698921c2df31d9f63aab0f89dede092ec35ac71711ad8bb0",
-  "export/lines.json": "ea2bdc094548c7784ab94847b8840403da7dce4af07ebc4d92121521dbbd6121",
+  "export/crossings.json": "aceef6514eb7c68b0af4fe7b0ceea072b24248491c800b6ff2a1c58cc13446c3",
+  "export/heightmap.png": "bbd16e01317811f8b3dbabb522d5d29dfbd5331291bb51b97afee0392635088a",
+  "export/heightmap.r16": "26823322de35dedd9e343fc9a717f26b9f77a2b590284dac86d5ce8f24b3091e",
+  "export/lines.json": "4e4c25bdb166f0bf88e72a714306e2ee1c9f11a2240d4d3a25ca5f9344b1eb55",
   "export/masks/bridge.png": "7485b7055fcc9bb7bc2627986a51f598bb897c4807e638d519890f0cc37fda7d",
   "export/masks/field.png": "ebcb7c6afa583b2da224cd0a11df0d5491d4ce38998c970b361039b16eea7fb5",
   "export/masks/ford.png": "ada34c183a86d880341b8b874b9110fa113aca50d941765960dbce72ecd46b75",
@@ -24,15 +24,15 @@
   "export/spec.resolved.json": "b585a587ec7ba1198fa8c7e81539774db8ac7cdabeb968c475f002fa6c1b0a11",
   "export/splat_0.png": "2df8a41f07e3370704d9a76a732ce5e9475ca4139465b7b104f42b585c8cfcd4",
   "export/splat_1.png": "3ca74ee23a6fbf953b1842f65ba22979e39113b3b59ae7493c9b02b9159364ab",
-  "map.png": "320e7441bae0e650fc9fdfe9528d7b3aec089ac08d60b769108ca2873bcf05e3",
-  "overlay_balance.png": "47b0dd097a9282d83b7a28a526262ef5dc84a6a6015297983e9cebab65c2d7ba",
-  "overlay_cost.png": "7d2cb3ef54b98753f44ca46c0d35129b84d88dd60f214f071befac54b4044cff",
-  "overlay_openness.png": "875041a15e6b3f6d881c18d274ddbfbd3902302a5603025a7ed7617b8bff46f8",
-  "overlay_territory.png": "d30c0e797c9e8941a5d9f50c7de53f991a6f51d9a426cf4c67bcc28767258374",
-  "overlay_traffic.png": "af266213797529f59dbee5ad6e18712204b6fdf18a062dc97cccb191cce4adc7",
-  "overlay_travel.png": "dd0aaa6242355aba680ae8906e9abe4e0b0cea2b28b68b65466c2cbdbfec8e6c",
-  "report.json": "fa0c996cc4f826165004dac1de024ac4b441911bf7732aa48e6f0c85da9f1097",
-  "report.md": "a8f936e9a9d1b0744925371c930679d4cbf12143e86fcd945df73bb25c19bf78"
+  "map.png": "e31f2bfc2051f46419075f103365e9f1d74b7ac550ca05a6d3aaae62e9017109",
+  "overlay_balance.png": "7443c8c8ea5a8eb38b280d7b3de96e771b44592889176eb104cbd3ad1135cebb",
+  "overlay_cost.png": "104b1130b1dd1ee56f1e7e50317beae445abdbf420168eced16314fa772ccbb8",
+  "overlay_openness.png": "ddb0988d25dad4652e039e5d34f72b7827e33df2fbb5078942347e12ae2f71cb",
+  "overlay_territory.png": "aab09f73bc9b917fad4859a70f6ed856bc1f54f2197b3212e547f2cc1f43a240",
+  "overlay_traffic.png": "a84f2de2cba6daa5bc4fdbc05e847b9884e93935365dbdda1650540619dadbe9",
+  "overlay_travel.png": "520386ac1869a0761037707fb384f155c929c43f931969c1064d2b4dfbad36eb",
+  "report.json": "a48d8d05e99cecb7083346d58a1ee86e29ac948421a42185d9ee0c0f6821c7f9",
+  "report.md": "56c85b287e55ff94c06c3213c5ed03375846725722a06cf10f46147ca9dad2ef"
  },
  "map": "gloamfen",
  "spec": "maps/concepts/gloamfen.yaml"
