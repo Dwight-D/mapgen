@@ -51,11 +51,11 @@ regions:
   - { id: knoll_south, type: hills, shape: blob, at: [200, 34], r: 26, rough: 0.35, warp: 5, warp_scale: 25, height: 75 }
   # lush meadow patches in the south-west: grass ground (the meadow type paints the grass splat, so no edge shows),
   # with loose, warped outlines
-  - { id: meadow_mill, type: meadow, shape: poly, points: [[22, 22], [70, 26], [66, 62], [24, 58]], rough: 0.15, warp: 8, warp_scale: 30 }
-  - { id: meadow_long, type: meadow, shape: poly, points: [[24, 72], [72, 76], [70, 128], [20, 124]], rough: 0.15, warp: 8, warp_scale: 30 }
-  - { id: meadow_brook, type: meadow, shape: poly, points: [[110, 22], [148, 24], [146, 52], [114, 56]], rough: 0.15, warp: 8, warp_scale: 30 }
-  - { id: meadow_corner, type: meadow, shape: poly, points: [[88, 102], [140, 100], [142, 130], [92, 132]], rough: 0.15, warp: 8, warp_scale: 30 }
-  - { id: meadow_strip, type: meadow, shape: poly, points: [[80, 62], [104, 64], [102, 92], [82, 90]], rough: 0.15, warp: 6, warp_scale: 25 }
+  - { id: meadow_mill, type: meadow, shape: poly, points: [[22, 22], [70, 26], [66, 62], [24, 58]], rough: 0.2, warp: 14, warp_scale: 35 }
+  - { id: meadow_long, type: meadow, shape: poly, points: [[24, 72], [72, 76], [70, 128], [20, 124]], rough: 0.2, warp: 14, warp_scale: 35 }
+  - { id: meadow_brook, type: meadow, shape: poly, points: [[110, 22], [148, 24], [146, 52], [114, 56]], rough: 0.2, warp: 14, warp_scale: 35 }
+  - { id: meadow_corner, type: meadow, shape: poly, points: [[88, 102], [140, 100], [142, 130], [92, 132]], rough: 0.2, warp: 14, warp_scale: 35 }
+  - { id: meadow_strip, type: meadow, shape: poly, points: [[80, 62], [104, 64], [102, 92], [82, 90]], rough: 0.2, warp: 10, warp_scale: 28 }
   # lake in the natural hollow east of the creek's lower run, between the wood and the knolls (a ring band, so its
   # island is a hole in the water) and the island's grass
   - { id: still_lake, type: lake, shape: band, path: [[249, 184], [246, 194], [240, 200], [230, 203], [220, 200], [214, 194], [211, 184], [214, 174], [220, 168], [230, 165], [240, 168], [246, 174], [249, 184]], width: 24, rough: 0.12, warp: 4, warp_scale: 30, label: Still Lake, label_at: [230, 148] }
