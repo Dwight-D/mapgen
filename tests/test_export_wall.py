@@ -96,6 +96,6 @@ def test_cindermarket_wall():
     assert sorted(p["attrs"]["gateId"] for p in doc["points"]) == ["a0", "a1", "a2", "a3", "a4", "a5"]
     for p in doc["points"]:
         assert ring.distance(Point(p["position"][0], p["position"][2])) < 0.01
-        assert p["attrs"]["width"] == 14.0
+        assert p["attrs"]["width"] == 9.5  # gate width = main road width (roads at 2/3, b99acd3)
         r = math.radians(p["rotationY"])
         assert -180.0 <= p["rotationY"] <= 180.0 and abs(math.hypot(math.sin(r), math.cos(r)) - 1) < 1e-9
