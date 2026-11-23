@@ -669,9 +669,10 @@ All heights in metres; steps applied in order:
      river surface is lowered to the junction level within 10 m and blends back to its own level over the next
      30 m; surfaces are only ever lowered.
    - **Water cells and surfaces:** the water cells are the hard masks of the lakes and of the river areas. A lake
-     cell's surface is the lake level; a river cell takes the surface of the nearest point of its centreline
-     resampled every 0.5 m (linear interpolation between the 10 m samples); where water bodies overlap, the lower
-     surface wins.
+     cell's surface is the lake level; a river cell takes the surface (linear interpolation between the 10 m samples) at
+     the arc length of its projection onto the centreline: the arc length of the nearest point of the centreline
+     resampled every 0.5 m, plus the cell's offset along the local direction, held within 0.25 m of that point, so
+     the surface is continuous along the river; where water bodies overlap, the lower surface wins.
    - **Shore distance:** distances to a shoreline come from the signed distance to the water mask's cell edge
      (negative under water); beyond the shoreline it blends (smoothstep over 0–3 m of distance) to its gaussian blur
      with sigma 1.5 m, so the raster staircase leaves no facets while the waterline stays exact.
@@ -688,11 +689,15 @@ All heights in metres; steps applied in order:
    - **Shore profile:** above water every bank (lake shore, island, river bank) is capped by the profile
      `cap(d)`, `d` = distance from the body's nearest water cell: it rises 0.35 m per metre (19°) up to 3 m above
      the water, then its slope blends (smoothstep) to 1.0 per metre (45°) over the next 0.6 × that distance.
-     Each dry cell is capped at `min` over all water bodies (each lake, each river) of `surface + cap(d)`, joined
+     Each dry cell is capped at `min` over all water bodies (each lake, each river) of `surface + cap(d)`, where
+     `surface` is the body's surface at its nearest water cell; for a river (whose surface slopes) that nearest-cell
+     surface is smoothed with a gaussian of sigma 2 m, because the nearest cell of a slanted raster shoreline jumps
+     several cells at once and would terrace the bank in steps along the river. The cap is joined
      to the ground through a smooth minimum of width 0.5 m; ground below the cap is untouched. So a lake shore
      shelves from the surrounding ground down to the waterline and on under the water, and an island rises from
      the water as a beach.
-   - **Bank floor:** within `p` of a water body, the ground never drops below that body's surface
+   - **Bank floor:** within `p` of a water body, the ground never drops below that body's surface (for a river, the
+     smoothed nearest-cell surface of the shore profile)
      `+ min(0.3 m, cap(d))` (`d` from the nearest water of any body), unless it was already lower; this keeps
      the land between two channels at different levels above the higher water.
 10. **Finish:** gaussian blur sigma 1 pixel; then every water cell's ground is held at least 0.1 m below its

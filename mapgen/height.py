@@ -46,8 +46,14 @@ WATER_EDGE_DEPTH = 0.1
 # levels within RIVER_POOL m of the junction and blend back to their own level over the next RIVER_JOIN_RAMP m.
 RIVER_POOL = 10.0
 RIVER_JOIN_RAMP = 30.0
-# Carving interpolates the river surface along the centreline at this step (m), so the bed and banks have no terraces.
+# Carving interpolates the river surface along the centreline at this step (m); a water cell's surface is read at the
+# arc length of its projection onto the centreline (within half a step of its nearest sample), so it is continuous
+# along the river and the bed has no terraces.
 RIVER_CARVE_STEP = 0.5
+# Beyond its shoreline a water body's surface is extended to every cell (the surface of the nearest water cell) for the
+# shore profile; for a river, whose surface slopes, that nearest-cell extension is a staircase along the bank (the
+# nearest cell of a slanted raster edge jumps several cells at once), so it is smoothed with this gaussian sigma (m).
+SHORE_LEVEL_SMOOTH = 2.0
 
 
 @dataclass
@@ -322,10 +328,15 @@ def synthesize(spec: MapSpec, geoms: MapGeometry) -> Heightmap:
             if not hard.any():
                 continue
             fpts, fs = _resample(np.asarray(geoms.lines[ln.index].centreline.coords), RIVER_CARVE_STEP)
-            fws = np.interp(fs, s, ws)
-            _, idx = cKDTree(fpts).query(np.column_stack([X[hard], Y[hard]]))
+            cells = np.column_stack([X[hard], Y[hard]])
+            _, idx = cKDTree(fpts).query(cells)
+            tx, ty = np.gradient(fpts[:, 0]), np.gradient(fpts[:, 1])
+            tn = np.hypot(tx, ty)
+            tn[tn == 0] = 1.0
+            along = ((cells[:, 0] - fpts[idx, 0]) * tx[idx] + (cells[:, 1] - fpts[idx, 1]) * ty[idx]) / tn[idx]
+            sp = fs[idx] + np.clip(along, -0.5 * RIVER_CARVE_STEP, 0.5 * RIVER_CARVE_STEP)
             water = np.full(h.shape, np.inf, dtype=np.float64)
-            water[hard] = fws[idx]
+            water[hard] = np.interp(sp, s, ws)
             water_top = np.minimum(water_top, water)
             shelf = np.where(hard, np.minimum(shelf, RIVER_SHELF * ln.width / 2.0), shelf)
             wet |= hard
@@ -369,11 +380,14 @@ def synthesize(spec: MapSpec, geoms: MapGeometry) -> Heightmap:
             lip = np.minimum(WATER_BANK_LIP, shore_cap(d_out))
             top_cap = np.full(h.shape, np.inf, dtype=np.float64)
             top_lip = np.full(h.shape, -np.inf, dtype=np.float64)
-            for hard, top in bodies:
+            for k, (hard, top) in enumerate(bodies):
                 _, (ir, ic) = ndimage.distance_transform_edt(~hard, return_indices=True)
                 d_k = np.maximum(signed(hard), 0.0)
-                top_cap = np.minimum(top_cap, top[ir, ic] + shore_cap(d_k))
-                top_lip = np.maximum(top_lip, np.where(d_k <= probe_m, top[ir, ic] + lip, -np.inf))
+                level = top[ir, ic]
+                if k >= len(lake_ids):   # a river: smooth the sloping surface's staircase extension along the bank
+                    level = ndimage.gaussian_filter(level, sigma=_sigma(SHORE_LEVEL_SMOOTH, grid))
+                top_cap = np.minimum(top_cap, level + shore_cap(d_k))
+                top_lip = np.maximum(top_lip, np.where(d_k <= probe_m, level + lip, -np.inf))
             floor = np.minimum(h, top_lip)
             dry = np.maximum(_smin(h, top_cap, SHORE_BLEND), floor)
             h = np.where(wet, np.minimum(h, water_top - dep), dry)

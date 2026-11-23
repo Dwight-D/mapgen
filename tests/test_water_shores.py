@@ -160,3 +160,22 @@ def test_creek_bed_runs_into_the_lake_bed(sandbox):
     assert water[-1] == pytest.approx(level, abs=1e-4)
     assert depth_river.min() > 0.5
     assert depth_mouth.min() > 0.5
+
+
+def test_creek_banks_have_no_terraces(sandbox):
+    # along Fern Creek's upper run the banks follow the sloping water smoothly: height profiles parallel to the
+    # centreline deviate little from their 4 m running mean (a staircase of bank steps every 1-3 m left 0.19 m)
+    spec, geoms, hm, _, creek = sandbox
+    cl = geoms.lines[creek.index].centreline
+    s = np.arange(5.0, cl.length, 0.25)
+    p = np.array([cl.interpolate(t).coords[0] for t in s])
+    t = np.gradient(p, axis=0)
+    t /= np.hypot(t[:, 0], t[:, 1])[:, None]
+    n = np.column_stack([-t[:, 1], t[:, 0]])
+    sel = (p[:, 0] > 10.0) & (p[:, 0] < 105.0)
+    sel[:16] = sel[-16:] = False
+    for off in (-12.0, -9.0, -6.0, -4.0, 4.0, 6.0, 9.0, 12.0):
+        q = p + n * off
+        z = height.sample(hm, q[:, 0], q[:, 1])
+        r = z - np.convolve(z, np.ones(16) / 16, mode="same")
+        assert np.abs(r[sel]).max() < 0.15, off
