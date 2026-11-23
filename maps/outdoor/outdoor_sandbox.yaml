@@ -1,0 +1,80 @@
+format_version: 1
+name: outdoor_sandbox
+brief: |
+  PITCH: A 320 m low-relief outdoor sandbox for nature scattering and landmark tests, not a match map. A mixed
+  forest fills the north band with a meadow glade; a rocky hill with two cliffs stands in the north-east. A creek
+  enters from the west, runs east along the forest edge into a lake with a small island, and a branch runs south
+  through rolling grassy hills and between patchwork fields. A trail comes in from the south edge, fords the
+  branch and the creek and climbs to a cabin under a short cliff at the forest edge, with branches to the meadow
+  and the fields. A camp sits on the creek bank. The rest is open meadow.
+  TEAMS: the format requires two team bases; they sit in the north-west and south-east corners as placeholders
+  and carry no gameplay meaning.
+  TEST: the rolling hills give landmark selection several peaks to reject; the landcover export should carry
+  forest, the meadow hole, fields, hills, the lake with its island, and keep-outs for the trail, creek, cliffs
+  and POIs.
+size: [320, 320]
+seed: 3207
+
+terrain:
+  base_height: 20
+  relief: 4
+  relief_scale: 400
+  detail: 1.5
+  detail_scale: 80
+  water_depth: 1.5
+
+teams:
+  A: { base: [6, 314], name: North-west }
+  B: { base: [314, 6], name: South-east }
+
+points:
+  trail_fork_fields: [152, 92]    # entry_trail, fields_trail
+  trail_fork_meadow: [100, 200]   # entry_trail, meadow_trail
+
+regions:
+  # mixed forest across the north band, west and centre
+  - { id: north_wood, type: forest, shape: poly, points: [[0, 200], [70, 212], [140, 202], [205, 210], [230, 240], [215, 320], [0, 320]], rough: 0.12, warp: 10, warp_scale: 50, fragment: 0.12, fragment_scale: 30, label: North Wood, label_at: [175, 290] }
+  # glade inside the forest
+  - { id: fern_meadow, type: clearing, shape: blob, at: [110, 265], r: 35, rough: 0.35, warp: 8, warp_scale: 30, label: Fern Meadow }
+  # rocky hill in the north-east
+  - { id: crag_hill, type: hills, shape: blob, at: [270, 270], r: 45, rough: 0.35, warp: 10, warp_scale: 40, height: 25, label: Crag Hill }
+  # rolling grassy hills in the south-east
+  - { id: knoll_west, type: hills, shape: blob, at: [250, 42], r: 22, rough: 0.35, squash: 0.8, angle: 20, warp: 6, warp_scale: 25, height: 14 }
+  - { id: knoll_east, type: hills, shape: blob, at: [292, 88], r: 22, rough: 0.35, squash: 0.8, angle: -30, warp: 6, warp_scale: 25, height: 20 }
+  - { id: knoll_north, type: hills, shape: blob, at: [240, 100], r: 20, rough: 0.35, warp: 5, warp_scale: 25, height: 25 }
+  - { id: knoll_south, type: hills, shape: blob, at: [200, 34], r: 18, rough: 0.35, warp: 5, warp_scale: 25, height: 12 }
+  # patchwork fields in the south-west
+  - { id: field_mill, type: field, shape: poly, points: [[22, 22], [70, 26], [66, 62], [24, 58]], rough: 0.05, warp: 4, warp_scale: 25 }
+  - { id: field_long, type: field, shape: poly, points: [[24, 72], [72, 76], [70, 128], [20, 124]], rough: 0.05, warp: 4, warp_scale: 25 }
+  - { id: field_brook, type: field, shape: poly, points: [[110, 22], [148, 24], [146, 52], [114, 56]], rough: 0.05, warp: 4, warp_scale: 25 }
+  - { id: field_corner, type: field, shape: poly, points: [[88, 102], [140, 100], [142, 130], [92, 132]], rough: 0.05, warp: 4, warp_scale: 25 }
+  - { id: field_strip, type: field, shape: poly, points: [[80, 62], [104, 64], [102, 92], [82, 90]], rough: 0.05, warp: 3, warp_scale: 20 }
+  # lake (a ring band, so its island is a hole in the water) and the island's grass
+  - { id: still_lake, type: lake, shape: band, path: [[254, 150], [251, 160], [243, 168], [232, 170], [221, 168], [213, 160], [210, 150], [213, 140], [221, 132], [232, 130], [243, 132], [251, 140], [254, 150]], width: 27, rough: 0.12, warp: 4, warp_scale: 30, label: Still Lake, label_at: [232, 178] }
+  - { id: heron_isle, type: clearing, shape: blob, at: [232, 150], r: 7, rough: 0.3, warp: 1, warp_scale: 8, label: Heron Isle }
+
+lines:
+  # creek: enters in the west, follows the forest edge, ends in the lake
+  - { id: forest_creek, type: river, path: [[0, 175], [45, 186], [95, 178], [140, 186], [180, 176], [204, 160], [214, 152]], width: 5, meander: 4, meander_scale: 60, width_var: 0.3, label: Fern Creek }
+  # branch running south through the hills and between the fields
+  - { id: field_brook_branch, type: river, path: [[168, 182], [184, 140], [200, 104], [204, 72], [176, 60], [128, 62], [106, 50], [92, 0]], width: 5, meander: 4, meander_scale: 60, width_var: 0.3, join: forest_creek, join_end: start }
+  # trail from the south edge to the cabin
+  - { id: entry_trail, type: trail, path: [[160, 0], [158, 50], trail_fork_fields, [140, 150], camp, trail_fork_meadow, cabin], width: 3, wobble: 4, wobble_scale: 50 }
+  - { id: meadow_trail, type: trail, path: [trail_fork_meadow, [108, 225], [110, 250]], width: 2.5, wobble: 3, wobble_scale: 40 }
+  - { id: fields_trail, type: trail, path: [trail_fork_fields, [118, 96], [78, 98], [46, 68]], width: 2.5, wobble: 3, wobble_scale: 40 }
+  # cliffs
+  - { id: cabin_cliff, type: cliff, path: [[45, 228], [60, 232], [75, 229]], width: 4 }
+  - { id: crag_cliff_west, type: cliff, path: [[238, 282], [248, 298], [262, 308]], width: 4 }
+  - { id: crag_cliff_south, type: cliff, path: [[262, 236], [280, 238], [296, 250]], width: 4 }
+
+pois:
+  - { id: cabin, type: landmark, at: [60, 208], label: Cabin }
+  - { id: camp, type: landmark, at: [110, 190], label: Camp }
+
+analysis:
+  cell: 4
+  balance_tolerance: 0.2
+
+output:
+  render_px: 1536
+  grid_step: 40
