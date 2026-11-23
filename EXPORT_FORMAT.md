@@ -86,7 +86,7 @@ index is z). Channels follow `terrain_layers`; default layers in order:
 | forest | splat_0.b | forest floor |
 | mud | splat_0.a | marsh |
 | rock | splat_1.r | mountains and steep slopes |
-| sand | splat_1.g | river/lake banks and beds |
+| sand | splat_1.g | river/lake banks and beds (trails and roads keep their own layer across a bank) |
 | dirt | splat_1.b | towns, ruins, trails |
 | road | splat_1.a | roads |
 

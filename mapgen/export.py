@@ -91,12 +91,31 @@ def splat_weights(spec: MapSpec, geoms: MapGeometry, hm: Heightmap, grid: Grid) 
         if geoms.lines[i].area.is_empty or types.lines[ln.type].get("height_mode") == "water":
             continue
         paint(types.lines[ln.type]["splat"], raster.mask(geoms.lines[i].area, grid))
+    # water banks: 8 m around each water feature; land lines (trails, roads) crossing a bank win over it there,
+    # while the water channel itself keeps the water layer
+    bank = np.zeros(grid.shape, dtype=np.float32)
+    core = np.zeros(grid.shape, dtype=np.float32)
+
+    def paint_water(layer_name: str, geom) -> None:
+        nonlocal bank, core
+        m = raster.mask(geom.buffer(8.0), grid)
+        paint(layer_name, m)
+        bank = np.maximum(bank, m)
+        core = np.maximum(core, raster.mask(geom, grid))
+
     for i in sorted(water_regions):
-        paint(types.regions[spec.regions[i].type]["splat"], raster.mask(geoms.regions[i].buffer(8.0), grid))
+        paint_water(types.regions[spec.regions[i].type]["splat"], geoms.regions[i])
     for i, ln in enumerate(spec.lines):
         if geoms.lines[i].area.is_empty or types.lines[ln.type].get("height_mode") != "water":
             continue
-        paint(types.lines[ln.type]["splat"], raster.mask(geoms.lines[i].area.buffer(8.0), grid))
+        paint_water(types.lines[ln.type]["splat"], geoms.lines[i].area)
+    bank_only = bank * (1.0 - core)
+    for i, ln in enumerate(spec.lines):
+        if geoms.lines[i].area.is_empty or types.lines[ln.type].get("height_mode") == "water":
+            continue
+        cov = raster.mask(geoms.lines[i].area, grid) * bank_only
+        if cov.any():
+            paint(types.lines[ln.type]["splat"], cov)
     if spec.output.splat_blend is not None:
         blend_splats(w, idx, spec.output.splat_blend, blend_seed(spec), grid)
     # slope toward rock

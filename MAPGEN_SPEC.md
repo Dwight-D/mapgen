@@ -794,7 +794,8 @@ sits `0.75 · water_depth` above the bed, leaving freeboard below the banks.
 
 **Splat weights:** start with `grass = 1`. For each region in list order, `w_layer = max(w_layer, coverage)` and
 scale the other layers by `1 − coverage`; then lines (roads/trails/rivers' banks: river and lake masks dilated by 8 m
-write `sand`); then slope: where slope > 0.6 blend toward `rock` by `smoothstep(0.6, 1.0, slope)`. Finally normalize
+write `sand`); then each non-water line repaints its own layer over the bank ring (its coverage × bank coverage ×
+(1 − water-channel coverage)), so trails and roads stay continuous up to the water's edge; then slope: where slope > 0.6 blend toward `rock` by `smoothstep(0.6, 1.0, slope)`. Finally normalize
 so channels sum to 1 and quantize so they sum to exactly 255 (put the rounding remainder in the largest channel).
 
 **Splat blend** (`output.splat_blend`, opt-in; `build --splat-blend` turns it on with the defaults for a spec that
