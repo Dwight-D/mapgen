@@ -1,0 +1,67 @@
+format_version: 1
+name: hills_sandbox
+brief: |
+  PITCH: A 256 m test bed for Battlehounds' hills and cliffs subgraphs and how they blend, not a match map. Along
+  the east side the ground turns from lush grass knolls in the south through a rocky rise to a cliffed crag in the
+  north-east. A creek enters from the south edge, runs gently through a meadow, cuts a gorge between two grassy rims
+  and leaves northward through a strip of forest. A small pond lies at the foot of the rocky rise, its east shore
+  steep and its west shore soft. A grassy hill in the south-west stands ready to be cut into, and a tree knoll sits
+  in the open west. A trail climbs from the south edge past the cut hill, fords the creek in the forest and ends on
+  the crag top.
+  TEAMS: the format requires two team bases; they sit in the north-west and south-east corners as placeholders
+  and carry no gameplay meaning.
+  TEST: every relief feature is hills or plateau relief, so all of it stays walkable from at least one side; steep
+  faces (over 35 deg) turn to rock by slope.
+size: [256, 256]
+seed: 4417
+
+# gentle base relief; the south-half tilt (south_tilt) makes the creek fall north
+terrain:
+  base_height: 20
+  relief: 4
+  relief_scale: 200
+  detail: 2
+  detail_scale: 70
+  water_depth: 1.5
+
+teams:
+  A: { base: [6, 250], name: North-west }
+  B: { base: [250, 6], name: South-east }
+
+regions:
+  # broad tilt: the south half stands higher so the creek flows north
+  - { id: south_tilt, type: hills, shape: poly, points: [[0, 0], [256, 0], [256, 110], [0, 110]], height: 40 }
+  # forest strip across the north, crossed by the creek
+  - { id: north_strip_wood, type: forest, shape: poly, points: [[0, 176], [150, 172], [150, 206], [0, 210]], rough: 0.12, warp: 6, warp_scale: 40, label: Strip Wood }
+  # meadow along the gentle southern creek reach
+  - { id: creek_meadow, type: meadow, shape: poly, points: [[80, 8], [150, 8], [150, 70], [80, 70]], rough: 0.2, warp: 10, warp_scale: 30, label: Creek Meadow }
+  # T2 grassy hill for a hillside cut: a domed plateau with a long W/SW shoulder
+  - { id: cut_hill, type: plateau, shape: blob, at: [52, 58], r: 26, rough: 0.3, squash: 0.8, angle: -30, warp: 6, warp_scale: 25, height: 24, edge: 30, label: Cut Hill }
+  # T4 tree knoll: a small round plateau with a flat top
+  - { id: tree_knoll, type: plateau, shape: blob, at: [46, 140], r: 16, rough: 0.3, height: 12, edge: 16, label: Tree Knoll }
+  # T3 gorge rims along the middle creek reach (grassy plateaus; the shore profile makes the inner walls steep)
+  - { id: gorge_rim_w, type: plateau, shape: band, path: [[88, 86], [86, 110], [84, 140]], width: 16, height: 14, edge: 10 }
+  - { id: gorge_rim_e, type: plateau, shape: band, path: [[134, 86], [132, 110], [130, 140]], width: 16, height: 14, edge: 10 }
+  # T1 lush -> rocky -> cliff gradient along the east side
+  - { id: lush_knoll_s, type: plateau, shape: blob, at: [210, 34], r: 20, rough: 0.35, warp: 5, warp_scale: 25, height: 9, edge: 30 }
+  - { id: lush_knoll_n, type: plateau, shape: blob, at: [228, 72], r: 18, rough: 0.35, warp: 5, warp_scale: 25, height: 10, edge: 30 }
+  - { id: rocky_rise, type: plateau, shape: blob, at: [222, 130], r: 22, rough: 0.35, warp: 6, warp_scale: 30, height: 16, edge: 14, label: Rocky Rise }
+  - { id: cliff_crag, type: plateau, shape: blob, at: [214, 212], r: 28, rough: 0.35, warp: 6, warp_scale: 30, height: 28, edge: 6, label: Crag }
+  # T5 pond at the foot of the rocky rise
+  - { id: rise_pond, type: lake, shape: blob, at: [183, 130], r: 13, rough: 0.15, warp: 2, warp_scale: 20, label: Rise Pond }
+
+lines:
+  - { id: sandbox_creek, type: river, path: [[112, 0], [116, 40], [110, 80], [110, 115], [106, 145], [100, 185], [96, 256]], width: 5, meander: 3, meander_scale: 50, width_var: 0.3, label: Gorge Creek }
+  - { id: crag_trail, type: trail, path: [[30, 0], [16, 60], [12, 110], [16, 160], [40, 192], [100, 196], [160, 196], [182, 206]], width: 3, wobble: 3, wobble_scale: 40 }
+
+crossings:
+  # the trail climbs the crag's south-west face on a ramp
+  - { id: crag_ramp, type: ramp, path: [[178, 202], [192, 214], [206, 222]], width: 20 }
+
+analysis:
+  cell: 4
+  balance_tolerance: 0.2
+
+output:
+  render_px: 1024
+  grid_step: 32
