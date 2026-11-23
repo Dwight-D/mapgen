@@ -1,7 +1,7 @@
 format_version: 1
 name: outdoor_sandbox
 brief: |
-  PITCH: A 320 m low-relief outdoor sandbox for nature scattering and landmark tests, not a match map. A mixed
+  PITCH: A 320 m rolling outdoor sandbox for nature scattering and landmark tests, not a match map. A mixed
   forest fills the north band with a meadow glade; a rocky hill with two cliffs stands in the north-east. A creek
   enters from the west, runs east along the forest edge into a lake with a small island, and a branch runs south
   through rolling grassy hills and between patchwork fields. A trail comes in from the south edge, fords the
@@ -13,14 +13,17 @@ brief: |
   forest, the meadow hole, fields, hills, the lake with its island, and keep-outs for the trail, creek, cliffs
   and POIs.
 size: [320, 320]
-seed: 3207
+# seed chosen so the base relief falls from the west and south edges toward the lake: Fern Creek runs downhill
+# east into Still Lake and the branch runs downhill north from the south edge into the creek
+seed: 3302
 
+# rolling everywhere: broad 260 m swells (relief) plus 90 m undulations (detail); ~34 m total range, median slope ~9 deg
 terrain:
   base_height: 20
-  relief: 4
-  relief_scale: 400
-  detail: 1.5
-  detail_scale: 80
+  relief: 30
+  relief_scale: 260
+  detail: 7
+  detail_scale: 90
   water_depth: 1.5
 
 teams:
@@ -36,13 +39,15 @@ regions:
   - { id: north_wood, type: forest, shape: poly, points: [[0, 200], [70, 212], [140, 202], [205, 210], [230, 240], [215, 320], [0, 320]], rough: 0.12, warp: 10, warp_scale: 50, fragment: 0.12, fragment_scale: 30, label: North Wood, label_at: [175, 290] }
   # glade inside the forest
   - { id: fern_meadow, type: clearing, shape: blob, at: [110, 265], r: 35, rough: 0.35, warp: 8, warp_scale: 30, label: Fern Meadow }
+  # hills `height` is the amplitude before the hills type's 120 m soft falloff, so a blob of r 30-50 m rises to
+  # roughly 0.15-0.3x of it: Crag Hill ~23 m above its surroundings, the knolls 12-20 m above the fields
   # rocky hill in the north-east
-  - { id: crag_hill, type: hills, shape: blob, at: [270, 270], r: 45, rough: 0.35, warp: 10, warp_scale: 40, height: 25, label: Crag Hill }
+  - { id: crag_hill, type: hills, shape: blob, at: [270, 270], r: 50, rough: 0.35, warp: 10, warp_scale: 40, height: 100, label: Crag Hill }
   # rolling grassy hills in the south-east
-  - { id: knoll_west, type: hills, shape: blob, at: [250, 42], r: 22, rough: 0.35, squash: 0.8, angle: 20, warp: 6, warp_scale: 25, height: 14 }
-  - { id: knoll_east, type: hills, shape: blob, at: [292, 88], r: 22, rough: 0.35, squash: 0.8, angle: -30, warp: 6, warp_scale: 25, height: 20 }
-  - { id: knoll_north, type: hills, shape: blob, at: [240, 100], r: 20, rough: 0.35, warp: 5, warp_scale: 25, height: 25 }
-  - { id: knoll_south, type: hills, shape: blob, at: [200, 34], r: 18, rough: 0.35, warp: 5, warp_scale: 25, height: 12 }
+  - { id: knoll_west, type: hills, shape: blob, at: [250, 42], r: 30, rough: 0.35, squash: 0.8, angle: 20, warp: 6, warp_scale: 25, height: 85 }
+  - { id: knoll_east, type: hills, shape: blob, at: [292, 88], r: 30, rough: 0.35, squash: 0.8, angle: -30, warp: 6, warp_scale: 25, height: 105 }
+  - { id: knoll_north, type: hills, shape: blob, at: [252, 84], r: 30, rough: 0.35, warp: 5, warp_scale: 25, height: 105 }
+  - { id: knoll_south, type: hills, shape: blob, at: [200, 34], r: 26, rough: 0.35, warp: 5, warp_scale: 25, height: 75 }
   # patchwork fields in the south-west
   - { id: field_mill, type: field, shape: poly, points: [[22, 22], [70, 26], [66, 62], [24, 58]], rough: 0.05, warp: 4, warp_scale: 25 }
   - { id: field_long, type: field, shape: poly, points: [[24, 72], [72, 76], [70, 128], [20, 124]], rough: 0.05, warp: 4, warp_scale: 25 }
