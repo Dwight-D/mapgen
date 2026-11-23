@@ -320,7 +320,8 @@ not sum.
 | `gate` | crossing type | cost 0.6, `r` 12; overrides the impassable `wall` under it; drawn as an arch. One per wall opening |
 | `ramp` | crossing type | cost 1.2; relaxes the terrain inside it (blur sigma = `r`) so a plateau edge or cliff becomes a walkable slope. Disc or band |
 | `edge` | region (`plateau`, `town`) | blend radius (m) of the flatten step, default 40 / 30; larger = gentler rim |
-| `clearing` | region type | light-green glade (cost 1.0, dotted); paint it after forests to cut a glade. Use `field` for real farmland |
+| `clearing` | region type | light-green glade (cost 1.0, dotted); paint it after forests to cut a glade. Use `field` for planted crops |
+| `meadow` | region type | lush open grass (cost 1.0, no line-of-sight block, light green with a diagonal hatch in the render). Paints the grass splat, so it blends into the surrounding ground with no edge; consumers can dress it from `masks/meadow.png` or its land-cover cells. `field` is planted crops only |
 | `on: [types]` | scatter | the scatter may also cover explicit regions of those types (woods on `hills`, fields on `plateau`) and is painted after all explicit regions; it keeps clear of every other explicit region |
 | `label_at: [x, y]` | region, line | pins the label there; other labels are placed automatically around glyphs, other labels and the map edge |
 

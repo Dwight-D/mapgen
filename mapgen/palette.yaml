@@ -13,6 +13,7 @@ regions:
   lake:     "#103a70"           # deep blue, L* 25
   forest:   "#194624"           # very dark green, L* 26, stipple
   clearing: "#b3cc8a"           # light tint of the ground, L* 78, dots
+  meadow:   "#a6c46e"           # lush light green, L* 75, hatch
 lines:
   river:    "#103a70"           # solid
   road:     "#ffffff"           # white with dark casing
@@ -31,6 +32,7 @@ patterns:                       # region type -> texture drawn in the region's o
   town:   grid
   ruins:  crosshatch
   clearing: dots
+  meadow: hatch
 impassable_pattern: strike      # strike-through hatch (white stripe, dark casing) overdrawn on `impassable: true` regions
 teams: ["#2f6fdf", "#f2a81d", "#6a2cc0"]   # default team colours in team order: blue, amber, purple
 overlay:

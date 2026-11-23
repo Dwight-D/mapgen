@@ -498,6 +498,7 @@ regions:
   town:     { cost: 1.1, los: true,  splat: dirt,  height_mode: flatten, edge: 30 }
   ruins:    { cost: 1.3, los: true,  splat: dirt }
   clearing: { cost: 1.0, los: false, splat: grass }
+  meadow:   { cost: 1.0, los: false, splat: grass }
   lake:     { cost: inf, los: false, splat: sand,  height_mode: water }
 lines:
   #          flatten (blend strength of flatten_line, default 1), crossing (type of the automatic crossing where the
@@ -553,6 +554,7 @@ regions:
   mountain: "#5c5c5c"           # mid grey, L* 39 (hillshade carries the shape)
   ruins:    "#9a3a8d"           # magenta, L* 41, crosshatch
   clearing: "#b3cc8a"           # light tint of the ground, L* 79, dots
+  meadow:   "#a6c46e"           # lush light green, L* 75, hatch
   lake:     "#103a70"           # deep blue, L* 25
   forest:   "#194624"           # very dark green, L* 26, stipple
 lines:
@@ -573,6 +575,7 @@ patterns:                       # region type -> texture drawn in the region's d
   town:   grid
   ruins:  crosshatch
   clearing: dots
+  meadow: hatch
 impassable_pattern: strike      # strike-through hatch (white stripe, dark casing) overdrawn on `impassable: true` regions
 teams: ["#2f6fdf", "#f2a81d", "#6a2cc0"]   # default team colours in team order: blue, amber, purple
 overlay:

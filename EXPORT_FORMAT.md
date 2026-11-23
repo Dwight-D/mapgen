@@ -155,8 +155,9 @@ regions are on top of earlier ones where they overlap).
 
 | type | gameplay meaning (from `types.yaml`) | graybox suggestion |
 |---|---|---|
-| `field` | open, normal speed | nothing / low fences |
+| `field` | planted crops; open, normal speed | nothing / low fences |
 | `clearing` | open glade inside forest | nothing |
+| `meadow` | lush open grass; open, normal speed; grass splat (no splat edge) | grass / wildflower dressing |
 | `forest` | slow (1.6×), blocks line of sight | tree placeholders scattered inside, honouring holes |
 | `marsh` | very slow (2.5×) | marsh decal / reed placeholders |
 | `hills` | slightly slow (1.3×), raised terrain | already in heightmap |

@@ -33,7 +33,7 @@ one is painted on top in the terrain; `paintOrder` gives that order.
 ## Cells — land cover
 
 One cell per polygon of every region whose type is not `town` or `lake` (`field`, `forest`, `marsh`, `hills`,
-`mountain`, `plateau`, `ruins`, `clearing`). The cell is the polygon's outer ring.
+`mountain`, `plateau`, `ruins`, `clearing`, `meadow`). The cell is the polygon's outer ring.
 
 | attribute | type | value |
 |---|---|---|
