@@ -663,8 +663,11 @@ All heights in metres; steps applied in order:
      cell's surface is the lake level; a river cell takes the surface of the nearest point of its centreline
      resampled every 0.5 m (linear interpolation between the 10 m samples); where water bodies overlap, the lower
      surface wins.
-   - **Shelving bed:** the full depth is `D = 0.75 · water_depth`. A water cell at distance `d` from the nearest dry
-     cell (minus half a cell) gets `h = min(h, surface − max(0.1 m, D · smoothstep(0, S, d)))`: a shallow margin at
+   - **Shore distance:** distances to a shoreline come from the signed distance to the water mask's cell edge
+     (negative under water); beyond the shoreline it blends (smoothstep over 0–3 m of distance) to its gaussian blur
+     with sigma 1.5 m, so the raster staircase leaves no facets while the waterline stays exact.
+   - **Shelving bed:** the full depth is `D = 0.75 · water_depth`. A water cell at shore distance `d` from the
+     union of all water gets `h = min(h, surface − max(0.1 m, D · smoothstep(0, S, d)))`: a shallow margin at
      the shoreline that deepens smoothly to the full depth at the shelf width `S` = 8 m for a lake and
      `0.7 · width/2` for a river; within 10 m of a lake a river's shelf widens toward 8 m
      (`S + (8 − S) · (1 − smoothstep(0, 10 m, distance to the lake))`), so a river mouth shoals into the lake
