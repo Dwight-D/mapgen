@@ -108,7 +108,7 @@ terrain:                        # all optional; defaults shown
   base_height: 40               # metres, mean ground level
   relief: 25                    # metres, amplitude of low-frequency base noise
   relief_scale: 1200            # metres, wavelength of base noise
-  water_depth: 4                # metres rivers/lakes sit below their banks
+  water_depth: 4                # water beds are carved 0.75 x this below the water surface
   detail: 6                     # metres, amplitude of mid-frequency ground undulation
   detail_scale: 250             # metres, wavelength of that undulation
 
@@ -642,12 +642,29 @@ All heights in metres; steps applied in order:
    slope.
 8. **Roads and trails** (`flatten_line`): `h_smooth = gaussian_filter(h, sigma = 60 m)`; blend toward `h_smooth` with
    `strength · soft(mask, width)`, where `strength` is the type's `flatten` entry (1 for roads, 0.5 for trails).
-9. **Water** (rivers and lakes, `water`): `bank = gaussian_filter(h, sigma = 80 m)`; the water surface is `bank`
-   minus `water_depth`, and for rivers the surface is additionally made non-increasing along the river from its higher
-   end to its lower end (sample `bank` along the centreline at 10 m steps, apply a running minimum, then assign each
-   water cell the value of its nearest centreline sample). Blend `h = lerp(h, surface, soft(mask, width/2 + 10 m))`
-   and force `h ≤ surface` on the hard mask.
-10. **Finish:** gaussian blur sigma 1 pixel; clamp to `[0, height_max]`.
+9. **Water** (rivers and lakes, `water`). Water follows the terrain: every water surface sits 0.8 m (freeboard)
+   below the lowest nearby ground on its banks, so it never floats above the ground and a river may run uphill where
+   the ground rises. All levels are read from the ground before any water is carved, blurred with sigma 4 m
+   (`ground`). The bank probe distance `p` is 2 m, at least 2 heightmap cells.
+   - **Lake:** one flat surface = min of `ground` over the ring of width `p` just outside the lake (island shores
+     included) − freeboard. Touching or overlapping lakes are one water body and share the lowest of their
+     levels.
+   - **River:** sampled along the centreline every 10 m (the `lines.json` points); at each sample the surface =
+     min of `ground` at the centreline and at `p` beyond each bank edge (the widest edge, `width/2 · (1 + 0.6 ·
+     width_var)`) − freeboard. A sample inside a lake carries the lake's surface.
+   - **Junctions** (a river entering a lake, a tributary joining its parent): both water bodies meet at the lower of
+     the two levels. A lake drops to the lowest surface of an entering river within 10 m of its shore; a tributary's
+     joined end and the parent samples within 10 m of the junction take the lower of the two. Around a junction a
+     river surface is lowered to the junction level within 10 m and blends back to its own level over the next
+     30 m; surfaces are only ever lowered.
+   - **Carving:** the bed lies `0.75 · water_depth` below the surface. Lakes, then rivers in spec order:
+     `h = max(lerp(h, bed, soft(mask, R)), min(h, surface + 0.3 m))` with `R` = 20 m for a lake (4 m inside an
+     island) and `width/2 + 10 m` for a river, then `h ≤ bed` on the hard mask; ground already carved as water is
+     never raised. Each river cell takes the surface of the nearest point of its centreline resampled every 0.5 m
+     (linear interpolation between the 10 m samples). The banks ease toward the bed but never drop below
+     the surface + 0.3 m (unless the ground was already lower).
+10. **Finish:** gaussian blur sigma 1 pixel; then every water cell's ground is held at least 0.1 m below its
+    surface and every carved bank cell at its step 9 floor (`min(h, surface + 0.3 m)`); clamp to `[0, height_max]`.
 
 Noise (`noise.py`): 2D value noise on an integer lattice with smoothstep interpolation, hashed from
 `(ix, iy, seed)` with a fixed integer hash (no global RNG state); fbm sums octaves with lacunarity 2, gain 0.5,
@@ -782,15 +799,15 @@ Into `out/<name>/export/`:
 | `splat_0.png`, `splat_1.png` | RGBA 8-bit, `splat_res`², north-up; channels = `splat_layers` in order (8 layers → 2 images); weights per pixel sum to 255 |
 | `masks/<type>.png` | 8-bit grayscale coverage per region type, line type and crossing type present (automatic crossings included), plus `water.png` (rivers + lakes) and `impassable.png` (analysis grid cost = inf, upsampled to `splat_res` nearest-neighbour) |
 | `pois.json` | `[{id, type, team, tier, label, r, x, z, y}]` — `y` = terrain height in metres sampled at the point; bases included |
-| `lines.json` | `[{id, type, width, points: [[x, z, y], ...], water_surface}]` — smoothed, meandered centrelines resampled at 10 m; `y` = terrain height at the centreline; `water_surface` = for rivers, the water-plane height in metres at each point (same length as `points`, non-increasing downstream), else `null` |
+| `lines.json` | `[{id, type, width, points: [[x, z, y], ...], water_surface}]` — smoothed, meandered centrelines resampled at 10 m; `y` = terrain height at the centreline; `water_surface` = for rivers, the water-plane height in metres at each point (same length as `points`; follows the terrain and may rise downstream), else `null` |
 | `regions.json` | `[{id, type, label, height, scatter, water_surface, polygons: [{outer: [[x, z], ...], holes: [[[x, z], ...], ...]}, ...]}]` — final region geometry in paint order, each part an outer ring plus its holes (clearings in fragmented forests, islands in lakes); `scatter` is `true` for regions generated from a `scatter` entry, which carry that entry's `id`; `water_surface` = for lakes, the flat water-plane height in metres, else `null` |
 | `crossings.json` | `[{id, type, auto, r, width, x, z, y, points}]` — every crossing, explicit and automatic (`auto: true`); a disc has `r` and `width: null, points: null`; a band has `width`, `r: null` and `points` = its smoothed centreline `[[x, z, y], ...]` resampled at 10 m; `x, z` = disc centre or band middle, `y` = terrain height there |
 | `spec.resolved.json` | the fully resolved spec: every default applied, scatter regions and automatic crossings expanded (in paint order), team colours, POI footprints (bases included), analysis and output parameters, the type table in use; point references appear as their resolved coordinates; importers read this instead of YAML |
 | `settlements.json` | town maps with a settlement file only (`<spec stem>.settlement.json` beside the spec, else `out/<name>/settlement.json`; written by `export_settlements.py` when its district and road ids match the spec): per settlement the leaf districts (kind, density, layer depth/parent, top-level name, polygon, per-edge facing road `{road, class, width, offset}` or `null`), layer nodes, roads (class, width, plan polyline), walls (polyline, `wall` line ids, towers), gates (position, outward normal, kind, wall, road), bridges (position, road, span direction), landmarks; own `format: mapgen-settlements`, `format_version: 1`; contract in EXPORT_FORMAT.md §3.10 |
 | `meta.json` | `size`, `height_max`, `heightmap_res`, `splat_res`, `splat_layers` with channel assignment (`{"grass": "splat_0.r", ...}`), `terrain_layers` (`[{name, channel, image}]` per splat layer, e.g. `{"name": "grass", "channel": "r", "image": "splat_0.png"}`), `water_level` (`null`: there is no global sea level; lakes and rivers have per-feature surfaces), axis convention text, `seed`, sha256 of the spec file, mapgen version |
 
-**Water surfaces:** the heightmap carves water beds to `bank − water_depth` (§6.2 step 8). The exported water plane
-sits `0.75 · water_depth` above the bed, leaving freeboard below the banks.
+**Water surfaces:** each exported water surface sits 0.8 m below the lowest nearby ground on its banks, and the
+heightmap carves its bed `0.75 · water_depth` below it (§6.2 step 9).
 
 **Splat weights:** start with `grass = 1`. For each region in list order, `w_layer = max(w_layer, coverage)` and
 scale the other layers by `1 − coverage`; then lines (roads/trails/rivers' banks: river and lake masks dilated by 8 m

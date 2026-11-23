@@ -171,8 +171,10 @@ Movement cost and line-of-sight per type are also in `spec.resolved.json.types.r
 `[{id, type, width, points: [[x, z, y], ...], water_surface}]`. `points` is the final
 (smoothed, meandered) centreline resampled every 10 m; `y` is terrain height on the centreline;
 `width` is the nominal width in metres (rivers with `width_var` vary around it).
-`water_surface` is, for rivers, the water-plane height at each point (same length as `points`,
-never increasing downstream); `null` for other types.
+`water_surface` is, for rivers, the water-plane height at each point (same length as `points`);
+`null` for other types. The surface follows the terrain: it sits below both banks at every point and may rise
+downstream where the ground rises. A tributary's joined end meets its parent's surface, and a river's points inside a
+lake carry the lake's `water_surface`.
 
 | type | meaning | graybox suggestion |
 |---|---|---|

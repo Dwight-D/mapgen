@@ -856,7 +856,10 @@ def test_river_crossing_edit(river, capsys):
 
     for x in r["rasters"]:
         assert (x["changed_texels"] > 0) == (x["path"] in f["changed"]), x["path"]
-    assert _raster(r, "export/masks/impassable.png")["changed_texels"] > 0
+    # the edit raises the (impassable) mountain and moves an objective; water follows the local ground, so
+    # passability is unchanged while the heightmap raster changes
+    assert _raster(r, "export/heightmap.png")["changed_texels"] > 0
+    assert _raster(r, "export/masks/impassable.png")["changed_texels"] == 0
 
     assert r["json"]["export/meta.json"]["patterns"] == [{"count": 1, "pattern": "/spec_sha256"}]
     sr = r["json"]["export/spec.resolved.json"]

@@ -924,7 +924,8 @@ Checks (bands, so that later packages that change output keep the test valid):
     `export/pois.json`, `report.json`; it does not contain `export/masks/forest.png`;
   - heightmap `comparable`, `changed_share > 0.05`, `10 < max_delta_m < 30`;
   - every raster entry has `changed_texels > 0` exactly when its path is in `files.changed`;
-    `export/masks/impassable.png` `changed_texels > 0`;
+    `export/heightmap.png` `changed_texels > 0` and `export/masks/impassable.png` `changed_texels == 0`
+    (the raised mountain is impassable by type, and water levels follow the local ground);
   - `json["export/meta.json"]["patterns"] == [{"count": 1, "pattern": "/spec_sha256"}]`;
   - `json["export/spec.resolved.json"]["patterns"] == [{"count": 1, "pattern": "/pois/*/at/*"},
     {"count": 1, "pattern": "/regions/*/height"}]`, and its `changes` contain
