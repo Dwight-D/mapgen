@@ -54,13 +54,14 @@ regions:
   - { id: field_brook, type: field, shape: poly, points: [[110, 22], [148, 24], [146, 52], [114, 56]], rough: 0.05, warp: 4, warp_scale: 25 }
   - { id: field_corner, type: field, shape: poly, points: [[88, 102], [140, 100], [142, 130], [92, 132]], rough: 0.05, warp: 4, warp_scale: 25 }
   - { id: field_strip, type: field, shape: poly, points: [[80, 62], [104, 64], [102, 92], [82, 90]], rough: 0.05, warp: 3, warp_scale: 20 }
-  # lake (a ring band, so its island is a hole in the water) and the island's grass
-  - { id: still_lake, type: lake, shape: band, path: [[254, 150], [251, 160], [243, 168], [232, 170], [221, 168], [213, 160], [210, 150], [213, 140], [221, 132], [232, 130], [243, 132], [251, 140], [254, 150]], width: 27, rough: 0.12, warp: 4, warp_scale: 30, label: Still Lake, label_at: [232, 178] }
-  - { id: heron_isle, type: clearing, shape: blob, at: [232, 150], r: 7, rough: 0.3, warp: 1, warp_scale: 8, label: Heron Isle }
+  # lake in the natural hollow east of the creek's lower run, between the wood and the knolls (a ring band, so its
+  # island is a hole in the water) and the island's grass
+  - { id: still_lake, type: lake, shape: band, path: [[249, 184], [246, 194], [240, 200], [230, 203], [220, 200], [214, 194], [211, 184], [214, 174], [220, 168], [230, 165], [240, 168], [246, 174], [249, 184]], width: 24, rough: 0.12, warp: 4, warp_scale: 30, label: Still Lake, label_at: [230, 148] }
+  - { id: heron_isle, type: clearing, shape: blob, at: [230, 184], r: 5, rough: 0.3, warp: 1, warp_scale: 8, label: Heron Isle }
 
 lines:
   # creek: enters in the west, follows the forest edge, ends in the lake
-  - { id: forest_creek, type: river, path: [[0, 175], [45, 186], [95, 178], [140, 186], [180, 176], [204, 160], [214, 152]], width: 5, meander: 4, meander_scale: 60, width_var: 0.3, label: Fern Creek }
+  - { id: forest_creek, type: river, path: [[0, 175], [45, 186], [95, 178], [140, 186], [180, 178], [196, 184], [212, 187]], width: 5, meander: 4, meander_scale: 60, width_var: 0.3, label: Fern Creek }
   # branch running south through the hills and between the fields
   - { id: field_brook_branch, type: river, path: [[168, 182], [184, 140], [200, 104], [204, 72], [176, 60], [128, 62], [106, 50], [92, 0]], width: 5, meander: 4, meander_scale: 60, width_var: 0.3, join: forest_creek, join_end: start }
   # trail from the south edge to the cabin
