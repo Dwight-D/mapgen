@@ -267,9 +267,15 @@ and `smooth` (below).
   by half the local width.
 - **Water union.** The area of every water line (type with `height_mode: water`, i.e. rivers) is clipped to lie
   outside every lake region, so a line whose end runs into a lake leaves no stub inside it. Each end of the
-  centreline that lies inside a lake is cut back to the shore plus 1 m into the lake, so the line (and its
-  `lines.json` points) ends at the shoreline; a stretch inside a lake between two dry stretches stays in the
-  centreline.
+  centreline that lies inside a lake ends at its **mouth**: walking from the shore crossing into the lake in 0.25 m
+  steps, the first point where the end cap lies at least 0.5 m inside the lake, the cap being the centre point
+  and the two corners at the line's widest half width (`width/2 · (1 + 0.6 · width_var)`) to either side across
+  the local direction of the centreline. A strip of that half width along the centreline (and its `lines.json`
+  points) therefore meets the lake water with no gap and overlaps it by about 0.5 m, however obliquely the line
+  meets the shore. The walk stops at the line's own end or 30 m past the shore, keeping the deepest cap found
+  when none qualifies. Per such end the line also keeps its **mouth channel**: the untrimmed centreline from the
+  shore crossing up to 10 m into the lake, which carries the river bed into the lake bed (§6.2 step 9). A stretch
+  inside a lake between two dry stretches stays in the centreline.
 
 ### 4.4 Crossings
 
@@ -669,9 +675,13 @@ All heights in metres; steps applied in order:
    - **Shelving bed:** the full depth is `D = 0.75 · water_depth`. A water cell at shore distance `d` from the
      union of all water gets `h = min(h, surface − max(0.1 m, D · smoothstep(0, S, d)))`: a shallow margin at
      the shoreline that deepens smoothly to the full depth at the shelf width `S` = 8 m for a lake and
-     `0.7 · width/2` for a river; within 10 m of a lake a river's shelf widens toward 8 m
-     (`S + (8 − S) · (1 − smoothstep(0, 10 m, distance to the lake))`), so a river mouth shoals into the lake
-     margin. Ground already below the shelf profile stays.
+     `0.7 · width/2` for a river. Ground already below the shelf profile stays.
+   - **Mouth channel:** a river ending in a lake carries its bed on into the lake bed along its mouth channel
+     (§4.3). A lake cell within `width/2` of the channel, at distance `a` from it and arc length `t` along it (of
+     channel length `L`), gets the depth `max(lake shelf depth, D · smoothstep(0, 1, (width/2 − a) / (0.7 ·
+     width/2)) · (1 − smoothstep(0, L, t)))`: the river's own cross-section, fading out over the channel. The bed
+     runs from the river into the lake with no bar at the mouth, and the river's last stretch (at the lake level
+     within 10 m of the shore, see Junctions) meets the lake water at the same level.
    - **Shore profile:** above water every bank (lake shore, island, river bank) is capped by the profile
      `cap(d)`, `d` = distance from the body's nearest water cell: it rises 0.35 m per metre (19°) up to 3 m above
      the water, then its slope blends (smoothstep) to 1.0 per metre (45°) over the next 0.6 × that distance.

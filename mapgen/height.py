@@ -24,8 +24,9 @@ WATER_LOCAL_SIGMA = 4.0
 WATER_BANK_PROBE = 2.0
 WATER_FREEBOARD = 0.8
 # Shore shaping. Under water the bed shelves from WATER_EDGE_DEPTH at the shoreline to the full depth along a
-# smoothstep over the shelf width: LAKE_SHELF m for a lake, RIVER_SHELF x the half width for a river (widening to
-# LAKE_SHELF within RIVER_POOL m of a lake, so a river mouth shoals into the lake's margin). Above water every bank
+# smoothstep over the shelf width: LAKE_SHELF m for a lake, RIVER_SHELF x the half width for a river. A river ending in a
+# lake carries its bed on into the lake bed along its mouth channel (geometry.mouth_channels): the river's cross-section
+# depth, fading to nothing over the channel's length, wherever it is deeper than the lake's own shelf. Above water every bank
 # (lake shore, island, river bank) is capped by the shore profile `shore_cap`: it rises SHORE_SLOPE per metre from the
 # waterline up to SHORE_RISE m above the water, then steepens smoothly to SHORE_STEEP per metre; the cap meets the
 # untouched ground through a smooth minimum of width SHORE_BLEND m.
@@ -313,10 +314,7 @@ def synthesize(spec: MapSpec, geoms: MapGeometry) -> Heightmap:
             shelf = np.where(hard, np.minimum(shelf, LAKE_SHELF), shelf)
             wet |= hard
             bodies.append((hard, np.where(hard, lake_surface[li], np.inf)))
-        if wet.any():
-            near_lake = 1.0 - smoothstep(0.0, RIVER_POOL, ndimage.distance_transform_edt(~wet, sampling=cs))
-        else:
-            near_lake = np.zeros(h.shape)
+        lake_wet = wet.copy()
         for ln in rivers:
             pts, s, ws, _ = samples[ln.index]
             river_surface[ln.index] = ws.astype(np.float32)
@@ -329,9 +327,7 @@ def synthesize(spec: MapSpec, geoms: MapGeometry) -> Heightmap:
             water = np.full(h.shape, np.inf, dtype=np.float64)
             water[hard] = fws[idx]
             water_top = np.minimum(water_top, water)
-            rs = RIVER_SHELF * ln.width / 2.0
-            rs = rs + (max(LAKE_SHELF, rs) - rs) * near_lake
-            shelf = np.where(hard, np.minimum(shelf, rs), shelf)
+            shelf = np.where(hard, np.minimum(shelf, RIVER_SHELF * ln.width / 2.0), shelf)
             wet |= hard
             bodies.append((hard, water))
 
@@ -354,6 +350,18 @@ def synthesize(spec: MapSpec, geoms: MapGeometry) -> Heightmap:
             d_out = np.maximum(sd_wet, 0.0)
             ramp = smoothstep(0.0, 1.0, d_in / np.where(wet, shelf, 1.0))
             dep = np.maximum(WATER_EDGE_DEPTH, WATER_FILL * depth * ramp)
+            # mouth channels: the river's bed runs on into the lake bed, so the bed has no bar at the mouth
+            for ln in rivers:
+                half = ln.width / 2.0
+                for mc in geoms.lines[ln.index].mouths:
+                    near = lake_wet & raster.hard(raster.mask(mc.buffer(half), grid))
+                    if not near.any():
+                        continue
+                    mpts, ms = _resample(np.asarray(mc.coords), RIVER_CARVE_STEP)
+                    dist, idx = cKDTree(mpts).query(np.column_stack([X[near], Y[near]]))
+                    across = smoothstep(0.0, 1.0, (half - dist) / (RIVER_SHELF * half))
+                    along = 1.0 - smoothstep(0.0, float(ms[-1]), ms[idx])
+                    dep[near] = np.maximum(dep[near], WATER_FILL * depth * across * along)
             # above water: each dry cell is capped by the lowest shore profile over all water bodies, each measured
             # from the body's nearest water cell (a min of continuous caps, so no step where two bodies' reaches meet);
             # every body's own banks (within the bank probe) keep the ground at least at its surface + the lip, the lip

@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 import math
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Dict, List, Optional, Sequence, Tuple
 
 import numpy as np
@@ -27,7 +27,10 @@ WOBBLE_SEED = 9500         # noise-seed offset of line wobble
 WARP_SEGMENT = 10.0       # metres, outline densification before domain warp
 WIDTH_VAR_STEP = 10.0     # metres, segment length of variable-width lines
 WIDTH_VAR_WAVELENGTH = 250.0
-RIVER_LAKE_OVERLAP = 1.0  # metres a water line's centreline reaches past the shore into the lake it ends in
+RIVER_LAKE_OVERLAP = 0.5  # metres a water line's end cap (centre and both corners) reaches into the lake it ends in
+RIVER_MOUTH_STEP = 0.25   # metres, step of the walk from the shore to a water line's end inside a lake
+RIVER_MOUTH_SEARCH = 30.0  # metres, longest walk from the shore to a water line's end inside a lake
+RIVER_MOUTH_CHANNEL = 10.0  # metres, length of the mouth channel that carries a river bed into the lake bed
 FRAGMENT_CELL = 5.0       # metres, raster cell of fragmentation fields
 FRAGMENT_MIN_AREA = 2500.0
 SCATTER_MIN_AREA = 1500.0
@@ -40,6 +43,9 @@ CLEARANCE_OUTER = 1.5     # scatter clearance: warped buffer radius as a multipl
 class LineGeom:
     centreline: LineString
     area: BaseGeometry
+    # water lines ending in a lake: per such end, the untrimmed centreline from the shore up to RIVER_MOUTH_CHANNEL m
+    # into the lake, oriented from the shore outward (see `mouth_channels`)
+    mouths: List[LineString] = field(default_factory=list)
 
 
 @dataclass
@@ -617,30 +623,112 @@ def scatter_geometry(sc: Scatter, spec: MapSpec, bounds: BaseGeometry, blockers:
     return drop_small_parts(g, 0.0, SCATTER_MIN_AREA)
 
 
-def trim_in_lakes(cl: LineString, lakes: BaseGeometry) -> LineString:
-    """A water line's centreline with each end that lies inside a lake cut back to the shore plus
-    RIVER_LAKE_OVERLAP m into the lake. Pieces inside a lake between two dry stretches are kept; a line wholly
-    inside a lake is returned unchanged."""
+def water_line_reach(ln: Line) -> float:
+    """Widest half width (m) of a water line: width / 2, widened by 0.6 x width_var (the bound of
+    `variable_width_area`)."""
+    return ln.width / 2.0 * (1.0 + 0.6 * max(ln.width_var, 0.0))
+
+
+def _cap_depth(cl: LineString, s: float, reach: float, lakes: BaseGeometry, shore: BaseGeometry) -> float:
+    """How far (m) the end cap of a water line at arc length `s` lies inside the lakes: the least signed distance
+    to the shoreline (negative = on land) of the centre point and the two cap corners `reach` m to either side,
+    across the local direction of the centreline."""
+    p0 = cl.interpolate(max(0.0, s - 0.5))
+    p1 = cl.interpolate(min(cl.length, s + 0.5))
+    tx, ty = p1.x - p0.x, p1.y - p0.y
+    n = math.hypot(tx, ty) or 1.0
+    nx, ny = -ty / n, tx / n
+    c = cl.interpolate(s)
+    out = math.inf
+    for k in (0.0, -reach, reach):
+        q = Point(c.x + nx * k, c.y + ny * k)
+        d = shore.distance(q)
+        out = min(out, d if lakes.contains(q) else -d)
+    return out
+
+
+def _mouth_end(cl: LineString, shore_s: float, sign: float, reach: float, lakes: BaseGeometry,
+               shore: BaseGeometry) -> float:
+    """Arc length of a water line's end inside a lake: the first point, walking from the shore crossing at
+    `shore_s` into the lake (`sign` +1 toward the line's end, -1 toward its start) in RIVER_MOUTH_STEP m steps, where
+    the end cap lies at least RIVER_LAKE_OVERLAP m inside the lake (`_cap_depth`). The walk stops at the line's own
+    end or RIVER_MOUTH_SEARCH m past the shore; when no point qualifies, the deepest cap found is used."""
+    total = cl.length
+    limit = total - shore_s if sign > 0 else shore_s
+    limit = min(limit, RIVER_MOUTH_SEARCH)
+    best_s, best_d = None, -math.inf
+    k = RIVER_LAKE_OVERLAP
+    while True:
+        k = min(k, limit)
+        s = shore_s + sign * k
+        d = _cap_depth(cl, s, reach, lakes, shore)
+        if d >= RIVER_LAKE_OVERLAP - 1e-9:
+            return s
+        if d > best_d:
+            best_s, best_d = s, d
+        if k >= limit:
+            return best_s
+        k += RIVER_MOUTH_STEP
+
+
+def mouth_spans(cl: LineString, lakes: BaseGeometry, reach: float = 0.0) -> Tuple[float, float, List[Tuple[float, float]]]:
+    """(a, b, mouths) for a water line's centreline: the kept arc-length span [a, b] once each end that lies inside a
+    lake is cut back to a mouth (`_mouth_end`: the end cap of half width `reach` lies RIVER_LAKE_OVERLAP m inside the
+    lake), and per cut end the arc-length span (shore crossing, original end) of the centreline inside the lake,
+    ordered from the shore into the lake (descending for the start end). Pieces inside a lake between two dry
+    stretches are kept; a line wholly inside a lake or wholly dry keeps its full length."""
+    total = cl.length
     if cl.is_empty or lakes.is_empty or not cl.intersects(lakes):
-        return cl
+        return 0.0, total, []
     dry = cl.difference(lakes)
     pieces = [g for g in getattr(dry, "geoms", [dry]) if isinstance(g, LineString) and not g.is_empty]
     if not pieces:
-        return cl
+        return 0.0, total, []
     ends = [cl.project(Point(c)) for g in pieces for c in (g.coords[0], g.coords[-1])]
-    a, b, total = min(ends), max(ends), cl.length
-    a = 0.0 if a <= 1e-6 else max(0.0, a - RIVER_LAKE_OVERLAP)
-    b = total if b >= total - 1e-6 else min(total, b + RIVER_LAKE_OVERLAP)
-    if a <= 0.0 and b >= total:
+    sa, sb = min(ends), max(ends)
+    shore = lakes.boundary
+    a, b, mouths = 0.0, total, []
+    if sa > 1e-6:
+        a = _mouth_end(cl, sa, -1.0, reach, lakes, shore)
+        mouths.append((sa, 0.0))
+    if sb < total - 1e-6:
+        b = _mouth_end(cl, sb, 1.0, reach, lakes, shore)
+        mouths.append((sb, total))
+    return a, b, mouths
+
+
+def trim_in_lakes(cl: LineString, lakes: BaseGeometry, reach: float = 0.0) -> LineString:
+    """A water line's centreline with each end that lies inside a lake cut back to its mouth (`mouth_spans`): the
+    end cap of half width `reach` lies RIVER_LAKE_OVERLAP m inside the lake, so a strip of that half width along the
+    centreline meets the lake water with no gap. Pieces inside a lake between two dry stretches are kept; a line
+    wholly inside a lake is returned unchanged."""
+    a, b, _ = mouth_spans(cl, lakes, reach)
+    if a <= 0.0 and b >= cl.length:
         return cl
     out = substring(cl, a, b)
     return out if isinstance(out, LineString) and out.length > 0 else cl
 
 
+def mouth_channels(cl: LineString, lakes: BaseGeometry, reach: float = 0.0) -> List[LineString]:
+    """Per end of a water line that lies inside a lake: the stretch of its (untrimmed) centreline from the shore
+    crossing up to RIVER_MOUTH_CHANNEL m into the lake, oriented from the shore outward. The heightmap carries the
+    river's bed along it into the lake bed."""
+    out = []
+    for s0, s1 in mouth_spans(cl, lakes, reach)[2]:
+        s1 = s0 + max(-RIVER_MOUTH_CHANNEL, min(RIVER_MOUTH_CHANNEL, s1 - s0))
+        if abs(s1 - s0) < 1e-6:
+            continue
+        g = substring(cl, min(s0, s1), max(s0, s1))
+        if isinstance(g, LineString) and g.length > 0:
+            out.append(g if s1 > s0 else LineString(list(g.coords)[::-1]))
+    return out
+
+
 def build_geometries(spec: MapSpec) -> MapGeometry:
     """Build every region polygon, line (centreline, area) and crossing of a spec, clipped and valid.
     Order: regions; lines, parents before tributaries (a tributary end is snapped onto its parent's centreline);
-    water lines clipped to lie outside lakes (areas; centreline ends inside a lake trimmed to the shore); crossings; automatic crossings (appended to `spec.crossings`);
+    water lines clipped to lie outside lakes (areas; centreline ends inside a lake cut back to a mouth just past the
+    shore, `mouth_spans`); crossings; automatic crossings (appended to `spec.crossings`);
     scatter entries, one region each: entries without `on` are inserted before the explicit regions, entries with
     `on` after them, in `spec.regions` (once)."""
     bounds = box(0.0, 0.0, spec.size[0], spec.size[1])
@@ -660,7 +748,9 @@ def build_geometries(spec: MapSpec) -> MapGeometry:
         for k, ln in enumerate(spec.lines):
             if types.lines[ln.type].get("height_mode") == "water" and not lines[k].area.is_empty:
                 lines[k].area = drop_small_parts(clean_polygon(lines[k].area.difference(lakes), bounds), 0.0, 1.0)
-                lines[k].centreline = trim_in_lakes(lines[k].centreline, lakes)
+                reach = water_line_reach(ln)
+                lines[k].mouths = mouth_channels(lines[k].centreline, lakes, reach)
+                lines[k].centreline = trim_in_lakes(lines[k].centreline, lakes, reach)
     crossings = [crossing_geometry(c, bounds) for c in spec.crossings]
     if spec.auto_crossings and not spec.auto_applied:
         for c, g in auto_crossings(spec, regions, lines, crossings, bounds):

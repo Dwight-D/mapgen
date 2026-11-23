@@ -172,9 +172,11 @@ Movement cost and line-of-sight per type are also in `spec.resolved.json.types.r
 ### 3.7 `lines.json` — rivers, roads, trails, cliffs
 
 `[{id, type, width, points: [[x, z, y], ...], water_surface}]`. `points` is the final
-(smoothed, meandered) centreline resampled every 10 m; a river end that runs into a lake stops 1 m past the
-shoreline, so the river strip meets the lake plane at the shore (a river passing through a lake keeps its points
-across the lake); `y` is terrain height on the centreline;
+(smoothed, meandered) centreline resampled every 10 m; a river end that runs into a lake stops where a strip of the
+river's widest half width (`width/2 · (1 + 0.6 · width_var)`), cut square at the last point, lies about 0.5 m inside the
+lake at its centre and both corners, so the river strip overlaps the lake plane slightly with no gap at the shore,
+and its last points carry the lake's `water_surface` (a river passing through a lake keeps its points across the
+lake); `y` is terrain height on the centreline;
 `width` is the nominal width in metres (rivers with `width_var` vary around it).
 `water_surface` is, for rivers, the water-plane height at each point (same length as `points`);
 `null` for other types. The surface follows the terrain: it sits below both banks at every point and may rise
