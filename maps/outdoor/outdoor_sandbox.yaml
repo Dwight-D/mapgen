@@ -33,6 +33,7 @@ teams:
 points:
   trail_fork_fields: [152, 92]    # entry_trail, fields_trail
   trail_fork_meadow: [100, 200]   # entry_trail, meadow_trail
+  camp_pass: [129.5, 168.5]       # entry_trail passes the camp 11 m off its open side (bearing 60 deg from the fire)
   cabin_door: [60, 208]           # entry_trail end, in front of the cabin door (the door faces ~205 deg, SSW)
 
 regions:
@@ -67,7 +68,7 @@ lines:
   # branch running south through the hills and between the meadows
   - { id: field_brook_branch, type: river, path: [[168, 182], [184, 140], [200, 104], [204, 72], [176, 60], [128, 62], [106, 50], [92, 0]], width: 5, meander: 4, meander_scale: 60, width_var: 0.3, join: forest_creek, join_end: start }
   # trail from the south edge past the camp to the cabin door
-  - { id: entry_trail, type: trail, path: [[160, 0], [158, 50], trail_fork_fields, [140, 150], camp, trail_fork_meadow, cabin_door], width: 3, wobble: 4, wobble_scale: 50 }
+  - { id: entry_trail, type: trail, path: [[160, 0], [158, 50], trail_fork_fields, [140, 150], camp_pass, trail_fork_meadow, cabin_door], width: 3, wobble: 4, wobble_scale: 50 }
   - { id: meadow_trail, type: trail, path: [trail_fork_meadow, [108, 225], [110, 250]], width: 2.5, wobble: 3, wobble_scale: 40 }
   - { id: fields_trail, type: trail, path: [trail_fork_fields, [118, 96], [78, 98], [46, 68]], width: 2.5, wobble: 3, wobble_scale: 40 }
   # cliffs
