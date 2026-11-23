@@ -106,7 +106,8 @@ the grass near town and road ground, and grass tufts in the dirt; the layers, ch
 
 8-bit greyscale coverage (0–255), `splat_res²`, row 0 = north. One file per region type, line
 type and crossing type present in the map (e.g. `forest.png`, `road.png`, `bridge.png`,
-`pass.png`), plus:
+`pass.png`), plus the two below. A build writes the whole `masks/` folder afresh, so it holds exactly
+the current spec's types:
 
 - `water.png` — rivers and lakes together,
 - `impassable.png` — cells the analysis treats as impassable (mountains, water without

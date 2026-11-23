@@ -201,3 +201,14 @@ def test_build_no_spec():
     rc, _, err = run("build")
     assert rc == 2
     assert "the following arguments are required: spec" in err
+
+
+def test_build_removes_stale_masks(tiny, tmp_path):
+    out = tmp_path / "out"
+    masks = out / "tiny" / "export" / "masks"
+    masks.mkdir(parents=True)
+    (masks / "stale_type.png").write_bytes(b"x")
+    rc, _, _ = run("build", tiny, "--out", out)
+    assert rc == 0
+    assert not (masks / "stale_type.png").exists()
+    assert (masks / "water.png").is_file()

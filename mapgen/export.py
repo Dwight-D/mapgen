@@ -216,6 +216,9 @@ def write_masks(spec, geoms, an: AnalysisResult, out) -> List[str]:
     grid = Grid(spec.size[0], spec.size[1], res, res)
     mdir = os.path.join(out, "masks")
     os.makedirs(mdir, exist_ok=True)
+    for f in os.listdir(mdir):   # masks of types an earlier build of this map had and this spec no longer does
+        if f.endswith(".png"):
+            os.remove(os.path.join(mdir, f))
     types = spec.types
     groups: Dict[str, np.ndarray] = {}
 
