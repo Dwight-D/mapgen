@@ -2,7 +2,7 @@ format_version: 1
 name: terrain_toolkit
 brief: |
   PITCH: flat 512 m demo and test bed for the Battlehounds terrain toolkit (battlehounds
-  docs/outdoor/TERRAIN_TOOLKIT_SPEC.md §7). Mapgen supplies a flat base at 20 m in a 0-100 m height range plus the
+  docs/level/outdoor/TERRAIN_TOOLKIT_SPEC.md §7). Mapgen supplies a flat base at 20 m in a 0-100 m height range plus the
   level-design intent as layout data; the toolkit's Nodachi presets write all relief with one Apply To Terrain from
   the flat snapshot.
   INTENT GRAMMAR (spec §3.1): POI labels are comma tag lists. `hill` = a hill point (r = its radius; tag `main` =

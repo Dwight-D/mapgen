@@ -1,7 +1,7 @@
 format_version: 1
 name: terrain_lab_3
 brief: |
-  PITCH: flat 512 m terrain lab for the Battlehounds rocky-hills experiments (docs/outdoor/TERRAIN_RESEARCH.md
+  PITCH: flat 512 m terrain lab for the Battlehounds rocky-hills experiments (docs/level/outdoor/TERRAIN_RESEARCH.md
   §4.0). Mapgen supplies only a flat base at 20 m in a 0-100 m height range plus the shared brief as layout data;
   each experiment's Nodachi graph writes all relief with one Apply To Terrain from the flat snapshot.
   BRIEF (shared by experiments 1-4; map space x east, z north): hill mask = soft disc around (256, 256), ridge grain
