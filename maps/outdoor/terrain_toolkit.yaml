@@ -34,7 +34,7 @@ regions:
   # open ground everywhere (painted first; later regions paint over it)
   - { id: open_meadow, type: meadow, shape: poly, points: [[0, 0], [512, 0], [512, 512], [0, 512]], label: Open Meadow }
   # rocky zones (toolkit hillside presets); height 0 = no mapgen relief
-  - { id: zone_quarry, type: hills, shape: poly, points: [[205, 235], [330, 235], [330, 330], [270, 330], [205, 300]], height: 0, label: Zone Quarry }
+  - { id: zone_quarry, type: hills, shape: poly, points: [[245, 235], [330, 235], [330, 330], [270, 330], [205, 300], [205, 275]], height: 0, label: Zone Quarry }
   - { id: zone_east, type: hills, shape: poly, points: [[340, 130], [445, 130], [445, 250], [340, 250]], height: 0, label: Zone East }
   # the creek reach the gorge preset carves (Clip Splines partition)
   - { id: gorge_reach, type: meadow, shape: poly, points: [[212, 270], [282, 270], [282, 390], [212, 390]], label: Gorge Reach }
