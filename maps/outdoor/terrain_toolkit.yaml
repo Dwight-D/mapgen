@@ -10,9 +10,11 @@ brief: |
   names its zone), `face,<Stroke>` = one point of a face stroke in path order. Regions labelled `Zone <Name>` are
   rocky zones (type hills, height 0, so mapgen adds no relief); the region labelled `Gorge Reach` marks the creek
   reach that becomes a rock-walled gorge.
-  LAYOUT: main hill (300, 330) with Zone Quarry on its south-west flank (cliffs facing 225); hill (390, 190) with Zone
+  LAYOUT: main hill (300, 330) with Zone Quarry on its south-west flank below the summit, between the creek and the
+  hill's spine (cliffs facing 225; the summit stays 40 m outside the zone); hill (390, 190) with Zone
   East on its west flank (cliffs facing 270) and two authored cuts; hills (180, 380) and (150, 170). The creek rises
-  at (255, 395) under the gorge head, runs south through the Gorge Reach between the main hill and (180, 380), out
+  at (255, 395), runs south over the saddle between the main hill and (180, 380), where the Gorge Reach (z 294-362)
+  begins with its head wall, through the Gorge Reach between the main hill and (180, 380), out
   into the open, through South Wood as a soft reach and leaves at the west edge. The trail runs SE base -> NW base,
   benched across Zone East's back slope, crossing the creek once in the open south of the gorge. Open ground is
   meadow.
@@ -34,15 +36,15 @@ regions:
   # open ground everywhere (painted first; later regions paint over it)
   - { id: open_meadow, type: meadow, shape: poly, points: [[0, 0], [512, 0], [512, 512], [0, 512]], label: Open Meadow }
   # rocky zones (toolkit hillside presets); height 0 = no mapgen relief
-  - { id: zone_quarry, type: hills, shape: poly, points: [[245, 235], [330, 235], [330, 330], [270, 330], [205, 300], [205, 275]], height: 0, label: Zone Quarry }
-  - { id: zone_east, type: hills, shape: poly, points: [[340, 130], [445, 130], [445, 250], [340, 250]], height: 0, label: Zone East }
+  - { id: zone_quarry, type: hills, shape: poly, points: [[236, 292], [220, 252], [224, 210], [250, 192], [292, 210], [306, 262], [286, 292]], height: 0, label: Zone Quarry }
+  - { id: zone_east, type: hills, shape: poly, points: [[328, 130], [445, 130], [445, 250], [328, 250]], height: 0, label: Zone East }
   # the creek reach the gorge preset carves (Clip Splines partition)
-  - { id: gorge_reach, type: meadow, shape: poly, points: [[212, 270], [282, 270], [282, 390], [212, 390]], label: Gorge Reach }
+  - { id: gorge_reach, type: meadow, shape: poly, points: [[212, 294], [282, 294], [282, 362], [212, 362]], label: Gorge Reach }
   # forest the soft creek reach runs through
   - { id: south_wood, type: forest, shape: poly, points: [[95, 110], [232, 112], [236, 200], [92, 205]], rough: 0.12, warp: 8, warp_scale: 40, label: South Wood }
 
 lines:
-  - { id: toolkit_creek, type: river, path: [[255, 395], [245, 345], [238, 300], [228, 262], [216, 222], [200, 185], [170, 150], [120, 125], [60, 118], [0, 120]], width: 4, meander: 15, meander_scale: 90, width_var: 0.2, label: Toolkit Creek }
+  - { id: toolkit_creek, type: river, path: [[255, 395], [248, 365], [234, 348], [254, 330], [234, 312], [238, 300], [228, 262], [216, 222], [200, 185], [170, 150], [120, 125], [60, 118], [0, 120]], width: 4, meander: 15, meander_scale: 90, width_var: 0.2, label: Toolkit Creek }
   - { id: toolkit_trail, type: trail, path: [[488, 24], [445, 95], [428, 175], [410, 228], [360, 222], [300, 214], [255, 218], [216, 222], [180, 262], [140, 320], [95, 400], [60, 450], [24, 488]], width: 3, wobble: 3, wobble_scale: 40, label: Toolkit Trail }
 
 pois:
@@ -51,8 +53,10 @@ pois:
   - { id: hill_east, type: landmark, at: [390, 190], r: 50, label: hill }
   - { id: hill_sw, type: landmark, at: [150, 170], r: 50, label: hill }
   # authored quarry cuts on Zone East's west flank (floor centres)
-  - { id: cut_east_1, type: landmark, at: [356, 205], r: 18, label: "cut,East" }
-  - { id: cut_east_2, type: landmark, at: [360, 168], r: 18, label: "cut,East" }
+  - { id: cut_east_1, type: landmark, at: [347, 195], r: 18, label: "cut,East" }
+  - { id: cut_east_2, type: landmark, at: [350, 158], r: 18, label: "cut,East" }
+  # authored quarry cut on Zone Quarry's SW-facing flank (floor centre), between the creek and the hill's spine
+  - { id: cut_quarry_1, type: landmark, at: [244, 240], r: 21, label: "cut,Quarry" }
 
 analysis:
   cell: 4
