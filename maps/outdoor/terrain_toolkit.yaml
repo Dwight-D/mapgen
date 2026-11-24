@@ -1,0 +1,63 @@
+format_version: 1
+name: terrain_toolkit
+brief: |
+  PITCH: flat 512 m demo and test bed for the Battlehounds terrain toolkit (battlehounds
+  docs/outdoor/TERRAIN_TOOLKIT_SPEC.md §7). Mapgen supplies a flat base at 20 m in a 0-100 m height range plus the
+  level-design intent as layout data; the toolkit's Nodachi presets write all relief with one Apply To Terrain from
+  the flat snapshot.
+  INTENT GRAMMAR (spec §3.1): POI labels are comma tag lists. `hill` = a hill point (r = its radius; tag `main` =
+  a main hill), `pocket` = a bowl, `cut` = a quarry-cut override at the floor centre (r = cut radius; `cut,<Zone>`
+  names its zone), `face,<Stroke>` = one point of a face stroke in path order. Regions labelled `Zone <Name>` are
+  rocky zones (type hills, height 0, so mapgen adds no relief); the region labelled `Gorge Reach` marks the creek
+  reach that becomes a rock-walled gorge.
+  LAYOUT: main hill (300, 330) with Zone Quarry on its south-west flank (cliffs facing 225); hill (390, 190) with Zone
+  East on its west flank (cliffs facing 270) and two authored cuts; hills (180, 380) and (150, 170). The creek rises
+  at (255, 395) under the gorge head, runs south through the Gorge Reach between the main hill and (180, 380), out
+  into the open, through South Wood as a soft reach and leaves at the west edge. The trail runs SE base -> NW base,
+  benched across Zone East's back slope, crossing the creek once in the open south of the gorge. Open ground is
+  meadow.
+  TEAMS: placeholder bases in the NW and SE corners (the traversal check floods from them).
+size: [512, 512]
+seed: 1
+
+terrain:
+  base_height: 20
+  height_max: 100
+  relief: 0
+  detail: 0
+
+teams:
+  A: { base: [24, 488], name: North-west }
+  B: { base: [488, 24], name: South-east }
+
+regions:
+  # open ground everywhere (painted first; later regions paint over it)
+  - { id: open_meadow, type: meadow, shape: poly, points: [[0, 0], [512, 0], [512, 512], [0, 512]], label: Open Meadow }
+  # rocky zones (toolkit hillside presets); height 0 = no mapgen relief
+  - { id: zone_quarry, type: hills, shape: poly, points: [[205, 235], [330, 235], [330, 330], [270, 330], [205, 300]], height: 0, label: Zone Quarry }
+  - { id: zone_east, type: hills, shape: poly, points: [[340, 130], [445, 130], [445, 250], [340, 250]], height: 0, label: Zone East }
+  # the creek reach the gorge preset carves (Clip Splines partition)
+  - { id: gorge_reach, type: meadow, shape: poly, points: [[212, 270], [282, 270], [282, 390], [212, 390]], label: Gorge Reach }
+  # forest the soft creek reach runs through
+  - { id: south_wood, type: forest, shape: poly, points: [[95, 110], [232, 112], [236, 200], [92, 205]], rough: 0.12, warp: 8, warp_scale: 40, label: South Wood }
+
+lines:
+  - { id: toolkit_creek, type: river, path: [[255, 395], [245, 345], [238, 300], [228, 262], [216, 222], [200, 185], [170, 150], [120, 125], [60, 118], [0, 120]], width: 4, meander: 15, meander_scale: 90, width_var: 0.2, label: Toolkit Creek }
+  - { id: toolkit_trail, type: trail, path: [[488, 24], [445, 95], [428, 175], [410, 228], [360, 222], [300, 214], [255, 218], [216, 222], [180, 262], [140, 320], [95, 400], [60, 450], [24, 488]], width: 3, wobble: 3, wobble_scale: 40, label: Toolkit Trail }
+
+pois:
+  - { id: hill_main, type: landmark, at: [300, 330], r: 95, label: "hill,main" }
+  - { id: hill_nw, type: landmark, at: [180, 380], r: 50, label: hill }
+  - { id: hill_east, type: landmark, at: [390, 190], r: 50, label: hill }
+  - { id: hill_sw, type: landmark, at: [150, 170], r: 50, label: hill }
+  # authored quarry cuts on Zone East's west flank (floor centres)
+  - { id: cut_east_1, type: landmark, at: [356, 205], r: 18, label: "cut,East" }
+  - { id: cut_east_2, type: landmark, at: [360, 168], r: 18, label: "cut,East" }
+
+analysis:
+  cell: 4
+
+output:
+  heightmap_res: 1025
+  render_px: 1024
+  grid_step: 64
