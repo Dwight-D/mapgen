@@ -1,0 +1,44 @@
+format_version: 1
+name: terrain_lab_2
+brief: |
+  PITCH: flat 512 m terrain lab for the Battlehounds rocky-hills experiments (docs/outdoor/TERRAIN_RESEARCH.md
+  §4.0). Mapgen supplies only a flat base at 20 m in a 0-100 m height range plus the shared brief as layout data;
+  each experiment's Nodachi graph writes all relief with one Apply To Terrain from the flat snapshot.
+  BRIEF (shared by experiments 1-4; map space x east, z north): hill mask = soft disc around (256, 256), ridge grain
+  NE, cliffier toward the W third, hilltops H1 (290, 280, dominant), H2 (190, 340), H3 (350, 170), pocket P (215,
+  200), a coarse trail from the SE base across the main hill's south and west flanks to the NW base, and a creek in
+  the valley south of the hill flowing west. The hill mask, grain and west zone are graph vars; the points and lines
+  are here.
+  TEAMS: placeholder bases in the NW and SE corners (the traversal check floods from them).
+  NAME: the scene name is terrain_lab_<n> per experiment; this spec builds terrain_lab_2 (experiment 2: landform
+  points + intent fields). Same layout as terrain_lab.yaml, which builds terrain_lab_1.
+size: [512, 512]
+seed: 1
+
+terrain:
+  base_height: 20
+  height_max: 100
+  relief: 0
+  detail: 0
+
+teams:
+  A: { base: [24, 488], name: North-west }
+  B: { base: [488, 24], name: South-east }
+
+lines:
+  - { id: lab_creek, type: river, path: [[400, 60], [330, 80], [250, 70], [170, 95], [100, 120], [0, 140]], width: 4, meander: 3, meander_scale: 60, width_var: 0.2, label: Lab Creek }
+  - { id: lab_trail, type: trail, path: [[488, 24], [430, 90], [360, 140], [290, 175], [225, 212], [160, 262], [120, 330], [80, 400], [24, 488]], width: 3, wobble: 3, wobble_scale: 40, label: Lab Trail }
+
+pois:
+  - { id: hilltop_1, type: landmark, at: [290, 280], label: H1 }
+  - { id: hilltop_2, type: landmark, at: [190, 340], label: H2 }
+  - { id: hilltop_3, type: landmark, at: [350, 170], label: H3 }
+  - { id: pocket, type: landmark, at: [215, 200], label: Pocket }
+
+analysis:
+  cell: 4
+
+output:
+  heightmap_res: 1025
+  render_px: 1024
+  grid_step: 64
