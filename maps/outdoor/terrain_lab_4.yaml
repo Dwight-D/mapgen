@@ -1,0 +1,65 @@
+format_version: 1
+name: terrain_lab_4
+brief: |
+  PITCH: flat 512 m terrain lab for the Battlehounds rocky-hills experiments (docs/outdoor/TERRAIN_RESEARCH.md
+  §4.0). Mapgen supplies only a flat base at 20 m in a 0-100 m height range plus the shared brief as layout data;
+  each experiment's Nodachi graph writes all relief with one Apply To Terrain from the flat snapshot.
+  BRIEF (shared by experiments 1-4; map space x east, z north): hill mask = soft disc around (256, 256), ridge grain
+  NE, cliffier toward the W third, hilltops H1 (290, 280, dominant), H2 (190, 340), H3 (350, 170), pocket P (215,
+  200), a coarse trail from the SE base across the main hill's south and west flanks to the NW base, and a creek in
+  the valley south of the hill flowing west. The hill mask, grain and west zone are graph vars; the points and lines
+  are here.
+  TEAMS: placeholder bases in the NW and SE corners (the traversal check floods from them).
+  NAME: the scene name is terrain_lab_<n> per experiment; this spec builds terrain_lab_4 (experiment 4: steep faces
+  from splines, point-driven quarry cuts, creek gorge reach): terrain_lab.yaml's layout plus experiment 4's intent
+  points. The ridge and spur strokes are POI chains in path order (labels Ridge, SpurA, SpurB; the graph joins each
+  label's points into one spline); each quarry cut is one POI (labels Q1-Q4; QG = the gorge head cut).
+size: [512, 512]
+seed: 1
+
+terrain:
+  base_height: 20
+  height_max: 100
+  relief: 0
+  detail: 0
+
+teams:
+  A: { base: [24, 488], name: North-west }
+  B: { base: [488, 24], name: South-east }
+
+lines:
+  - { id: lab_creek, type: river, path: [[400, 60], [330, 80], [250, 70], [170, 95], [100, 120], [0, 140]], width: 4, meander: 3, meander_scale: 60, width_var: 0.2, label: Lab Creek }
+  - { id: lab_trail, type: trail, path: [[488, 24], [430, 90], [360, 140], [290, 175], [225, 212], [160, 262], [120, 330], [80, 400], [24, 488]], width: 3, wobble: 3, wobble_scale: 40, label: Lab Trail }
+
+pois:
+  - { id: hilltop_1, type: landmark, at: [290, 280], label: H1 }
+  - { id: hilltop_2, type: landmark, at: [190, 340], label: H2 }
+  - { id: hilltop_3, type: landmark, at: [350, 170], label: H3 }
+  - { id: pocket, type: landmark, at: [215, 200], label: Pocket }
+  # Experiment 4 ridge stroke, S to N: the left of travel (west) is the steep face
+  - { id: ridge_1, type: landmark, at: [276, 200], label: Ridge }
+  - { id: ridge_2, type: landmark, at: [284, 240], label: Ridge }
+  - { id: ridge_3, type: landmark, at: [290, 280], label: Ridge }
+  - { id: ridge_4, type: landmark, at: [290, 320], label: Ridge }
+  - { id: ridge_5, type: landmark, at: [282, 362], label: Ridge }
+  # Spur strokes, root to nose (the steep nose faces west)
+  - { id: spur_a1, type: landmark, at: [188, 332], label: SpurA }
+  - { id: spur_a2, type: landmark, at: [160, 326], label: SpurA }
+  - { id: spur_a3, type: landmark, at: [130, 318], label: SpurA }
+  - { id: spur_b1, type: landmark, at: [236, 262], label: SpurB }
+  - { id: spur_b2, type: landmark, at: [200, 254], label: SpurB }
+  - { id: spur_b3, type: landmark, at: [166, 246], label: SpurB }
+  # Quarry cuts: the floor centre; each cut opens toward the local downhill, nudged west
+  - { id: quarry_1, type: landmark, at: [262, 300], label: Q1 }
+  - { id: quarry_2, type: landmark, at: [258, 236], label: Q2 }
+  - { id: quarry_3, type: landmark, at: [134, 318], label: Q3 }
+  - { id: quarry_4, type: landmark, at: [170, 246], label: Q4 }
+  - { id: quarry_g, type: landmark, at: [252, 86], label: QG }
+
+analysis:
+  cell: 4
+
+output:
+  heightmap_res: 1025
+  render_px: 1024
+  grid_step: 64
